@@ -1,4 +1,4 @@
-module schedule
+module github.com/KubrickCode/loa-life/src/go/libs/schedule
 
 go 1.23
 

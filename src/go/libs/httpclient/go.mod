@@ -1,4 +1,4 @@
-module httpclient
+module github.com/KubrickCode/loa-life/src/go/libs/httpclient
 
 go 1.23
 
