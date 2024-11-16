@@ -1,7 +1,7 @@
 {
   "dependsOn": {
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "18.18"
+      "version": "22.11.0"
     }
   },
   "customizations": {
