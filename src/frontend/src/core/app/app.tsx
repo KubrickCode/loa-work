@@ -1,3 +1,9 @@
+import { GraphQLProvider } from "../graphql";
+
 export const App = () => {
-  return <></>;
+  return (
+    <GraphQLProvider>
+      <></>
+    </GraphQLProvider>
+  );
 };
