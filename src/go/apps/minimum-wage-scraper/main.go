@@ -11,7 +11,7 @@ func main() {
 	scraper := NewScraper()
 
 	scheduler := schedule.NewScheduler()
-	scheduler.AddTask(schedule.NewTask("Minimum wage scraping", time.Second, scraper.Start))
+	scheduler.AddTask(schedule.NewTask("Minimum wage scraping", time.Hour*24*7, scraper.Start))
 
 	err := scheduler.Run()
 	if err != nil {
