@@ -1,3 +1,5 @@
+set dotenv-load
+
 root_dir := justfile_directory()
 frontend_dir := root_dir + "/src/frontend"
 backend_dir := root_dir + "/src/backend"
