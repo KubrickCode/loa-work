@@ -1,6 +1,6 @@
 module httpclient
 
-go 1.23.3
+go 1.23
 
 require (
 	github.com/gabriel-vasile/mimetype v1.4.6 // indirect

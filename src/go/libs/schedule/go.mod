@@ -1,6 +1,6 @@
 module schedule
 
-go 1.23.3
+go 1.23
 
 require (
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
