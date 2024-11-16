@@ -11,8 +11,8 @@ model MinimumWage {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  year Int @unique
-  wage Int
+  amount Int
+  year   Int @unique
 
   @@map("minimum_wage")
 }
