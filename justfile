@@ -12,6 +12,21 @@ deps-frontend:
 deps-backend:
   cd "{{ backend_dir }}" && yarn install
 
+makemigration name:
+  just prisma migrate dev --create-only --name {{ name }}
+
+migrate:
+  just prisma migrate dev
+
+migrate-prod:
+  just prisma migrate deploy
+
+prisma *args:
+  #!/usr/bin/env bash
+  set -euox pipefail
+  cd "{{ backend_dir }}"
+  yarn prisma {{ args }}
+
 run svc *args:
   #!/usr/bin/env bash
   set -euox pipefail
