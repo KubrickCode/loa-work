@@ -1,0 +1,6 @@
+query MinimumWage {
+  minimumWage {
+    id
+    amount
+  }
+}
