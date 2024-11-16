@@ -23,5 +23,18 @@ run svc *args:
       cd "{{ backend_dir }}"
       PORT=3001 yarn start:dev
       ;;
+
+    *)
+      main="{{ justfile_directory() }}/src/go/apps/{{ svc }}/tmp/main"
+      if [[ ! -d "{{ justfile_directory() }}/src/go/apps/{{ svc }}" ]]; then
+        echo "Could not find the service {{ svc }}"
+      else
+        air \
+          -build.include_dir="go" \
+          -build.bin="$main" \
+          -build.cmd="go build -o $main {{ justfile_directory() }}/src/go/apps/{{ svc }}" \
+          "{{ args }}"
+      fi
+      ;;
       
   esac
