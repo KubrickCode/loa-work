@@ -4,6 +4,12 @@ root_dir := justfile_directory()
 frontend_dir := root_dir + "/src/frontend"
 backend_dir := root_dir + "/src/backend"
 
+codegen:
+  #!/usr/bin/env bash
+  set -euox pipefail
+  cd "{{ frontend_dir }}"
+  yarn codegen
+
 deps: deps-frontend deps-backend
 
 deps-frontend:
