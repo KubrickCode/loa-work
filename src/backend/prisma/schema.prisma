@@ -13,4 +13,6 @@ model MinimumWage {
 
   year Int @unique
   wage Int
+
+  @@map("minimum_wage")
 }
