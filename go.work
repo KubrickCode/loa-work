@@ -2,6 +2,7 @@ go 1.23
 
 use (
 	./src/go/apps/minimum-wage-scraper
+	./src/go/libs/env
 	./src/go/libs/httpclient
 	./src/go/libs/schedule
 )
