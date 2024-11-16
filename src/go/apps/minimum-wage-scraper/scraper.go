@@ -1,9 +1,9 @@
 package main
 
-import "fmt"
-
-// TODO: 동적 계산
-const currentYear = 2024
+import (
+	"fmt"
+	"time"
+)
 
 type Scraper struct {
 	client *Client
@@ -32,7 +32,7 @@ func (s *Scraper) getMinimumWage() (*int, error) {
 	}
 
 	minimumWageData := resp.Data[0]
-	if minimumWageData.Year != currentYear {
+	if minimumWageData.Year != time.Now().Year() {
 		return nil, fmt.Errorf("unexpected year: %d", minimumWageData.Year)
 	}
 
