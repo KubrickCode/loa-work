@@ -34,7 +34,7 @@ export type Query = {
 export type MinimumWageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MinimumWageQuery = { __typename?: 'Query', minimumWage: { __typename?: 'MinimumWage', id: number, amount: number } };
+export type MinimumWageQuery = { __typename?: 'Query', minimumWage: { __typename?: 'MinimumWage', id: number, amount: number, year: number } };
 
 
-export const MinimumWageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MinimumWage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"minimumWage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}}]}}]}}]} as unknown as DocumentNode<MinimumWageQuery, MinimumWageQueryVariables>;
+export const MinimumWageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MinimumWage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"minimumWage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]} as unknown as DocumentNode<MinimumWageQuery, MinimumWageQueryVariables>;

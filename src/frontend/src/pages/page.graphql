@@ -2,5 +2,6 @@ query MinimumWage {
   minimumWage {
     id
     amount
+    year
   }
 }

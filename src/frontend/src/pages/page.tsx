@@ -8,5 +8,9 @@ export const Page = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (!data) return <div>No data</div>;
 
-  return <>현 최저 시급: {data.minimumWage.amount}</>;
+  return (
+    <>
+      연도: {data.minimumWage.year}, 현 최저 시급: {data.minimumWage.amount}
+    </>
+  );
 };
