@@ -14,16 +14,6 @@ spec:
       labels:
         app: backend
     spec:
-      initContainers:
-        - name: prisma-migrate
-          image: asia-northeast3-docker.pkg.dev/${GCR_PROJECT}/loalife-artifacts/backend-service:latest
-          command: ["npx", "prisma", "migrate", "deploy"]
-          env:
-            - name: DATABASE_URL
-              value: "${DATABASE_URL}"
-          volumeMounts:
-            - name: app-code
-              mountPath: /app
       containers:
         - name: backend
           image: asia-northeast3-docker.pkg.dev/${GCR_PROJECT}/loalife-artifacts/backend-service:latest
