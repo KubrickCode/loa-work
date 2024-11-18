@@ -43,6 +43,10 @@ jobs:
           export DATABASE_URL=${{ secrets.DATABASE_URL }}
           envsubst < infra/backend/backend-deployment.yaml | kubectl apply -f -
           kubectl apply -f infra/backend/backend-service.yaml
+      - name: Run Database Migrations
+        run: |
+          cd src/backend
+          npx prisma migrate deploy
       - name: Restart Backend Deployment
         run: kubectl rollout restart deployment backend-deployment
       - name: Deploy Frontend
