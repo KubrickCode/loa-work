@@ -1,0 +1,54 @@
+name: Deploy to Kubernetes
+on:
+  push:
+    branches:
+      - release
+jobs:
+  deploy:
+    name: Build and Deploy Backend and Frontend
+    runs-on: ubuntu-latest
+    env:
+      GKE_CLUSTER: "loalife-cluster"
+      GKE_ZONE: "asia-northeast3"
+      K8S_NAMESPACE: "default"
+      DOCKER_REGISTRY: "asia-northeast3-docker.pkg.dev"
+      ARTIFACTS_REPO: "loalife-artifacts"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+      - name: Install gke-gcloud-auth-plugin
+        run: gcloud components install gke-gcloud-auth-plugin
+      - name: Configure Docker Authentication for Artifact Registry
+        run: gcloud auth configure-docker $DOCKER_REGISTRY
+      - name: Authenticate with GKE
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_ZONE
+      - name: Build and Push Backend Image
+        run: |
+          docker build -t $DOCKER_REGISTRY/${{ secrets.GCP_PROJECT_ID }}/$ARTIFACTS_REPO/backend-service:latest ./src/backend
+          docker push $DOCKER_REGISTRY/${{ secrets.GCP_PROJECT_ID }}/$ARTIFACTS_REPO/backend-service:latest
+      - name: Build and Push Frontend Image
+        run: |
+          docker build -t $DOCKER_REGISTRY/${{ secrets.GCP_PROJECT_ID }}/$ARTIFACTS_REPO/frontend-service:latest ./src/frontend
+          docker push $DOCKER_REGISTRY/${{ secrets.GCP_PROJECT_ID }}/$ARTIFACTS_REPO/frontend-service:latest
+      - name: Deploy Backend
+        run: |
+          export GCR_PROJECT=${{ secrets.GCP_PROJECT_ID }}
+          export DATABASE_URL=${{ secrets.DATABASE_URL }}
+          envsubst < infra/backend/backend-deployment.yaml | kubectl apply -f -
+          kubectl apply -f infra/backend/backend-service.yaml
+      - name: Restart Backend Deployment
+        run: kubectl rollout restart deployment backend-deployment
+      - name: Deploy Frontend
+        run: |
+          export GCR_PROJECT=${{ secrets.GCP_PROJECT_ID }}
+          envsubst < infra/frontend/frontend-deployment.yaml | kubectl apply -f -
+          kubectl apply -f infra/frontend/frontend-service.yaml
+      - name: Restart Frontend Deployment
+        run: kubectl rollout restart deployment frontend-deployment

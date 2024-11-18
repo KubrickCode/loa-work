@@ -1,0 +1,17 @@
+steps:
+  - name: "asia-northeast3-docker.pkg.dev/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "asia-northeast3-docker.pkg.dev/$PROJECT_ID/backend-service:latest",
+        "./src/backend",
+      ]
+  - name: "asia-northeast3-docker.pkg.dev/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "asia-northeast3-docker.pkg.dev/$PROJECT_ID/backend-service:latest",
+      ]
+images:
+  - "asia-northeast3-docker.pkg.dev/$PROJECT_ID/backend-service:latest"
