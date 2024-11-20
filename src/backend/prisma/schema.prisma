@@ -7,16 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model MinimumWage {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  amount Int
-  year   Int @unique
-
-  @@map("minimum_wage")
-}
-
 model Category {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
@@ -25,5 +15,53 @@ model Category {
   code Int    @unique
   name String
 
+  //Relations
+  marketItems MarketItem[]
+
   @@map("category")
+}
+
+// 거래소 항목
+model MarketItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  bundleCount Int    @map("bundle_count") // 묶음 판매 단위
+  name        String
+  imageSrc    String @map("image_src")
+  refId       String @unique @map("ref_id")
+
+  //Relations
+  categoryId      Int              @map("category_id")
+  category        Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  marketItemStats MarketItemStat[]
+
+  @@map("market_item")
+}
+
+model MarketItemStat {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  currentMinPrice Decimal  @map("current_min_price") // 최저가
+  recentPrice     Decimal  @map("recent_price") // 최근 거래가
+  scrapedAt       DateTime @map("scraped_at") @db.Timestamptz(6)
+  yDayAvgPrice    Decimal  @map("y_day_avg_price") // 전일 평균 거래가
+
+  //Relations
+  marketItemId Int        @map("market_item_id")
+  marketItem   MarketItem @relation(fields: [marketItemId], references: [id], onDelete: Cascade)
+
+  @@map("market_item_price")
+}
+
+model MinimumWage {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  amount Int
+  year   Int @unique
+
+  @@map("minimum_wage")
 }
