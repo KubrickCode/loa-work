@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category {
+model MarketItemCategory {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
@@ -18,7 +18,7 @@ model Category {
   //Relations
   marketItems MarketItem[]
 
-  @@map("category")
+  @@map("market_item_category")
 }
 
 // 거래소 항목
@@ -33,9 +33,9 @@ model MarketItem {
   refId       String @unique @map("ref_id")
 
   //Relations
-  categoryId      Int              @map("category_id")
-  category        Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  marketItemStats MarketItemStat[]
+  marketItemCategoryId Int                @map("market_item_category_id")
+  marketItemCategory   MarketItemCategory @relation(fields: [marketItemCategoryId], references: [id], onDelete: Cascade)
+  marketItemStats      MarketItemStat[]
 
   @@map("market_item")
 }
