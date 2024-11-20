@@ -34,6 +34,11 @@ func (rb *RequestBuilder) Path(path string) *RequestBuilder {
 	return rb
 }
 
+func (rb *RequestBuilder) AddHeader(key, value string) *RequestBuilder {
+	rb.headers[key] = value
+	return rb
+}
+
 func (rb *RequestBuilder) AddQueryParam(key string, value interface{}) *RequestBuilder {
 	rb.queryParams.Add(key, fmt.Sprintf("%v", value))
 	return rb
