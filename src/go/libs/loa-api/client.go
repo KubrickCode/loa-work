@@ -1,4 +1,4 @@
-package loa
+package loaApi
 
 import (
 	"encoding/json"

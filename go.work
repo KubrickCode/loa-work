@@ -5,6 +5,6 @@ use (
 	./src/go/apps/minimum-wage-scraper
 	./src/go/libs/env
 	./src/go/libs/http-client
-	./src/go/libs/loa
+	./src/go/libs/loa-api
 	./src/go/libs/schedule
 )

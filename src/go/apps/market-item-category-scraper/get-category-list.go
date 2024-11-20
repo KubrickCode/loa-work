@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/KubrickCode/loa-life/src/go/libs/loa"
+	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
 	"github.com/pkg/errors"
 )
 
@@ -26,7 +26,7 @@ type SubCategory struct {
 }
 
 func GetCategoryList() (*GetCategoryListResponse, error) {
-	client := loa.NewClient()
+	client := loaApi.NewClient()
 
 	req, err := client.NewRequest().
 		Method(http.MethodGet).
