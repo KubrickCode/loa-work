@@ -1,6 +1,7 @@
 go 1.23
 
 use (
+	./src/go/apps/market-item-category-scraper
 	./src/go/apps/minimum-wage-scraper
 	./src/go/libs/env
 	./src/go/libs/httpclient
