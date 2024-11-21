@@ -33,6 +33,9 @@ prisma *args:
   cd "{{ backend_dir }}"
   yarn prisma {{ args }}
 
+reset:
+  just prisma migrate reset
+
 run svc *args:
   #!/usr/bin/env bash
   set -euox pipefail
