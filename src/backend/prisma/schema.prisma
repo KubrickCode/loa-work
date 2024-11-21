@@ -53,7 +53,7 @@ model MarketItemStat {
   marketItemId Int        @map("market_item_id")
   marketItem   MarketItem @relation(fields: [marketItemId], references: [id], onDelete: Cascade)
 
-  @@map("market_item_price")
+  @@map("market_item_stat")
 }
 
 model MinimumWage {
