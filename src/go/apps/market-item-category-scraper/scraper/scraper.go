@@ -34,19 +34,3 @@ func (s *Scraper) Start() error {
 
 	return nil
 }
-
-func flattenCategories(input []api.Category, output *[]loadb.MarketItemCategory) {
-	for _, category := range input {
-		*output = append(*output, loadb.MarketItemCategory{
-			Code: category.Code,
-			Name: category.CodeName,
-		})
-
-		for _, sub := range category.Subs {
-			*output = append(*output, loadb.MarketItemCategory{
-				Code: sub.Code,
-				Name: sub.CodeName,
-			})
-		}
-	}
-}
