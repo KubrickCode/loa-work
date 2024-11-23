@@ -18,15 +18,38 @@ func NewScraper(db loadb.DB) *Scraper {
 }
 
 func (s *Scraper) Start() error {
-	categories, err := s.db.MarketItemCategory().FindItemScraperEnabledAll()
+	categories, err := s.getCategoriesToScrape()
 	if err != nil {
 		return fmt.Errorf("failed to get market item categories: %w", err)
 	}
 
-	if len(categories) == 0 {
-		return fmt.Errorf("no market item categories found")
+	itemsToSave, err := s.getItemsToSave(categories)
+	if err != nil {
+		return fmt.Errorf("failed to get market items: %w", err)
 	}
 
+	err = s.saveItems(itemsToSave)
+	if err != nil {
+		return fmt.Errorf("failed to save market items: %w", err)
+	}
+
+	return nil
+}
+
+func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
+	categories, err := s.db.MarketItemCategory().FindItemScraperEnabledAll()
+	if err != nil {
+		return nil, err
+	}
+
+	if len(categories) == 0 {
+		return nil, fmt.Errorf("no market item categories found")
+	}
+
+	return categories, nil
+}
+
+func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb.MarketItem, error) {
 	var itemsToUpsert []loadb.MarketItem
 
 	for _, category := range categories {
@@ -38,7 +61,7 @@ func (s *Scraper) Start() error {
 				PageNo:       pageNo,
 			})
 			if err != nil {
-				return fmt.Errorf("failed to get market items for category %d: %w", category.Code, err)
+				return nil, fmt.Errorf("failed to get market items for category %d: %w", category.Code, err)
 			}
 
 			itemCounts := len(resp.Items)
@@ -64,15 +87,13 @@ func (s *Scraper) Start() error {
 	}
 
 	if len(itemsToUpsert) == 0 {
-		return fmt.Errorf("no market items found")
+		return nil, fmt.Errorf("no market items found")
 	}
 
-	err = s.db.MarketItem().UpsertMany(itemsToUpsert)
-	if err != nil {
-		return fmt.Errorf("failed to upsert market items: %w", err)
-	}
+	return itemsToUpsert, nil
+}
 
+func (s *Scraper) saveItems(items []loadb.MarketItem) error {
 	log.Println("Market items saved successfully")
-
-	return nil
+	return s.db.MarketItem().UpsertMany(items)
 }
