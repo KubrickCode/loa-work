@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/KubrickCode/loa-life/src/go/apps/market-item-category-scraper/scraper"
 	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
 	"github.com/KubrickCode/loa-life/src/go/libs/schedule"
 )
@@ -14,7 +15,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	scraper := NewScraper(db)
+	scraper := scraper.NewScraper(db)
 
 	scheduler := schedule.NewScheduler()
 	scheduler.AddTask(schedule.NewTask("Market Item Category Scraping", time.Hour, scraper.Start))
