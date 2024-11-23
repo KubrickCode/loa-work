@@ -17,19 +17,12 @@ func NewScraper(db loadb.DB) *Scraper {
 }
 
 func (s *Scraper) Start() error {
-	resp, err := request.GetCategoryList()
+	categories, err := s.getCategories()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get market item categories: %w", err)
 	}
 
-	var categories []loadb.MarketItemCategory
-	FlattenCategories(resp.Categories, &categories)
-
-	if len(categories) == 0 {
-		return fmt.Errorf("no market item categories found")
-	}
-
-	err = s.db.MarketItemCategory().UpsertMany(categories)
+	err = s.saveCategories(categories)
 	if err != nil {
 		return fmt.Errorf("failed to create market item categories: %w", err)
 	}
@@ -37,4 +30,24 @@ func (s *Scraper) Start() error {
 	log.Println("Market item categories created successfully")
 
 	return nil
+}
+
+func (s *Scraper) getCategories() ([]loadb.MarketItemCategory, error) {
+	resp, err := request.GetCategoryList()
+	if err != nil {
+		return nil, err
+	}
+
+	var categories []loadb.MarketItemCategory
+	FlattenCategories(resp.Categories, &categories)
+
+	if len(categories) == 0 {
+		return nil, fmt.Errorf("no market item categories found")
+	}
+
+	return categories, nil
+}
+
+func (s *Scraper) saveCategories(categories []loadb.MarketItemCategory) error {
+	return s.db.MarketItemCategory().UpsertMany(categories)
 }
