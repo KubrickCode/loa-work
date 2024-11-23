@@ -44,8 +44,8 @@ model MarketItemStat {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  currentMinPrice Decimal  @map("current_min_price") // 최저가
-  recentPrice     Decimal  @map("recent_price") // 최근 거래가
+  currentMinPrice Int      @map("current_min_price") // 최저가
+  recentPrice     Int      @map("recent_price") // 최근 거래가
   scrapedAt       DateTime @map("scraped_at") @db.Timestamptz(6)
   yDayAvgPrice    Decimal  @map("y_day_avg_price") // 전일 평균 거래가
 
