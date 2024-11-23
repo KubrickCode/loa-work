@@ -12,12 +12,14 @@ type DB interface {
 	Gorm() *gorm.DB
 	WithTransaction(action func(tx DB) error) error
 
+	MarketItem() MarketItemDB
 	MarketItemCategory() MarketItemCategoryDB
 }
 
 type database struct {
 	gdb *gorm.DB
 
+	marketItem         MarketItemDB
 	marketItemCategory MarketItemCategoryDB
 }
 
@@ -49,6 +51,7 @@ func Open(dsn string) (DB, error) {
 
 func (db *database) initRepos() {
 	gdb := db.gdb
+	db.marketItem = NewMarketItemDB(gdb)
 	db.marketItemCategory = NewMarketItemCategoryDB(gdb)
 }
 
@@ -73,5 +76,7 @@ func (db *database) WithTransaction(action func(tx DB) error) error {
 }
 
 func (db database) Gorm() *gorm.DB { return db.gdb }
+
+func (db database) MarketItem() MarketItemDB { return db.marketItem }
 
 func (db database) MarketItemCategory() MarketItemCategoryDB { return db.marketItemCategory }

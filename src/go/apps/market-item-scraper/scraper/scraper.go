@@ -2,6 +2,7 @@ package scraper
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-life/src/go/libs/loaApi/request"
@@ -22,7 +23,7 @@ func (s *Scraper) Start() error {
 		return fmt.Errorf("failed to get market item categories: %w", err)
 	}
 
-	var allItems []loaApi.MarketItem
+	var itemsToUpsert []loadb.MarketItem
 
 	for _, category := range categories {
 		pageNo := 1
@@ -39,7 +40,15 @@ func (s *Scraper) Start() error {
 			itemCounts := len(resp.Items)
 
 			if itemCounts > 0 {
-				allItems = append(allItems, resp.Items...)
+				for _, item := range resp.Items {
+					itemsToUpsert = append(itemsToUpsert, loadb.MarketItem{
+						BundleCount:          item.BundleCount,
+						MarketItemCategoryID: category.ID,
+						Name:                 item.Name,
+						ImageSrc:             item.Icon,
+						RefID:                item.ID,
+					})
+				}
 			}
 
 			if itemCounts < resp.PageSize {
@@ -50,10 +59,12 @@ func (s *Scraper) Start() error {
 		}
 	}
 
-	fmt.Printf("Total Items Collected: %d\n", len(allItems))
-	for _, item := range allItems {
-		fmt.Printf("- %s (ID: %d, Price: %d)\n", item.Name, item.ID, item.CurrentMinPrice)
+	err = s.db.MarketItem().UpsertMany(itemsToUpsert)
+	if err != nil {
+		return fmt.Errorf("failed to upsert market items: %w", err)
 	}
+
+	log.Println("Market items saved successfully")
 
 	return nil
 }
