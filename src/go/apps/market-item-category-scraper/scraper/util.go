@@ -5,7 +5,7 @@ import (
 	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
 )
 
-func flattenCategories(input []api.Category, output *[]loadb.MarketItemCategory) {
+func FlattenCategories(input []api.Category, output *[]loadb.MarketItemCategory) {
 	for _, category := range input {
 		*output = append(*output, loadb.MarketItemCategory{
 			Code: category.Code,

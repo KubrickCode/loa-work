@@ -23,7 +23,7 @@ func (s *Scraper) Start() error {
 	}
 
 	var categories []loadb.MarketItemCategory
-	flattenCategories(resp.Categories, &categories)
+	FlattenCategories(resp.Categories, &categories)
 
 	err = s.db.MarketItemCategory().UpsertMany(categories)
 	if err != nil {
