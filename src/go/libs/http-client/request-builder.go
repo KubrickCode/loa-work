@@ -2,6 +2,7 @@ package httpclient
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -14,6 +15,7 @@ type RequestBuilder struct {
 	headers     map[string]string
 	queryParams url.Values
 	body        []byte
+	errors      []error
 }
 
 func NewRequestBuilder(baseURL string) *RequestBuilder {
@@ -41,6 +43,17 @@ func (rb *RequestBuilder) AddHeader(key, value string) *RequestBuilder {
 
 func (rb *RequestBuilder) AddQueryParam(key string, value interface{}) *RequestBuilder {
 	rb.queryParams.Add(key, fmt.Sprintf("%v", value))
+	return rb
+}
+
+func (rb *RequestBuilder) JSON(data interface{}) *RequestBuilder {
+	body, err := json.Marshal(data)
+	if err != nil {
+		rb.errors = append(rb.errors, err)
+		return rb
+	}
+	rb.headers["Content-Type"] = "application/json"
+	rb.body = body
 	return rb
 }
 
