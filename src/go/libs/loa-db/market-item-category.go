@@ -6,6 +6,7 @@ import (
 )
 
 type MarketItemCategoryDB interface {
+	FindByID(id int) (MarketItemCategory, error)
 	FindItemScraperEnabledAll() ([]MarketItemCategory, error)
 	UpsertMany(categories []MarketItemCategory) error
 }
@@ -18,6 +19,13 @@ func NewMarketItemCategoryDB(gdb *gorm.DB) *marketItemCategoryDB {
 	return &marketItemCategoryDB{
 		gdb: gdb,
 	}
+}
+
+func (db *marketItemCategoryDB) FindByID(id int) (MarketItemCategory, error) {
+	var category MarketItemCategory
+	err := db.gdb.First(&category, id).Error
+
+	return category, err
 }
 
 func (db *marketItemCategoryDB) FindItemScraperEnabledAll() ([]MarketItemCategory, error) {

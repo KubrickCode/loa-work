@@ -6,6 +6,7 @@ import (
 )
 
 type MarketItemDB interface {
+	FindStatScraperEnabledAll() ([]MarketItem, error)
 	UpsertMany(items []MarketItem) error
 }
 
@@ -17,6 +18,13 @@ func NewMarketItemDB(gdb *gorm.DB) *marketItemDB {
 	return &marketItemDB{
 		gdb: gdb,
 	}
+}
+
+func (db *marketItemDB) FindStatScraperEnabledAll() ([]MarketItem, error) {
+	var items []MarketItem
+	err := db.gdb.Where("is_stat_scraper_enabled = ?", true).Find(&items).Error
+
+	return items, err
 }
 
 func (db *marketItemDB) UpsertMany(items []MarketItem) error {

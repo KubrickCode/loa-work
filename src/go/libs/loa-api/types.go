@@ -7,6 +7,13 @@ type GetCategoryListResponse struct {
 	Classes    []string   `json:"Classes"`
 }
 
+type GetMarketItemParams struct {
+	CategoryCode int    `json:"CategoryCode"`
+	ItemName     string `json:"ItemName"`
+}
+
+type GetMarketItemResponse = MarketItem
+
 type GetMarketItemListParams struct {
 	CategoryCode int `json:"CategoryCode"`
 	PageNo       int `json:"PageNo"`

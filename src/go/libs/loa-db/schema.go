@@ -1,6 +1,10 @@
 package loadb
 
-import "time"
+import (
+	"time"
+
+	"github.com/shopspring/decimal"
+)
 
 type MarketItem struct {
 	ID        int       `gorm:"primaryKey"`
@@ -15,6 +19,19 @@ type MarketItem struct {
 	// Relations
 	MarketItemCategoryID int                `gorm:"column:market_item_category_id;not null"`
 	MarketItemCategory   MarketItemCategory `gorm:"foreignKey:market_item_category_id"`
+}
+
+type MarketItemStat struct {
+	ID        int       `gorm:"primaryKey"`
+	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
+
+	CurrentMinPrice int             `gorm:"column:current_min_price;not null"`
+	RecentPrice     int             `gorm:"column:recent_price;not null"`
+	YDayAvgPrice    decimal.Decimal `gorm:"column:y_day_avg_price;type:decimal;not null"`
+
+	// Relations
+	MarketItemID int        `gorm:"column:market_item_id;not null"`
+	MarketItem   MarketItem `gorm:"foreignKey:market_item_id"`
 }
 
 type MarketItemCategory struct {

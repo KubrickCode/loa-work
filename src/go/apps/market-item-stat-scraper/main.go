@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/KubrickCode/loa-life/src/go/apps/market-item-scraper/scraper"
+	"github.com/KubrickCode/loa-life/src/go/apps/market-item-stat-scraper/scraper"
 	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
 	"github.com/KubrickCode/loa-life/src/go/libs/schedule"
 )
