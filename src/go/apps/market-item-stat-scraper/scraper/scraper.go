@@ -24,6 +24,8 @@ func (s *Scraper) Start() error {
 		return fmt.Errorf("failed to get market items: %w", err)
 	}
 
+	var statsToCreate []loadb.MarketItemStat
+
 	for _, item := range items {
 		category, err := s.db.MarketItemCategory().FindByID(item.MarketItemCategoryID)
 		if err != nil {
@@ -38,14 +40,20 @@ func (s *Scraper) Start() error {
 			return fmt.Errorf("failed to get market item: %w", err)
 		}
 
-		err = s.db.MarketItemStat().Create(loadb.MarketItemStat{
+		stat := loadb.MarketItemStat{
 			CurrentMinPrice: marketItem.CurrentMinPrice,
 			RecentPrice:     marketItem.RecentPrice,
 			YDayAvgPrice:    decimal.NewFromFloat(marketItem.YDayAvgPrice),
 			MarketItemID:    item.ID,
-		})
+		}
+
+		statsToCreate = append(statsToCreate, stat)
+	}
+
+	if len(statsToCreate) > 0 {
+		err = s.db.MarketItemStat().CreateMany(statsToCreate)
 		if err != nil {
-			return fmt.Errorf("failed to create market item stat: %w", err)
+			return fmt.Errorf("failed to create market item stats: %w", err)
 		}
 	}
 

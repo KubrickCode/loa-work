@@ -5,7 +5,7 @@ import (
 )
 
 type MarketItemStatDB interface {
-	Create(stat MarketItemStat) error
+	CreateMany(stats []MarketItemStat) error
 }
 
 type marketItemStatDB struct {
@@ -18,7 +18,7 @@ func NewMarketItemStatDB(gdb *gorm.DB) *marketItemStatDB {
 	}
 }
 
-func (db *marketItemStatDB) Create(stat MarketItemStat) error {
-	err := db.gdb.Create(&stat).Error
+func (db *marketItemStatDB) CreateMany(stats []MarketItemStat) error {
+	err := db.gdb.Create(&stats).Error
 	return err
 }
