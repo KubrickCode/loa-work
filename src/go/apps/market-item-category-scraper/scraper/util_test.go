@@ -4,23 +4,23 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KubrickCode/loa-life/src/go/apps/market-item-category-scraper/api"
 	"github.com/KubrickCode/loa-life/src/go/apps/market-item-category-scraper/scraper"
+	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
 )
 
 func TestFlattenCategories_FullInput(t *testing.T) {
 	// 2024-11-23 기준 실제 API 응답
-	input := []api.Category{
+	input := []loaApi.Category{
 		{
 			Code:     10100,
 			CodeName: "장비 상자",
-			Subs:     []api.SubCategory{},
+			Subs:     []loaApi.SubCategory{},
 		},
 		{
 			Code:     20000,
 			CodeName: "아바타",
-			Subs: []api.SubCategory{
+			Subs: []loaApi.SubCategory{
 				{Code: 20005, CodeName: "무기"},
 				{Code: 20010, CodeName: "머리"},
 				{Code: 20020, CodeName: "얼굴1"},
@@ -36,12 +36,12 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{
 			Code:     40000,
 			CodeName: "각인서",
-			Subs:     []api.SubCategory{},
+			Subs:     []loaApi.SubCategory{},
 		},
 		{
 			Code:     50000,
 			CodeName: "강화 재료",
-			Subs: []api.SubCategory{
+			Subs: []loaApi.SubCategory{
 				{Code: 50010, CodeName: "재련 재료"},
 				{Code: 50020, CodeName: "재련 추가 재료"},
 				{Code: 51000, CodeName: "기타 재료"},
@@ -51,7 +51,7 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{
 			Code:     60000,
 			CodeName: "전투 용품",
-			Subs: []api.SubCategory{
+			Subs: []loaApi.SubCategory{
 				{Code: 60200, CodeName: "배틀 아이템 -회복형"},
 				{Code: 60300, CodeName: "배틀 아이템 -공격형"},
 				{Code: 60400, CodeName: "배틀 아이템 -기능성"},
@@ -61,12 +61,12 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{
 			Code:     70000,
 			CodeName: "요리",
-			Subs:     []api.SubCategory{},
+			Subs:     []loaApi.SubCategory{},
 		},
 		{
 			Code:     90000,
 			CodeName: "생활",
-			Subs: []api.SubCategory{
+			Subs: []loaApi.SubCategory{
 				{Code: 90200, CodeName: "식물채집 전리품"},
 				{Code: 90300, CodeName: "벌목 전리품"},
 				{Code: 90400, CodeName: "채광 전리품"},
@@ -79,12 +79,12 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{
 			Code:     100000,
 			CodeName: "모험의 서",
-			Subs:     []api.SubCategory{},
+			Subs:     []loaApi.SubCategory{},
 		},
 		{
 			Code:     110000,
 			CodeName: "항해",
-			Subs: []api.SubCategory{
+			Subs: []loaApi.SubCategory{
 				{Code: 110100, CodeName: "선박 재료"},
 				{Code: 110110, CodeName: "선박 스킨"},
 				{Code: 111900, CodeName: "선박 재료 상자"},
@@ -93,7 +93,7 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{
 			Code:     140000,
 			CodeName: "펫",
-			Subs: []api.SubCategory{
+			Subs: []loaApi.SubCategory{
 				{Code: 140100, CodeName: "펫"},
 				{Code: 140200, CodeName: "펫 상자"},
 			},
@@ -101,7 +101,7 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{
 			Code:     160000,
 			CodeName: "탈것",
-			Subs: []api.SubCategory{
+			Subs: []loaApi.SubCategory{
 				{Code: 160100, CodeName: "탈것"},
 				{Code: 160200, CodeName: "탈것 상자"},
 			},
@@ -109,12 +109,12 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{
 			Code:     170000,
 			CodeName: "기타",
-			Subs:     []api.SubCategory{},
+			Subs:     []loaApi.SubCategory{},
 		},
 		{
 			Code:     220000,
 			CodeName: "보석 상자",
-			Subs:     []api.SubCategory{},
+			Subs:     []loaApi.SubCategory{},
 		},
 	}
 

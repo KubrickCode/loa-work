@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/KubrickCode/loa-life/src/go/apps/market-item-category-scraper/api"
+	"github.com/KubrickCode/loa-life/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
 )
 
@@ -17,7 +17,7 @@ func NewScraper(db loadb.DB) *Scraper {
 }
 
 func (s *Scraper) Start() error {
-	resp, err := api.GetCategoryList()
+	resp, err := request.GetCategoryList()
 	if err != nil {
 		return err
 	}
