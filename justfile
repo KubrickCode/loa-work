@@ -18,6 +18,9 @@ deps-frontend:
 deps-backend:
   cd "{{ backend_dir }}" && yarn install
 
+go-test:
+  go list -f '{{{{.Dir}}' -m | xargs -I {} go test {}/...
+
 makemigration name:
   just prisma migrate dev --create-only --name {{ name }}
 
