@@ -38,8 +38,7 @@ func (s *Scraper) getCategories() ([]loadb.MarketItemCategory, error) {
 		return nil, err
 	}
 
-	var categories []loadb.MarketItemCategory
-	FlattenCategories(resp.Categories, &categories)
+	categories := GetFlattenCategories(resp.Categories)
 
 	if len(categories) == 0 {
 		return nil, fmt.Errorf("no market item categories found")
