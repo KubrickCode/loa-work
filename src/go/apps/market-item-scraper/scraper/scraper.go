@@ -23,6 +23,10 @@ func (s *Scraper) Start() error {
 		return fmt.Errorf("failed to get market item categories: %w", err)
 	}
 
+	if len(categories) == 0 {
+		return fmt.Errorf("no market item categories found")
+	}
+
 	var itemsToUpsert []loadb.MarketItem
 
 	for _, category := range categories {
@@ -57,6 +61,10 @@ func (s *Scraper) Start() error {
 
 			pageNo++
 		}
+	}
+
+	if len(itemsToUpsert) == 0 {
+		return fmt.Errorf("no market items found")
 	}
 
 	err = s.db.MarketItem().UpsertMany(itemsToUpsert)

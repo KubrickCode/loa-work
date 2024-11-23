@@ -25,6 +25,10 @@ func (s *Scraper) Start() error {
 	var categories []loadb.MarketItemCategory
 	FlattenCategories(resp.Categories, &categories)
 
+	if len(categories) == 0 {
+		return fmt.Errorf("no market item categories found")
+	}
+
 	err = s.db.MarketItemCategory().UpsertMany(categories)
 	if err != nil {
 		return fmt.Errorf("failed to create market item categories: %w", err)
