@@ -166,8 +166,7 @@ func TestFlattenCategories_FullInput(t *testing.T) {
 		{Code: 220000, Name: "보석 상자"},
 	}
 
-	var output []loadb.MarketItemCategory
-	scraper.FlattenCategories(input, &output)
+	output := scraper.GetFlattenCategories(input)
 
 	if !reflect.DeepEqual(output, expectedOutput) {
 		t.Errorf("FlattenCategories() output mismatch.\nGot: %v\nWant: %v", output, expectedOutput)
