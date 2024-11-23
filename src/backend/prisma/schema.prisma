@@ -12,8 +12,9 @@ model MarketItemCategory {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  code Int    @unique
-  name String
+  code                 Int     @unique
+  isItemScraperEnabled Boolean @default(false) @map("is_item_scraper_enabled")
+  name                 String
 
   //Relations
   marketItems MarketItem[]
@@ -27,10 +28,11 @@ model MarketItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  bundleCount Int    @map("bundle_count") // 묶음 판매 단위
-  name        String
-  imageSrc    String @map("image_src")
-  refId       String @unique @map("ref_id")
+  bundleCount          Int     @map("bundle_count") // 묶음 판매 단위
+  name                 String
+  imageSrc             String  @map("image_src")
+  isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
+  refId                String  @unique @map("ref_id")
 
   //Relations
   marketItemCategoryId Int                @map("market_item_category_id")
