@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 경매장 항목
+// 경매장 아이템
 model AuctionItem {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
@@ -57,7 +57,7 @@ model MarketItemCategory {
   @@map("market_item_category")
 }
 
-// 거래소 항목
+// 거래소 아이템
 model MarketItem {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
