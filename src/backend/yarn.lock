@@ -107,7 +107,7 @@
   dependencies:
     "@apollographql/graphql-playground-html" "1.6.29"
 
-"@apollo/server@^4.11.2":
+"@apollo/server@4.11.2":
   version "4.11.2"
   resolved "https://registry.yarnpkg.com/@apollo/server/-/server-4.11.2.tgz#7e4a5c76456aded36f45f2d87cddd3d8d7960c27"
   integrity sha512-WUTHY7DDek8xAMn4Woa9Bl8duQUDzRYQkosX/d1DtCsBWESZyApR7ndnI5d6+W4KSTtqBHhJFkusEI7CWuIJXg==
@@ -2200,6 +2200,11 @@ commander@4.1.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
+commander@^11.0.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-11.1.0.tgz#62fdce76006a68e5c1ab3314dc92e800eb83d906"
+  integrity sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==
+
 commander@^2.20.0, commander@^2.20.3:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
@@ -4229,6 +4234,13 @@ neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+nestjs-console@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/nestjs-console/-/nestjs-console-9.0.0.tgz#128471e17434281b72648c3890cf958c38ae7675"
+  integrity sha512-5t9r0E9WHei2aCxPTPrtSq0h1rQBsO8TWok9HEwuRDpT3OEZJfA5FF0LaJDTD0DkusDq+GufSK1pZpgs21EeKQ==
+  dependencies:
+    commander "^11.0.0"
 
 node-abort-controller@^3.0.1, node-abort-controller@^3.1.1:
   version "3.1.1"
