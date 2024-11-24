@@ -7,6 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 경매장 항목
+model AuctionItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  name                 String
+  imageSrc             String  @map("image_src")
+  isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
+
+  //Relations
+  auctionItemStats AuctionItemStat[]
+
+  @@map("auction_item")
+}
+
+model AuctionItemStat {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  buyPrice      Int @map("buy_price") // 즉시 구매가
+  bidPrice      Int @map("bid_price") // 현재 최고가
+  bidStartPrice Int @map("bid_start_price") // 최소 입찰가
+  startPrice    Int @map("start_price") // 시작 입찰가
+
+  IsCompetitive Boolean  @default(false) @map("is_competitive") // 경쟁 입찰 여부
+  endDate       DateTime @map("end_date") // 경매 종료일
+
+  //Relations
+  auctionItemId Int         @map("auction_item_id")
+  auctionItem   AuctionItem @relation(fields: [auctionItemId], references: [id], onDelete: Cascade)
+
+  @@map("auction_item_stat")
+}
+
 model MarketItemCategory {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
