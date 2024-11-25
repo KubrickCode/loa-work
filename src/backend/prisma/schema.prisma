@@ -36,7 +36,6 @@ model AuctionItem {
   auctionItemStats      AuctionItemStat[]
   auctionItemCategory   AuctionItemCategory @relation(fields: [auctionItemCategoryId], references: [id])
   auctionItemCategoryId Int                 @map("auction_item_category_id")
-  contentRevenue        ContentRevenue[]
 
   @@map("auction_item")
 }
@@ -81,16 +80,11 @@ model ContentRevenue {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   averageQuantity Decimal @map("average_quantity")
+  itemName        String  @unique @map("item_name")
 
   //Relations
-  contentId     Int          @map("content_id")
-  content       Content      @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  auctionItemId Int?         @map("auction_item_id")
-  auctionItem   AuctionItem? @relation(fields: [auctionItemId], references: [id], onDelete: SetNull)
-  extraItemId   Int?         @map("extra_item_id")
-  extraItem     ExtraItem?   @relation(fields: [extraItemId], references: [id], onDelete: SetNull)
-  marketItemId  Int?         @map("market_item_id")
-  marketItem    MarketItem?  @relation(fields: [marketItemId], references: [id], onDelete: SetNull)
+  contentId Int     @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 
   @@map("content_revenue")
 }
@@ -100,8 +94,7 @@ model ExtraItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  name            String           @unique
-  contentRevenues ContentRevenue[]
+  name String @unique
 
   @@map("extra_item")
 }
@@ -137,7 +130,6 @@ model MarketItem {
   marketItemCategoryId Int                @map("market_item_category_id")
   marketItemCategory   MarketItemCategory @relation(fields: [marketItemCategoryId], references: [id], onDelete: Cascade)
   marketItemStats      MarketItemStat[]
-  contentRevenue       ContentRevenue[]
 
   @@map("market_item")
 }
