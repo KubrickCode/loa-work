@@ -6,6 +6,45 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+type AuctionItem struct {
+	ID        int       `gorm:"primaryKey"`
+	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `gorm:"column:updated_at;autoUpdateTime"`
+
+	Name                 string `gorm:"column:name;not null"`
+	ImageSrc             string `gorm:"column:image_src;not null"`
+	IsStatScraperEnabled bool   `gorm:"column:is_stat_scraper_enabled;not null"`
+
+	// Relations
+	AuctionItemCategoryID int                 `gorm:"column:auction_item_category_id;not null"`
+	AuctionItemCategory   AuctionItemCategory `gorm:"foreignKey:auction_item_category_id"`
+}
+
+type AuctionItemStat struct {
+	ID        int       `gorm:"primaryKey"`
+	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
+
+	BuyPrice      int       `gorm:"column:buy_price;not null"`
+	BidPrice      int       `gorm:"column:bid_price;not null"`
+	BidStartPrice int       `gorm:"column:bid_start_price;not null"`
+	StartPrice    int       `gorm:"column:start_price;not null"`
+	IsCompetitive bool      `gorm:"column:is_competitive;default:false;not null"`
+	EndDate       time.Time `gorm:"column:end_date;not null"`
+
+	// Relations
+	AuctionItemID int         `gorm:"column:auction_item_id;not null"`
+	AuctionItem   AuctionItem `gorm:"foreignKey:auction_item_id"`
+}
+
+type AuctionItemCategory struct {
+	ID        int       `gorm:"primaryKey"`
+	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `gorm:"column:updated_at;autoUpdateTime"`
+
+	Code int    `gorm:"unique;not null"`
+	Name string `gorm:"not null"`
+}
+
 type MarketItem struct {
 	ID        int       `gorm:"primaryKey"`
 	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`

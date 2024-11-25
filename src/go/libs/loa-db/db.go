@@ -12,6 +12,9 @@ type DB interface {
 	Gorm() *gorm.DB
 	WithTransaction(action func(tx DB) error) error
 
+	AuctionItem() AuctionItemDB
+	AuctionItemCategory() AuctionItemCategoryDB
+	AuctionItemStat() AuctionItemStatDB
 	MarketItem() MarketItemDB
 	MarketItemCategory() MarketItemCategoryDB
 	MarketItemStat() MarketItemStatDB
@@ -20,9 +23,12 @@ type DB interface {
 type database struct {
 	gdb *gorm.DB
 
-	marketItem         MarketItemDB
-	marketItemCategory MarketItemCategoryDB
-	marketItemStat     MarketItemStatDB
+	auctionItem         AuctionItemDB
+	auctionItemCategory AuctionItemCategoryDB
+	auctionItemStat     AuctionItemStatDB
+	marketItem          MarketItemDB
+	marketItemCategory  MarketItemCategoryDB
+	marketItemStat      MarketItemStatDB
 }
 
 func New() (DB, error) {
@@ -53,6 +59,9 @@ func Open(dsn string) (DB, error) {
 
 func (db *database) initRepos() {
 	gdb := db.gdb
+	db.auctionItem = NewAuctionItemDB(gdb)
+	db.auctionItemCategory = NewAuctionItemCategoryDB(gdb)
+	db.auctionItemStat = NewAuctionItemStatDB(gdb)
 	db.marketItem = NewMarketItemDB(gdb)
 	db.marketItemCategory = NewMarketItemCategoryDB(gdb)
 	db.marketItemStat = NewMarketItemStatDB(gdb)
@@ -79,6 +88,12 @@ func (db *database) WithTransaction(action func(tx DB) error) error {
 }
 
 func (db database) Gorm() *gorm.DB { return db.gdb }
+
+func (db database) AuctionItem() AuctionItemDB { return db.auctionItem }
+
+func (db database) AuctionItemCategory() AuctionItemCategoryDB { return db.auctionItemCategory }
+
+func (db database) AuctionItemStat() AuctionItemStatDB { return db.auctionItemStat }
 
 func (db database) MarketItem() MarketItemDB { return db.marketItem }
 
