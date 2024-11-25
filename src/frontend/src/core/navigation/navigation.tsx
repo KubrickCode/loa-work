@@ -1,17 +1,24 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Button } from "@chakra-ui/react";
 import _ from "lodash";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { navigationData } from "./navigation-data";
 
 export const Navigation = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <Box as="nav">
-      <Flex gap={3}>
+      <Flex gap={1}>
         {_.map(navigationData, ({ label, url }) => (
-          <Link key={label + url} to={url}>
+          <Button
+            key={label + url}
+            onClick={() => navigate(url)}
+            variant={location.pathname === url ? "solid" : "ghost"}
+          >
             {label}
-          </Link>
+          </Button>
         ))}
       </Flex>
     </Box>
