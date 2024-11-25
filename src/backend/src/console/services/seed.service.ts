@@ -9,6 +9,7 @@ export class SeedService {
   async all() {
     await this.auctionItemCategories();
     await this.auctionItems();
+    await this.extraItems();
     await this.minimumWage();
   }
 
@@ -53,6 +54,12 @@ export class SeedService {
 
     await this.prisma.auctionItem.createMany({
       data: [...damageGems, ...coolDownGems],
+    });
+  }
+
+  async extraItems() {
+    await this.prisma.extraItem.createMany({
+      data: [{ name: '실링' }],
     });
   }
 
