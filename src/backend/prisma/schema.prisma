@@ -84,10 +84,23 @@ model ContentRevenue {
   content       Content      @relation(fields: [contentId], references: [id], onDelete: Cascade)
   auctionItemId Int?         @map("auction_item_id")
   auctionItem   AuctionItem? @relation(fields: [auctionItemId], references: [id], onDelete: SetNull)
+  extraItemId   Int?         @map("extra_item_id")
+  extraItem     ExtraItem?   @relation(fields: [extraItemId], references: [id], onDelete: SetNull)
   marketItemId  Int?         @map("market_item_id")
   marketItem    MarketItem?  @relation(fields: [marketItemId], references: [id], onDelete: SetNull)
 
   @@map("content_revenue")
+}
+
+model ExtraItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  name            String           @unique
+  contentRevenues ContentRevenue[]
+
+  @@map("extra_item")
 }
 
 model MarketItemCategory {
