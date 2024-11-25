@@ -5,7 +5,7 @@ import { Header } from "./header";
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <Flex direction="column" p={4}>
+    <Flex direction="column" px={8} py={4}>
       <Header />
       <Box as="main">{children}</Box>
     </Flex>
