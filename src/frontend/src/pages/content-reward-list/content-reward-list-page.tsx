@@ -21,7 +21,7 @@ export const ContentRewardListPage = () => {
           {
             header: "종류",
             render({ data }) {
-              return <>{data.type}</>;
+              return <>{data.displayTypeName}</>;
             },
           },
           {
