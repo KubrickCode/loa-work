@@ -36,6 +36,7 @@ model AuctionItem {
   auctionItemStats      AuctionItemStat[]
   auctionItemCategory   AuctionItemCategory @relation(fields: [auctionItemCategoryId], references: [id])
   auctionItemCategoryId Int                 @map("auction_item_category_id")
+  contentRevenue        ContentRevenue[]
 
   @@map("auction_item")
 }
@@ -57,6 +58,36 @@ model AuctionItemStat {
   auctionItem   AuctionItem @relation(fields: [auctionItemId], references: [id], onDelete: Cascade)
 
   @@map("auction_item_stat")
+}
+
+model Content {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  name            String           @unique
+  type            ContentType
+  contentRevenues ContentRevenue[]
+
+  @@map("content")
+}
+
+model ContentRevenue {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  averageQuantity Decimal @map("average_quantity")
+
+  //Relations
+  contentId     Int          @map("content_id")
+  content       Content      @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  auctionItemId Int?         @map("auction_item_id")
+  auctionItem   AuctionItem? @relation(fields: [auctionItemId], references: [id], onDelete: SetNull)
+  marketItemId  Int?         @map("market_item_id")
+  marketItem    MarketItem?  @relation(fields: [marketItemId], references: [id], onDelete: SetNull)
+
+  @@map("content_revenue")
 }
 
 model MarketItemCategory {
@@ -90,6 +121,7 @@ model MarketItem {
   marketItemCategoryId Int                @map("market_item_category_id")
   marketItemCategory   MarketItemCategory @relation(fields: [marketItemCategoryId], references: [id], onDelete: Cascade)
   marketItemStats      MarketItemStat[]
+  contentRevenue       ContentRevenue[]
 
   @@map("market_item")
 }
@@ -117,4 +149,13 @@ model MinimumWage {
   year   Int @unique
 
   @@map("minimum_wage")
+}
+
+enum ContentType {
+  CUBE
+  EPIC_RAID
+  GUARDIAN_RAID
+  KURZAN_FRONT
+  KAZEROS_RAID
+  LEGION_COMMANDER_RAID
 }
