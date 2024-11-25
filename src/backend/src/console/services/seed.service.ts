@@ -7,20 +7,33 @@ export class SeedService {
   constructor(private prisma: PrismaService) {}
 
   async all() {
+    await this.auctionItemCategories();
     await this.auctionItems();
     await this.minimumWage();
   }
 
+  async auctionItemCategories() {
+    await this.prisma.auctionItemCategory.createMany({
+      data: [{ code: 210000, name: '보석' }],
+    });
+  }
+
   async auctionItems() {
     type Option = Pick<
-      Prisma.AuctionItemCreateInput,
-      'name' | 'imageSrc' | 'isStatScraperEnabled'
+      Prisma.AuctionItemUncheckedCreateInput,
+      'auctionItemCategoryId' | 'name' | 'imageSrc' | 'isStatScraperEnabled'
     >;
     let damageGems: Option[] = [];
     let coolDownGems: Option[] = [];
 
+    const auctionItemCategory =
+      await this.prisma.auctionItemCategory.findFirstOrThrow({
+        where: { name: '보석' },
+      });
+
     for (let i = 1; i < 11; i++) {
       damageGems.push({
+        auctionItemCategoryId: auctionItemCategory.id,
         name: `${i}레벨 겁화의 보석`,
         imageSrc: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
           95 + i
@@ -29,6 +42,7 @@ export class SeedService {
       });
 
       coolDownGems.push({
+        auctionItemCategoryId: auctionItemCategory.id,
         name: `${i}레벨 작열의 보석`,
         imageSrc: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
           105 + i

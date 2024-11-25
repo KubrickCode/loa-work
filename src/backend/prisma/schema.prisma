@@ -7,6 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model AuctionItemCategory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  code                 Int     @unique
+  isItemScraperEnabled Boolean @default(false) @map("is_item_scraper_enabled")
+  name                 String
+
+  //Relations
+  auctionItems AuctionItem[]
+
+  @@map("auction_item_category")
+}
+
 // 경매장 아이템
 model AuctionItem {
   id        Int      @id @default(autoincrement())
@@ -18,7 +33,9 @@ model AuctionItem {
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
 
   //Relations
-  auctionItemStats AuctionItemStat[]
+  auctionItemStats      AuctionItemStat[]
+  auctionItemCategory   AuctionItemCategory @relation(fields: [auctionItemCategoryId], references: [id])
+  auctionItemCategoryId Int                 @map("auction_item_category_id")
 
   @@map("auction_item")
 }
