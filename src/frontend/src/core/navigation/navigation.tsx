@@ -7,7 +7,7 @@ import { navigationData } from "./navigation-data";
 export const Navigation = () => {
   return (
     <Box as="nav">
-      <Flex>
+      <Flex gap={3}>
         {_.map(navigationData, ({ label, url }) => (
           <Link key={label + url} to={url}>
             {label}
