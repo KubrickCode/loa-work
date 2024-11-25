@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 type Content {
+  contentRewards: [ContentReward!]!
   createdAt: DateTime!
   gate: Int
   id: Int!
@@ -10,6 +11,15 @@ type Content {
   level: Int!
   name: String!
   type: ContentType!
+  updatedAt: DateTime!
+}
+
+type ContentReward {
+  averageQuantity: Float!
+  createdAt: DateTime!
+  id: Int!
+  isSellable: Boolean!
+  itemName: String!
   updatedAt: DateTime!
 }
 
@@ -37,5 +47,6 @@ type MinimumWage {
 
 type Query {
   contentList: [Content!]!
+  contentRewardViewList: [String!]!
   minimumWage: MinimumWage!
 }

@@ -9,7 +9,7 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
   }[];
 };
 
-type Column<T> = {
+export type Column<T> = {
   header: string;
   render: (props: { data: T; rowIndex: number }) => JSX.Element | null;
 };

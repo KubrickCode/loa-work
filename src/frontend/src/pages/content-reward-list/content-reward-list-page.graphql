@@ -1,9 +1,15 @@
 query ContentRewardListPage {
   contentList {
+    contentRewards {
+      averageQuantity
+      isSellable
+      itemName
+    }
     gate
     isSeeMore
     level
     name
     type
   }
+  contentRewardViewList
 }

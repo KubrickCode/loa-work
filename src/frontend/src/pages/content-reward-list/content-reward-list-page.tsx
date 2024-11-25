@@ -5,7 +5,7 @@ import {
   ContentRewardListPageQuery,
 } from "~/core/graphql/generated";
 import { Page } from "~/core/page";
-import { DataTable } from "~/core/table";
+import { Column, DataTable } from "~/core/table";
 
 export const ContentRewardListPage = () => {
   const { data, error, loading } = useQuery(ContentRewardListPageDocument);
@@ -36,6 +36,25 @@ export const ContentRewardListPage = () => {
               return <ContentName {...data} />;
             },
           },
+          ...data.contentRewardViewList.map(
+            (
+              itemName
+            ): Column<ContentRewardListPageQuery["contentList"][number]> => ({
+              header: itemName,
+              render({ data }) {
+                const reward = data.contentRewards.find(
+                  (reward) => reward.itemName === itemName
+                );
+                return (
+                  <>
+                    {reward
+                      ? `${reward.averageQuantity} ${reward.isSellable ? "" : "(귀속)"}`
+                      : "-"}
+                  </>
+                );
+              },
+            })
+          ),
         ]}
         rows={data.contentList.map((content) => ({
           data: content,

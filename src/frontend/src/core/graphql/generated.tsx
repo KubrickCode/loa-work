@@ -19,6 +19,7 @@ export type Scalars = {
 
 export type Content = {
   __typename?: 'Content';
+  contentRewards: Array<ContentReward>;
   createdAt: Scalars['DateTime']['output'];
   gate?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
@@ -26,6 +27,16 @@ export type Content = {
   level: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   type: ContentType;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type ContentReward = {
+  __typename?: 'ContentReward';
+  averageQuantity: Scalars['Float']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['Int']['output'];
+  isSellable: Scalars['Boolean']['output'];
+  itemName: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -50,13 +61,14 @@ export type MinimumWage = {
 export type Query = {
   __typename?: 'Query';
   contentList: Array<Content>;
+  contentRewardViewList: Array<Scalars['String']['output']>;
   minimumWage: MinimumWage;
 };
 
 export type ContentRewardListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ContentRewardListPageQuery = { __typename?: 'Query', contentList: Array<{ __typename?: 'Content', gate?: number | null, isSeeMore?: boolean | null, level: number, name: string, type: ContentType }> };
+export type ContentRewardListPageQuery = { __typename?: 'Query', contentRewardViewList: Array<string>, contentList: Array<{ __typename?: 'Content', gate?: number | null, isSeeMore?: boolean | null, level: number, name: string, type: ContentType, contentRewards: Array<{ __typename?: 'ContentReward', averageQuantity: number, isSellable: boolean, itemName: string }> }> };
 
 
-export const ContentRewardListPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardListPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gate"}},{"kind":"Field","name":{"kind":"Name","value":"isSeeMore"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<ContentRewardListPageQuery, ContentRewardListPageQueryVariables>;
+export const ContentRewardListPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardListPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"gate"}},{"kind":"Field","name":{"kind":"Name","value":"isSeeMore"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentRewardViewList"}}]}}]} as unknown as DocumentNode<ContentRewardListPageQuery, ContentRewardListPageQueryVariables>;
