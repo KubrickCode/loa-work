@@ -3,11 +3,16 @@ import { createElement } from "react";
 import _ from "lodash";
 
 import DashboardPage from "~/pages/dashboard";
+import ContentRewardListPage from "~/pages/content-reward-list";
 
 const routes = [
   {
     path: "/",
     component: DashboardPage,
+  },
+  {
+    path: "/content-reward-list",
+    component: ContentRewardListPage,
   },
 ];
 

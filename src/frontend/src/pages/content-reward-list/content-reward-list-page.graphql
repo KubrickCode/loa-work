@@ -1,0 +1,9 @@
+query ContentRewardListPage {
+  contentList {
+    gate
+    isSeeMore
+    level
+    name
+    type
+  }
+}

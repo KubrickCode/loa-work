@@ -4,6 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'node:path';
 import { MinimumWageModule } from './wage/wage.module';
+import { ContentModule } from './content/content.module';
+import './enums';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { MinimumWageModule } from './wage/wage.module';
       }),
     }),
     MinimumWageModule,
+    ContentModule,
   ],
 })
 export class AppModule {}

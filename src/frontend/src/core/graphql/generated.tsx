@@ -17,6 +17,27 @@ export type Scalars = {
   DateTime: { input: Date; output: Date; }
 };
 
+export type Content = {
+  __typename?: 'Content';
+  createdAt: Scalars['DateTime']['output'];
+  gate?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
+  isSeeMore?: Maybe<Scalars['Boolean']['output']>;
+  level: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  type: ContentType;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export enum ContentType {
+  CUBE = 'CUBE',
+  EPIC_RAID = 'EPIC_RAID',
+  GUARDIAN_RAID = 'GUARDIAN_RAID',
+  KAZEROS_RAID = 'KAZEROS_RAID',
+  KURZAN_FRONT = 'KURZAN_FRONT',
+  LEGION_COMMANDER_RAID = 'LEGION_COMMANDER_RAID'
+}
+
 export type MinimumWage = {
   __typename?: 'MinimumWage';
   amount: Scalars['Int']['output'];
@@ -28,13 +49,14 @@ export type MinimumWage = {
 
 export type Query = {
   __typename?: 'Query';
+  contentList: Array<Content>;
   minimumWage: MinimumWage;
 };
 
-export type MinimumWageQueryVariables = Exact<{ [key: string]: never; }>;
+export type ContentRewardListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MinimumWageQuery = { __typename?: 'Query', minimumWage: { __typename?: 'MinimumWage', id: number, amount: number, year: number } };
+export type ContentRewardListPageQuery = { __typename?: 'Query', contentList: Array<{ __typename?: 'Content', gate?: number | null, isSeeMore?: boolean | null, level: number, name: string, type: ContentType }> };
 
 
-export const MinimumWageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MinimumWage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"minimumWage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"year"}}]}}]}}]} as unknown as DocumentNode<MinimumWageQuery, MinimumWageQueryVariables>;
+export const ContentRewardListPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardListPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gate"}},{"kind":"Field","name":{"kind":"Name","value":"isSeeMore"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<ContentRewardListPageQuery, ContentRewardListPageQueryVariables>;

@@ -2,6 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Content {
+  createdAt: DateTime!
+  gate: Int
+  id: Int!
+  isSeeMore: Boolean
+  level: Int!
+  name: String!
+  type: ContentType!
+  updatedAt: DateTime!
+}
+
+enum ContentType {
+  CUBE
+  EPIC_RAID
+  GUARDIAN_RAID
+  KAZEROS_RAID
+  KURZAN_FRONT
+  LEGION_COMMANDER_RAID
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -16,5 +36,6 @@ type MinimumWage {
 }
 
 type Query {
+  contentList: [Content!]!
   minimumWage: MinimumWage!
 }
