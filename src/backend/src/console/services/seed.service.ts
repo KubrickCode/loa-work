@@ -7,11 +7,24 @@ export class SeedService {
   constructor(private prisma: PrismaService) {}
 
   async all() {
+    await this.marketItemCategories();
     await this.auctionItemCategories();
     await this.auctionItems();
     await this.contents();
     await this.extraItems();
     await this.minimumWage();
+  }
+
+  async marketItemCategories() {
+    await this.prisma.marketItemCategory.createMany({
+      data: [
+        { code: 40000, name: '각인서', isItemScraperEnabled: true },
+        { code: 50010, name: '재련 재료', isItemScraperEnabled: true },
+        { code: 50020, name: '재련 추가 재료', isItemScraperEnabled: true },
+        { code: 51000, name: '기타 재료', isItemScraperEnabled: true },
+        { code: 51100, name: '무기 진화 재료', isItemScraperEnabled: true },
+      ],
+    });
   }
 
   async auctionItemCategories() {
