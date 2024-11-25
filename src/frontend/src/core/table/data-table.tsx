@@ -10,6 +10,7 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
 };
 
 export type Column<T> = {
+  align?: "center" | "left" | "justify" | "right";
   header: string;
   render: (props: { data: T; rowIndex: number }) => JSX.Element | null;
 };
@@ -27,6 +28,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
           key={columnIndex}
           alignItems="center"
           justifyContent="center"
+          {...(column.align && { textAlign: column.align })}
         >
           {column.render({
             data: row.data,
@@ -57,7 +59,10 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => (
-              <Table.ColumnHeader key={index}>
+              <Table.ColumnHeader
+                key={index}
+                {...(column.align && { textAlign: column.align })}
+              >
                 {column.header}
               </Table.ColumnHeader>
             ))}

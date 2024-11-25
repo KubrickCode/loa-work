@@ -47,6 +47,7 @@ export const ContentRewardListPage = () => {
             (
               itemName
             ): Column<ContentRewardListPageQuery["contentList"][number]> => ({
+              align: "right",
               header: itemName,
               render({ data }) {
                 const reward = data.contentRewards.find(
