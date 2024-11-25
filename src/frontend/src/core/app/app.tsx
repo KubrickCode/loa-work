@@ -1,4 +1,5 @@
 import { GraphQLProvider } from "../graphql";
+import { Layout } from "../layout";
 import { ThemeProvider } from "../theme";
 import { Router, Routes } from "./router";
 
@@ -7,7 +8,9 @@ export const App = () => {
     <ThemeProvider>
       <Router>
         <GraphQLProvider>
-          <Routes />
+          <Layout>
+            <Routes />
+          </Layout>
         </GraphQLProvider>
       </Router>
     </ThemeProvider>
