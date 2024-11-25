@@ -7,7 +7,7 @@ export const Header = () => {
   return (
     <Flex as="header" justifyContent="space-between">
       <Flex alignItems="center" gap={4}>
-        <Heading>로생</Heading>
+        <Heading>로생체크</Heading>
         <Navigation />
       </Flex>
       <HeaderMenu />
