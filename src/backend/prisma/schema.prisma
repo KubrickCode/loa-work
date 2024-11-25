@@ -64,13 +64,16 @@ model Content {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  level Int
-  name  String      @unique
-  type  ContentType
+  gate      Int?
+  isSeeMore Boolean?    @map("is_see_more")
+  level     Int
+  name      String
+  type      ContentType
 
   //Relations
   contentRewards ContentReward[]
 
+  @@unique([name, type, gate, isSeeMore])
   @@map("content")
 }
 
