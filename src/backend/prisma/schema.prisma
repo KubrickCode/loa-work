@@ -84,12 +84,13 @@ model ContentReward {
 
   averageQuantity Decimal @map("average_quantity")
   isSellable      Boolean @default(false) @map("is_sellable")
-  itemName        String  @unique @map("item_name")
+  itemName        String  @map("item_name")
 
   //Relations
   contentId Int     @map("content_id")
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 
+  @@unique([contentId, itemName])
   @@map("content_reward")
 }
 
