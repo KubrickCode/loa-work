@@ -30,7 +30,7 @@ model AuctionItem {
 
   name                 String
   imageSrc             String  @map("image_src")
-  isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
+  isStatScraperEnabled Boolean @default(true) @map("is_stat_scraper_enabled")
 
   //Relations
   auctionItemStats      AuctionItemStat[]
@@ -130,7 +130,7 @@ model MarketItem {
   bundleCount          Int     @map("bundle_count") // 묶음 판매 단위
   name                 String
   imageSrc             String  @map("image_src")
-  isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
+  isStatScraperEnabled Boolean @default(true) @map("is_stat_scraper_enabled")
   refId                Int     @unique @map("ref_id")
 
   //Relations
