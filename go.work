@@ -4,7 +4,6 @@ use (
 	./src/go/apps/market-item-category-scraper
 	./src/go/apps/market-item-scraper
 	./src/go/apps/market-item-stat-scraper
-	./src/go/apps/minimum-wage-scraper
 	./src/go/libs/env
 	./src/go/libs/http-client
 	./src/go/libs/loa-api
