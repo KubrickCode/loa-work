@@ -1,3 +1,5 @@
+import { Page } from "~/core/page";
+
 export const DashboardPage = () => {
-  return <>DashboardPage</>;
+  return <Page>DashboardPage</Page>;
 };

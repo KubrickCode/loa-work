@@ -4,6 +4,7 @@ import {
   ContentRewardListPageDocument,
   ContentRewardListPageQuery,
 } from "~/core/graphql/generated";
+import { Page } from "~/core/page";
 import { DataTable } from "~/core/table";
 
 export const ContentRewardListPage = () => {
@@ -14,31 +15,33 @@ export const ContentRewardListPage = () => {
   if (!data) return null;
 
   return (
-    <DataTable
-      columns={[
-        {
-          header: "종류",
-          render({ data }) {
-            return <>{data.type}</>;
+    <Page>
+      <DataTable
+        columns={[
+          {
+            header: "종류",
+            render({ data }) {
+              return <>{data.type}</>;
+            },
           },
-        },
-        {
-          header: "레벨",
-          render({ data }) {
-            return <>{data.level}</>;
+          {
+            header: "레벨",
+            render({ data }) {
+              return <>{data.level}</>;
+            },
           },
-        },
-        {
-          header: "이름",
-          render({ data }) {
-            return <ContentName {...data} />;
+          {
+            header: "이름",
+            render({ data }) {
+              return <ContentName {...data} />;
+            },
           },
-        },
-      ]}
-      rows={data.contentList.map((content) => ({
-        data: content,
-      }))}
-    />
+        ]}
+        rows={data.contentList.map((content) => ({
+          data: content,
+        }))}
+      />
+    </Page>
   );
 };
 
