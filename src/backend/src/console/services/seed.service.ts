@@ -12,7 +12,10 @@ export class SeedService {
   }
 
   async auctionItems() {
-    type Option = Pick<Prisma.AuctionItemCreateInput, 'name' | 'imageSrc'>;
+    type Option = Pick<
+      Prisma.AuctionItemCreateInput,
+      'name' | 'imageSrc' | 'isStatScraperEnabled'
+    >;
     let damageGems: Option[] = [];
     let coolDownGems: Option[] = [];
 
@@ -22,6 +25,7 @@ export class SeedService {
         imageSrc: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
           95 + i
         }.png`,
+        isStatScraperEnabled: true,
       });
 
       coolDownGems.push({
@@ -29,6 +33,7 @@ export class SeedService {
         imageSrc: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
           105 + i
         }.png`,
+        isStatScraperEnabled: true,
       });
     }
 
