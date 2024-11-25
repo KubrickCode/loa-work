@@ -2,7 +2,7 @@ import { Flex, Heading } from "@chakra-ui/react";
 
 import { Avatar } from "~/chakra-components/ui/avatar";
 
-import { Navigation } from "../navigation";
+import { Navigation } from "../../navigation";
 
 export const Header = () => {
   return (
