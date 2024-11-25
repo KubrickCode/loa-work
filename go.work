@@ -1,6 +1,7 @@
 go 1.23
 
 use (
+	./src/go/apps/auction-item-stat-scraper
 	./src/go/apps/market-item-category-scraper
 	./src/go/apps/market-item-scraper
 	./src/go/apps/market-item-stat-scraper
