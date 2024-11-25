@@ -69,12 +69,12 @@ model Content {
   type  ContentType
 
   //Relations
-  contentRevenues ContentRevenue[]
+  contentRewards ContentReward[]
 
   @@map("content")
 }
 
-model ContentRevenue {
+model ContentReward {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
@@ -87,7 +87,7 @@ model ContentRevenue {
   contentId Int     @map("content_id")
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 
-  @@map("content_revenue")
+  @@map("content_reward")
 }
 
 model ExtraItem {
