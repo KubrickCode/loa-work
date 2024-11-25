@@ -1,8 +1,7 @@
 import { Flex, Heading } from "@chakra-ui/react";
 
-import { Avatar } from "~/chakra-components/ui/avatar";
-
 import { Navigation } from "../../navigation";
+import { HeaderMenu } from "./header-menu";
 
 export const Header = () => {
   return (
@@ -11,7 +10,7 @@ export const Header = () => {
         <Heading>로생</Heading>
         <Navigation />
       </Flex>
-      <Avatar size="md" />
+      <HeaderMenu />
     </Flex>
   );
 };
