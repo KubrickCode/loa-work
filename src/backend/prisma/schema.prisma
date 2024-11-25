@@ -80,6 +80,7 @@ model ContentRevenue {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   averageQuantity Decimal @map("average_quantity")
+  isSellable      Boolean @default(false) @map("is_sellable")
   itemName        String  @unique @map("item_name")
 
   //Relations
