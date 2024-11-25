@@ -48,7 +48,7 @@ export const ContentRewardListPage = () => {
                 return (
                   <>
                     {reward
-                      ? `${reward.averageQuantity} ${reward.isSellable ? "" : "(귀속)"}`
+                      ? `${reward.averageQuantity}${reward.isSellable && reward.itemName !== "골드" ? " (거래 가능)" : ""}`
                       : "-"}
                   </>
                 );
