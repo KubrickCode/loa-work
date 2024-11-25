@@ -14,7 +14,7 @@ const routes = [
     path: "/content-reward-list",
     component: ContentRewardListPage,
   },
-];
+] as const;
 
 export const Routes = () => {
   return (
@@ -29,3 +29,5 @@ export const Routes = () => {
     </ReactRouter.Routes>
   );
 };
+
+export type RoutePath = (typeof routes)[number]["path"];
