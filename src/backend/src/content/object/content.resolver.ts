@@ -66,9 +66,6 @@ export class ContentResolver {
         case ContentRewardKind.GLACIER_BREATH:
           gold += await this.getMarketItemCurrentMinPrice(reward.itemName);
           break;
-        case ContentRewardKind.CARD_EXP:
-          // TODO: 카드 경험치 계산
-          break;
         default:
           throw new Error(`Unknown reward kind: ${reward.itemName}`);
       }
