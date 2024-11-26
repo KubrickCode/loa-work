@@ -12,6 +12,34 @@ on:
       - main
 
 jobs:
+  web-tests:
+    name: Run web tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v2
+        with:
+          node-version: "22.11.0"
+
+      - uses: extractions/setup-just@v1
+
+      - name: Install dependencies
+        run: just deps
+
+      - name: Create and start databases
+        run: docker compose -f ./infra/docker-compose.ci.yaml up -d
+
+      - name: Wait for database to be ready
+        run: |
+          npm install -g wait-on
+          wait-on tcp:5432
+
+      - name: Run tests
+        run: just test web
+
   go-tests:
     name: Run Go tests
     runs-on: ubuntu-latest
