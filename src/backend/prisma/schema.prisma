@@ -105,6 +105,17 @@ model ExtraItem {
   @@map("extra_item")
 }
 
+model GoldExchangeRate {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  krwAmount  Int @map("krw_amount")
+  goldAmount Int @map("gold_amount")
+
+  @@map("gold_exchange_rate")
+}
+
 model MarketItemCategory {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)

@@ -14,6 +14,7 @@ export class SeedService {
     await this.contents();
     await this.extraItems();
     await this.minimumWage();
+    await this.goldExchangeRate();
   }
 
   async marketItemCategories() {
@@ -105,6 +106,12 @@ export class SeedService {
         amount: 9860,
         year: 2024,
       },
+    });
+  }
+
+  async goldExchangeRate() {
+    await this.prisma.goldExchangeRate.create({
+      data: { krwAmount: 100, goldAmount: 50 },
     });
   }
 }
