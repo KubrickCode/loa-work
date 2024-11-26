@@ -53,9 +53,6 @@ export class ContentResolver {
         case ContentRewardKind.GOLD:
           gold += reward.averageQuantity.toNumber();
           break;
-        case ContentRewardKind.SHILLING:
-          // TODO: 실링 평균 구매가 계산
-          break;
         case ContentRewardKind.LEVEL_1_GEM:
           gold += await this.getGemAverageBuyPrice();
           break;
