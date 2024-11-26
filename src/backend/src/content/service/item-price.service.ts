@@ -4,8 +4,8 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ItemPriceService {
-  private readonly ONE_LEVEL_DAMAGE_GEM_NAME = '1레벨 겁화의 보석';
-  private readonly ONE_LEVEL_COOL_DOWN_GEM_NAME = '1레벨 작열의 보석';
+  readonly ONE_LEVEL_DAMAGE_GEM_NAME = '1레벨 겁화의 보석';
+  readonly ONE_LEVEL_COOL_DOWN_GEM_NAME = '1레벨 작열의 보석';
 
   constructor(private prisma: PrismaService) {}
 
