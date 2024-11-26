@@ -5,6 +5,7 @@
 type Content {
   contentRewards: [ContentReward!]!
   createdAt: DateTime!
+  displayName: String!
   displayTypeName: String!
   duration: Int!
   gate: Int

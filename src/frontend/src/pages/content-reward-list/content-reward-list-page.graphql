@@ -5,11 +5,9 @@ query ContentRewardListPage {
       isSellable
       itemName
     }
+    displayName
     displayTypeName
-    gate
-    isSeeMore
     level
-    name
   }
   contentRewardViewList
 }

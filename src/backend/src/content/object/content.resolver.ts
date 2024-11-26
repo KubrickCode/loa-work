@@ -19,6 +19,12 @@ export class ContentResolver {
   }
 
   @ResolveField(() => String)
+  async displayName(@Parent() content: Content) {
+    const { gate, isSeeMore, name } = content;
+    return `${name}${gate ? ` ${gate}관문` : ''}${isSeeMore ? ' 더보기' : ''}`;
+  }
+
+  @ResolveField(() => String)
   async displayTypeName(@Parent() content: Content) {
     const typeNames = {
       [ContentType.CUBE]: '큐브',

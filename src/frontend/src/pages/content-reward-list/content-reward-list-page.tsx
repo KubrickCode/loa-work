@@ -40,7 +40,7 @@ export const ContentRewardListPage = () => {
           {
             header: "이름",
             render({ data }) {
-              return <ContentName {...data} />;
+              return <>{data.displayName}</>;
             },
           },
           ...data.contentRewardViewList.map(
@@ -69,15 +69,5 @@ export const ContentRewardListPage = () => {
         }))}
       />
     </Page>
-  );
-};
-
-const ContentName = ({
-  gate,
-  isSeeMore,
-  name,
-}: ContentRewardListPageQuery["contentList"][number]) => {
-  return (
-    <>{`${name}${gate ? ` ${gate}관문` : ""}${isSeeMore ? " 더보기" : ""}`}</>
   );
 };
