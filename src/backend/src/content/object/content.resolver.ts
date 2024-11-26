@@ -147,7 +147,7 @@ export class ContentResolver {
       },
     });
 
-    return item.marketItemStats[0].currentMinPrice;
+    return item.marketItemStats[0].currentMinPrice / item.bundleCount;
   }
 
   private async getFateFragmentBuyPricePerOne() {
