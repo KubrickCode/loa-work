@@ -4,10 +4,14 @@ import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
 import { ContentType } from '@prisma/client';
 import { ContentRewardKind } from 'src/enums';
+import { ItemPriceService } from '../service/item-price.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private itemPriceService: ItemPriceService,
+  ) {}
 
   @ResolveField(() => [ContentReward])
   async contentRewards(@Parent() content: Content) {
@@ -56,7 +60,8 @@ export class ContentResolver {
           gold += averageQuantity;
           break;
         case ContentRewardKind.LEVEL_1_GEM:
-          gold += (await this.getGemAverageBuyPrice()) * averageQuantity;
+          gold +=
+            (await this.itemPriceService.get1LevelGemPrice()) * averageQuantity;
           break;
         case ContentRewardKind.FATE_FRAGMENT:
           gold +=
@@ -91,50 +96,6 @@ export class ContentResolver {
     const hourlyWage = totalKRW / hours;
 
     return Math.round(hourlyWage);
-  }
-
-  private async getGemAverageBuyPrice() {
-    // 최근 10개의 판매 통계를 조회
-    const RECENT_STATS_COUNT = 10;
-
-    const damageGem = await this.prisma.auctionItem.findFirstOrThrow({
-      where: {
-        name: '1레벨 겁화의 보석',
-      },
-      include: {
-        auctionItemStats: {
-          orderBy: {
-            createdAt: 'desc',
-          },
-          take: RECENT_STATS_COUNT,
-        },
-      },
-    });
-
-    const coolDownGem = await this.prisma.auctionItem.findFirstOrThrow({
-      where: {
-        name: '1레벨 작열의 보석',
-      },
-      include: {
-        auctionItemStats: {
-          orderBy: {
-            createdAt: 'desc',
-          },
-          take: RECENT_STATS_COUNT,
-        },
-      },
-    });
-
-    const damageGemWage =
-      damageGem.auctionItemStats.reduce((acc, stat) => acc + stat.buyPrice, 0) /
-      damageGem.auctionItemStats.length;
-    const coolDownGemWage =
-      coolDownGem.auctionItemStats.reduce(
-        (acc, stat) => acc + stat.buyPrice,
-        0,
-      ) / coolDownGem.auctionItemStats.length;
-
-    return (damageGemWage + coolDownGemWage) / 2;
   }
 
   private async getMarketItemCurrentMinPrice(itemName: string) {
