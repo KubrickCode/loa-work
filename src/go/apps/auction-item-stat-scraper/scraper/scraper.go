@@ -63,8 +63,8 @@ func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item
 		CategoryCode:  category.Code,
 		ItemName:      item.Name,
 		PageNo:        1,
-		Sort:          "ASC",
-		SortCondition: "BUY_PRICE",
+		Sort:          "BUY_PRICE",
+		SortCondition: "ASC",
 	})
 	if err != nil {
 		return nil, err
