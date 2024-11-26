@@ -36,8 +36,8 @@ prisma *args:
   cd "{{ backend_dir }}"
   yarn prisma {{ args }}
 
-reset:
-  just prisma migrate reset
+reset *args:
+  just prisma migrate reset {{ args }}
 
 run svc *args:
   #!/usr/bin/env bash
