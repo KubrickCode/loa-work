@@ -49,22 +49,27 @@ export class ContentResolver {
     let gold = 0;
 
     for (const reward of rewards) {
+      const averageQuantity = reward.averageQuantity.toNumber();
+
       switch (reward.itemName) {
         case ContentRewardKind.GOLD:
-          gold += reward.averageQuantity.toNumber();
+          gold += averageQuantity;
           break;
         case ContentRewardKind.LEVEL_1_GEM:
-          gold += await this.getGemAverageBuyPrice();
+          gold += (await this.getGemAverageBuyPrice()) * averageQuantity;
           break;
         case ContentRewardKind.FATE_FRAGMENT:
-          gold += await this.getFateFragmentBuyPricePerOne();
+          gold +=
+            (await this.getFateFragmentBuyPricePerOne()) * averageQuantity;
           break;
         case ContentRewardKind.FATE_BREAKTHROUGH_STONE:
         case ContentRewardKind.FATE_DESTRUCTION_STONE:
         case ContentRewardKind.FATE_GUARDIAN_STONE:
         case ContentRewardKind.LAVA_BREATH:
         case ContentRewardKind.GLACIER_BREATH:
-          gold += await this.getMarketItemCurrentMinPrice(reward.itemName);
+          gold +=
+            (await this.getMarketItemCurrentMinPrice(reward.itemName)) *
+            averageQuantity;
           break;
         case ContentRewardKind.CARD_EXP:
         case ContentRewardKind.SHILLING:
