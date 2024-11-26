@@ -104,3 +104,17 @@ setup-testdb:
   psql "{{ devdb_url }}" -c "CREATE DATABASE test OWNER postgres"
   cd "{{ backend_dir }}"
   DATABASE_URL="{{ testdb_url }}" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} yarn prisma migrate dev
+
+test target *args:
+  #!/usr/bin/env bash
+  set -euox pipefail
+  case "{{ target }}" in
+    backend)
+      echo "NodeJS:" $(node -v)
+      echo "Prisma Engine:" {{ prisma_engine }}
+
+      just setup-testdb
+      cd "{{ backend_dir }}"
+      DATABASE_URL="postgres://postgres:postgres@localhost:5432/test" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --no-compilation-cache {{ args }}
+      ;;
+  esac
