@@ -247,7 +247,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.EPIC_RAID,
     level: 1640,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -299,7 +299,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.EPIC_RAID,
     level: 1640,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -351,7 +351,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1640,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -403,7 +403,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1640,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -455,7 +455,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1660,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -507,7 +507,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1660,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -559,7 +559,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1670,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -611,7 +611,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1670,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -667,7 +667,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1680,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -719,7 +719,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1680,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -775,7 +775,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1670,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
@@ -827,7 +827,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     isSeeMore: true,
     type: ContentType.KAZEROS_RAID,
     level: 1670,
-    duration: 600,
+    duration: 1,
     contentRewards: {
       createMany: {
         data: [
