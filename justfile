@@ -4,6 +4,11 @@ root_dir := justfile_directory()
 frontend_dir := root_dir + "/src/frontend"
 backend_dir := root_dir + "/src/backend"
 
+prisma_engine := "binary"
+
+devdb_url := "postgres://postgres:postgres@localhost:5432/postgres"
+testdb_url := "postgres://postgres:postgres@localhost:5432/test"
+
 codegen:
   #!/usr/bin/env bash
   set -euox pipefail
@@ -78,3 +83,24 @@ run svc *args:
       ;;
       
   esac
+
+setup-testdb:
+  #!/usr/bin/env bash
+  set -euox pipefail
+
+  database_exists() {
+    psql "{{ devdb_url }}" -tAc "SELECT 1 FROM pg_database WHERE datname='test'" | grep -q 1
+  }
+
+  # Terminate all existing connections if the database exists.
+  if database_exists; then
+    psql "{{ devdb_url }}" -c "REVOKE CONNECT ON DATABASE test FROM PUBLIC"
+    psql "{{ devdb_url }}" -c "SELECT pg_terminate_backend(pg_stat_activity.pid)FROM pg_stat_activity WHERE pg_stat_activity.datname = 'test' AND pid <> pg_backend_pid()"
+  else
+    echo "Database 'test' does not exist, skipping termination of connections."
+  fi
+
+  psql "{{ devdb_url }}" -c "DROP DATABASE IF EXISTS test"
+  psql "{{ devdb_url }}" -c "CREATE DATABASE test OWNER postgres"
+  cd "{{ backend_dir }}"
+  DATABASE_URL="{{ testdb_url }}" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} yarn prisma migrate dev
