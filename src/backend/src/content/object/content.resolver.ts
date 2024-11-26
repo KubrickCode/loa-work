@@ -57,7 +57,7 @@ export class ContentResolver {
           gold += await this.getGemAverageBuyPrice();
           break;
         case ContentRewardKind.FATE_FRAGMENT:
-          // TODO: 운명의 파편 계산
+          gold += await this.getFateFragmentBuyPricePerOne();
           break;
         case ContentRewardKind.FATE_BREAKTHROUGH_STONE:
         case ContentRewardKind.FATE_DESTRUCTION_STONE:
@@ -148,5 +148,25 @@ export class ContentResolver {
     });
 
     return item.marketItemStats[0].currentMinPrice;
+  }
+
+  private async getFateFragmentBuyPricePerOne() {
+    const item = await this.prisma.marketItem.findFirstOrThrow({
+      where: {
+        name: '운명의 파편 주머니(소)',
+      },
+      include: {
+        marketItemStats: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
+      },
+    });
+
+    const currentMinPrice = item.marketItemStats[0].currentMinPrice;
+
+    return currentMinPrice / 1000;
   }
 }
