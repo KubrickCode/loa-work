@@ -8,6 +8,7 @@ const config = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
   roots: ['<rootDir>'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
   testTimeout: 30000,
