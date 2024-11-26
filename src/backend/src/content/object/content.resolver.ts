@@ -66,6 +66,9 @@ export class ContentResolver {
         case ContentRewardKind.GLACIER_BREATH:
           gold += await this.getMarketItemCurrentMinPrice(reward.itemName);
           break;
+        case ContentRewardKind.CARD_EXP:
+        case ContentRewardKind.SHILLING:
+          break;
         default:
           throw new Error(`Unknown reward kind: ${reward.itemName}`);
       }
