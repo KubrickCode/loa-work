@@ -3,6 +3,7 @@ package scraper
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-life/src/go/libs/loaApi/request"
@@ -102,6 +103,9 @@ func (s *Scraper) getItemStatToCreate(category *loadb.MarketItemCategory, item l
 		YDayAvgPrice:    decimal.NewFromFloat(marketItem.YDayAvgPrice),
 		MarketItemID:    item.ID,
 	}
+
+	// TODO: sleep 동기 처리 개선 필요
+	time.Sleep(time.Second)
 
 	return &stat, nil
 }
