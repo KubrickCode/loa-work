@@ -4,6 +4,9 @@ import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
 export class Content extends BaseObject {
+  @Field(() => Int)
+  duration: number;
+
   @Field(() => Int, { nullable: true })
   gate?: number;
 

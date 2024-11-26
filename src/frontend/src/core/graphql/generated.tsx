@@ -22,6 +22,7 @@ export type Content = {
   contentRewards: Array<ContentReward>;
   createdAt: Scalars['DateTime']['output'];
   displayTypeName: Scalars['String']['output'];
+  duration: Scalars['Int']['output'];
   gate?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   isSeeMore?: Maybe<Scalars['Boolean']['output']>;
@@ -29,6 +30,7 @@ export type Content = {
   name: Scalars['String']['output'];
   type: ContentType;
   updatedAt: Scalars['DateTime']['output'];
+  wage: Scalars['Int']['output'];
 };
 
 export type ContentReward = {

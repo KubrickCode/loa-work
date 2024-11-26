@@ -1,8 +1,9 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Int, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
 import { ContentType } from '@prisma/client';
+import { ContentRewardKind } from 'src/enums';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -29,5 +30,120 @@ export class ContentResolver {
     };
 
     return typeNames[content.type];
+  }
+
+  @ResolveField(() => Int)
+  async wage(@Parent() content: Content) {
+    const rewards = await this.prisma.contentReward.findMany({
+      where: {
+        contentId: content.id,
+      },
+    });
+
+    let gold = 0;
+
+    for (const reward of rewards) {
+      switch (reward.itemName) {
+        case ContentRewardKind.GOLD:
+          gold += reward.averageQuantity.toNumber();
+          break;
+        case ContentRewardKind.SHILLING:
+          // TODO: 실링 평균 구매가 계산
+          break;
+        case ContentRewardKind.LEVEL_1_GEM:
+          gold += await this.getGemAverageBuyPrice();
+          break;
+        case ContentRewardKind.FATE_FRAGMENT:
+          // TODO: 운명의 파편 계산
+          break;
+        case ContentRewardKind.FATE_BREAKTHROUGH_STONE:
+        case ContentRewardKind.FATE_DESTRUCTION_STONE:
+        case ContentRewardKind.FATE_GUARDIAN_STONE:
+        case ContentRewardKind.LAVA_BREATH:
+        case ContentRewardKind.GLACIER_BREATH:
+          gold += await this.getMarketItemCurrentMinPrice(reward.itemName);
+          break;
+        case ContentRewardKind.CARD_EXP:
+          // TODO: 카드 경험치 계산
+          break;
+        default:
+          throw new Error(`Unknown reward kind: ${reward.itemName}`);
+      }
+    }
+
+    const goldExchangeRate =
+      await this.prisma.goldExchangeRate.findFirstOrThrow({
+        take: 1,
+      });
+
+    const totalKRW =
+      (gold * goldExchangeRate.goldAmount) / goldExchangeRate.krwAmount;
+
+    const hours = content.duration / 3600;
+    const hourlyWage = totalKRW / hours;
+
+    return Math.round(hourlyWage);
+  }
+
+  private async getGemAverageBuyPrice() {
+    // 최근 10개의 판매 통계를 조회
+    const RECENT_STATS_COUNT = 10;
+
+    const damageGem = await this.prisma.auctionItem.findFirstOrThrow({
+      where: {
+        name: '1레벨 겁화의 보석',
+      },
+      include: {
+        auctionItemStats: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: RECENT_STATS_COUNT,
+        },
+      },
+    });
+
+    const coolDownGem = await this.prisma.auctionItem.findFirstOrThrow({
+      where: {
+        name: '1레벨 작열의 보석',
+      },
+      include: {
+        auctionItemStats: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: RECENT_STATS_COUNT,
+        },
+      },
+    });
+
+    const damageGemWage =
+      damageGem.auctionItemStats.reduce((acc, stat) => acc + stat.buyPrice, 0) /
+      damageGem.auctionItemStats.length;
+    const coolDownGemWage =
+      coolDownGem.auctionItemStats.reduce(
+        (acc, stat) => acc + stat.buyPrice,
+        0,
+      ) / coolDownGem.auctionItemStats.length;
+
+    return (damageGemWage + coolDownGemWage) / 2;
+  }
+
+  private async getMarketItemCurrentMinPrice(itemName: string) {
+    const item = await this.prisma.marketItem.findFirstOrThrow({
+      where: {
+        name: itemName,
+      },
+      include: {
+        marketItemStats: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
+      },
+    });
+
+    return item.marketItemStats[0].currentMinPrice;
   }
 }
