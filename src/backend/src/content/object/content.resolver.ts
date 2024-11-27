@@ -65,7 +65,8 @@ export class ContentResolver {
           break;
         case ContentRewardKind.FATE_FRAGMENT:
           gold +=
-            (await this.getFateFragmentBuyPricePerOne()) * averageQuantity;
+            (await this.itemPriceService.getSmallFateFragmentBuyPricePerOne()) *
+            averageQuantity;
           break;
         case ContentRewardKind.FATE_BREAKTHROUGH_STONE:
         case ContentRewardKind.FATE_DESTRUCTION_STONE:
@@ -97,25 +98,5 @@ export class ContentResolver {
     const hourlyWage = totalKRW / hours;
 
     return Math.round(hourlyWage);
-  }
-
-  private async getFateFragmentBuyPricePerOne() {
-    const item = await this.prisma.marketItem.findFirstOrThrow({
-      where: {
-        name: '운명의 파편 주머니(소)',
-      },
-      include: {
-        marketItemStats: {
-          orderBy: {
-            createdAt: 'desc',
-          },
-          take: 1,
-        },
-      },
-    });
-
-    const currentMinPrice = item.marketItemStats[0].currentMinPrice;
-
-    return currentMinPrice / 1000;
   }
 }
