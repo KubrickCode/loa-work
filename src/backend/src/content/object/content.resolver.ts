@@ -73,8 +73,9 @@ export class ContentResolver {
         case ContentRewardKind.LAVA_BREATH:
         case ContentRewardKind.GLACIER_BREATH:
           gold +=
-            (await this.getMarketItemCurrentMinPrice(reward.itemName)) *
-            averageQuantity;
+            (await this.itemPriceService.getMarketItemCurrentMinPrice(
+              reward.itemName,
+            )) * averageQuantity;
           break;
         case ContentRewardKind.CARD_EXP:
         case ContentRewardKind.SHILLING:
@@ -96,24 +97,6 @@ export class ContentResolver {
     const hourlyWage = totalKRW / hours;
 
     return Math.round(hourlyWage);
-  }
-
-  private async getMarketItemCurrentMinPrice(itemName: string) {
-    const item = await this.prisma.marketItem.findFirstOrThrow({
-      where: {
-        name: itemName,
-      },
-      include: {
-        marketItemStats: {
-          orderBy: {
-            createdAt: 'desc',
-          },
-          take: 1,
-        },
-      },
-    });
-
-    return item.marketItemStats[0].currentMinPrice / item.bundleCount;
   }
 
   private async getFateFragmentBuyPricePerOne() {

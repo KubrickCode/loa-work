@@ -50,4 +50,22 @@ export class ItemPriceService {
 
     return (damageGemPrice + coolDownGemPrice) / 2;
   }
+
+  async getMarketItemCurrentMinPrice(itemName: string) {
+    const item = await this.prisma.marketItem.findFirstOrThrow({
+      where: {
+        name: itemName,
+      },
+      include: {
+        marketItemStats: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
+      },
+    });
+
+    return item.marketItemStats[0].currentMinPrice / item.bundleCount;
+  }
 }
