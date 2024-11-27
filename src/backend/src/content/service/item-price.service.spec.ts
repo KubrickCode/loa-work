@@ -78,6 +78,25 @@ describe('ItemPriceService', () => {
         },
       },
     });
+
+    await prisma.marketItem.create({
+      data: {
+        name: service.SMALL_FATE_FRAGMENT_NAME,
+        imageSrc: faker.image.url(),
+        bundleCount: 1,
+        refId: faker.number.int(INT4_RANGE),
+        marketItemCategory: {
+          connect: { id: marketItemCategory.id },
+        },
+        marketItemStats: {
+          create: {
+            currentMinPrice: 10000,
+            recentPrice: 9500,
+            yDayAvgPrice: 9800.5,
+          },
+        },
+      },
+    });
   });
 
   afterAll(async () => {
@@ -92,5 +111,10 @@ describe('ItemPriceService', () => {
   it('getMarketItemCurrentMinPrice', async () => {
     const price = await service.getMarketItemCurrentMinPrice('운명의 파괴석');
     expect(price).toBe(1000);
+  });
+
+  it('getSmallFateFragmentBuyPricePerOne', async () => {
+    const price = await service.getSmallFateFragmentBuyPricePerOne();
+    expect(price).toBe(10);
   });
 });

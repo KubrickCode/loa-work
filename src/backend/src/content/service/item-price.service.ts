@@ -6,6 +6,8 @@ import { Injectable } from '@nestjs/common';
 export class ItemPriceService {
   readonly ONE_LEVEL_DAMAGE_GEM_NAME = '1레벨 겁화의 보석';
   readonly ONE_LEVEL_COOL_DOWN_GEM_NAME = '1레벨 작열의 보석';
+  readonly SMALL_FATE_FRAGMENT_NAME = '운명의 파편 주머니(소)';
+  readonly SMALL_FATE_FRAGMENT_BUNDLE_COUNT = 1000;
 
   constructor(private prisma: PrismaService) {}
 
@@ -67,5 +69,25 @@ export class ItemPriceService {
     });
 
     return item.marketItemStats[0].currentMinPrice / item.bundleCount;
+  }
+
+  async getSmallFateFragmentBuyPricePerOne() {
+    const item = await this.prisma.marketItem.findFirstOrThrow({
+      where: {
+        name: this.SMALL_FATE_FRAGMENT_NAME,
+      },
+      include: {
+        marketItemStats: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
+      },
+    });
+
+    const currentMinPrice = item.marketItemStats[0].currentMinPrice;
+
+    return currentMinPrice / this.SMALL_FATE_FRAGMENT_BUNDLE_COUNT;
   }
 }
