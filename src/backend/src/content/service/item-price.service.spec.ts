@@ -52,6 +52,32 @@ describe('ItemPriceService', () => {
         },
       });
     }
+
+    const marketItemCategory = await prisma.marketItemCategory.create({
+      data: {
+        name: '재련 재료',
+        code: faker.number.int(INT4_RANGE),
+      },
+    });
+
+    await prisma.marketItem.create({
+      data: {
+        name: '운명의 파괴석',
+        imageSrc: faker.image.url(),
+        bundleCount: 10,
+        refId: faker.number.int(INT4_RANGE),
+        marketItemCategory: {
+          connect: { id: marketItemCategory.id },
+        },
+        marketItemStats: {
+          create: {
+            currentMinPrice: 10000,
+            recentPrice: 9500,
+            yDayAvgPrice: 9800.5,
+          },
+        },
+      },
+    });
   });
 
   afterAll(async () => {
@@ -61,5 +87,10 @@ describe('ItemPriceService', () => {
   it('get1LevelGemPrice', async () => {
     const price = await service.get1LevelGemPrice();
     expect(price).toBe(104.5);
+  });
+
+  it('getMarketItemCurrentMinPrice', async () => {
+    const price = await service.getMarketItemCurrentMinPrice('운명의 파괴석');
+    expect(price).toBe(1000);
   });
 });
