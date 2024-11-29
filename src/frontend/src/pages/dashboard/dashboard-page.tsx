@@ -4,6 +4,7 @@ import { SkeletonText } from "~/chakra-components/ui/skeleton";
 import { DashboardPageDocument } from "~/core/graphql/generated";
 import { Page } from "~/core/page";
 import { DataTable } from "~/core/table";
+import { AccordionCard } from "~/core/accordion";
 
 export const DashboardPage = () => {
   const { data, error, loading } = useQuery(DashboardPageDocument);
@@ -19,31 +20,33 @@ export const DashboardPage = () => {
 
   return (
     <Page>
-      <DataTable
-        columns={[
-          {
-            header: "종류",
-            render({ data }) {
-              return <>{data.displayTypeName}</>;
+      <AccordionCard title="전체 컨텐츠">
+        <DataTable
+          columns={[
+            {
+              header: "종류",
+              render({ data }) {
+                return <>{data.displayTypeName}</>;
+              },
             },
-          },
-          {
-            header: "이름",
-            render({ data }) {
-              return <>{data.displayName}</>;
+            {
+              header: "이름",
+              render({ data }) {
+                return <>{data.displayName}</>;
+              },
             },
-          },
-          {
-            header: "시급",
-            render({ data }) {
-              return <>{data.wage}</>;
+            {
+              header: "시급",
+              render({ data }) {
+                return <>{data.wage}</>;
+              },
             },
-          },
-        ]}
-        rows={data.contentList.map((content) => ({
-          data: content,
-        }))}
-      />
+          ]}
+          rows={data.contentList.map((content) => ({
+            data: content,
+          }))}
+        />
+      </AccordionCard>
     </Page>
   );
 };
