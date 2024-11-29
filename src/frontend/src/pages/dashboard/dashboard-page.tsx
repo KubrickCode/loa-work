@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 import { SkeletonText } from "~/chakra-components/ui/skeleton";
 import { DashboardPageDocument } from "~/core/graphql/generated";
 import { Page } from "~/core/page";
@@ -20,33 +20,42 @@ export const DashboardPage = () => {
 
   return (
     <Page>
-      <AccordionCard title="전체 컨텐츠">
-        <DataTable
-          columns={[
-            {
-              header: "종류",
-              render({ data }) {
-                return <>{data.displayTypeName}</>;
-              },
-            },
-            {
-              header: "이름",
-              render({ data }) {
-                return <>{data.displayName}</>;
-              },
-            },
-            {
-              header: "시급",
-              render({ data }) {
-                return <>{data.wage}</>;
-              },
-            },
-          ]}
-          rows={data.contentList.map((content) => ({
-            data: content,
-          }))}
-        />
-      </AccordionCard>
+      <Flex gap={4}>
+        <VStack flex="1" gap={4}>
+          <AccordionCard title="전체 컨텐츠">
+            <DataTable
+              columns={[
+                {
+                  header: "종류",
+                  render({ data }) {
+                    return <>{data.displayTypeName}</>;
+                  },
+                },
+                {
+                  header: "이름",
+                  render({ data }) {
+                    return <>{data.displayName}</>;
+                  },
+                },
+                {
+                  header: "시급",
+                  render({ data }) {
+                    return <>{data.wage}</>;
+                  },
+                },
+              ]}
+              rows={data.contentList.map((content) => ({
+                data: content,
+              }))}
+            />
+          </AccordionCard>
+          <AccordionCard title="Empty State">Empty State</AccordionCard>
+        </VStack>
+        <VStack flex="1" gap={4}>
+          <AccordionCard title="Empty State">Empty State</AccordionCard>
+          <AccordionCard title="Empty State">Empty State</AccordionCard>
+        </VStack>
+      </Flex>
     </Page>
   );
 };
