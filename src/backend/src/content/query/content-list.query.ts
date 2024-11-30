@@ -1,12 +1,12 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
+import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from '../object/content.object';
-import { ContentType, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 @InputType()
 export class ContentListFilter {
-  @Field(() => ContentType, { nullable: true })
-  contentType?: ContentType;
+  @Field(() => Int, { nullable: true })
+  contentCategoryId?: number;
 }
 
 @Resolver()
@@ -25,8 +25,8 @@ export class ContentListQuery {
   buildWhereArgs(filter?: ContentListFilter) {
     const where: Prisma.ContentWhereInput = {};
 
-    if (filter?.contentType) {
-      where.type = filter.contentType;
+    if (filter?.contentCategoryId) {
+      where.contentCategoryId = filter.contentCategoryId;
     }
 
     return where;

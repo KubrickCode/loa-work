@@ -2,26 +2,11 @@ import { useQuery } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
 
 import { SkeletonText } from "~/chakra-components/ui/skeleton";
-import {
-  ContentType,
-  ContentWageListTableDocument,
-} from "~/core/graphql/generated";
+import { ContentWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 
-type ContentWageListTableProps = {
-  contentType?: ContentType;
-};
-
-export const ContentWageListTable = ({
-  contentType,
-}: ContentWageListTableProps) => {
-  const { data, error, loading } = useQuery(ContentWageListTableDocument, {
-    variables: {
-      filter: {
-        contentType,
-      },
-    },
-  });
+export const ContentWageListTable = () => {
+  const { data, error, loading } = useQuery(ContentWageListTableDocument);
 
   if (loading)
     return (
@@ -38,7 +23,7 @@ export const ContentWageListTable = ({
         {
           header: "종류",
           render({ data }) {
-            return <>{data.displayTypeName}</>;
+            return <>{data.contentCategory.name}</>;
           },
         },
         {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
 import { Prisma } from '@prisma/client';
-import { contentsWithRewards } from './data/content-revenue-data';
+import { getContentsWithRewards } from './data/content-revenue-data';
 
 @Injectable()
 export class SeedService {
@@ -11,6 +11,7 @@ export class SeedService {
     await this.marketItemCategories();
     await this.auctionItemCategories();
     await this.auctionItems();
+    await this.contentCategories();
     await this.contents();
     await this.extraItems();
     await this.minimumWage();
@@ -73,8 +74,50 @@ export class SeedService {
     });
   }
 
+  async contentCategories() {
+    await this.prisma.contentCategory.createMany({
+      data: [
+        { name: '쿠르잔 전선' },
+        { name: '가디언 토벌' },
+        { name: '큐브' },
+        { name: '카제로스 레이드' },
+        { name: '에픽 레이드' },
+      ],
+    });
+  }
+
   async contents() {
-    for (const contentData of contentsWithRewards) {
+    const { id: kurzanId } =
+      await this.prisma.contentCategory.findUniqueOrThrow({
+        where: { name: '쿠르잔 전선' },
+      });
+
+    const { id: guardianRaidId } =
+      await this.prisma.contentCategory.findUniqueOrThrow({
+        where: { name: '가디언 토벌' },
+      });
+
+    const { id: epicRaidId } =
+      await this.prisma.contentCategory.findUniqueOrThrow({
+        where: { name: '에픽 레이드' },
+      });
+
+    const { id: cubeId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: '큐브' },
+    });
+
+    const { id: kazerosRaidId } =
+      await this.prisma.contentCategory.findUniqueOrThrow({
+        where: { name: '카제로스 레이드' },
+      });
+
+    for (const contentData of getContentsWithRewards({
+      kurzanId,
+      guardianRaidId,
+      epicRaidId,
+      cubeId,
+      kazerosRaidId,
+    })) {
       const { contentRewards, ...contentFields } = contentData;
 
       const createdContent = await this.prisma.content.create({

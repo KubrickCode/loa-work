@@ -1,9 +1,21 @@
-import { ContentType, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
-export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
+export const getContentsWithRewards = ({
+  kurzanId,
+  guardianRaidId,
+  epicRaidId,
+  cubeId,
+  kazerosRaidId,
+}: {
+  kurzanId: number;
+  guardianRaidId: number;
+  epicRaidId: number;
+  cubeId: number;
+  kazerosRaidId: number;
+}): Prisma.ContentUncheckedCreateInput[] => [
   {
     name: '아게오로스',
-    type: ContentType.GUARDIAN_RAID,
+    contentCategoryId: guardianRaidId,
     level: 1640,
     duration: 180,
     contentRewards: {
@@ -31,7 +43,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
   },
   {
     name: '스콜라키아',
-    type: ContentType.GUARDIAN_RAID,
+    contentCategoryId: guardianRaidId,
     level: 1680,
     duration: 180,
     contentRewards: {
@@ -59,14 +71,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
   },
   {
     name: '제 1 해금',
-    type: ContentType.CUBE,
+    contentCategoryId: cubeId,
     level: 1640,
     duration: 300,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '실링', averageQuantity: 139591, isSellable: false },
-          { itemName: '운명의 돌파석', averageQuantity: 14, isSellable: false },
+          {
+            itemName: '운명의 돌파석',
+            averageQuantity: 14,
+            isSellable: false,
+          },
           { itemName: '1레벨 보석', averageQuantity: 9, isSellable: true },
           { itemName: '용암의 숨결', averageQuantity: 4, isSellable: false },
           { itemName: '빙하의 숨결', averageQuantity: 4, isSellable: false },
@@ -81,14 +97,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
   },
   {
     name: '제 2 해금',
-    type: ContentType.CUBE,
+    contentCategoryId: cubeId,
     level: 1680,
     duration: 300,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '실링', averageQuantity: 150322, isSellable: false },
-          { itemName: '운명의 돌파석', averageQuantity: 25, isSellable: false },
+          {
+            itemName: '운명의 돌파석',
+            averageQuantity: 25,
+            isSellable: false,
+          },
           { itemName: '1레벨 보석', averageQuantity: 18, isSellable: true },
           { itemName: '용암의 숨결', averageQuantity: 5, isSellable: false },
           { itemName: '빙하의 숨결', averageQuantity: 5, isSellable: false },
@@ -103,7 +123,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
   },
   {
     name: '아비도스 1 작전',
-    type: ContentType.KURZAN_FRONT,
+    contentCategoryId: kurzanId,
     level: 1640,
     duration: 180,
     contentRewards: {
@@ -141,7 +161,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
   },
   {
     name: '아비도스 2 작전',
-    type: ContentType.KURZAN_FRONT,
+    contentCategoryId: kurzanId,
     level: 1660,
     duration: 180,
     contentRewards: {
@@ -179,7 +199,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
   },
   {
     name: '아비도스 3 작전',
-    type: ContentType.KURZAN_FRONT,
+    contentCategoryId: kurzanId,
     level: 1680,
     duration: 180,
     contentRewards: {
@@ -219,14 +239,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 1,
     isSeeMore: false,
-    type: ContentType.EPIC_RAID,
+    contentCategoryId: epicRaidId,
     level: 1640,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 7000, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 3000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 3000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 210,
@@ -245,14 +269,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 1,
     isSeeMore: true,
-    type: ContentType.EPIC_RAID,
+    contentCategoryId: epicRaidId,
     level: 1640,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -3100, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 4000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 4000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 600,
@@ -271,14 +299,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 2,
     isSeeMore: false,
-    type: ContentType.EPIC_RAID,
+    contentCategoryId: epicRaidId,
     level: 1640,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 14500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 4000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 4000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 270,
@@ -297,14 +329,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 2,
     isSeeMore: true,
-    type: ContentType.EPIC_RAID,
+    contentCategoryId: epicRaidId,
     level: 1640,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -4900, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 6000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 6000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 900,
@@ -323,14 +359,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]붉어진 백야의 나선',
     gate: 1,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1640,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 6000, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 2700, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 2700,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 200,
@@ -349,14 +389,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]붉어진 백야의 나선',
     gate: 1,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1640,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -2800, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 3800, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 3800,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 550,
@@ -375,14 +419,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]붉어진 백야의 나선',
     gate: 2,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1640,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 12500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 3800, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 3800,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 260,
@@ -401,14 +449,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]붉어진 백야의 나선',
     gate: 2,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1640,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -4100, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 5800, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 5800,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 850,
@@ -427,14 +479,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]대지를 부수는 업화의 궤적',
     gate: 1,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1660,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 7500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 3600, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 3600,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 480,
@@ -453,14 +509,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]대지를 부수는 업화의 궤적',
     gate: 1,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1660,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -3200, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 6500, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 6500,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 700,
@@ -479,14 +539,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]대지를 부수는 업화의 궤적',
     gate: 2,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1660,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 15500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 4400, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 4400,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 580,
@@ -505,14 +569,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]대지를 부수는 업화의 궤적',
     gate: 2,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1660,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -5300, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 9500, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 9500,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 1000,
@@ -531,14 +599,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]부유하는 악몽의 진혼곡',
     gate: 1,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 8500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 4000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 4000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 540,
@@ -557,14 +629,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]부유하는 악몽의 진혼곡',
     gate: 1,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -3800, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 7000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 7000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 800,
@@ -583,14 +659,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]부유하는 악몽의 진혼곡',
     gate: 2,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 16500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 4600, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 4600,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 640,
@@ -609,7 +689,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[노말]부유하는 악몽의 진혼곡',
     gate: 2,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 1,
     contentRewards: {
@@ -639,14 +719,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]대지를 부수는 업화의 궤적',
     gate: 1,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1680,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 9000, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 4200, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 4200,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 680,
@@ -665,14 +749,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]대지를 부수는 업화의 궤적',
     gate: 1,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1680,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -4100, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 7500, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 7500,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 850,
@@ -691,14 +779,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]대지를 부수는 업화의 궤적',
     gate: 2,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1680,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 18500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 5400, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 5400,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 660,
@@ -717,7 +809,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]대지를 부수는 업화의 궤적',
     gate: 2,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1680,
     duration: 1,
     contentRewards: {
@@ -747,14 +839,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 1,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 10000, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 4600, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 4600,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 640,
@@ -773,14 +869,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 1,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 1,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: -4500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 8000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 8000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 950,
@@ -799,14 +899,18 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 2,
     isSeeMore: false,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 600,
     contentRewards: {
       createMany: {
         data: [
           { itemName: '골드', averageQuantity: 20500, isSellable: true },
-          { itemName: '운명의 파편', averageQuantity: 6000, isSellable: false },
+          {
+            itemName: '운명의 파편',
+            averageQuantity: 6000,
+            isSellable: false,
+          },
           {
             itemName: '운명의 파괴석',
             averageQuantity: 700,
@@ -825,7 +929,7 @@ export const contentsWithRewards: Prisma.ContentUncheckedCreateInput[] = [
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 2,
     isSeeMore: true,
-    type: ContentType.KAZEROS_RAID,
+    contentCategoryId: kazerosRaidId,
     level: 1670,
     duration: 1,
     contentRewards: {

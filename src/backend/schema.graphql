@@ -3,23 +3,30 @@
 # ------------------------------------------------------
 
 type Content {
+  contentCategory: ContentCategory!
+  contentCategoryId: Int!
   contentRewards: [ContentReward!]!
   createdAt: DateTime!
   displayName: String!
-  displayTypeName: String!
   duration: Int!
   gate: Int
   id: Int!
   isSeeMore: Boolean
   level: Int!
   name: String!
-  type: ContentType!
   updatedAt: DateTime!
   wage: Int!
 }
 
+type ContentCategory {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  updatedAt: DateTime!
+}
+
 input ContentListFilter {
-  contentType: ContentType
+  contentCategoryId: Int
 }
 
 type ContentReward {
@@ -29,15 +36,6 @@ type ContentReward {
   isSellable: Boolean!
   itemName: String!
   updatedAt: DateTime!
-}
-
-enum ContentType {
-  CUBE
-  EPIC_RAID
-  GUARDIAN_RAID
-  KAZEROS_RAID
-  KURZAN_FRONT
-  LEGION_COMMANDER_RAID
 }
 
 """

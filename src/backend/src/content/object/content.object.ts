@@ -1,9 +1,11 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { ContentType } from '@prisma/client';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
 export class Content extends BaseObject {
+  @Field(() => Int)
+  contentCategoryId: number;
+
   @Field(() => Int)
   duration: number;
 
@@ -18,7 +20,4 @@ export class Content extends BaseObject {
 
   @Field()
   name: string;
-
-  @Field(() => ContentType)
-  type: ContentType;
 }

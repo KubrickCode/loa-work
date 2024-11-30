@@ -64,18 +64,32 @@ model Content {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  duration  Int         @map("duration") // 소요시간(초)
+  duration  Int      @map("duration") // 소요시간(초)
   gate      Int?
-  isSeeMore Boolean?    @map("is_see_more")
+  isSeeMore Boolean? @map("is_see_more")
   level     Int
   name      String
-  type      ContentType
 
   //Relations
-  contentRewards ContentReward[]
+  contentRewards    ContentReward[]
+  contentCategory   ContentCategory @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
+  contentCategoryId Int             @map("content_category_id")
 
-  @@unique([name, type, gate, isSeeMore])
+  @@unique([name, contentCategoryId, gate, isSeeMore])
   @@map("content")
+}
+
+model ContentCategory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  name String @unique
+
+  //Relations
+  contents Content[]
+
+  @@map("content_category")
 }
 
 model ContentReward {
@@ -174,13 +188,4 @@ model MinimumWage {
   year   Int @unique
 
   @@map("minimum_wage")
-}
-
-enum ContentType {
-  CUBE
-  EPIC_RAID
-  GUARDIAN_RAID
-  KURZAN_FRONT
-  KAZEROS_RAID
-  LEGION_COMMANDER_RAID
 }

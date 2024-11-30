@@ -4,22 +4,11 @@ import { SkeletonText } from "~/chakra-components/ui/skeleton";
 import {
   ContentRewardListTableDocument,
   ContentRewardListTableQuery,
-  ContentType,
 } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 
-type ContentRewardListTableProps = {
-  contentType?: ContentType;
-};
-
-export const ContentRewardListTable = ({
-  contentType,
-}: ContentRewardListTableProps) => {
-  const { data, error, loading } = useQuery(ContentRewardListTableDocument, {
-    variables: {
-      filter: { contentType },
-    },
-  });
+export const ContentRewardListTable = () => {
+  const { data, error, loading } = useQuery(ContentRewardListTableDocument);
 
   if (loading)
     return (
@@ -36,7 +25,7 @@ export const ContentRewardListTable = ({
         {
           header: "종류",
           render({ data }) {
-            return <>{data.displayTypeName}</>;
+            return <>{data.contentCategory.name}</>;
           },
         },
         {

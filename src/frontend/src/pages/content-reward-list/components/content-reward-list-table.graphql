@@ -1,12 +1,14 @@
 query ContentRewardListTable($filter: ContentListFilter) {
   contentList(filter: $filter) {
+    contentCategory {
+      name
+    }
     contentRewards {
       averageQuantity
       isSellable
       itemName
     }
     displayName
-    displayTypeName
     level
   }
   contentRewardViewList

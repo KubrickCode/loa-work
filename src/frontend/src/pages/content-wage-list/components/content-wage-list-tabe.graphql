@@ -1,7 +1,9 @@
 query ContentWageListTable($filter: ContentListFilter) {
   contentList(filter: $filter) {
+    contentCategory {
+      name
+    }
     displayName
-    displayTypeName
     wage
   }
 }

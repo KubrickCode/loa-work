@@ -19,23 +19,31 @@ export type Scalars = {
 
 export type Content = {
   __typename?: 'Content';
+  contentCategory: ContentCategory;
+  contentCategoryId: Scalars['Int']['output'];
   contentRewards: Array<ContentReward>;
   createdAt: Scalars['DateTime']['output'];
   displayName: Scalars['String']['output'];
-  displayTypeName: Scalars['String']['output'];
   duration: Scalars['Int']['output'];
   gate?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   isSeeMore?: Maybe<Scalars['Boolean']['output']>;
   level: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  type: ContentType;
   updatedAt: Scalars['DateTime']['output'];
   wage: Scalars['Int']['output'];
 };
 
+export type ContentCategory = {
+  __typename?: 'ContentCategory';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
 export type ContentListFilter = {
-  contentType?: InputMaybe<ContentType>;
+  contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ContentReward = {
@@ -47,15 +55,6 @@ export type ContentReward = {
   itemName: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
-
-export enum ContentType {
-  CUBE = 'CUBE',
-  EPIC_RAID = 'EPIC_RAID',
-  GUARDIAN_RAID = 'GUARDIAN_RAID',
-  KAZEROS_RAID = 'KAZEROS_RAID',
-  KURZAN_FRONT = 'KURZAN_FRONT',
-  LEGION_COMMANDER_RAID = 'LEGION_COMMANDER_RAID'
-}
 
 export type MinimumWage = {
   __typename?: 'MinimumWage';
@@ -83,15 +82,15 @@ export type ContentRewardListTableQueryVariables = Exact<{
 }>;
 
 
-export type ContentRewardListTableQuery = { __typename?: 'Query', contentRewardViewList: Array<string>, contentList: Array<{ __typename?: 'Content', displayName: string, displayTypeName: string, level: number, contentRewards: Array<{ __typename?: 'ContentReward', averageQuantity: number, isSellable: boolean, itemName: string }> }> };
+export type ContentRewardListTableQuery = { __typename?: 'Query', contentRewardViewList: Array<string>, contentList: Array<{ __typename?: 'Content', displayName: string, level: number, contentCategory: { __typename?: 'ContentCategory', name: string }, contentRewards: Array<{ __typename?: 'ContentReward', averageQuantity: number, isSellable: boolean, itemName: string }> }> };
 
 export type ContentWageListTableQueryVariables = Exact<{
   filter?: InputMaybe<ContentListFilter>;
 }>;
 
 
-export type ContentWageListTableQuery = { __typename?: 'Query', contentList: Array<{ __typename?: 'Content', displayName: string, displayTypeName: string, wage: number }> };
+export type ContentWageListTableQuery = { __typename?: 'Query', contentList: Array<{ __typename?: 'Content', displayName: string, wage: number, contentCategory: { __typename?: 'ContentCategory', name: string } }> };
 
 
-export const ContentRewardListTableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardListTable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentListFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"displayTypeName"}},{"kind":"Field","name":{"kind":"Name","value":"level"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentRewardViewList"}}]}}]} as unknown as DocumentNode<ContentRewardListTableQuery, ContentRewardListTableQueryVariables>;
-export const ContentWageListTableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentWageListTable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentListFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"displayTypeName"}},{"kind":"Field","name":{"kind":"Name","value":"wage"}}]}}]}}]} as unknown as DocumentNode<ContentWageListTableQuery, ContentWageListTableQueryVariables>;
+export const ContentRewardListTableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardListTable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentListFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"level"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentRewardViewList"}}]}}]} as unknown as DocumentNode<ContentRewardListTableQuery, ContentRewardListTableQueryVariables>;
+export const ContentWageListTableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentWageListTable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentListFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"wage"}}]}}]}}]} as unknown as DocumentNode<ContentWageListTableQuery, ContentWageListTableQueryVariables>;
