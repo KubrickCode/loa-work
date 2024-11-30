@@ -1,15 +1,8 @@
 import { useQuery } from "@apollo/client";
-import { createListCollection } from "@chakra-ui/react";
 
-import {
-  SelectContent,
-  SelectItem,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from "~/chakra-components/ui/select";
 import { ContentCategoriesDocument } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
+import { Select } from "~/core/select";
 
 type ContentCategoryFilterProps = {
   onChange: (value: string) => void;
@@ -34,28 +27,12 @@ export const ContentCategoryFilter = ({
     })),
   ];
 
-  const frameworks = createListCollection({
-    items,
-  });
-
   return (
-    <SelectRoot
-      collection={frameworks}
-      maxWidth="10rem"
-      onValueChange={({ value }) => onChange(value[0])}
-      size="xs"
+    <Select
+      items={items}
+      onChange={onChange}
+      placeholder="컨텐츠 종류"
       value={value}
-    >
-      <SelectTrigger>
-        <SelectValueText placeholder="컨텐츠 종류" />
-      </SelectTrigger>
-      <SelectContent>
-        {frameworks.items.map((movie) => (
-          <SelectItem item={movie} key={movie.value}>
-            {movie.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </SelectRoot>
+    />
   );
 };
