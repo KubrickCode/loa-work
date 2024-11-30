@@ -4,9 +4,17 @@ import { Box } from "@chakra-ui/react";
 import { SkeletonText } from "~/chakra-components/ui/skeleton";
 import { ContentWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
+import { useContentWageListTable } from "./content-wage-list-table-context";
 
 export const ContentWageListTable = () => {
-  const { data, error, loading } = useQuery(ContentWageListTableDocument);
+  const { contentCategoryId } = useContentWageListTable();
+  const { data, error, loading } = useQuery(ContentWageListTableDocument, {
+    variables: {
+      filter: {
+        contentCategoryId: Number(contentCategoryId),
+      },
+    },
+  });
 
   if (loading)
     return (
