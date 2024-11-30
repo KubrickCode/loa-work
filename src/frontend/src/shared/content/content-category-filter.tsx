@@ -40,9 +40,9 @@ export const ContentCategoryFilter = ({
   return (
     <SelectRoot
       collection={frameworks}
+      maxWidth="10rem"
       onValueChange={({ value }) => onChange(value[0])}
       size="xs"
-      width="xs"
       value={value}
     >
       <SelectTrigger>
