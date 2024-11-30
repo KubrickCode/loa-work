@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
+import { useSearchParams } from "react-router-dom";
 import { SkeletonText } from "~/chakra-components/ui/skeleton";
 import {
   ContentRewardListTableDocument,
@@ -8,7 +9,18 @@ import {
 import { Column, DataTable } from "~/core/table";
 
 export const ContentRewardListTable = () => {
-  const { data, error, loading } = useQuery(ContentRewardListTableDocument);
+  const [searchParams] = useSearchParams();
+  const contentCategoryId = searchParams.get("contentCategoryId");
+
+  const { data, error, loading } = useQuery(ContentRewardListTableDocument, {
+    variables: {
+      filter: {
+        contentCategoryId: contentCategoryId
+          ? Number(contentCategoryId)
+          : undefined,
+      },
+    },
+  });
 
   if (loading)
     return (

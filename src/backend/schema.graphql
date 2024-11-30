@@ -52,6 +52,7 @@ type MinimumWage {
 }
 
 type Query {
+  contentCategories: [ContentCategory!]!
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardViewList: [String!]!
   minimumWage: MinimumWage!

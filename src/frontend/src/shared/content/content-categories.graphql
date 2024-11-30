@@ -1,0 +1,6 @@
+query ContentCategories {
+  contentCategories {
+    id
+    name
+  }
+}
