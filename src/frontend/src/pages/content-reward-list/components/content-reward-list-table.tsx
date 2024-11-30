@@ -4,11 +4,22 @@ import { SkeletonText } from "~/chakra-components/ui/skeleton";
 import {
   ContentRewardListTableDocument,
   ContentRewardListTableQuery,
+  ContentType,
 } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 
-export const ContentRewardListTable = () => {
-  const { data, error, loading } = useQuery(ContentRewardListTableDocument);
+type ContentRewardListTableProps = {
+  contentType?: ContentType;
+};
+
+export const ContentRewardListTable = ({
+  contentType,
+}: ContentRewardListTableProps) => {
+  const { data, error, loading } = useQuery(ContentRewardListTableDocument, {
+    variables: {
+      filter: { contentType },
+    },
+  });
 
   if (loading)
     return (

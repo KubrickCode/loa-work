@@ -1,5 +1,5 @@
-query ContentRewardListTable {
-  contentList {
+query ContentRewardListTable($filter: ContentListFilter) {
+  contentList(filter: $filter) {
     contentRewards {
       averageQuantity
       isSellable
