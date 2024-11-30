@@ -2,13 +2,13 @@ import * as ReactRouter from "react-router-dom";
 import { createElement } from "react";
 import _ from "lodash";
 
-import DashboardPage from "~/pages/dashboard";
 import ContentRewardListPage from "~/pages/content-reward-list";
+import ContentWageListPage from "~/pages/content-wage-list";
 
 const routes = [
   {
     path: "/",
-    component: DashboardPage,
+    component: ContentWageListPage,
   },
   {
     path: "/content-reward-list",

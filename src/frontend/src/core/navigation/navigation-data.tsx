@@ -7,7 +7,7 @@ type NavigationData = {
 
 export const navigationData: NavigationData[] = [
   {
-    label: "대시보드",
+    label: "컨텐츠별 시급",
     url: "/",
   },
   {

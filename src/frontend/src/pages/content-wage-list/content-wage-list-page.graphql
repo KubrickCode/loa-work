@@ -1,4 +1,4 @@
-query DashboardPage {
+query ContentWageListPage {
   contentList {
     displayName
     displayTypeName

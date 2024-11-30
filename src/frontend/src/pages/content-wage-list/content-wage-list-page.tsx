@@ -1,13 +1,13 @@
 import { useQuery } from "@apollo/client";
 import { Box, Flex, VStack } from "@chakra-ui/react";
 import { SkeletonText } from "~/chakra-components/ui/skeleton";
-import { DashboardPageDocument } from "~/core/graphql/generated";
+import { ContentWageListPageDocument } from "~/core/graphql/generated";
 import { Page } from "~/core/page";
 import { DataTable } from "~/core/table";
 import { AccordionCard } from "~/core/accordion";
 
-export const DashboardPage = () => {
-  const { data, error, loading } = useQuery(DashboardPageDocument);
+export const ContentWageListPage = () => {
+  const { data, error, loading } = useQuery(ContentWageListPageDocument);
 
   if (loading)
     return (
