@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
-import { StringParam, useQueryParams } from "use-query-params";
+
 import { SkeletonText } from "~/chakra-components/ui/skeleton";
 import {
   ContentRewardListTableDocument,
@@ -8,15 +8,15 @@ import {
 } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 
+import { useContentRewardListTable } from "./content-reward-list-table-context";
+
 export const ContentRewardListTable = () => {
-  const [query] = useQueryParams({
-    contentCategoryId: StringParam,
-  });
+  const { contentCategoryId } = useContentRewardListTable();
 
   const { data, error, loading } = useQuery(ContentRewardListTableDocument, {
     variables: {
       filter: {
-        contentCategoryId: Number(query.contentCategoryId),
+        contentCategoryId: Number(contentCategoryId),
       },
     },
   });
