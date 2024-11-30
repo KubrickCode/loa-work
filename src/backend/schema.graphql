@@ -18,6 +18,10 @@ type Content {
   wage: Int!
 }
 
+input ContentListFilter {
+  contentType: ContentType
+}
+
 type ContentReward {
   averageQuantity: Float!
   createdAt: DateTime!
@@ -50,7 +54,7 @@ type MinimumWage {
 }
 
 type Query {
-  contentList: [Content!]!
+  contentList(filter: ContentListFilter): [Content!]!
   contentRewardViewList: [String!]!
   minimumWage: MinimumWage!
 }
