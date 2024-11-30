@@ -1,4 +1,4 @@
-query ContentRewardListPage {
+query ContentRewardListTable {
   contentList {
     contentRewards {
       averageQuantity
