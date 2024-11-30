@@ -1,5 +1,5 @@
-query ContentWageListTable {
-  contentList {
+query ContentWageListTable($filter: ContentListFilter) {
+  contentList(filter: $filter) {
     displayName
     displayTypeName
     wage
