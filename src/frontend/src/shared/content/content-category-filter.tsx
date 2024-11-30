@@ -1,5 +1,6 @@
-import { useQuery } from "@apollo/client";
+import { Suspense } from "react";
 
+import { useSafeQuery } from "~/core/graphql";
 import { ContentCategoriesDocument } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
 import { Select } from "~/core/select";
@@ -9,15 +10,19 @@ type ContentCategoryFilterProps = {
   value: string[];
 };
 
-export const ContentCategoryFilter = ({
+export const ContentCategoryFilter = (props: ContentCategoryFilterProps) => {
+  return (
+    <Suspense fallback={<Loader.Select />}>
+      <WrappedContentCategoryFilter {...props} />
+    </Suspense>
+  );
+};
+
+const WrappedContentCategoryFilter = ({
   onChange,
   value,
 }: ContentCategoryFilterProps) => {
-  const { data, loading, error } = useQuery(ContentCategoriesDocument);
-
-  if (loading) return <Loader.Select />;
-  if (error) return <>{error.message}</>;
-  if (!data) throw new Error("NO DATA");
+  const { data } = useSafeQuery(ContentCategoriesDocument);
 
   const items = [
     { label: "전체 컨텐츠", value: "" },
