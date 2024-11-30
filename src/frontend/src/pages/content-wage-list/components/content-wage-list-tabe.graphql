@@ -1,4 +1,4 @@
-query ContentWageListPage {
+query ContentWageListTable {
   contentList {
     displayName
     displayTypeName
