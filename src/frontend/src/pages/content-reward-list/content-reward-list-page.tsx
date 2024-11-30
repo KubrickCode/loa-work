@@ -2,7 +2,7 @@ import { Suspense } from "react";
 
 import { Page } from "~/core/page";
 import { Section } from "~/core/section";
-import { SkeletonText } from "~/chakra-components/ui/skeleton";
+import { Loader } from "~/core/loader";
 
 import { ContentRewardListTable } from "./components/content-reward-list-table";
 import { ContentRewardListTableFilter } from "./components/content-reward-list-table-filter";
@@ -14,7 +14,7 @@ export const ContentRewardListPage = () => {
       <Section>
         <ContentRewardListTableProvider>
           <ContentRewardListTableFilter />
-          <Suspense fallback={<SkeletonText noOfLines={30} gap="4" p={4} />}>
+          <Suspense fallback={<Loader.TableSkeleton line={30} />}>
             <ContentRewardListTable />
           </Suspense>
         </ContentRewardListTableProvider>
