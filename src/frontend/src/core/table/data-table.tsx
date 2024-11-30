@@ -55,7 +55,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
 
   return (
     <>
-      <Table.Root>
+      <Table.Root striped>
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => (
