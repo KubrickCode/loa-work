@@ -1,23 +1,19 @@
+import { StringParam, useQueryParams } from "use-query-params";
 import { ContentCategoryFilter } from "~/shared/content";
-import { useSearchParams } from "react-router-dom";
 
 export const ContentRewardListTableFilter = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const contentCategoryId = searchParams.get("contentCategoryId");
+  const [query, setQuery] = useQueryParams({
+    contentCategoryId: StringParam,
+  });
 
   const handleCategoryChange = (value: string) => {
-    if (value === "") {
-      searchParams.delete("contentCategoryId");
-    } else {
-      searchParams.set("contentCategoryId", value);
-    }
-    setSearchParams(searchParams);
+    setQuery({ contentCategoryId: value || undefined });
   };
 
   return (
     <ContentCategoryFilter
       onChange={handleCategoryChange}
-      value={contentCategoryId ? [contentCategoryId] : [""]}
+      value={query.contentCategoryId ? [query.contentCategoryId] : [""]}
     />
   );
 };
