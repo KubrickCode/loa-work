@@ -1,25 +1,26 @@
 "use client";
 
 import type { CollectionItem } from "@chakra-ui/react";
-import { Select as ChakraSelect, Portal } from "@chakra-ui/react";
+import { Select as ChakraSelect, Portal, Spinner } from "@chakra-ui/react";
 import { CloseButton } from "./close-button";
 import * as React from "react";
 
 interface SelectTriggerProps extends ChakraSelect.ControlProps {
   clearable?: boolean;
+  loading?: boolean;
 }
 
 export const SelectTrigger = React.forwardRef<
   HTMLButtonElement,
   SelectTriggerProps
 >(function SelectTrigger(props, ref) {
-  const { children, clearable, ...rest } = props;
+  const { children, clearable, loading, ...rest } = props;
   return (
     <ChakraSelect.Control {...rest}>
       <ChakraSelect.Trigger ref={ref}>{children}</ChakraSelect.Trigger>
       <ChakraSelect.IndicatorGroup>
         {clearable && <SelectClearTrigger />}
-        <ChakraSelect.Indicator />
+        {loading ? <Spinner size="xs" /> : <ChakraSelect.Indicator />}
       </ChakraSelect.IndicatorGroup>
     </ChakraSelect.Control>
   );

@@ -9,6 +9,7 @@ import {
   SelectValueText,
 } from "~/chakra-components/ui/select";
 import { ContentCategoriesDocument } from "~/core/graphql/generated";
+import { Loader } from "~/core/loader";
 
 type ContentCategoryFilterProps = {
   onChange: (value: string) => void;
@@ -21,7 +22,7 @@ export const ContentCategoryFilter = ({
 }: ContentCategoryFilterProps) => {
   const { data, loading, error } = useQuery(ContentCategoriesDocument);
 
-  if (loading) return <></>;
+  if (loading) return <Loader.Select />;
   if (error) return <>{error.message}</>;
   if (!data) throw new Error("NO DATA");
 
