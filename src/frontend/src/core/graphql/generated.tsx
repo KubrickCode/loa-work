@@ -44,6 +44,7 @@ export type ContentCategory = {
 
 export type ContentListFilter = {
   contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
+  includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ContentReward = {

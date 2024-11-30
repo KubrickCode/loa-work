@@ -27,6 +27,7 @@ type ContentCategory {
 
 input ContentListFilter {
   contentCategoryId: Int
+  includeIsSeeMore: Boolean
 }
 
 type ContentReward {

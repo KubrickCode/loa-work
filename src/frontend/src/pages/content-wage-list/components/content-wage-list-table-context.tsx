@@ -3,6 +3,9 @@ import { createContext, PropsWithChildren, useContext, useState } from "react";
 type ContentWageListTableContextType = {
   contentCategoryId?: string;
   setContentCategoryId: (id?: string) => void;
+
+  includeIsSeeMore?: boolean;
+  setIncludeIsSeeMore: (value: boolean) => void;
 };
 
 const ContentWageListTableContext = createContext<
@@ -15,10 +18,16 @@ export const ContentWageListTableProvider = ({
   const [contentCategoryId, setContentCategoryId] = useState<
     string | undefined
   >();
+  const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
 
   return (
     <ContentWageListTableContext.Provider
-      value={{ contentCategoryId, setContentCategoryId }}
+      value={{
+        contentCategoryId,
+        includeIsSeeMore,
+        setContentCategoryId,
+        setIncludeIsSeeMore,
+      }}
     >
       {children}
     </ContentWageListTableContext.Provider>

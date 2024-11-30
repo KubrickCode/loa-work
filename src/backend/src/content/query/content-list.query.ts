@@ -7,6 +7,9 @@ import { Prisma } from '@prisma/client';
 export class ContentListFilter {
   @Field(() => Int, { nullable: true })
   contentCategoryId?: number;
+
+  @Field(() => Boolean, { nullable: true })
+  includeIsSeeMore?: boolean;
 }
 
 @Resolver()
@@ -27,6 +30,10 @@ export class ContentListQuery {
 
     if (filter?.contentCategoryId) {
       where.contentCategoryId = filter.contentCategoryId;
+    }
+
+    if (filter?.includeIsSeeMore === false) {
+      where.OR = [{ isSeeMore: false }, { isSeeMore: null }];
     }
 
     return where;

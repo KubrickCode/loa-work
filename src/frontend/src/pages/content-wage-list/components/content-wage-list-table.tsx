@@ -4,11 +4,12 @@ import { useContentWageListTable } from "./content-wage-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
 
 export const ContentWageListTable = () => {
-  const { contentCategoryId } = useContentWageListTable();
+  const { contentCategoryId, includeIsSeeMore } = useContentWageListTable();
   const { data } = useSafeQuery(ContentWageListTableDocument, {
     variables: {
       filter: {
         contentCategoryId: Number(contentCategoryId),
+        includeIsSeeMore,
       },
     },
   });
