@@ -51,24 +51,25 @@ export class ContentResolver {
 
     let gold = await this.calculateGold(rewards);
 
-    if (filter?.includeIsSeeMore === true) {
-      const seeMoreContents = await this.prisma.content.findMany({
+    if (filter?.includeIsSeeMore === true && content.isSeeMore === false) {
+      const seeMoreContent = await this.prisma.content.findUniqueOrThrow({
         where: {
-          name: content.name,
-          gate: content.gate,
-          isSeeMore: true,
+          name_contentCategoryId_gate_isSeeMore: {
+            name: content.name,
+            contentCategoryId: content.contentCategoryId,
+            gate: content.gate,
+            isSeeMore: true,
+          },
         },
       });
 
-      for (const seeMoreContent of seeMoreContents) {
-        const seeMoreRewards = await this.prisma.contentReward.findMany({
-          where: {
-            contentId: seeMoreContent.id,
-          },
-        });
+      const seeMoreRewards = await this.prisma.contentReward.findMany({
+        where: {
+          contentId: seeMoreContent.id,
+        },
+      });
 
-        gold += await this.calculateGold(seeMoreRewards);
-      }
+      gold += await this.calculateGold(seeMoreRewards);
     }
 
     const goldExchangeRate =
