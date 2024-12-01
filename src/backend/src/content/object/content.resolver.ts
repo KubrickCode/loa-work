@@ -65,6 +65,7 @@ export class ContentResolver {
       const seeMoreRewards = await this.prisma.contentReward.findMany({
         where: {
           contentId: seeMoreContent.id,
+          ...(filter?.includeIsBound === false && { isSellable: true }),
         },
       });
 
