@@ -8,6 +8,7 @@ export class ItemPriceService {
   readonly ONE_LEVEL_COOL_DOWN_GEM_NAME = '1레벨 작열의 보석';
   readonly SMALL_FATE_FRAGMENT_NAME = '운명의 파편 주머니(소)';
   readonly SMALL_FATE_FRAGMENT_BUNDLE_COUNT = 1000;
+  readonly RECENT_STATS_COUNT = 10;
 
   constructor(private prisma: PrismaService) {}
 
@@ -17,7 +18,6 @@ export class ItemPriceService {
    */
   async get1LevelGemPrice() {
     // 최근 10개의 판매 통계를 조회
-    const RECENT_STATS_COUNT = 10;
 
     const damageGem = await this.prisma.auctionItem.findFirstOrThrow({
       where: {
@@ -28,7 +28,7 @@ export class ItemPriceService {
           orderBy: {
             createdAt: 'desc',
           },
-          take: RECENT_STATS_COUNT,
+          take: this.RECENT_STATS_COUNT,
         },
       },
     });
@@ -42,7 +42,7 @@ export class ItemPriceService {
           orderBy: {
             createdAt: 'desc',
           },
-          take: RECENT_STATS_COUNT,
+          take: this.RECENT_STATS_COUNT,
         },
       },
     });

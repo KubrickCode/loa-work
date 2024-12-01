@@ -21,6 +21,13 @@ export const AuctionItemListTable = () => {
             return <ItemNameWithImage src={data.imageSrc} name={data.name} />;
           },
         },
+        {
+          align: "right",
+          header: "평균 즉시 구매가",
+          render({ data }) {
+            return <>{data.avgBuyPrice}</>;
+          },
+        },
       ]}
       rows={data.auctionItemList.map((data) => ({
         data,

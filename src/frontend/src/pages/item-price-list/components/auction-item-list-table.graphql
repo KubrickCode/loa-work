@@ -1,5 +1,6 @@
 query AuctionItemListTable($filter: AuctionItemListFilter) {
   auctionItemList(filter: $filter) {
+    avgBuyPrice
     imageSrc
     name
   }
