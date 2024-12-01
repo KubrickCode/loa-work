@@ -67,6 +67,10 @@ type MarketItem {
   updatedAt: DateTime!
 }
 
+input MarketItemListFilter {
+  isStatScraperEnabled: Boolean
+}
+
 type MinimumWage {
   amount: Int!
   createdAt: DateTime!
@@ -79,6 +83,6 @@ type Query {
   contentCategories: [ContentCategory!]!
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardViewList: [String!]!
-  marketItemList: [MarketItem!]!
+  marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   minimumWage: MinimumWage!
 }

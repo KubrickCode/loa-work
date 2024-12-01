@@ -4,7 +4,13 @@ import { DataTable } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
 
 export const MarketItemListTable = () => {
-  const { data } = useSafeQuery(MarketItemListDocument);
+  const { data } = useSafeQuery(MarketItemListDocument, {
+    variables: {
+      filter: {
+        isStatScraperEnabled: true,
+      },
+    },
+  });
 
   return (
     <DataTable

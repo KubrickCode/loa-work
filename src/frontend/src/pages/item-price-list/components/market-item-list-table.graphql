@@ -1,5 +1,5 @@
-query MarketItemList {
-  marketItemList {
+query MarketItemList($filter: MarketItemListFilter) {
+  marketItemList(filter: $filter) {
     bundleCount
     imageSrc
     name
