@@ -2,6 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuctionItem {
+  createdAt: DateTime!
+  id: Int!
+  imageSrc: String!
+  isStatScraperEnabled: Boolean!
+  name: String!
+  updatedAt: DateTime!
+}
+
+input AuctionItemListFilter {
+  isStatScraperEnabled: Boolean
+}
+
 type Content {
   contentCategory: ContentCategory!
   contentCategoryId: Int!
@@ -83,6 +96,7 @@ type MinimumWage {
 }
 
 type Query {
+  auctionItemList(filter: AuctionItemListFilter): [AuctionItem!]!
   contentCategories: [ContentCategory!]!
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardViewList: [String!]!
