@@ -22,24 +22,28 @@ export const MarketItemListTable = () => {
           },
         },
         {
+          align: "right",
           header: "판매 단위",
           render({ data }) {
             return <>{data.bundleCount} 개</>;
           },
         },
         {
+          align: "right",
           header: "전일 평균 거래가",
           render({ data }) {
             return <>{data.yDayAvgPrice}</>;
           },
         },
         {
+          align: "right",
           header: "최근 거래가",
           render({ data }) {
             return <>{data.recentPrice}</>;
           },
         },
         {
+          align: "right",
           header: "최저가",
           render({ data }) {
             return <>{data.currentMinPrice}</>;
