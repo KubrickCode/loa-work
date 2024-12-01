@@ -39,6 +39,7 @@ export const ContentWageListTable = () => {
           render({ data }) {
             return <>{data.wage}</>;
           },
+          sortKey: "wage",
         },
       ]}
       rows={data.contentList.map((content) => ({
