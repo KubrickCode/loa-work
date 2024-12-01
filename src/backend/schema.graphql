@@ -28,6 +28,7 @@ type ContentCategory {
 
 type ContentFilter {
   includeIsBound: Boolean
+  includeIsSeeMore: Boolean
 }
 
 input ContentListFilter {

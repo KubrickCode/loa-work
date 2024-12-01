@@ -2,6 +2,7 @@ import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from '../object/content.object';
 import { Prisma } from '@prisma/client';
+import _ from 'lodash';
 
 @InputType()
 export class ContentListFilter {
@@ -27,23 +28,25 @@ export class ContentListQuery {
       where: this.buildWhereArgs(filter),
     });
 
-    return contents.map((content) => ({
-      ...content,
-      ...(filter?.includeIsBound === false && {
-        filter: { includeIsBound: false },
+    return contents.map((content) =>
+      _.merge({}, content, {
+        ...(filter?.includeIsBound === false && {
+          filter: { includeIsBound: false },
+        }),
+        ...(filter?.includeIsSeeMore === true && {
+          filter: { includeIsSeeMore: true },
+        }),
       }),
-    }));
+    );
   }
 
   buildWhereArgs(filter?: ContentListFilter) {
-    const where: Prisma.ContentWhereInput = {};
+    const where: Prisma.ContentWhereInput = {
+      OR: [{ isSeeMore: false }, { isSeeMore: null }],
+    };
 
     if (filter?.contentCategoryId) {
       where.contentCategoryId = filter.contentCategoryId;
-    }
-
-    if (filter?.includeIsSeeMore === false) {
-      where.OR = [{ isSeeMore: false }, { isSeeMore: null }];
     }
 
     return where;

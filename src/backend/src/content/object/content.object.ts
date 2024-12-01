@@ -5,6 +5,9 @@ import { BaseObject } from 'src/common/object/base.object';
 export class ContentFilter {
   @Field(() => Boolean, { nullable: true })
   includeIsBound?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  includeIsSeeMore?: boolean;
 }
 
 @ObjectType()
