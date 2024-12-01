@@ -4,5 +4,7 @@ query MarketItemList($filter: MarketItemListFilter) {
     currentMinPrice
     imageSrc
     name
+    recentPrice
+    yDayAvgPrice
   }
 }

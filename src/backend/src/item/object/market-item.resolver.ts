@@ -20,4 +20,32 @@ export class MarketItemResolver {
 
     return currentMinPrice;
   }
+
+  @ResolveField(() => Float)
+  async recentPrice(@Parent() marketItem: MarketItem) {
+    const { recentPrice } = await this.prisma.marketItemStat.findFirstOrThrow({
+      where: {
+        marketItemId: marketItem.id,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return recentPrice;
+  }
+
+  @ResolveField(() => Float)
+  async yDayAvgPrice(@Parent() marketItem: MarketItem) {
+    const { yDayAvgPrice } = await this.prisma.marketItemStat.findFirstOrThrow({
+      where: {
+        marketItemId: marketItem.id,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return yDayAvgPrice;
+  }
 }

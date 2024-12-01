@@ -28,6 +28,18 @@ export const MarketItemListTable = () => {
           },
         },
         {
+          header: "전일 평균 거래가",
+          render({ data }) {
+            return <>{data.yDayAvgPrice}</>;
+          },
+        },
+        {
+          header: "최근 거래가",
+          render({ data }) {
+            return <>{data.recentPrice}</>;
+          },
+        },
+        {
           header: "최저가",
           render({ data }) {
             return <>{data.currentMinPrice}</>;
