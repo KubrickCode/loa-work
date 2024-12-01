@@ -3,7 +3,7 @@ import { PrismaModule } from 'src/prisma';
 import { ContentListQuery } from './query/content-list.query';
 import { ContentResolver } from './object/content.resolver';
 import { ContentRewardViewListQuery } from './query/content-reward-view-list.query';
-import { ItemPriceService } from './service/item-price.service';
+import { ItemPriceService } from '../item/service/item-price.service';
 import { ContentCategoriesQuery } from './query/content-categories.query';
 import { ContentWageService } from './service/content-wage.service';
 

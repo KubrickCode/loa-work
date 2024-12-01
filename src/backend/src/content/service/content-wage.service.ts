@@ -2,7 +2,7 @@ import { PrismaService } from 'src/prisma';
 import { Injectable } from '@nestjs/common';
 import * as Prisma from '@prisma/client';
 import { ContentRewardKind } from 'src/enums';
-import { ItemPriceService } from './item-price.service';
+import { ItemPriceService } from '../../item/service/item-price.service';
 import { Content } from '../object/content.object';
 
 @Injectable()
