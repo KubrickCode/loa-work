@@ -27,6 +27,12 @@ export const MarketItemListTable = () => {
             return <>{data.bundleCount} 개</>;
           },
         },
+        {
+          header: "최저가",
+          render({ data }) {
+            return <>{data.currentMinPrice}</>;
+          },
+        },
       ]}
       rows={data.marketItemList.map((data) => ({
         data,

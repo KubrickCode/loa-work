@@ -1,6 +1,7 @@
 query MarketItemList($filter: MarketItemListFilter) {
   marketItemList(filter: $filter) {
     bundleCount
+    currentMinPrice
     imageSrc
     name
   }

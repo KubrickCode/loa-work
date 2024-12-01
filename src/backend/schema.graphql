@@ -59,6 +59,7 @@ scalar DateTime
 type MarketItem {
   bundleCount: Int!
   createdAt: DateTime!
+  currentMinPrice: Float!
   id: Int!
   imageSrc: String!
   isStatScraperEnabled: Boolean!
