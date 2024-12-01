@@ -2,16 +2,15 @@ import { Int, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
-import { ContentRewardKind } from 'src/enums';
-import { ItemPriceService } from '../service/item-price.service';
 import { ContentCategory } from './content-category.object';
 import * as Prisma from '@prisma/client';
+import { ContentWageService } from '../service/content-wage.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
   constructor(
     private prisma: PrismaService,
-    private itemPriceService: ItemPriceService,
+    private contentWageService: ContentWageService,
   ) {}
 
   @ResolveField(() => ContentCategory)
@@ -49,7 +48,7 @@ export class ContentResolver {
       },
     });
 
-    let gold = await this.calculateGold(rewards);
+    let gold = await this.contentWageService.calculateGold(rewards);
 
     if (filter?.includeIsSeeMore === true && content.isSeeMore === false) {
       const seeMoreContent = await this.prisma.content.findUniqueOrThrow({
@@ -69,7 +68,7 @@ export class ContentResolver {
         },
       });
 
-      gold += await this.calculateGold(seeMoreRewards);
+      gold += await this.contentWageService.calculateGold(seeMoreRewards);
     }
 
     const goldExchangeRate =
@@ -84,44 +83,5 @@ export class ContentResolver {
     const hourlyWage = totalKRW / hours;
 
     return Math.round(hourlyWage);
-  }
-
-  private async calculateGold(rewards: Prisma.ContentReward[]) {
-    let gold = 0;
-
-    for (const reward of rewards) {
-      const averageQuantity = reward.averageQuantity.toNumber();
-
-      switch (reward.itemName) {
-        case ContentRewardKind.GOLD:
-          gold += averageQuantity;
-          break;
-        case ContentRewardKind.LEVEL_1_GEM:
-          gold +=
-            (await this.itemPriceService.get1LevelGemPrice()) * averageQuantity;
-          break;
-        case ContentRewardKind.FATE_FRAGMENT:
-          gold +=
-            (await this.itemPriceService.getSmallFateFragmentBuyPricePerOne()) *
-            averageQuantity;
-          break;
-        case ContentRewardKind.FATE_BREAKTHROUGH_STONE:
-        case ContentRewardKind.FATE_DESTRUCTION_STONE:
-        case ContentRewardKind.FATE_GUARDIAN_STONE:
-        case ContentRewardKind.LAVA_BREATH:
-        case ContentRewardKind.GLACIER_BREATH:
-          gold +=
-            (await this.itemPriceService.getMarketItemCurrentMinPrice(
-              reward.itemName,
-            )) * averageQuantity;
-          break;
-        case ContentRewardKind.CARD_EXP:
-        case ContentRewardKind.SHILLING:
-          break;
-        default:
-          throw new Error(`Unknown reward kind: ${reward.itemName}`);
-      }
-    }
-    return gold;
   }
 }

@@ -5,6 +5,7 @@ import { ContentResolver } from './object/content.resolver';
 import { ContentRewardViewListQuery } from './query/content-reward-view-list.query';
 import { ItemPriceService } from './service/item-price.service';
 import { ContentCategoriesQuery } from './query/content-categories.query';
+import { ContentWageService } from './service/content-wage.service';
 
 @Module({
   imports: [PrismaModule],
@@ -14,6 +15,7 @@ import { ContentCategoriesQuery } from './query/content-categories.query';
     ContentResolver,
     ItemPriceService,
     ContentCategoriesQuery,
+    ContentWageService,
   ],
 })
 export class ContentModule {}
