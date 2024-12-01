@@ -1,4 +1,5 @@
 import { IoIosArrowDown } from "react-icons/io";
+import { MdLogin, MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "~/chakra-components/ui/avatar";
 import { Button } from "~/chakra-components/ui/button";
@@ -32,11 +33,12 @@ export const HeaderMenu = () => {
         </MenuItem>
         {user ? (
           <MenuItem onClick={logout} value="logout">
+            <MdLogout />
             로그아웃
           </MenuItem>
         ) : (
           <MenuItem onClick={() => navigate("/login")} value="login">
-            로그인
+            <MdLogin /> 로그인
           </MenuItem>
         )}
       </MenuContent>
