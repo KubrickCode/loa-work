@@ -13,7 +13,11 @@ export type AccordionProps = PropsWithChildren & {
 
 export const AccordionCard = ({ children, title }: AccordionProps) => {
   return (
-    <AccordionRoot collapsible variant="enclosed">
+    <AccordionRoot
+      collapsible
+      defaultValue={["all-contents"]}
+      variant="enclosed"
+    >
       <AccordionItem value="all-contents">
         <AccordionItemTrigger cursor="pointer">{title}</AccordionItemTrigger>
         <AccordionItemContent>{children}</AccordionItemContent>
