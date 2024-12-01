@@ -1,23 +1,23 @@
 import { Page } from "~/core/page";
-import { Section } from "~/core/section";
 import { SplitLayout } from "~/core/layout";
 
 import { MarketItemListTable } from "./components/market-item-list-table";
 import { AuctionItemListTable } from "./components/auction-item-list-table";
+import { AccordionCard } from "~/core/accordion";
 
 export const ItemPriceListPage = () => {
   return (
     <Page>
       <SplitLayout
         firstGroup={
-          <Section>
+          <AccordionCard title="거래소 아이템">
             <MarketItemListTable />
-          </Section>
+          </AccordionCard>
         }
         secondGroup={
-          <Section>
+          <AccordionCard title="경매장 아이템">
             <AuctionItemListTable />
-          </Section>
+          </AccordionCard>
         }
       />
     </Page>
