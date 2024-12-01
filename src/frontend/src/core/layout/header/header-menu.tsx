@@ -17,7 +17,7 @@ export const HeaderMenu = () => {
   return (
     <MenuRoot closeOnSelect={false} positioning={{ placement: "bottom" }}>
       <MenuTrigger>
-        <Avatar cursor="pointer" size="md" />
+        <Avatar cursor="pointer" size="md" src={user?.imageUrl} />
       </MenuTrigger>
       <MenuContent>
         <MenuItem onClick={toggleColorMode} value="dark-mode">
