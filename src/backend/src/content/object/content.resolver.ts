@@ -48,29 +48,13 @@ export class ContentResolver {
       },
     });
 
-    let gold = await this.contentWageService.calculateGold(rewards);
-
-    if (filter?.includeIsSeeMore === true && content.isSeeMore === false) {
-      const seeMoreContent = await this.prisma.content.findUniqueOrThrow({
-        where: {
-          name_contentCategoryId_gate_isSeeMore: {
-            name: content.name,
-            contentCategoryId: content.contentCategoryId,
-            gate: content.gate,
-            isSeeMore: true,
-          },
-        },
-      });
-
-      const seeMoreRewards = await this.prisma.contentReward.findMany({
-        where: {
-          contentId: seeMoreContent.id,
-          ...(filter?.includeIsBound === false && { isSellable: true }),
-        },
-      });
-
-      gold += await this.contentWageService.calculateGold(seeMoreRewards);
-    }
+    const gold = await this.contentWageService.calculateRewardsGold({
+      content,
+      rewards,
+      includeIsSeeMore:
+        filter?.includeIsSeeMore === true && content.isSeeMore === false,
+      excludeIsBound: filter?.includeIsBound === false,
+    });
 
     return await this.contentWageService.calculateWage({
       gold,

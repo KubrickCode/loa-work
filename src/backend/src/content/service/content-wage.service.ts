@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as Prisma from '@prisma/client';
 import { ContentRewardKind } from 'src/enums';
 import { ItemPriceService } from './item-price.service';
+import { Content } from '../object/content.object';
 
 @Injectable()
 export class ContentWageService {
@@ -10,6 +11,44 @@ export class ContentWageService {
     private itemPriceService: ItemPriceService,
     private prisma: PrismaService,
   ) {}
+
+  async calculateRewardsGold({
+    content,
+    rewards,
+    includeIsSeeMore,
+    excludeIsBound,
+  }: {
+    content: Content;
+    rewards: Prisma.ContentReward[];
+    includeIsSeeMore: boolean;
+    excludeIsBound: boolean;
+  }) {
+    let gold = await this.calculateGold(rewards);
+
+    if (includeIsSeeMore) {
+      const seeMoreContent = await this.prisma.content.findUniqueOrThrow({
+        where: {
+          name_contentCategoryId_gate_isSeeMore: {
+            name: content.name,
+            contentCategoryId: content.contentCategoryId,
+            gate: content.gate,
+            isSeeMore: true,
+          },
+        },
+      });
+
+      const seeMoreRewards = await this.prisma.contentReward.findMany({
+        where: {
+          contentId: seeMoreContent.id,
+          ...(excludeIsBound && { isSellable: true }),
+        },
+      });
+
+      gold += await this.calculateGold(seeMoreRewards);
+    }
+
+    return gold;
+  }
 
   async calculateGold(rewards: Prisma.ContentReward[]) {
     let gold = 0;
