@@ -39,7 +39,7 @@ export class ContentResolver {
 
   @ResolveField(() => Int)
   async wage(@Parent() content: Content) {
-    const { filter } = content;
+    const { wageFilter: filter } = content;
 
     const rewards = await this.prisma.contentReward.findMany({
       where: {

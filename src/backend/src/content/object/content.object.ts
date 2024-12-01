@@ -1,8 +1,8 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
-export class ContentFilter {
+export class ContentWageFilter {
   @Field(() => Boolean, { nullable: true })
   includeIsBound?: boolean;
 
@@ -15,8 +15,8 @@ export class Content extends BaseObject {
   @Field(() => Int)
   contentCategoryId: number;
 
-  @Field(() => ContentFilter, { nullable: true })
-  filter?: ContentFilter;
+  @Field(() => ContentWageFilter, { nullable: true })
+  wageFilter?: ContentWageFilter;
 
   @Field(() => Int)
   duration: number;

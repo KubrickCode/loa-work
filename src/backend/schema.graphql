@@ -9,7 +9,6 @@ type Content {
   createdAt: DateTime!
   displayName: String!
   duration: Int!
-  filter: ContentFilter
   gate: Int
   id: Int!
   isSeeMore: Boolean
@@ -17,6 +16,7 @@ type Content {
   name: String!
   updatedAt: DateTime!
   wage: Int!
+  wageFilter: ContentWageFilter
 }
 
 type ContentCategory {
@@ -26,13 +26,12 @@ type ContentCategory {
   updatedAt: DateTime!
 }
 
-type ContentFilter {
-  includeIsBound: Boolean
-  includeIsSeeMore: Boolean
-}
-
 input ContentListFilter {
   contentCategoryId: Int
+  wageFilter: ContentListWageFilter
+}
+
+input ContentListWageFilter {
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
 }
@@ -44,6 +43,11 @@ type ContentReward {
   isSellable: Boolean!
   itemName: String!
   updatedAt: DateTime!
+}
+
+type ContentWageFilter {
+  includeIsBound: Boolean
+  includeIsSeeMore: Boolean
 }
 
 """

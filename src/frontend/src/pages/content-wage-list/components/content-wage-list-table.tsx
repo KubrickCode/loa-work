@@ -10,8 +10,10 @@ export const ContentWageListTable = () => {
     variables: {
       filter: {
         contentCategoryId: Number(contentCategoryId),
-        includeIsSeeMore,
-        includeIsBound,
+        wageFilter: {
+          includeIsSeeMore,
+          includeIsBound,
+        },
       },
     },
   });

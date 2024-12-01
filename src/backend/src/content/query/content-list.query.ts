@@ -1,19 +1,25 @@
 import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
-import { Content } from '../object/content.object';
+import { Content, ContentWageFilter } from '../object/content.object';
 import { Prisma } from '@prisma/client';
 import _ from 'lodash';
+
+@InputType()
+export class ContentListWageFilter {
+  @Field(() => Boolean, { nullable: true })
+  includeIsBound?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  includeIsSeeMore?: boolean;
+}
 
 @InputType()
 export class ContentListFilter {
   @Field(() => Int, { nullable: true })
   contentCategoryId?: number;
 
-  @Field(() => Boolean, { nullable: true })
-  includeIsSeeMore?: boolean;
-
-  @Field(() => Boolean, { nullable: true })
-  includeIsBound?: boolean;
+  @Field(() => ContentListWageFilter, { nullable: true })
+  wageFilter?: ContentListWageFilter;
 }
 
 @Resolver()
@@ -30,9 +36,13 @@ export class ContentListQuery {
 
     return contents.map((content) =>
       _.merge({}, content, {
-        filter: {
-          ...(filter?.includeIsBound === false && { includeIsBound: false }),
-          ...(filter?.includeIsSeeMore === true && { includeIsSeeMore: true }),
+        wageFilter: {
+          ...(filter?.wageFilter?.includeIsBound === false && {
+            includeIsBound: false,
+          }),
+          ...(filter?.wageFilter?.includeIsSeeMore === true && {
+            includeIsSeeMore: true,
+          }),
         },
       }),
     );
