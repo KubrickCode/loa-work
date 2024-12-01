@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { MinimumWageModule } from './wage/wage.module';
 import { ContentModule } from './content/content.module';
 import './enums';
+import { ItemModule } from './item/item.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import './enums';
     }),
     MinimumWageModule,
     ContentModule,
+    ItemModule,
   ],
 })
 export class AppModule {}
