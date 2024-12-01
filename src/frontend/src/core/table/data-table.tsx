@@ -1,4 +1,4 @@
-import { Flex, Table } from "@chakra-ui/react";
+import { Box, Table } from "@chakra-ui/react";
 import _ from "lodash";
 import { TableHTMLAttributes, useCallback, useState } from "react";
 import { SortControl } from "./sort-control";
@@ -84,7 +84,12 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
                 key={index}
                 {...(column.align && { textAlign: column.align })}
               >
-                <Flex alignItems="center" gap={1}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  justifyContent={column.align}
+                >
                   {column.header}
                   {column.sortKey && (
                     <SortControl
@@ -94,7 +99,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
                       }
                     />
                   )}
-                </Flex>
+                </Box>
               </Table.ColumnHeader>
             ))}
           </Table.Row>
