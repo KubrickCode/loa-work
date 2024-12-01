@@ -17,6 +17,7 @@ export const ContentWageListTableFilters = () => {
         value={contentCategoryId ? [contentCategoryId] : [""]}
       />
       <ContentSeeMoreFilter />
+      <ContentIsBoundFilter />
     </Flex>
   );
 };
@@ -35,6 +36,24 @@ const ContentSeeMoreFilter = () => {
       onChange={(value) => setIncludeIsSeeMore(value === "true")}
       placeholder="컨텐츠 종류"
       value={includeIsSeeMore ? ["true"] : ["false"]}
+    />
+  );
+};
+
+const ContentIsBoundFilter = () => {
+  const { includeIsBound, setIncludeIsBound } = useContentWageListTable();
+
+  const items = [
+    { label: "귀속 재료 미포함", value: "false" },
+    { label: "귀속 재료 포함", value: "true" },
+  ];
+
+  return (
+    <Select
+      items={items}
+      onChange={(value) => setIncludeIsBound(value === "true")}
+      placeholder="귀속 재료"
+      value={includeIsBound ? ["true"] : ["false"]}
     />
   );
 };

@@ -10,6 +10,9 @@ export class ContentListFilter {
 
   @Field(() => Boolean, { nullable: true })
   includeIsSeeMore?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  includeIsBound?: boolean;
 }
 
 @Resolver()
@@ -20,9 +23,16 @@ export class ContentListQuery {
   async contentList(
     @Args('filter', { nullable: true }) filter?: ContentListFilter,
   ) {
-    return await this.prisma.content.findMany({
+    const contents = await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
     });
+
+    return contents.map((content) => ({
+      ...content,
+      ...(filter?.includeIsBound === false && {
+        filter: { includeIsBound: false },
+      }),
+    }));
   }
 
   buildWhereArgs(filter?: ContentListFilter) {

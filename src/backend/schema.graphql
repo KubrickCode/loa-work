@@ -9,6 +9,7 @@ type Content {
   createdAt: DateTime!
   displayName: String!
   duration: Int!
+  filter: ContentFilter
   gate: Int
   id: Int!
   isSeeMore: Boolean
@@ -25,8 +26,13 @@ type ContentCategory {
   updatedAt: DateTime!
 }
 
+type ContentFilter {
+  includeIsBound: Boolean
+}
+
 input ContentListFilter {
   contentCategoryId: Int
+  includeIsBound: Boolean
   includeIsSeeMore: Boolean
 }
 

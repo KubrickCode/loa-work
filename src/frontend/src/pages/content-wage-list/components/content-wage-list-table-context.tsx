@@ -6,6 +6,9 @@ type ContentWageListTableContextType = {
 
   includeIsSeeMore?: boolean;
   setIncludeIsSeeMore: (value: boolean) => void;
+
+  includeIsBound?: boolean;
+  setIncludeIsBound: (value: boolean) => void;
 };
 
 const ContentWageListTableContext = createContext<
@@ -19,14 +22,16 @@ export const ContentWageListTableProvider = ({
     string | undefined
   >();
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
-
+  const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
   return (
     <ContentWageListTableContext.Provider
       value={{
         contentCategoryId,
         includeIsSeeMore,
+        includeIsBound,
         setContentCategoryId,
         setIncludeIsSeeMore,
+        setIncludeIsBound,
       }}
     >
       {children}

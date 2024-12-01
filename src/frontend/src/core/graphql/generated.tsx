@@ -25,6 +25,7 @@ export type Content = {
   createdAt: Scalars['DateTime']['output'];
   displayName: Scalars['String']['output'];
   duration: Scalars['Int']['output'];
+  filter?: Maybe<ContentFilter>;
   gate?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   isSeeMore?: Maybe<Scalars['Boolean']['output']>;
@@ -42,8 +43,14 @@ export type ContentCategory = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type ContentFilter = {
+  __typename?: 'ContentFilter';
+  includeIsBound?: Maybe<Scalars['Boolean']['output']>;
+};
+
 export type ContentListFilter = {
   contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
+  includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
