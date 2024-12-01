@@ -35,6 +35,7 @@ export const ContentWageListTable = () => {
           },
         },
         {
+          align: "right",
           header: "시급",
           render({ data }) {
             return <>{data.wage}</>;
