@@ -8,5 +8,54 @@
   "files.autoSave": "onFocusChange",
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "actionButtons": {
+    "commands": [
+      {
+        "name": "Backend",
+        "terminalName": "Backend",
+        "color": "green",
+        "command": "just run backend"
+      },
+      {
+        "name": "Frontend",
+        "terminalName": "Frontend",
+        "color": "green",
+        "command": "just run frontend"
+      },
+      {
+        "name": "Codegen",
+        "terminalName": "Codegen",
+        "color": "green",
+        "command": "just codegen"
+      },
+      {
+        "name": "MICS",
+        "terminalName": "Market Item Category Scraper",
+        "color": "green",
+        "command": "just run market-item-category-scraper"
+      },
+      {
+        "name": "MIS",
+        "terminalName": "Market Item Scraper",
+        "color": "green",
+        "command": "just run market-item-scraper"
+      },
+      {
+        "name": "MISS",
+        "terminalName": "Market Item Stat Scraper",
+        "color": "green",
+        "command": "just run market-item-stat-scraper"
+      },
+      {
+        "name": "AISS",
+        "terminalName": "Auction Item Stat Scraper",
+        "color": "green",
+        "command": "just run auction-item-stat-scraper"
+      }
+    ],
+    "defaultColor": "white",
+    "reloadButton": "↻",
+    "loadNpmCommands": false
   }
 }
