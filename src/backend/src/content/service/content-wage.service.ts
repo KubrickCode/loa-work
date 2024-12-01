@@ -6,7 +6,10 @@ import { ItemPriceService } from './item-price.service';
 
 @Injectable()
 export class ContentWageService {
-  constructor(private itemPriceService: ItemPriceService) {}
+  constructor(
+    private itemPriceService: ItemPriceService,
+    private prisma: PrismaService,
+  ) {}
 
   async calculateGold(rewards: Prisma.ContentReward[]) {
     let gold = 0;
@@ -45,5 +48,20 @@ export class ContentWageService {
       }
     }
     return gold;
+  }
+
+  async calculateWage({ gold, duration }: { gold: number; duration: number }) {
+    const goldExchangeRate =
+      await this.prisma.goldExchangeRate.findFirstOrThrow({
+        take: 1,
+      });
+
+    const totalKRW =
+      (gold * goldExchangeRate.goldAmount) / goldExchangeRate.krwAmount;
+
+    const hours = duration / 3600;
+    const hourlyWage = totalKRW / hours;
+
+    return Math.round(hourlyWage);
   }
 }

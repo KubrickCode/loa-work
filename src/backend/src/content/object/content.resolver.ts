@@ -72,17 +72,9 @@ export class ContentResolver {
       gold += await this.contentWageService.calculateGold(seeMoreRewards);
     }
 
-    const goldExchangeRate =
-      await this.prisma.goldExchangeRate.findFirstOrThrow({
-        take: 1,
-      });
-
-    const totalKRW =
-      (gold * goldExchangeRate.goldAmount) / goldExchangeRate.krwAmount;
-
-    const hours = content.duration / 3600;
-    const hourlyWage = totalKRW / hours;
-
-    return Math.round(hourlyWage);
+    return await this.contentWageService.calculateWage({
+      gold,
+      duration: content.duration,
+    });
   }
 }
