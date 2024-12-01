@@ -5,11 +5,11 @@ import { Button } from "~/chakra-components/ui/button";
 import { ColorModeIcon, useColorMode } from "~/chakra-components/ui/color-mode";
 import {
   MenuContent,
-  MenuItem,
   MenuRoot,
   MenuTrigger,
 } from "~/chakra-components/ui/menu";
 import { useAuth } from "~/core/auth";
+import { MenuItem } from "~/core/menu";
 
 export const HeaderMenu = () => {
   const { toggleColorMode } = useColorMode();
