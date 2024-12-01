@@ -28,6 +28,7 @@ type ContentCategory {
 
 input ContentListFilter {
   contentCategoryId: Int
+  includeIsSeeMore: Boolean
   wageFilter: ContentListWageFilter
 }
 

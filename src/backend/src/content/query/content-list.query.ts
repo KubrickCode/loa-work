@@ -18,6 +18,9 @@ export class ContentListFilter {
   @Field(() => Int, { nullable: true })
   contentCategoryId?: number;
 
+  @Field(() => Boolean, { nullable: true })
+  includeIsSeeMore?: boolean;
+
   @Field(() => ContentListWageFilter, { nullable: true })
   wageFilter?: ContentListWageFilter;
 }
@@ -49,12 +52,14 @@ export class ContentListQuery {
   }
 
   buildWhereArgs(filter?: ContentListFilter) {
-    const where: Prisma.ContentWhereInput = {
-      OR: [{ isSeeMore: false }, { isSeeMore: null }],
-    };
+    const where: Prisma.ContentWhereInput = {};
 
     if (filter?.contentCategoryId) {
       where.contentCategoryId = filter.contentCategoryId;
+    }
+
+    if (filter?.includeIsSeeMore === false) {
+      where.OR = [{ isSeeMore: false }, { isSeeMore: null }];
     }
 
     return where;
