@@ -59,12 +59,12 @@ scalar DateTime
 type MarketItem {
   bundleCount: Int!
   createdAt: DateTime!
-  currentMinPrice: Float!
+  currentMinPrice: Int!
   id: Int!
   imageSrc: String!
   isStatScraperEnabled: Boolean!
   name: String!
-  recentPrice: Float!
+  recentPrice: Int!
   refId: Int!
   updatedAt: DateTime!
   yDayAvgPrice: Float!

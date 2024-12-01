@@ -1,4 +1,4 @@
-import { Float, Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Float, Int, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { MarketItem } from './market-item.object';
 
@@ -6,7 +6,7 @@ import { MarketItem } from './market-item.object';
 export class MarketItemResolver {
   constructor(private prisma: PrismaService) {}
 
-  @ResolveField(() => Float)
+  @ResolveField(() => Int)
   async currentMinPrice(@Parent() marketItem: MarketItem) {
     const { currentMinPrice } =
       await this.prisma.marketItemStat.findFirstOrThrow({
@@ -21,7 +21,7 @@ export class MarketItemResolver {
     return currentMinPrice;
   }
 
-  @ResolveField(() => Float)
+  @ResolveField(() => Int)
   async recentPrice(@Parent() marketItem: MarketItem) {
     const { recentPrice } = await this.prisma.marketItemStat.findFirstOrThrow({
       where: {

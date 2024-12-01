@@ -74,12 +74,12 @@ export type MarketItem = {
   __typename?: 'MarketItem';
   bundleCount: Scalars['Int']['output'];
   createdAt: Scalars['DateTime']['output'];
-  currentMinPrice: Scalars['Float']['output'];
+  currentMinPrice: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   imageSrc: Scalars['String']['output'];
   isStatScraperEnabled: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
-  recentPrice: Scalars['Float']['output'];
+  recentPrice: Scalars['Int']['output'];
   refId: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
   yDayAvgPrice: Scalars['Float']['output'];
