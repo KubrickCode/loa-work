@@ -9,6 +9,7 @@ export class SeedService {
 
   async all() {
     await this.marketItemCategories();
+    await this.marketItems();
     await this.auctionItemCategories();
     await this.auctionItems();
     await this.contentCategories();
@@ -26,6 +27,46 @@ export class SeedService {
         { code: 50020, name: '재련 추가 재료', isItemScraperEnabled: true },
         { code: 51000, name: '기타 재료', isItemScraperEnabled: true },
         { code: 51100, name: '무기 진화 재료', isItemScraperEnabled: true },
+      ],
+    });
+  }
+
+  async marketItems() {
+    // 재련 재료 카테고리
+    const materialsCategory =
+      await this.prisma.marketItemCategory.findUniqueOrThrow({
+        where: { code: 50010 },
+      });
+
+    // 재련 추가 재료 카테고리
+    const materialsExtraCategory =
+      await this.prisma.marketItemCategory.findUniqueOrThrow({
+        where: { code: 50020 },
+      });
+
+    // 운명의 파편 주머니(소), 운명의 돌파석, 운명의 파괴석, 운명의 수호석
+    const materialsRefIds = [66130141, 66110225, 66102006, 66102106];
+    // 용암의 숨결, 빙하의 숨결
+    const materialsExtraRefIds = [66111131, 66111132];
+
+    await this.prisma.marketItem.createMany({
+      data: [
+        ...materialsRefIds.map((refId) => ({
+          refId,
+          name: '',
+          bundleCount: 0,
+          imageSrc: '',
+          isStatScraperEnabled: true,
+          marketItemCategoryId: materialsCategory.id,
+        })),
+        ...materialsExtraRefIds.map((refId) => ({
+          refId,
+          name: '',
+          bundleCount: 0,
+          imageSrc: '',
+          isStatScraperEnabled: true,
+          marketItemCategoryId: materialsExtraCategory.id,
+        })),
       ],
     });
   }
