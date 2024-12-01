@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import ContentRewardListPage from "~/pages/content-reward-list";
 import ContentWageListPage from "~/pages/content-wage-list";
-
+import ItemPriceListPage from "~/pages/item-price-list";
 const routes = [
   {
     path: "/",
@@ -13,6 +13,10 @@ const routes = [
   {
     path: "/content-reward-list",
     component: ContentRewardListPage,
+  },
+  {
+    path: "/item-price-list",
+    component: ItemPriceListPage,
   },
 ] as const;
 

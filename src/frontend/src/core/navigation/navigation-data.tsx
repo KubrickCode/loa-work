@@ -14,4 +14,8 @@ export const navigationData: NavigationData[] = [
     label: "컨텐츠별 수익",
     url: "/content-reward-list",
   },
+  {
+    label: "아이템 시세",
+    url: "/item-price-list",
+  },
 ];
