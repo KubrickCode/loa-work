@@ -5,20 +5,25 @@ import { ThemeProvider } from "../theme";
 import { Router, Routes } from "./router";
 import { Loader } from "../loader";
 import { ErrorBoundary } from "react-error-boundary";
+import { AuthProvider } from "../auth";
 
 export const App = () => {
   return (
     <ThemeProvider>
       <Router>
-        <GraphQLProvider>
-          <Layout>
-            <ErrorBoundary fallbackRender={({ error }) => <>{error.message}</>}>
-              <Suspense fallback={<Loader.Page />}>
-                <Routes />
-              </Suspense>
-            </ErrorBoundary>
-          </Layout>
-        </GraphQLProvider>
+        <AuthProvider>
+          <GraphQLProvider>
+            <Layout>
+              <ErrorBoundary
+                fallbackRender={({ error }) => <>{error.message}</>}
+              >
+                <Suspense fallback={<Loader.Page />}>
+                  <Routes />
+                </Suspense>
+              </ErrorBoundary>
+            </Layout>
+          </GraphQLProvider>
+        </AuthProvider>
       </Router>
     </ThemeProvider>
   );
