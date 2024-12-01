@@ -30,12 +30,10 @@ export class ContentListQuery {
 
     return contents.map((content) =>
       _.merge({}, content, {
-        ...(filter?.includeIsBound === false && {
-          filter: { includeIsBound: false },
-        }),
-        ...(filter?.includeIsSeeMore === true && {
-          filter: { includeIsSeeMore: true },
-        }),
+        filter: {
+          ...(filter?.includeIsBound === false && { includeIsBound: false }),
+          ...(filter?.includeIsSeeMore === true && { includeIsSeeMore: true }),
+        },
       }),
     );
   }
