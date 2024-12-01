@@ -1,0 +1,16 @@
+import { Button } from "~/chakra-components/ui/button";
+import { Page } from "~/core/page";
+
+export const LoginPage = () => {
+  return (
+    <Page>
+      <Button
+        onClick={() => {
+          window.location.href = "/auth/google";
+        }}
+      >
+        구글 로그인
+      </Button>
+    </Page>
+  );
+};
