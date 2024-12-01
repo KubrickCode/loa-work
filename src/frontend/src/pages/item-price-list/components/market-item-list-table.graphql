@@ -1,4 +1,4 @@
-query MarketItemList($filter: MarketItemListFilter) {
+query MarketItemListTable($filter: MarketItemListFilter) {
   marketItemList(filter: $filter) {
     bundleCount
     currentMinPrice
