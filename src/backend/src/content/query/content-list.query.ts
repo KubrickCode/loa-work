@@ -1,6 +1,6 @@
 import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
-import { Content, ContentWageFilter } from '../object/content.object';
+import { Content } from '../object/content.object';
 import { Prisma } from '@prisma/client';
 import _ from 'lodash';
 
