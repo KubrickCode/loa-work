@@ -19,18 +19,30 @@ export type Column<T> = {
 
 export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
   const [sortedRows, setSortedRows] = useState(rows);
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
   const [currentSortKey, setCurrentSortKey] = useState<keyof T | null>(null);
 
   const handleSort = (column: Column<T>) => {
     if (!column.sortKey) return;
 
-    const newOrder = sortOrder === "asc" ? "desc" : "asc";
-    const sorted = _.orderBy(
-      sortedRows,
-      [(row) => row.data[column.sortKey as keyof T]],
-      [newOrder]
-    );
+    let newOrder: "asc" | "desc" | null;
+    if (currentSortKey !== column.sortKey) {
+      newOrder = "asc";
+    } else if (sortOrder === "asc") {
+      newOrder = "desc";
+    } else if (sortOrder === "desc") {
+      newOrder = null;
+    } else {
+      newOrder = "asc";
+    }
+
+    const sorted = newOrder
+      ? _.orderBy(
+          sortedRows,
+          [(row) => row.data[column.sortKey as keyof T]],
+          [newOrder]
+        )
+      : rows;
 
     setSortedRows(sorted);
     setSortOrder(newOrder);

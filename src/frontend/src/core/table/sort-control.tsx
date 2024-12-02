@@ -21,7 +21,7 @@ export const SortControl = ({
   currentState,
   onClick,
 }: {
-  currentState: string | null;
+  currentState: "asc" | "desc" | null;
   onClick: () => void;
 }) => {
   return (
