@@ -8,6 +8,7 @@ export class SeedService {
   constructor(private prisma: PrismaService) {}
 
   async all() {
+    await this.users();
     await this.marketItemCategories();
     await this.marketItems();
     await this.auctionItemCategories();
@@ -17,6 +18,18 @@ export class SeedService {
     await this.extraItems();
     await this.minimumWage();
     await this.goldExchangeRate();
+  }
+
+  async users() {
+    await this.prisma.user.create({
+      data: {
+        refId: process.env.OWNER_USER_REF_ID,
+        displayName: 'Owner',
+        email: 'owner@lostark.com',
+        provider: 'GOOGLE',
+        role: 'OWNER',
+      },
+    });
   }
 
   async marketItemCategories() {

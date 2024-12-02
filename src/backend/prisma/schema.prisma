@@ -104,8 +104,10 @@ model ContentReward {
   //Relations
   contentId Int     @map("content_id")
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  userId    Int     @map("user_id")
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([contentId, itemName])
+  @@unique([userId, contentId, itemName])
   @@map("content_reward")
 }
 
@@ -211,6 +213,9 @@ model User {
   provider    AuthProvider
   refId       String       @unique @map("ref_id")
   role        UserRole     @default(USER)
+
+  //Relations
+  contentRewards ContentReward[]
 
   @@map("user")
 }
