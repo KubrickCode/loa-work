@@ -25,7 +25,6 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     profile: Profile,
     done: (err: any, user?: any) => void,
   ) {
-    console.log(profile);
     const user = await this.prisma.user.upsert({
       create: {
         displayName: profile.username,
