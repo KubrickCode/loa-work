@@ -49,6 +49,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
           key={columnIndex}
           alignItems="center"
           justifyContent="center"
+          whiteSpace="nowrap"
           {...(column.align && { textAlign: column.align })}
         >
           {column.render({
@@ -75,7 +76,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
   );
 
   return (
-    <>
+    <Box overflowX="auto">
       <Table.Root striped>
         <Table.Header>
           <Table.Row>
@@ -89,6 +90,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
                   alignItems="center"
                   gap={1}
                   justifyContent={column.align}
+                  whiteSpace="nowrap"
                 >
                   {column.header}
                   {column.sortKey && (
@@ -108,6 +110,6 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
           {sortedRows.map((row, index) => renderRow(row, index))}
         </Table.Body>
       </Table.Root>
-    </>
+    </Box>
   );
 };
