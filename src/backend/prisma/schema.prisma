@@ -216,4 +216,5 @@ model User {
 
 enum AuthProvider {
   GOOGLE
+  DISCORD
 }
