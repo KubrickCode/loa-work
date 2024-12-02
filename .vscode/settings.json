@@ -24,6 +24,12 @@
         "command": "just run frontend"
       },
       {
+        "name": "Prisma",
+        "terminalName": "Prisma",
+        "color": "green",
+        "command": "just prisma studio"
+      },
+      {
         "name": "Codegen",
         "terminalName": "Codegen",
         "color": "green",
