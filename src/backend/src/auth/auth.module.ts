@@ -6,7 +6,7 @@ import passport from 'passport';
 import session from 'express-session';
 import { PrismaService } from 'src/prisma';
 import { AuthController } from './auth.controller';
-import { GoogleStrategy } from './google/google.strategy';
+import { GoogleStrategy } from './strategy/google.strategy';
 import { Serializer } from './serializer';
 import { CommonModule } from 'src/common/common.module';
 
