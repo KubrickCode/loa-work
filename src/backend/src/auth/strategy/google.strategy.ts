@@ -27,29 +27,31 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
     profile: any,
     done: VerifyFunction,
   ) {
-    const user = await this.prisma.user.upsert({
-      create: {
-        displayName: profile.displayName,
-        email: profile.emails[0].value,
-        imageUrl: profile.photos[0].value,
-        provider: AuthProvider.GOOGLE,
-        refId: profile.id,
-      },
-      update: {
-        displayName: profile.displayName,
-        email: profile.emails[0].value,
-        imageUrl: profile.photos ? profile.photos[0].value : null,
-      },
-      where: {
-        refId: profile.id,
-      },
-      include: { contentRewards: true },
+    await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.upsert({
+        include: { contentRewards: true },
+        create: {
+          displayName: profile.displayName,
+          email: profile.emails[0].value,
+          imageUrl: profile.photos[0].value,
+          provider: AuthProvider.GOOGLE,
+          refId: profile.id,
+        },
+        update: {
+          displayName: profile.displayName,
+          email: profile.emails[0].value,
+          imageUrl: profile.photos ? profile.photos[0].value : null,
+        },
+        where: {
+          refId: profile.id,
+        },
+      });
+
+      if (!user.contentRewards.length) {
+        await this.authService.copyOwnerContentRewards(user.id, tx);
+      }
+
+      done(undefined, user);
     });
-
-    if (!user.contentRewards.length) {
-      await this.authService.copyOwnerContentRewards(user.id);
-    }
-
-    done(undefined, user);
   }
 }

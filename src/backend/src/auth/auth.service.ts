@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
-import { User, UserRole } from '@prisma/client';
+import { Prisma, User, UserRole } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  async copyOwnerContentRewards(userId: number) {
-    const ownerUser = await this.prisma.user.findFirstOrThrow({
+  async copyOwnerContentRewards(userId: number, tx: Prisma.TransactionClient) {
+    const ownerUser = await tx.user.findFirstOrThrow({
       where: { role: UserRole.OWNER },
       include: { contentRewards: true },
     });
 
-    await this.prisma.contentReward.createMany({
+    await tx.contentReward.createMany({
       data: ownerUser.contentRewards.map(
         ({ averageQuantity, isSellable, itemName, contentId }) => ({
           averageQuantity,

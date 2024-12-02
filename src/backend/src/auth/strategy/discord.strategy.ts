@@ -27,33 +27,35 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     profile: Profile,
     done: (err: any, user?: any) => void,
   ) {
-    const user = await this.prisma.user.upsert({
-      create: {
-        displayName: profile.username,
-        email: profile.email,
-        imageUrl: profile.avatar
-          ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-          : null,
-        provider: AuthProvider.DISCORD,
-        refId: profile.id,
-      },
-      update: {
-        displayName: profile.username,
-        email: profile.email,
-        imageUrl: profile.avatar
-          ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-          : null,
-      },
-      where: {
-        refId: profile.id,
-      },
-      include: { contentRewards: true },
+    await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.upsert({
+        include: { contentRewards: true },
+        create: {
+          displayName: profile.username,
+          email: profile.email,
+          imageUrl: profile.avatar
+            ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+            : null,
+          provider: AuthProvider.DISCORD,
+          refId: profile.id,
+        },
+        update: {
+          displayName: profile.username,
+          email: profile.email,
+          imageUrl: profile.avatar
+            ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+            : null,
+        },
+        where: {
+          refId: profile.id,
+        },
+      });
+
+      if (!user.contentRewards.length) {
+        await this.authService.copyOwnerContentRewards(user.id, tx);
+      }
+
+      done(undefined, user);
     });
-
-    if (!user.contentRewards.length) {
-      await this.authService.copyOwnerContentRewards(user.id);
-    }
-
-    done(undefined, user);
   }
 }
