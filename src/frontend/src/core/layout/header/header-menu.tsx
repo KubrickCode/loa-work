@@ -19,13 +19,12 @@ export const HeaderMenu = () => {
 
   return (
     <MenuRoot closeOnSelect={false} positioning={{ placement: "bottom-end" }}>
-      <MenuTrigger>
-        <Button variant="ghost" px={2}>
-          <Avatar size="xs" src={user?.imageUrl} />
-          {user?.displayName}
-          <IoIosArrowDown />
-        </Button>
-      </MenuTrigger>
+      {/* MenuTrigger는 기본적으로 button 태그로 렌더링되어 MenuTrigger 내에 Button 사용 시 validateDOMNesting 에러 발생 */}
+      <Button as={MenuTrigger} variant="ghost" px={2}>
+        <Avatar size="xs" src={user?.imageUrl} />
+        {user?.displayName}
+        <IoIosArrowDown />
+      </Button>
       <MenuContent>
         <MenuItem onClick={toggleColorMode} value="dark-mode">
           <ColorModeIcon />
