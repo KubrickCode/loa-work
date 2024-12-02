@@ -210,6 +210,7 @@ model User {
   imageUrl    String?      @map("image_url")
   provider    AuthProvider
   refId       String       @unique @map("ref_id")
+  role        UserRole     @default(USER)
 
   @@map("user")
 }
@@ -217,4 +218,10 @@ model User {
 enum AuthProvider {
   GOOGLE
   DISCORD
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  USER
 }
