@@ -5,6 +5,8 @@ import { ContentReward } from './content-reward.object';
 import { ContentCategory } from './content-category.object';
 import * as Prisma from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
+import { CurrentUser } from 'src/common/decorator/current-user.decorator';
+import { User } from 'src/common/object/user.object';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -23,10 +25,13 @@ export class ContentResolver {
   }
 
   @ResolveField(() => [ContentReward])
-  async contentRewards(@Parent() content: Content) {
+  async contentRewards(@Parent() content: Content, @CurrentUser() user?: User) {
     return await this.prisma.contentReward.findMany({
       where: {
         contentId: content.id,
+        ...(user
+          ? { userId: user.id }
+          : { user: { role: Prisma.UserRole.OWNER } }),
       },
     });
   }
