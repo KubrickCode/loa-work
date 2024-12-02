@@ -14,7 +14,7 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async callback(@Req() req: Request, @Res() res: Response) {
+  async googleCallback(@Req() req: Request, @Res() res: Response) {
     req.session['passport'] = {
       user: req.user,
     };
@@ -29,7 +29,7 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async login(@Req() req: Request) {
+  async googleLogin(@Req() req: Request) {
     return req.user;
   }
 
