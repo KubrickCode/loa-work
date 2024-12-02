@@ -6,7 +6,6 @@ import { OAuth2Strategy, VerifyFunction } from 'passport-google-oauth';
 import { PrismaService } from 'src/prisma';
 
 @Injectable()
-// https://console.cloud.google.com/apis/credentials?project=notag-312506
 export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
   constructor(
     configService: ConfigService,
