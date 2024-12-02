@@ -4,12 +4,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { AuthProvider } from '@prisma/client';
 import { Strategy, Profile } from 'passport-discord';
 import { PrismaService } from 'src/prisma';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
   constructor(
     configService: ConfigService,
     private prisma: PrismaService,
+    private authService: AuthService,
   ) {
     super({
       clientID: configService.get<string>('DISCORD_CLIENT_ID'),
@@ -45,7 +47,13 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       where: {
         refId: profile.id,
       },
+      include: { contentRewards: true },
     });
+
+    if (!user.contentRewards.length) {
+      await this.authService.copyOwnerContentRewards(user.id);
+    }
+
     done(undefined, user);
   }
 }
