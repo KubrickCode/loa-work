@@ -18,7 +18,7 @@ export const HeaderMenu = () => {
   const navigate = useNavigate();
 
   return (
-    <MenuRoot closeOnSelect={false} positioning={{ placement: "bottom" }}>
+    <MenuRoot closeOnSelect={false} positioning={{ placement: "bottom-end" }}>
       <MenuTrigger>
         <Button variant="ghost" px={2}>
           <Avatar size="xs" src={user?.imageUrl} />
