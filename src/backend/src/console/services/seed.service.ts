@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
 import { Prisma } from '@prisma/client';
-import { getContentsWithRewards } from './data/content-revenue-data';
+import { getContentsWithRewards } from './data/content-reward-data';
 
 @Injectable()
 export class SeedService {
