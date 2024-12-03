@@ -13,7 +13,7 @@ import { IoIosSettings } from "react-icons/io";
 
 export const ContentRewardListTable = () => {
   const { contentCategoryId } = useContentRewardListTable();
-  const { data } = useSafeQuery(ContentRewardListTableDocument, {
+  const { data, refetch } = useSafeQuery(ContentRewardListTableDocument, {
     variables: {
       filter: {
         contentCategoryId: Number(contentCategoryId),
@@ -29,7 +29,12 @@ export const ContentRewardListTable = () => {
           render({ data }) {
             return (
               <DialogTrigger
-                dialog={<ContentRewardEditDialog contentId={data.id} />}
+                dialog={
+                  <ContentRewardEditDialog
+                    contentId={data.id}
+                    onComplete={refetch}
+                  />
+                }
                 trigger={
                   <IconButton size="xs" variant="surface">
                     <IoIosSettings />

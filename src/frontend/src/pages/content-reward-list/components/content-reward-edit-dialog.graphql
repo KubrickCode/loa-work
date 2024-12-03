@@ -8,3 +8,9 @@ query ContentRewardEditDialog($id: Int!) {
     }
   }
 }
+
+mutation ContentRewardsEdit($input: ContentRewardsEditInput!) {
+  contentRewardsEdit(input: $input) {
+    ok
+  }
+}

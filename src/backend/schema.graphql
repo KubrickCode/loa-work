@@ -60,6 +60,19 @@ type ContentReward {
   updatedAt: DateTime!
 }
 
+input ContentRewardEditInput {
+  averageQuantity: Float!
+  id: Float!
+}
+
+input ContentRewardsEditInput {
+  contentRewards: [ContentRewardEditInput!]!
+}
+
+type ContentRewardsEditResult {
+  ok: Boolean!
+}
+
 type ContentWageFilter {
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
@@ -94,6 +107,10 @@ type MinimumWage {
   id: Int!
   updatedAt: DateTime!
   year: Int!
+}
+
+type Mutation {
+  contentRewardsEdit(input: ContentRewardsEditInput!): ContentRewardsEditResult!
 }
 
 type Query {
