@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/chakra-components/ui/button";
 import { Field } from "~/chakra-components/ui/field";
+import { toaster } from "~/chakra-components/ui/toaster";
 import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
 import { useMutation, useSafeQuery } from "~/core/graphql";
 import {
@@ -49,6 +50,10 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
     onCompleted: () => {
       setOpen(false);
       onComplete();
+      toaster.create({
+        title: "컨텐츠 보상이 수정되었습니다.",
+        type: "success",
+      });
     },
   });
 
