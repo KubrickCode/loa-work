@@ -9,6 +9,7 @@ query ContentRewardListTable($filter: ContentListFilter) {
       itemName
     }
     displayName
+    id
     level
   }
   contentRewardViewList

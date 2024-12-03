@@ -1,11 +1,24 @@
+import { Flex, Input } from "@chakra-ui/react";
+import { Suspense } from "react";
 import { Button } from "~/chakra-components/ui/button";
+import { Field } from "~/chakra-components/ui/field";
 import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
+import { useSafeQuery } from "~/core/graphql";
+import { ContentRewardEditDialogDocument } from "~/core/graphql/generated";
 
-export const ContentRewardEditDialog = () => {
+type ContentRewardEditDialogProps = {
+  contentId: number;
+};
+
+export const ContentRewardEditDialog = ({
+  contentId,
+}: ContentRewardEditDialogProps) => {
   return (
     <Dialog>
       <DialogHeader>보상 수정</DialogHeader>
-      <Body />
+      <Suspense fallback={<>loading...</>}>
+        <Body contentId={contentId} />
+      </Suspense>
       <DialogFooter>
         <Button>확인</Button>
       </DialogFooter>
@@ -13,6 +26,22 @@ export const ContentRewardEditDialog = () => {
   );
 };
 
-const Body = () => {
-  return <DialogBody>Body</DialogBody>;
+const Body = ({ contentId }: { contentId: number }) => {
+  const { data } = useSafeQuery(ContentRewardEditDialogDocument, {
+    variables: {
+      id: contentId,
+    },
+  });
+
+  return (
+    <DialogBody>
+      <Flex direction="column" gap={4}>
+        {data.content.contentRewards.map((reward) => (
+          <Field key={reward.id} label={reward.itemName}>
+            <Input defaultValue={reward.averageQuantity} />
+          </Field>
+        ))}
+      </Flex>
+    </DialogBody>
+  );
 };

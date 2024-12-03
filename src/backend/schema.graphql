@@ -98,6 +98,7 @@ type MinimumWage {
 
 type Query {
   auctionItemList(filter: AuctionItemListFilter): [AuctionItem!]!
+  content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardViewList: [String!]!

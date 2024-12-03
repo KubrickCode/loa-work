@@ -26,10 +26,10 @@ export const ContentRewardListTable = () => {
       columns={[
         {
           header: "",
-          render() {
+          render({ data }) {
             return (
               <DialogTrigger
-                dialog={<ContentRewardEditDialog />}
+                dialog={<ContentRewardEditDialog contentId={data.id} />}
                 trigger={
                   <IconButton size="xs" variant="surface">
                     <IoIosSettings />
