@@ -1,6 +1,6 @@
 import { Box, Table } from "@chakra-ui/react";
 import _ from "lodash";
-import { TableHTMLAttributes, useCallback, useState } from "react";
+import { TableHTMLAttributes, useCallback, useMemo, useState } from "react";
 import { SortControl } from "./sort-control";
 
 export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
@@ -18,9 +18,19 @@ export type Column<T> = {
 };
 
 export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
-  const [sortedRows, setSortedRows] = useState(rows);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
   const [currentSortKey, setCurrentSortKey] = useState<keyof T | null>(null);
+
+  const displayRows = useMemo(() => {
+    if (currentSortKey && sortOrder) {
+      return _.orderBy(
+        rows,
+        [(row) => row.data[currentSortKey as keyof T]],
+        [sortOrder]
+      );
+    }
+    return rows;
+  }, [rows, currentSortKey, sortOrder]);
 
   const handleSort = (column: Column<T>) => {
     if (!column.sortKey) return;
@@ -36,17 +46,8 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
       newOrder = "asc";
     }
 
-    const sorted = newOrder
-      ? _.orderBy(
-          sortedRows,
-          [(row) => row.data[column.sortKey as keyof T]],
-          [newOrder]
-        )
-      : rows;
-
-    setSortedRows(sorted);
     setSortOrder(newOrder);
-    setCurrentSortKey(column.sortKey);
+    setCurrentSortKey(newOrder ? column.sortKey : null);
   };
 
   const renderColumn = useCallback(
@@ -84,7 +85,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
         </Table.Row>
       );
     },
-    [columns, renderColumn, sortedRows]
+    [columns, renderColumn]
   );
 
   return (
@@ -119,7 +120,7 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {sortedRows.map((row, index) => renderRow(row, index))}
+          {displayRows.map((row, index) => renderRow(row, index))}
         </Table.Body>
       </Table.Root>
     </Box>
