@@ -10,6 +10,7 @@ import { ContentRewardEditDialog } from "./content-reward-edit-dialog";
 import { DialogTrigger } from "~/core/dialog";
 import { FormatNumber, IconButton } from "@chakra-ui/react";
 import { IoIosSettings } from "react-icons/io";
+import { FormatGold } from "~/core/format";
 
 export const ContentRewardListTable = () => {
   const { contentCategoryId } = useContentRewardListTable();
@@ -72,14 +73,18 @@ export const ContentRewardListTable = () => {
               const reward = data.contentRewards.find(
                 (reward) => reward.itemName === itemName
               );
+              const isGold = reward?.itemName === "골드";
+
               return (
                 <>
                   {reward ? (
                     <>
-                      <FormatNumber value={reward.averageQuantity} />
-                      {reward.isSellable && reward.itemName !== "골드"
-                        ? " (거래 가능)"
-                        : ""}
+                      {isGold ? (
+                        <FormatGold value={reward.averageQuantity} />
+                      ) : (
+                        <FormatNumber value={reward.averageQuantity} />
+                      )}
+                      {reward.isSellable && !isGold ? " (거래 가능)" : ""}
                     </>
                   ) : (
                     "-"
