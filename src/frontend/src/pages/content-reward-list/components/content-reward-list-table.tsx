@@ -8,7 +8,7 @@ import { useContentRewardListTable } from "./content-reward-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardEditDialog } from "./content-reward-edit-dialog";
 import { DialogTrigger } from "~/core/dialog";
-import { IconButton } from "@chakra-ui/react";
+import { FormatNumber, IconButton } from "@chakra-ui/react";
 import { IoIosSettings } from "react-icons/io";
 
 export const ContentRewardListTable = () => {
@@ -74,9 +74,16 @@ export const ContentRewardListTable = () => {
               );
               return (
                 <>
-                  {reward
-                    ? `${reward.averageQuantity}${reward.isSellable && reward.itemName !== "골드" ? " (거래 가능)" : ""}`
-                    : "-"}
+                  {reward ? (
+                    <>
+                      <FormatNumber value={reward.averageQuantity} />
+                      {reward.isSellable && reward.itemName !== "골드"
+                        ? " (거래 가능)"
+                        : ""}
+                    </>
+                  ) : (
+                    "-"
+                  )}
                 </>
               );
             },
