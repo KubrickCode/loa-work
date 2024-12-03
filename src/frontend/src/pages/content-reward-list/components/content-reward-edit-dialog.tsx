@@ -1,4 +1,4 @@
-import { Flex, Input } from "@chakra-ui/react";
+import { Flex, Input, useDialogContext } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/chakra-components/ui/button";
@@ -38,6 +38,7 @@ type FormValues = {
 };
 
 const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
+  const { setOpen } = useDialogContext();
   const { data } = useSafeQuery(ContentRewardEditDialogDocument, {
     variables: {
       id: contentId,
@@ -46,7 +47,7 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
 
   const [editRewards] = useMutation(ContentRewardsEditDocument, {
     onCompleted: () => {
-      console.log("completed");
+      setOpen(false);
       onComplete();
     },
   });
