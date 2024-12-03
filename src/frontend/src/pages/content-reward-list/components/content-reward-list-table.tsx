@@ -6,6 +6,10 @@ import { Column, DataTable } from "~/core/table";
 
 import { useContentRewardListTable } from "./content-reward-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
+import { ContentRewardEditDialog } from "./content-reward-edit-dialog";
+import { DialogTrigger } from "~/core/dialog";
+import { IconButton } from "@chakra-ui/react";
+import { IoIosSettings } from "react-icons/io";
 
 export const ContentRewardListTable = () => {
   const { contentCategoryId } = useContentRewardListTable();
@@ -20,6 +24,21 @@ export const ContentRewardListTable = () => {
   return (
     <DataTable
       columns={[
+        {
+          header: "",
+          render() {
+            return (
+              <DialogTrigger
+                dialog={<ContentRewardEditDialog />}
+                trigger={
+                  <IconButton size="xs" variant="surface">
+                    <IoIosSettings />
+                  </IconButton>
+                }
+              />
+            );
+          },
+        },
         {
           header: "종류",
           render({ data }) {
