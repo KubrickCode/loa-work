@@ -2,6 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
 import { Header } from "./header";
+import { Toaster } from "~/chakra-components/ui/toaster";
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -10,6 +11,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       <Box as="main" p={3}>
         {children}
       </Box>
+      <Toaster />
     </Flex>
   );
 };
