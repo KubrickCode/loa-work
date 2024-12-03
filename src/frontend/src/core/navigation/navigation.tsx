@@ -9,6 +9,7 @@ import {
   DrawerContent,
   DrawerBody,
   DrawerCloseTrigger,
+  DrawerBackdrop,
 } from "~/chakra-components/ui/drawer";
 import { useState } from "react";
 
@@ -43,6 +44,7 @@ export const Navigation = () => {
           onOpenChange={(e) => setOpen(e.open)}
           placement="start"
         >
+          <DrawerBackdrop />
           <DrawerTrigger asChild>
             <Button variant="ghost">
               <IoIosMenu />
