@@ -2,6 +2,7 @@ import { ContentWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { useContentWageListTable } from "./content-wage-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
+import { FormatNumber } from "@chakra-ui/react";
 
 export const ContentWageListTable = () => {
   const { contentCategoryId, includeIsSeeMore, includeIsBound } =
@@ -38,7 +39,9 @@ export const ContentWageListTable = () => {
           align: "right",
           header: "시급",
           render({ data }) {
-            return <>{data.wage}</>;
+            return (
+              <FormatNumber currency="KRW" style="currency" value={data.wage} />
+            );
           },
           sortKey: "wage",
         },
