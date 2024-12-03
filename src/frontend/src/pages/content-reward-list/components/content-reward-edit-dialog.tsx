@@ -5,6 +5,7 @@ import { Field } from "~/chakra-components/ui/field";
 import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardEditDialogDocument } from "~/core/graphql/generated";
+import { Loader } from "~/core/loader";
 
 type ContentRewardEditDialogProps = {
   contentId: number;
@@ -16,7 +17,7 @@ export const ContentRewardEditDialog = ({
   return (
     <Dialog>
       <DialogHeader>보상 수정</DialogHeader>
-      <Suspense fallback={<>loading...</>}>
+      <Suspense fallback={<Loader.Block />}>
         <Body contentId={contentId} />
       </Suspense>
       <DialogFooter>

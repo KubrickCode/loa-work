@@ -1,4 +1,4 @@
-import { createListCollection, Flex, Spinner } from "@chakra-ui/react";
+import { createListCollection, Flex, Spinner, VStack } from "@chakra-ui/react";
 import {
   SelectRoot,
   SelectTrigger,
@@ -34,5 +34,13 @@ export const Select = () => {
         <SelectValueText placeholder="loading..." />
       </SelectTrigger>
     </SelectRoot>
+  );
+};
+
+export const Block = () => {
+  return (
+    <VStack justifyContent="center" minHeight="sm">
+      <Spinner />
+    </VStack>
   );
 };
