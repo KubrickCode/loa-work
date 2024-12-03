@@ -1,3 +1,4 @@
+import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { MarketItemListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
@@ -32,21 +33,21 @@ export const MarketItemListTable = () => {
           align: "right",
           header: "전일 평균 거래가",
           render({ data }) {
-            return <>{data.yDayAvgPrice}</>;
+            return <FormatGold value={data.yDayAvgPrice} />;
           },
         },
         {
           align: "right",
           header: "최근 거래가",
           render({ data }) {
-            return <>{data.recentPrice}</>;
+            return <FormatGold value={data.recentPrice} />;
           },
         },
         {
           align: "right",
           header: "최저가",
           render({ data }) {
-            return <>{data.currentMinPrice}</>;
+            return <FormatGold value={data.currentMinPrice} />;
           },
         },
       ]}

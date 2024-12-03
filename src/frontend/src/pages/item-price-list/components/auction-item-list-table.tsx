@@ -1,3 +1,4 @@
+import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { AuctionItemListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
@@ -25,7 +26,7 @@ export const AuctionItemListTable = () => {
           align: "right",
           header: "평균 즉시 구매가",
           render({ data }) {
-            return <>{data.avgBuyPrice}</>;
+            return <FormatGold value={data.avgBuyPrice} />;
           },
         },
       ]}
