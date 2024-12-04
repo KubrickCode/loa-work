@@ -23,7 +23,7 @@ export const ContentWageListTableFilters = () => {
 
   return (
     <Box>
-      <PopoverRoot>
+      <PopoverRoot positioning={{ placement: "bottom-end" }}>
         <PopoverTrigger asChild>
           <Button size="sm" variant="outline">
             <IoFilter />
