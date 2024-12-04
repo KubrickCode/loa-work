@@ -63,7 +63,7 @@ export const ContentRewardListTable = () => {
             return <>{data.displayName}</>;
           },
         },
-        ...data.contentRewardViewList.map(
+        ...data.contentRewardItemList.map(
           (
             itemName
           ): Column<ContentRewardListTableQuery["contentList"][number]> => ({

@@ -12,5 +12,5 @@ query ContentRewardListTable($filter: ContentListFilter) {
     id
     level
   }
-  contentRewardViewList
+  contentRewardItemList
 }

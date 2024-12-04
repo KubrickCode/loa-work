@@ -1,22 +1,12 @@
 import { Query, Resolver } from '@nestjs/graphql';
+import { ContentRewardKind } from 'src/enums';
 
 @Resolver()
-export class ContentRewardViewListQuery {
+export class ContentRewardItemListQuery {
   constructor() {}
 
   @Query(() => [String])
-  async contentRewardViewList() {
-    return [
-      '골드',
-      '실링',
-      '운명의 파편',
-      '운명의 돌파석',
-      '운명의 파괴석',
-      '운명의 수호석',
-      '1레벨 보석',
-      '용암의 숨결',
-      '빙하의 숨결',
-      '카드 경험치',
-    ];
+  contentRewardItemList() {
+    return Object.values(ContentRewardKind);
   }
 }
