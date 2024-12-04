@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PrismaModule } from 'src/prisma';
 import { ContentListQuery } from './query/content-list.query';
 import { ContentResolver } from './object/content.resolver';
-import { ContentRewardItemListQuery } from './query/content-reward-view-list.query';
+import { ContentRewardItemListQuery } from './query/content-reward-item-list.query';
 import { ItemPriceService } from '../item/service/item-price.service';
 import { ContentCategoriesQuery } from './query/content-categories.query';
 import { ContentWageService } from './service/content-wage.service';
