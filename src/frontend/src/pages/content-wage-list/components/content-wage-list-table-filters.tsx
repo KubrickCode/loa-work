@@ -1,6 +1,5 @@
 import { ContentCategoryFilter } from "~/shared/content";
 import { useContentWageListTable } from "./content-wage-list-table-context";
-import { Select } from "~/core/select";
 import { Box, Flex } from "@chakra-ui/react";
 import {
   PopoverArrow,
@@ -12,6 +11,7 @@ import {
 import { Button } from "~/chakra-components/ui/button";
 import { IoFilter } from "react-icons/io5";
 import { Field } from "~/chakra-components/ui/field";
+import { SegmentedControl } from "~/chakra-components/ui/segmented-control";
 
 export const ContentWageListTableFilters = () => {
   const { contentCategoryId, setContentCategoryId } = useContentWageListTable();
@@ -56,17 +56,14 @@ export const ContentWageListTableFilters = () => {
 const ContentSeeMoreFilter = () => {
   const { includeIsSeeMore, setIncludeIsSeeMore } = useContentWageListTable();
 
-  const items = [
-    { label: "미포함", value: "false" },
-    { label: "포함", value: "true" },
-  ];
-
   return (
-    <Select
-      items={items}
-      onChange={(value) => setIncludeIsSeeMore(value === "true")}
-      placeholder="컨텐츠 종류"
-      value={includeIsSeeMore ? ["true"] : ["false"]}
+    <SegmentedControl
+      items={[
+        { label: "미포함", value: "false" },
+        { label: "포함", value: "true" },
+      ]}
+      onValueChange={(e) => setIncludeIsSeeMore(e.value === "true")}
+      value={includeIsSeeMore ? "true" : "false"}
     />
   );
 };
@@ -74,17 +71,14 @@ const ContentSeeMoreFilter = () => {
 const ContentIsBoundFilter = () => {
   const { includeIsBound, setIncludeIsBound } = useContentWageListTable();
 
-  const items = [
-    { label: "미포함", value: "false" },
-    { label: "포함", value: "true" },
-  ];
-
   return (
-    <Select
-      items={items}
-      onChange={(value) => setIncludeIsBound(value === "true")}
-      placeholder="귀속 재료"
-      value={includeIsBound ? ["true"] : ["false"]}
+    <SegmentedControl
+      items={[
+        { label: "미포함", value: "false" },
+        { label: "포함", value: "true" },
+      ]}
+      onValueChange={(e) => setIncludeIsBound(e.value === "true")}
+      value={includeIsBound ? "true" : "false"}
     />
   );
 };
