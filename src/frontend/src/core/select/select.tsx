@@ -38,7 +38,8 @@ export const Select = ({
       <SelectTrigger>
         <SelectValueText placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
+      {/* SelectContent의 zIndex가 기본적으로 팝오버보다 낮기 때문에 팝오버 내에서 사용할 시 충돌이 발생할 수 있음 */}
+      <SelectContent zIndex="calc(var(--chakra-z-index-popover) + 100)">
         {items.map((item) => (
           <SelectItem item={item} key={item.value}>
             {item.label}
