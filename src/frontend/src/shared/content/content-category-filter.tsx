@@ -25,7 +25,7 @@ const WrappedContentCategoryFilter = ({
   const { data } = useSafeQuery(ContentCategoriesDocument);
 
   const items = [
-    { label: "전체 컨텐츠", value: "" },
+    { label: "전체", value: "" },
     ...data.contentCategories.map((category) => ({
       label: category.name,
       value: category.id.toString(),
