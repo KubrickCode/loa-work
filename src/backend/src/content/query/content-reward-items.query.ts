@@ -2,11 +2,11 @@ import { Query, Resolver } from '@nestjs/graphql';
 import { ContentRewardKind } from 'src/enums';
 
 @Resolver()
-export class ContentRewardItemListQuery {
+export class ContentRewardItemsQuery {
   constructor() {}
 
   @Query(() => [String])
-  contentRewardItemList() {
+  contentRewardItems() {
     return Object.values(ContentRewardKind);
   }
 }

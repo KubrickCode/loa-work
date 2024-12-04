@@ -118,7 +118,7 @@ type Query {
   content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
   contentList(filter: ContentListFilter): [Content!]!
-  contentRewardItemList: [String!]!
+  contentRewardItems: [String!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   minimumWage: MinimumWage!
 }
