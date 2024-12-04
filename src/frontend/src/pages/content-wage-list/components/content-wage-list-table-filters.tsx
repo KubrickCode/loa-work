@@ -4,6 +4,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import {
   PopoverArrow,
   PopoverBody,
+  PopoverCloseTrigger,
   PopoverContent,
   PopoverRoot,
   PopoverTrigger,
@@ -47,6 +48,7 @@ export const ContentWageListTableFilters = () => {
               </Field>
             </Flex>
           </PopoverBody>
+          <PopoverCloseTrigger />
         </PopoverContent>
       </PopoverRoot>
     </Box>
