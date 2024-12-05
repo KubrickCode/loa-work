@@ -1,4 +1,4 @@
-import { createListCollection } from "@chakra-ui/react";
+import { createListCollection, SelectRootProps } from "@chakra-ui/react";
 
 import {
   SelectContent,
@@ -8,21 +8,25 @@ import {
   SelectValueText,
 } from "~/chakra-components/ui/select";
 
-type SelectProps = {
+export type BaseSelectProps = Omit<
+  SelectRootProps,
+  "collection" | "onChange"
+> & {
   items: { label: string; value: string }[];
   maxWidth?: string;
-  onChange: (value: string) => void;
+  onChange: (value: string[]) => void;
   placeholder: string;
   value: string[];
 };
 
-export const Select = ({
+export const BaseSelect = ({
   items,
   maxWidth = "10rem",
   onChange,
   placeholder,
   value,
-}: SelectProps) => {
+  ...props
+}: BaseSelectProps) => {
   const frameworks = createListCollection({
     items,
   });
@@ -31,9 +35,10 @@ export const Select = ({
     <SelectRoot
       collection={frameworks}
       maxWidth={maxWidth}
-      onValueChange={({ value }) => onChange(value[0])}
+      onValueChange={({ value }) => onChange(value)}
       size="xs"
       value={value}
+      {...props}
     >
       <SelectTrigger>
         <SelectValueText placeholder={placeholder} />
@@ -47,5 +52,20 @@ export const Select = ({
         ))}
       </SelectContent>
     </SelectRoot>
+  );
+};
+
+export type SelectProps = Omit<BaseSelectProps, "onChange" | "value"> & {
+  onChange: (value: string) => void;
+  value: string[];
+};
+
+export const Select = ({ onChange, value, ...props }: SelectProps) => {
+  return (
+    <BaseSelect
+      onChange={(values) => onChange(values[0])}
+      value={value}
+      {...props}
+    />
   );
 };
