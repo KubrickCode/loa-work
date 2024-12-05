@@ -1,4 +1,11 @@
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 
 type ContentWageListTableContextType = {
   contentCategoryId?: string;
@@ -9,6 +16,9 @@ type ContentWageListTableContextType = {
 
   includeIsBound?: boolean;
   setIncludeIsBound: (value: boolean) => void;
+
+  contentRewardItems: string[];
+  setContentRewardItems: Dispatch<SetStateAction<string[]>>;
 };
 
 const ContentWageListTableContext = createContext<
@@ -23,6 +33,8 @@ export const ContentWageListTableProvider = ({
   >();
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
+  const [contentRewardItems, setContentRewardItems] = useState<string[]>([]);
+
   return (
     <ContentWageListTableContext.Provider
       value={{
@@ -32,6 +44,8 @@ export const ContentWageListTableProvider = ({
         setContentCategoryId,
         setIncludeIsSeeMore,
         setIncludeIsBound,
+        contentRewardItems,
+        setContentRewardItems,
       }}
     >
       {children}

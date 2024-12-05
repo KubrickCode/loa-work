@@ -13,6 +13,9 @@ import { Button } from "~/chakra-components/ui/button";
 import { IoFilter } from "react-icons/io5";
 import { Field } from "~/chakra-components/ui/field";
 import { SegmentedControl } from "~/chakra-components/ui/segmented-control";
+import { useSafeQuery } from "~/core/graphql";
+import { ContentRewardItemsFilterDocument } from "~/core/graphql/generated";
+import { MultiSelect } from "~/core/select";
 
 export const ContentWageListTableFilters = () => {
   const { contentCategoryId, setContentCategoryId } = useContentWageListTable();
@@ -45,6 +48,9 @@ export const ContentWageListTableFilters = () => {
               </Field>
               <Field label="귀속 재료 포함 여부">
                 <ContentIsBoundFilter />
+              </Field>
+              <Field label="컨텐츠 보상 종류">
+                <ContentRewardItemsFilter />
               </Field>
             </Flex>
           </PopoverBody>
@@ -81,6 +87,28 @@ const ContentIsBoundFilter = () => {
       ]}
       onValueChange={(e) => setIncludeIsBound(e.value === "true")}
       value={includeIsBound ? "true" : "false"}
+    />
+  );
+};
+
+const ContentRewardItemsFilter = () => {
+  const { contentRewardItems, setContentRewardItems } =
+    useContentWageListTable();
+  const { data } = useSafeQuery(ContentRewardItemsFilterDocument);
+
+  const items = [
+    ...data.contentRewardItems.map((item) => ({
+      label: item,
+      value: item,
+    })),
+  ];
+
+  return (
+    <MultiSelect
+      items={items}
+      onChange={setContentRewardItems}
+      placeholder="컨텐츠 보상 종류"
+      value={contentRewardItems}
     />
   );
 };

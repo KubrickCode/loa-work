@@ -7,3 +7,7 @@ query ContentWageListTable($filter: ContentListFilter) {
     wage
   }
 }
+
+query ContentRewardItemsFilter {
+  contentRewardItems
+}
