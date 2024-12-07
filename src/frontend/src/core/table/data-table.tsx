@@ -14,18 +14,18 @@ export type Column<T> = {
   align?: "center" | "left" | "justify" | "right";
   header: string;
   render: (props: { data: T; rowIndex: number }) => JSX.Element | null;
-  sortKey?: keyof T;
+  sortKey?: string;
 };
 
 export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
-  const [currentSortKey, setCurrentSortKey] = useState<keyof T | null>(null);
+  const [currentSortKey, setCurrentSortKey] = useState<string | null>(null);
 
   const displayRows = useMemo(() => {
     if (currentSortKey && sortOrder) {
       return _.orderBy(
         rows,
-        [(row) => row.data[currentSortKey as keyof T]],
+        [(row) => _.get(row.data, currentSortKey)],
         [sortOrder]
       );
     }
