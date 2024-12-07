@@ -3,6 +3,7 @@ import { DataTable } from "~/core/table";
 import { useContentWageListTable } from "./content-wage-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
 import { FormatNumber } from "@chakra-ui/react";
+import { FormatGold } from "~/core/format";
 
 export const ContentWageListTable = () => {
   const {
@@ -42,11 +43,23 @@ export const ContentWageListTable = () => {
         },
         {
           align: "right",
-          header: "시급",
+          header: "시급(KRW)",
           render({ data }) {
             return (
-              <FormatNumber currency="KRW" style="currency" value={data.wage} />
+              <FormatNumber
+                currency="KRW"
+                style="currency"
+                value={data.wage.amount}
+              />
             );
+          },
+          sortKey: "wage",
+        },
+        {
+          align: "right",
+          header: "시급(골드)",
+          render({ data }) {
+            return <FormatGold value={data.wage.goldAmount} />;
           },
           sortKey: "wage",
         },

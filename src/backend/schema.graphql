@@ -29,7 +29,7 @@ type Content {
   level: Int!
   name: String!
   updatedAt: DateTime!
-  wage: Int!
+  wage: ContentWage!
   wageFilter: ContentWageFilter
 }
 
@@ -72,6 +72,11 @@ input ContentRewardsEditInput {
 
 type ContentRewardsEditResult {
   ok: Boolean!
+}
+
+type ContentWage {
+  amount: Int!
+  goldAmount: Int!
 }
 
 type ContentWageFilter {

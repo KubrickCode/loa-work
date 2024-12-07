@@ -1,4 +1,11 @@
-import { Int, Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Field,
+  Int,
+  ObjectType,
+  Parent,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
@@ -7,6 +14,15 @@ import * as Prisma from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { User } from 'src/common/object/user.object';
+
+@ObjectType()
+export class ContentWage {
+  @Field(() => Int)
+  amount: number;
+
+  @Field(() => Int)
+  goldAmount: number;
+}
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -42,7 +58,7 @@ export class ContentResolver {
     return `${name}${gate ? ` ${gate}관문` : ''}${isSeeMore ? ' 더보기' : ''}`;
   }
 
-  @ResolveField(() => Int)
+  @ResolveField(() => ContentWage)
   async wage(@Parent() content: Content, @CurrentUser() user?: User) {
     const { wageFilter: filter } = content;
 

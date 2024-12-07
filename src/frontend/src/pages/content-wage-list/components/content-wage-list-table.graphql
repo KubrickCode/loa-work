@@ -4,7 +4,10 @@ query ContentWageListTable($filter: ContentListFilter) {
       name
     }
     displayName
-    wage
+    wage {
+      amount
+      goldAmount
+    }
   }
 }
 

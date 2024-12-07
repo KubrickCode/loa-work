@@ -104,7 +104,11 @@ export class ContentWageService {
 
     const hours = duration / 3600;
     const hourlyWage = totalKRW / hours;
+    const hourlyGold = gold / hours;
 
-    return Math.round(hourlyWage);
+    return {
+      amount: Math.round(hourlyWage),
+      goldAmount: Math.round(hourlyGold),
+    };
   }
 }
