@@ -43,11 +43,14 @@ export class ContentResolver {
   }
 
   @ResolveField(() => Int)
-  async wage(@Parent() content: Content) {
+  async wage(@Parent() content: Content, @CurrentUser() user?: User) {
     const { wageFilter: filter } = content;
 
     const rewards = await this.prisma.contentReward.findMany({
       where: {
+        ...(user
+          ? { userId: user.id }
+          : { user: { role: Prisma.UserRole.OWNER } }),
         contentId: content.id,
         ...(filter?.includeIsBound === false && { isSellable: true }),
         ...(filter?.includeContentRewardItems && {
@@ -62,6 +65,7 @@ export class ContentResolver {
       includeIsSeeMore:
         filter?.includeIsSeeMore === true && content.isSeeMore === false,
       excludeIsBound: filter?.includeIsBound === false,
+      userId: user?.id,
     });
 
     return await this.contentWageService.calculateWage({

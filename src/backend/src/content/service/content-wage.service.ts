@@ -4,6 +4,7 @@ import * as Prisma from '@prisma/client';
 import { ContentRewardKind } from 'src/enums';
 import { ItemPriceService } from '../../item/service/item-price.service';
 import { Content } from '../object/content.object';
+import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 
 @Injectable()
 export class ContentWageService {
@@ -17,11 +18,13 @@ export class ContentWageService {
     rewards,
     includeIsSeeMore,
     excludeIsBound,
+    userId,
   }: {
     content: Content;
     rewards: Prisma.ContentReward[];
     includeIsSeeMore: boolean;
     excludeIsBound: boolean;
+    userId?: number;
   }) {
     let gold = await this.calculateGold(rewards);
 
@@ -40,6 +43,7 @@ export class ContentWageService {
       const seeMoreRewards = await this.prisma.contentReward.findMany({
         where: {
           contentId: seeMoreContent.id,
+          ...(userId ? { userId } : { user: { role: Prisma.UserRole.OWNER } }),
           ...(excludeIsBound && { isSellable: true }),
         },
       });
