@@ -41,14 +41,14 @@ export const ContentWageListTableFilters = () => {
                   value={contentCategoryId ? [contentCategoryId] : [""]}
                 />
               </Field>
+              <Field label="컨텐츠 보상 종류">
+                <ContentRewardItemsFilter />
+              </Field>
               <Field label="더보기 포함 여부">
                 <ContentSeeMoreFilter />
               </Field>
               <Field label="귀속 재료 포함 여부">
                 <ContentIsBoundFilter />
-              </Field>
-              <Field label="컨텐츠 보상 종류">
-                <ContentRewardItemsFilter />
               </Field>
             </Flex>
           </PopoverBody>
