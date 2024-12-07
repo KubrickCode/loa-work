@@ -6,8 +6,12 @@ import {
   useContext,
   useState,
 } from "react";
+import { useSafeQuery } from "~/core/graphql";
+import { ContentRewardItemsFilterDocument } from "~/core/graphql/generated";
 
 type ContentWageListTableContextType = {
+  contentRewardItems: string[];
+
   contentCategoryId?: string;
   setContentCategoryId: (id?: string) => void;
 
@@ -17,8 +21,8 @@ type ContentWageListTableContextType = {
   includeIsBound?: boolean;
   setIncludeIsBound: (value: boolean) => void;
 
-  contentRewardItems: string[];
-  setContentRewardItems: Dispatch<SetStateAction<string[]>>;
+  includeContentRewardItems: string[];
+  setIncludeContentRewardItems: Dispatch<SetStateAction<string[]>>;
 };
 
 const ContentWageListTableContext = createContext<
@@ -28,24 +32,29 @@ const ContentWageListTableContext = createContext<
 export const ContentWageListTableProvider = ({
   children,
 }: PropsWithChildren) => {
+  const {
+    data: { contentRewardItems },
+  } = useSafeQuery(ContentRewardItemsFilterDocument);
   const [contentCategoryId, setContentCategoryId] = useState<
     string | undefined
   >();
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
-  const [contentRewardItems, setContentRewardItems] = useState<string[]>([]);
+  const [includeContentRewardItems, setIncludeContentRewardItems] =
+    useState<string[]>(contentRewardItems);
 
   return (
     <ContentWageListTableContext.Provider
       value={{
+        contentRewardItems,
         contentCategoryId,
         includeIsSeeMore,
         includeIsBound,
         setContentCategoryId,
         setIncludeIsSeeMore,
         setIncludeIsBound,
-        contentRewardItems,
-        setContentRewardItems,
+        includeContentRewardItems,
+        setIncludeContentRewardItems,
       }}
     >
       {children}

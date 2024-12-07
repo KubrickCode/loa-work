@@ -13,8 +13,6 @@ import { Button } from "~/chakra-components/ui/button";
 import { IoFilter } from "react-icons/io5";
 import { Field } from "~/chakra-components/ui/field";
 import { SegmentedControl } from "~/chakra-components/ui/segmented-control";
-import { useSafeQuery } from "~/core/graphql";
-import { ContentRewardItemsFilterDocument } from "~/core/graphql/generated";
 import { MultiSelect } from "~/core/select";
 
 export const ContentWageListTableFilters = () => {
@@ -92,23 +90,23 @@ const ContentIsBoundFilter = () => {
 };
 
 const ContentRewardItemsFilter = () => {
-  const { contentRewardItems, setContentRewardItems } =
-    useContentWageListTable();
-  const { data } = useSafeQuery(ContentRewardItemsFilterDocument);
+  const {
+    contentRewardItems,
+    includeContentRewardItems,
+    setIncludeContentRewardItems,
+  } = useContentWageListTable();
 
-  const items = [
-    ...data.contentRewardItems.map((item) => ({
-      label: item,
-      value: item,
-    })),
-  ];
+  const items = contentRewardItems.map((item) => ({
+    label: item,
+    value: item,
+  }));
 
   return (
     <MultiSelect
       items={items}
-      onChange={setContentRewardItems}
+      onChange={setIncludeContentRewardItems}
       placeholder="컨텐츠 보상 종류"
-      value={contentRewardItems}
+      value={includeContentRewardItems}
     />
   );
 };
