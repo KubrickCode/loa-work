@@ -5,8 +5,12 @@ import { useSafeQuery } from "~/core/graphql";
 import { FormatNumber } from "@chakra-ui/react";
 
 export const ContentWageListTable = () => {
-  const { contentCategoryId, includeIsSeeMore, includeIsBound } =
-    useContentWageListTable();
+  const {
+    contentCategoryId,
+    includeIsSeeMore,
+    includeIsBound,
+    includeContentRewardItems,
+  } = useContentWageListTable();
   const { data } = useSafeQuery(ContentWageListTableDocument, {
     variables: {
       filter: {
@@ -15,6 +19,7 @@ export const ContentWageListTable = () => {
         wageFilter: {
           includeIsSeeMore,
           includeIsBound,
+          includeContentRewardItems,
         },
       },
     },

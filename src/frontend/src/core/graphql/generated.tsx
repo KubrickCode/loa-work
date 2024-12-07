@@ -65,6 +65,7 @@ export type ContentListFilter = {
 };
 
 export type ContentListWageFilter = {
+  includeContentRewardItems?: InputMaybe<Array<Scalars['String']['input']>>;
   includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -95,6 +96,7 @@ export type ContentRewardsEditResult = {
 
 export type ContentWageFilter = {
   __typename?: 'ContentWageFilter';
+  includeContentRewardItems?: Maybe<Array<Scalars['String']['output']>>;
   includeIsBound?: Maybe<Scalars['Boolean']['output']>;
   includeIsSeeMore?: Maybe<Scalars['Boolean']['output']>;
 };

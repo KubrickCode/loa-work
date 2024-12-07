@@ -8,6 +8,9 @@ export class ContentWageFilter {
 
   @Field(() => Boolean, { nullable: true })
   includeIsSeeMore?: boolean;
+
+  @Field(() => [String], { nullable: true })
+  includeContentRewardItems?: string[];
 }
 
 @ObjectType()

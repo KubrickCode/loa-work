@@ -50,6 +50,9 @@ export class ContentResolver {
       where: {
         contentId: content.id,
         ...(filter?.includeIsBound === false && { isSellable: true }),
+        ...(filter?.includeContentRewardItems && {
+          itemName: { in: filter.includeContentRewardItems },
+        }),
       },
     });
 

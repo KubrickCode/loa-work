@@ -11,6 +11,9 @@ export class ContentListWageFilter {
 
   @Field(() => Boolean, { nullable: true })
   includeIsSeeMore?: boolean;
+
+  @Field(() => [String], { nullable: true })
+  includeContentRewardItems?: string[];
 }
 
 @InputType()
@@ -48,6 +51,10 @@ export class ContentListQuery {
           }),
           ...(filter?.wageFilter?.includeIsSeeMore === true && {
             includeIsSeeMore: true,
+          }),
+          ...(filter?.wageFilter?.includeContentRewardItems && {
+            includeContentRewardItems:
+              filter.wageFilter.includeContentRewardItems,
           }),
         },
       }),

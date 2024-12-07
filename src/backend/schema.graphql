@@ -47,6 +47,7 @@ input ContentListFilter {
 }
 
 input ContentListWageFilter {
+  includeContentRewardItems: [String!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
 }
@@ -74,6 +75,7 @@ type ContentRewardsEditResult {
 }
 
 type ContentWageFilter {
+  includeContentRewardItems: [String!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
 }
