@@ -64,7 +64,6 @@ model Content {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  duration  Int      @map("duration") // 소요시간(초)
   gate      Int?
   isSeeMore Boolean? @map("is_see_more")
   level     Int
@@ -72,8 +71,9 @@ model Content {
 
   //Relations
   contentRewards    ContentReward[]
-  contentCategory   ContentCategory @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
-  contentCategoryId Int             @map("content_category_id")
+  contentCategory   ContentCategory   @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
+  contentCategoryId Int               @map("content_category_id")
+  contentDurations  ContentDuration[]
 
   @@unique([name, contentCategoryId, gate, isSeeMore])
   @@map("content")
@@ -90,6 +90,23 @@ model ContentCategory {
   contents Content[]
 
   @@map("content_category")
+}
+
+model ContentDuration {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  value Int // 소요시간(초)
+
+  //Relations
+  contentId Int     @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  userId    Int     @map("user_id")
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([contentId, userId])
+  @@map("content_duration")
 }
 
 model ContentReward {
@@ -215,7 +232,8 @@ model User {
   role        UserRole     @default(USER)
 
   //Relations
-  contentRewards ContentReward[]
+  contentRewards   ContentReward[]
+  contentDurations ContentDuration[]
 
   @@map("user")
 }

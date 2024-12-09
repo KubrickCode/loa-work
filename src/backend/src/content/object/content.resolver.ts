@@ -58,6 +58,30 @@ export class ContentResolver {
     return `${name}${gate ? ` ${gate}관문` : ''}${isSeeMore ? ' 더보기' : ''}`;
   }
 
+  @ResolveField(() => Int)
+  async duration(@Parent() content: Content, @CurrentUser() user?: User) {
+    const userId =
+      user?.id ??
+      (
+        await this.prisma.user.findFirstOrThrow({
+          where: {
+            role: Prisma.UserRole.OWNER,
+          },
+        })
+      ).id;
+
+    return (
+      await this.prisma.contentDuration.findUniqueOrThrow({
+        where: {
+          contentId_userId: {
+            contentId: content.id,
+            userId,
+          },
+        },
+      })
+    ).value;
+  }
+
   @ResolveField(() => ContentWage)
   async wage(@Parent() content: Content, @CurrentUser() user?: User) {
     const { wageFilter: filter } = content;
@@ -84,9 +108,11 @@ export class ContentResolver {
       userId: user?.id,
     });
 
+    const duration = await this.duration(content, user);
+
     return await this.contentWageService.calculateWage({
       gold,
-      duration: content.duration,
+      duration,
     });
   }
 }

@@ -21,9 +21,6 @@ export class Content extends BaseObject {
   @Field(() => ContentWageFilter, { nullable: true })
   wageFilter?: ContentWageFilter;
 
-  @Field(() => Int)
-  duration: number;
-
   @Field(() => Int, { nullable: true })
   gate?: number;
 

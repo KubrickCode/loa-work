@@ -17,7 +17,12 @@ export const getContentsWithRewards = ({
     name: '아게오로스',
     contentCategoryId: guardianRaidId,
     level: 1640,
-    duration: 180,
+    contentDurations: {
+      create: {
+        value: 180,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -53,7 +58,12 @@ export const getContentsWithRewards = ({
     name: '스콜라키아',
     contentCategoryId: guardianRaidId,
     level: 1680,
-    duration: 180,
+    contentDurations: {
+      create: {
+        value: 180,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -89,7 +99,12 @@ export const getContentsWithRewards = ({
     name: '제 1 해금',
     contentCategoryId: cubeId,
     level: 1640,
-    duration: 300,
+    contentDurations: {
+      create: {
+        value: 300,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -137,7 +152,12 @@ export const getContentsWithRewards = ({
     name: '제 2 해금',
     contentCategoryId: cubeId,
     level: 1680,
-    duration: 300,
+    contentDurations: {
+      create: {
+        value: 300,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -185,7 +205,12 @@ export const getContentsWithRewards = ({
     name: '아비도스 1 작전',
     contentCategoryId: kurzanId,
     level: 1640,
-    duration: 180,
+    contentDurations: {
+      create: {
+        value: 180,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -233,7 +258,12 @@ export const getContentsWithRewards = ({
     name: '아비도스 2 작전',
     contentCategoryId: kurzanId,
     level: 1660,
-    duration: 180,
+    contentDurations: {
+      create: {
+        value: 180,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -281,7 +311,12 @@ export const getContentsWithRewards = ({
     name: '아비도스 3 작전',
     contentCategoryId: kurzanId,
     level: 1680,
-    duration: 180,
+    contentDurations: {
+      create: {
+        value: 180,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -331,7 +366,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: epicRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -369,7 +409,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: epicRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -407,7 +452,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: epicRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -445,7 +495,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: epicRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -483,7 +538,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -521,7 +581,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -559,7 +624,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -597,7 +667,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1640,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -635,7 +710,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1660,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -673,7 +753,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1660,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -711,7 +796,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1660,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -749,7 +839,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1660,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -787,7 +882,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -825,7 +925,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -863,7 +968,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -901,7 +1011,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -939,7 +1054,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1680,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -977,7 +1097,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1680,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -1015,7 +1140,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1680,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -1053,7 +1183,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1680,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -1091,7 +1226,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -1129,7 +1269,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -1167,7 +1312,12 @@ export const getContentsWithRewards = ({
     isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
@@ -1205,7 +1355,12 @@ export const getContentsWithRewards = ({
     isSeeMore: true,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    duration: 600,
+    contentDurations: {
+      create: {
+        value: 600,
+        userId: 1,
+      },
+    },
     contentRewards: {
       createMany: {
         data: [
