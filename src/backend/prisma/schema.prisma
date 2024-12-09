@@ -16,7 +16,7 @@ model AuctionItemCategory {
   isItemScraperEnabled Boolean @default(false) @map("is_item_scraper_enabled")
   name                 String
 
-  //Relations
+  // Relations
   auctionItems AuctionItem[]
 
   @@map("auction_item_category")
@@ -32,7 +32,7 @@ model AuctionItem {
   imageSrc             String  @map("image_src")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
 
-  //Relations
+  // Relations
   auctionItemStats      AuctionItemStat[]
   auctionItemCategory   AuctionItemCategory @relation(fields: [auctionItemCategoryId], references: [id])
   auctionItemCategoryId Int                 @map("auction_item_category_id")
@@ -52,7 +52,7 @@ model AuctionItemStat {
   IsCompetitive Boolean  @default(false) @map("is_competitive") // 경쟁 입찰 여부
   endDate       DateTime @map("end_date") // 경매 종료일
 
-  //Relations
+  // Relations
   auctionItemId Int         @map("auction_item_id")
   auctionItem   AuctionItem @relation(fields: [auctionItemId], references: [id], onDelete: Cascade)
 
@@ -69,7 +69,7 @@ model Content {
   level     Int
   name      String
 
-  //Relations
+  // Relations
   contentRewards    ContentReward[]
   contentCategory   ContentCategory   @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
   contentCategoryId Int               @map("content_category_id")
@@ -86,7 +86,7 @@ model ContentCategory {
 
   name String @unique
 
-  //Relations
+  // Relations
   contents Content[]
 
   @@map("content_category")
@@ -99,7 +99,7 @@ model ContentDuration {
 
   value Int // 소요시간(초)
 
-  //Relations
+  // Relations
   contentId Int     @map("content_id")
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
   userId    Int     @map("user_id")
@@ -117,7 +117,7 @@ model ContentReward {
   averageQuantity Decimal @map("average_quantity")
   isSellable      Boolean @default(false) @map("is_sellable")
 
-  //Relations
+  // Relations
   contentId           Int               @map("content_id")
   content             Content           @relation(fields: [contentId], references: [id], onDelete: Cascade)
   userId              Int               @map("user_id")
@@ -138,7 +138,7 @@ model ContentRewardItem {
   name  String                @unique
   price Decimal               @default(0) // 개당 가격
 
-  //Relations
+  // Relations
   contentRewards ContentReward[]
 
   @@map("content_reward_item")
@@ -174,7 +174,7 @@ model MarketItemCategory {
   isItemScraperEnabled Boolean @default(false) @map("is_item_scraper_enabled")
   name                 String
 
-  //Relations
+  // Relations
   marketItems MarketItem[]
 
   @@map("market_item_category")
@@ -192,7 +192,7 @@ model MarketItem {
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
   refId                Int     @unique @map("ref_id")
 
-  //Relations
+  // Relations
   marketItemCategoryId Int                @map("market_item_category_id")
   marketItemCategory   MarketItemCategory @relation(fields: [marketItemCategoryId], references: [id], onDelete: Cascade)
   marketItemStats      MarketItemStat[]
@@ -208,7 +208,7 @@ model MarketItemStat {
   recentPrice     Int     @map("recent_price") // 최근 거래가
   yDayAvgPrice    Decimal @map("y_day_avg_price") // 전일 평균 거래가
 
-  //Relations
+  // Relations
   marketItemId Int        @map("market_item_id")
   marketItem   MarketItem @relation(fields: [marketItemId], references: [id], onDelete: Cascade)
 
@@ -247,7 +247,7 @@ model User {
   refId       String       @unique @map("ref_id")
   role        UserRole     @default(USER)
 
-  //Relations
+  // Relations
   contentRewards   ContentReward[]
   contentDurations ContentDuration[]
 
