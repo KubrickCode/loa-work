@@ -40,13 +40,14 @@ export const ContentWageListTableProvider = ({
   >();
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
-  const [includeContentRewardItems, setIncludeContentRewardItems] =
-    useState<string[]>(contentRewardItems);
+  const [includeContentRewardItems, setIncludeContentRewardItems] = useState<
+    string[]
+  >(contentRewardItems.map((item) => item.name));
 
   return (
     <ContentWageListTableContext.Provider
       value={{
-        contentRewardItems,
+        contentRewardItems: contentRewardItems.map((item) => item.name),
         contentCategoryId,
         includeIsSeeMore,
         includeIsBound,

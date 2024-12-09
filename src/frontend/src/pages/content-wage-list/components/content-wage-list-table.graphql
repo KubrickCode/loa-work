@@ -12,5 +12,7 @@ query ContentWageListTable($filter: ContentListFilter) {
 }
 
 query ContentRewardItemsFilter {
-  contentRewardItems
+  contentRewardItems {
+    name
+  }
 }

@@ -77,16 +77,16 @@ export const ContentRewardListTable = () => {
           },
         },
         ...data.contentRewardItems.map(
-          (
-            itemName
-          ): Column<ContentRewardListTableQuery["contentList"][number]> => ({
+          ({
+            name,
+          }): Column<ContentRewardListTableQuery["contentList"][number]> => ({
             align: "right",
-            header: itemName,
+            header: name,
             render({ data }) {
               const reward = data.contentRewards.find(
-                (reward) => reward.itemName === itemName
+                (reward) => reward.contentRewardItem.name === name
               );
-              const isGold = reward?.itemName === "골드";
+              const isGold = reward?.contentRewardItem.name === "골드";
 
               return (
                 <>

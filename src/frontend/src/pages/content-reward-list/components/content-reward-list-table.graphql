@@ -5,13 +5,17 @@ query ContentRewardListTable($filter: ContentListFilter) {
     }
     contentRewards {
       averageQuantity
+      contentRewardItem {
+        name
+      }
       isSellable
-      itemName
     }
     displayName
     duration
     id
     level
   }
-  contentRewardItems
+  contentRewardItems {
+    name
+  }
 }

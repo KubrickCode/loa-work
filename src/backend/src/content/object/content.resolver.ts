@@ -94,7 +94,7 @@ export class ContentResolver {
         contentId: content.id,
         ...(filter?.includeIsBound === false && { isSellable: true }),
         ...(filter?.includeContentRewardItems && {
-          itemName: { in: filter.includeContentRewardItems },
+          contentRewardItem: { name: { in: filter.includeContentRewardItems } },
         }),
       },
     });

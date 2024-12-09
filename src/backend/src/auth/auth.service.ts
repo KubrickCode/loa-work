@@ -14,10 +14,16 @@ export class AuthService {
 
     await tx.contentReward.createMany({
       data: ownerUser.contentRewards.map(
-        ({ averageQuantity, isSellable, itemName, contentId }) => ({
+        ({
           averageQuantity,
           isSellable,
-          itemName,
+          contentRewardItemId,
+          contentId,
+          userId,
+        }) => ({
+          averageQuantity,
+          isSellable,
+          contentRewardItemId,
           contentId,
           userId,
         }),

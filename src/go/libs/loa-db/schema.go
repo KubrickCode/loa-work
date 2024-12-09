@@ -18,6 +18,7 @@ type AuctionItem struct {
 	// Relations
 	AuctionItemCategoryID int                 `gorm:"column:auction_item_category_id;not null"`
 	AuctionItemCategory   AuctionItemCategory `gorm:"foreignKey:auction_item_category_id"`
+	AuctionItemStats      []AuctionItemStat   `gorm:"foreignKey:auction_item_id"`
 }
 
 type AuctionItemStat struct {
@@ -45,6 +46,16 @@ type AuctionItemCategory struct {
 	Name string `gorm:"not null"`
 }
 
+type ContentRewardItem struct {
+	ID        int       `gorm:"primaryKey"`
+	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `gorm:"column:updated_at;autoUpdateTime"`
+
+	Kind  string          `gorm:"column:kind;not null"`
+	Name  string          `gorm:"column:name;unique;not null"`
+	Price decimal.Decimal `gorm:"column:price;type:decimal;default:0;not null"`
+}
+
 type MarketItem struct {
 	ID        int       `gorm:"primaryKey"`
 	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
@@ -58,6 +69,7 @@ type MarketItem struct {
 	// Relations
 	MarketItemCategoryID int                `gorm:"column:market_item_category_id;not null"`
 	MarketItemCategory   MarketItemCategory `gorm:"foreignKey:market_item_category_id"`
+	MarketItemStats      []MarketItemStat   `gorm:"foreignKey:market_item_id"`
 }
 
 type MarketItemStat struct {

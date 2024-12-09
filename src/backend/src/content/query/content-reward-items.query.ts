@@ -1,12 +1,17 @@
 import { Query, Resolver } from '@nestjs/graphql';
-import { ContentRewardKind } from 'src/enums';
+import { PrismaService } from 'src/prisma';
+import { ContentRewardItem } from '../object/content-reward-item.object';
 
 @Resolver()
 export class ContentRewardItemsQuery {
-  constructor() {}
+  constructor(private prisma: PrismaService) {}
 
-  @Query(() => [String])
-  contentRewardItems() {
-    return Object.values(ContentRewardKind);
+  @Query(() => [ContentRewardItem])
+  async contentRewardItems() {
+    return await this.prisma.contentRewardItem.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
   }
 }

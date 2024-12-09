@@ -81,7 +81,7 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
       <DialogBody>
         <Flex direction="column" gap={4}>
           {data.content.contentRewards.map((reward, index) => (
-            <Field key={reward.id} label={reward.itemName}>
+            <Field key={reward.id} label={reward.contentRewardItem.name}>
               <Input
                 type="number"
                 step="0.01"

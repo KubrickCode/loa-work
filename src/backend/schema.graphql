@@ -54,16 +54,25 @@ input ContentListWageFilter {
 
 type ContentReward {
   averageQuantity: Float!
+  contentRewardItem: ContentRewardItem!
+  contentRewardItemId: Int!
   createdAt: DateTime!
   id: Int!
   isSellable: Boolean!
-  itemName: String!
   updatedAt: DateTime!
 }
 
 input ContentRewardEditInput {
   averageQuantity: Float!
   id: Float!
+}
+
+type ContentRewardItem {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  price: Float!
+  updatedAt: DateTime!
 }
 
 input ContentRewardsEditInput {
@@ -125,7 +134,7 @@ type Query {
   content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
   contentList(filter: ContentListFilter): [Content!]!
-  contentRewardItems: [String!]!
+  contentRewardItems: [ContentRewardItem!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   minimumWage: MinimumWage!
 }

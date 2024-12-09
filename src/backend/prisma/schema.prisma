@@ -116,16 +116,32 @@ model ContentReward {
 
   averageQuantity Decimal @map("average_quantity")
   isSellable      Boolean @default(false) @map("is_sellable")
-  itemName        String  @map("item_name")
 
   //Relations
-  contentId Int     @map("content_id")
-  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  userId    Int     @map("user_id")
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId           Int               @map("content_id")
+  content             Content           @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  userId              Int               @map("user_id")
+  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+  contentRewardItemId Int
 
-  @@unique([userId, contentId, itemName])
+  @@unique([userId, contentId, contentRewardItemId])
   @@map("content_reward")
+}
+
+model ContentRewardItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  kind  ContentRewardItemKind
+  name  String                @unique
+  price Decimal               @default(0) // 개당 가격
+
+  //Relations
+  contentRewards ContentReward[]
+
+  @@map("content_reward_item")
 }
 
 model ExtraItem {
@@ -241,6 +257,12 @@ model User {
 enum AuthProvider {
   GOOGLE
   DISCORD
+}
+
+enum ContentRewardItemKind {
+  AUCTION_ITEM
+  MARKET_ITEM
+  EXTRA_ITEM
 }
 
 enum UserRole {
