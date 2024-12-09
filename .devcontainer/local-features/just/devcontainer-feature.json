@@ -1,0 +1,13 @@
+{
+  "dependsOn": {
+    "ghcr.io/guiyomh/features/just:0": {
+      // 최신 1.25.0 버전은 아직 애플 실리콘을 지원하지 않으므로 이전 버전으로 고정함.
+      "version": "1.24.0"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["skellock.just"]
+    }
+  }
+}
