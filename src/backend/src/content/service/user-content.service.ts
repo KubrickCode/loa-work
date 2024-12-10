@@ -1,14 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { PrismaService } from '../../prisma';
+import { CONTEXT } from '@nestjs/graphql';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class UserContentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(CONTEXT) private context: any,
+  ) {}
 
-  async getContentRewardItemPrice(
-    contentRewardItemId: number,
-    userId?: number,
-  ) {
+  private getCurrentUserId(): number | undefined {
+    return this.context.req?.user?.id;
+  }
+
+  async getContentRewardItemPrice(contentRewardItemId: number) {
+    const userId = this.getCurrentUserId();
+
     const contentRewardItem =
       await this.prisma.contentRewardItem.findUniqueOrThrow({
         where: {
@@ -29,7 +36,9 @@ export class UserContentService {
     return price.toNumber();
   }
 
-  async getContentDuration(contentId: number, userId?: number) {
+  async getContentDuration(contentId: number) {
+    const userId = this.getCurrentUserId();
+
     const contentDuration = await this.prisma.contentDuration.findUniqueOrThrow(
       {
         where: {

@@ -24,7 +24,7 @@ export class ContentWageService {
     excludeIsBound: boolean;
     userId?: number;
   }) {
-    let gold = await this.calculateGold(rewards, userId);
+    let gold = await this.calculateGold(rewards);
 
     if (includeIsSeeMore) {
       const seeMoreContent = await this.prisma.content.findUniqueOrThrow({
@@ -52,13 +52,12 @@ export class ContentWageService {
     return gold;
   }
 
-  async calculateGold(rewards: Prisma.ContentReward[], userId?: number) {
+  async calculateGold(rewards: Prisma.ContentReward[]) {
     let gold = 0;
 
     for (const reward of rewards) {
       const price = await this.userContentService.getContentRewardItemPrice(
         reward.contentRewardItemId,
-        userId,
       );
 
       const averageQuantity = reward.averageQuantity.toNumber();

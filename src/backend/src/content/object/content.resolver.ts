@@ -61,16 +61,13 @@ export class ContentResolver {
   }
 
   @ResolveField(() => Int)
-  async duration(@Parent() content: Content, @CurrentUser() user?: User) {
-    return await this.userContentService.getContentDuration(
-      content.id,
-      user?.id,
-    );
+  async duration(@Parent() content: Content) {
+    return await this.userContentService.getContentDuration(content.id);
   }
 
   @ResolveField(() => String)
-  async durationText(@Parent() content: Content, @CurrentUser() user?: User) {
-    const durationInSeconds = await this.duration(content, user);
+  async durationText(@Parent() content: Content) {
+    const durationInSeconds = await this.duration(content);
     const minutes = Math.floor(durationInSeconds / 60);
     const seconds = durationInSeconds % 60;
 
@@ -103,7 +100,7 @@ export class ContentResolver {
       userId: user?.id,
     });
 
-    const duration = await this.duration(content, user);
+    const duration = await this.duration(content);
 
     return await this.contentWageService.calculateWage({
       gold,
