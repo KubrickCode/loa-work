@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from 'src/prisma';
 import { ContentWageService } from './content-wage.service';
+import { UserContentService } from './user-content.service';
+import { CONTEXT } from '@nestjs/graphql';
 
 describe('ContentWageService', () => {
   let module: TestingModule;
@@ -9,7 +11,15 @@ describe('ContentWageService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [PrismaService, ContentWageService],
+      providers: [
+        PrismaService,
+        ContentWageService,
+        UserContentService,
+        {
+          provide: CONTEXT,
+          useValue: { req: { user: { id: 1 } } },
+        },
+      ],
     }).compile();
     service = module.get(ContentWageService);
     prisma = module.get(PrismaService);
