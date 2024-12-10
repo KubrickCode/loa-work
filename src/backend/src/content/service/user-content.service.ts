@@ -4,18 +4,16 @@ import { CONTEXT } from '@nestjs/graphql';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserContentService {
+  private readonly userId?: number;
+
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(CONTEXT) private context: any,
-  ) {}
-
-  private getCurrentUserId(): number | undefined {
-    return this.context.req?.user?.id;
+    @Inject(CONTEXT) private readonly context: any,
+  ) {
+    this.userId = context.req?.user?.id;
   }
 
   async getContentRewardItemPrice(contentRewardItemId: number) {
-    const userId = this.getCurrentUserId();
-
     const contentRewardItem =
       await this.prisma.contentRewardItem.findUniqueOrThrow({
         where: {
@@ -23,11 +21,14 @@ export class UserContentService {
         },
       });
 
-    const price = userId
+    const price = this.userId
       ? (
           await this.prisma.userContentRewardItem.findUniqueOrThrow({
             where: {
-              userId_contentRewardItemId: { userId, contentRewardItemId },
+              userId_contentRewardItemId: {
+                userId: this.userId,
+                contentRewardItemId,
+              },
             },
           })
         ).price
@@ -37,8 +38,6 @@ export class UserContentService {
   }
 
   async getContentDuration(contentId: number) {
-    const userId = this.getCurrentUserId();
-
     const contentDuration = await this.prisma.contentDuration.findUniqueOrThrow(
       {
         where: {
@@ -47,13 +46,13 @@ export class UserContentService {
       },
     );
 
-    return userId
+    return this.userId
       ? (
           await this.prisma.userContentDuration.findUniqueOrThrow({
             where: {
               contentDurationId_userId: {
                 contentDurationId: contentDuration.id,
-                userId,
+                userId: this.userId,
               },
             },
           })
