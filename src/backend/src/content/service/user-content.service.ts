@@ -2,13 +2,15 @@ import { Inject, Injectable, Scope } from '@nestjs/common';
 import { PrismaService } from '../../prisma';
 import { CONTEXT } from '@nestjs/graphql';
 
+type ContextType = { req?: { user?: { id: number } } };
+
 @Injectable({ scope: Scope.REQUEST })
 export class UserContentService {
   private readonly userId?: number;
 
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(CONTEXT) private readonly context: any,
+    @Inject(CONTEXT) context: ContextType,
   ) {
     this.userId = context.req?.user?.id;
   }
