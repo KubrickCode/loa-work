@@ -28,4 +28,27 @@ export class UserContentService {
 
     return price.toNumber();
   }
+
+  async getContentDuration(contentId: number, userId?: number) {
+    const contentDuration = await this.prisma.contentDuration.findUniqueOrThrow(
+      {
+        where: {
+          contentId,
+        },
+      },
+    );
+
+    return userId
+      ? (
+          await this.prisma.userContentDuration.findUniqueOrThrow({
+            where: {
+              contentDurationId_userId: {
+                contentDurationId: contentDuration.id,
+                userId,
+              },
+            },
+          })
+        ).value
+      : contentDuration.defaultValue;
+  }
 }

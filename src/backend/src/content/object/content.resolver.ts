@@ -14,6 +14,7 @@ import * as Prisma from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { User } from 'src/common/object/user.object';
+import { UserContentService } from '../service/user-content.service';
 
 @ObjectType()
 export class ContentWage {
@@ -29,6 +30,7 @@ export class ContentResolver {
   constructor(
     private prisma: PrismaService,
     private contentWageService: ContentWageService,
+    private userContentService: UserContentService,
   ) {}
 
   @ResolveField(() => ContentCategory)
@@ -60,27 +62,10 @@ export class ContentResolver {
 
   @ResolveField(() => Int)
   async duration(@Parent() content: Content, @CurrentUser() user?: User) {
-    const defaultDuration = await this.prisma.contentDuration.findUniqueOrThrow(
-      {
-        where: {
-          contentId: content.id,
-        },
-      },
+    return await this.userContentService.getContentDuration(
+      content.id,
+      user?.id,
     );
-
-    return user
-      ? (
-          await this.prisma.userContentDuration.findUniqueOrThrow({
-            where: {
-              contentDurationId_userId: {
-                contentDurationId: defaultDuration.id,
-                userId: user.id,
-              },
-            },
-            select: { value: true },
-          })
-        ).value
-      : defaultDuration.defaultValue;
   }
 
   @ResolveField(() => String)
