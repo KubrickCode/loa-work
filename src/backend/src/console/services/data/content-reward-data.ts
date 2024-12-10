@@ -32,8 +32,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 180,
-        userId: 1,
+        defaultValue: 180,
       },
     },
     contentRewards: {
@@ -73,8 +72,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDurations: {
       create: {
-        value: 180,
-        userId: 1,
+        defaultValue: 180,
       },
     },
     contentRewards: {
@@ -114,8 +112,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 300,
-        userId: 1,
+        defaultValue: 300,
       },
     },
     contentRewards: {
@@ -167,8 +164,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDurations: {
       create: {
-        value: 300,
-        userId: 1,
+        defaultValue: 300,
       },
     },
     contentRewards: {
@@ -220,8 +216,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 180,
-        userId: 1,
+        defaultValue: 180,
       },
     },
     contentRewards: {
@@ -273,8 +268,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDurations: {
       create: {
-        value: 180,
-        userId: 1,
+        defaultValue: 180,
       },
     },
     contentRewards: {
@@ -326,8 +320,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDurations: {
       create: {
-        value: 180,
-        userId: 1,
+        defaultValue: 180,
       },
     },
     contentRewards: {
@@ -381,8 +374,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -424,8 +416,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -467,8 +458,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -510,8 +500,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -553,8 +542,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -596,8 +584,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -639,8 +626,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -682,8 +668,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -725,8 +710,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -768,8 +752,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -811,8 +794,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -854,8 +836,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -897,8 +878,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -940,8 +920,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -983,8 +962,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1026,8 +1004,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1069,8 +1046,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1112,8 +1088,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1155,8 +1130,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1198,8 +1172,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1241,8 +1214,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1284,8 +1256,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1327,8 +1298,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {
@@ -1370,8 +1340,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDurations: {
       create: {
-        value: 600,
-        userId: 1,
+        defaultValue: 600,
       },
     },
     contentRewards: {

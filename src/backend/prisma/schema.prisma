@@ -97,15 +97,13 @@ model ContentDuration {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  value Int // 소요시간(초)
+  defaultValue Int // 소요시간(초)
 
   // Relations
-  contentId Int     @map("content_id")
-  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  userId    Int     @map("user_id")
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId            Int                   @unique @map("content_id")
+  content              Content               @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  userContentDurations UserContentDuration[]
 
-  @@unique([contentId, userId])
   @@map("content_duration")
 }
 
@@ -248,10 +246,27 @@ model User {
   role        UserRole     @default(USER)
 
   // Relations
-  contentRewards   ContentReward[]
-  contentDurations ContentDuration[]
+  contentRewards       ContentReward[]
+  userContentDurations UserContentDuration[]
 
   @@map("user")
+}
+
+model UserContentDuration {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  value Int // 소요시간(초)
+
+  // Relations
+  contentDurationId Int             @map("content_duration_id")
+  contentDuration   ContentDuration @relation(fields: [contentDurationId], references: [id], onDelete: Cascade)
+  userId            Int             @map("user_id")
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([contentDurationId, userId])
+  @@map("user_content_duration")
 }
 
 enum AuthProvider {

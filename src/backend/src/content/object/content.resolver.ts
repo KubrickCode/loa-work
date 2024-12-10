@@ -60,26 +60,27 @@ export class ContentResolver {
 
   @ResolveField(() => Int)
   async duration(@Parent() content: Content, @CurrentUser() user?: User) {
-    const userId =
-      user?.id ??
-      (
-        await this.prisma.user.findFirstOrThrow({
-          where: {
-            role: Prisma.UserRole.OWNER,
-          },
-        })
-      ).id;
-
-    return (
-      await this.prisma.contentDuration.findUniqueOrThrow({
+    const defaultDuration = await this.prisma.contentDuration.findUniqueOrThrow(
+      {
         where: {
-          contentId_userId: {
-            contentId: content.id,
-            userId,
-          },
+          contentId: content.id,
         },
-      })
-    ).value;
+      },
+    );
+
+    return user
+      ? (
+          await this.prisma.userContentDuration.findUniqueOrThrow({
+            where: {
+              contentDurationId_userId: {
+                contentDurationId: defaultDuration.id,
+                userId: user.id,
+              },
+            },
+            select: { value: true },
+          })
+        ).value
+      : defaultDuration.defaultValue;
   }
 
   @ResolveField(() => ContentWage)
