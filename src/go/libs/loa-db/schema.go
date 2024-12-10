@@ -51,9 +51,9 @@ type ContentRewardItem struct {
 	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
 	UpdatedAt time.Time `gorm:"column:updated_at;autoUpdateTime"`
 
-	Kind  string          `gorm:"column:kind;not null"`
-	Name  string          `gorm:"column:name;unique;not null"`
-	Price decimal.Decimal `gorm:"column:price;type:decimal;default:0;not null"`
+	Kind         string          `gorm:"column:kind;not null"`
+	Name         string          `gorm:"column:name;unique;not null"`
+	DefaultPrice decimal.Decimal `gorm:"column:default_price;type:decimal;default:0;not null"`
 }
 
 type MarketItem struct {

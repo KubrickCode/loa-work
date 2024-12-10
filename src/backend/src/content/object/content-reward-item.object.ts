@@ -7,5 +7,5 @@ export class ContentRewardItem extends BaseObject {
   name: string;
 
   @Field(() => Float)
-  price: number;
+  defaultPrice: number;
 }

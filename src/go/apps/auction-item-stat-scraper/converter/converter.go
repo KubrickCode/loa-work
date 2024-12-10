@@ -30,8 +30,8 @@ func (s *Converter) Start() error {
 				return err
 			}
 			itemsToUpdate = append(itemsToUpdate, loadb.ContentRewardItem{
-				ID:    item.ID,
-				Price: price,
+				ID:           item.ID,
+				DefaultPrice: price,
 			})
 		} else {
 			return fmt.Errorf("unknown item: %s", item.Name)

@@ -70,9 +70,9 @@ input ContentRewardEditInput {
 
 type ContentRewardItem {
   createdAt: DateTime!
+  defaultPrice: Float!
   id: Int!
   name: String!
-  price: Float!
   updatedAt: DateTime!
 }
 

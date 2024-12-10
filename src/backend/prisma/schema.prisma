@@ -132,12 +132,13 @@ model ContentRewardItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  kind  ContentRewardItemKind
-  name  String                @unique
-  price Decimal               @default(0) // 개당 가격
+  kind         ContentRewardItemKind
+  name         String                @unique
+  defaultPrice Decimal               @default(0) // 개당 가격
 
   // Relations
-  contentRewards ContentReward[]
+  contentRewards         ContentReward[]
+  userContentRewardItems UserContentRewardItem[]
 
   @@map("content_reward_item")
 }
@@ -246,8 +247,9 @@ model User {
   role        UserRole     @default(USER)
 
   // Relations
-  contentRewards       ContentReward[]
-  userContentDurations UserContentDuration[]
+  contentRewards         ContentReward[]
+  userContentDurations   UserContentDuration[]
+  userContentRewardItems UserContentRewardItem[]
 
   @@map("user")
 }
@@ -267,6 +269,23 @@ model UserContentDuration {
 
   @@unique([contentDurationId, userId])
   @@map("user_content_duration")
+}
+
+model UserContentRewardItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  price Decimal @default(0) // 개당 가격
+
+  // Relations
+  contentRewardItemId Int
+  contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+  userId              Int               @map("user_id")
+  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentRewardItemId])
+  @@map("user_content_reward_item")
 }
 
 enum AuthProvider {

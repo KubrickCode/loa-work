@@ -248,7 +248,11 @@ export class SeedService {
   async contentRewardItems() {
     await this.prisma.contentRewardItem.createMany({
       data: [
-        { name: '골드', price: 1, kind: ContentRewardItemKind.EXTRA_ITEM },
+        {
+          name: '골드',
+          defaultPrice: 1,
+          kind: ContentRewardItemKind.EXTRA_ITEM,
+        },
         { name: '실링', kind: ContentRewardItemKind.EXTRA_ITEM },
         {
           name: '운명의 파편',
