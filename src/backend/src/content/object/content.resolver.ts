@@ -83,6 +83,15 @@ export class ContentResolver {
       : defaultDuration.defaultValue;
   }
 
+  @ResolveField(() => String)
+  async durationText(@Parent() content: Content, @CurrentUser() user?: User) {
+    const durationInSeconds = await this.duration(content, user);
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = durationInSeconds % 60;
+
+    return seconds === 0 ? `${minutes}분` : `${minutes}분 ${seconds}초`;
+  }
+
   @ResolveField(() => ContentWage)
   async wage(@Parent() content: Content, @CurrentUser() user?: User) {
     const { wageFilter: filter } = content;

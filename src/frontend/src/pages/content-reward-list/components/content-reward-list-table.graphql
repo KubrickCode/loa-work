@@ -11,7 +11,7 @@ query ContentRewardListTable($filter: ContentListFilter) {
       isSellable
     }
     displayName
-    duration
+    durationText
     id
     level
   }

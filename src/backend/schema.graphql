@@ -23,6 +23,7 @@ type Content {
   createdAt: DateTime!
   displayName: String!
   duration: Int!
+  durationText: String!
   gate: Int
   id: Int!
   isSeeMore: Boolean

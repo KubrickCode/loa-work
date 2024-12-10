@@ -67,13 +67,7 @@ export const ContentRewardListTable = () => {
           align: "right",
           header: "소요시간",
           render({ data }) {
-            const minutes = Math.floor(data.duration / 60);
-            const seconds = data.duration % 60;
-            return (
-              <>
-                {minutes}분 {seconds > 0 ? `${seconds}초` : ""}
-              </>
-            );
+            return <>{data.durationText}</>;
           },
         },
         ...data.contentRewardItems.map(
