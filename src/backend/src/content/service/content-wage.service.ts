@@ -2,10 +2,14 @@ import { PrismaService } from 'src/prisma';
 import { Injectable } from '@nestjs/common';
 import * as Prisma from '@prisma/client';
 import { Content } from '../object/content.object';
+import { UserContentService } from './user-content.service';
 
 @Injectable()
 export class ContentWageService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private userContentService: UserContentService,
+  ) {}
 
   async calculateRewardsGold({
     content,
@@ -52,27 +56,13 @@ export class ContentWageService {
     let gold = 0;
 
     for (const reward of rewards) {
-      const rewardItem = await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: {
-          id: reward.contentRewardItemId,
-        },
-      });
-
-      const price = userId
-        ? (
-            await this.prisma.userContentRewardItem.findUniqueOrThrow({
-              where: {
-                userId_contentRewardItemId: {
-                  userId,
-                  contentRewardItemId: rewardItem.id,
-                },
-              },
-            })
-          ).price
-        : rewardItem.defaultPrice;
+      const price = await this.userContentService.getContentRewardItemPrice(
+        reward.contentRewardItemId,
+        userId,
+      );
 
       const averageQuantity = reward.averageQuantity.toNumber();
-      gold += price.toNumber() * averageQuantity;
+      gold += price * averageQuantity;
     }
 
     return gold;
