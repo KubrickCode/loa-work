@@ -13,7 +13,7 @@ import { Button } from "~/chakra-components/ui/button";
 import { IoFilter } from "react-icons/io5";
 import { Field } from "~/chakra-components/ui/field";
 import { SegmentedControl } from "~/chakra-components/ui/segmented-control";
-import { MultiSelect } from "~/core/select";
+// import { MultiSelect } from "~/core/select";
 
 export const ContentWageListTableFilters = () => {
   const { contentCategoryId, setContentCategoryId } = useContentWageListTable();
@@ -41,9 +41,9 @@ export const ContentWageListTableFilters = () => {
                   value={contentCategoryId ? [contentCategoryId] : [""]}
                 />
               </Field>
-              <Field label="컨텐츠 보상 종류">
+              {/* <Field label="컨텐츠 보상 종류">
                 <ContentRewardItemsFilter />
-              </Field>
+              </Field> */}
               <Field label="더보기 포함 여부">
                 <ContentSeeMoreFilter />
               </Field>
@@ -89,24 +89,24 @@ const ContentIsBoundFilter = () => {
   );
 };
 
-const ContentRewardItemsFilter = () => {
-  const {
-    contentRewardItems,
-    includeContentRewardItems,
-    setIncludeContentRewardItems,
-  } = useContentWageListTable();
+// const ContentRewardItemsFilter = () => {
+//   const {
+//     contentRewardItems,
+//     includeContentRewardItemIds,
+//     setIncludeContentRewardItemIds,
+//   } = useContentWageListTable();
 
-  const items = contentRewardItems.map((item) => ({
-    label: item,
-    value: item,
-  }));
+//   const items = contentRewardItems.map(({ id, name }) => ({
+//     label: name,
+//     value: id,
+//   }));
 
-  return (
-    <MultiSelect
-      items={items}
-      onChange={setIncludeContentRewardItems}
-      placeholder="컨텐츠 보상 종류"
-      value={includeContentRewardItems}
-    />
-  );
-};
+//   return (
+//     <MultiSelect
+//       items={items}
+//       onValueChange={(value) => console.log(value)}
+//       placeholder="컨텐츠 보상 종류"
+//       value={includeContentRewardItemIds}
+//     />
+//   );
+// };

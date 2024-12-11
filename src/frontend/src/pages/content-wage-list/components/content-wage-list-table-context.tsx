@@ -10,7 +10,10 @@ import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardItemsFilterDocument } from "~/core/graphql/generated";
 
 type ContentWageListTableContextType = {
-  contentRewardItems: string[];
+  contentRewardItems: {
+    id: number;
+    name: string;
+  }[];
 
   contentCategoryId?: string;
   setContentCategoryId: (id?: string) => void;
@@ -21,8 +24,8 @@ type ContentWageListTableContextType = {
   includeIsBound?: boolean;
   setIncludeIsBound: (value: boolean) => void;
 
-  includeContentRewardItems: string[];
-  setIncludeContentRewardItems: Dispatch<SetStateAction<string[]>>;
+  includeContentRewardItemIds: number[];
+  setIncludeContentRewardItemIds: Dispatch<SetStateAction<number[]>>;
 };
 
 const ContentWageListTableContext = createContext<
@@ -40,22 +43,21 @@ export const ContentWageListTableProvider = ({
   >();
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
-  const [includeContentRewardItems, setIncludeContentRewardItems] = useState<
-    string[]
-  >(contentRewardItems.map((item) => item.name));
+  const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =
+    useState<number[]>(contentRewardItems.map((item) => item.id));
 
   return (
     <ContentWageListTableContext.Provider
       value={{
-        contentRewardItems: contentRewardItems.map((item) => item.name),
+        contentRewardItems,
         contentCategoryId,
         includeIsSeeMore,
         includeIsBound,
         setContentCategoryId,
         setIncludeIsSeeMore,
         setIncludeIsBound,
-        includeContentRewardItems,
-        setIncludeContentRewardItems,
+        includeContentRewardItemIds,
+        setIncludeContentRewardItemIds,
       }}
     >
       {children}

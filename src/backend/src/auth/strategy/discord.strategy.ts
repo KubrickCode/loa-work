@@ -29,7 +29,11 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
   ) {
     await this.prisma.$transaction(async (tx) => {
       const user = await tx.user.upsert({
-        include: { contentRewards: true, userContentDurations: true },
+        include: {
+          userContentRewards: true,
+          userContentDurations: true,
+          userContentRewardItems: true,
+        },
         create: {
           displayName: profile.username,
           email: profile.email,
@@ -51,12 +55,16 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
         },
       });
 
-      if (!user.contentRewards.length) {
-        await this.authService.copyOwnerContentRewards(user.id, tx);
+      if (!user.userContentRewards.length) {
+        await this.authService.makeUserContentRewards(user.id, tx);
       }
 
       if (!user.userContentDurations.length) {
         await this.authService.makeContentDurations(user.id, tx);
+      }
+
+      if (!user.userContentRewardItems.length) {
+        await this.authService.makeUserContentRewardItems(user.id, tx);
       }
 
       done(undefined, user);

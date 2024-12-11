@@ -61,4 +61,25 @@ export class UserContentService {
         ).value
       : contentDuration.defaultValue;
   }
+
+  async getContentRewardAverageQuantity(contentRewardId: number) {
+    const contentReward = await this.prisma.contentReward.findUniqueOrThrow({
+      where: {
+        id: contentRewardId,
+      },
+    });
+
+    return this.userId
+      ? (
+          await this.prisma.userContentReward.findUniqueOrThrow({
+            where: {
+              userId_contentRewardId: {
+                userId: this.userId,
+                contentRewardId,
+              },
+            },
+          })
+        ).averageQuantity
+      : contentReward.defaultAverageQuantity;
+  }
 }

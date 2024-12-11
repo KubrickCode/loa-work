@@ -29,7 +29,11 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
   ) {
     await this.prisma.$transaction(async (tx) => {
       const user = await tx.user.upsert({
-        include: { contentRewards: true, userContentDurations: true },
+        include: {
+          userContentRewards: true,
+          userContentDurations: true,
+          userContentRewardItems: true,
+        },
         create: {
           displayName: profile.displayName,
           email: profile.emails[0].value,
@@ -47,12 +51,16 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
         },
       });
 
-      if (!user.contentRewards.length) {
-        await this.authService.copyOwnerContentRewards(user.id, tx);
+      if (!user.userContentRewards.length) {
+        await this.authService.makeUserContentRewards(user.id, tx);
       }
 
       if (!user.userContentDurations.length) {
         await this.authService.makeContentDurations(user.id, tx);
+      }
+
+      if (!user.userContentRewardItems.length) {
+        await this.authService.makeUserContentRewardItems(user.id, tx);
       }
 
       done(undefined, user);

@@ -4,6 +4,11 @@ import * as Prisma from '@prisma/client';
 import { Content } from '../object/content.object';
 import { UserContentService } from './user-content.service';
 
+type Reward = {
+  averageQuantity: number;
+  contentRewardItemId: number;
+};
+
 @Injectable()
 export class ContentWageService {
   constructor(
@@ -11,48 +16,7 @@ export class ContentWageService {
     private userContentService: UserContentService,
   ) {}
 
-  async calculateRewardsGold({
-    content,
-    rewards,
-    includeIsSeeMore,
-    excludeIsBound,
-    userId,
-  }: {
-    content: Content;
-    rewards: Prisma.ContentReward[];
-    includeIsSeeMore: boolean;
-    excludeIsBound: boolean;
-    userId?: number;
-  }) {
-    let gold = await this.calculateGold(rewards);
-
-    if (includeIsSeeMore) {
-      const seeMoreContent = await this.prisma.content.findUniqueOrThrow({
-        where: {
-          name_contentCategoryId_gate_isSeeMore: {
-            name: content.name,
-            contentCategoryId: content.contentCategoryId,
-            gate: content.gate,
-            isSeeMore: true,
-          },
-        },
-      });
-
-      const seeMoreRewards = await this.prisma.contentReward.findMany({
-        where: {
-          contentId: seeMoreContent.id,
-          ...(userId ? { userId } : { user: { role: Prisma.UserRole.OWNER } }),
-          ...(excludeIsBound && { isSellable: true }),
-        },
-      });
-
-      gold += await this.calculateGold(seeMoreRewards);
-    }
-
-    return gold;
-  }
-
-  async calculateGold(rewards: Prisma.ContentReward[]) {
+  async calculateGold(rewards: Reward[]) {
     let gold = 0;
 
     for (const reward of rewards) {
@@ -60,7 +24,7 @@ export class ContentWageService {
         reward.contentRewardItemId,
       );
 
-      const averageQuantity = reward.averageQuantity.toNumber();
+      const averageQuantity = reward.averageQuantity;
       gold += price * averageQuantity;
     }
 
@@ -81,7 +45,7 @@ export class ContentWageService {
     const hourlyGold = gold / hours;
 
     return {
-      amount: Math.round(hourlyWage),
+      krwAmount: Math.round(hourlyWage),
       goldAmount: Math.round(hourlyGold),
     };
   }

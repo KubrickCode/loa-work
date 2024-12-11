@@ -1,33 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma';
-import { Prisma, User, UserRole } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor() {}
 
-  async copyOwnerContentRewards(userId: number, tx: Prisma.TransactionClient) {
-    const ownerUser = await tx.user.findFirstOrThrow({
-      where: { role: UserRole.OWNER },
-      include: { contentRewards: true },
-    });
+  async makeUserContentRewards(userId: number, tx: Prisma.TransactionClient) {
+    const defaultRewards = await tx.contentReward.findMany();
 
-    await tx.contentReward.createMany({
-      data: ownerUser.contentRewards.map(
-        ({
+    await tx.userContentReward.createMany({
+      data: defaultRewards.map(
+        ({ id, defaultAverageQuantity: averageQuantity, isSellable }) => ({
+          contentRewardId: id,
           averageQuantity,
-          isSellable,
-          contentRewardItemId,
-          contentId,
-          userId,
-        }) => ({
-          averageQuantity,
-          isSellable,
-          contentRewardItemId,
-          contentId,
           userId,
         }),
       ),
+    });
+  }
+
+  async makeUserContentRewardItems(
+    userId: number,
+    tx: Prisma.TransactionClient,
+  ) {
+    const defaultRewardItems = await tx.contentRewardItem.findMany();
+
+    await tx.userContentRewardItem.createMany({
+      data: defaultRewardItems.map(({ id, defaultPrice: price }) => ({
+        contentRewardItemId: id,
+        price,
+        userId,
+      })),
     });
   }
 
