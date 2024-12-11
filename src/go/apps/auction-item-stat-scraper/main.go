@@ -19,9 +19,15 @@ func main() {
 	scraper := scraper.NewScraper(db)
 	converter := converter.NewConverter(db)
 
+	combinedTask := func() error {
+		if err := scraper.Start(); err != nil {
+			return err
+		}
+		return converter.Start()
+	}
+
 	scheduler := schedule.NewScheduler()
-	scheduler.AddTask(schedule.NewTask("Auction Item Stat Scraping", time.Minute, scraper.Start))
-	scheduler.AddTask(schedule.NewTask("Auction Item Stat Converting", time.Minute, converter.Start))
+	scheduler.AddTask(schedule.NewTask("Auction item stat scraping and converting", time.Minute, combinedTask))
 
 	err = scheduler.Run()
 	if err != nil {
