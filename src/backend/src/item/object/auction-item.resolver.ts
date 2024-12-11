@@ -9,7 +9,7 @@ export class AuctionItemResolver {
 
   constructor(private prisma: PrismaService) {}
 
-  @ResolveField(() => Float)
+  @ResolveField(() => Float, { nullable: true })
   async avgBuyPrice(@Parent() auctionItem: AuctionItem) {
     const stats = await this.prisma.auctionItemStat.findMany({
       where: {
@@ -21,6 +21,6 @@ export class AuctionItemResolver {
       take: this.RECENT_STATS_COUNT,
     });
 
-    return _.meanBy(stats, 'buyPrice');
+    return stats.length === 0 ? null : _.meanBy(stats, 'buyPrice');
   }
 }

@@ -19,7 +19,7 @@ export type Scalars = {
 
 export type AuctionItem = {
   __typename?: 'AuctionItem';
-  avgBuyPrice: Scalars['Float']['output'];
+  avgBuyPrice?: Maybe<Scalars['Float']['output']>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
   imageSrc: Scalars['String']['output'];
@@ -239,7 +239,7 @@ export type AuctionItemListTableQueryVariables = Exact<{
 }>;
 
 
-export type AuctionItemListTableQuery = { __typename?: 'Query', auctionItemList: Array<{ __typename?: 'AuctionItem', avgBuyPrice: number, imageSrc: string, name: string }> };
+export type AuctionItemListTableQuery = { __typename?: 'Query', auctionItemList: Array<{ __typename?: 'AuctionItem', avgBuyPrice?: number | null, imageSrc: string, name: string }> };
 
 export type MarketItemListTableQueryVariables = Exact<{
   filter?: InputMaybe<MarketItemListFilter>;
