@@ -1,18 +1,19 @@
-query ContentWageListTable($filter: ContentListFilter) {
-  contentList(filter: $filter) {
-    contentCategory {
-      name
+query ContentWageListTable($filter: ContentWageListFilter) {
+  contentWageList(filter: $filter) {
+    content {
+      contentCategory {
+        name
+      }
+      displayName
     }
-    displayName
-    wage {
-      amount
-      goldAmount
-    }
+    goldAmount
+    krwAmount
   }
 }
 
 query ContentRewardItemsFilter {
   contentRewardItems {
+    id
     name
   }
 }

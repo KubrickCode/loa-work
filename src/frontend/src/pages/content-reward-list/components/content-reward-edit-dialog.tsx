@@ -94,7 +94,10 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
         </Flex>
       </DialogBody>
       <DialogFooter>
-        <Button type="submit">확인</Button>
+        {/* 임시 기능 비활성화 */}
+        <Button disabled type="submit">
+          확인
+        </Button>
       </DialogFooter>
     </form>
   );

@@ -30,7 +30,6 @@ type Content {
   level: Int!
   name: String!
   updatedAt: DateTime!
-  wage: ContentWage!
   wageFilter: ContentWageFilter
 }
 
@@ -85,12 +84,21 @@ type ContentRewardsEditResult {
 }
 
 type ContentWage {
-  amount: Int!
+  content: Content!
+  contentId: Int!
   goldAmount: Int!
+  krwAmount: Int!
 }
 
 type ContentWageFilter {
   includeContentRewardItems: [String!]
+  includeIsBound: Boolean
+  includeIsSeeMore: Boolean
+}
+
+input ContentWageListFilter {
+  contentCategoryId: Int
+  includeContentRewardItemIds: [Int!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
 }
@@ -136,6 +144,7 @@ type Query {
   contentCategories: [ContentCategory!]!
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardItems: [ContentRewardItem!]!
+  contentWageList(filter: ContentWageListFilter): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   minimumWage: MinimumWage!
 }

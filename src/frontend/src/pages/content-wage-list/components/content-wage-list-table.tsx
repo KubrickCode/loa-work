@@ -10,18 +10,15 @@ export const ContentWageListTable = () => {
     contentCategoryId,
     includeIsSeeMore,
     includeIsBound,
-    includeContentRewardItems,
+    includeContentRewardItemIds,
   } = useContentWageListTable();
   const { data } = useSafeQuery(ContentWageListTableDocument, {
     variables: {
       filter: {
         contentCategoryId: Number(contentCategoryId),
-        includeIsSeeMore: false,
-        wageFilter: {
-          includeIsSeeMore,
-          includeIsBound,
-          includeContentRewardItems,
-        },
+        includeIsSeeMore,
+        includeIsBound,
+        includeContentRewardItemIds,
       },
     },
   });
@@ -32,13 +29,13 @@ export const ContentWageListTable = () => {
         {
           header: "종류",
           render({ data }) {
-            return <>{data.contentCategory.name}</>;
+            return <>{data.content.contentCategory.name}</>;
           },
         },
         {
           header: "이름",
           render({ data }) {
-            return <>{data.displayName}</>;
+            return <>{data.content.displayName}</>;
           },
         },
         {
@@ -49,7 +46,7 @@ export const ContentWageListTable = () => {
               <FormatNumber
                 currency="KRW"
                 style="currency"
-                value={data.wage.amount}
+                value={data.krwAmount}
               />
             );
           },
@@ -59,13 +56,13 @@ export const ContentWageListTable = () => {
           align: "right",
           header: "시급(골드)",
           render({ data }) {
-            return <FormatGold value={data.wage.goldAmount} />;
+            return <FormatGold value={data.goldAmount} />;
           },
           sortKey: "wage.goldAmount",
         },
       ]}
-      rows={data.contentList.map((content) => ({
-        data: content,
+      rows={data.contentWageList.map((data) => ({
+        data,
       }))}
     />
   );

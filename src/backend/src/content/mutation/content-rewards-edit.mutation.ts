@@ -39,14 +39,14 @@ export class ContentRewardsEditMutation {
   @Mutation(() => ContentRewardsEditResult)
   async contentRewardsEdit(@Args('input') input: ContentRewardsEditInput) {
     return await this.prisma.$transaction(async (tx) => {
-      await Promise.all(
-        input.contentRewards.map(({ id, averageQuantity }) =>
-          tx.contentReward.update({
-            where: { id },
-            data: { averageQuantity },
-          }),
-        ),
-      );
+      // await Promise.all(
+      //   input.contentRewards.map(({ id, averageQuantity }) =>
+      //     tx.contentReward.update({
+      //       where: { id },
+      //       data: { averageQuantity },
+      //     }),
+      //   ),
+      // );
 
       return { ok: true };
     });

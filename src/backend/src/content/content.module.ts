@@ -9,6 +9,8 @@ import { ContentQuery } from './query/content.query';
 import { ContentRewardsEditMutation } from './mutation/content-rewards-edit.mutation';
 import { ContentRewardResolver } from './object/content-reward.resolver';
 import { UserContentService } from './service/user-content.service';
+import { ContentWageListQuery } from './query/content-wage-list.query';
+import { ContentWageResolver } from './object/content-wage.resolver';
 
 @Module({
   imports: [PrismaModule],
@@ -22,6 +24,8 @@ import { UserContentService } from './service/user-content.service';
     ContentRewardsEditMutation,
     ContentRewardResolver,
     UserContentService,
+    ContentWageListQuery,
+    ContentWageResolver,
   ],
 })
 export class ContentModule {}

@@ -1,35 +1,15 @@
-import {
-  Field,
-  Int,
-  ObjectType,
-  Parent,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Int, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
 import { ContentCategory } from './content-category.object';
 import * as Prisma from '@prisma/client';
-import { ContentWageService } from '../service/content-wage.service';
-import { CurrentUser } from 'src/common/decorator/current-user.decorator';
-import { User } from 'src/common/object/user.object';
 import { UserContentService } from '../service/user-content.service';
-
-@ObjectType()
-export class ContentWage {
-  @Field(() => Int)
-  amount: number;
-
-  @Field(() => Int)
-  goldAmount: number;
-}
 
 @Resolver(() => Content)
 export class ContentResolver {
   constructor(
     private prisma: PrismaService,
-    private contentWageService: ContentWageService,
     private userContentService: UserContentService,
   ) {}
 
@@ -43,13 +23,10 @@ export class ContentResolver {
   }
 
   @ResolveField(() => [ContentReward])
-  async contentRewards(@Parent() content: Content, @CurrentUser() user?: User) {
+  async contentRewards(@Parent() content: Content) {
     return await this.prisma.contentReward.findMany({
       where: {
         contentId: content.id,
-        ...(user
-          ? { userId: user.id }
-          : { user: { role: Prisma.UserRole.OWNER } }),
       },
     });
   }
@@ -72,39 +49,5 @@ export class ContentResolver {
     const seconds = durationInSeconds % 60;
 
     return seconds === 0 ? `${minutes}분` : `${minutes}분 ${seconds}초`;
-  }
-
-  @ResolveField(() => ContentWage)
-  async wage(@Parent() content: Content, @CurrentUser() user?: User) {
-    const { wageFilter: filter } = content;
-
-    const rewards = await this.prisma.contentReward.findMany({
-      where: {
-        ...(user
-          ? { userId: user.id }
-          : { user: { role: Prisma.UserRole.OWNER } }),
-        contentId: content.id,
-        ...(filter?.includeIsBound === false && { isSellable: true }),
-        ...(filter?.includeContentRewardItems && {
-          contentRewardItem: { name: { in: filter.includeContentRewardItems } },
-        }),
-      },
-    });
-
-    const gold = await this.contentWageService.calculateRewardsGold({
-      content,
-      rewards,
-      includeIsSeeMore:
-        filter?.includeIsSeeMore === true && content.isSeeMore === false,
-      excludeIsBound: filter?.includeIsBound === false,
-      userId: user?.id,
-    });
-
-    const duration = await this.duration(content);
-
-    return await this.contentWageService.calculateWage({
-      gold,
-      duration,
-    });
   }
 }
