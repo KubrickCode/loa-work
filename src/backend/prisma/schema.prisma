@@ -97,7 +97,7 @@ model ContentDuration {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  defaultValue Int // 소요시간(초)
+  defaultValue Int @map("default_value") // 소요시간(초)
 
   // Relations
   contentId            Int                   @unique @map("content_id")
@@ -119,7 +119,7 @@ model ContentReward {
   contentId           Int                 @map("content_id")
   content             Content             @relation(fields: [contentId], references: [id], onDelete: Cascade)
   contentRewardItem   ContentRewardItem   @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
-  contentRewardItemId Int
+  contentRewardItemId Int                 @map("content_reward_item_id")
   userContentRewards  UserContentReward[]
 
   @@unique([contentId, contentRewardItemId])
@@ -278,7 +278,7 @@ model UserContentReward {
   averageQuantity Decimal @map("average_quantity")
 
   // Relations
-  contentRewardId Int
+  contentRewardId Int           @map("content_reward_id")
   contentReward   ContentReward @relation(fields: [contentRewardId], references: [id], onDelete: Cascade)
   userId          Int           @map("user_id")
   user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -295,7 +295,7 @@ model UserContentRewardItem {
   price Decimal @default(0) // 개당 가격
 
   // Relations
-  contentRewardItemId Int
+  contentRewardItemId Int               @map("content_reward_item_id")
   contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
   userId              Int               @map("user_id")
   user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
