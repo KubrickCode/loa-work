@@ -41,6 +41,6 @@ describe('ContentWageService', () => {
       gold: 1000,
       duration: 3600,
     });
-    expect(wage).toEqual({ amount: 500, goldAmount: 1000 });
+    expect(wage).toEqual({ krwAmount: 500, goldAmount: 1000 });
   });
 });
