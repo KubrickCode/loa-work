@@ -18,7 +18,7 @@ import { MultiSelect } from "~/core/select";
 export const ContentWageListTableFilters = () => {
   const { contentCategoryId, setContentCategoryId } = useContentWageListTable();
 
-  const handleCategoryChange = (value: string | null) => {
+  const handleCategoryChange = (value: number | null) => {
     setContentCategoryId(value || null);
   };
 

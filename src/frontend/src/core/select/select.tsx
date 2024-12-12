@@ -11,7 +11,7 @@ export type BaseSelectProps<T extends string | number> = Omit<
   SelectRootProps,
   "collection" | "onChange"
 > & {
-  items: { label: string; value: T }[];
+  items: { label: string; value: T | null }[];
   maxWidth?: string;
   onChange: (value: string[]) => void;
   placeholder: string;
@@ -29,7 +29,7 @@ export const BaseSelect = <T extends string | number>({
   const frameworks = createListCollection({
     items: items.map((item) => ({
       ...item,
-      value: item.value.toString(),
+      value: item.value?.toString() ?? "",
     })),
   });
 
@@ -48,8 +48,8 @@ export const BaseSelect = <T extends string | number>({
       <SelectContent zIndex="calc(var(--chakra-z-index-popover) + 100)">
         {items.map((item) => (
           <SelectItem
-            item={{ ...item, value: item.value.toString() }}
-            key={item.value}
+            item={{ ...item, value: item.value?.toString() ?? "" }}
+            key={item.value ?? "null"}
           >
             {item.label}
           </SelectItem>

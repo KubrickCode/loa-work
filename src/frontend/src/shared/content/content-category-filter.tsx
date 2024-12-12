@@ -5,8 +5,8 @@ import { Loader } from "~/core/loader";
 import { Select } from "~/core/select";
 
 type ContentCategoryFilterProps = {
-  onChange: (value: string | null) => void;
-  value: string | null;
+  onChange: (value: number | null) => void;
+  value: number | null;
 };
 
 export const ContentCategoryFilter = (props: ContentCategoryFilterProps) => {
@@ -24,15 +24,15 @@ const WrappedContentCategoryFilter = ({
   const { data } = useSafeQuery(ContentCategoriesDocument);
 
   const items = [
-    { label: "전체", value: "" },
+    { label: "전체", value: null },
     ...data.contentCategories.map((category) => ({
       label: category.name,
-      value: category.id.toString(),
+      value: category.id,
     })),
   ];
 
   return (
-    <Select<string>
+    <Select
       items={items}
       onChange={onChange}
       placeholder="컨텐츠 종류"

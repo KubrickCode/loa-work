@@ -15,7 +15,7 @@ export const ContentWageListTable = () => {
   const { data } = useSafeQuery(ContentWageListTableDocument, {
     variables: {
       filter: {
-        contentCategoryId: Number(contentCategoryId),
+        contentCategoryId,
         includeIsSeeMore,
         includeIsBound,
         includeContentRewardItemIds,
