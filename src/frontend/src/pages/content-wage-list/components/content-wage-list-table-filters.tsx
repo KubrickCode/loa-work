@@ -18,8 +18,8 @@ import { MultiSelect } from "~/core/select";
 export const ContentWageListTableFilters = () => {
   const { contentCategoryId, setContentCategoryId } = useContentWageListTable();
 
-  const handleCategoryChange = (value: string) => {
-    setContentCategoryId(value || undefined);
+  const handleCategoryChange = (value: string | null) => {
+    setContentCategoryId(value || null);
   };
 
   return (
@@ -38,7 +38,7 @@ export const ContentWageListTableFilters = () => {
               <Field label="컨텐츠 종류">
                 <ContentCategoryFilter
                   onChange={handleCategoryChange}
-                  value={contentCategoryId ? [contentCategoryId] : [""]}
+                  value={contentCategoryId}
                 />
               </Field>
               <Field label="컨텐츠 보상 종류">
@@ -98,17 +98,15 @@ const ContentRewardItemsFilter = () => {
 
   const items = contentRewardItems.map(({ id, name }) => ({
     label: name,
-    value: id.toString(),
+    value: id,
   }));
 
   return (
     <MultiSelect
       items={items}
-      onChange={(values) => {
-        setIncludeContentRewardItemIds(values.map((v) => parseInt(v, 10)));
-      }}
+      onChange={setIncludeContentRewardItemIds}
       placeholder="보상 아이템 선택"
-      value={includeContentRewardItemIds.map((id) => id.toString())}
+      value={includeContentRewardItemIds}
     />
   );
 };

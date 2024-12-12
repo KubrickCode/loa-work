@@ -15,8 +15,8 @@ type ContentWageListTableContextType = {
     name: string;
   }[];
 
-  contentCategoryId?: string;
-  setContentCategoryId: (id?: string) => void;
+  contentCategoryId: string | null;
+  setContentCategoryId: (id: string | null) => void;
 
   includeIsSeeMore?: boolean;
   setIncludeIsSeeMore: (value: boolean) => void;
@@ -38,9 +38,9 @@ export const ContentWageListTableProvider = ({
   const {
     data: { contentRewardItems },
   } = useSafeQuery(ContentRewardItemsFilterDocument);
-  const [contentCategoryId, setContentCategoryId] = useState<
-    string | undefined
-  >();
+  const [contentCategoryId, setContentCategoryId] = useState<string | null>(
+    null
+  );
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
   const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =

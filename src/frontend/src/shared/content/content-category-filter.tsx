@@ -1,13 +1,12 @@
 import { Suspense } from "react";
-
 import { useSafeQuery } from "~/core/graphql";
 import { ContentCategoriesDocument } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
 import { Select } from "~/core/select";
 
 type ContentCategoryFilterProps = {
-  onChange: (value: string) => void;
-  value: string[];
+  onChange: (value: string | null) => void;
+  value: string | null;
 };
 
 export const ContentCategoryFilter = (props: ContentCategoryFilterProps) => {
@@ -33,7 +32,7 @@ const WrappedContentCategoryFilter = ({
   ];
 
   return (
-    <Select
+    <Select<string>
       items={items}
       onChange={onChange}
       placeholder="컨텐츠 종류"

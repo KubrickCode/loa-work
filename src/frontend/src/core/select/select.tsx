@@ -1,5 +1,4 @@
 import { createListCollection, SelectRootProps } from "@chakra-ui/react";
-
 import {
   SelectContent,
   SelectItem,
@@ -8,27 +7,30 @@ import {
   SelectValueText,
 } from "~/chakra-components/ui/select";
 
-export type BaseSelectProps = Omit<
+export type BaseSelectProps<T extends string | number> = Omit<
   SelectRootProps,
   "collection" | "onChange"
 > & {
-  items: { label: string; value: string }[];
+  items: { label: string; value: T }[];
   maxWidth?: string;
   onChange: (value: string[]) => void;
   placeholder: string;
   value: string[];
 };
 
-export const BaseSelect = ({
+export const BaseSelect = <T extends string | number>({
   items,
   maxWidth = "10rem",
   onChange,
   placeholder,
   value,
   ...props
-}: BaseSelectProps) => {
+}: BaseSelectProps<T>) => {
   const frameworks = createListCollection({
-    items,
+    items: items.map((item) => ({
+      ...item,
+      value: item.value.toString(),
+    })),
   });
 
   return (
@@ -43,10 +45,12 @@ export const BaseSelect = ({
       <SelectTrigger>
         <SelectValueText placeholder={placeholder} />
       </SelectTrigger>
-      {/* SelectContent의 zIndex가 기본적으로 팝오버보다 낮기 때문에 팝오버 내에서 사용할 시 충돌이 발생할 수 있음 */}
       <SelectContent zIndex="calc(var(--chakra-z-index-popover) + 100)">
         {items.map((item) => (
-          <SelectItem item={item} key={item.value}>
+          <SelectItem
+            item={{ ...item, value: item.value.toString() }}
+            key={item.value}
+          >
             {item.label}
           </SelectItem>
         ))}
@@ -55,16 +59,30 @@ export const BaseSelect = ({
   );
 };
 
-export type SelectProps = Omit<BaseSelectProps, "onChange" | "value"> & {
-  onChange: (value: string) => void;
-  value: string[];
+export type SelectProps<T extends string | number> = Omit<
+  BaseSelectProps<T>,
+  "onChange" | "value"
+> & {
+  onChange: (value: T | null) => void;
+  value: T | null;
 };
 
-export const Select = ({ onChange, value, ...props }: SelectProps) => {
+export const Select = <T extends string | number>({
+  onChange,
+  value,
+  ...props
+}: SelectProps<T>) => {
   return (
-    <BaseSelect
-      onChange={(values) => onChange(values[0])}
-      value={value}
+    <BaseSelect<T>
+      onChange={(values) => {
+        if (!values[0]) {
+          onChange(null);
+          return;
+        }
+        const parsed = isNaN(Number(values[0])) ? values[0] : Number(values[0]);
+        onChange(parsed as T);
+      }}
+      value={value ? [value.toString()] : [""]}
       {...props}
     />
   );
