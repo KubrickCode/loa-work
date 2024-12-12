@@ -5,10 +5,21 @@ type MultiSelectProps = Omit<
   "collection" | "multiple" | "onValueChange"
 > & {
   onChange: (values: string[]) => void;
+  value: string[];
 };
 
-export const MultiSelect = ({ onChange, ...props }: MultiSelectProps) => {
+export const MultiSelect = ({
+  onChange,
+  value,
+  ...props
+}: MultiSelectProps) => {
   return (
-    <BaseSelect {...props} closeOnSelect={false} multiple onChange={onChange} />
+    <BaseSelect
+      {...props}
+      closeOnSelect={false}
+      multiple
+      onChange={onChange}
+      value={value}
+    />
   );
 };
