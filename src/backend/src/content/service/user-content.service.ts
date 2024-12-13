@@ -82,4 +82,48 @@ export class UserContentService {
         ).averageQuantity
       : contentReward.defaultAverageQuantity;
   }
+
+  async getContentRewards(
+    contentId: number,
+    filter?: {
+      includeIsBound?: boolean;
+      includeContentRewardItemIds?: number[];
+    },
+  ) {
+    const where = {
+      contentId,
+      ...(filter?.includeIsBound === false && { isSellable: true }),
+      ...(filter?.includeContentRewardItemIds && {
+        contentRewardItemId: { in: filter.includeContentRewardItemIds },
+      }),
+    };
+
+    if (this.userId) {
+      const userRewards = await this.prisma.userContentReward.findMany({
+        where: {
+          userId: this.userId,
+          contentReward: where,
+        },
+        include: {
+          contentReward: true,
+        },
+      });
+
+      return userRewards.map(({ averageQuantity, contentReward }) => ({
+        averageQuantity: averageQuantity.toNumber(),
+        contentRewardItemId: contentReward.contentRewardItemId,
+      }));
+    }
+
+    const defaultRewards = await this.prisma.contentReward.findMany({
+      where,
+    });
+
+    return defaultRewards.map(
+      ({ defaultAverageQuantity, contentRewardItemId }) => ({
+        averageQuantity: defaultAverageQuantity.toNumber(),
+        contentRewardItemId,
+      }),
+    );
+  }
 }
