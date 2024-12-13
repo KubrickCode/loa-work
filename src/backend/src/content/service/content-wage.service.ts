@@ -1,7 +1,5 @@
 import { PrismaService } from 'src/prisma';
 import { Injectable } from '@nestjs/common';
-import * as Prisma from '@prisma/client';
-import { Content } from '../object/content.object';
 import { UserContentService } from './user-content.service';
 
 type Reward = {
