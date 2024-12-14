@@ -5,6 +5,34 @@ import { Prisma } from '@prisma/client';
 export class UserSeedService {
   constructor() {}
 
+  async makeAllSeedData(userId: number, tx: Prisma.TransactionClient) {
+    const user = await tx.user.findUniqueOrThrow({
+      where: { id: userId },
+      include: {
+        userContentRewards: true,
+        userContentDurations: true,
+        userContentRewardItems: true,
+        userGoldExchangeRate: true,
+      },
+    });
+
+    if (!user.userContentRewards.length) {
+      await this.makeContentRewards(userId, tx);
+    }
+
+    if (!user.userContentDurations.length) {
+      await this.makeContentDurations(userId, tx);
+    }
+
+    if (!user.userContentRewardItems.length) {
+      await this.makeContentRewardItems(userId, tx);
+    }
+
+    if (!user.userGoldExchangeRate) {
+      await this.makeGoldExchangeRate(userId, tx);
+    }
+  }
+
   async makeContentRewards(userId: number, tx: Prisma.TransactionClient) {
     const defaultRewards = await tx.contentReward.findMany();
 
