@@ -10,6 +10,12 @@ query ContentRewardListTable($filter: ContentListFilter) {
       }
       isSellable
     }
+    contentSeeMoreRewards {
+      quantity
+      contentRewardItem {
+        name
+      }
+    }
     displayName
     durationText
     id

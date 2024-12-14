@@ -1,7 +1,4 @@
-import {
-  ContentRewardListTableDocument,
-  ContentRewardListTableQuery,
-} from "~/core/graphql/generated";
+import { ContentRewardListTableDocument } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 
 import { useContentRewardListTable } from "./content-reward-list-table-context";
@@ -21,6 +18,31 @@ export const ContentRewardListTable = () => {
       },
     },
   });
+
+  const rows = data.contentList.flatMap((content) => [
+    {
+      data: {
+        ...content,
+        isSeeMore: false,
+      },
+    },
+    ...(content.contentSeeMoreRewards.length > 0
+      ? [
+          {
+            data: {
+              ...content,
+              isSeeMore: true,
+              displayName: `${content.displayName} (더보기)`,
+              contentRewards: content.contentSeeMoreRewards.map((reward) => ({
+                averageQuantity: reward.quantity,
+                contentRewardItem: reward.contentRewardItem,
+                isSellable: false,
+              })),
+            },
+          },
+        ]
+      : []),
+  ]);
 
   return (
     <DataTable
@@ -71,40 +93,33 @@ export const ContentRewardListTable = () => {
           },
         },
         ...data.contentRewardItems.map(
-          ({
-            name,
-          }): Column<ContentRewardListTableQuery["contentList"][number]> => ({
+          ({ name }): Column<(typeof rows)[number]["data"]> => ({
             align: "right",
             header: name,
             render({ data }) {
               const reward = data.contentRewards.find(
                 (reward) => reward.contentRewardItem.name === name
               );
-              const isGold = reward?.contentRewardItem.name === "골드";
+
+              if (!reward) return <>-</>;
+
+              const isGold = name === "골드";
 
               return (
                 <>
-                  {reward ? (
-                    <>
-                      {isGold ? (
-                        <FormatGold value={reward.averageQuantity} />
-                      ) : (
-                        <FormatNumber value={reward.averageQuantity} />
-                      )}
-                      {reward.isSellable && !isGold ? " (거래 가능)" : ""}
-                    </>
+                  {isGold ? (
+                    <FormatGold value={reward.averageQuantity} />
                   ) : (
-                    "-"
+                    <FormatNumber value={reward.averageQuantity} />
                   )}
+                  {reward.isSellable && !isGold ? " (거래 가능)" : ""}
                 </>
               );
             },
           })
         ),
       ]}
-      rows={data.contentList.map((content) => ({
-        data: content,
-      }))}
+      rows={rows}
     />
   );
 };

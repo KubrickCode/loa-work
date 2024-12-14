@@ -11,6 +11,7 @@ import { ContentRewardResolver } from './object/content-reward.resolver';
 import { UserContentService } from './service/user-content.service';
 import { ContentWageListQuery } from './query/content-wage-list.query';
 import { ContentWageResolver } from './object/content-wage.resolver';
+import { ContentSeeMoreRewardResolver } from './object/content-see-more-reward.resolver';
 
 @Module({
   imports: [PrismaModule],
@@ -26,6 +27,7 @@ import { ContentWageResolver } from './object/content-wage.resolver';
     UserContentService,
     ContentWageListQuery,
     ContentWageResolver,
+    ContentSeeMoreRewardResolver,
   ],
 })
 export class ContentModule {}

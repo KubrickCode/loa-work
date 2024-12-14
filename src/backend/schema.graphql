@@ -20,6 +20,7 @@ type Content {
   contentCategory: ContentCategory!
   contentCategoryId: Int!
   contentRewards: [ContentReward!]!
+  contentSeeMoreRewards: [ContentSeeMoreReward!]!
   createdAt: DateTime!
   displayName: String!
   duration: Int!
@@ -79,6 +80,16 @@ input ContentRewardsEditInput {
 
 type ContentRewardsEditResult {
   ok: Boolean!
+}
+
+type ContentSeeMoreReward {
+  contentId: Int!
+  contentRewardItem: ContentRewardItem!
+  contentRewardItemId: Int!
+  createdAt: DateTime!
+  id: Int!
+  quantity: Int!
+  updatedAt: DateTime!
 }
 
 type ContentWage {
