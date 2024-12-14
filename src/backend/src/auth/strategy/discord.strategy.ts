@@ -61,7 +61,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       }
 
       if (!user.userContentDurations.length) {
-        await this.authService.makeContentDurations(user.id, tx);
+        await this.authService.makeUserContentDurations(user.id, tx);
       }
 
       if (!user.userContentRewardItems.length) {

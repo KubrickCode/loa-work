@@ -34,7 +34,7 @@ export class AuthService {
     });
   }
 
-  async makeContentDurations(userId: number, tx: Prisma.TransactionClient) {
+  async makeUserContentDurations(userId: number, tx: Prisma.TransactionClient) {
     const defaultDurations = await tx.contentDuration.findMany();
 
     await tx.userContentDuration.createMany({
