@@ -1,15 +1,13 @@
 import { useDialogContext } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { toaster } from "~/chakra-components/ui/toaster";
-import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
 import {
-  Field,
-  Fields,
-  Input,
-  MutationForm,
-  SubmitButton,
-  z,
-} from "~/core/form";
+  Dialog,
+  DialogBody,
+  DialogFormFooter,
+  DialogHeader,
+} from "~/core/dialog";
+import { Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardEditDialogDocument,
@@ -87,9 +85,7 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
           ))}
         </Fields>
       </DialogBody>
-      <DialogFooter>
-        <SubmitButton />
-      </DialogFooter>
+      <DialogFormFooter />
     </MutationForm>
   );
 };
