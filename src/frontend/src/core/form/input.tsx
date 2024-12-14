@@ -6,7 +6,6 @@ import {
 import { HTMLInputTypeAttribute } from "react";
 import { Controller } from "react-hook-form";
 
-import { FieldError } from "./field-error";
 import { useFieldContext } from "./field";
 
 type OnAfterChangeType<T> = T extends HTMLInputTypeAttribute
@@ -62,7 +61,6 @@ export const Input = <T extends HTMLInputTypeAttribute = "text">({
               value={value ?? ""}
               {...otherProps}
             />
-            <FieldError name={name} />
           </Flex>
         );
       }}

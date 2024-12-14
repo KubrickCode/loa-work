@@ -20,9 +20,15 @@ export const Field = ({ name, ...otherProps }: FieldProps) => {
     formState: { errors },
   } = useFormContext();
 
+  const error = get(errors, name);
+
   return (
     <FieldContext.Provider value={{ name }}>
-      <ChakraField invalid={!!get(errors, name)} {...otherProps} />
+      <ChakraField
+        invalid={!!error}
+        errorText={error?.message}
+        {...otherProps}
+      />
     </FieldContext.Provider>
   );
 };
