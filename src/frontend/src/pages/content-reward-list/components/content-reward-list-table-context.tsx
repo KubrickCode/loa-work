@@ -1,8 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 type ContentRewardListTableContextType = {
-  contentCategoryId?: string;
-  setContentCategoryId: (id?: string) => void;
+  contentCategoryId: number | null;
+  setContentCategoryId: (id: number | null) => void;
 };
 
 const ContentRewardListTableContext = createContext<
@@ -12,9 +12,9 @@ const ContentRewardListTableContext = createContext<
 export const ContentRewardListTableProvider = ({
   children,
 }: PropsWithChildren) => {
-  const [contentCategoryId, setContentCategoryId] = useState<
-    string | undefined
-  >();
+  const [contentCategoryId, setContentCategoryId] = useState<number | null>(
+    null
+  );
 
   return (
     <ContentRewardListTableContext.Provider

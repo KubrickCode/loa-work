@@ -5,14 +5,10 @@ export const ContentRewardListTableFilter = () => {
   const { contentCategoryId, setContentCategoryId } =
     useContentRewardListTable();
 
-  const handleCategoryChange = (value: string) => {
-    setContentCategoryId(value || undefined);
-  };
-
   return (
     <ContentCategoryFilter
-      onChange={handleCategoryChange}
-      value={contentCategoryId ? [contentCategoryId] : [""]}
+      onChange={setContentCategoryId}
+      value={contentCategoryId}
     />
   );
 };
