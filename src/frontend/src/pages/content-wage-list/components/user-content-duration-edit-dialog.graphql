@@ -1,0 +1,5 @@
+mutation UserContentDurationEdit($input: UserContentDurationEditInput!) {
+  userContentDurationEdit(input: $input) {
+    ok
+  }
+}

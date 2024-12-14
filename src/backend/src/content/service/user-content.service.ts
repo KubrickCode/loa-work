@@ -141,4 +141,20 @@ export class UserContentService {
 
     return true;
   }
+
+  async validateUserContentDuration(durationId: number) {
+    const userContentDuration =
+      await this.prisma.userContentDuration.findUnique({
+        where: {
+          id: durationId,
+          userId: this.userId,
+        },
+      });
+
+    if (!userContentDuration) {
+      throw new Error('소요시간에 대한 수정 권한이 없습니다');
+    }
+
+    return true;
+  }
 }

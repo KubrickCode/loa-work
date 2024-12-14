@@ -4,6 +4,12 @@ query ContentWageListTable($filter: ContentWageListFilter) {
       contentCategory {
         name
       }
+      contentDuration {
+        userContentDuration {
+          id
+          value
+        }
+      }
       displayName
       durationText
     }

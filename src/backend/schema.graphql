@@ -19,6 +19,7 @@ input AuctionItemListFilter {
 type Content {
   contentCategory: ContentCategory!
   contentCategoryId: Int!
+  contentDuration: ContentDuration!
   contentRewards: [ContentReward!]!
   contentSeeMoreRewards: [ContentSeeMoreReward!]!
   createdAt: DateTime!
@@ -38,6 +39,15 @@ type ContentCategory {
   id: Int!
   name: String!
   updatedAt: DateTime!
+}
+
+type ContentDuration {
+  contentId: Int!
+  createdAt: DateTime!
+  defaultValue: Int!
+  id: Int!
+  updatedAt: DateTime!
+  userContentDuration: UserContentDuration!
 }
 
 input ContentListFilter {
@@ -132,6 +142,7 @@ type MinimumWage {
 }
 
 type Mutation {
+  userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
   userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
 }
 
@@ -144,6 +155,24 @@ type Query {
   contentWageList(filter: ContentWageListFilter): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   minimumWage: MinimumWage!
+}
+
+type UserContentDuration {
+  contentDurationId: Int!
+  createdAt: DateTime!
+  id: Int!
+  updatedAt: DateTime!
+  userId: Int!
+  value: Int!
+}
+
+input UserContentDurationEditInput {
+  id: Float!
+  value: Float!
+}
+
+type UserContentDurationEditResult {
+  ok: Boolean!
 }
 
 type UserContentReward {

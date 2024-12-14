@@ -6,6 +6,7 @@ import { ContentCategory } from './content-category.object';
 import * as Prisma from '@prisma/client';
 import { UserContentService } from '../service/user-content.service';
 import { ContentSeeMoreReward } from './content-see-more-reward.object';
+import { ContentDuration } from './content-duration.object';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -19,6 +20,15 @@ export class ContentResolver {
     return await this.prisma.contentCategory.findUniqueOrThrow({
       where: {
         id: content.contentCategoryId,
+      },
+    });
+  }
+
+  @ResolveField(() => ContentDuration)
+  async contentDuration(@Parent() content: Content) {
+    return await this.prisma.contentDuration.findUniqueOrThrow({
+      where: {
+        contentId: content.id,
       },
     });
   }
