@@ -14,6 +14,19 @@ export class UserGoldExchangeRateService {
     this.userId = context.req?.user?.id;
   }
 
+  async getGoldExchangeRate() {
+    const goldExchangeRate =
+      await this.prisma.goldExchangeRate.findFirstOrThrow();
+
+    return this.userId
+      ? await this.prisma.userGoldExchangeRate.findUniqueOrThrow({
+          where: {
+            userId: this.userId,
+          },
+        })
+      : goldExchangeRate;
+  }
+
   async validateUserGoldExchangeRate(rateId: number) {
     const userGoldExchangeRate =
       await this.prisma.userGoldExchangeRate.findUnique({

@@ -1,6 +1,7 @@
 import { PrismaService } from 'src/prisma';
 import { Injectable } from '@nestjs/common';
 import { UserContentService } from '../../user/service/user-content.service';
+import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 
 type Reward = {
   averageQuantity: number;
@@ -12,6 +13,7 @@ export class ContentWageService {
   constructor(
     private prisma: PrismaService,
     private userContentService: UserContentService,
+    private userGoldExchangeRateService: UserGoldExchangeRateService,
   ) {}
 
   async calculateGold(rewards: Reward[]) {
@@ -31,9 +33,7 @@ export class ContentWageService {
 
   async calculateWage({ gold, duration }: { gold: number; duration: number }) {
     const goldExchangeRate =
-      await this.prisma.goldExchangeRate.findFirstOrThrow({
-        take: 1,
-      });
+      await this.userGoldExchangeRateService.getGoldExchangeRate();
 
     const totalKRW =
       (gold * goldExchangeRate.goldAmount) / goldExchangeRate.krwAmount;
