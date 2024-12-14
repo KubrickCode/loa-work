@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from 'src/prisma';
 import { ContentWageService } from './content-wage.service';
-import { UserContentService } from './user-content.service';
+import { UserContentService } from '../../user/service/user-content.service';
 import { CONTEXT } from '@nestjs/graphql';
 
 describe('ContentWageService', () => {

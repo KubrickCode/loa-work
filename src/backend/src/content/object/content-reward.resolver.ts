@@ -2,7 +2,7 @@ import { Float, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { ContentReward } from './content-reward.object';
 import { ContentRewardItem } from './content-reward-item.object';
-import { UserContentService } from '../service/user-content.service';
+import { UserContentService } from '../../user/service/user-content.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { User } from 'src/common/object/user.object';
 import { UserContentReward } from './user-content-reward.object';

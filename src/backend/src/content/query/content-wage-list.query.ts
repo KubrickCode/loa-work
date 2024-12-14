@@ -2,7 +2,7 @@ import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Prisma } from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
-import { UserContentService } from '../service/user-content.service';
+import { UserContentService } from '../../user/service/user-content.service';
 import { ContentWage } from '../object/content-wage.object';
 
 @InputType()

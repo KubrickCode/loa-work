@@ -1,6 +1,6 @@
 import { PrismaService } from 'src/prisma';
 import { Injectable } from '@nestjs/common';
-import { UserContentService } from './user-content.service';
+import { UserContentService } from '../../user/service/user-content.service';
 
 type Reward = {
   averageQuantity: number;

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/graphql';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { PrismaService } from 'src/prisma';
-import { UserContentService } from '../service/user-content.service';
+import { UserContentService } from '../../user/service/user-content.service';
 
 @InputType()
 class UserContentDurationEditInput {

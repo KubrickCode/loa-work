@@ -8,7 +8,7 @@ import { ContentWageService } from './service/content-wage.service';
 import { ContentQuery } from './query/content.query';
 import { UserContentRewardsEditMutation } from './mutation/user-content-rewards-edit.mutation';
 import { ContentRewardResolver } from './object/content-reward.resolver';
-import { UserContentService } from './service/user-content.service';
+import { UserContentService } from '../user/service/user-content.service';
 import { ContentWageListQuery } from './query/content-wage-list.query';
 import { ContentWageResolver } from './object/content-wage.resolver';
 import { ContentSeeMoreRewardResolver } from './object/content-see-more-reward.resolver';

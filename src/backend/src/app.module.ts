@@ -9,6 +9,7 @@ import { ItemModule } from './item/item.module';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { ExchangeRateModule } from './exchange-rate/exchange-rate.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ExchangeRateModule } from './exchange-rate/exchange-rate.module';
     CommonModule,
     AuthModule,
     ExchangeRateModule,
+    UserModule,
   ],
 })
 export class AppModule {}
