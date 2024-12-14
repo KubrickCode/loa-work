@@ -4,14 +4,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { AuthProvider } from '@prisma/client';
 import { OAuth2Strategy, VerifyFunction } from 'passport-google-oauth';
 import { PrismaService } from 'src/prisma';
-import { AuthService } from '../auth.service';
+import { UserSeedService } from 'src/user/service/user-seed.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
   constructor(
     configService: ConfigService,
     private prisma: PrismaService,
-    private authService: AuthService,
+    private userSeedService: UserSeedService,
   ) {
     super({
       clientID: configService.get<string>('GOOGLE_CLIENT_ID'),
@@ -53,19 +53,19 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
       });
 
       if (!user.userContentRewards.length) {
-        await this.authService.makeUserContentRewards(user.id, tx);
+        await this.userSeedService.makeContentRewards(user.id, tx);
       }
 
       if (!user.userContentDurations.length) {
-        await this.authService.makeUserContentDurations(user.id, tx);
+        await this.userSeedService.makeContentDurations(user.id, tx);
       }
 
       if (!user.userContentRewardItems.length) {
-        await this.authService.makeUserContentRewardItems(user.id, tx);
+        await this.userSeedService.makeContentRewardItems(user.id, tx);
       }
 
       if (!user.userGoldExchangeRate) {
-        await this.authService.makeUserGoldExchangeRate(user.id, tx);
+        await this.userSeedService.makeGoldExchangeRate(user.id, tx);
       }
 
       done(undefined, user);

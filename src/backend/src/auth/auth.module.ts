@@ -10,11 +10,11 @@ import { GoogleStrategy } from './strategy/google.strategy';
 import { Serializer } from './serializer';
 import { CommonModule } from 'src/common/common.module';
 import { DiscordStrategy } from './strategy/discord.strategy';
-import { AuthService } from './auth.service';
+import { UserSeedService } from 'src/user/service/user-seed.service';
 
 @Module({
   imports: [CommonModule, PassportModule.register({ session: true })],
-  providers: [GoogleStrategy, DiscordStrategy, Serializer, AuthService],
+  providers: [GoogleStrategy, DiscordStrategy, Serializer, UserSeedService],
   controllers: [AuthController],
 })
 export class AuthModule implements NestModule {

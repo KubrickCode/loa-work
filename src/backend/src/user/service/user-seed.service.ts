@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
-export class AuthService {
+export class UserSeedService {
   constructor() {}
 
-  async makeUserContentRewards(userId: number, tx: Prisma.TransactionClient) {
+  async makeContentRewards(userId: number, tx: Prisma.TransactionClient) {
     const defaultRewards = await tx.contentReward.findMany();
 
     await tx.userContentReward.createMany({
@@ -19,10 +19,7 @@ export class AuthService {
     });
   }
 
-  async makeUserContentRewardItems(
-    userId: number,
-    tx: Prisma.TransactionClient,
-  ) {
+  async makeContentRewardItems(userId: number, tx: Prisma.TransactionClient) {
     const defaultRewardItems = await tx.contentRewardItem.findMany();
 
     await tx.userContentRewardItem.createMany({
@@ -34,7 +31,7 @@ export class AuthService {
     });
   }
 
-  async makeUserContentDurations(userId: number, tx: Prisma.TransactionClient) {
+  async makeContentDurations(userId: number, tx: Prisma.TransactionClient) {
     const defaultDurations = await tx.contentDuration.findMany();
 
     await tx.userContentDuration.createMany({
@@ -46,7 +43,7 @@ export class AuthService {
     });
   }
 
-  async makeUserGoldExchangeRate(userId: number, tx: Prisma.TransactionClient) {
+  async makeGoldExchangeRate(userId: number, tx: Prisma.TransactionClient) {
     const { krwAmount, goldAmount } = await tx.goldExchangeRate.findFirst();
 
     await tx.userGoldExchangeRate.create({
