@@ -10,7 +10,7 @@ export class AuthService {
 
     await tx.userContentReward.createMany({
       data: defaultRewards.map(
-        ({ id, defaultAverageQuantity: averageQuantity, isSellable }) => ({
+        ({ id, defaultAverageQuantity: averageQuantity }) => ({
           contentRewardId: id,
           averageQuantity,
           userId,
