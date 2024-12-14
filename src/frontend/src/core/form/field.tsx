@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, get } from "react-hook-form";
 import {
   Field as ChakraField,
   FieldProps as ChakraFieldProps,
@@ -22,7 +22,7 @@ export const Field = ({ name, ...otherProps }: FieldProps) => {
 
   return (
     <FieldContext.Provider value={{ name }}>
-      <ChakraField invalid={!!errors[name]} {...otherProps} />
+      <ChakraField invalid={!!get(errors, name)} {...otherProps} />
     </FieldContext.Provider>
   );
 };
