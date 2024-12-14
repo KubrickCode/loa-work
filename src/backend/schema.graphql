@@ -150,6 +150,7 @@ type Query {
   auctionItemList(filter: AuctionItemListFilter): [AuctionItem!]!
   content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
+  contentDuration(id: Int!): ContentDuration!
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardItems: [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter): [ContentWage!]!

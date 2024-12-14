@@ -47,14 +47,8 @@ export const ContentWageListTable = () => {
                     <DialogTrigger
                       dialog={
                         <UserContentDurationEditDialog
-                          durationId={
-                            data.content.contentDuration.userContentDuration.id
-                          }
+                          contentDurationId={data.content.contentDuration.id}
                           onComplete={refetch}
-                          value={
-                            data.content.contentDuration.userContentDuration
-                              .value
-                          }
                         />
                       }
                       trigger={

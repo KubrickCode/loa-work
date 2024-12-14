@@ -8,7 +8,9 @@ import {
   DialogHeader,
 } from "~/core/dialog";
 import { Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { useSafeQuery } from "~/core/graphql";
 import {
+  UserContentDurationEditDialogDocument,
   UserContentDurationEditDocument,
   UserContentDurationEditInput,
   UserContentDurationEditMutation,
@@ -16,21 +18,19 @@ import {
 import { Loader } from "~/core/loader";
 
 type UserContentDurationEditDialogProps = {
-  durationId: number;
+  contentDurationId: number;
   onComplete: () => void;
-  value: number;
 };
 
 export const UserContentDurationEditDialog = ({
-  durationId,
+  contentDurationId,
   onComplete,
-  value,
 }: UserContentDurationEditDialogProps) => {
   return (
     <Dialog>
       <DialogHeader>소요시간 수정</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
-        <Body durationId={durationId} onComplete={onComplete} value={value} />
+        <Body contentDurationId={contentDurationId} onComplete={onComplete} />
       </Suspense>
     </Dialog>
   );
@@ -42,17 +42,25 @@ const schema = z.object({
 });
 
 const Body = ({
-  durationId,
+  contentDurationId,
   onComplete,
-  value,
 }: UserContentDurationEditDialogProps) => {
   const { setOpen } = useDialogContext();
+  const { data } = useSafeQuery(UserContentDurationEditDialogDocument, {
+    variables: {
+      id: contentDurationId,
+    },
+  });
+
+  const {
+    contentDuration: { userContentDuration },
+  } = data;
 
   return (
     <MutationForm<UserContentDurationEditInput, UserContentDurationEditMutation>
       defaultValues={{
-        id: durationId,
-        value,
+        id: userContentDuration.id,
+        value: userContentDuration.value,
       }}
       mutation={UserContentDurationEditDocument}
       onComplete={() => {

@@ -14,6 +14,7 @@ import { ContentWageResolver } from './object/content-wage.resolver';
 import { ContentSeeMoreRewardResolver } from './object/content-see-more-reward.resolver';
 import { UserContentDurationEditMutation } from './mutation/user-content-duration-edit.mutation';
 import { ContentDurationResolver } from './object/content-duration.resolver';
+import { ContentDurationQuery } from './query/content-duration.query';
 
 @Module({
   imports: [PrismaModule],
@@ -32,6 +33,7 @@ import { ContentDurationResolver } from './object/content-duration.resolver';
     ContentSeeMoreRewardResolver,
     UserContentDurationEditMutation,
     ContentDurationResolver,
+    ContentDurationQuery,
   ],
 })
 export class ContentModule {}
