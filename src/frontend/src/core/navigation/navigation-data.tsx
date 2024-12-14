@@ -11,7 +11,7 @@ export const navigationData: NavigationData[] = [
     url: "/",
   },
   {
-    label: "컨텐츠별 수익",
+    label: "컨텐츠별 보상",
     url: "/content-reward-list",
   },
   {
