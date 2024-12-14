@@ -16,19 +16,14 @@ import {
   UserGoldExchangeRateSettingDialogDocument,
 } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
+import { useContentWageListTable } from "./content-wage-list-table-context";
 
-type GoldExchangeRateSettingDialogProps = {
-  onComplete: () => void;
-};
-
-export const GoldExchangeRateSettingDialog = ({
-  onComplete,
-}: GoldExchangeRateSettingDialogProps) => {
+export const GoldExchangeRateSettingDialog = () => {
   return (
     <Dialog>
       <DialogHeader>골드 환율 설정</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
-        <Body onComplete={onComplete} />
+        <Body />
       </Suspense>
     </Dialog>
   );
@@ -39,8 +34,9 @@ const schema = z.object({
   goldAmount: z.number(),
 });
 
-const Body = ({ onComplete }: GoldExchangeRateSettingDialogProps) => {
+const Body = () => {
   const { setOpen } = useDialogContext();
+  const { refetchTable } = useContentWageListTable();
   const { data } = useSafeQuery(UserGoldExchangeRateSettingDialogDocument);
 
   const { userGoldExchangeRate } = data;
@@ -57,7 +53,7 @@ const Body = ({ onComplete }: GoldExchangeRateSettingDialogProps) => {
       mutation={UserGoldExchangeRateEditDocument}
       onComplete={() => {
         setOpen(false);
-        onComplete();
+        refetchTable();
         toaster.create({
           title: "골드 환율이 수정되었습니다.",
           type: "success",

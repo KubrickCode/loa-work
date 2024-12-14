@@ -26,6 +26,9 @@ type ContentWageListTableContextType = {
 
   includeContentRewardItemIds: number[];
   setIncludeContentRewardItemIds: Dispatch<SetStateAction<number[]>>;
+
+  refetchTable: () => void;
+  setRefetchTable: (fn: () => void) => void;
 };
 
 const ContentWageListTableContext = createContext<
@@ -45,6 +48,7 @@ export const ContentWageListTableProvider = ({
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
   const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =
     useState<number[]>(contentRewardItems.map((item) => item.id));
+  const [refetchTable, setRefetchTable] = useState<() => void>(() => {});
 
   return (
     <ContentWageListTableContext.Provider
@@ -58,6 +62,8 @@ export const ContentWageListTableProvider = ({
         setIncludeIsBound,
         includeContentRewardItemIds,
         setIncludeContentRewardItemIds,
+        refetchTable,
+        setRefetchTable,
       }}
     >
       {children}

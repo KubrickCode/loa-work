@@ -23,7 +23,7 @@ export const ContentWageListPage = () => {
             <ContentWageListTableFilters />
             {isAuthenticated && (
               <DialogTrigger
-                dialog={<GoldExchangeRateSettingDialog onComplete={() => {}} />}
+                dialog={<GoldExchangeRateSettingDialog />}
                 trigger={
                   <Button size="sm" variant="outline">
                     <IoIosSettings /> 골드 환율 설정

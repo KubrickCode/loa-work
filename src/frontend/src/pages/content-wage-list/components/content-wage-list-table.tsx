@@ -11,6 +11,7 @@ import { useAuth } from "~/core/auth";
 import { DialogTrigger } from "~/core/dialog";
 import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
 import { IoIosSettings } from "react-icons/io";
+import { useEffect } from "react";
 
 export const ContentWageListTable = () => {
   const { isAuthenticated } = useAuth();
@@ -19,6 +20,7 @@ export const ContentWageListTable = () => {
     includeIsSeeMore,
     includeIsBound,
     includeContentRewardItemIds,
+    setRefetchTable,
   } = useContentWageListTable();
   const { data, refetch } = useSafeQuery(ContentWageListTableDocument, {
     variables: {
@@ -30,6 +32,10 @@ export const ContentWageListTable = () => {
       },
     },
   });
+
+  useEffect(() => {
+    setRefetchTable(() => refetch);
+  }, [refetch, setRefetchTable]);
 
   return (
     <DataTable
