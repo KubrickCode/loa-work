@@ -17,7 +17,6 @@ query ContentRewardListTable($filter: ContentListFilter) {
       }
     }
     displayName
-    durationText
     id
     level
   }

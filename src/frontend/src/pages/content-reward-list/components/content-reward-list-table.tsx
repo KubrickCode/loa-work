@@ -91,13 +91,6 @@ export const ContentRewardListTable = () => {
             return <>{data.displayName}</>;
           },
         },
-        {
-          align: "right",
-          header: "소요시간",
-          render({ data }) {
-            return <>{data.durationText}</>;
-          },
-        },
         ...data.contentRewardItems.map(
           ({ name }): Column<(typeof rows)[number]["data"]> => ({
             align: "right",

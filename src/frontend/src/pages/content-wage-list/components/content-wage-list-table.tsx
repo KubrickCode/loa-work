@@ -40,6 +40,13 @@ export const ContentWageListTable = () => {
         },
         {
           align: "right",
+          header: "소요시간",
+          render({ data }) {
+            return <>{data.content.durationText}</>;
+          },
+        },
+        {
+          align: "right",
           header: "시급(KRW)",
           render({ data }) {
             return (
