@@ -9,8 +9,8 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { UserContentService } from 'src/content/service/user-content.service';
 import { PrismaService } from 'src/prisma';
+import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 
 @InputType()
 class UserGoldExchangeRateEditInput {
@@ -31,7 +31,7 @@ class UserGoldExchangeRateEditResult {
 export class UserGoldExchangeRateEditMutation {
   constructor(
     private prisma: PrismaService,
-    private userContentService: UserContentService,
+    private userGoldExchangeRateService: UserGoldExchangeRateService,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -41,7 +41,7 @@ export class UserGoldExchangeRateEditMutation {
   ) {
     const { id, goldAmount } = input;
 
-    await this.userContentService.validateUserGoldExchangeRate(id);
+    await this.userGoldExchangeRateService.validateUserGoldExchangeRate(id);
 
     await this.prisma.userGoldExchangeRate.update({
       where: { id },

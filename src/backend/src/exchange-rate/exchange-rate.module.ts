@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { PrismaModule } from 'src/prisma';
 import { UserGoldExchangeRateQuery } from './query/user-gold-exchange-rate.query';
 import { UserGoldExchangeRateEditMutation } from './mutation/user-gold-exchange-rate-edit.mutation';
-import { UserContentService } from 'src/content/service/user-content.service';
+import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 
 @Module({
   imports: [PrismaModule],
   providers: [
     UserGoldExchangeRateQuery,
     UserGoldExchangeRateEditMutation,
-    UserContentService,
+    UserGoldExchangeRateService,
   ],
 })
 export class ExchangeRateModule {}
