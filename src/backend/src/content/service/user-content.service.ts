@@ -126,4 +126,19 @@ export class UserContentService {
       }),
     );
   }
+
+  async validateUserContentRewards(rewardIds: number[]) {
+    const userContentRewards = await this.prisma.userContentReward.findMany({
+      where: {
+        id: { in: rewardIds },
+        userId: this.userId,
+      },
+    });
+
+    if (userContentRewards.length !== rewardIds.length) {
+      throw new Error('일부 리워드에 대한 수정 권한이 없습니다');
+    }
+
+    return true;
+  }
 }

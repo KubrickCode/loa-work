@@ -7,20 +7,20 @@ import { toaster } from "~/chakra-components/ui/toaster";
 import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
 import { useMutation, useSafeQuery } from "~/core/graphql";
 import {
-  ContentRewardEditDialogDocument,
-  ContentRewardsEditDocument,
+  UserContentRewardEditDialogDocument,
+  UserContentRewardsEditDocument,
 } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
 
-type ContentRewardEditDialogProps = {
+type UserContentRewardEditDialogProps = {
   contentId: number;
   onComplete: () => void;
 };
 
-export const ContentRewardEditDialog = ({
+export const UserContentRewardEditDialog = ({
   contentId,
   onComplete,
-}: ContentRewardEditDialogProps) => {
+}: UserContentRewardEditDialogProps) => {
   return (
     <Dialog>
       <DialogHeader>보상 수정</DialogHeader>
@@ -38,15 +38,15 @@ type FormValues = {
   }[];
 };
 
-const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
+const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
   const { setOpen } = useDialogContext();
-  const { data } = useSafeQuery(ContentRewardEditDialogDocument, {
+  const { data } = useSafeQuery(UserContentRewardEditDialogDocument, {
     variables: {
       id: contentId,
     },
   });
 
-  const [editRewards] = useMutation(ContentRewardsEditDocument, {
+  const [editRewards] = useMutation(UserContentRewardsEditDocument, {
     onCompleted: () => {
       setOpen(false);
       onComplete();
@@ -60,8 +60,8 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       rewards: data.content.contentRewards.map((reward) => ({
-        id: reward.id,
-        averageQuantity: reward.averageQuantity,
+        id: reward.userContentReward.id,
+        averageQuantity: reward.userContentReward.averageQuantity,
       })),
     },
   });
@@ -70,7 +70,7 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
     await editRewards({
       variables: {
         input: {
-          contentRewards: values.rewards,
+          userContentRewards: values.rewards,
         },
       },
     });
@@ -81,7 +81,10 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
       <DialogBody>
         <Flex direction="column" gap={4}>
           {data.content.contentRewards.map((reward, index) => (
-            <Field key={reward.id} label={reward.contentRewardItem.name}>
+            <Field
+              key={reward.userContentReward.id}
+              label={reward.contentRewardItem.name}
+            >
               <Input
                 type="number"
                 step="0.01"
@@ -94,10 +97,7 @@ const Body = ({ contentId, onComplete }: ContentRewardEditDialogProps) => {
         </Flex>
       </DialogBody>
       <DialogFooter>
-        {/* 임시 기능 비활성화 */}
-        <Button disabled type="submit">
-          확인
-        </Button>
+        <Button type="submit">확인</Button>
       </DialogFooter>
     </form>
   );

@@ -3,13 +3,15 @@ import { Column, DataTable } from "~/core/table";
 
 import { useContentRewardListTable } from "./content-reward-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
-import { ContentRewardEditDialog } from "./content-reward-edit-dialog";
+import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
 import { DialogTrigger } from "~/core/dialog";
 import { FormatNumber, IconButton } from "@chakra-ui/react";
 import { IoIosSettings } from "react-icons/io";
 import { FormatGold } from "~/core/format";
+import { useAuth } from "~/core/auth";
 
 export const ContentRewardListTable = () => {
+  const { isAuthenticated } = useAuth();
   const { contentCategoryId } = useContentRewardListTable();
   const { data, refetch } = useSafeQuery(ContentRewardListTableDocument, {
     variables: {
@@ -47,26 +49,30 @@ export const ContentRewardListTable = () => {
   return (
     <DataTable
       columns={[
-        {
-          header: "",
-          render({ data }) {
-            return (
-              <DialogTrigger
-                dialog={
-                  <ContentRewardEditDialog
-                    contentId={data.id}
-                    onComplete={refetch}
-                  />
-                }
-                trigger={
-                  <IconButton size="xs" variant="surface">
-                    <IoIosSettings />
-                  </IconButton>
-                }
-              />
-            );
-          },
-        },
+        ...(isAuthenticated
+          ? [
+              {
+                header: "",
+                render({ data }: { data: (typeof rows)[number]["data"] }) {
+                  return (
+                    <DialogTrigger
+                      dialog={
+                        <UserContentRewardEditDialog
+                          contentId={data.id}
+                          onComplete={refetch}
+                        />
+                      }
+                      trigger={
+                        <IconButton size="xs" variant="surface">
+                          <IoIosSettings />
+                        </IconButton>
+                      }
+                    />
+                  );
+                },
+              } as Column<(typeof rows)[number]["data"]>,
+            ]
+          : []),
         {
           header: "종류",
           render({ data }) {

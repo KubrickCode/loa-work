@@ -59,11 +59,7 @@ type ContentReward {
   id: Int!
   isSellable: Boolean!
   updatedAt: DateTime!
-}
-
-input ContentRewardEditInput {
-  averageQuantity: Float!
-  id: Float!
+  userContentReward: UserContentReward!
 }
 
 type ContentRewardItem {
@@ -72,14 +68,6 @@ type ContentRewardItem {
   id: Int!
   name: String!
   updatedAt: DateTime!
-}
-
-input ContentRewardsEditInput {
-  contentRewards: [ContentRewardEditInput!]!
-}
-
-type ContentRewardsEditResult {
-  ok: Boolean!
 }
 
 type ContentSeeMoreReward {
@@ -144,7 +132,7 @@ type MinimumWage {
 }
 
 type Mutation {
-  contentRewardsEdit(input: ContentRewardsEditInput!): ContentRewardsEditResult!
+  userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
 }
 
 type Query {
@@ -156,4 +144,26 @@ type Query {
   contentWageList(filter: ContentWageListFilter): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   minimumWage: MinimumWage!
+}
+
+type UserContentReward {
+  averageQuantity: Float!
+  contentRewardId: Int!
+  createdAt: DateTime!
+  id: Int!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+input UserContentRewardEditInput {
+  averageQuantity: Float!
+  id: Float!
+}
+
+input UserContentRewardsEditInput {
+  userContentRewards: [UserContentRewardEditInput!]!
+}
+
+type UserContentRewardsEditResult {
+  ok: Boolean!
 }

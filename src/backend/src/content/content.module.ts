@@ -6,7 +6,7 @@ import { ContentRewardItemsQuery } from './query/content-reward-items.query';
 import { ContentCategoriesQuery } from './query/content-categories.query';
 import { ContentWageService } from './service/content-wage.service';
 import { ContentQuery } from './query/content.query';
-import { ContentRewardsEditMutation } from './mutation/content-rewards-edit.mutation';
+import { UserContentRewardsEditMutation } from './mutation/user-content-rewards-edit.mutation';
 import { ContentRewardResolver } from './object/content-reward.resolver';
 import { UserContentService } from './service/user-content.service';
 import { ContentWageListQuery } from './query/content-wage-list.query';
@@ -22,7 +22,7 @@ import { ContentSeeMoreRewardResolver } from './object/content-see-more-reward.r
     ContentCategoriesQuery,
     ContentWageService,
     ContentQuery,
-    ContentRewardsEditMutation,
+    UserContentRewardsEditMutation,
     ContentRewardResolver,
     UserContentService,
     ContentWageListQuery,
