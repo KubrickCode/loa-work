@@ -1,0 +1,13 @@
+query UserGoldExchangeRateSettingDialog {
+  userGoldExchangeRate {
+    id
+    krwAmount
+    goldAmount
+  }
+}
+
+mutation UserGoldExchangeRateEdit($input: UserGoldExchangeRateEditInput!) {
+  userGoldExchangeRateEdit(input: $input) {
+    ok
+  }
+}

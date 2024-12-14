@@ -157,4 +157,17 @@ export class UserContentService {
 
     return true;
   }
+
+  async validateUserGoldExchangeRate(rateId: number) {
+    const userGoldExchangeRate =
+      await this.prisma.userGoldExchangeRate.findUnique({
+        where: { id: rateId, userId: this.userId },
+      });
+
+    if (!userGoldExchangeRate) {
+      throw new Error('환율에 대한 수정 권한이 없습니다');
+    }
+
+    return true;
+  }
 }

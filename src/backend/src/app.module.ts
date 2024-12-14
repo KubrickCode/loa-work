@@ -8,6 +8,7 @@ import { ContentModule } from './content/content.module';
 import { ItemModule } from './item/item.module';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
+import { ExchangeRateModule } from './exchange-rate/exchange-rate.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './auth/auth.module';
     ItemModule,
     CommonModule,
     AuthModule,
+    ExchangeRateModule,
   ],
 })
 export class AppModule {}
