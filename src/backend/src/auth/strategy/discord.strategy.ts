@@ -33,6 +33,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
           userContentRewards: true,
           userContentDurations: true,
           userContentRewardItems: true,
+          userGoldExchangeRate: true,
         },
         create: {
           displayName: profile.username,
@@ -65,6 +66,10 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
 
       if (!user.userContentRewardItems.length) {
         await this.authService.makeUserContentRewardItems(user.id, tx);
+      }
+
+      if (!user.userGoldExchangeRate) {
+        await this.authService.makeUserGoldExchangeRate(user.id, tx);
       }
 
       done(undefined, user);

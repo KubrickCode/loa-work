@@ -45,4 +45,16 @@ export class AuthService {
       })),
     });
   }
+
+  async makeUserGoldExchangeRate(userId: number, tx: Prisma.TransactionClient) {
+    const { krwAmount, goldAmount } = await tx.goldExchangeRate.findFirst();
+
+    await tx.userGoldExchangeRate.create({
+      data: {
+        userId,
+        krwAmount,
+        goldAmount,
+      },
+    });
+  }
 }

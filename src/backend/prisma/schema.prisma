@@ -266,6 +266,7 @@ model User {
   userContentDurations   UserContentDuration[]
   userContentRewardItems UserContentRewardItem[]
   userContentRewards     UserContentReward[]
+  userGoldExchangeRate   UserGoldExchangeRate?
 
   @@map("user")
 }
@@ -319,6 +320,21 @@ model UserContentRewardItem {
 
   @@unique([userId, contentRewardItemId])
   @@map("user_content_reward_item")
+}
+
+model UserGoldExchangeRate {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  krwAmount  Int @map("krw_amount")
+  goldAmount Int @map("gold_amount")
+
+  // Relations
+  userId Int  @unique @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_gold_exchange_rate")
 }
 
 enum AuthProvider {
