@@ -4,8 +4,8 @@ import { Layout } from "../layout";
 import { ThemeProvider } from "../theme";
 import { Router, Routes } from "./router";
 import { Loader } from "../loader";
-import { ErrorBoundary } from "react-error-boundary";
 import { AuthProvider } from "../auth";
+import { ErrorBoundary } from "../error";
 
 export const App = () => {
   return (
@@ -14,9 +14,7 @@ export const App = () => {
         <AuthProvider>
           <GraphQLProvider>
             <Layout>
-              <ErrorBoundary
-                fallbackRender={({ error }) => <>{error.message}</>}
-              >
+              <ErrorBoundary>
                 <Suspense fallback={<Loader.Page />}>
                   <Routes />
                 </Suspense>

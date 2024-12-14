@@ -1,5 +1,6 @@
 import { Flex, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { ErrorBoundary } from "../error";
 
 type SplitLayoutProps = {
   firstGroup: ReactNode;
@@ -10,10 +11,10 @@ export const SplitLayout = ({ firstGroup, secondGroup }: SplitLayoutProps) => {
   return (
     <Flex direction={{ base: "column", md: "row" }} gap={4}>
       <VStack flex="1" gap={4}>
-        {firstGroup}
+        <ErrorBoundary>{firstGroup}</ErrorBoundary>
       </VStack>
       <VStack flex="1" gap={4}>
-        {secondGroup}
+        <ErrorBoundary>{secondGroup}</ErrorBoundary>
       </VStack>
     </Flex>
   );
