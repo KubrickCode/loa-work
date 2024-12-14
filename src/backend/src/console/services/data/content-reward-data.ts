@@ -331,7 +331,6 @@ export const getContentsWithRewards = ({
   {
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 1,
-    isSeeMore: false,
     contentCategoryId: epicRaidId,
     level: 1640,
     contentDurations: {
@@ -365,40 +364,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[노말]폭풍의 지휘관, 베히모스',
-    gate: 1,
-    isSeeMore: true,
-    contentCategoryId: epicRaidId,
-    level: 1640,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -3100,
-            isSellable: true,
+            quantity: -3100,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 4000,
-            isSellable: false,
+            quantity: 4000,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 600,
-            isSellable: false,
+            quantity: 600,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 800,
-            isSellable: false,
+            quantity: 800,
           },
         ],
       },
@@ -407,7 +390,6 @@ export const getContentsWithRewards = ({
   {
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 2,
-    isSeeMore: false,
     contentCategoryId: epicRaidId,
     level: 1640,
     contentDurations: {
@@ -441,40 +423,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[노말]폭풍의 지휘관, 베히모스',
-    gate: 2,
-    isSeeMore: true,
-    contentCategoryId: epicRaidId,
-    level: 1640,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -4900,
-            isSellable: true,
+            quantity: -4900,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 6000,
-            isSellable: false,
+            quantity: 6000,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 900,
-            isSellable: false,
+            quantity: 900,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 1800,
-            isSellable: false,
+            quantity: 1800,
           },
         ],
       },
@@ -483,7 +449,6 @@ export const getContentsWithRewards = ({
   {
     name: '[하드]붉어진 백야의 나선',
     gate: 1,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1640,
     contentDurations: {
@@ -517,40 +482,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[하드]붉어진 백야의 나선',
-    gate: 1,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1640,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -2800,
-            isSellable: true,
+            quantity: -2800,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 3800,
-            isSellable: false,
+            quantity: 3800,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 550,
-            isSellable: false,
+            quantity: 550,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 1100,
-            isSellable: false,
+            quantity: 1100,
           },
         ],
       },
@@ -559,7 +508,6 @@ export const getContentsWithRewards = ({
   {
     name: '[하드]붉어진 백야의 나선',
     gate: 2,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1640,
     contentDurations: {
@@ -593,40 +541,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[하드]붉어진 백야의 나선',
-    gate: 2,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1640,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -4100,
-            isSellable: true,
+            quantity: -4100,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 5800,
-            isSellable: false,
+            quantity: 5800,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 850,
-            isSellable: false,
+            quantity: 850,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 1700,
-            isSellable: false,
+            quantity: 1700,
           },
         ],
       },
@@ -635,7 +567,6 @@ export const getContentsWithRewards = ({
   {
     name: '[노말]대지를 부수는 업화의 궤적',
     gate: 1,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1660,
     contentDurations: {
@@ -669,40 +600,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[노말]대지를 부수는 업화의 궤적',
-    gate: 1,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1660,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -3200,
-            isSellable: true,
+            quantity: -3200,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 6500,
-            isSellable: false,
+            quantity: 6500,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 700,
-            isSellable: false,
+            quantity: 700,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 1400,
-            isSellable: false,
+            quantity: 1400,
           },
         ],
       },
@@ -711,7 +626,6 @@ export const getContentsWithRewards = ({
   {
     name: '[노말]대지를 부수는 업화의 궤적',
     gate: 2,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1660,
     contentDurations: {
@@ -745,40 +659,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[노말]대지를 부수는 업화의 궤적',
-    gate: 2,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1660,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -5300,
-            isSellable: true,
+            quantity: -5300,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 9500,
-            isSellable: false,
+            quantity: 9500,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 1000,
-            isSellable: false,
+            quantity: 1000,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 2000,
-            isSellable: false,
+            quantity: 2000,
           },
         ],
       },
@@ -787,7 +685,6 @@ export const getContentsWithRewards = ({
   {
     name: '[노말]부유하는 악몽의 진혼곡',
     gate: 1,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
     contentDurations: {
@@ -821,40 +718,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[노말]부유하는 악몽의 진혼곡',
-    gate: 1,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1670,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -3800,
-            isSellable: true,
+            quantity: -3800,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 7000,
-            isSellable: false,
+            quantity: 7000,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 800,
-            isSellable: false,
+            quantity: 800,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 1600,
-            isSellable: false,
+            quantity: 1600,
           },
         ],
       },
@@ -863,7 +744,6 @@ export const getContentsWithRewards = ({
   {
     name: '[노말]부유하는 악몽의 진혼곡',
     gate: 2,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
     contentDurations: {
@@ -897,40 +777,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[노말]부유하는 악몽의 진혼곡',
-    gate: 2,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1670,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -5200,
-            isSellable: true,
+            quantity: -5200,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 10500,
-            isSellable: false,
+            quantity: 10500,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 1050,
-            isSellable: false,
+            quantity: 1050,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 2100,
-            isSellable: false,
+            quantity: 2100,
           },
         ],
       },
@@ -939,7 +803,6 @@ export const getContentsWithRewards = ({
   {
     name: '[하드]대지를 부수는 업화의 궤적',
     gate: 1,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1680,
     contentDurations: {
@@ -973,40 +836,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[하드]대지를 부수는 업화의 궤적',
-    gate: 1,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1680,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -4100,
-            isSellable: true,
+            quantity: -4100,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 7500,
-            isSellable: false,
+            quantity: 7500,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 850,
-            isSellable: false,
+            quantity: 850,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 1700,
-            isSellable: false,
+            quantity: 1700,
           },
         ],
       },
@@ -1015,7 +862,6 @@ export const getContentsWithRewards = ({
   {
     name: '[하드]대지를 부수는 업화의 궤적',
     gate: 2,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1680,
     contentDurations: {
@@ -1049,40 +895,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[하드]대지를 부수는 업화의 궤적',
-    gate: 2,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1680,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -6600,
-            isSellable: true,
+            quantity: -6600,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 11000,
-            isSellable: false,
+            quantity: 11000,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 1150,
-            isSellable: false,
+            quantity: 1150,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 2300,
-            isSellable: false,
+            quantity: 2300,
           },
         ],
       },
@@ -1091,7 +921,6 @@ export const getContentsWithRewards = ({
   {
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 1,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
     contentDurations: {
@@ -1125,40 +954,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[하드]부유하는 악몽의 진혼곡',
-    gate: 1,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1670,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -4500,
-            isSellable: true,
+            quantity: -4500,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 8000,
-            isSellable: false,
+            quantity: 8000,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 950,
-            isSellable: false,
+            quantity: 950,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 1900,
-            isSellable: false,
+            quantity: 1900,
           },
         ],
       },
@@ -1167,7 +980,6 @@ export const getContentsWithRewards = ({
   {
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 2,
-    isSeeMore: false,
     contentCategoryId: kazerosRaidId,
     level: 1670,
     contentDurations: {
@@ -1201,40 +1013,24 @@ export const getContentsWithRewards = ({
         ],
       },
     },
-  },
-  {
-    name: '[하드]부유하는 악몽의 진혼곡',
-    gate: 2,
-    isSeeMore: true,
-    contentCategoryId: kazerosRaidId,
-    level: 1670,
-    contentDurations: {
-      create: {
-        defaultValue: 600,
-      },
-    },
-    contentRewards: {
+    contentSeeMoreRewards: {
       createMany: {
         data: [
           {
             contentRewardItemId: rewardItemIds.goldId,
-            defaultAverageQuantity: -7200,
-            isSellable: true,
+            quantity: -7200,
           },
           {
             contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 14000,
-            isSellable: false,
+            quantity: 14000,
           },
           {
             contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 1400,
-            isSellable: false,
+            quantity: 1400,
           },
           {
             contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 2800,
-            isSellable: false,
+            quantity: 2800,
           },
         ],
       },

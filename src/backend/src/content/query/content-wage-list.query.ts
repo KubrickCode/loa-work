@@ -37,6 +37,13 @@ export class ContentWageListQuery {
       orderBy: {
         id: 'asc',
       },
+      include: {
+        contentSeeMoreRewards: {
+          include: {
+            contentRewardItem: true,
+          },
+        },
+      },
     });
 
     const promises = contents.map(async (content) => {
@@ -50,25 +57,27 @@ export class ContentWageListQuery {
 
       let gold = await this.contentWageService.calculateGold(rewards);
 
-      if (filter?.includeIsSeeMore === true && content.isSeeMore === false) {
-        const seeMoreContent = await this.prisma.content.findUniqueOrThrow({
-          where: {
-            name_contentCategoryId_gate_isSeeMore: {
-              name: content.name,
-              contentCategoryId: content.contentCategoryId,
-              gate: content.gate,
-              isSeeMore: true,
-            },
-          },
-        });
-
-        const seeMoreRewards = await this.userContentService.getContentRewards(
-          seeMoreContent.id,
-          {
-            includeIsBound: filter?.includeIsBound,
-            includeContentRewardItemIds: filter?.includeContentRewardItemIds,
-          },
-        );
+      if (
+        filter?.includeIsSeeMore &&
+        filter?.includeIsBound !== false &&
+        content.contentSeeMoreRewards.length > 0
+      ) {
+        const seeMoreRewards = content.contentSeeMoreRewards
+          .filter((reward) => {
+            if (
+              filter.includeContentRewardItemIds &&
+              !filter.includeContentRewardItemIds.includes(
+                reward.contentRewardItemId,
+              )
+            ) {
+              return false;
+            }
+            return true;
+          })
+          .map((reward) => ({
+            averageQuantity: reward.quantity.toNumber(),
+            contentRewardItemId: reward.contentRewardItemId,
+          }));
 
         gold += await this.contentWageService.calculateGold(seeMoreRewards);
       }
@@ -94,9 +103,7 @@ export class ContentWageListQuery {
   }
 
   buildWhereArgs(filter?: ContentWageListFilter) {
-    const where: Prisma.ContentWhereInput = {
-      OR: [{ isSeeMore: false }, { isSeeMore: null }],
-    };
+    const where: Prisma.ContentWhereInput = {};
 
     if (filter?.contentCategoryId) {
       where.contentCategoryId = filter.contentCategoryId;

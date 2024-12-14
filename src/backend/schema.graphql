@@ -26,7 +26,6 @@ type Content {
   durationText: String!
   gate: Int
   id: Int!
-  isSeeMore: Boolean
   level: Int!
   name: String!
   updatedAt: DateTime!
@@ -49,7 +48,6 @@ input ContentListFilter {
 input ContentListWageFilter {
   includeContentRewardItems: [String!]
   includeIsBound: Boolean
-  includeIsSeeMore: Boolean
 }
 
 type ContentReward {

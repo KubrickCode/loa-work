@@ -9,9 +9,6 @@ export class ContentListWageFilter {
   @Field(() => Boolean, { nullable: true })
   includeIsBound?: boolean;
 
-  @Field(() => Boolean, { nullable: true })
-  includeIsSeeMore?: boolean;
-
   @Field(() => [String], { nullable: true })
   includeContentRewardItems?: string[];
 }
@@ -49,9 +46,6 @@ export class ContentListQuery {
           ...(filter?.wageFilter?.includeIsBound === false && {
             includeIsBound: false,
           }),
-          ...(filter?.wageFilter?.includeIsSeeMore === true && {
-            includeIsSeeMore: true,
-          }),
           ...(filter?.wageFilter?.includeContentRewardItems && {
             includeContentRewardItems:
               filter.wageFilter.includeContentRewardItems,
@@ -66,10 +60,6 @@ export class ContentListQuery {
 
     if (filter?.contentCategoryId) {
       where.contentCategoryId = filter.contentCategoryId;
-    }
-
-    if (filter?.includeIsSeeMore === false) {
-      where.OR = [{ isSeeMore: false }, { isSeeMore: null }];
     }
 
     return where;

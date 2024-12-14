@@ -33,8 +33,8 @@ export class ContentResolver {
 
   @ResolveField(() => String)
   async displayName(@Parent() content: Content) {
-    const { gate, isSeeMore, name } = content;
-    return `${name}${gate ? ` ${gate}관문` : ''}${isSeeMore ? ' 더보기' : ''}`;
+    const { gate, name } = content;
+    return `${name}${gate ? ` ${gate}관문` : ''}`;
   }
 
   @ResolveField(() => Int)

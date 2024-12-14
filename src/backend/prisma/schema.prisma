@@ -64,18 +64,18 @@ model Content {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  gate      Int?
-  isSeeMore Boolean? @map("is_see_more")
-  level     Int
-  name      String
+  gate  Int?
+  level Int
+  name  String
 
   // Relations
-  contentRewards    ContentReward[]
-  contentCategory   ContentCategory   @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
-  contentCategoryId Int               @map("content_category_id")
-  contentDurations  ContentDuration[]
+  contentRewards        ContentReward[]
+  contentCategory       ContentCategory        @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
+  contentCategoryId     Int                    @map("content_category_id")
+  contentDurations      ContentDuration[]
+  contentSeeMoreRewards ContentSeeMoreReward[]
 
-  @@unique([name, contentCategoryId, gate, isSeeMore])
+  @@unique([name, contentCategoryId, gate])
   @@map("content")
 }
 
@@ -138,8 +138,25 @@ model ContentRewardItem {
   // Relations
   contentRewards         ContentReward[]
   userContentRewardItems UserContentRewardItem[]
+  contentSeeMoreRewards  ContentSeeMoreReward[]
 
   @@map("content_reward_item")
+}
+
+model ContentSeeMoreReward {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  quantity Decimal
+
+  // Relations
+  contentId           Int               @map("content_id")
+  content             Content           @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentRewardItemId Int               @map("content_reward_item_id")
+  contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+
+  @@map("content_see_more_reward")
 }
 
 model ExtraItem {
