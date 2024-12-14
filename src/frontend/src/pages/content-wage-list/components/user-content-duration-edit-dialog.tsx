@@ -1,12 +1,20 @@
-import { Flex, Input, useDialogContext } from "@chakra-ui/react";
+import { useDialogContext } from "@chakra-ui/react";
 import { Suspense } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "~/chakra-components/ui/button";
-import { Field } from "~/chakra-components/ui/field";
 import { toaster } from "~/chakra-components/ui/toaster";
 import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
-import { useMutation } from "~/core/graphql";
-import { UserContentDurationEditDocument } from "~/core/graphql/generated";
+import {
+  Field,
+  Fields,
+  Input,
+  MutationForm,
+  SubmitButton,
+  z,
+} from "~/core/form";
+import {
+  UserContentDurationEditDocument,
+  UserContentDurationEditInput,
+  UserContentDurationEditMutation,
+} from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
 
 type UserContentDurationEditDialogProps = {
@@ -30,10 +38,10 @@ export const UserContentDurationEditDialog = ({
   );
 };
 
-type FormValues = {
-  id: number;
-  value: number;
-};
+const schema = z.object({
+  id: z.number(),
+  value: z.number(),
+});
 
 const Body = ({
   durationId,
@@ -42,53 +50,33 @@ const Body = ({
 }: UserContentDurationEditDialogProps) => {
   const { setOpen } = useDialogContext();
 
-  const [editDuration] = useMutation(UserContentDurationEditDocument, {
-    onCompleted: () => {
-      setOpen(false);
-      onComplete();
-      toaster.create({
-        title: "컨텐츠 소요시간이 수정되었습니다.",
-        type: "success",
-      });
-    },
-  });
-
-  const { register, handleSubmit } = useForm<FormValues>({
-    defaultValues: {
-      id: durationId,
-      value,
-    },
-  });
-
-  const onSubmit = handleSubmit(async (values) => {
-    await editDuration({
-      variables: {
-        input: {
-          id: durationId,
-          value: values.value,
-        },
-      },
-    });
-  });
-
   return (
-    <form onSubmit={onSubmit}>
+    <MutationForm<UserContentDurationEditInput, UserContentDurationEditMutation>
+      defaultValues={{
+        id: durationId,
+        value,
+      }}
+      mutation={UserContentDurationEditDocument}
+      onComplete={() => {
+        setOpen(false);
+        onComplete();
+        toaster.create({
+          title: "컨텐츠 소요시간이 수정되었습니다.",
+          type: "success",
+        });
+      }}
+      schema={schema}
+    >
       <DialogBody>
-        <Flex direction="column" gap={4}>
-          <Field label="소요시간(초 단위)">
-            <Input
-              type="number"
-              step="1"
-              {...register(`value`, {
-                valueAsNumber: true,
-              })}
-            />
+        <Fields>
+          <Field label="소요시간(초 단위)" name="value">
+            <Input type="number" />
           </Field>
-        </Flex>
+        </Fields>
       </DialogBody>
       <DialogFooter>
-        <Button type="submit">확인</Button>
+        <SubmitButton />
       </DialogFooter>
-    </form>
+    </MutationForm>
   );
 };

@@ -1,14 +1,21 @@
-import { Flex, Input, useDialogContext } from "@chakra-ui/react";
+import { useDialogContext } from "@chakra-ui/react";
 import { Suspense } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "~/chakra-components/ui/button";
-import { Field } from "~/chakra-components/ui/field";
 import { toaster } from "~/chakra-components/ui/toaster";
 import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
-import { useMutation, useSafeQuery } from "~/core/graphql";
+import {
+  Field,
+  Fields,
+  Input,
+  MutationForm,
+  SubmitButton,
+  z,
+} from "~/core/form";
+import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardEditDialogDocument,
   UserContentRewardsEditDocument,
+  UserContentRewardsEditInput,
+  UserContentRewardsEditMutation,
 } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
 
@@ -31,12 +38,14 @@ export const UserContentRewardEditDialog = ({
   );
 };
 
-type FormValues = {
-  rewards: {
-    id: number;
-    averageQuantity: number;
-  }[];
-};
+const schema = z.object({
+  userContentRewards: z.array(
+    z.object({
+      id: z.number(),
+      averageQuantity: z.number(),
+    })
+  ),
+});
 
 const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
   const { setOpen } = useDialogContext();
@@ -46,59 +55,41 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
     },
   });
 
-  const [editRewards] = useMutation(UserContentRewardsEditDocument, {
-    onCompleted: () => {
-      setOpen(false);
-      onComplete();
-      toaster.create({
-        title: "컨텐츠 보상이 수정되었습니다.",
-        type: "success",
-      });
-    },
-  });
-
-  const { register, handleSubmit } = useForm<FormValues>({
-    defaultValues: {
-      rewards: data.content.contentRewards.map((reward) => ({
-        id: reward.userContentReward.id,
-        averageQuantity: reward.userContentReward.averageQuantity,
-      })),
-    },
-  });
-
-  const onSubmit = handleSubmit(async (values) => {
-    await editRewards({
-      variables: {
-        input: {
-          userContentRewards: values.rewards,
-        },
-      },
-    });
-  });
-
   return (
-    <form onSubmit={onSubmit}>
+    <MutationForm<UserContentRewardsEditInput, UserContentRewardsEditMutation>
+      defaultValues={{
+        userContentRewards: data.content.contentRewards.map((reward) => ({
+          id: reward.userContentReward.id,
+          averageQuantity: reward.userContentReward.averageQuantity,
+        })),
+      }}
+      mutation={UserContentRewardsEditDocument}
+      onComplete={() => {
+        setOpen(false);
+        onComplete();
+        toaster.create({
+          title: "컨텐츠 보상이 수정되었습니다.",
+          type: "success",
+        });
+      }}
+      schema={schema}
+    >
       <DialogBody>
-        <Flex direction="column" gap={4}>
+        <Fields>
           {data.content.contentRewards.map((reward, index) => (
             <Field
               key={reward.userContentReward.id}
               label={reward.contentRewardItem.name}
+              name={`userContentRewards.${index}.averageQuantity`}
             >
-              <Input
-                type="number"
-                step="0.01"
-                {...register(`rewards.${index}.averageQuantity`, {
-                  valueAsNumber: true,
-                })}
-              />
+              <Input type="number" step="0.01" />
             </Field>
           ))}
-        </Flex>
+        </Fields>
       </DialogBody>
       <DialogFooter>
-        <Button type="submit">확인</Button>
+        <SubmitButton />
       </DialogFooter>
-    </form>
+    </MutationForm>
   );
 };
