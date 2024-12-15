@@ -55,7 +55,7 @@ export class ContentWageListQuery {
         },
       );
 
-      let gold = await this.contentWageService.calculateGold(rewards);
+      const rewardsGold = await this.contentWageService.calculateGold(rewards);
 
       const shouldIncludeSeeMoreRewards =
         filter?.includeIsSeeMore &&
@@ -69,7 +69,7 @@ export class ContentWageListQuery {
           )
         : 0;
 
-      gold += seeMoreGold;
+      const gold = rewardsGold + seeMoreGold;
 
       const duration = await this.userContentService.getContentDuration(
         content.id,
