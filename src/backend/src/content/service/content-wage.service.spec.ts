@@ -9,6 +9,7 @@ import {
   User,
   Content,
   ContentReward,
+  ContentSeeMoreReward,
 } from '@prisma/client';
 import { UserFactory } from 'src/test/factory/user.factory';
 
@@ -23,7 +24,10 @@ describe('ContentWageService', () => {
   let prisma: PrismaService;
   let userFactory: UserFactory;
   let testUser: User;
-  let testContent: Content & { contentRewards: ContentReward[] };
+  let testContent: Content & {
+    contentRewards: ContentReward[];
+    contentSeeMoreRewards: ContentSeeMoreReward[];
+  };
   let context: { req: { user: { id: number | undefined } } };
 
   beforeEach(async () => {
@@ -123,9 +127,30 @@ describe('ContentWageService', () => {
             },
           ],
         },
+        contentSeeMoreRewards: {
+          create: [
+            {
+              contentRewardItemId: goldItemId,
+              quantity: -3100,
+            },
+            {
+              contentRewardItemId: fateFragmentItemId,
+              quantity: 4000,
+            },
+            {
+              contentRewardItemId: fateDestructionStoneItemId,
+              quantity: 600,
+            },
+            {
+              contentRewardItemId: fateGuardianStoneItemId,
+              quantity: 800,
+            },
+          ],
+        },
       },
       include: {
         contentRewards: true,
+        contentSeeMoreRewards: true,
       },
     });
   });
@@ -186,6 +211,13 @@ describe('ContentWageService', () => {
       expect(gold).toBe(9070);
     });
 
+    it('calculateSeeMoreRewardsGold - by user', async () => {
+      const gold = await service.calculateSeeMoreRewardsGold(
+        testContent.contentSeeMoreRewards,
+      );
+      expect(gold).toBe(1500);
+    });
+
     it('calculateWage - by user', async () => {
       const wage = await service.calculateWage({
         gold: 1000,
@@ -216,6 +248,13 @@ describe('ContentWageService', () => {
         })),
       );
       expect(gold).toBe(8542);
+    });
+
+    it('calculateSeeMoreRewardsGold - default', async () => {
+      const gold = await service.calculateSeeMoreRewardsGold(
+        testContent.contentSeeMoreRewards,
+      );
+      expect(gold).toBe(476);
     });
   });
 });
