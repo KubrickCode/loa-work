@@ -62,14 +62,14 @@ export class ContentWageListQuery {
         filter?.includeIsBound !== false &&
         content.contentSeeMoreRewards.length > 0;
 
-      if (shouldIncludeSeeMoreRewards) {
-        const seeMoreGold =
-          await this.contentWageService.calculateSeeMoreRewardsGold(
+      const seeMoreGold = shouldIncludeSeeMoreRewards
+        ? await this.contentWageService.calculateSeeMoreRewardsGold(
             content.contentSeeMoreRewards,
             filter.includeContentRewardItemIds,
-          );
-        gold += seeMoreGold;
-      }
+          )
+        : 0;
+
+      gold += seeMoreGold;
 
       const duration = await this.userContentService.getContentDuration(
         content.id,
