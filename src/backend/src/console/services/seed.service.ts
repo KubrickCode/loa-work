@@ -134,6 +134,7 @@ export class SeedService {
       data: [
         { name: '쿠르잔 전선' },
         { name: '가디언 토벌' },
+        { name: '에포나 의뢰' },
         { name: '큐브' },
         { name: '카오스게이트' },
         { name: '필드보스' },
@@ -152,6 +153,11 @@ export class SeedService {
     const { id: guardianRaidId } =
       await this.prisma.contentCategory.findUniqueOrThrow({
         where: { name: '가디언 토벌' },
+      });
+
+    const { id: eponaQuestId } =
+      await this.prisma.contentCategory.findUniqueOrThrow({
+        where: { name: '에포나 의뢰' },
       });
 
     const { id: cubeId } = await this.prisma.contentCategory.findUniqueOrThrow({
@@ -222,6 +228,7 @@ export class SeedService {
     for (const contentData of getContentsWithRewards({
       kurzanId,
       guardianRaidId,
+      eponaQuestId,
       cubeId,
       chaosGateId,
       fieldBossId,

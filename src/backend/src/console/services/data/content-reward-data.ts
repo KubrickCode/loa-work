@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 export const getContentsWithRewards = ({
   kurzanId,
   guardianRaidId,
+  eponaQuestId,
   cubeId,
   chaosGateId,
   fieldBossId,
@@ -12,6 +13,7 @@ export const getContentsWithRewards = ({
 }: {
   kurzanId: number;
   guardianRaidId: number;
+  eponaQuestId: number;
   cubeId: number;
   chaosGateId: number;
   fieldBossId: number;
@@ -326,6 +328,47 @@ export const getContentsWithRewards = ({
           {
             contentRewardItemId: rewardItemIds.cardExpId,
             defaultAverageQuantity: 14500,
+            isSellable: false,
+          },
+        ],
+      },
+    },
+  },
+  {
+    name: '1640 에포나 의뢰(x3)',
+    contentCategoryId: eponaQuestId,
+    level: 1640,
+    contentDurations: {
+      create: {
+        defaultValue: 60,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.goldId,
+            defaultAverageQuantity: 750,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            defaultAverageQuantity: 1380,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            defaultAverageQuantity: 5,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.lavaBreathId,
+            defaultAverageQuantity: 1,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.iceBreathId,
+            defaultAverageQuantity: 1,
             isSellable: false,
           },
         ],
