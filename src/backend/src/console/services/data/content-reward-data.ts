@@ -10,8 +10,8 @@ export const getContentsWithRewards = ({
 }: {
   kurzanId: number;
   guardianRaidId: number;
-  epicRaidId: number;
   cubeId: number;
+  epicRaidId: number;
   kazerosRaidId: number;
   rewardItemIds: {
     goldId: number;
@@ -26,6 +26,144 @@ export const getContentsWithRewards = ({
     cardExpId: number;
   };
 }): Prisma.ContentUncheckedCreateInput[] => [
+  {
+    name: '아비도스 1 작전',
+    contentCategoryId: kurzanId,
+    level: 1640,
+    contentDurations: {
+      create: {
+        defaultValue: 180,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.sillingId,
+            defaultAverageQuantity: 173415,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            defaultAverageQuantity: 21900,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            defaultAverageQuantity: 10.8,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            defaultAverageQuantity: 166.6,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            defaultAverageQuantity: 450.9,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.level1GemId,
+            defaultAverageQuantity: 2.7,
+            isSellable: true,
+          },
+        ],
+      },
+    },
+  },
+  {
+    name: '아비도스 2 작전',
+    contentCategoryId: kurzanId,
+    level: 1660,
+    contentDurations: {
+      create: {
+        defaultValue: 180,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.sillingId,
+            defaultAverageQuantity: 188312,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            defaultAverageQuantity: 28907,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            defaultAverageQuantity: 14.3,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            defaultAverageQuantity: 178,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            defaultAverageQuantity: 515,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.level1GemId,
+            defaultAverageQuantity: 4.3,
+            isSellable: true,
+          },
+        ],
+      },
+    },
+  },
+  {
+    name: '아비도스 3 작전',
+    contentCategoryId: kurzanId,
+    level: 1680,
+    contentDurations: {
+      create: {
+        defaultValue: 180,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.sillingId,
+            defaultAverageQuantity: 195058,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            defaultAverageQuantity: 32476,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            defaultAverageQuantity: 17.5,
+            isSellable: false,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            defaultAverageQuantity: 220.6,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            defaultAverageQuantity: 626.6,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.level1GemId,
+            defaultAverageQuantity: 4.4,
+            isSellable: true,
+          },
+        ],
+      },
+    },
+  },
   {
     name: '아게오로스',
     contentCategoryId: guardianRaidId,
@@ -190,144 +328,7 @@ export const getContentsWithRewards = ({
       },
     },
   },
-  {
-    name: '아비도스 1 작전',
-    contentCategoryId: kurzanId,
-    level: 1640,
-    contentDurations: {
-      create: {
-        defaultValue: 180,
-      },
-    },
-    contentRewards: {
-      createMany: {
-        data: [
-          {
-            contentRewardItemId: rewardItemIds.sillingId,
-            defaultAverageQuantity: 173415,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 21900,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 10.8,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 166.6,
-            isSellable: true,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 450.9,
-            isSellable: true,
-          },
-          {
-            contentRewardItemId: rewardItemIds.level1GemId,
-            defaultAverageQuantity: 2.7,
-            isSellable: true,
-          },
-        ],
-      },
-    },
-  },
-  {
-    name: '아비도스 2 작전',
-    contentCategoryId: kurzanId,
-    level: 1660,
-    contentDurations: {
-      create: {
-        defaultValue: 180,
-      },
-    },
-    contentRewards: {
-      createMany: {
-        data: [
-          {
-            contentRewardItemId: rewardItemIds.sillingId,
-            defaultAverageQuantity: 188312,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 28907,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 14.3,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 178,
-            isSellable: true,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 515,
-            isSellable: true,
-          },
-          {
-            contentRewardItemId: rewardItemIds.level1GemId,
-            defaultAverageQuantity: 4.3,
-            isSellable: true,
-          },
-        ],
-      },
-    },
-  },
-  {
-    name: '아비도스 3 작전',
-    contentCategoryId: kurzanId,
-    level: 1680,
-    contentDurations: {
-      create: {
-        defaultValue: 180,
-      },
-    },
-    contentRewards: {
-      createMany: {
-        data: [
-          {
-            contentRewardItemId: rewardItemIds.sillingId,
-            defaultAverageQuantity: 195058,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
-            defaultAverageQuantity: 32476,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 17.5,
-            isSellable: false,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
-            defaultAverageQuantity: 220.6,
-            isSellable: true,
-          },
-          {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
-            defaultAverageQuantity: 626.6,
-            isSellable: true,
-          },
-          {
-            contentRewardItemId: rewardItemIds.level1GemId,
-            defaultAverageQuantity: 4.4,
-            isSellable: true,
-          },
-        ],
-      },
-    },
-  },
+
   {
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 1,
