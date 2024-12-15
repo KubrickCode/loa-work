@@ -1,0 +1,6 @@
+query ExtraItemListTable($filter: ContentRewardItemsFilter) {
+  contentRewardItems(filter: $filter) {
+    name
+    price
+  }
+}

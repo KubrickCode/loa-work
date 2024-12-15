@@ -76,8 +76,21 @@ type ContentRewardItem {
   createdAt: DateTime!
   defaultPrice: Float!
   id: Int!
+  kind: ContentRewardItemKind!
   name: String!
+  price: Float!
   updatedAt: DateTime!
+}
+
+enum ContentRewardItemKind {
+  AUCTION_ITEM
+  EXTRA_ITEM
+  MARKET_ITEM
+}
+
+input ContentRewardItemsFilter {
+  excludeItemName: String
+  kind: ContentRewardItemKind
 }
 
 type ContentSeeMoreReward {
@@ -153,7 +166,7 @@ type Query {
   contentCategories: [ContentCategory!]!
   contentDuration(id: Int!): ContentDuration!
   contentList(filter: ContentListFilter): [Content!]!
-  contentRewardItems: [ContentRewardItem!]!
+  contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   minimumWage: MinimumWage!

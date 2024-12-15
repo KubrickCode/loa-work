@@ -6,17 +6,25 @@ import { AuctionItemListTable } from "./components/auction-item-list-table";
 import { AccordionCard } from "~/core/accordion";
 import { Suspense } from "react";
 import { Loader } from "~/core/loader";
+import { ExtraItemListTable } from "./components/extra-item-list-table";
 
 export const ItemPriceListPage = () => {
   return (
     <Page>
       <SplitLayout
         firstGroup={
-          <AccordionCard title="거래소 아이템">
-            <Suspense fallback={<Loader.TableSkeleton line={10} />}>
-              <MarketItemListTable />
-            </Suspense>
-          </AccordionCard>
+          <>
+            <AccordionCard title="거래소 아이템">
+              <Suspense fallback={<Loader.TableSkeleton line={10} />}>
+                <MarketItemListTable />
+              </Suspense>
+            </AccordionCard>
+            <AccordionCard title="기타 아이템">
+              <Suspense fallback={<Loader.TableSkeleton line={2} />}>
+                <ExtraItemListTable />
+              </Suspense>
+            </AccordionCard>
+          </>
         }
         secondGroup={
           <AccordionCard title="경매장 아이템">

@@ -4,7 +4,11 @@ export const FormatGold = ({ value }: { value?: number | null }) => {
   return (
     <Flex display="inline-flex" alignItems="center">
       <Image src="/loa-life-favicon.png" w={4} />
-      {value ? <FormatNumber value={value} /> : <>가격 정보 없음</>}
+      {typeof value === "number" ? (
+        <FormatNumber value={value} />
+      ) : (
+        <>가격 정보 없음</>
+      )}
     </Flex>
   );
 };
