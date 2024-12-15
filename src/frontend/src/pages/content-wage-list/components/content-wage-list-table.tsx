@@ -99,7 +99,7 @@ export const ContentWageListTable = () => {
               />
             );
           },
-          sortKey: "wage.amount",
+          sortKey: "krwAmount",
         },
         {
           align: "right",
@@ -107,7 +107,7 @@ export const ContentWageListTable = () => {
           render({ data }) {
             return <FormatGold value={data.goldAmount} />;
           },
-          sortKey: "wage.goldAmount",
+          sortKey: "goldAmount",
         },
       ]}
       rows={data.contentWageList.map((data) => ({
