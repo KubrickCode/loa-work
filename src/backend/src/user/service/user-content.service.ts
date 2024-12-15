@@ -5,16 +5,18 @@ import { ContextType } from './types';
 
 @Injectable()
 export class UserContentService {
-  private readonly userId?: number;
-
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(CONTEXT) context: ContextType,
-  ) {
-    this.userId = context.req?.user?.id;
+    @Inject(CONTEXT) private context: ContextType,
+  ) {}
+
+  private getUserId() {
+    return this.context.req?.user?.id;
   }
 
   async getContentRewardItemPrice(contentRewardItemId: number) {
+    const userId = this.getUserId();
+
     const contentRewardItem =
       await this.prisma.contentRewardItem.findUniqueOrThrow({
         where: {
@@ -22,12 +24,12 @@ export class UserContentService {
         },
       });
 
-    const price = this.userId
+    const price = userId
       ? (
           await this.prisma.userContentRewardItem.findUniqueOrThrow({
             where: {
               userId_contentRewardItemId: {
-                userId: this.userId,
+                userId,
                 contentRewardItemId,
               },
             },
@@ -39,6 +41,8 @@ export class UserContentService {
   }
 
   async getContentDuration(contentId: number) {
+    const userId = this.getUserId();
+
     const contentDuration = await this.prisma.contentDuration.findUniqueOrThrow(
       {
         where: {
@@ -47,13 +51,13 @@ export class UserContentService {
       },
     );
 
-    return this.userId
+    return userId
       ? (
           await this.prisma.userContentDuration.findUniqueOrThrow({
             where: {
               contentDurationId_userId: {
                 contentDurationId: contentDuration.id,
-                userId: this.userId,
+                userId,
               },
             },
           })
@@ -62,18 +66,20 @@ export class UserContentService {
   }
 
   async getContentRewardAverageQuantity(contentRewardId: number) {
+    const userId = this.getUserId();
+
     const contentReward = await this.prisma.contentReward.findUniqueOrThrow({
       where: {
         id: contentRewardId,
       },
     });
 
-    return this.userId
+    return userId
       ? (
           await this.prisma.userContentReward.findUniqueOrThrow({
             where: {
               userId_contentRewardId: {
-                userId: this.userId,
+                userId,
                 contentRewardId,
               },
             },
@@ -89,6 +95,8 @@ export class UserContentService {
       includeContentRewardItemIds?: number[];
     },
   ) {
+    const userId = this.getUserId();
+
     const where = {
       contentId,
       ...(filter?.includeIsBound === false && { isSellable: true }),
@@ -97,10 +105,10 @@ export class UserContentService {
       }),
     };
 
-    if (this.userId) {
+    if (userId) {
       const userRewards = await this.prisma.userContentReward.findMany({
         where: {
-          userId: this.userId,
+          userId,
           contentReward: where,
         },
         include: {
@@ -127,10 +135,12 @@ export class UserContentService {
   }
 
   async validateUserContentRewards(rewardIds: number[]) {
+    const userId = this.getUserId();
+
     const userContentRewards = await this.prisma.userContentReward.findMany({
       where: {
         id: { in: rewardIds },
-        userId: this.userId,
+        userId,
       },
     });
 
@@ -142,11 +152,13 @@ export class UserContentService {
   }
 
   async validateUserContentDuration(durationId: number) {
+    const userId = this.getUserId();
+
     const userContentDuration =
       await this.prisma.userContentDuration.findUnique({
         where: {
           id: durationId,
-          userId: this.userId,
+          userId,
         },
       });
 

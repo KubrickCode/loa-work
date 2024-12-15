@@ -5,32 +5,36 @@ import { ContextType } from './types';
 
 @Injectable()
 export class UserGoldExchangeRateService {
-  private readonly userId?: number;
-
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(CONTEXT) context: ContextType,
-  ) {
-    this.userId = context.req?.user?.id;
+    @Inject(CONTEXT) private context: ContextType,
+  ) {}
+
+  private getUserId() {
+    return this.context.req?.user?.id;
   }
 
   async getGoldExchangeRate() {
+    const userId = this.getUserId();
+
     const goldExchangeRate =
       await this.prisma.goldExchangeRate.findFirstOrThrow();
 
-    return this.userId
+    return userId
       ? await this.prisma.userGoldExchangeRate.findUniqueOrThrow({
           where: {
-            userId: this.userId,
+            userId,
           },
         })
       : goldExchangeRate;
   }
 
   async validateUserGoldExchangeRate(rateId: number) {
+    const userId = this.getUserId();
+
     const userGoldExchangeRate =
       await this.prisma.userGoldExchangeRate.findUnique({
-        where: { id: rateId, userId: this.userId },
+        where: { id: rateId, userId },
       });
 
     if (!userGoldExchangeRate) {
