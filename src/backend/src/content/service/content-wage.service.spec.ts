@@ -218,6 +218,15 @@ describe('ContentWageService', () => {
       expect(gold).toBe(1500);
     });
 
+    it('calculateSeeMoreRewardsGold - by user with filter', async () => {
+      const gold = await service.calculateSeeMoreRewardsGold(
+        testContent.contentSeeMoreRewards,
+        [goldItemId, fateDestructionStoneItemId], // 골드와 파괴석만 계산
+      );
+
+      expect(gold).toBe(-100);
+    });
+
     it('calculateWage - by user', async () => {
       const wage = await service.calculateWage({
         gold: 1000,
@@ -255,6 +264,15 @@ describe('ContentWageService', () => {
         testContent.contentSeeMoreRewards,
       );
       expect(gold).toBe(476);
+    });
+
+    it('calculateSeeMoreRewardsGold - default with filter', async () => {
+      const gold = await service.calculateSeeMoreRewardsGold(
+        testContent.contentSeeMoreRewards,
+        [goldItemId, fateDestructionStoneItemId], // 골드와 파괴석만 계산
+      );
+
+      expect(gold).toBe(-520);
     });
   });
 });
