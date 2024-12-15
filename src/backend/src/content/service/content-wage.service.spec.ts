@@ -4,7 +4,7 @@ import { ContentWageService } from './content-wage.service';
 import { UserContentService } from '../../user/service/user-content.service';
 import { CONTEXT } from '@nestjs/graphql';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
-import { User } from '@prisma/client';
+import { ContentRewardItemKind, User } from '@prisma/client';
 import { UserFactory } from 'src/test/factory/user.factory';
 
 describe('ContentWageService', () => {
@@ -35,6 +35,8 @@ describe('ContentWageService', () => {
     userFactory = module.get(UserFactory);
     context = module.get(CONTEXT);
 
+    await prisma.clearDatabase();
+
     testUser = await userFactory.create();
 
     await prisma.goldExchangeRate.create({
@@ -43,6 +45,33 @@ describe('ContentWageService', () => {
         goldAmount: 50,
       },
     });
+
+    await prisma.contentRewardItem.createMany({
+      data: [
+        {
+          id: 1,
+          name: '골드',
+          kind: ContentRewardItemKind.EXTRA_ITEM,
+          defaultPrice: 1,
+        },
+        {
+          id: 2,
+          name: '운명의 파괴석',
+          kind: ContentRewardItemKind.MARKET_ITEM,
+          defaultPrice: 10,
+        },
+        {
+          id: 3,
+          name: '운명의 수호석',
+          kind: ContentRewardItemKind.MARKET_ITEM,
+          defaultPrice: 8,
+        },
+      ],
+    });
+  });
+
+  afterEach(async () => {
+    await prisma.clearDatabase();
   });
 
   afterAll(async () => {
@@ -60,6 +89,46 @@ describe('ContentWageService', () => {
           goldAmount: 70,
         },
       });
+
+      await prisma.userContentRewardItem.createMany({
+        data: [
+          {
+            userId: testUser.id,
+            contentRewardItemId: 1,
+            price: 1,
+          },
+          {
+            userId: testUser.id,
+            contentRewardItemId: 2,
+            price: 15,
+          },
+          {
+            userId: testUser.id,
+            contentRewardItemId: 3,
+            price: 12,
+          },
+        ],
+      });
+    });
+
+    it('calculateGold - by user', async () => {
+      const rewards = [
+        {
+          contentRewardItemId: 1,
+          averageQuantity: 9000,
+        },
+        {
+          contentRewardItemId: 2,
+          averageQuantity: 680,
+        },
+        {
+          contentRewardItemId: 3,
+          averageQuantity: 1320,
+        },
+      ];
+
+      const gold = await service.calculateGold(rewards);
+      expect(gold).toBe(35040);
     });
 
     it('calculateWage - by user', async () => {
@@ -82,6 +151,22 @@ describe('ContentWageService', () => {
         duration: 3600,
       });
       expect(wage).toEqual({ krwAmount: 500, goldAmount: 1000 });
+    });
+
+    it('calculateGold - default', async () => {
+      const rewards = [
+        {
+          contentRewardItemId: 2,
+          averageQuantity: 148.4,
+        },
+        {
+          contentRewardItemId: 3,
+          averageQuantity: 450,
+        },
+      ];
+
+      const gold = await service.calculateGold(rewards);
+      expect(gold).toBe(5084);
     });
   });
 });
