@@ -63,24 +63,12 @@ export class ContentWageListQuery {
         content.contentSeeMoreRewards.length > 0;
 
       if (shouldIncludeSeeMoreRewards) {
-        const seeMoreRewards = content.contentSeeMoreRewards
-          .filter((reward) => {
-            if (
-              filter.includeContentRewardItemIds &&
-              !filter.includeContentRewardItemIds.includes(
-                reward.contentRewardItemId,
-              )
-            ) {
-              return false;
-            }
-            return true;
-          })
-          .map((reward) => ({
-            averageQuantity: reward.quantity.toNumber(),
-            contentRewardItemId: reward.contentRewardItemId,
-          }));
-
-        gold += await this.contentWageService.calculateGold(seeMoreRewards);
+        const seeMoreGold =
+          await this.contentWageService.calculateSeeMoreRewardsGold(
+            content.contentSeeMoreRewards,
+            filter.includeContentRewardItemIds,
+          );
+        gold += seeMoreGold;
       }
 
       const duration = await this.userContentService.getContentDuration(

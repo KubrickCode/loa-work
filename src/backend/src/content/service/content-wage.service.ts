@@ -29,6 +29,33 @@ export class ContentWageService {
     return gold;
   }
 
+  async calculateSeeMoreRewardsGold(
+    contentSeeMoreRewards: {
+      contentRewardItemId: number;
+      quantity: {
+        toNumber: () => number;
+      };
+    }[],
+    includeContentRewardItemIds?: number[],
+  ) {
+    const seeMoreRewards = contentSeeMoreRewards
+      .filter((reward) => {
+        if (
+          includeContentRewardItemIds &&
+          !includeContentRewardItemIds.includes(reward.contentRewardItemId)
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .map((reward) => ({
+        averageQuantity: reward.quantity.toNumber(),
+        contentRewardItemId: reward.contentRewardItemId,
+      }));
+
+    return await this.calculateGold(seeMoreRewards);
+  }
+
   async calculateWage({ gold, duration }: { gold: number; duration: number }) {
     const goldExchangeRate =
       await this.userGoldExchangeRateService.getGoldExchangeRate();
