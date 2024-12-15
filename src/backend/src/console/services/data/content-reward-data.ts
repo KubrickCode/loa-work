@@ -3,14 +3,16 @@ import { Prisma } from '@prisma/client';
 export const getContentsWithRewards = ({
   kurzanId,
   guardianRaidId,
-  epicRaidId,
   cubeId,
+  chaosGateId,
+  epicRaidId,
   kazerosRaidId,
   rewardItemIds,
 }: {
   kurzanId: number;
   guardianRaidId: number;
   cubeId: number;
+  chaosGateId: number;
   epicRaidId: number;
   kazerosRaidId: number;
   rewardItemIds: {
@@ -328,7 +330,88 @@ export const getContentsWithRewards = ({
       },
     },
   },
-
+  {
+    name: '1640 카오스게이트',
+    contentCategoryId: chaosGateId,
+    level: 1640,
+    contentDurations: {
+      create: {
+        defaultValue: 180,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            defaultAverageQuantity: 4000,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.lavaBreathId,
+            defaultAverageQuantity: 2,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.iceBreathId,
+            defaultAverageQuantity: 2,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.level1GemId,
+            defaultAverageQuantity: 2,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.cardExpId,
+            defaultAverageQuantity: 2500,
+            isSellable: false,
+          },
+        ],
+      },
+    },
+  },
+  {
+    name: '1680 카오스게이트',
+    contentCategoryId: chaosGateId,
+    level: 1680,
+    contentDurations: {
+      create: {
+        defaultValue: 180,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            defaultAverageQuantity: 4500,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.lavaBreathId,
+            defaultAverageQuantity: 3,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.iceBreathId,
+            defaultAverageQuantity: 3,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.level1GemId,
+            defaultAverageQuantity: 3,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.cardExpId,
+            defaultAverageQuantity: 6000,
+            isSellable: false,
+          },
+        ],
+      },
+    },
+  },
   {
     name: '[노말]폭풍의 지휘관, 베히모스',
     gate: 1,
