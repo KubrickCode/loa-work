@@ -57,11 +57,12 @@ export class ContentWageListQuery {
 
       let gold = await this.contentWageService.calculateGold(rewards);
 
-      if (
+      const shouldIncludeSeeMoreRewards =
         filter?.includeIsSeeMore &&
         filter?.includeIsBound !== false &&
-        content.contentSeeMoreRewards.length > 0
-      ) {
+        content.contentSeeMoreRewards.length > 0;
+
+      if (shouldIncludeSeeMoreRewards) {
         const seeMoreRewards = content.contentSeeMoreRewards
           .filter((reward) => {
             if (
