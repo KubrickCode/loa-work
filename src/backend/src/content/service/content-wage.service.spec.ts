@@ -10,8 +10,9 @@ import {
   Content,
   ContentReward,
   ContentSeeMoreReward,
+  AuthProvider,
 } from '@prisma/client';
-import { UserFactory } from 'src/test/factory/user.factory';
+import { faker } from '@faker-js/faker/.';
 
 describe('ContentWageService', () => {
   const goldItemId = 1;
@@ -22,7 +23,6 @@ describe('ContentWageService', () => {
   let module: TestingModule;
   let service: ContentWageService;
   let prisma: PrismaService;
-  let userFactory: UserFactory;
   let testUser: User;
   let testContent: Content & {
     contentRewards: ContentReward[];
@@ -37,7 +37,6 @@ describe('ContentWageService', () => {
         ContentWageService,
         UserContentService,
         UserGoldExchangeRateService,
-        UserFactory,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -47,12 +46,18 @@ describe('ContentWageService', () => {
 
     service = module.get(ContentWageService);
     prisma = module.get(PrismaService);
-    userFactory = module.get(UserFactory);
     context = module.get(CONTEXT);
 
     await prisma.clearDatabase();
 
-    testUser = await userFactory.create();
+    testUser = await prisma.user.create({
+      data: {
+        displayName: faker.person.fullName(),
+        email: faker.internet.email(),
+        provider: AuthProvider.GOOGLE,
+        refId: faker.string.uuid(),
+      },
+    });
 
     await prisma.goldExchangeRate.create({
       data: {
