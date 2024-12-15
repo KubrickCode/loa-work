@@ -5,6 +5,7 @@ export const getContentsWithRewards = ({
   guardianRaidId,
   cubeId,
   chaosGateId,
+  fieldBossId,
   epicRaidId,
   kazerosRaidId,
   rewardItemIds,
@@ -13,6 +14,7 @@ export const getContentsWithRewards = ({
   guardianRaidId: number;
   cubeId: number;
   chaosGateId: number;
+  fieldBossId: number;
   epicRaidId: number;
   kazerosRaidId: number;
   rewardItemIds: {
@@ -406,6 +408,78 @@ export const getContentsWithRewards = ({
           {
             contentRewardItemId: rewardItemIds.cardExpId,
             defaultAverageQuantity: 6000,
+            isSellable: false,
+          },
+        ],
+      },
+    },
+  },
+  {
+    name: '1640 세베크 아툰',
+    contentCategoryId: fieldBossId,
+    level: 1640,
+    contentDurations: {
+      create: {
+        defaultValue: 300,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            defaultAverageQuantity: 40,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            defaultAverageQuantity: 120,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.level1GemId,
+            defaultAverageQuantity: 12,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.cardExpId,
+            defaultAverageQuantity: 2500,
+            isSellable: false,
+          },
+        ],
+      },
+    },
+  },
+  {
+    name: '1680 세베크 아툰',
+    contentCategoryId: fieldBossId,
+    level: 1680,
+    contentDurations: {
+      create: {
+        defaultValue: 120,
+      },
+    },
+    contentRewards: {
+      createMany: {
+        data: [
+          {
+            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            defaultAverageQuantity: 60,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            defaultAverageQuantity: 180,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.level1GemId,
+            defaultAverageQuantity: 16,
+            isSellable: true,
+          },
+          {
+            contentRewardItemId: rewardItemIds.cardExpId,
+            defaultAverageQuantity: 2500,
             isSellable: false,
           },
         ],

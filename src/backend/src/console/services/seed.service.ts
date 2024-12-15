@@ -136,6 +136,7 @@ export class SeedService {
         { name: '가디언 토벌' },
         { name: '큐브' },
         { name: '카오스게이트' },
+        { name: '필드보스' },
         { name: '에픽 레이드' },
         { name: '카제로스 레이드' },
       ],
@@ -160,6 +161,11 @@ export class SeedService {
     const { id: chaosGateId } =
       await this.prisma.contentCategory.findUniqueOrThrow({
         where: { name: '카오스게이트' },
+      });
+
+    const { id: fieldBossId } =
+      await this.prisma.contentCategory.findUniqueOrThrow({
+        where: { name: '필드보스' },
       });
 
     const { id: epicRaidId } =
@@ -218,6 +224,7 @@ export class SeedService {
       guardianRaidId,
       cubeId,
       chaosGateId,
+      fieldBossId,
       epicRaidId,
       kazerosRaidId,
       rewardItemIds: {
