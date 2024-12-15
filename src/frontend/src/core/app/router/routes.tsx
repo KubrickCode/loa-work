@@ -5,7 +5,6 @@ import _ from "lodash";
 import ContentRewardListPage from "~/pages/content-reward-list";
 import ContentWageListPage from "~/pages/content-wage-list";
 import ItemPriceListPage from "~/pages/item-price-list";
-import LoginPage from "~/pages/login";
 
 const routes = [
   {
@@ -19,10 +18,6 @@ const routes = [
   {
     path: "/item-price-list",
     component: ItemPriceListPage,
-  },
-  {
-    path: "/login",
-    component: LoginPage,
   },
 ] as const;
 

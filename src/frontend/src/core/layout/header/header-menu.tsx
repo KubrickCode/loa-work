@@ -1,6 +1,5 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { MdLogin, MdLogout } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import { Avatar } from "~/chakra-components/ui/avatar";
 import { Button } from "~/chakra-components/ui/button";
 import { ColorModeIcon, useColorMode } from "~/chakra-components/ui/color-mode";
@@ -9,13 +8,13 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "~/chakra-components/ui/menu";
-import { useAuth } from "~/core/auth";
+import { LoginDialog, useAuth } from "~/core/auth";
+import { DialogTrigger } from "~/core/dialog";
 import { MenuItem } from "~/core/menu";
 
 export const HeaderMenu = () => {
   const { toggleColorMode } = useColorMode();
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
   return (
     <MenuRoot closeOnSelect={false} positioning={{ placement: "bottom-end" }}>
@@ -36,9 +35,15 @@ export const HeaderMenu = () => {
             로그아웃
           </MenuItem>
         ) : (
-          <MenuItem onClick={() => navigate("/login")} value="login">
-            <MdLogin /> 로그인
-          </MenuItem>
+          <DialogTrigger
+            dialog={<LoginDialog />}
+            trigger={
+              <MenuItem value="login">
+                <MdLogin />
+                로그인
+              </MenuItem>
+            }
+          />
         )}
       </MenuContent>
     </MenuRoot>
