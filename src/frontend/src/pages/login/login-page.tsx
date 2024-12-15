@@ -18,6 +18,13 @@ export const LoginPage = () => {
       >
         디스코드 로그인
       </Button>
+      <Button
+        onClick={() => {
+          window.location.href = "/auth/kakao";
+        }}
+      >
+        카카오 로그인
+      </Button>
     </Page>
   );
 };

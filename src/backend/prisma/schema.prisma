@@ -340,6 +340,7 @@ model UserGoldExchangeRate {
 enum AuthProvider {
   GOOGLE
   DISCORD
+  KAKAO
 }
 
 enum ContentRewardItemKind {

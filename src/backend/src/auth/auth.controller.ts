@@ -54,6 +54,27 @@ export class AuthController {
     return req.user;
   }
 
+  @Get('kakao/callback')
+  @UseGuards(AuthGuard('kakao'))
+  async kakaoCallback(@Req() req: Request, @Res() res: Response) {
+    req.session['passport'] = {
+      user: req.user,
+    };
+
+    return res.redirect(
+      this.configService.get<string>(
+        'AUTH_SUCCESS_URL',
+        'http://localhost:3000/',
+      ),
+    );
+  }
+
+  @Get('kakao')
+  @UseGuards(AuthGuard('kakao'))
+  async kakaoLogin(@Req() req: Request) {
+    return req.user;
+  }
+
   @Post('logout')
   async logout(@Req() req: Request) {
     return req.logout((error) => console.error(error));
