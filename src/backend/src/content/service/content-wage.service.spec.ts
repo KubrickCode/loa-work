@@ -6,7 +6,6 @@ import { CONTEXT } from '@nestjs/graphql';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 import { User } from '@prisma/client';
 import { UserFactory } from 'src/test/factory/user.factory';
-import { ContextType } from 'src/user/service/types';
 
 describe('ContentWageService', () => {
   let module: TestingModule;
@@ -14,9 +13,9 @@ describe('ContentWageService', () => {
   let prisma: PrismaService;
   let userFactory: UserFactory;
   let testUser: User;
-  let context: ContextType;
+  let context: { req: { user: { id: number | undefined } } };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     module = await Test.createTestingModule({
       providers: [
         PrismaService,
@@ -26,10 +25,11 @@ describe('ContentWageService', () => {
         UserFactory,
         {
           provide: CONTEXT,
-          useFactory: () => ({ req: { user: { id: undefined } } }),
+          useValue: { req: { user: { id: undefined } } },
         },
       ],
     }).compile();
+
     service = module.get(ContentWageService);
     prisma = module.get(PrismaService);
     userFactory = module.get(UserFactory);
@@ -57,7 +57,7 @@ describe('ContentWageService', () => {
         data: {
           userId: testUser.id,
           krwAmount: 100,
-          goldAmount: 50,
+          goldAmount: 70,
         },
       });
     });
@@ -67,7 +67,7 @@ describe('ContentWageService', () => {
         gold: 1000,
         duration: 3600,
       });
-      expect(wage).toEqual({ krwAmount: 500, goldAmount: 1000 });
+      expect(wage).toEqual({ krwAmount: 700, goldAmount: 1000 });
     });
   });
 
