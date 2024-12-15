@@ -4,15 +4,26 @@ import { ContentWageService } from './content-wage.service';
 import { UserContentService } from '../../user/service/user-content.service';
 import { CONTEXT } from '@nestjs/graphql';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
-import { ContentRewardItemKind, User } from '@prisma/client';
+import {
+  ContentRewardItemKind,
+  User,
+  Content,
+  ContentReward,
+} from '@prisma/client';
 import { UserFactory } from 'src/test/factory/user.factory';
 
 describe('ContentWageService', () => {
+  const goldItemId = 1;
+  const fateFragmentItemId = 2;
+  const fateDestructionStoneItemId = 3;
+  const fateGuardianStoneItemId = 4;
+
   let module: TestingModule;
   let service: ContentWageService;
   let prisma: PrismaService;
   let userFactory: UserFactory;
   let testUser: User;
+  let testContent: Content & { contentRewards: ContentReward[] };
   let context: { req: { user: { id: number | undefined } } };
 
   beforeEach(async () => {
@@ -49,24 +60,73 @@ describe('ContentWageService', () => {
     await prisma.contentRewardItem.createMany({
       data: [
         {
-          id: 1,
+          id: goldItemId,
           name: '골드',
           kind: ContentRewardItemKind.EXTRA_ITEM,
           defaultPrice: 1,
         },
         {
-          id: 2,
-          name: '운명의 파괴석',
+          id: fateFragmentItemId,
+          name: '운명의 파편',
           kind: ContentRewardItemKind.MARKET_ITEM,
-          defaultPrice: 10,
+          defaultPrice: 0.129,
         },
         {
-          id: 3,
+          id: fateDestructionStoneItemId,
+          name: '운명의 파괴석',
+          kind: ContentRewardItemKind.MARKET_ITEM,
+          defaultPrice: 4.3,
+        },
+        {
+          id: fateGuardianStoneItemId,
           name: '운명의 수호석',
           kind: ContentRewardItemKind.MARKET_ITEM,
-          defaultPrice: 8,
+          defaultPrice: 0.6,
         },
       ],
+    });
+
+    const category = await prisma.contentCategory.create({
+      data: {
+        name: '에픽 레이드',
+      },
+    });
+
+    testContent = await prisma.content.create({
+      data: {
+        name: '[노말]폭풍의 지휘관, 베히모스',
+        gate: 1,
+        level: 1640,
+        contentCategoryId: category.id,
+        contentDurations: {
+          create: {
+            defaultValue: 600,
+          },
+        },
+        contentRewards: {
+          create: [
+            {
+              contentRewardItemId: goldItemId,
+              defaultAverageQuantity: 7000,
+            },
+            {
+              contentRewardItemId: fateFragmentItemId,
+              defaultAverageQuantity: 3000,
+            },
+            {
+              contentRewardItemId: fateDestructionStoneItemId,
+              defaultAverageQuantity: 210,
+            },
+            {
+              contentRewardItemId: fateGuardianStoneItemId,
+              defaultAverageQuantity: 420,
+            },
+          ],
+        },
+      },
+      include: {
+        contentRewards: true,
+      },
     });
   });
 
@@ -94,41 +154,36 @@ describe('ContentWageService', () => {
         data: [
           {
             userId: testUser.id,
-            contentRewardItemId: 1,
+            contentRewardItemId: goldItemId,
             price: 1,
           },
           {
             userId: testUser.id,
-            contentRewardItemId: 2,
-            price: 15,
+            contentRewardItemId: fateFragmentItemId,
+            price: 0.2,
           },
           {
             userId: testUser.id,
-            contentRewardItemId: 3,
-            price: 12,
+            contentRewardItemId: fateDestructionStoneItemId,
+            price: 5,
+          },
+          {
+            userId: testUser.id,
+            contentRewardItemId: fateGuardianStoneItemId,
+            price: 1,
           },
         ],
       });
     });
 
     it('calculateGold - by user', async () => {
-      const rewards = [
-        {
-          contentRewardItemId: 1,
-          averageQuantity: 9000,
-        },
-        {
-          contentRewardItemId: 2,
-          averageQuantity: 680,
-        },
-        {
-          contentRewardItemId: 3,
-          averageQuantity: 1320,
-        },
-      ];
-
-      const gold = await service.calculateGold(rewards);
-      expect(gold).toBe(35040);
+      const gold = await service.calculateGold(
+        testContent.contentRewards.map((reward) => ({
+          contentRewardItemId: reward.contentRewardItemId,
+          averageQuantity: reward.defaultAverageQuantity.toNumber(),
+        })),
+      );
+      expect(gold).toBe(9070);
     });
 
     it('calculateWage - by user', async () => {
@@ -154,19 +209,13 @@ describe('ContentWageService', () => {
     });
 
     it('calculateGold - default', async () => {
-      const rewards = [
-        {
-          contentRewardItemId: 2,
-          averageQuantity: 148.4,
-        },
-        {
-          contentRewardItemId: 3,
-          averageQuantity: 450,
-        },
-      ];
-
-      const gold = await service.calculateGold(rewards);
-      expect(gold).toBe(5084);
+      const gold = await service.calculateGold(
+        testContent.contentRewards.map((reward) => ({
+          contentRewardItemId: reward.contentRewardItemId,
+          averageQuantity: reward.defaultAverageQuantity.toNumber(),
+        })),
+      );
+      expect(gold).toBe(8542);
     });
   });
 });
