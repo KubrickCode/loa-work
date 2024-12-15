@@ -1,14 +1,21 @@
+import { DialogTrigger } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentRewardItemKind,
   ExtraItemListTableDocument,
+  ExtraItemListTableQuery,
 } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
+import { UserExtraItemPriceEditDialog } from "./user-extra-item-price-edit-dialog";
+import { useAuth } from "~/core/auth";
+import { IconButton } from "@chakra-ui/react";
+import { IoIosSettings } from "react-icons/io";
 
 export const ExtraItemListTable = () => {
-  const { data } = useSafeQuery(ExtraItemListTableDocument, {
+  const { isAuthenticated } = useAuth();
+  const { data, refetch } = useSafeQuery(ExtraItemListTableDocument, {
     variables: {
       filter: {
         excludeItemName: "골드",
@@ -20,6 +27,34 @@ export const ExtraItemListTable = () => {
   return (
     <DataTable
       columns={[
+        ...(isAuthenticated
+          ? [
+              {
+                header: "",
+                render({
+                  data,
+                }: {
+                  data: ExtraItemListTableQuery["contentRewardItems"][number];
+                }) {
+                  return (
+                    <DialogTrigger
+                      dialog={
+                        <UserExtraItemPriceEditDialog
+                          contentRewardItemId={data.id}
+                          onComplete={refetch}
+                        />
+                      }
+                      trigger={
+                        <IconButton size="xs" variant="surface">
+                          <IoIosSettings />
+                        </IconButton>
+                      }
+                    />
+                  );
+                },
+              },
+            ]
+          : []),
         {
           header: "아이템",
           render({ data }) {

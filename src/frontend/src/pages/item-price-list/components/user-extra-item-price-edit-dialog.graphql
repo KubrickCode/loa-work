@@ -1,0 +1,14 @@
+query UserExtraItemPriceEditDialog($id: Int!) {
+  contentRewardItem(id: $id) {
+    userContentRewardItem {
+      id
+      price
+    }
+  }
+}
+
+mutation UserContentRewardItemEdit($input: UserContentRewardItemEditInput!) {
+  userContentRewardItemEdit(input: $input) {
+    ok
+  }
+}

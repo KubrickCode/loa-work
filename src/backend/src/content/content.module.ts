@@ -17,6 +17,8 @@ import { ContentDurationResolver } from './object/content-duration.resolver';
 import { ContentDurationQuery } from './query/content-duration.query';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 import { ContentRewardItemResolver } from './object/content-reward-item.resolver';
+import { UserContentRewardItemEditMutation } from './mutation/user-content-reward-item-edit.mutation';
+import { ContentRewardItemQuery } from './query/content-reward-item.query';
 
 @Module({
   imports: [PrismaModule],
@@ -38,6 +40,8 @@ import { ContentRewardItemResolver } from './object/content-reward-item.resolver
     ContentDurationQuery,
     UserGoldExchangeRateService,
     ContentRewardItemResolver,
+    UserContentRewardItemEditMutation,
+    ContentRewardItemQuery,
   ],
 })
 export class ContentModule {}

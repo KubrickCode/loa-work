@@ -151,6 +151,21 @@ export class UserContentService {
     return true;
   }
 
+  async validateUserContentRewardItem(rewardItemId: number) {
+    const userId = this.getUserId();
+
+    const userContentRewardItem =
+      await this.prisma.userContentRewardItem.findUnique({
+        where: { id: rewardItemId, userId },
+      });
+
+    if (!userContentRewardItem) {
+      throw new Error('리워드 아이템에 대한 수정 권한이 없습니다');
+    }
+
+    return true;
+  }
+
   async validateUserContentDuration(durationId: number) {
     const userId = this.getUserId();
 

@@ -80,6 +80,7 @@ type ContentRewardItem {
   name: String!
   price: Float!
   updatedAt: DateTime!
+  userContentRewardItem: UserContentRewardItem!
 }
 
 enum ContentRewardItemKind {
@@ -156,6 +157,7 @@ type MinimumWage {
 
 type Mutation {
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
+  userContentRewardItemEdit(input: UserContentRewardItemEditInput!): UserContentRewardItemEditResult!
   userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
   userGoldExchangeRateEdit(input: UserGoldExchangeRateEditInput!): UserGoldExchangeRateEditResult!
 }
@@ -166,6 +168,7 @@ type Query {
   contentCategories: [ContentCategory!]!
   contentDuration(id: Int!): ContentDuration!
   contentList(filter: ContentListFilter): [Content!]!
+  contentRewardItem(id: Int!): ContentRewardItem!
   contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
@@ -203,6 +206,24 @@ type UserContentReward {
 input UserContentRewardEditInput {
   averageQuantity: Float!
   id: Float!
+}
+
+type UserContentRewardItem {
+  contentRewardItemId: Int!
+  createdAt: DateTime!
+  id: Int!
+  price: Float!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+input UserContentRewardItemEditInput {
+  id: Int!
+  price: Float!
+}
+
+type UserContentRewardItemEditResult {
+  ok: Boolean!
 }
 
 input UserContentRewardsEditInput {
