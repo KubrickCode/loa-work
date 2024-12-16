@@ -51,6 +51,7 @@ func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
 
 func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb.MarketItem, error) {
 	var itemsToUpsert []loadb.MarketItem
+	seenItems := make(map[string]bool)
 
 	for _, category := range categories {
 		pageNo := 1
@@ -68,8 +69,18 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 
 			if itemCounts > 0 {
 				for _, item := range resp.Items {
+					uniqueKey := fmt.Sprintf("%s-%s", item.Name, item.Grade)
+
+					if seenItems[uniqueKey] {
+						log.Printf("중복 아이템 스킵: 이름=%s, 등급=%s, ID=%d",
+							item.Name, item.Grade, item.ID)
+						continue
+					}
+
+					seenItems[uniqueKey] = true
 					itemsToUpsert = append(itemsToUpsert, loadb.MarketItem{
 						BundleCount:          item.BundleCount,
+						Grade:                item.Grade,
 						MarketItemCategoryID: category.ID,
 						Name:                 item.Name,
 						ImageSrc:             item.Icon,
@@ -95,5 +106,6 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 
 func (s *Scraper) saveItems(items []loadb.MarketItem) error {
 	log.Println("Market items saved successfully")
+
 	return s.db.MarketItem().UpsertMany(items)
 }

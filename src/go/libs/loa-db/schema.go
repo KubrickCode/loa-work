@@ -63,6 +63,7 @@ type MarketItem struct {
 
 	BundleCount int    `gorm:"column:bundle_count;not null"`
 	Name        string `gorm:"column:name;not null"`
+	Grade       string `gorm:"column:grade;not null"`
 	ImageSrc    string `gorm:"column:image_src;not null"`
 	RefID       int    `gorm:"column:ref_id;unique;not null"`
 

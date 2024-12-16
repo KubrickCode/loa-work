@@ -83,27 +83,30 @@ export class SeedService {
       data: [
         ...materialsRefIds.map((refId) => ({
           refId,
-          name: '',
+          name: refId.toString(),
           bundleCount: 0,
           imageSrc: '',
           isStatScraperEnabled: true,
           marketItemCategoryId: materialsCategory.id,
+          grade: '',
         })),
         ...materialsExtraRefIds.map((refId) => ({
           refId,
-          name: '',
+          name: refId.toString(),
           bundleCount: 0,
           imageSrc: '',
           isStatScraperEnabled: true,
           marketItemCategoryId: materialsExtraCategory.id,
+          grade: '',
         })),
         ...relicEngravingRecipesRefIds.map((refId) => ({
           refId,
-          name: '',
+          name: refId.toString(),
           bundleCount: 0,
           imageSrc: '',
           isStatScraperEnabled: true,
           marketItemCategoryId: engravingRecipeCategory.id,
+          grade: '',
         })),
       ],
     });

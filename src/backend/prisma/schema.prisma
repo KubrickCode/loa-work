@@ -203,6 +203,7 @@ model MarketItem {
 
   bundleCount          Int     @map("bundle_count") // 묶음 판매 단위
   name                 String
+  grade                String
   imageSrc             String  @map("image_src")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
   refId                Int     @unique @map("ref_id")
@@ -212,6 +213,7 @@ model MarketItem {
   marketItemCategory   MarketItemCategory @relation(fields: [marketItemCategoryId], references: [id], onDelete: Cascade)
   marketItemStats      MarketItemStat[]
 
+  @@unique([name, grade])
   @@map("market_item")
 }
 
