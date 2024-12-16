@@ -58,10 +58,26 @@ export class SeedService {
         where: { code: 50020 },
       });
 
+    // 각인서 카테고리
+    const engravingRecipeCategory =
+      await this.prisma.marketItemCategory.findUniqueOrThrow({
+        where: { code: 40000 },
+      });
+
     // 운명의 파편 주머니(소), 운명의 돌파석, 운명의 파괴석, 운명의 수호석
     const materialsRefIds = [66130141, 66110225, 66102006, 66102106];
     // 용암의 숨결, 빙하의 숨결
     const materialsExtraRefIds = [66111131, 66111132];
+    // 유물 각인서
+    const relicEngravingRecipesRefIds = [
+      65202305, 65201405, 65202005, 65200905, 65200705, 65201705, 65201605,
+      65202405, 65202605, 65202705, 65200105, 65204205, 65201805, 65202905,
+      65203805, 65203605, 65202205, 65202505, 65200205, 65201205, 65201905,
+      65200305, 65201105, 65204305, 65202105, 65203205, 65200405, 65203405,
+      65204005, 65201305, 65200805, 65204105, 65200605, 65201505, 65203105,
+      65203505, 65203705, 65203005, 65202805, 65203305, 65201005, 65200505,
+      65203905,
+    ];
 
     await this.prisma.marketItem.createMany({
       data: [
@@ -80,6 +96,14 @@ export class SeedService {
           imageSrc: '',
           isStatScraperEnabled: true,
           marketItemCategoryId: materialsExtraCategory.id,
+        })),
+        ...relicEngravingRecipesRefIds.map((refId) => ({
+          refId,
+          name: '',
+          bundleCount: 0,
+          imageSrc: '',
+          isStatScraperEnabled: true,
+          marketItemCategoryId: engravingRecipeCategory.id,
         })),
       ],
     });
