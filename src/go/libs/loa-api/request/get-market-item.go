@@ -30,5 +30,9 @@ func GetMarketItem(params *loaApi.GetMarketItemParams) (*loaApi.GetMarketItemRes
 		return nil, fmt.Errorf("no items found for params: %+v", params)
 	}
 
+	if len(resp.Items) > 1 {
+		return nil, fmt.Errorf("multiple items found for params: %+v", params)
+	}
+
 	return &resp.Items[0], nil
 }
