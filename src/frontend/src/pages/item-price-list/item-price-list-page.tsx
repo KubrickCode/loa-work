@@ -31,7 +31,7 @@ export const ItemPriceListPage = () => {
             </AccordionCard>
             <AccordionCard title="유물 각인서">
               <Suspense fallback={<Loader.TableSkeleton line={10} />}>
-                <MarketItemListTable categoryName="각인서" />
+                <MarketItemListTable categoryName="각인서" grade="유물" />
               </Suspense>
             </AccordionCard>
           </>

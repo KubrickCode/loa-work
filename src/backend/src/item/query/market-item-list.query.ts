@@ -8,6 +8,9 @@ export class MarketItemListFilter {
   @Field({ nullable: true })
   categoryName?: string;
 
+  @Field({ nullable: true })
+  grade?: string;
+
   @Field(() => Boolean, { nullable: true })
   isStatScraperEnabled?: boolean;
 }
@@ -36,6 +39,10 @@ export class MarketItemListQuery {
       whereArgs.marketItemCategory = {
         name: filter.categoryName,
       };
+    }
+
+    if (filter?.grade) {
+      whereArgs.grade = filter.grade;
     }
 
     return whereArgs;
