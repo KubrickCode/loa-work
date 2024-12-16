@@ -35,6 +35,7 @@ export const AuctionItemListTable = ({
           render({ data }) {
             return <FormatGold value={data.avgBuyPrice} />;
           },
+          sortKey: "avgBuyPrice",
         },
       ]}
       rows={data.auctionItemList.map((data) => ({

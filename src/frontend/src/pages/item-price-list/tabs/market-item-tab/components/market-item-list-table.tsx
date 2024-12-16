@@ -45,6 +45,7 @@ export const MarketItemListTable = ({
           render({ data }) {
             return <FormatGold value={data.yDayAvgPrice} />;
           },
+          sortKey: "yDayAvgPrice",
         },
         {
           align: "right",
@@ -52,6 +53,7 @@ export const MarketItemListTable = ({
           render({ data }) {
             return <FormatGold value={data.recentPrice} />;
           },
+          sortKey: "recentPrice",
         },
         {
           align: "right",
@@ -59,6 +61,7 @@ export const MarketItemListTable = ({
           render({ data }) {
             return <FormatGold value={data.currentMinPrice} />;
           },
+          sortKey: "currentMinPrice",
         },
       ]}
       rows={data.marketItemList.map((data) => ({
