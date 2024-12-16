@@ -10,12 +10,12 @@ export const MarketItemTab = () => {
       firstGroup={
         <>
           <AccordionCard title="재련 재료">
-            <Suspense fallback={<Loader.TableSkeleton line={10} />}>
+            <Suspense fallback={<Loader.TableSkeleton line={4} />}>
               <MarketItemListTable categoryName="재련 재료" />
             </Suspense>
           </AccordionCard>
           <AccordionCard title="재련 추가 재료">
-            <Suspense fallback={<Loader.TableSkeleton line={10} />}>
+            <Suspense fallback={<Loader.TableSkeleton line={2} />}>
               <MarketItemListTable categoryName="재련 추가 재료" />
             </Suspense>
           </AccordionCard>
@@ -23,7 +23,7 @@ export const MarketItemTab = () => {
       }
       secondGroup={
         <AccordionCard title="유물 각인서">
-          <Suspense fallback={<Loader.TableSkeleton line={10} />}>
+          <Suspense fallback={<Loader.TableSkeleton line={30} />}>
             <MarketItemListTable categoryName="각인서" grade="유물" />
           </Suspense>
         </AccordionCard>
