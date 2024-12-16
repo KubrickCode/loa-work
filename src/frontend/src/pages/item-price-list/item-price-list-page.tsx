@@ -24,6 +24,11 @@ export const ItemPriceListPage = () => {
                 <MarketItemListTable categoryName="재련 재료" />
               </Suspense>
             </AccordionCard>
+            <AccordionCard title="재련 추가 재료">
+              <Suspense fallback={<Loader.TableSkeleton line={10} />}>
+                <MarketItemListTable categoryName="재련 추가 재료" />
+              </Suspense>
+            </AccordionCard>
           </>
         }
         secondGroup={
