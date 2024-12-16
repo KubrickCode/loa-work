@@ -4,11 +4,18 @@ import { AuctionItemListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
 
-export const AuctionItemListTable = () => {
+type AuctionItemListTableProps = {
+  nameKeyword: string;
+};
+
+export const AuctionItemListTable = ({
+  nameKeyword,
+}: AuctionItemListTableProps) => {
   const { data } = useSafeQuery(AuctionItemListTableDocument, {
     variables: {
       filter: {
         isStatScraperEnabled: true,
+        nameKeyword,
       },
     },
   });

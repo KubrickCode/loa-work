@@ -7,6 +7,9 @@ import { AuctionItem } from '../object/auction-item.object';
 export class AuctionItemListFilter {
   @Field(() => Boolean, { nullable: true })
   isStatScraperEnabled?: boolean;
+
+  @Field(() => String, { nullable: true })
+  nameKeyword?: string;
 }
 
 @Resolver()
@@ -27,6 +30,12 @@ export class AuctionItemListQuery {
 
     if (filter?.isStatScraperEnabled !== undefined) {
       whereArgs.isStatScraperEnabled = filter.isStatScraperEnabled;
+    }
+
+    if (filter?.nameKeyword) {
+      whereArgs.name = {
+        contains: filter.nameKeyword,
+      };
     }
 
     return whereArgs;
