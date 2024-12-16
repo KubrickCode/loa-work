@@ -14,9 +14,9 @@ export const ItemPriceListPage = () => {
       <SplitLayout
         firstGroup={
           <>
-            <AccordionCard title="거래소 아이템">
+            <AccordionCard title="재련 재료">
               <Suspense fallback={<Loader.TableSkeleton line={10} />}>
-                <MarketItemListTable />
+                <MarketItemListTable categoryName="재련 재료" />
               </Suspense>
             </AccordionCard>
             <AccordionCard title="기타 아이템">

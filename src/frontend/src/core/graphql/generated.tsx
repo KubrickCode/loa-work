@@ -164,6 +164,7 @@ export type MarketItem = {
 };
 
 export type MarketItemListFilter = {
+  categoryName?: InputMaybe<Scalars['String']['input']>;
   isStatScraperEnabled?: InputMaybe<Scalars['Boolean']['input']>;
 };
 

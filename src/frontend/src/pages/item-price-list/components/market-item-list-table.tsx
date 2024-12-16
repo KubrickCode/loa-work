@@ -4,11 +4,16 @@ import { MarketItemListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
 
-export const MarketItemListTable = () => {
+export const MarketItemListTable = ({
+  categoryName,
+}: {
+  categoryName: string;
+}) => {
   const { data } = useSafeQuery(MarketItemListTableDocument, {
     variables: {
       filter: {
         isStatScraperEnabled: true,
+        categoryName,
       },
     },
   });

@@ -1,10 +1,13 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
+import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { MarketItem } from '../object/market-item.object';
 import { Prisma } from '@prisma/client';
 
 @InputType()
 export class MarketItemListFilter {
+  @Field({ nullable: true })
+  categoryName?: string;
+
   @Field(() => Boolean, { nullable: true })
   isStatScraperEnabled?: boolean;
 }
@@ -27,6 +30,12 @@ export class MarketItemListQuery {
 
     if (filter?.isStatScraperEnabled !== undefined) {
       whereArgs.isStatScraperEnabled = filter.isStatScraperEnabled;
+    }
+
+    if (filter?.categoryName) {
+      whereArgs.marketItemCategory = {
+        name: filter.categoryName,
+      };
     }
 
     return whereArgs;
