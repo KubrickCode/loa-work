@@ -92,6 +92,7 @@ func (s *Scraper) getItemStatToCreate(category *loadb.MarketItemCategory, item l
 	marketItem, err := request.GetMarketItem(&loaApi.GetMarketItemParams{
 		CategoryCode: category.Code,
 		ItemName:     item.Name,
+		ItemGrade:    item.Grade,
 	})
 	if err != nil {
 		return nil, err
