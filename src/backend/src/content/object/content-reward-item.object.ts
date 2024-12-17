@@ -4,12 +4,12 @@ import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
 export class ContentRewardItem extends BaseObject {
+  @Field(() => Float)
+  defaultPrice: number;
+
   @Field(() => ContentRewardItemKind)
   kind: ContentRewardItemKind;
 
   @Field()
   name: string;
-
-  @Field(() => Float)
-  defaultPrice: number;
 }
