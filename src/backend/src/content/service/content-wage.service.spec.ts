@@ -74,24 +74,28 @@ describe('ContentWageService', () => {
           name: '골드',
           kind: ContentRewardItemKind.EXTRA_ITEM,
           defaultPrice: 1,
+          imageUrl: faker.image.url(),
         },
         {
           id: fateFragmentItemId,
           name: '운명의 파편',
           kind: ContentRewardItemKind.MARKET_ITEM,
           defaultPrice: 0.129,
+          imageUrl: faker.image.url(),
         },
         {
           id: fateDestructionStoneItemId,
           name: '운명의 파괴석',
           kind: ContentRewardItemKind.MARKET_ITEM,
           defaultPrice: 4.3,
+          imageUrl: faker.image.url(),
         },
         {
           id: fateGuardianStoneItemId,
           name: '운명의 수호석',
           kind: ContentRewardItemKind.MARKET_ITEM,
           defaultPrice: 0.6,
+          imageUrl: faker.image.url(),
         },
       ],
     });
@@ -99,6 +103,7 @@ describe('ContentWageService', () => {
     const category = await prisma.contentCategory.create({
       data: {
         name: '에픽 레이드',
+        imageUrl: faker.image.url(),
       },
     });
 
