@@ -10,6 +10,7 @@ query ContentWageListTable($filter: ContentWageListFilter) {
       }
       displayName
       durationText
+      level
     }
     goldAmount
     krwAmount

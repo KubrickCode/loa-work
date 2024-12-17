@@ -81,6 +81,12 @@ export const ContentWageListTable = () => {
           },
         },
         {
+          header: "레벨",
+          render({ data }) {
+            return <>{data.content.level}</>;
+          },
+        },
+        {
           header: "이름",
           render({ data }) {
             return <>{data.content.displayName}</>;
