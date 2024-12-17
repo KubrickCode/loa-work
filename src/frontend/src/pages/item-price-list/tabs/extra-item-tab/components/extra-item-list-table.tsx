@@ -58,13 +58,7 @@ export const ExtraItemListTable = () => {
         {
           header: "아이템",
           render({ data }) {
-            return (
-              <ItemNameWithImage
-                // TODO: CDN 저장소로 이미지 이동
-                src={data.name === "실링" ? "실링.png" : "카드경험치.png"}
-                name={data.name}
-              />
-            );
+            return <ItemNameWithImage src={data.imageUrl} name={data.name} />;
           },
         },
         {

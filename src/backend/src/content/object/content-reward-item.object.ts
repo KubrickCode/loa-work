@@ -7,6 +7,9 @@ export class ContentRewardItem extends BaseObject {
   @Field(() => Float)
   defaultPrice: number;
 
+  @Field()
+  imageUrl: string;
+
   @Field(() => ContentRewardItemKind)
   kind: ContentRewardItemKind;
 

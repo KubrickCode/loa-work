@@ -1,6 +1,7 @@
 query ExtraItemListTable($filter: ContentRewardItemsFilter) {
   contentRewardItems(filter: $filter) {
     id
+    imageUrl
     name
     price
   }
