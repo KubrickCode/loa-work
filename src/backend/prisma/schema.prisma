@@ -132,6 +132,7 @@ model ContentRewardItem {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   defaultPrice Decimal               @default(0) @map("default_price") // 개당 가격
+  imageUrl     String                @map("image_url")
   kind         ContentRewardItemKind
   name         String                @unique
 

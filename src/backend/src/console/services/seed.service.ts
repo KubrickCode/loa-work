@@ -300,36 +300,62 @@ export class SeedService {
           name: '골드',
           defaultPrice: 1,
           kind: ContentRewardItemKind.EXTRA_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/gik0bxq0gzweokovngkx.png',
         },
-        { name: '실링', kind: ContentRewardItemKind.EXTRA_ITEM },
+        {
+          name: '실링',
+          kind: ContentRewardItemKind.EXTRA_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png',
+        },
         {
           name: '운명의 파편',
           kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428078/xug2bon7qtiflcqbezza.png',
         },
         {
           name: '운명의 돌파석',
           kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/qn5msm2gc0qtmtc0irlh.png',
         },
-        { name: '운명의 파괴석', kind: ContentRewardItemKind.MARKET_ITEM },
+        {
+          name: '운명의 파괴석',
+          kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xy9a4qf2on63drftnkub.png',
+        },
         {
           name: '운명의 수호석',
           kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/azkviadmag8inzq65ajf.png',
         },
         {
           name: '1레벨 보석',
           kind: ContentRewardItemKind.AUCTION_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/dpqtjeqsuqmvfwzapjj8.png',
         },
         {
           name: '용암의 숨결',
           kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xpnlsgxaatshujnzpett.png',
         },
         {
           name: '빙하의 숨결',
           kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/k8xcldjkq33qf9l69uim.png',
         },
         {
           name: '카드 경험치',
           kind: ContentRewardItemKind.EXTRA_ITEM,
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
         },
       ],
     });
