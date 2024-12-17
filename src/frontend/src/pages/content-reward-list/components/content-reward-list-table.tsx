@@ -9,6 +9,7 @@ import { FormatNumber, IconButton } from "@chakra-ui/react";
 import { IoIosSettings } from "react-icons/io";
 import { FormatGold } from "~/core/format";
 import { useAuth } from "~/core/auth";
+import { ItemNameWithImage } from "~/shared/item";
 
 export const ContentRewardListTable = () => {
   const { isAuthenticated } = useAuth();
@@ -92,9 +93,9 @@ export const ContentRewardListTable = () => {
           },
         },
         ...data.contentRewardItems.map(
-          ({ name }): Column<(typeof rows)[number]["data"]> => ({
+          ({ imageUrl, name }): Column<(typeof rows)[number]["data"]> => ({
             align: "right",
-            header: name,
+            header: <ItemNameWithImage src={imageUrl} name={name} />,
             render({ data }) {
               const reward = data.contentRewards.find(
                 (reward) => reward.contentRewardItem.name === name

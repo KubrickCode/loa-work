@@ -21,6 +21,7 @@ query ContentRewardListTable($filter: ContentListFilter) {
     level
   }
   contentRewardItems {
+    imageUrl
     name
   }
 }

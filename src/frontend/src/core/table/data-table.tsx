@@ -1,6 +1,12 @@
 import { Box, Table } from "@chakra-ui/react";
 import _ from "lodash";
-import { TableHTMLAttributes, useCallback, useMemo, useState } from "react";
+import {
+  ReactNode,
+  TableHTMLAttributes,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { SortControl } from "./sort-control";
 
 export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
@@ -12,7 +18,7 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
 
 export type Column<T> = {
   align?: "center" | "left" | "justify" | "right";
-  header: string;
+  header: ReactNode;
   render: (props: { data: T; rowIndex: number }) => JSX.Element | null;
   sortKey?: string;
 };
