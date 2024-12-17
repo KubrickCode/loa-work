@@ -159,14 +159,46 @@ export class SeedService {
   async contentCategories() {
     await this.prisma.contentCategory.createMany({
       data: [
-        { name: '쿠르잔 전선' },
-        { name: '가디언 토벌' },
-        { name: '에포나 의뢰' },
-        { name: '큐브' },
-        { name: '카오스게이트' },
-        { name: '필드보스' },
-        { name: '에픽 레이드' },
-        { name: '카제로스 레이드' },
+        {
+          name: '쿠르잔 전선',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/ripkqgpxfye68kmwqubc.png',
+        },
+        {
+          name: '가디언 토벌',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/gjzcmvr5adsfq14aijxo.png',
+        },
+        {
+          name: '에포나 의뢰',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/jgul02aesc3bu56cslya.png',
+        },
+        {
+          name: '큐브',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/kdywiiwqluqbir4px6es.png',
+        },
+        {
+          name: '카오스게이트',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429565/b5nlz8pru2y6ubnz5ucq.png',
+        },
+        {
+          name: '필드보스',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/sl4etdgkwejmttukaoth.png',
+        },
+        {
+          name: '에픽 레이드',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/yvlcbzxtiffii2ehgsw7.png',
+        },
+        {
+          name: '카제로스 레이드',
+          imageUrl:
+            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/z4divlldywzqrvi6pjwg.png',
+        },
       ],
     });
   }
