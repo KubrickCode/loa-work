@@ -161,16 +161,6 @@ model ContentSeeMoreReward {
   @@map("content_see_more_reward")
 }
 
-model ExtraItem {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  name String @unique
-
-  @@map("extra_item")
-}
-
 model GoldExchangeRate {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
@@ -232,16 +222,6 @@ model MarketItemStat {
   marketItem   MarketItem @relation(fields: [marketItemId], references: [id], onDelete: Cascade)
 
   @@map("market_item_stat")
-}
-
-model MinimumWage {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  amount Int
-  year   Int @unique
-
-  @@map("minimum_wage")
 }
 
 model Session {

@@ -16,8 +16,6 @@ export class SeedService {
     await this.contentCategories();
     await this.contentRewardItems();
     await this.contents();
-    await this.extraItems();
-    await this.minimumWage();
     await this.goldExchangeRate();
   }
 
@@ -390,21 +388,6 @@ export class SeedService {
             'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
         },
       ],
-    });
-  }
-
-  async extraItems() {
-    await this.prisma.extraItem.createMany({
-      data: [{ name: '실링' }],
-    });
-  }
-
-  async minimumWage() {
-    await this.prisma.minimumWage.create({
-      data: {
-        amount: 9860,
-        year: 2024,
-      },
     });
   }
 
