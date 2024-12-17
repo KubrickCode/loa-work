@@ -2,6 +2,7 @@ query ContentWageListTable($filter: ContentWageListFilter) {
   contentWageList(filter: $filter) {
     content {
       contentCategory {
+        imageUrl
         name
       }
       contentDuration {

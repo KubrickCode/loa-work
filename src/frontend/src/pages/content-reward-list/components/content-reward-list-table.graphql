@@ -1,6 +1,7 @@
 query ContentRewardListTable($filter: ContentListFilter) {
   contentList(filter: $filter) {
     contentCategory {
+      imageUrl
       name
     }
     contentRewards {

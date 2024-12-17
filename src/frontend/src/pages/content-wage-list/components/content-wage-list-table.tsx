@@ -12,6 +12,7 @@ import { DialogTrigger } from "~/core/dialog";
 import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
 import { IoIosSettings } from "react-icons/io";
 import { useEffect } from "react";
+import { ItemNameWithImage } from "~/shared/item";
 
 export const ContentWageListTable = () => {
   const { isAuthenticated } = useAuth();
@@ -71,7 +72,12 @@ export const ContentWageListTable = () => {
         {
           header: "종류",
           render({ data }) {
-            return <>{data.content.contentCategory.name}</>;
+            return (
+              <ItemNameWithImage
+                src={data.content.contentCategory.imageUrl}
+                name={data.content.contentCategory.name}
+              />
+            );
           },
         },
         {

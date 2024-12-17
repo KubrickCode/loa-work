@@ -77,7 +77,12 @@ export const ContentRewardListTable = () => {
         {
           header: "종류",
           render({ data }) {
-            return <>{data.contentCategory.name}</>;
+            return (
+              <ItemNameWithImage
+                src={data.contentCategory.imageUrl}
+                name={data.contentCategory.name}
+              />
+            );
           },
         },
         {

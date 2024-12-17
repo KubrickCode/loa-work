@@ -38,6 +38,7 @@ type Content {
 type ContentCategory {
   createdAt: DateTime!
   id: Int!
+  imageUrl: String!
   name: String!
   updatedAt: DateTime!
 }
