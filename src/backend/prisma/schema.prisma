@@ -131,9 +131,9 @@ model ContentRewardItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
+  defaultPrice Decimal               @default(0) @map("default_price") // 개당 가격
   kind         ContentRewardItemKind
   name         String                @unique
-  defaultPrice Decimal               @default(0) @map("default_price") // 개당 가격
 
   // Relations
   contentRewards         ContentReward[]
