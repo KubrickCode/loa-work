@@ -28,9 +28,9 @@ model AuctionItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  name                 String  @unique
   imageSrc             String  @map("image_src")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
+  name                 String  @unique
 
   // Relations
   auctionItemStats      AuctionItemStat[]
@@ -44,13 +44,12 @@ model AuctionItemStat {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  buyPrice      Int @map("buy_price") // 즉시 구매가
-  bidPrice      Int @map("bid_price") // 현재 최고가
-  bidStartPrice Int @map("bid_start_price") // 최소 입찰가
-  startPrice    Int @map("start_price") // 시작 입찰가
-
-  IsCompetitive Boolean  @default(false) @map("is_competitive") // 경쟁 입찰 여부
+  bidPrice      Int      @map("bid_price") // 현재 최고가
+  bidStartPrice Int      @map("bid_start_price") // 최소 입찰가
+  buyPrice      Int      @map("buy_price") // 즉시 구매가
   endDate       DateTime @map("end_date") // 경매 종료일
+  isCompetitive Boolean  @default(false) @map("is_competitive") // 경쟁 입찰 여부
+  startPrice    Int      @map("start_price") // 시작 입찰가
 
   // Relations
   auctionItemId Int         @map("auction_item_id")
@@ -166,8 +165,8 @@ model GoldExchangeRate {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  krwAmount  Int @map("krw_amount")
   goldAmount Int @map("gold_amount")
+  krwAmount  Int @map("krw_amount")
 
   @@map("gold_exchange_rate")
 }
@@ -194,10 +193,10 @@ model MarketItem {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   bundleCount          Int     @map("bundle_count") // 묶음 판매 단위
-  name                 String
   grade                String
   imageSrc             String  @map("image_src")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
+  name                 String
   refId                Int     @unique @map("ref_id")
 
   // Relations
@@ -311,8 +310,8 @@ model UserGoldExchangeRate {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  krwAmount  Int @map("krw_amount")
   goldAmount Int @map("gold_amount")
+  krwAmount  Int @map("krw_amount")
 
   // Relations
   userId Int  @unique @map("user_id")
