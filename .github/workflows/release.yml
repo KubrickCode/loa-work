@@ -5,6 +5,7 @@ on:
       - release
     paths:
       - "src/backend/**"
+  workflow_dispatch:
 
 jobs:
   deploy-backend:
