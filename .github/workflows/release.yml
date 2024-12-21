@@ -25,10 +25,10 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user/loalife
+            cd /home/ubuntu/loalife
             git pull origin release
             docker build -t backend-service ./src/backend
 
@@ -46,8 +46,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user/loalife/src/backend
+            cd /home/ubuntu/loalife/src/backend
             docker exec backend-service npx prisma migrate deploy
