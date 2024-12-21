@@ -28,7 +28,7 @@ model AuctionItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  imageSrc             String  @map("image_src")
+  imageUrl             String  @map("image_url")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
   name                 String  @unique
 
@@ -194,7 +194,7 @@ model MarketItem {
 
   bundleCount          Int     @map("bundle_count") // 묶음 판매 단위
   grade                String
-  imageSrc             String  @map("image_src")
+  imageUrl             String  @map("image_url")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
   name                 String
   refId                Int     @unique @map("ref_id")

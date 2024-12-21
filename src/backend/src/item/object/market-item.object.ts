@@ -7,7 +7,7 @@ export class MarketItem extends BaseObject {
   bundleCount: number;
 
   @Field()
-  imageSrc: string;
+  imageUrl: string;
 
   @Field()
   isStatScraperEnabled: boolean;

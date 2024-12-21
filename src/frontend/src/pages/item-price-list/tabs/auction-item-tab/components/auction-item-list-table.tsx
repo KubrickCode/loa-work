@@ -26,7 +26,7 @@ export const AuctionItemListTable = ({
         {
           header: "아이템",
           render({ data }) {
-            return <ItemNameWithImage src={data.imageSrc} name={data.name} />;
+            return <ItemNameWithImage src={data.imageUrl} name={data.name} />;
           },
         },
         {

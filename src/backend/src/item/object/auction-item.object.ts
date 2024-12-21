@@ -4,7 +4,7 @@ import { BaseObject } from 'src/common/object/base.object';
 @ObjectType()
 export class AuctionItem extends BaseObject {
   @Field()
-  imageSrc: string;
+  imageUrl: string;
 
   @Field()
   isStatScraperEnabled: boolean;

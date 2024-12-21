@@ -43,7 +43,7 @@ func (db *marketItemDB) FindStatScraperEnabledAll() ([]MarketItem, error) {
 func (db *marketItemDB) UpsertMany(items []MarketItem) error {
 	err := db.gdb.Clauses(clause.OnConflict{
 		Columns:   []clause.Column{{Name: "ref_id"}},
-		DoUpdates: clause.AssignmentColumns([]string{"bundle_count", "name", "image_src", "grade"}),
+		DoUpdates: clause.AssignmentColumns([]string{"bundle_count", "name", "image_url", "grade"}),
 	}).Create(&items).Error
 
 	return err

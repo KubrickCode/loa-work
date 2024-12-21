@@ -2,7 +2,7 @@ query MarketItemListTable($filter: MarketItemListFilter) {
   marketItemList(filter: $filter) {
     bundleCount
     currentMinPrice
-    imageSrc
+    imageUrl
     name
     recentPrice
     yDayAvgPrice

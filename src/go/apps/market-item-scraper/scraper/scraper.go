@@ -83,7 +83,7 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 						Grade:                item.Grade,
 						MarketItemCategoryID: category.ID,
 						Name:                 item.Name,
-						ImageSrc:             item.Icon,
+						ImageUrl:             item.Icon,
 						RefID:                item.ID,
 					})
 				}

@@ -83,7 +83,7 @@ export class SeedService {
           refId,
           name: refId.toString(),
           bundleCount: 0,
-          imageSrc: '',
+          imageUrl: '',
           isStatScraperEnabled: true,
           marketItemCategoryId: materialsCategory.id,
           grade: '',
@@ -92,7 +92,7 @@ export class SeedService {
           refId,
           name: refId.toString(),
           bundleCount: 0,
-          imageSrc: '',
+          imageUrl: '',
           isStatScraperEnabled: true,
           marketItemCategoryId: materialsExtraCategory.id,
           grade: '',
@@ -101,7 +101,7 @@ export class SeedService {
           refId,
           name: refId.toString(),
           bundleCount: 0,
-          imageSrc: '',
+          imageUrl: '',
           isStatScraperEnabled: true,
           marketItemCategoryId: engravingRecipeCategory.id,
           grade: '',
@@ -119,7 +119,7 @@ export class SeedService {
   async auctionItems() {
     type Option = Pick<
       Prisma.AuctionItemUncheckedCreateInput,
-      'auctionItemCategoryId' | 'name' | 'imageSrc' | 'isStatScraperEnabled'
+      'auctionItemCategoryId' | 'name' | 'imageUrl' | 'isStatScraperEnabled'
     >;
     let damageGems: Option[] = [];
     let coolDownGems: Option[] = [];
@@ -133,7 +133,7 @@ export class SeedService {
       damageGems.push({
         auctionItemCategoryId: auctionItemCategory.id,
         name: `${i}레벨 겁화의 보석`,
-        imageSrc: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
+        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
           95 + i
         }.png`,
         isStatScraperEnabled: true,
@@ -142,7 +142,7 @@ export class SeedService {
       coolDownGems.push({
         auctionItemCategoryId: auctionItemCategory.id,
         name: `${i}레벨 작열의 보석`,
-        imageSrc: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
+        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
           105 + i
         }.png`,
         isStatScraperEnabled: true,

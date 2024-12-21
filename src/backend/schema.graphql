@@ -6,7 +6,7 @@ type AuctionItem {
   avgBuyPrice: Float
   createdAt: DateTime!
   id: Int!
-  imageSrc: String!
+  imageUrl: String!
   isStatScraperEnabled: Boolean!
   name: String!
   updatedAt: DateTime!
@@ -137,7 +137,7 @@ type MarketItem {
   createdAt: DateTime!
   currentMinPrice: Int!
   id: Int!
-  imageSrc: String!
+  imageUrl: String!
   isStatScraperEnabled: Boolean!
   name: String!
   recentPrice: Int!
@@ -150,14 +150,6 @@ input MarketItemListFilter {
   categoryName: String
   grade: String
   isStatScraperEnabled: Boolean
-}
-
-type MinimumWage {
-  amount: Int!
-  createdAt: DateTime!
-  id: Int!
-  updatedAt: DateTime!
-  year: Int!
 }
 
 type Mutation {
@@ -177,7 +169,6 @@ type Query {
   contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
-  minimumWage: MinimumWage!
   userGoldExchangeRate: UserGoldExchangeRate!
 }
 

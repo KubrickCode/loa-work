@@ -12,7 +12,7 @@ type AuctionItem struct {
 	UpdatedAt time.Time `gorm:"column:updated_at;autoUpdateTime"`
 
 	Name                 string `gorm:"column:name;not null"`
-	ImageSrc             string `gorm:"column:image_src;not null"`
+	ImageUrl             string `gorm:"column:image_url;not null"`
 	IsStatScraperEnabled bool   `gorm:"column:is_stat_scraper_enabled;not null"`
 
 	// Relations
@@ -64,7 +64,7 @@ type MarketItem struct {
 	BundleCount int    `gorm:"column:bundle_count;not null"`
 	Name        string `gorm:"column:name;not null"`
 	Grade       string `gorm:"column:grade;not null"`
-	ImageSrc    string `gorm:"column:image_src;not null"`
+	ImageUrl    string `gorm:"column:image_url;not null"`
 	RefID       int    `gorm:"column:ref_id;unique;not null"`
 
 	// Relations
