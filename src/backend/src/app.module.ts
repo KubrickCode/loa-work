@@ -3,7 +3,6 @@ import { PrismaModule } from './prisma';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'node:path';
-import { MinimumWageModule } from './wage/wage.module';
 import { ContentModule } from './content/content.module';
 import { ItemModule } from './item/item.module';
 import { CommonModule } from './common/common.module';
@@ -26,7 +25,6 @@ import { UserModule } from './user/user.module';
         sortSchema: true,
       }),
     }),
-    MinimumWageModule,
     ContentModule,
     ItemModule,
     CommonModule,
