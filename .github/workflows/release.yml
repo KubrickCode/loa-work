@@ -22,6 +22,41 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
+      - name: Setup Nginx and SSL
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            if ! command -v nginx &> /dev/null; then
+              sudo apt update
+              sudo apt install -y nginx certbot python3-certbot-nginx
+            fi
+
+            sudo tee /etc/nginx/sites-available/default << 'EOF'
+            server {
+                listen 80;
+                listen [::]:80;
+                server_name api-loa-life.duckdns.org;
+
+                location / {
+                    proxy_pass http://localhost:3001;
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection 'upgrade';
+                    proxy_set_header Host $host;
+                    proxy_cache_bypass $http_upgrade;
+                }
+            }
+            EOF
+
+            if [ ! -d "/etc/letsencrypt/live/api-loa-life.duckdns.org" ]; then
+              sudo certbot --nginx -d api-loa-life.duckdns.org --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
+            fi
+
+            sudo systemctl reload nginx
+
       - name: Build and Deploy Backend
         uses: appleboy/ssh-action@master
         with:
@@ -38,7 +73,7 @@ jobs:
 
             docker run -d \
               --name backend-service \
-              -p 3000:3000 \
+              -p 3001:3001 \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
               -e GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" \
               -e GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" \
