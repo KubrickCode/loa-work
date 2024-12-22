@@ -61,4 +61,4 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/loalife/src/backend
-            docker exec backend-service npx prisma migrate deploy
+            docker exec backend-service npx prisma migrate deploy --schema=/app/prisma/schema.prisma
