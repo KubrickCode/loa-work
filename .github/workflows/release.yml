@@ -40,6 +40,16 @@ jobs:
               --name backend-service \
               -p 3000:3000 \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" \
+              -e GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" \
+              -e GOOGLE_AUTH_CALLBACK_URL="${{ secrets.GOOGLE_AUTH_CALLBACK_URL }}" \
+              -e DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}" \
+              -e DISCORD_CLIENT_SECRET="${{ secrets.DISCORD_CLIENT_SECRET }}" \
+              -e DISCORD_AUTH_CALLBACK_URL="${{ secrets.DISCORD_AUTH_CALLBACK_URL }}" \
+              -e KAKAO_CLIENT_ID="${{ secrets.KAKAO_CLIENT_ID }}" \
+              -e KAKAO_CLIENT_SECRET="${{ secrets.KAKAO_CLIENT_SECRET }}" \
+              -e KAKAO_AUTH_CALLBACK_URL="${{ secrets.KAKAO_AUTH_CALLBACK_URL }}" \
+              -e AUTH_SUCCESS_URL="${{ secrets.AUTH_SUCCESS_URL }}" \
               --restart always \
               backend-service
 
