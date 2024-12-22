@@ -50,6 +50,7 @@ jobs:
               -e KAKAO_CLIENT_SECRET="${{ secrets.KAKAO_CLIENT_SECRET }}" \
               -e KAKAO_AUTH_CALLBACK_URL="${{ secrets.KAKAO_AUTH_CALLBACK_URL }}" \
               -e AUTH_SUCCESS_URL="${{ secrets.AUTH_SUCCESS_URL }}" \
+              -e CLIENT_ENDPOINT="${{ secrets.CLIENT_ENDPOINT }}" \
               --restart always \
               backend-service
 
