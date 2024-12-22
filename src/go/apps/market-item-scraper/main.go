@@ -2,11 +2,9 @@ package main
 
 import (
 	"log"
-	"time"
 
 	"github.com/KubrickCode/loa-life/src/go/apps/market-item-scraper/scraper"
 	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
-	"github.com/KubrickCode/loa-life/src/go/libs/schedule"
 )
 
 func main() {
@@ -17,10 +15,7 @@ func main() {
 
 	scraper := scraper.NewScraper(db)
 
-	scheduler := schedule.NewScheduler()
-	scheduler.AddTask(schedule.NewTask("Market Item Scraping", time.Hour, scraper.Start))
-
-	err = scheduler.Run()
+	err = scraper.Start()
 	if err != nil {
 		log.Fatal(err)
 	}
