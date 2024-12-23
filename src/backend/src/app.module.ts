@@ -17,12 +17,15 @@ import { UserModule } from './user/user.module';
       driver: ApolloDriver,
       useFactory: () => ({
         autoSchemaFile: join(process.cwd(), 'schema.graphql'),
-        context: ({ req }) => ({
+        context: ({ req, res }) => ({
           req,
+          res,
         }),
         debug: true,
         playground: true,
         sortSchema: true,
+        introspection: true,
+        cache: 'bounded',
       }),
     }),
     ContentModule,
