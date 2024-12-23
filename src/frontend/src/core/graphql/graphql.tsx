@@ -31,6 +31,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const httpLink = createHttpLink({
   uri: GRAPHQL_ENDPOINT,
   credentials: "include",
+  headers: {
+    "Apollo-Require-Preflight": "true",
+  },
 });
 
 export const client = new ApolloClient({
