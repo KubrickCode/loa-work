@@ -2,7 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { InfoTip } from "~/chakra-components/ui/toggle-tip";
 import { useSafeQuery } from "~/core/graphql";
 import { ItemStatUpdateToggleTipDocument } from "~/core/graphql/generated";
-import dayjs from "dayjs";
+import { formatDateTime } from "~/core/format";
 
 export const ItemStatUpdateToggleTip = () => {
   return (
@@ -21,16 +21,13 @@ const Content = () => {
     },
   });
 
-  const formatDate = (date: Date) =>
-    date ? dayjs(date).format("YYYY-MM-DD HH:mm") : "정보 없음";
-
   return (
     <Flex direction="column" gap={2} p={2}>
       <Text>
-        거래소 아이템: {formatDate(data.marketItemStats[0]?.createdAt)}
+        거래소 아이템: {formatDateTime(data.marketItemStats[0]?.createdAt)}
       </Text>
       <Text>
-        경매장 아이템: {formatDate(data.auctionItemStats[0]?.createdAt)}
+        경매장 아이템: {formatDateTime(data.auctionItemStats[0]?.createdAt)}
       </Text>
     </Flex>
   );
