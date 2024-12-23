@@ -11,6 +11,7 @@ import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-s
 import { IoIosSettings } from "react-icons/io";
 import { Button } from "~/chakra-components/ui/button";
 import { Flex } from "@chakra-ui/react";
+import { ItemStatUpdateToggleTip } from "~/shared/item";
 
 export const ContentWageListPage = () => {
   const { isAuthenticated } = useAuth();
@@ -31,6 +32,7 @@ export const ContentWageListPage = () => {
                 }
               />
             )}
+            <ItemStatUpdateToggleTip />
           </Flex>
           <Suspense fallback={<Loader.TableSkeleton line={30} />}>
             <ContentWageListTable />

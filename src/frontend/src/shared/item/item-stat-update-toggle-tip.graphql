@@ -1,0 +1,8 @@
+query ItemStatUpdateToggleTip($take: Int, $orderBy: [OrderByArg!]) {
+  marketItemStats(take: $take, orderBy: $orderBy) {
+    createdAt
+  }
+  auctionItemStats(take: $take, orderBy: $orderBy) {
+    createdAt
+  }
+}

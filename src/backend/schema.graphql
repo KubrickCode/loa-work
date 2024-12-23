@@ -17,6 +17,18 @@ input AuctionItemListFilter {
   nameKeyword: String
 }
 
+type AuctionItemStat {
+  auctionItemId: Int!
+  bidPrice: Int!
+  bidStartPrice: Int!
+  buyPrice: Int!
+  createdAt: DateTime!
+  endDate: DateTime!
+  id: Int!
+  isCompetitive: Boolean!
+  startPrice: Int!
+}
+
 type Content {
   contentCategory: ContentCategory!
   contentCategoryId: Int!
@@ -152,6 +164,15 @@ input MarketItemListFilter {
   isStatScraperEnabled: Boolean
 }
 
+type MarketItemStat {
+  createdAt: DateTime!
+  currentMinPrice: Int!
+  id: Int!
+  marketItemId: Int!
+  recentPrice: Int!
+  yDayAvgPrice: Float!
+}
+
 type Mutation {
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
   userContentRewardItemEdit(input: UserContentRewardItemEditInput!): UserContentRewardItemEditResult!
@@ -159,8 +180,14 @@ type Mutation {
   userGoldExchangeRateEdit(input: UserGoldExchangeRateEditInput!): UserGoldExchangeRateEditResult!
 }
 
+input OrderByArg {
+  field: String!
+  order: String!
+}
+
 type Query {
   auctionItemList(filter: AuctionItemListFilter): [AuctionItem!]!
+  auctionItemStats(orderBy: [OrderByArg!], take: Int): [AuctionItemStat!]!
   content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
   contentDuration(id: Int!): ContentDuration!
@@ -169,6 +196,7 @@ type Query {
   contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
+  marketItemStats(orderBy: [OrderByArg!], take: Int): [MarketItemStat!]!
   userGoldExchangeRate: UserGoldExchangeRate!
 }
 
