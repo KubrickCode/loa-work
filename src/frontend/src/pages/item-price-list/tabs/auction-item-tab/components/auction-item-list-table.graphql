@@ -1,7 +1,14 @@
-query AuctionItemListTable($filter: AuctionItemListFilter) {
+query AuctionItemListTable(
+  $filter: AuctionItemListFilter
+  $statsTake: Int
+  $statsOrderBy: [OrderByArg!]
+) {
   auctionItemList(filter: $filter) {
     avgBuyPrice
     imageUrl
     name
+  }
+  auctionItemStats(take: $statsTake, orderBy: $statsOrderBy) {
+    createdAt
   }
 }

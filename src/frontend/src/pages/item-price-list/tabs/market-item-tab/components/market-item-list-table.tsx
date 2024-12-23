@@ -1,4 +1,5 @@
-import { FormatGold } from "~/core/format";
+import { Flex, Text } from "@chakra-ui/react";
+import { formatDateTime, FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { MarketItemListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
@@ -20,53 +21,61 @@ export const MarketItemListTable = ({
         categoryName,
         grade,
       },
+      statsTake: 1,
+      statsOrderBy: [{ field: "createdAt", order: "desc" }],
     },
   });
 
   return (
-    <DataTable
-      columns={[
-        {
-          header: "아이템",
-          render({ data }) {
-            return <ItemNameWithImage src={data.imageUrl} name={data.name} />;
+    <Flex direction="column" gap={2}>
+      <Text fontSize="xs">
+        마지막 업데이트 일시:{" "}
+        {formatDateTime(data.marketItemStats[0]?.createdAt)}
+      </Text>
+      <DataTable
+        columns={[
+          {
+            header: "아이템",
+            render({ data }) {
+              return <ItemNameWithImage src={data.imageUrl} name={data.name} />;
+            },
           },
-        },
-        {
-          align: "right",
-          header: "판매 단위",
-          render({ data }) {
-            return <>{data.bundleCount} 개</>;
+          {
+            align: "right",
+            header: "판매 단위",
+            render({ data }) {
+              return <>{data.bundleCount} 개</>;
+            },
           },
-        },
-        {
-          align: "right",
-          header: "전일 평균 거래가",
-          render({ data }) {
-            return <FormatGold value={data.yDayAvgPrice} />;
+          {
+            align: "right",
+            header: "전일 평균 거래가",
+            render({ data }) {
+              return <FormatGold value={data.yDayAvgPrice} />;
+            },
+            sortKey: "yDayAvgPrice",
           },
-          sortKey: "yDayAvgPrice",
-        },
-        {
-          align: "right",
-          header: "최근 거래가",
-          render({ data }) {
-            return <FormatGold value={data.recentPrice} />;
+          {
+            align: "right",
+            header: "최근 거래가",
+            render({ data }) {
+              return <FormatGold value={data.recentPrice} />;
+            },
+            sortKey: "recentPrice",
           },
-          sortKey: "recentPrice",
-        },
-        {
-          align: "right",
-          header: "최저가",
-          render({ data }) {
-            return <FormatGold value={data.currentMinPrice} />;
+          {
+            align: "right",
+            header: "최저가",
+            render({ data }) {
+              return <FormatGold value={data.currentMinPrice} />;
+            },
+            sortKey: "currentMinPrice",
           },
-          sortKey: "currentMinPrice",
-        },
-      ]}
-      rows={data.marketItemList.map((data) => ({
-        data,
-      }))}
-    />
+        ]}
+        rows={data.marketItemList.map((data) => ({
+          data,
+        }))}
+      />
+    </Flex>
   );
 };

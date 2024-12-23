@@ -1,4 +1,8 @@
-query MarketItemListTable($filter: MarketItemListFilter) {
+query MarketItemListTable(
+  $filter: MarketItemListFilter
+  $statsTake: Int
+  $statsOrderBy: [OrderByArg!]
+) {
   marketItemList(filter: $filter) {
     bundleCount
     currentMinPrice
@@ -6,5 +10,8 @@ query MarketItemListTable($filter: MarketItemListFilter) {
     name
     recentPrice
     yDayAvgPrice
+  }
+  marketItemStats(take: $statsTake, orderBy: $statsOrderBy) {
+    createdAt
   }
 }
