@@ -8,6 +8,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [process.env.CLIENT_ENDPOINT],
     credentials: true,
+    allowedHeaders: ['Content-Type', 'Apollo-Require-Preflight'],
   });
 
   await app.listen(process.env.PORT ?? 3001);
