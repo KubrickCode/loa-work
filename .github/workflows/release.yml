@@ -65,7 +65,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/loalife
-            git pull origin release
+            git fetch origin release
+            git checkout release
+            git reset --hard origin/release
             docker build -t backend-service ./src/backend
 
             docker stop backend-service || true
