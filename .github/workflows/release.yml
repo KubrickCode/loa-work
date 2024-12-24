@@ -22,6 +22,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: Setup Nginx and SSL
         uses: appleboy/ssh-action@master
         with:
@@ -57,18 +61,54 @@ jobs:
 
             sudo systemctl reload nginx
 
-      - name: Build and Deploy Backend
+      - name: Build and Push Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG ./src/backend
+          docker push $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG
+          docker tag $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG $ECR_REGISTRY/loa-life:backend-api-latest
+          docker push $ECR_REGISTRY/loa-life:backend-api-latest
+
+      - name: Install AWS CLI on EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/loalife
-            git fetch origin release
-            git checkout release
-            git reset --hard origin/release
-            docker build -t backend-service ./src/backend
+            if ! command -v aws &> /dev/null; then
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              sudo apt install -y unzip
+              unzip awscliv2.zip
+              sudo ./aws/install
+              rm -rf aws awscliv2.zip
+            fi
+
+            # Configure AWS CLI
+            mkdir -p ~/.aws
+            cat > ~/.aws/credentials << EOF
+            [default]
+            aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            EOF
+
+            cat > ~/.aws/config << EOF
+            [default]
+            region = ap-northeast-2
+            output = json
+            EOF
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+            docker pull ${{ secrets.ECR_REGISTRY }}/loa-life:backend-api-latest
 
             docker stop backend-service || true
             docker rm backend-service || true
@@ -89,7 +129,7 @@ jobs:
               -e AUTH_SUCCESS_URL="${{ secrets.AUTH_SUCCESS_URL }}" \
               -e CLIENT_ENDPOINT="${{ secrets.CLIENT_ENDPOINT }}" \
               --restart always \
-              backend-service
+              ${{ secrets.ECR_REGISTRY }}/loa-life:backend-api-latest
 
       - name: Run Database Migrations
         uses: appleboy/ssh-action@master
@@ -98,5 +138,4 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/loalife/src/backend
             docker exec backend-service npx prisma migrate deploy --schema=/app/prisma/schema.prisma
