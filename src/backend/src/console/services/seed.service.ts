@@ -338,6 +338,7 @@ export class SeedService {
           kind: ContentRewardItemKind.EXTRA_ITEM,
           imageUrl:
             'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png',
+          isEditable: true,
         },
         {
           name: '운명의 파편',
@@ -386,6 +387,7 @@ export class SeedService {
           kind: ContentRewardItemKind.EXTRA_ITEM,
           imageUrl:
             'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
+          isEditable: true,
         },
       ],
     });
