@@ -22,27 +22,27 @@ func (s *Converter) Start() error {
 		return err
 	}
 
-	var itemsToUpdate []loadb.ContentRewardItem
+	var pricesToCreate []loadb.ContentRewardItemPrice
 	for _, item := range items {
 		if item.Name == OneLevelGemName {
 			price, err := s.get1LevelGemPrice()
 			if err != nil {
 				return err
 			}
-			itemsToUpdate = append(itemsToUpdate, loadb.ContentRewardItem{
-				ID:           item.ID,
-				DefaultPrice: price,
+			pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
+				ContentRewardItemID: item.ID,
+				Value:               price,
 			})
 		} else {
 			return fmt.Errorf("unknown item: %s", item.Name)
 		}
 	}
 
-	if err := s.db.ContentRewardItem().UpdateMany(itemsToUpdate); err != nil {
+	if err := s.db.ContentRewardItemPrice().CreateMany(pricesToCreate); err != nil {
 		return err
 	}
 
-	log.Println("Auction Item Stats Converted To Content Reward Item Done")
+	log.Println("Auction Item Stats Converted To Content Reward Item Price Done")
 
 	return nil
 }

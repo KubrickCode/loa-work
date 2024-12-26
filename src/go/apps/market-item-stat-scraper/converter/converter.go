@@ -21,34 +21,34 @@ func (s *Converter) Start() error {
 		return err
 	}
 
-	var itemsToUpdate []loadb.ContentRewardItem
+	var pricesToCreate []loadb.ContentRewardItemPrice
 	for _, item := range items {
 		if item.Name == FateFragmentName {
 			price, err := s.getSmallFateFragmentBuyPricePerOne()
 			if err != nil {
 				return err
 			}
-			itemsToUpdate = append(itemsToUpdate, loadb.ContentRewardItem{
-				ID:           item.ID,
-				DefaultPrice: price,
+			pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
+				ContentRewardItemID: item.ID,
+				Value:               price,
 			})
 		} else {
 			price, err := s.getMarketItemCurrentMinPrice(item.Name)
 			if err != nil {
 				return err
 			}
-			itemsToUpdate = append(itemsToUpdate, loadb.ContentRewardItem{
-				ID:           item.ID,
-				DefaultPrice: price,
+			pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
+				ContentRewardItemID: item.ID,
+				Value:               price,
 			})
 		}
 	}
 
-	if err := s.db.ContentRewardItem().UpdateMany(itemsToUpdate); err != nil {
+	if err := s.db.ContentRewardItemPrice().CreateMany(pricesToCreate); err != nil {
 		return err
 	}
 
-	log.Println("Market Item Stats Converted To Content Reward Item Done")
+	log.Println("Market Item Stats Converted To Content Reward Item Price Done")
 
 	return nil
 }

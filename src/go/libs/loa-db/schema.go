@@ -56,6 +56,17 @@ type ContentRewardItem struct {
 	DefaultPrice decimal.Decimal `gorm:"column:default_price;type:decimal;default:0;not null"`
 }
 
+type ContentRewardItemPrice struct {
+	ID        int       `gorm:"primaryKey"`
+	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
+
+	Value decimal.Decimal `gorm:"column:value;type:decimal;default:0;not null"`
+
+	// Relations
+	ContentRewardItemID int               `gorm:"column:content_reward_item_id;not null"`
+	ContentRewardItem   ContentRewardItem `gorm:"foreignKey:content_reward_item_id"`
+}
+
 type MarketItem struct {
 	ID        int       `gorm:"primaryKey"`
 	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`

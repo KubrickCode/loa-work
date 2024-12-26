@@ -324,22 +324,53 @@ export class SeedService {
   }
 
   async contentRewardItems() {
+    await this.prisma.contentRewardItem.create({
+      data: {
+        name: '실링',
+        kind: ContentRewardItemKind.EXTRA_ITEM,
+        imageUrl:
+          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png',
+        isEditable: true,
+        contentRewardItemPrices: {
+          create: {
+            value: 0,
+          },
+        },
+      },
+    });
+
+    await this.prisma.contentRewardItem.create({
+      data: {
+        name: '카드 경험치',
+        kind: ContentRewardItemKind.EXTRA_ITEM,
+        imageUrl:
+          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
+        isEditable: true,
+        contentRewardItemPrices: {
+          create: {
+            value: 0,
+          },
+        },
+      },
+    });
+
+    await this.prisma.contentRewardItem.create({
+      data: {
+        name: '골드',
+        kind: ContentRewardItemKind.EXTRA_ITEM,
+        imageUrl:
+          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/gik0bxq0gzweokovngkx.png',
+        isEditable: false,
+        contentRewardItemPrices: {
+          create: {
+            value: 1,
+          },
+        },
+      },
+    });
+
     await this.prisma.contentRewardItem.createMany({
       data: [
-        {
-          name: '골드',
-          defaultPrice: 1,
-          kind: ContentRewardItemKind.EXTRA_ITEM,
-          imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/gik0bxq0gzweokovngkx.png',
-        },
-        {
-          name: '실링',
-          kind: ContentRewardItemKind.EXTRA_ITEM,
-          imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png',
-          isEditable: true,
-        },
         {
           name: '운명의 파편',
           kind: ContentRewardItemKind.MARKET_ITEM,
@@ -381,13 +412,6 @@ export class SeedService {
           kind: ContentRewardItemKind.MARKET_ITEM,
           imageUrl:
             'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/k8xcldjkq33qf9l69uim.png',
-        },
-        {
-          name: '카드 경험치',
-          kind: ContentRewardItemKind.EXTRA_ITEM,
-          imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
-          isEditable: true,
         },
       ],
     });

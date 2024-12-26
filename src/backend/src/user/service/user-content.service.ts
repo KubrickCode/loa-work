@@ -17,10 +17,18 @@ export class UserContentService {
   async getContentRewardItemPrice(contentRewardItemId: number) {
     const userId = this.getUserId();
 
-    const { defaultPrice, isEditable } =
+    const { isEditable, contentRewardItemPrices } =
       await this.prisma.contentRewardItem.findUniqueOrThrow({
         where: {
           id: contentRewardItemId,
+        },
+        include: {
+          contentRewardItemPrices: {
+            take: 1,
+            orderBy: {
+              createdAt: 'desc',
+            },
+          },
         },
       });
 
@@ -36,7 +44,7 @@ export class UserContentService {
               },
             })
           ).price
-        : defaultPrice;
+        : contentRewardItemPrices[0].value;
 
     return price.toNumber();
   }

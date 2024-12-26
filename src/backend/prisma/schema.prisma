@@ -131,18 +131,31 @@ model ContentRewardItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  defaultPrice Decimal               @default(0) @map("default_price") // 개당 가격
-  imageUrl     String                @map("image_url")
-  isEditable   Boolean               @default(false) @map("is_editable")
-  kind         ContentRewardItemKind
-  name         String                @unique
+  imageUrl   String                @map("image_url")
+  isEditable Boolean               @default(false) @map("is_editable")
+  kind       ContentRewardItemKind
+  name       String                @unique
 
   // Relations
-  contentRewards         ContentReward[]
-  userContentRewardItems UserContentRewardItem[]
-  contentSeeMoreRewards  ContentSeeMoreReward[]
+  contentRewards          ContentReward[]
+  userContentRewardItems  UserContentRewardItem[]
+  contentSeeMoreRewards   ContentSeeMoreReward[]
+  contentRewardItemPrices ContentRewardItemPrice[]
 
   @@map("content_reward_item")
+}
+
+model ContentRewardItemPrice {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  value Decimal
+
+  // Relations
+  contentRewardItemId Int               @map("content_reward_item_id")
+  contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+
+  @@map("content_reward_item_price")
 }
 
 model ContentSeeMoreReward {

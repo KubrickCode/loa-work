@@ -16,6 +16,7 @@ type DB interface {
 	AuctionItemCategory() AuctionItemCategoryDB
 	AuctionItemStat() AuctionItemStatDB
 	ContentRewardItem() ContentRewardItemDB
+	ContentRewardItemPrice() ContentRewardItemPriceDB
 	MarketItem() MarketItemDB
 	MarketItemCategory() MarketItemCategoryDB
 	MarketItemStat() MarketItemStatDB
@@ -24,13 +25,14 @@ type DB interface {
 type database struct {
 	gdb *gorm.DB
 
-	auctionItem         AuctionItemDB
-	auctionItemCategory AuctionItemCategoryDB
-	auctionItemStat     AuctionItemStatDB
-	contentRewardItem   ContentRewardItemDB
-	marketItem          MarketItemDB
-	marketItemCategory  MarketItemCategoryDB
-	marketItemStat      MarketItemStatDB
+	auctionItem            AuctionItemDB
+	auctionItemCategory    AuctionItemCategoryDB
+	auctionItemStat        AuctionItemStatDB
+	contentRewardItem      ContentRewardItemDB
+	contentRewardItemPrice ContentRewardItemPriceDB
+	marketItem             MarketItemDB
+	marketItemCategory     MarketItemCategoryDB
+	marketItemStat         MarketItemStatDB
 }
 
 func New() (DB, error) {
@@ -65,6 +67,7 @@ func (db *database) initRepos() {
 	db.auctionItemCategory = NewAuctionItemCategoryDB(gdb)
 	db.auctionItemStat = NewAuctionItemStatDB(gdb)
 	db.contentRewardItem = NewContentRewardItemDB(gdb)
+	db.contentRewardItemPrice = NewContentRewardItemPriceDB(gdb)
 	db.marketItem = NewMarketItemDB(gdb)
 	db.marketItemCategory = NewMarketItemCategoryDB(gdb)
 	db.marketItemStat = NewMarketItemStatDB(gdb)
@@ -99,6 +102,10 @@ func (db database) AuctionItemCategory() AuctionItemCategoryDB { return db.aucti
 func (db database) AuctionItemStat() AuctionItemStatDB { return db.auctionItemStat }
 
 func (db database) ContentRewardItem() ContentRewardItemDB { return db.contentRewardItem }
+
+func (db database) ContentRewardItemPrice() ContentRewardItemPriceDB {
+	return db.contentRewardItemPrice
+}
 
 func (db database) MarketItem() MarketItemDB { return db.marketItem }
 

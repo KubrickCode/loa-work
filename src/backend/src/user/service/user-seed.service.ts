@@ -48,12 +48,21 @@ export class UserSeedService {
   }
 
   async makeContentRewardItems(userId: number, tx: Prisma.TransactionClient) {
-    const defaultRewardItems = await tx.contentRewardItem.findMany();
+    const defaultRewardItems = await tx.contentRewardItem.findMany({
+      where: {
+        isEditable: true,
+      },
+      include: {
+        contentRewardItemPrices: {
+          take: 1,
+        },
+      },
+    });
 
     await tx.userContentRewardItem.createMany({
-      data: defaultRewardItems.map(({ id, defaultPrice: price }) => ({
+      data: defaultRewardItems.map(({ id, contentRewardItemPrices }) => ({
         contentRewardItemId: id,
-        price,
+        price: contentRewardItemPrices[0].value,
         userId,
       })),
     });
