@@ -19,25 +19,25 @@ export const ContentWageListPage = () => {
   return (
     <Page>
       <Section>
-        <ContentWageListTableProvider>
-          <Flex alignItems="center" gap={2}>
-            <ContentWageListTableFilters />
-            {isAuthenticated && (
-              <DialogTrigger
-                dialog={<GoldExchangeRateSettingDialog />}
-                trigger={
-                  <Button size="sm" variant="outline">
-                    <IoIosSettings /> 골드 환율 설정
-                  </Button>
-                }
-              />
-            )}
-            <ItemStatUpdateToggleTip />
-          </Flex>
-          <Suspense fallback={<Loader.TableSkeleton line={30} />}>
+        <Suspense fallback={<Loader.TableSkeleton line={30} />}>
+          <ContentWageListTableProvider>
+            <Flex alignItems="center" gap={2}>
+              <ContentWageListTableFilters />
+              {isAuthenticated && (
+                <DialogTrigger
+                  dialog={<GoldExchangeRateSettingDialog />}
+                  trigger={
+                    <Button size="sm" variant="outline">
+                      <IoIosSettings /> 골드 환율 설정
+                    </Button>
+                  }
+                />
+              )}
+              <ItemStatUpdateToggleTip />
+            </Flex>
             <ContentWageListTable />
-          </Suspense>
-        </ContentWageListTableProvider>
+          </ContentWageListTableProvider>
+        </Suspense>
       </Section>
     </Page>
   );
