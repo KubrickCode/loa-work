@@ -85,6 +85,7 @@ export const ContentWageListTable = () => {
           render({ data }) {
             return <>{data.content.level}</>;
           },
+          sortKey: "content.level",
         },
         {
           header: "이름",
