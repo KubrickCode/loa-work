@@ -1,14 +1,21 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { InfoTip } from "~/chakra-components/ui/toggle-tip";
 import { useSafeQuery } from "~/core/graphql";
 import { ItemStatUpdateToggleTipDocument } from "~/core/graphql/generated";
 import { formatDateTime } from "~/core/format";
+import { Suspense } from "react";
 
 export const ItemStatUpdateToggleTip = () => {
   return (
     <Flex alignItems="center" gap={1}>
       <Text fontSize="xs">마지막 시세 업데이트 일시</Text>
-      <InfoTip content={<Content />} />
+      <InfoTip
+        content={
+          <Suspense fallback={<Spinner />}>
+            <Content />
+          </Suspense>
+        }
+      />
     </Flex>
   );
 };
