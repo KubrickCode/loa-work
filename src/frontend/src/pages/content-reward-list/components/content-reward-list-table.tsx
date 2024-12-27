@@ -5,11 +5,13 @@ import { useContentRewardListTable } from "./content-reward-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
 import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
 import { DialogTrigger } from "~/core/dialog";
-import { FormatNumber, IconButton } from "@chakra-ui/react";
+import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
 import { IoIosSettings } from "react-icons/io";
 import { FormatGold } from "~/core/format";
 import { useAuth } from "~/core/auth";
 import { ItemNameWithImage } from "~/shared/item";
+import { FaLock } from "react-icons/fa";
+import { Tooltip } from "~/chakra-components/ui/tooltip";
 
 export const ContentRewardListTable = () => {
   const { isAuthenticated } = useAuth();
@@ -111,14 +113,18 @@ export const ContentRewardListTable = () => {
               const isGold = name === "골드";
 
               return (
-                <>
+                <Flex alignItems="center" display="inline-flex" gap={1}>
+                  {!reward.isSellable && !isGold && (
+                    <Tooltip content="거래 불가">
+                      <FaLock />
+                    </Tooltip>
+                  )}
                   {isGold ? (
                     <FormatGold value={reward.averageQuantity} />
                   ) : (
                     <FormatNumber value={reward.averageQuantity} />
                   )}
-                  {reward.isSellable && !isGold ? " (거래 가능)" : ""}
-                </>
+                </Flex>
               );
             },
           })
