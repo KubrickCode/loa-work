@@ -1123,7 +1123,7 @@ export const getContentsWithRewards = ({
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 1,
     contentCategoryId: kazerosRaidId,
-    level: 1670,
+    level: 1690,
     contentDurations: {
       create: {
         defaultValue: 600,
@@ -1182,7 +1182,7 @@ export const getContentsWithRewards = ({
     name: '[하드]부유하는 악몽의 진혼곡',
     gate: 2,
     contentCategoryId: kazerosRaidId,
-    level: 1670,
+    level: 1690,
     contentDurations: {
       create: {
         defaultValue: 600,
