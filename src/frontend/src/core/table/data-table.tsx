@@ -21,6 +21,7 @@ export type Column<T> = {
   header: ReactNode;
   render: (props: { data: T; rowIndex: number }) => JSX.Element | null;
   sortKey?: string;
+  sortValue?: (data: T) => number | string | null;
 };
 
 export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
@@ -31,12 +32,22 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
     if (currentSortKey && sortOrder) {
       return _.orderBy(
         rows,
-        [(row) => _.get(row.data, currentSortKey)],
+        [
+          (row) => {
+            const column = columns.find(
+              (col) => col.sortKey === currentSortKey
+            );
+            if (column?.sortValue) {
+              return column.sortValue(row.data);
+            }
+            return _.get(row.data, currentSortKey);
+          },
+        ],
         [sortOrder]
       );
     }
     return rows;
-  }, [rows, currentSortKey, sortOrder]);
+  }, [rows, currentSortKey, sortOrder, columns]);
 
   const handleSort = (column: Column<T>) => {
     if (!column.sortKey) return;

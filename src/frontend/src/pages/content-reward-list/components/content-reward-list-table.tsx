@@ -92,6 +92,7 @@ export const ContentRewardListTable = () => {
           render({ data }) {
             return <>{data.level}</>;
           },
+          sortKey: "level",
         },
         {
           header: "이름",
@@ -126,6 +127,13 @@ export const ContentRewardListTable = () => {
                   )}
                 </Flex>
               );
+            },
+            sortKey: name,
+            sortValue: (data) => {
+              const reward = data.contentRewards.find(
+                (reward) => reward.contentRewardItem.name === name
+              );
+              return reward?.averageQuantity ?? 0;
             },
           })
         ),
