@@ -1,5 +1,6 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+import { useColorModeValue } from "~/chakra-components/ui/color-mode";
 
 const ArrowIcon = ({
   direction,
@@ -24,6 +25,9 @@ export const SortControl = ({
   currentState: "asc" | "desc" | null;
   onClick: () => void;
 }) => {
+  const activeColor = useColorModeValue("gray.700", "gray.200");
+  const inactiveColor = useColorModeValue("gray.300", "gray.600");
+
   return (
     <Flex
       cursor="pointer"
@@ -34,11 +38,11 @@ export const SortControl = ({
       tabIndex={0}
     >
       <ArrowIcon
-        color={currentState === "asc" ? "gray.700" : "gray.300"}
+        color={currentState === "asc" ? activeColor : inactiveColor}
         direction="up"
       />
       <ArrowIcon
-        color={currentState === "desc" ? "gray.700" : "gray.300"}
+        color={currentState === "desc" ? activeColor : inactiveColor}
         direction="down"
       />
     </Flex>
