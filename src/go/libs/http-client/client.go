@@ -15,7 +15,7 @@ import (
 
 const (
 	maxRetries    = 5
-	retryInterval = time.Second * 3
+	retryInterval = time.Minute * 1
 	timeOut       = time.Second * 30
 )
 
