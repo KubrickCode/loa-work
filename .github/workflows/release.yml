@@ -26,6 +26,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Copy nginx config
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "infra/nginx/default.conf"
+          target: "/home/ubuntu"
+
       - name: Setup Nginx and SSL
         uses: appleboy/ssh-action@master
         with:
@@ -38,22 +47,7 @@ jobs:
               sudo apt install -y nginx certbot python3-certbot-nginx
             fi
 
-            sudo tee /etc/nginx/sites-available/default << 'EOF'
-            server {
-                listen 80;
-                listen [::]:80;
-                server_name api-loa-life.duckdns.org;
-
-                location / {
-                    proxy_pass http://localhost:3001;
-                    proxy_http_version 1.1;
-                    proxy_set_header Upgrade $http_upgrade;
-                    proxy_set_header Connection 'upgrade';
-                    proxy_set_header Host $host;
-                    proxy_cache_bypass $http_upgrade;
-                }
-            }
-            EOF
+            sudo cp /home/ubuntu/infra/nginx/default.conf /etc/nginx/sites-available/default
 
             if [ ! -d "/etc/letsencrypt/live/api-loa-life.duckdns.org" ]; then
               sudo certbot --nginx -d api-loa-life.duckdns.org --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
