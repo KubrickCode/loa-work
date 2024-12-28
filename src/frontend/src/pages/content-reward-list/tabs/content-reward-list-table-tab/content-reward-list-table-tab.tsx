@@ -1,16 +1,16 @@
 import { Section } from "~/core/section";
-import { ContentRewardListTableProvider } from "./components/content-reward-list-table-context";
 import { ContentRewardListTableFilter } from "./components/content-reward-list-table-filter";
 import { ItemStatUpdateToggleTip } from "~/shared/item";
 import { Flex } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { Loader } from "~/core/loader";
 import { ContentRewardListTable } from "./components/content-reward-list-table";
+import { ContentRewardListPageProvider } from "../../content-reward-list-page-context";
 
 export const ContentRewardListTableTab = () => {
   return (
     <Section>
-      <ContentRewardListTableProvider>
+      <ContentRewardListPageProvider>
         <Flex alignItems="center" gap={2}>
           <ContentRewardListTableFilter />
           <ItemStatUpdateToggleTip />
@@ -18,7 +18,7 @@ export const ContentRewardListTableTab = () => {
         <Suspense fallback={<Loader.TableSkeleton line={30} />}>
           <ContentRewardListTable />
         </Suspense>
-      </ContentRewardListTableProvider>
+      </ContentRewardListPageProvider>
     </Section>
   );
 };

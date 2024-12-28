@@ -1,7 +1,7 @@
 import { ContentRewardListTableDocument } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 
-import { useContentRewardListTable } from "./content-reward-list-table-context";
+import { useContentRewardListPage } from "../../../content-reward-list-page-context";
 import { useSafeQuery } from "~/core/graphql";
 import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
 import { DialogTrigger } from "~/core/dialog";
@@ -15,7 +15,7 @@ import { Tooltip } from "~/chakra-components/ui/tooltip";
 
 export const ContentRewardListTable = () => {
   const { isAuthenticated } = useAuth();
-  const { contentCategoryId } = useContentRewardListTable();
+  const { contentCategoryId } = useContentRewardListPage();
   const { data, refetch } = useSafeQuery(ContentRewardListTableDocument, {
     variables: {
       filter: {

@@ -1,9 +1,9 @@
 import { ContentCategoryFilter } from "~/shared/content";
-import { useContentRewardListTable } from "./content-reward-list-table-context";
+import { useContentRewardListPage } from "../../../content-reward-list-page-context";
 
 export const ContentRewardListTableFilter = () => {
   const { contentCategoryId, setContentCategoryId } =
-    useContentRewardListTable();
+    useContentRewardListPage();
 
   return (
     <ContentCategoryFilter
