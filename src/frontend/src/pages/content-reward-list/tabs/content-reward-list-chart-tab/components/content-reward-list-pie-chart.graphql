@@ -1,0 +1,23 @@
+query ContentRewardListPieChart($filter: ContentListFilter) {
+  contentList(filter: $filter) {
+    id
+    displayName
+    contentRewards {
+      averageQuantity
+      contentRewardItem {
+        id
+        name
+        price
+      }
+      isSellable
+    }
+    contentSeeMoreRewards {
+      quantity
+      contentRewardItem {
+        id
+        name
+        price
+      }
+    }
+  }
+}
