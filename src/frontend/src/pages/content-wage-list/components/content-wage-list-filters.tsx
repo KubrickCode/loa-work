@@ -15,7 +15,7 @@ import { SegmentedControl } from "~/chakra-components/ui/segmented-control";
 import { MultiSelect } from "~/core/select";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 
-export const ContentWageListTableFilters = () => {
+export const ContentWageListFilters = () => {
   const { contentCategoryId, setContentCategoryId } = useContentWageListPage();
 
   const handleCategoryChange = (value: number | null) => {

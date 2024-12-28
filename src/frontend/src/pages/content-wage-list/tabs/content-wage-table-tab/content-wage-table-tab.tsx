@@ -1,7 +1,6 @@
 import { Suspense, useState } from "react";
 import { Loader } from "~/core/loader";
 import { Section } from "~/core/section";
-import { ContentWageListTableFilters } from "./components/content-wage-list-table-filters";
 import { DialogTrigger } from "~/core/dialog";
 import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-setting-dialog";
 import { Button } from "~/chakra-components/ui/button";
@@ -11,6 +10,7 @@ import { Flex } from "@chakra-ui/react";
 import { ContentWageListTable } from "./components/content-wage-list-table";
 import { useAuth } from "~/core/auth";
 import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
+import { ContentWageListFilters } from "../../components";
 
 export const ContentWageTableTab = () => {
   const { isAuthenticated } = useAuth();
@@ -21,7 +21,7 @@ export const ContentWageTableTab = () => {
       <Suspense fallback={<Loader.TableSkeleton line={30} />}>
         <ContentWageListPageProvider>
           <Flex alignItems="center" gap={2}>
-            <ContentWageListTableFilters />
+            <ContentWageListFilters />
             {isAuthenticated && (
               <DialogTrigger
                 dialog={
