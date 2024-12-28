@@ -3,7 +3,7 @@ import { Flex, FormatNumber, Image } from "@chakra-ui/react";
 export const FormatGold = ({ value }: { value?: number | null }) => {
   return (
     <Flex display="inline-flex" alignItems="center">
-      <Image src="/loa-life-favicon.png" w={4} />
+      <Image src="/loa-work-favicon.png" w={4} />
       {typeof value === "number" ? (
         <FormatNumber value={value} />
       ) : (
