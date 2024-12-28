@@ -1,5 +1,4 @@
 import { ContentCategoryFilter } from "~/shared/content";
-import { useContentWageListTable } from "./content-wage-list-table-context";
 import { Box, Flex } from "@chakra-ui/react";
 import {
   PopoverArrow,
@@ -14,9 +13,10 @@ import { IoFilter } from "react-icons/io5";
 import { Field } from "~/chakra-components/ui/field";
 import { SegmentedControl } from "~/chakra-components/ui/segmented-control";
 import { MultiSelect } from "~/core/select";
+import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 
 export const ContentWageListTableFilters = () => {
-  const { contentCategoryId, setContentCategoryId } = useContentWageListTable();
+  const { contentCategoryId, setContentCategoryId } = useContentWageListPage();
 
   const handleCategoryChange = (value: number | null) => {
     setContentCategoryId(value || null);
@@ -60,7 +60,7 @@ export const ContentWageListTableFilters = () => {
 };
 
 const ContentSeeMoreFilter = () => {
-  const { includeIsSeeMore, setIncludeIsSeeMore } = useContentWageListTable();
+  const { includeIsSeeMore, setIncludeIsSeeMore } = useContentWageListPage();
 
   return (
     <SegmentedControl
@@ -75,7 +75,7 @@ const ContentSeeMoreFilter = () => {
 };
 
 const ContentIsBoundFilter = () => {
-  const { includeIsBound, setIncludeIsBound } = useContentWageListTable();
+  const { includeIsBound, setIncludeIsBound } = useContentWageListPage();
 
   return (
     <SegmentedControl
@@ -94,7 +94,7 @@ const ContentRewardItemsFilter = () => {
     contentRewardItems,
     includeContentRewardItemIds,
     setIncludeContentRewardItemIds,
-  } = useContentWageListTable();
+  } = useContentWageListPage();
 
   const items = contentRewardItems.map(({ id, name }) => ({
     label: name,

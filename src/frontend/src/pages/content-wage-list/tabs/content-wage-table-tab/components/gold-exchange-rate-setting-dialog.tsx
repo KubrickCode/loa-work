@@ -16,14 +16,17 @@ import {
   UserGoldExchangeRateSettingDialogDocument,
 } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
-import { useContentWageListTable } from "./content-wage-list-table-context";
 
-export const GoldExchangeRateSettingDialog = () => {
+export const GoldExchangeRateSettingDialog = ({
+  refetchTable,
+}: {
+  refetchTable: () => void;
+}) => {
   return (
     <Dialog>
       <DialogHeader>골드 환율 설정</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
-        <Body />
+        <Body refetchTable={refetchTable} />
       </Suspense>
     </Dialog>
   );
@@ -34,9 +37,8 @@ const schema = z.object({
   goldAmount: z.number(),
 });
 
-const Body = () => {
+const Body = ({ refetchTable }: { refetchTable: () => void }) => {
   const { setOpen } = useDialogContext();
-  const { refetchTable } = useContentWageListTable();
   const { data } = useSafeQuery(UserGoldExchangeRateSettingDialogDocument);
 
   const { userGoldExchangeRate } = data;

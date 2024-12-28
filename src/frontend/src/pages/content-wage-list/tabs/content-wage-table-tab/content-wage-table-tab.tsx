@@ -1,7 +1,6 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Loader } from "~/core/loader";
 import { Section } from "~/core/section";
-import { ContentWageListTableProvider } from "./components/content-wage-list-table-context";
 import { ContentWageListTableFilters } from "./components/content-wage-list-table-filters";
 import { DialogTrigger } from "~/core/dialog";
 import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-setting-dialog";
@@ -11,19 +10,23 @@ import { ItemStatUpdateToggleTip } from "~/shared/item";
 import { Flex } from "@chakra-ui/react";
 import { ContentWageListTable } from "./components/content-wage-list-table";
 import { useAuth } from "~/core/auth";
+import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
 
 export const ContentWageTableTab = () => {
   const { isAuthenticated } = useAuth();
+  const [refetchTable, setRefetchTable] = useState<() => void>(() => {});
 
   return (
     <Section>
       <Suspense fallback={<Loader.TableSkeleton line={30} />}>
-        <ContentWageListTableProvider>
+        <ContentWageListPageProvider>
           <Flex alignItems="center" gap={2}>
             <ContentWageListTableFilters />
             {isAuthenticated && (
               <DialogTrigger
-                dialog={<GoldExchangeRateSettingDialog />}
+                dialog={
+                  <GoldExchangeRateSettingDialog refetchTable={refetchTable} />
+                }
                 trigger={
                   <Button size="sm" variant="outline">
                     <IoIosSettings /> 골드 환율 설정
@@ -33,8 +36,8 @@ export const ContentWageTableTab = () => {
             )}
             <ItemStatUpdateToggleTip />
           </Flex>
-          <ContentWageListTable />
-        </ContentWageListTableProvider>
+          <ContentWageListTable setRefetchTable={setRefetchTable} />
+        </ContentWageListPageProvider>
       </Suspense>
     </Section>
   );

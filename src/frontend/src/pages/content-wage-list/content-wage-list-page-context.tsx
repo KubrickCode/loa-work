@@ -7,13 +7,13 @@ import {
   useState,
 } from "react";
 import { useSafeQuery } from "~/core/graphql";
-import { ContentRewardItemsFilterDocument } from "~/core/graphql/generated";
+import {
+  ContentRewardItemsFilterDocument,
+  ContentRewardItemsFilterQuery,
+} from "~/core/graphql/generated";
 
-type ContentWageListTableContextType = {
-  contentRewardItems: {
-    id: number;
-    name: string;
-  }[];
+type ContentWageListPageContextType = {
+  contentRewardItems: ContentRewardItemsFilterQuery["contentRewardItems"];
 
   contentCategoryId: number | null;
   setContentCategoryId: (id: number | null) => void;
@@ -26,16 +26,13 @@ type ContentWageListTableContextType = {
 
   includeContentRewardItemIds: number[];
   setIncludeContentRewardItemIds: Dispatch<SetStateAction<number[]>>;
-
-  refetchTable: () => void;
-  setRefetchTable: (fn: () => void) => void;
 };
 
-const ContentWageListTableContext = createContext<
-  ContentWageListTableContextType | undefined
+const ContentWageListPageContext = createContext<
+  ContentWageListPageContextType | undefined
 >(undefined);
 
-export const ContentWageListTableProvider = ({
+export const ContentWageListPageProvider = ({
   children,
 }: PropsWithChildren) => {
   const {
@@ -48,10 +45,9 @@ export const ContentWageListTableProvider = ({
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
   const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =
     useState<number[]>(contentRewardItems.map((item) => item.id));
-  const [refetchTable, setRefetchTable] = useState<() => void>(() => {});
 
   return (
-    <ContentWageListTableContext.Provider
+    <ContentWageListPageContext.Provider
       value={{
         contentRewardItems,
         contentCategoryId,
@@ -62,18 +58,16 @@ export const ContentWageListTableProvider = ({
         setIncludeIsBound,
         includeContentRewardItemIds,
         setIncludeContentRewardItemIds,
-        refetchTable,
-        setRefetchTable,
       }}
     >
       {children}
-    </ContentWageListTableContext.Provider>
+    </ContentWageListPageContext.Provider>
   );
 };
 
-export const useContentWageListTable = () => {
-  const context = useContext(ContentWageListTableContext);
-  if (!context) throw new Error("Invalid ContentWageListTableContext");
+export const useContentWageListPage = () => {
+  const context = useContext(ContentWageListPageContext);
+  if (!context) throw new Error("Invalid ContentWageListPageContext");
 
   return context;
 };

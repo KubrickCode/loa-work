@@ -3,7 +3,6 @@ import {
   ContentWageListTableQuery,
 } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
-import { useContentWageListTable } from "./content-wage-list-table-context";
 import { useSafeQuery } from "~/core/graphql";
 import { FormatNumber, IconButton } from "@chakra-ui/react";
 import { FormatGold } from "~/core/format";
@@ -13,16 +12,20 @@ import { UserContentDurationEditDialog } from "./user-content-duration-edit-dial
 import { IoIosSettings } from "react-icons/io";
 import { useEffect } from "react";
 import { ItemNameWithImage } from "~/shared/item";
+import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 
-export const ContentWageListTable = () => {
+export const ContentWageListTable = ({
+  setRefetchTable,
+}: {
+  setRefetchTable: (fn: () => void) => void;
+}) => {
   const { isAuthenticated } = useAuth();
   const {
     contentCategoryId,
     includeIsSeeMore,
     includeIsBound,
     includeContentRewardItemIds,
-    setRefetchTable,
-  } = useContentWageListTable();
+  } = useContentWageListPage();
   const { data, refetch } = useSafeQuery(ContentWageListTableDocument, {
     variables: {
       filter: {
