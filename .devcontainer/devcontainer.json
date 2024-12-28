@@ -1,8 +1,8 @@
 {
-  "name": "loa-life",
+  "name": "loa-work",
   "dockerComposeFile": "docker-compose.yml",
   "service": "workspace",
-  "workspaceFolder": "/workspaces/loalife",
+  "workspaceFolder": "/workspaces/work",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "./local-features/just": {},
