@@ -47,19 +47,16 @@ func (c *Client) retry(req *http.Request) (*http.Response, error) {
 
 	for i := 0; i < maxRetries; i++ {
 		resp, err = c.Client.Do(req)
-		successStatus := resp.StatusCode >= 200 && resp.StatusCode < 300
-		if err == nil && successStatus {
-			return resp, nil
-		}
-		if !successStatus {
+		if err != nil {
+			err = errors.Wrapf(err, "failed to send request")
+		} else if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 			bodyBytes, _ := io.ReadAll(resp.Body)
 			err = errors.Errorf("received non-2xx response status: %v body: %s", resp.StatusCode, string(bodyBytes))
-			log.Println(err)
 		} else {
-			err = errors.Wrapf(err, "failed to send request")
-			log.Printf("failed to send request: %s, retrying in %v...\n", err, retryInterval)
+			return resp, nil
 		}
 
+		log.Printf("failed to send request: %s, retrying in %v...\n", err, retryInterval)
 		time.Sleep(retryInterval)
 	}
 
