@@ -98,26 +98,27 @@ func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item
 }
 
 func (s *Scraper) saveItemStats(items []loadb.AuctionItem) error {
-	for _, item := range items {
-		category, err := s.getCategoryByItem(item)
-		if err != nil {
-			return fmt.Errorf("failed to get auction item category: %w", err)
-		}
-
-		statsToCreate, err := s.getItemStatsToCreate(category, item)
-		if err != nil {
-			return fmt.Errorf("failed to get auction item stat: %w", err)
-		}
-
-		if len(statsToCreate) > 0 {
-			err := s.db.AuctionItemStat().CreateMany(statsToCreate)
+	return s.db.WithTransaction(func(tx loadb.DB) error {
+		for _, item := range items {
+			category, err := s.getCategoryByItem(item)
 			if err != nil {
-				return fmt.Errorf("failed to create auction item stats: %w", err)
+				return fmt.Errorf("failed to get auction item category: %w", err)
+			}
+
+			statsToCreate, err := s.getItemStatsToCreate(category, item)
+			if err != nil {
+				return fmt.Errorf("failed to get auction item stat: %w", err)
+			}
+
+			if len(statsToCreate) > 0 {
+				err := tx.AuctionItemStat().CreateMany(statsToCreate)
+				if err != nil {
+					return fmt.Errorf("failed to create auction item stats: %w", err)
+				}
 			}
 		}
-	}
 
-	log.Println("Auction item stat saved successfully")
-
-	return nil
+		log.Println("Auction item stat saved successfully")
+		return nil
+	})
 }
