@@ -18,15 +18,15 @@ import {
 import { Loader } from "~/core/loader";
 
 export const GoldExchangeRateSettingDialog = ({
-  refetchTable,
+  onComplete,
 }: {
-  refetchTable: () => void;
+  onComplete: () => void;
 }) => {
   return (
     <Dialog>
       <DialogHeader>골드 환율 설정</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
-        <Body refetchTable={refetchTable} />
+        <Body onComplete={onComplete} />
       </Suspense>
     </Dialog>
   );
@@ -37,7 +37,7 @@ const schema = z.object({
   goldAmount: z.number(),
 });
 
-const Body = ({ refetchTable }: { refetchTable: () => void }) => {
+const Body = ({ onComplete }: { onComplete: () => void }) => {
   const { setOpen } = useDialogContext();
   const { data } = useSafeQuery(UserGoldExchangeRateSettingDialogDocument);
 
@@ -55,7 +55,7 @@ const Body = ({ refetchTable }: { refetchTable: () => void }) => {
       mutation={UserGoldExchangeRateEditDocument}
       onComplete={() => {
         setOpen(false);
-        refetchTable();
+        onComplete();
         toaster.create({
           title: "골드 환율이 수정되었습니다.",
           type: "success",

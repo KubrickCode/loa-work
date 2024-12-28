@@ -25,7 +25,7 @@ export const ContentWageTableTab = () => {
             {isAuthenticated && (
               <DialogTrigger
                 dialog={
-                  <GoldExchangeRateSettingDialog refetchTable={refetchTable} />
+                  <GoldExchangeRateSettingDialog onComplete={refetchTable} />
                 }
                 trigger={
                   <Button size="sm" variant="outline">
