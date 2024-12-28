@@ -19,7 +19,7 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
     privileged: true
     volumes:
-      - ..:/workspaces/loalife:delegated
+      - ..:/workspaces/loa-work:delegated
       - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
 

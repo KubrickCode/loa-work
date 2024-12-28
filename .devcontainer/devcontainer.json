@@ -2,7 +2,7 @@
   "name": "loa-work",
   "dockerComposeFile": "docker-compose.yml",
   "service": "workspace",
-  "workspaceFolder": "/workspaces/work",
+  "workspaceFolder": "/workspaces/loa-work",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "./local-features/just": {},
