@@ -72,7 +72,7 @@ export const ContentRewardListPieChart = () => {
           borderColor="gray.900"
           borderRadius="md"
           p={{ base: 4, md: 6 }}
-          height={350}
+          height={400}
           width="100%"
         >
           <Text textAlign="center" fontWeight="bold" mb={4}>
