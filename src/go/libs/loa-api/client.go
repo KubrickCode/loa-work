@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/KubrickCode/loa-life/src/go/libs/env"
-	"github.com/KubrickCode/loa-life/src/go/libs/httpclient"
+	"github.com/KubrickCode/loa-work/src/go/libs/env"
+	"github.com/KubrickCode/loa-work/src/go/libs/httpclient"
 	"github.com/pkg/errors"
 )
 

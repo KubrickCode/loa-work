@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
-	"github.com/KubrickCode/loa-life/src/go/libs/loaApi/request"
-	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
+	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 )
 
 type Scraper struct {

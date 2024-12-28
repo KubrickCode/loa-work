@@ -4,10 +4,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/KubrickCode/loa-life/src/go/apps/auction-item-stat-scraper/converter"
-	"github.com/KubrickCode/loa-life/src/go/apps/auction-item-stat-scraper/scraper"
-	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
-	"github.com/KubrickCode/loa-life/src/go/libs/schedule"
+	"github.com/KubrickCode/loa-work/src/go/apps/auction-item-stat-scraper/converter"
+	"github.com/KubrickCode/loa-work/src/go/apps/auction-item-stat-scraper/scraper"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/schedule"
 )
 
 func main() {

@@ -1,8 +1,8 @@
 package scraper
 
 import (
-	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
-	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 )
 
 func GetFlattenCategories(categories []loaApi.Category) []loadb.MarketItemCategory {

@@ -1,1 +1,1 @@
-module github.com/KubrickCode/loa-life/src/go/libs/env
+module github.com/KubrickCode/loa-work/src/go/libs/env

@@ -1,7 +1,7 @@
 package loadb
 
 import (
-	"github.com/KubrickCode/loa-life/src/go/libs/env"
+	"github.com/KubrickCode/loa-work/src/go/libs/env"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

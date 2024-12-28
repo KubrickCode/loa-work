@@ -1,7 +1,7 @@
 package converter
 
 import (
-	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 	"github.com/shopspring/decimal"
 )
 

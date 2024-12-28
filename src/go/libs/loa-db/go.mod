@@ -1,4 +1,4 @@
-module github.com/KubrickCode/loa-life/src/go/libs/loadb
+module github.com/KubrickCode/loa-work/src/go/libs/loadb
 
 go 1.23
 

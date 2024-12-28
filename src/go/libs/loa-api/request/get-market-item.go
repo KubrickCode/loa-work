@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
+	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
 	"github.com/pkg/errors"
 )
 

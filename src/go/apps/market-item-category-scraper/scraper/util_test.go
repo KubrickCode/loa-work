@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/KubrickCode/loa-life/src/go/apps/market-item-category-scraper/scraper"
-	"github.com/KubrickCode/loa-life/src/go/libs/loaApi"
-	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/apps/market-item-category-scraper/scraper"
+	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 )
 
 func TestFlattenCategories_FullInput(t *testing.T) {

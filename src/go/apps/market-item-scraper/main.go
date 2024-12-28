@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/KubrickCode/loa-life/src/go/apps/market-item-scraper/scraper"
-	"github.com/KubrickCode/loa-life/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/apps/market-item-scraper/scraper"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 )
 
 func main() {
