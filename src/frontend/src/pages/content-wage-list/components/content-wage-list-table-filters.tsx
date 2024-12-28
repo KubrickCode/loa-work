@@ -26,7 +26,7 @@ export const ContentWageListTableFilters = () => {
     <Box>
       <PopoverRoot positioning={{ placement: "bottom-end" }}>
         <PopoverTrigger asChild>
-          <Button size="sm" variant="outline">
+          <Button size="xs" variant="outline">
             <IoFilter />
             필터
           </Button>
