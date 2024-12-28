@@ -1,5 +1,7 @@
 import { Tabs as ChakraTabs } from "@chakra-ui/react";
+import { Suspense } from "react";
 import { useQueryParams, StringParam } from "use-query-params";
+import { Loader } from "../loader";
 
 export type TabPanel = {
   id: string; // URL에 사용될 id
@@ -39,7 +41,7 @@ export const Tabs = ({ panels, queryKey = "tab" }: TabsProps) => {
       </ChakraTabs.List>
       {panels.map((panel) => (
         <ChakraTabs.Content key={panel.id} value={panel.label}>
-          {panel.component}
+          <Suspense fallback={<Loader.Block />}>{panel.component}</Suspense>
         </ChakraTabs.Content>
       ))}
     </ChakraTabs.Root>
