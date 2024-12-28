@@ -1,0 +1,12 @@
+query ContentWageListBarChart($filter: ContentWageListFilter) {
+  contentWageList(filter: $filter) {
+    content {
+      contentCategory {
+        name
+      }
+      displayName
+    }
+    goldAmount
+    krwAmount
+  }
+}
