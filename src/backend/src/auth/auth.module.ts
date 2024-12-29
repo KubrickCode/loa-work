@@ -41,6 +41,7 @@ export class AuthModule implements NestModule {
             secure: !isDevelopment,
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+            domain: this.configService.get('CLIENT_DOMAIN'),
           },
           resave: false,
           saveUninitialized: false,
