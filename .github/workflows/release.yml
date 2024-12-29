@@ -224,3 +224,93 @@ jobs:
               -e LOA_API_TOKEN="${{ secrets.LOA_API_TOKEN }}" \
               --restart always \
               ${{ secrets.ECR_REGISTRY }}/loa-life:market-item-stat-scraper-latest
+
+  deploy-auction-item-stat-scraper:
+    name: Build and Deploy Auction Item Stat Scraper
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials for ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and Push Docker image
+        env:
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/loa-life:auction-item-stat-scraper-$IMAGE_TAG -f src/go/apps/auction-item-stat-scraper/Dockerfile .
+          docker push $ECR_REGISTRY/loa-life:auction-item-stat-scraper-$IMAGE_TAG
+          docker tag $ECR_REGISTRY/loa-life:auction-item-stat-scraper-$IMAGE_TAG $ECR_REGISTRY/loa-life:auction-item-stat-scraper-latest
+          docker push $ECR_REGISTRY/loa-life:auction-item-stat-scraper-latest
+
+      - name: Install AWS CLI on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AISS_EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AISS_EC2_SSH_KEY }}
+          script: |
+            if ! command -v aws &> /dev/null; then
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              sudo apt install -y unzip
+              unzip awscliv2.zip
+              sudo ./aws/install
+              rm -rf aws awscliv2.zip
+            fi
+
+            if ! command -v docker &> /dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y ca-certificates curl gnupg
+              sudo install -m 0755 -d /etc/apt/keyrings
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+              sudo chmod a+r /etc/apt/keyrings/docker.gpg
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+              sudo apt-get update
+              sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+              sudo usermod -aG docker ubuntu
+            fi
+
+            # Configure AWS CLI
+            mkdir -p ~/.aws
+            cat > ~/.aws/credentials << EOF
+            [default]
+            aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            EOF
+
+            cat > ~/.aws/config << EOF
+            [default]
+            region = ap-northeast-2
+            output = json
+            EOF
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AISS_EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AISS_EC2_SSH_KEY }}
+          script: |
+            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+            docker pull ${{ secrets.ECR_REGISTRY }}/loa-life:auction-item-stat-scraper-latest
+
+            docker stop auction-item-stat-scraper || true
+            docker rm auction-item-stat-scraper || true
+
+            docker run -d \
+              --name auction-item-stat-scraper \
+              -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e LOA_API_BASE_URL="${{ secrets.LOA_API_BASE_URL }}" \
+              -e LOA_API_TOKEN="${{ secrets.LOA_API_TOKEN }}" \
+              --restart always \
+              ${{ secrets.ECR_REGISTRY }}/loa-life:auction-item-stat-scraper-latest
