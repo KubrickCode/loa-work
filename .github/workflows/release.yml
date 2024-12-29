@@ -47,8 +47,8 @@ jobs:
 
             sudo cp /home/ubuntu/infra/nginx/default.conf /etc/nginx/sites-available/default
 
-            if [ ! -d "/etc/letsencrypt/live/api-loa-life.duckdns.org" ]; then
-              sudo certbot --nginx -d api-loa-life.duckdns.org --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
+            if [ ! -d "/etc/letsencrypt/live/${{ secrets.BACKEND_API_DOMAIN }}" ]; then
+              sudo certbot --nginx -d ${{ secrets.BACKEND_API_DOMAIN }} --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
             fi
 
             sudo systemctl reload nginx
