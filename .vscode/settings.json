@@ -30,6 +30,12 @@
         "command": "just prisma studio"
       },
       {
+        "name": "Release",
+        "terminalName": "Release",
+        "color": "green",
+        "command": "git push -f origin main:release"
+      },
+      {
         "name": "MICS",
         "terminalName": "Market Item Category Scraper",
         "color": "green",
