@@ -30,12 +30,6 @@
         "command": "just prisma studio"
       },
       {
-        "name": "Codegen",
-        "terminalName": "Codegen",
-        "color": "green",
-        "command": "just codegen"
-      },
-      {
         "name": "MICS",
         "terminalName": "Market Item Category Scraper",
         "color": "green",
