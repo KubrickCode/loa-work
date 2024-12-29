@@ -4,6 +4,8 @@ import { Prisma } from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
 import { UserContentService } from '../../user/service/user-content.service';
 import { ContentWage } from '../object/content-wage.object';
+import { OrderByArg } from 'src/common/object/order-by-arg.object';
+import _ from 'lodash';
 
 @InputType()
 export class ContentWageListFilter {
@@ -31,6 +33,11 @@ export class ContentWageListQuery {
   @Query(() => [ContentWage])
   async contentWageList(
     @Args('filter', { nullable: true }) filter?: ContentWageListFilter,
+    @Args('orderBy', {
+      type: () => [OrderByArg],
+      nullable: true,
+    })
+    orderBy?: OrderByArg[],
   ) {
     const contents = await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
@@ -88,7 +95,15 @@ export class ContentWageListQuery {
       };
     });
 
-    return await Promise.all(promises);
+    const result = orderBy
+      ? _.orderBy(
+          await Promise.all(promises),
+          orderBy.map((order) => order.field),
+          orderBy.map((order) => order.order),
+        )
+      : await Promise.all(promises);
+
+    return result;
   }
 
   buildWhereArgs(filter?: ContentWageListFilter) {

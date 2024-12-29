@@ -1,5 +1,8 @@
-query ContentWageListBarChart($filter: ContentWageListFilter) {
-  contentWageList(filter: $filter) {
+query ContentWageListBarChart(
+  $filter: ContentWageListFilter
+  $orderBy: [OrderByArg!]
+) {
+  contentWageList(filter: $filter, orderBy: $orderBy) {
     content {
       contentCategory {
         name

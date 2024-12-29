@@ -30,6 +30,12 @@ export const ContentWageListBarChart = () => {
         includeIsBound,
         includeContentRewardItemIds,
       },
+      orderBy: [
+        {
+          field: "goldAmount",
+          order: "desc",
+        },
+      ],
     },
   });
 
