@@ -8,6 +8,7 @@ query ContentRewardListPieChart($filter: ContentListFilter) {
         id
         name
         price
+        pieColor
       }
       isSellable
     }
@@ -17,6 +18,7 @@ query ContentRewardListPieChart($filter: ContentListFilter) {
         id
         name
         price
+        pieColor
       }
     }
   }

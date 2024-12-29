@@ -25,6 +25,7 @@ export const ContentRewardListPieChart = () => {
           name: reward.contentRewardItem.name,
           value: reward.averageQuantity * reward.contentRewardItem.price,
           rawGold: reward.averageQuantity * reward.contentRewardItem.price,
+          color: reward.contentRewardItem.pieColor,
         }));
 
         rewards.sort((a, b) => b.value - a.value);
@@ -39,6 +40,7 @@ export const ContentRewardListPieChart = () => {
               name: "기타",
               value: othersValue,
               rawGold: othersValue,
+              color: "#808080",
             });
           }
           return {
@@ -55,7 +57,6 @@ export const ContentRewardListPieChart = () => {
     [data.contentList]
   );
 
-  const pieColors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
   const tooltipBgColor = useColorModeValue("#fff", "#222");
   const tooltipTextColor = useColorModeValue("#1A202C", "#fff");
 
@@ -90,10 +91,7 @@ export const ContentRewardListPieChart = () => {
                   }
                 >
                   {content.rewards.map((_, index) => (
-                    <Cell
-                      key={index}
-                      fill={pieColors[index % pieColors.length]}
-                    />
+                    <Cell key={index} fill={content.rewards[index].color} />
                   ))}
                 </Pie>
                 <Tooltip

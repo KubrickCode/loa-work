@@ -93,6 +93,7 @@ type ContentRewardItem {
   imageUrl: String!
   kind: ContentRewardItemKind!
   name: String!
+  pieColor: String!
   price: Float!
   updatedAt: DateTime!
   userContentRewardItem: UserContentRewardItem!
