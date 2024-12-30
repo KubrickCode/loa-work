@@ -23,22 +23,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     isAuthenticated: false,
     isLoading: true,
     logout: async () => {
-      await fetch(
-        import.meta.env.PROD
-          ? import.meta.env.VITE_API_URL + "/auth/logout"
-          : "/auth/logout",
-        { method: "POST" }
-      );
+      await fetch("/auth/logout", { method: "POST" });
       window.location.href = "/";
     },
   });
 
   useEffect(() => {
-    fetch(
-      import.meta.env.PROD
-        ? import.meta.env.VITE_API_URL + "/auth/check"
-        : "/auth/check"
-    ).then(async (response) => {
+    fetch("/auth/check").then(async (response) => {
       const user = await response.json();
       setState((state) => ({
         ...state,

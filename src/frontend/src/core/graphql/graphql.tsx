@@ -13,9 +13,7 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { ApolloProviderProps } from "@apollo/client/react/context";
 
-export const GRAPHQL_ENDPOINT = import.meta.env.PROD
-  ? import.meta.env.VITE_API_URL + "/graphql"
-  : "/graphql";
+export const GRAPHQL_ENDPOINT = "/graphql";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {

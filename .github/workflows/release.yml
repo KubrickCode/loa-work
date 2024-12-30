@@ -2,7 +2,7 @@ name: Deploy Services
 on:
   push:
     branches: [release]
-    paths: ["src/backend/**", "src/go/**"]
+    paths: ["src/backend/**", "src/go/**", "src/frontend/**"]
   workflow_dispatch:
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Create nginx config
         run: |
-          sed "s/\${BACKEND_API_DOMAIN}/${{ secrets.BACKEND_API_DOMAIN }}/g" infra/nginx/default.conf > default.conf
+          cp infra/nginx/default.conf default.conf
 
       - name: Copy nginx config
         uses: appleboy/scp-action@master
@@ -49,13 +49,13 @@ jobs:
               sudo apt install -y nginx certbot python3-certbot-nginx
             fi
 
-            sudo cp /home/ubuntu/infra/nginx/default.conf /etc/nginx/sites-available/default
+            sudo cp /home/ubuntu/default.conf /etc/nginx/sites-available/default
 
-            if [ ! -d "/etc/letsencrypt/live/${{ secrets.BACKEND_API_DOMAIN }}" ]; then
-              sudo certbot --nginx -d ${{ secrets.BACKEND_API_DOMAIN }} --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
+            if [ ! -d "/etc/letsencrypt/live/loa-work.info" ]; then
+              sudo certbot --nginx -d loa-work.info -d www.loa-work.info --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
             fi
 
-            sudo systemctl reload nginx
+            sudo nginx -t && sudo systemctl reload nginx
 
       - name: Build and Push Docker image
         env:
@@ -130,26 +130,26 @@ jobs:
             docker system prune -af --volumes
             docker exec backend-service npx prisma migrate deploy --schema=/app/prisma/schema.prisma
 
-      - name: Copy CloudWatch files
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: ".github/scripts/cloudwatch-config.json,.github/scripts/setup-cloudwatch.sh"
-          target: "~"
-          strip_components: 2
+      # - name: Copy CloudWatch files
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ubuntu
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     source: ".github/scripts/cloudwatch-config.json,.github/scripts/setup-cloudwatch.sh"
+      #     target: "~"
+      #     strip_components: 2
 
-      - name: Setup CloudWatch
-        env:
-          SERVICE_NAME: backend-service
-          CENTRAL_ACCOUNT_ID: ${{ secrets.CENTRAL_ACCOUNT_ID }}
-        run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > private_key && chmod 600 private_key
-          scp -o StrictHostKeyChecking=no -i private_key .github/scripts/cloudwatch-config.json ubuntu@${{ secrets.EC2_HOST }}:~/cloudwatch-config.json
-          scp -o StrictHostKeyChecking=no -i private_key .github/scripts/setup-cloudwatch.sh ubuntu@${{ secrets.EC2_HOST }}:~/setup-cloudwatch.sh
-          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_HOST }} "chmod +x ~/setup-cloudwatch.sh && SERVICE_NAME=$SERVICE_NAME CENTRAL_ACCOUNT_ID=$CENTRAL_ACCOUNT_ID ~/setup-cloudwatch.sh"
-          rm private_key
+      # - name: Setup CloudWatch
+      #   env:
+      #     SERVICE_NAME: backend-service
+      #     CENTRAL_ACCOUNT_ID: ${{ secrets.CENTRAL_ACCOUNT_ID }}
+      #   run: |
+      #     echo "${{ secrets.EC2_SSH_KEY }}" > private_key && chmod 600 private_key
+      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/cloudwatch-config.json ubuntu@${{ secrets.EC2_HOST }}:~/cloudwatch-config.json
+      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/setup-cloudwatch.sh ubuntu@${{ secrets.EC2_HOST }}:~/setup-cloudwatch.sh
+      #     ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_HOST }} "chmod +x ~/setup-cloudwatch.sh && SERVICE_NAME=$SERVICE_NAME CENTRAL_ACCOUNT_ID=$CENTRAL_ACCOUNT_ID ~/setup-cloudwatch.sh"
+      #     rm private_key
 
   deploy-go-services:
     strategy:
@@ -231,23 +231,77 @@ jobs:
               --restart always \
               ${{ secrets.ECR_REGISTRY }}/loa-life:${{ matrix.name }}-latest
 
-      - name: Copy CloudWatch files
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets[matrix.host-secret] }}
-          username: ubuntu
-          key: ${{ secrets[matrix.ssh-key-secret] }}
-          source: ".github/scripts/cloudwatch-config.json,.github/scripts/setup-cloudwatch.sh"
-          target: "~"
-          strip_components: 2
+      # - name: Copy CloudWatch files
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{ secrets[matrix.host-secret] }}
+      #     username: ubuntu
+      #     key: ${{ secrets[matrix.ssh-key-secret] }}
+      #     source: ".github/scripts/cloudwatch-config.json,.github/scripts/setup-cloudwatch.sh"
+      #     target: "~"
+      #     strip_components: 2
 
-      - name: Setup CloudWatch
+      # - name: Setup CloudWatch
+      #   env:
+      #     SERVICE_NAME: ${{ matrix.name }}
+      #     CENTRAL_ACCOUNT_ID: ${{ secrets.CENTRAL_ACCOUNT_ID }}
+      #   run: |
+      #     echo "${{ secrets[matrix.ssh-key-secret] }}" > private_key && chmod 600 private_key
+      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/cloudwatch-config.json ubuntu@${{ secrets[matrix.host-secret] }}:~/cloudwatch-config.json
+      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/setup-cloudwatch.sh ubuntu@${{ secrets[matrix.host-secret] }}:~/setup-cloudwatch.sh
+      #     ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets[matrix.host-secret] }} "chmod +x ~/setup-cloudwatch.sh && SERVICE_NAME=$SERVICE_NAME CENTRAL_ACCOUNT_ID=$CENTRAL_ACCOUNT_ID ~/setup-cloudwatch.sh"
+      #     rm private_key
+
+  deploy-frontend:
+    name: Build and Deploy Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and Push Frontend Docker image
         env:
-          SERVICE_NAME: ${{ matrix.name }}
-          CENTRAL_ACCOUNT_ID: ${{ secrets.CENTRAL_ACCOUNT_ID }}
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          echo "${{ secrets[matrix.ssh-key-secret] }}" > private_key && chmod 600 private_key
-          scp -o StrictHostKeyChecking=no -i private_key .github/scripts/cloudwatch-config.json ubuntu@${{ secrets[matrix.host-secret] }}:~/cloudwatch-config.json
-          scp -o StrictHostKeyChecking=no -i private_key .github/scripts/setup-cloudwatch.sh ubuntu@${{ secrets[matrix.host-secret] }}:~/setup-cloudwatch.sh
-          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets[matrix.host-secret] }} "chmod +x ~/setup-cloudwatch.sh && SERVICE_NAME=$SERVICE_NAME CENTRAL_ACCOUNT_ID=$CENTRAL_ACCOUNT_ID ~/setup-cloudwatch.sh"
-          rm private_key
+          docker build \
+          --build-arg VITE_GOOGLE_LOGIN_URL="${{ secrets.VITE_GOOGLE_LOGIN_URL }}" \
+          --build-arg VITE_DISCORD_LOGIN_URL="${{ secrets.VITE_DISCORD_LOGIN_URL }}" \
+          --build-arg VITE_KAKAO_LOGIN_URL="${{ secrets.VITE_KAKAO_LOGIN_URL }}" \
+          -t "$ECR_REGISTRY/loa-life:frontend-$IMAGE_TAG" \
+          ./src/frontend
+
+          docker push "$ECR_REGISTRY/loa-life:frontend-$IMAGE_TAG"
+          docker tag "$ECR_REGISTRY/loa-life:frontend-$IMAGE_TAG" "$ECR_REGISTRY/loa-life:frontend-latest"
+          docker push "$ECR_REGISTRY/loa-life:frontend-latest"
+
+      - name: Deploy Frontend to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker system prune -af --volumes
+
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+
+            docker pull ${{ secrets.ECR_REGISTRY }}/loa-life:frontend-latest
+            docker stop frontend || true
+            docker rm frontend || true
+
+            docker run -d \
+              --name frontend \
+              -p 3000:80 \
+              --restart always \
+              ${{ secrets.ECR_REGISTRY }}/loa-life:frontend-latest
