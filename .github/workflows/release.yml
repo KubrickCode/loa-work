@@ -115,6 +115,8 @@ jobs:
               -e KAKAO_AUTH_CALLBACK_URL="${{ secrets.KAKAO_AUTH_CALLBACK_URL }}" \
               -e AUTH_SUCCESS_URL="${{ secrets.AUTH_SUCCESS_URL }}" \
               -e CLIENT_ENDPOINT="${{ secrets.CLIENT_ENDPOINT }}" \
+              -e CLIENT_DOMAIN="${{ secrets.CLIENT_DOMAIN }}" \
+              -e SESSION_SECRET="${{ secrets.SESSION_SECRET }}" \
               --restart always \
               ${{ secrets.ECR_REGISTRY }}/loa-life:backend-api-latest
 
@@ -125,6 +127,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            docker system prune -af --volumes
             docker exec backend-service npx prisma migrate deploy --schema=/app/prisma/schema.prisma
 
       - name: Copy CloudWatch files
