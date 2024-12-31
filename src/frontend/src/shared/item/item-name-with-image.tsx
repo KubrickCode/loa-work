@@ -8,7 +8,7 @@ export type ItemNameWithImageProps = {
 export const ItemNameWithImage = ({ src, name }: ItemNameWithImageProps) => {
   return (
     <Flex alignItems="center" gap={2}>
-      <Image src={src} width={6} height={6} />
+      <Image maxHeight={6} maxWidth={6} src={src} />
       {name}
     </Flex>
   );
