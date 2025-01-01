@@ -49,10 +49,13 @@ jobs:
               sudo apt install -y nginx certbot python3-certbot-nginx
             fi
 
+            sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
             sudo cp /home/ubuntu/default.conf /etc/nginx/sites-available/default
 
             if [ ! -d "/etc/letsencrypt/live/loa-work.info" ]; then
-              sudo certbot --nginx -d loa-work.info -d www.loa-work.info --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
+              sudo certbot --nginx -d loa-work.info --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
+            else
+              sudo sed -i '/listen 443/,/^}/!b;/^}/!d;r /etc/nginx/sites-available/default.bak' /etc/nginx/sites-available/default
             fi
 
             sudo nginx -t && sudo systemctl reload nginx
