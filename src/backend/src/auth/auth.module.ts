@@ -37,7 +37,7 @@ export class AuthModule implements NestModule {
       .apply(
         session({
           cookie: {
-            sameSite: isDevelopment ? 'lax' : 'none',
+            sameSite: 'lax',
             secure: !isDevelopment,
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000, // ms

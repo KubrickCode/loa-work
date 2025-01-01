@@ -261,50 +261,43 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build and Push Frontend Docker image
-        env:
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          IMAGE_TAG: ${{ github.sha }}
+      - name: Build Frontend
         run: |
           docker build \
-          --build-arg VITE_GOOGLE_LOGIN_URL="${{ secrets.VITE_GOOGLE_LOGIN_URL }}" \
-          --build-arg VITE_DISCORD_LOGIN_URL="${{ secrets.VITE_DISCORD_LOGIN_URL }}" \
-          --build-arg VITE_KAKAO_LOGIN_URL="${{ secrets.VITE_KAKAO_LOGIN_URL }}" \
-          -t "$ECR_REGISTRY/loa-life:frontend-$IMAGE_TAG" \
-          ./src/frontend
+            --build-arg VITE_GOOGLE_LOGIN_URL="${{ secrets.VITE_GOOGLE_LOGIN_URL }}" \
+            --build-arg VITE_DISCORD_LOGIN_URL="${{ secrets.VITE_DISCORD_LOGIN_URL }}" \
+            --build-arg VITE_KAKAO_LOGIN_URL="${{ secrets.VITE_KAKAO_LOGIN_URL }}" \
+            -t frontend-builder \
+            ./src/frontend
+          docker create --name temp frontend-builder
+          docker cp temp:/usr/share/nginx/html ./dist
+          docker rm temp
 
-          docker push "$ECR_REGISTRY/loa-life:frontend-$IMAGE_TAG"
-          docker tag "$ECR_REGISTRY/loa-life:frontend-$IMAGE_TAG" "$ECR_REGISTRY/loa-life:frontend-latest"
-          docker push "$ECR_REGISTRY/loa-life:frontend-latest"
-
-      - name: Deploy Frontend to EC2
+      - name: Prepare directory
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker system prune -af --volumes
+            sudo rm -rf /var/www/html/*
+            sudo chown -R ubuntu:ubuntu /var/www/html
 
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+      - name: Deploy to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "dist/*"
+          target: "/var/www/html"
+          strip_components: 1
 
-            docker pull ${{ secrets.ECR_REGISTRY }}/loa-life:frontend-latest
-            docker stop frontend || true
-            docker rm frontend || true
-
-            docker run -d \
-              --name frontend \
-              -p 3000:80 \
-              --restart always \
-              ${{ secrets.ECR_REGISTRY }}/loa-life:frontend-latest
+      - name: Set permissions
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo chown -R www-data:www-data /var/www/html
