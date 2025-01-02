@@ -11,5 +11,6 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json .
 COPY --from=build /app/prisma ./prisma
+COPY frontend-build ./dist/frontend
 EXPOSE 3001
 CMD ["yarn", "start:prod"]

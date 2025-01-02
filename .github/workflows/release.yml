@@ -13,6 +13,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build Frontend
+        env:
+          VITE_GOOGLE_LOGIN_URL: ${{ secrets.VITE_GOOGLE_LOGIN_URL }}
+          VITE_DISCORD_LOGIN_URL: ${{ secrets.VITE_DISCORD_LOGIN_URL }}
+          VITE_KAKAO_LOGIN_URL: ${{ secrets.VITE_KAKAO_LOGIN_URL }}
+        run: |
+          cd src/frontend
+          yarn install
+          yarn build
+          mkdir -p ../backend/frontend-build
+          cp -r build/* ../backend/frontend-build/
+          ls -la ../backend/frontend-build
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -65,7 +83,9 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG ./src/backend
+          ls -la src/backend/frontend-build
+          docker build \
+            -t $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG ./src/backend
           docker push $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG
           docker tag $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG $ECR_REGISTRY/loa-life:backend-api-latest
           docker push $ECR_REGISTRY/loa-life:backend-api-latest
@@ -254,50 +274,3 @@ jobs:
       #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/setup-cloudwatch.sh ubuntu@${{ secrets[matrix.host-secret] }}:~/setup-cloudwatch.sh
       #     ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets[matrix.host-secret] }} "chmod +x ~/setup-cloudwatch.sh && SERVICE_NAME=$SERVICE_NAME CENTRAL_ACCOUNT_ID=$CENTRAL_ACCOUNT_ID ~/setup-cloudwatch.sh"
       #     rm private_key
-
-  deploy-frontend:
-    name: Build and Deploy Frontend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build Frontend
-        run: |
-          docker build \
-            --build-arg VITE_GOOGLE_LOGIN_URL="${{ secrets.VITE_GOOGLE_LOGIN_URL }}" \
-            --build-arg VITE_DISCORD_LOGIN_URL="${{ secrets.VITE_DISCORD_LOGIN_URL }}" \
-            --build-arg VITE_KAKAO_LOGIN_URL="${{ secrets.VITE_KAKAO_LOGIN_URL }}" \
-            -t frontend-builder \
-            ./src/frontend
-          docker create --name temp frontend-builder
-          docker cp temp:/usr/share/nginx/html ./dist
-          docker rm temp
-
-      - name: Prepare directory
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            sudo rm -rf /var/www/html/*
-            sudo chown -R ubuntu:ubuntu /var/www/html
-
-      - name: Deploy to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "dist/*"
-          target: "/var/www/html"
-          strip_components: 1
-
-      - name: Set permissions
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            sudo chown -R www-data:www-data /var/www/html

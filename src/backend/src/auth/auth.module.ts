@@ -31,17 +31,13 @@ export class AuthModule implements NestModule {
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
-    const isDevelopment = this.configService.get('NODE_ENV') === 'development';
-
     consumer
       .apply(
         session({
           cookie: {
-            sameSite: 'lax',
-            secure: !isDevelopment,
-            httpOnly: true,
+            sameSite: true,
+            httpOnly: false,
             maxAge: 7 * 24 * 60 * 60 * 1000, // ms
-            domain: this.configService.get('CLIENT_DOMAIN'),
           },
           resave: false,
           saveUninitialized: false,
