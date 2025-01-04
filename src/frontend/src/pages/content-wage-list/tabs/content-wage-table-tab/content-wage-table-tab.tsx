@@ -28,7 +28,7 @@ export const ContentWageTableTab = () => {
                   <GoldExchangeRateSettingDialog onComplete={refetchTable} />
                 }
                 trigger={
-                  <Button size="sm" variant="outline">
+                  <Button size="xs" variant="outline">
                     <IoIosSettings /> 골드 환율 설정
                   </Button>
                 }
