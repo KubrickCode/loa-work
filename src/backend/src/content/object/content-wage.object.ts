@@ -6,8 +6,8 @@ export class ContentWage {
   contentId: number;
 
   @Field(() => Int)
-  krwAmount: number;
+  krwAmountPerHour: number;
 
   @Field(() => Int)
-  goldAmount: number;
+  goldAmountPerHour: number;
 }

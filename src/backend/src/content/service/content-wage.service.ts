@@ -112,8 +112,8 @@ export class ContentWageService {
     const hourlyGold = gold / hours;
 
     return {
-      krwAmount: Math.round(hourlyWage),
-      goldAmount: Math.round(hourlyGold),
+      krwAmountPerHour: Math.round(hourlyWage),
+      goldAmountPerHour: Math.round(hourlyGold),
     };
   }
 }

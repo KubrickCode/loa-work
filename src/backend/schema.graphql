@@ -123,8 +123,8 @@ type ContentSeeMoreReward {
 type ContentWage {
   content: Content!
   contentId: Int!
-  goldAmount: Int!
-  krwAmount: Int!
+  goldAmountPerHour: Int!
+  krwAmountPerHour: Int!
 }
 
 type ContentWageFilter {
@@ -135,7 +135,7 @@ type ContentWageFilter {
 
 type ContentWageHistory {
   date: String!
-  goldAmount: Int!
+  goldAmountPerHour: Int!
 }
 
 input ContentWageHistoryListFilter {

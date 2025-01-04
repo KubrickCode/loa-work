@@ -9,7 +9,7 @@ query ContentWageListBarChart(
       }
       displayName
     }
-    goldAmount
-    krwAmount
+    goldAmountPerHour
+    krwAmountPerHour
   }
 }

@@ -15,5 +15,5 @@ export class ContentWageHistory {
   date: string;
 
   @Field(() => Int)
-  goldAmount: number;
+  goldAmountPerHour: number;
 }

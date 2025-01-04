@@ -111,19 +111,19 @@ export const ContentWageListTable = ({
               <FormatNumber
                 currency="KRW"
                 style="currency"
-                value={data.krwAmount}
+                value={data.krwAmountPerHour}
               />
             );
           },
-          sortKey: "krwAmount",
+          sortKey: "krwAmountPerHour",
         },
         {
           align: "right",
           header: "시급(골드)",
           render({ data }) {
-            return <FormatGold value={data.goldAmount} />;
+            return <FormatGold value={data.goldAmountPerHour} />;
           },
-          sortKey: "goldAmount",
+          sortKey: "goldAmountPerHour",
         },
       ]}
       rows={data.contentWageList.map((data) => ({

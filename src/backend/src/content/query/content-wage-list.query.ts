@@ -82,7 +82,7 @@ export class ContentWageListQuery {
         content.id,
       );
 
-      const { krwAmount, goldAmount } =
+      const { krwAmountPerHour, goldAmountPerHour } =
         await this.contentWageService.calculateWage({
           gold,
           duration,
@@ -90,8 +90,8 @@ export class ContentWageListQuery {
 
       return {
         contentId: content.id,
-        krwAmount,
-        goldAmount,
+        krwAmountPerHour,
+        goldAmountPerHour,
       };
     });
 

@@ -105,14 +105,15 @@ export class ContentWageHistoryListQuery {
           content.id,
         );
 
-        const { goldAmount } = await this.contentWageService.calculateWage({
-          gold,
-          duration,
-        });
+        const { goldAmountPerHour } =
+          await this.contentWageService.calculateWage({
+            gold,
+            duration,
+          });
 
         histories.push({
           date: date.format('YYYY-MM-DD'),
-          goldAmount,
+          goldAmountPerHour,
         });
       }
 

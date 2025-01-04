@@ -61,7 +61,7 @@ export const ContentWageHistoryListLineChart = () => {
       },
       orderBy: [
         {
-          field: "goldAmount",
+          field: "goldAmountPerHour",
           order: "desc",
         },
       ],
@@ -89,7 +89,7 @@ export const ContentWageHistoryListLineChart = () => {
           });
         }
         dateMap.get(history.date)[item.content.displayName] =
-          history.goldAmount;
+          history.goldAmountPerHour;
       });
     });
 

@@ -32,7 +32,7 @@ export const ContentWageListBarChart = () => {
       },
       orderBy: [
         {
-          field: "goldAmount",
+          field: "goldAmountPerHour",
           order: "desc",
         },
       ],
@@ -42,8 +42,8 @@ export const ContentWageListBarChart = () => {
   const chartData = data.contentWageList.map((item) => ({
     name: item.content.displayName,
     category: item.content.contentCategory.name,
-    시급: item.krwAmount,
-    goldAmount: item.goldAmount,
+    시급: item.krwAmountPerHour,
+    goldAmountPerHour: item.goldAmountPerHour,
   }));
 
   const chartHeight = Math.max(chartData.length * 40, 400);
@@ -80,7 +80,7 @@ export const ContentWageListBarChart = () => {
             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
           }}
           formatter={(value, _, props) => {
-            const gold = props.payload.goldAmount;
+            const gold = props.payload.goldAmountPerHour;
             const category = props.payload.category;
             const contentName = props.payload.name;
             return [
