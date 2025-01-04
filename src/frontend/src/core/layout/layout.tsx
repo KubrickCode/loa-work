@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 
 import { Header } from "./header";
 import { Toaster } from "~/chakra-components/ui/toaster";
+import { Footer } from "./footer";
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -11,6 +12,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       <Box as="main" p={3}>
         {children}
       </Box>
+      <Footer />
       <Toaster />
     </Flex>
   );
