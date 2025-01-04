@@ -7,7 +7,7 @@ import { ContentRewardListPageProvider } from "../../content-reward-list-page-co
 
 export const ContentRewardListChartTab = () => {
   return (
-    <Section>
+    <Section title="보상 비율">
       <ContentRewardListPageProvider>
         <Flex alignItems="center" gap={2}>
           <ContentRewardListTableFilter />

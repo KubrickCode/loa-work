@@ -7,7 +7,7 @@ import { ItemStatUpdateToggleTip } from "~/shared/item";
 
 export const ContentWageChartTab = () => {
   return (
-    <Section>
+    <Section title="시급 비교">
       <ContentWageListPageProvider>
         <Flex direction="column" gap={2}>
           <Flex alignItems="center" gap={2}>

@@ -7,7 +7,7 @@ import { ContentWageHistoryListLineChart } from "./components/content-wage-histo
 
 export const ContentWageHistoryTab = () => {
   return (
-    <Section>
+    <Section title="시급 히스토리">
       <ContentWageListPageProvider>
         <Flex direction="column" gap={2}>
           <Flex alignItems="center" gap={2}>
