@@ -11,8 +11,12 @@ export const Footer = () => {
       mt="auto"
       width="100%"
     >
-      <Link to="/privacy-policy">개인정보 처리방침</Link>
-      <Link to={import.meta.env.VITE_KAKAO_OPEN_TALK_URL}>오픈채팅</Link>
+      <Link target="_blank" to="/privacy-policy">
+        개인정보 처리방침
+      </Link>
+      <Link target="_blank" to={import.meta.env.VITE_KAKAO_OPEN_TALK_URL}>
+        오픈채팅
+      </Link>
     </Flex>
   );
 };
