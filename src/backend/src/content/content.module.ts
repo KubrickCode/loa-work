@@ -19,6 +19,8 @@ import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange
 import { ContentRewardItemResolver } from './object/content-reward-item.resolver';
 import { UserContentRewardItemEditMutation } from './mutation/user-content-reward-item-edit.mutation';
 import { ContentRewardItemQuery } from './query/content-reward-item.query';
+import { ContentWageHistoryListQuery } from './query/content-wage-history-list.query';
+import { ContentWithHistoriesResolver } from './object/content-with-histories.resolver';
 
 @Module({
   imports: [PrismaModule],
@@ -42,6 +44,8 @@ import { ContentRewardItemQuery } from './query/content-reward-item.query';
     ContentRewardItemResolver,
     UserContentRewardItemEditMutation,
     ContentRewardItemQuery,
+    ContentWageHistoryListQuery,
+    ContentWithHistoriesResolver,
   ],
 })
 export class ContentModule {}

@@ -1,0 +1,18 @@
+query ContentWageHistoryListLineChart(
+  $filter: ContentWageHistoryListFilter
+  $orderBy: [OrderByArg!]
+) {
+  contentWageHistoryList(filter: $filter, orderBy: $orderBy) {
+    content {
+      contentCategory {
+        name
+      }
+      displayName
+      id
+    }
+    histories {
+      goldAmount
+      date
+    }
+  }
+}

@@ -1,6 +1,10 @@
 import { Page } from "~/core/page";
 import { Tabs } from "~/core/tabs";
-import { ContentWageChartTab, ContentWageTableTab } from "./tabs";
+import {
+  ContentWageChartTab,
+  ContentWageHistoryTab,
+  ContentWageTableTab,
+} from "./tabs";
 
 export const ContentWageListPage = () => {
   const tabPanels = [
@@ -13,6 +17,11 @@ export const ContentWageListPage = () => {
       id: "chart",
       label: "차트",
       component: <ContentWageChartTab />,
+    },
+    {
+      id: "history",
+      label: "히스토리",
+      component: <ContentWageHistoryTab />,
     },
   ];
 

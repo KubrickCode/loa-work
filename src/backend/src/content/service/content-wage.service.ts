@@ -29,6 +29,22 @@ export class ContentWageService {
     return gold;
   }
 
+  async calculateGoldByDate(rewards: Reward[], date: Date) {
+    let gold = 0;
+
+    for (const reward of rewards) {
+      const price =
+        await this.userContentService.getContentRewardItemAveragePriceByDate(
+          reward.contentRewardItemId,
+          date,
+        );
+
+      gold += price * reward.averageQuantity;
+    }
+
+    return gold;
+  }
+
   async calculateSeeMoreRewardsGold(
     contentSeeMoreRewards: {
       contentRewardItemId: number;
@@ -54,6 +70,34 @@ export class ContentWageService {
       }));
 
     return await this.calculateGold(seeMoreRewards);
+  }
+
+  async calculateSeeMoreRewardsGoldByDate(
+    contentSeeMoreRewards: {
+      contentRewardItemId: number;
+      quantity: {
+        toNumber: () => number;
+      };
+    }[],
+    date: Date,
+    includeContentRewardItemIds?: number[],
+  ) {
+    const seeMoreRewards = contentSeeMoreRewards
+      .filter((reward) => {
+        if (
+          includeContentRewardItemIds &&
+          !includeContentRewardItemIds.includes(reward.contentRewardItemId)
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .map((reward) => ({
+        averageQuantity: reward.quantity.toNumber(),
+        contentRewardItemId: reward.contentRewardItemId,
+      }));
+
+    return await this.calculateGoldByDate(seeMoreRewards, date);
   }
 
   async calculateWage({ gold, duration }: { gold: number; duration: number }) {

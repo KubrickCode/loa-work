@@ -158,11 +158,33 @@ export type ContentWageFilter = {
   includeIsSeeMore?: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type ContentWageHistory = {
+  __typename?: 'ContentWageHistory';
+  date: Scalars['String']['output'];
+  goldAmount: Scalars['Int']['output'];
+};
+
+export type ContentWageHistoryListFilter = {
+  contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
+  endDate: Scalars['String']['input'];
+  includeContentRewardItemIds?: InputMaybe<Array<Scalars['Int']['input']>>;
+  includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
+  includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
+  startDate: Scalars['String']['input'];
+};
+
 export type ContentWageListFilter = {
   contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
   includeContentRewardItemIds?: InputMaybe<Array<Scalars['Int']['input']>>;
   includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ContentWithHistories = {
+  __typename?: 'ContentWithHistories';
+  content: Content;
+  contentId: Scalars['Int']['output'];
+  histories: Array<ContentWageHistory>;
 };
 
 export type MarketItem = {
@@ -239,6 +261,7 @@ export type Query = {
   contentList: Array<Content>;
   contentRewardItem: ContentRewardItem;
   contentRewardItems: Array<ContentRewardItem>;
+  contentWageHistoryList: Array<ContentWithHistories>;
   contentWageList: Array<ContentWage>;
   marketItemList: Array<MarketItem>;
   marketItemStats: Array<MarketItemStat>;
@@ -279,6 +302,12 @@ export type QueryContentRewardItemArgs = {
 
 export type QueryContentRewardItemsArgs = {
   filter?: InputMaybe<ContentRewardItemsFilter>;
+};
+
+
+export type QueryContentWageHistoryListArgs = {
+  filter?: InputMaybe<ContentWageHistoryListFilter>;
+  orderBy?: InputMaybe<Array<OrderByArg>>;
 };
 
 
@@ -418,6 +447,14 @@ export type ContentWageListBarChartQueryVariables = Exact<{
 
 export type ContentWageListBarChartQuery = { __typename?: 'Query', contentWageList: Array<{ __typename?: 'ContentWage', goldAmount: number, krwAmount: number, content: { __typename?: 'Content', displayName: string, contentCategory: { __typename?: 'ContentCategory', name: string } } }> };
 
+export type ContentWageHistoryListLineChartQueryVariables = Exact<{
+  filter?: InputMaybe<ContentWageHistoryListFilter>;
+  orderBy?: InputMaybe<Array<OrderByArg> | OrderByArg>;
+}>;
+
+
+export type ContentWageHistoryListLineChartQuery = { __typename?: 'Query', contentWageHistoryList: Array<{ __typename?: 'ContentWithHistories', content: { __typename?: 'Content', displayName: string, id: number, contentCategory: { __typename?: 'ContentCategory', name: string } }, histories: Array<{ __typename?: 'ContentWageHistory', goldAmount: number, date: string }> }> };
+
 export type ContentWageListTableQueryVariables = Exact<{
   filter?: InputMaybe<ContentWageListFilter>;
 }>;
@@ -514,6 +551,7 @@ export const ContentRewardListTableDocument = {"kind":"Document","definitions":[
 export const UserContentRewardEditDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserContentRewardEditDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewardItem"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}},{"kind":"Field","name":{"kind":"Name","value":"userContentReward"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<UserContentRewardEditDialogQuery, UserContentRewardEditDialogQueryVariables>;
 export const UserContentRewardsEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserContentRewardsEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserContentRewardsEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userContentRewardsEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<UserContentRewardsEditMutation, UserContentRewardsEditMutationVariables>;
 export const ContentWageListBarChartDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentWageListBarChart"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentWageListFilter"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrderByArg"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentWageList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"goldAmount"}},{"kind":"Field","name":{"kind":"Name","value":"krwAmount"}}]}}]}}]} as unknown as DocumentNode<ContentWageListBarChartQuery, ContentWageListBarChartQueryVariables>;
+export const ContentWageHistoryListLineChartDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentWageHistoryListLineChart"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentWageHistoryListFilter"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrderByArg"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentWageHistoryList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"histories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"goldAmount"}},{"kind":"Field","name":{"kind":"Name","value":"date"}}]}}]}}]}}]} as unknown as DocumentNode<ContentWageHistoryListLineChartQuery, ContentWageHistoryListLineChartQueryVariables>;
 export const ContentWageListTableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentWageListTable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentWageListFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentWageList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentDuration"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"durationText"}},{"kind":"Field","name":{"kind":"Name","value":"level"}}]}},{"kind":"Field","name":{"kind":"Name","value":"goldAmount"}},{"kind":"Field","name":{"kind":"Name","value":"krwAmount"}}]}}]}}]} as unknown as DocumentNode<ContentWageListTableQuery, ContentWageListTableQueryVariables>;
 export const ContentRewardItemsFilterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardItemsFilter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewardItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<ContentRewardItemsFilterQuery, ContentRewardItemsFilterQueryVariables>;
 export const UserGoldExchangeRateSettingDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserGoldExchangeRateSettingDialog"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userGoldExchangeRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"krwAmount"}},{"kind":"Field","name":{"kind":"Name","value":"goldAmount"}}]}}]}}]} as unknown as DocumentNode<UserGoldExchangeRateSettingDialogQuery, UserGoldExchangeRateSettingDialogQueryVariables>;
