@@ -7,7 +7,12 @@ import { Footer } from "./footer";
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <Flex direction="column" px={{ base: 0, md: 8 }} py={{ base: 0, md: 4 }}>
+    <Flex
+      direction="column"
+      minH="100vh"
+      px={{ base: 0, md: 8 }}
+      py={{ base: 0, md: 4 }}
+    >
       <Header />
       <Box as="main" p={3}>
         {children}
