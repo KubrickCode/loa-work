@@ -1,0 +1,17 @@
+query CustomContentWageCalculateDialogQuery {
+  contentRewardItems {
+    id
+    name
+  }
+}
+
+mutation CustomContentWageCalculateDialogMutation(
+  $input: CustomContentWageCalculateInput!
+) {
+  customContentWageCalculate(input: $input) {
+    krwAmountPerHour
+    goldAmountPerHour
+    goldAmountPerClear
+    ok
+  }
+}

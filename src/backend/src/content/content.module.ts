@@ -21,6 +21,7 @@ import { UserContentRewardItemEditMutation } from './mutation/user-content-rewar
 import { ContentRewardItemQuery } from './query/content-reward-item.query';
 import { ContentWageHistoryListQuery } from './query/content-wage-history-list.query';
 import { ContentWithHistoriesResolver } from './object/content-with-histories.resolver';
+import { CustomContentWageCalculateMutation } from './mutation/custom-content-wage-calculate.mutation';
 
 @Module({
   imports: [PrismaModule],
@@ -46,6 +47,7 @@ import { ContentWithHistoriesResolver } from './object/content-with-histories.re
     ContentRewardItemQuery,
     ContentWageHistoryListQuery,
     ContentWithHistoriesResolver,
+    CustomContentWageCalculateMutation,
   ],
 })
 export class ContentModule {}
