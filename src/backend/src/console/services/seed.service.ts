@@ -377,65 +377,77 @@ export class SeedService {
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428078/xug2bon7qtiflcqbezza.png',
+        basePrice: 0.17,
       },
       {
         name: '운명의 돌파석',
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/qn5msm2gc0qtmtc0irlh.png',
+        basePrice: 25,
       },
       {
         name: '운명의 파괴석',
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xy9a4qf2on63drftnkub.png',
+        basePrice: 4,
       },
       {
         name: '운명의 수호석',
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/azkviadmag8inzq65ajf.png',
+        basePrice: 0.5,
       },
       {
         name: '1레벨 보석',
         kind: ContentRewardItemKind.AUCTION_ITEM,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/dpqtjeqsuqmvfwzapjj8.png',
+        basePrice: 160,
       },
       {
         name: '용암의 숨결',
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xpnlsgxaatshujnzpett.png',
+        basePrice: 580,
       },
       {
         name: '빙하의 숨결',
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/k8xcldjkq33qf9l69uim.png',
+        basePrice: 160,
       },
     ];
 
     for (const item of items) {
       const priceData = [];
 
+      const minPrice = item.basePrice * 0.9;
+      const maxPrice = item.basePrice * 1.1;
+
       for (let i = 1; i <= 6; i++) {
         const currentDate = new Date(today);
         currentDate.setDate(today.getDate() - i);
 
-        for (let j = 0; j < 3; j++) {
-          const randomHour = Math.floor(Math.random() * 24);
-          currentDate.setHours(randomHour, 0, 0, 0);
+        [0, 8, 16].forEach((hour) => {
+          currentDate.setHours(hour, 0, 0, 0);
+          const randomPrice = minPrice + Math.random() * (maxPrice - minPrice);
+
           priceData.push({
-            value: Math.floor(Math.random() * 900) + 100,
-            createdAt: currentDate,
+            value: Math.round(randomPrice * 100) / 100,
+            createdAt: new Date(currentDate),
           });
-        }
+        });
       }
 
+      const { basePrice, ...itemWithoutBasePrice } = item;
       await this.prisma.contentRewardItem.create({
         data: {
-          ...item,
+          ...itemWithoutBasePrice,
           contentRewardItemPrices: {
             create: priceData,
           },
