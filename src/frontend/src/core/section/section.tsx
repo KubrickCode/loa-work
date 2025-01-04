@@ -1,12 +1,20 @@
-import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, Text } from "@chakra-ui/react";
 import { ErrorBoundary } from "../error";
+import { ReactNode } from "react";
 
-export type SectionProps = BoxProps;
+export type SectionProps = BoxProps & {
+  title?: ReactNode;
+};
 
-export const Section = ({ children, ...props }: SectionProps) => {
+export const Section = ({ children, title, ...props }: SectionProps) => {
   return (
     <Box w="100%" p={4} boxShadow="md" borderRadius="md" {...props}>
       <Flex direction="column" gap={4}>
+        {title && (
+          <Text fontSize="lg" fontWeight="semibold">
+            {title}
+          </Text>
+        )}
         <ErrorBoundary>{children}</ErrorBoundary>
       </Flex>
     </Box>
