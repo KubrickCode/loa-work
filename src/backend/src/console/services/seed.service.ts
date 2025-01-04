@@ -359,7 +359,7 @@ export class SeedService {
         name: '골드',
         kind: ContentRewardItemKind.EXTRA_ITEM,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/gik0bxq0gzweokovngkx.png',
+          'https://res.cloudinary.com/dn74c0eep/image/upload/v1735996903/hdamkxuzmvbwyopjhmcb.png',
         isEditable: false,
         contentRewardItemPrices: {
           create: {
