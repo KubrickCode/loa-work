@@ -13,6 +13,7 @@ query ContentWageListTable($filter: ContentWageListFilter) {
       level
     }
     goldAmountPerHour
+    goldAmountPerClear
     krwAmountPerHour
   }
 }

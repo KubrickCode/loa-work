@@ -92,6 +92,7 @@ export class ContentWageListQuery {
         contentId: content.id,
         krwAmountPerHour,
         goldAmountPerHour,
+        goldAmountPerClear: Math.round(gold),
       };
     });
 

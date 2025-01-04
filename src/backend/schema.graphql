@@ -123,6 +123,7 @@ type ContentSeeMoreReward {
 type ContentWage {
   content: Content!
   contentId: Int!
+  goldAmountPerClear: Int!
   goldAmountPerHour: Int!
   krwAmountPerHour: Int!
 }

@@ -10,4 +10,7 @@ export class ContentWage {
 
   @Field(() => Int)
   goldAmountPerHour: number;
+
+  @Field(() => Int)
+  goldAmountPerClear: number;
 }

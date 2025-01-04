@@ -125,6 +125,14 @@ export const ContentWageListTable = ({
           },
           sortKey: "goldAmountPerHour",
         },
+        {
+          align: "right",
+          header: "1수당 골드",
+          render({ data }) {
+            return <FormatGold value={data.goldAmountPerClear} />;
+          },
+          sortKey: "goldAmountPerClear",
+        },
       ]}
       rows={data.contentWageList.map((data) => ({
         data,
