@@ -125,7 +125,7 @@ jobs:
 
             docker run -d \
               --name web-service \
-              -p 3001:3001 \
+              -p 3000:3000 \
               -e NODE_ENV=production \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
               -e GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" \
