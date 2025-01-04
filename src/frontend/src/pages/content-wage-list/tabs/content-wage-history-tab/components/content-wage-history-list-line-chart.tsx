@@ -16,6 +16,24 @@ import {
 import { Box } from "@chakra-ui/react";
 import { useColorModeValue } from "~/chakra-components/ui/color-mode";
 
+const CHART_COLORS = [
+  "#FF6B6B",
+  "#4ECDC4",
+  "#45B7D1",
+  "#96CEB4",
+  "#FFEEAD",
+  "#D4A5A5",
+  "#9370DB",
+  "#20B2AA",
+  "#FFA07A",
+  "#87CEEB",
+  "#DDA0DD",
+  "#F0E68C",
+  "#E6E6FA",
+  "#98FB98",
+  "#DEB887",
+];
+
 export const ContentWageHistoryListLineChart = () => {
   const {
     contentCategoryId,
@@ -112,22 +130,24 @@ export const ContentWageHistoryListLineChart = () => {
               color: tooltipTextColor,
             }}
           />
-          {data.contentWageHistoryList.map((item) => (
+          {data.contentWageHistoryList.map((item, index) => (
             <Line
               key={item.content.id}
               type="monotone"
               dataKey={item.content.displayName}
               name={item.content.displayName}
-              stroke={`#${Math.floor(Math.random() * 16777215).toString(16)}`}
+              stroke={CHART_COLORS[index % CHART_COLORS.length]}
               strokeWidth={2}
               dot={{
                 r: 4,
                 strokeWidth: 2,
                 fill: "#fff",
+                stroke: CHART_COLORS[index % CHART_COLORS.length],
               }}
               activeDot={{
                 r: 6,
                 strokeWidth: 2,
+                stroke: CHART_COLORS[index % CHART_COLORS.length],
               }}
               animationDuration={2000}
               animationEasing="ease-in-out"
