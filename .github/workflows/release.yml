@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-backend:
-    name: Build and Deploy Backend
+  deploy-web-service:
+    name: Build and Deploy Web Service
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -86,10 +86,10 @@ jobs:
         run: |
           ls -la src/backend/frontend-build
           docker build \
-            -t $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG ./src/backend
-          docker push $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG
-          docker tag $ECR_REGISTRY/loa-life:backend-api-$IMAGE_TAG $ECR_REGISTRY/loa-life:backend-api-latest
-          docker push $ECR_REGISTRY/loa-life:backend-api-latest
+            -t $ECR_REGISTRY/loa-work:web-service-$IMAGE_TAG ./src/backend
+          docker push $ECR_REGISTRY/loa-work:web-service-$IMAGE_TAG
+          docker tag $ECR_REGISTRY/loa-work:web-service-$IMAGE_TAG $ECR_REGISTRY/loa-work:web-service-latest
+          docker push $ECR_REGISTRY/loa-work:web-service-latest
 
       - name: Setup EC2
         uses: appleboy/ssh-action@master
@@ -119,12 +119,12 @@ jobs:
 
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
-            docker pull ${{ secrets.ECR_REGISTRY }}/loa-life:backend-api-latest
-            docker stop backend-service || true
-            docker rm backend-service || true
+            docker pull ${{ secrets.ECR_REGISTRY }}/loa-work:web-service-latest
+            docker stop web-service || true
+            docker rm web-service || true
 
             docker run -d \
-              --name backend-service \
+              --name web-service \
               -p 3001:3001 \
               -e NODE_ENV=production \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
@@ -142,7 +142,7 @@ jobs:
               -e CLIENT_DOMAIN="${{ secrets.CLIENT_DOMAIN }}" \
               -e SESSION_SECRET="${{ secrets.SESSION_SECRET }}" \
               --restart always \
-              ${{ secrets.ECR_REGISTRY }}/loa-life:backend-api-latest
+              ${{ secrets.ECR_REGISTRY }}/loa-work:web-service-latest
 
       - name: Run Database Migrations
         uses: appleboy/ssh-action@master
@@ -152,7 +152,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker system prune -af --volumes
-            docker exec backend-service npx prisma migrate deploy --schema=/app/prisma/schema.prisma
+            docker exec web-service npx prisma migrate deploy --schema=/app/prisma/schema.prisma
 
       # - name: Copy CloudWatch files
       #   uses: appleboy/scp-action@master
@@ -166,7 +166,7 @@ jobs:
 
       # - name: Setup CloudWatch
       #   env:
-      #     SERVICE_NAME: backend-service
+      #     SERVICE_NAME: web-service
       #     CENTRAL_ACCOUNT_ID: ${{ secrets.CENTRAL_ACCOUNT_ID }}
       #   run: |
       #     echo "${{ secrets.EC2_SSH_KEY }}" > private_key && chmod 600 private_key
@@ -210,11 +210,11 @@ jobs:
         run: |
           docker build \
             --build-arg APP_PATH=${{ matrix.app-path }} \
-            -t $ECR_REGISTRY/loa-life:${{ matrix.name }}-$IMAGE_TAG \
+            -t $ECR_REGISTRY/loa-work:${{ matrix.name }}-$IMAGE_TAG \
             -f src/go/Dockerfile .
-          docker push $ECR_REGISTRY/loa-life:${{ matrix.name }}-$IMAGE_TAG
-          docker tag $ECR_REGISTRY/loa-life:${{ matrix.name }}-$IMAGE_TAG $ECR_REGISTRY/loa-life:${{ matrix.name }}-latest
-          docker push $ECR_REGISTRY/loa-life:${{ matrix.name }}-latest
+          docker push $ECR_REGISTRY/loa-work:${{ matrix.name }}-$IMAGE_TAG
+          docker tag $ECR_REGISTRY/loa-work:${{ matrix.name }}-$IMAGE_TAG $ECR_REGISTRY/loa-work:${{ matrix.name }}-latest
+          docker push $ECR_REGISTRY/loa-work:${{ matrix.name }}-latest
 
       - name: Setup EC2
         uses: appleboy/ssh-action@master
@@ -242,7 +242,7 @@ jobs:
           script: |
             # Deploy container
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
-            docker pull ${{ secrets.ECR_REGISTRY }}/loa-life:${{ matrix.name }}-latest
+            docker pull ${{ secrets.ECR_REGISTRY }}/loa-work:${{ matrix.name }}-latest
 
             docker stop ${{ matrix.name }} || true
             docker rm ${{ matrix.name }} || true
@@ -253,7 +253,7 @@ jobs:
               -e LOA_API_BASE_URL="${{ secrets.LOA_API_BASE_URL }}" \
               -e LOA_API_TOKEN="${{ secrets.LOA_API_TOKEN }}" \
               --restart always \
-              ${{ secrets.ECR_REGISTRY }}/loa-life:${{ matrix.name }}-latest
+              ${{ secrets.ECR_REGISTRY }}/loa-work:${{ matrix.name }}-latest
 
       # - name: Copy CloudWatch files
       #   uses: appleboy/scp-action@master
