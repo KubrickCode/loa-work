@@ -12,6 +12,7 @@ import {
   DrawerBackdrop,
 } from "~/chakra-components/ui/drawer";
 import { useState } from "react";
+import { Manual } from "./manual";
 
 export const Navigation = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ export const Navigation = () => {
             {label}
           </Button>
         ))}
+        <Manual />
       </Flex>
       {/* 모바일 네비게이션 */}
       <Box display={{ base: "block", md: "none" }}>
@@ -64,6 +66,7 @@ export const Navigation = () => {
                     {label}
                   </Button>
                 ))}
+                <Manual />
               </Flex>
             </DrawerBody>
             <DrawerCloseTrigger />
