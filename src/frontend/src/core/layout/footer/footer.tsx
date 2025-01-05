@@ -11,7 +11,7 @@ export const Footer = () => {
       mt="auto"
       width="100%"
     >
-      <Link target="_blank" to="/privacy-policy">
+      <Link target="_blank" to={import.meta.env.VITE_PRIVACY_POLICY_URL}>
         개인정보 처리방침
       </Link>
       <Link target="_blank" to={import.meta.env.VITE_KAKAO_OPEN_TALK_URL}>

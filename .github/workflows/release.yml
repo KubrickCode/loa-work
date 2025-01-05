@@ -24,6 +24,7 @@ jobs:
           VITE_DISCORD_LOGIN_URL: ${{ secrets.VITE_DISCORD_LOGIN_URL }}
           VITE_KAKAO_LOGIN_URL: ${{ secrets.VITE_KAKAO_LOGIN_URL }}
           VITE_KAKAO_OPEN_TALK_URL: ${{ secrets.VITE_KAKAO_OPEN_TALK_URL }}
+          VITE_PRIVACY_POLICY_URL: ${{ secrets.VITE_PRIVACY_POLICY_URL }}
         run: |
           cd src/frontend
           yarn install
