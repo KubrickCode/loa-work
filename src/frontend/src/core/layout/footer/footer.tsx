@@ -6,6 +6,7 @@ export const Footer = () => {
     <Flex
       as="footer"
       justifyContent="center"
+      fontSize="sm"
       gap={4}
       p={2}
       mt="auto"
