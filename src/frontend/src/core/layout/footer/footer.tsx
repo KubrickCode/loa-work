@@ -12,7 +12,7 @@ export const Footer = () => {
       width="100%"
     >
       <Link target="_blank" href={import.meta.env.VITE_PRIVACY_POLICY_URL}>
-        개인정보 처리방침
+        개인정보처리방침
       </Link>
       <Link target="_blank" href={import.meta.env.VITE_KAKAO_OPEN_TALK_URL}>
         오픈채팅
