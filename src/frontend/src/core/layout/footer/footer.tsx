@@ -1,5 +1,4 @@
-import { Flex } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Flex, Link } from "@chakra-ui/react";
 
 export const Footer = () => {
   return (
@@ -12,10 +11,10 @@ export const Footer = () => {
       mt="auto"
       width="100%"
     >
-      <Link target="_blank" to={import.meta.env.VITE_PRIVACY_POLICY_URL}>
+      <Link target="_blank" href={import.meta.env.VITE_PRIVACY_POLICY_URL}>
         개인정보 처리방침
       </Link>
-      <Link target="_blank" to={import.meta.env.VITE_KAKAO_OPEN_TALK_URL}>
+      <Link target="_blank" href={import.meta.env.VITE_KAKAO_OPEN_TALK_URL}>
         오픈채팅
       </Link>
     </Flex>
