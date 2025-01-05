@@ -3,28 +3,42 @@ import { InfoTip } from "~/chakra-components/ui/toggle-tip";
 import { useQuery } from "~/core/graphql";
 import { ItemStatUpdateToggleTipDocument } from "~/core/graphql/generated";
 import { formatDateTime } from "~/core/format";
+import { useState, useEffect } from "react";
 
 export const ItemStatUpdateToggleTip = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Flex alignItems="center" gap={1}>
       <Text fontSize="xs">아이템 시세 갱신 일시</Text>
-      <InfoTip content={<Content />} />
+      <InfoTip
+        onOpenChange={(details) => {
+          setIsOpen(details.open);
+        }}
+        content={<Content isOpen={isOpen} />}
+      />
     </Flex>
   );
 };
 
-const Content = () => {
-  const { data, loading, error } = useQuery(ItemStatUpdateToggleTipDocument, {
-    variables: {
-      take: 1,
-      orderBy: [{ field: "createdAt", order: "desc" }],
-    },
-    pollInterval: 1000 * 10,
-  });
+const Content = ({ isOpen }: { isOpen: boolean }) => {
+  const { data, loading, error, refetch } = useQuery(
+    ItemStatUpdateToggleTipDocument,
+    {
+      variables: {
+        take: 1,
+        orderBy: [{ field: "createdAt", order: "desc" }],
+      },
+    }
+  );
 
-  if (!data) return null;
+  useEffect(() => {
+    if (isOpen) refetch();
+  }, [isOpen, refetch]);
+
   if (loading) return <Spinner />;
   if (error) return <Text>{error.message}</Text>;
+  if (!data) return null;
 
   return (
     <Flex direction="column" gap={2} p={2}>
