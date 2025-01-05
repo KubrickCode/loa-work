@@ -7,7 +7,7 @@ import { formatDateTime } from "~/core/format";
 export const ItemStatUpdateToggleTip = () => {
   return (
     <Flex alignItems="center" gap={1}>
-      <Text fontSize="xs">마지막 시세 업데이트 일시</Text>
+      <Text fontSize="xs">아이템 시세 갱신 일시</Text>
       <InfoTip content={<Content />} />
     </Flex>
   );
