@@ -27,7 +27,7 @@ func main() {
 	}
 
 	scheduler := schedule.NewScheduler()
-	scheduler.AddTask(schedule.NewTask("Market item stat scraping and converting", time.Minute, combinedTask))
+	scheduler.AddTask(schedule.NewTask("Market item stat scraping and converting", 10*time.Minute, combinedTask))
 
 	err = scheduler.Run()
 	if err != nil {
