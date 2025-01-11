@@ -4,17 +4,17 @@ export const Footer = () => {
   return (
     <Flex
       as="footer"
-      justifyContent="center"
       fontSize="sm"
       gap={4}
-      p={2}
+      justifyContent="center"
       mt="auto"
+      p={2}
       width="100%"
     >
-      <Link target="_blank" href={import.meta.env.VITE_PRIVACY_POLICY_URL}>
+      <Link href={import.meta.env.VITE_PRIVACY_POLICY_URL} target="_blank">
         개인정보처리방침
       </Link>
-      <Link target="_blank" href={import.meta.env.VITE_KAKAO_OPEN_TALK_URL}>
+      <Link href={import.meta.env.VITE_KAKAO_OPEN_TALK_URL} target="_blank">
         오픈채팅
       </Link>
     </Flex>

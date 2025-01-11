@@ -13,7 +13,7 @@ export const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
   function MenuContent(props, ref) {
     const { portalled = true, portalRef, ...rest } = props;
     return (
-      <Portal disabled={!portalled} container={portalRef}>
+      <Portal container={portalRef} disabled={!portalled}>
         <ChakraMenu.Positioner>
           <ChakraMenu.Content ref={ref} {...rest} />
         </ChakraMenu.Positioner>
@@ -54,7 +54,7 @@ export const MenuRadioItem = React.forwardRef<
   const { children, ...rest } = props;
   return (
     <ChakraMenu.RadioItem ps="8" ref={ref} {...rest}>
-      <AbsoluteCenter axis="horizontal" left="4" asChild>
+      <AbsoluteCenter asChild axis="horizontal" left="4">
         <ChakraMenu.ItemIndicator>
           <LuCheck />
         </ChakraMenu.ItemIndicator>

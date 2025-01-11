@@ -3,11 +3,11 @@ import { Box, Heading, Text, List, Link, Separator } from "@chakra-ui/react";
 export const PrivacyPolicyPage = () => {
   return (
     <Box
+      fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
       maxW="container.md"
       p={4}
-      fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
     >
-      <Heading as="h1" size="md" mb={4}>
+      <Heading as="h1" mb={4} size="md">
         Privacy Policy
       </Heading>
 
@@ -18,7 +18,7 @@ export const PrivacyPolicyPage = () => {
         service is intended for use "AS IS".
       </Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Information Collection and Use
       </Heading>
       <Text mb={4}>
@@ -26,7 +26,7 @@ export const PrivacyPolicyPage = () => {
         information may include information such as:
       </Text>
 
-      <List.Root listStyle="disc" ps={4} mb={4}>
+      <List.Root listStyle="disc" mb={4} ps={4}>
         <List.Item>
           Your device's Internet Protocol address (e.g. IP address)
         </List.Item>
@@ -51,7 +51,7 @@ export const PrivacyPolicyPage = () => {
           Service Provider determine your approximate geographical location and
           make use of in below ways:
         </Text>
-        <List.Root listStyle="disc" ps={4} mb={4}>
+        <List.Root listStyle="disc" mb={4} ps={4}>
           <List.Item>
             Geolocation Services: The Service Provider utilizes location data to
             provide features such as personalized content, relevant
@@ -86,7 +86,7 @@ export const PrivacyPolicyPage = () => {
         will be retained by them and used as described in this privacy policy.
       </Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Third Party Access
       </Heading>
       <Text mb={4}>
@@ -106,10 +106,10 @@ export const PrivacyPolicyPage = () => {
       <List.Root mb={4}>
         <List.Item>
           <Link
-            href="https://www.google.com/policies/privacy/"
-            target="_blank"
-            rel="noopener noreferrer"
             color="blue.500"
+            href="https://www.google.com/policies/privacy/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Google Play Services
           </Link>
@@ -139,7 +139,7 @@ export const PrivacyPolicyPage = () => {
         </List.Item>
       </List.Root>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Opt-Out Rights
       </Heading>
       <Text mb={4}>
@@ -149,7 +149,7 @@ export const PrivacyPolicyPage = () => {
         marketplace or network.
       </Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Data Retention Policy
       </Heading>
       <Text mb={4}>
@@ -157,13 +157,13 @@ export const PrivacyPolicyPage = () => {
         use the Application and for a reasonable time thereafter. If you'd like
         them to delete User Provided Data that you have provided via the
         Application, please contact them at{" "}
-        <Link href="mailto:kubrickcode@gmail.com" color="blue.500">
+        <Link color="blue.500" href="mailto:kubrickcode@gmail.com">
           kubrickcode@gmail.com
         </Link>{" "}
         and they will respond in a reasonable time.
       </Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Children
       </Heading>
       <Text mb={4}>
@@ -179,13 +179,13 @@ export const PrivacyPolicyPage = () => {
         Service Provider will immediately delete this from their servers. If you
         are a parent or guardian and you are aware that your child has provided
         us with personal information, please contact the Service Provider ({" "}
-        <Link href="mailto:kubrickcode@gmail.com" color="blue.500">
+        <Link color="blue.500" href="mailto:kubrickcode@gmail.com">
           kubrickcode@gmail.com
         </Link>{" "}
         ) so that they will be able to take the necessary actions.
       </Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Security
       </Heading>
       <Text mb={4}>
@@ -195,7 +195,7 @@ export const PrivacyPolicyPage = () => {
         processes and maintains.
       </Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Changes
       </Heading>
       <Text mb={4}>
@@ -208,7 +208,7 @@ export const PrivacyPolicyPage = () => {
 
       <Text mb={4}>This privacy policy is effective as of 2025-01-04</Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Your Consent
       </Heading>
       <Text mb={4}>
@@ -217,27 +217,27 @@ export const PrivacyPolicyPage = () => {
         us.
       </Text>
 
-      <Heading as="h2" size="sm" mb={3}>
+      <Heading as="h2" mb={3} size="sm">
         Contact Us
       </Heading>
       <Text mb={4}>
         If you have any questions regarding privacy while using the Application,
         or have questions about the practices, please contact the Service
         Provider via email at{" "}
-        <Link href="mailto:kubrickcode@gmail.com" color="blue.500">
+        <Link color="blue.500" href="mailto:kubrickcode@gmail.com">
           kubrickcode@gmail.com
         </Link>
       </Text>
 
       <Separator my={4} />
 
-      <Text fontSize="sm" color="gray.500">
+      <Text color="gray.500" fontSize="sm">
         This privacy policy page was generated by{" "}
         <Link
-          href="https://app-privacy-policy-generator.nisrulz.com/"
-          target="_blank"
-          rel="noopener noreferrer"
           color="blue.500"
+          href="https://app-privacy-policy-generator.nisrulz.com/"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           App Privacy Policy Generator
         </Link>

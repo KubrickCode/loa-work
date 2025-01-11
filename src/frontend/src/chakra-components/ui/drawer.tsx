@@ -15,7 +15,7 @@ export const DrawerContent = React.forwardRef<
 >(function DrawerContent(props, ref) {
   const { children, portalled = true, portalRef, offset, ...rest } = props
   return (
-    <Portal disabled={!portalled} container={portalRef}>
+    <Portal container={portalRef} disabled={!portalled}>
       <ChakraDrawer.Positioner padding={offset}>
         <ChakraDrawer.Content ref={ref} {...rest} asChild={false}>
           {children}
@@ -31,13 +31,13 @@ export const DrawerCloseTrigger = React.forwardRef<
 >(function DrawerCloseTrigger(props, ref) {
   return (
     <ChakraDrawer.CloseTrigger
+      insetEnd="2"
       position="absolute"
       top="2"
-      insetEnd="2"
       {...props}
       asChild
     >
-      <CloseButton size="sm" ref={ref} />
+      <CloseButton ref={ref} size="sm" />
     </ChakraDrawer.CloseTrigger>
   )
 })

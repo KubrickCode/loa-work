@@ -26,12 +26,12 @@ export const Tabs = ({ panels, queryKey = "tab" }: TabsProps) => {
 
   return (
     <ChakraTabs.Root
-      value={currentPanel.label}
-      variant="outline"
       onValueChange={(details) => {
         const panel = panels.find((p) => p.label === details.value);
         if (panel) setQuery({ [queryKey]: panel.id });
       }}
+      value={currentPanel.label}
+      variant="outline"
     >
       <ChakraTabs.List>
         {panels.map((panel) => (

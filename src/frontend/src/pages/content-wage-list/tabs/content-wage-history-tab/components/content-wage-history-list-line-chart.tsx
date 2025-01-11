@@ -105,7 +105,7 @@ export const ContentWageHistoryListLineChart = () => {
   const chartHeight = Math.max(chartData.length * 40, 1000);
 
   return (
-    <Box width="100%" height={chartHeight}>
+    <Box height={chartHeight} width="100%">
       <ResponsiveContainer>
         <LineChart
           data={chartData}
@@ -134,18 +134,6 @@ export const ContentWageHistoryListLineChart = () => {
           />
           {data.contentWageHistoryList.map((item, index) => (
             <Line
-              key={item.content.id}
-              type="monotone"
-              dataKey={item.content.displayName}
-              name={item.content.displayName}
-              stroke={CHART_COLORS[index % CHART_COLORS.length]}
-              strokeWidth={2}
-              dot={{
-                r: 4,
-                strokeWidth: 2,
-                fill: "#fff",
-                stroke: CHART_COLORS[index % CHART_COLORS.length],
-              }}
               activeDot={{
                 r: 6,
                 strokeWidth: 2,
@@ -153,6 +141,18 @@ export const ContentWageHistoryListLineChart = () => {
               }}
               animationDuration={2000}
               animationEasing="ease-in-out"
+              dataKey={item.content.displayName}
+              dot={{
+                r: 4,
+                strokeWidth: 2,
+                fill: "#fff",
+                stroke: CHART_COLORS[index % CHART_COLORS.length],
+              }}
+              key={item.content.id}
+              name={item.content.displayName}
+              stroke={CHART_COLORS[index % CHART_COLORS.length]}
+              strokeWidth={2}
+              type="monotone"
             />
           ))}
         </LineChart>

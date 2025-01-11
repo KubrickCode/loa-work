@@ -30,7 +30,7 @@ export const Navigation = () => {
   return (
     <Box as="nav">
       {/* 데스크톱 네비게이션 */}
-      <Flex gap={1} display={{ base: "none", md: "flex" }}>
+      <Flex display={{ base: "none", md: "flex" }} gap={1}>
         {navigationData.map(({ label, url }) => (
           <Button
             key={label + url}
@@ -45,8 +45,8 @@ export const Navigation = () => {
       {/* 모바일 네비게이션 */}
       <Box display={{ base: "block", md: "none" }}>
         <DrawerRoot
-          open={open}
           onOpenChange={(e) => setOpen(e.open)}
+          open={open}
           placement="start"
         >
           <DrawerBackdrop />
@@ -60,8 +60,8 @@ export const Navigation = () => {
               <Flex direction="column" gap={2} pt={4}>
                 {navigationData.map(({ label, url }) => (
                   <Button
-                    key={label + url}
                     justifyContent="flex-start"
+                    key={label + url}
                     onClick={() => handleNavigate(url)}
                     size="lg"
                     variant={location.pathname === url ? "solid" : "ghost"}

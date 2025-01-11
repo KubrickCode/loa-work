@@ -38,7 +38,7 @@ export const MarketItemListTable = ({
           {
             header: "아이템",
             render({ data }) {
-              return <ItemNameWithImage src={data.imageUrl} name={data.name} />;
+              return <ItemNameWithImage name={data.name} src={data.imageUrl} />;
             },
           },
           {

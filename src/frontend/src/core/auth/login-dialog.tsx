@@ -23,9 +23,9 @@ const Body = () => {
           <Button
             _hover={{ bg: "gray.50" }}
             bg="white"
-            color="gray.700"
-            borderWidth={1}
             borderColor="gray.200"
+            borderWidth={1}
+            color="gray.700"
             onClick={() => {
               window.location.href = import.meta.env.VITE_GOOGLE_LOGIN_URL;
             }}

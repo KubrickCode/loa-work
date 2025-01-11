@@ -1,6 +1,7 @@
 import tseslint from "typescript-eslint";
 import reactRefresh from "eslint-plugin-react-refresh";
 import importPlugin from "eslint-plugin-import";
+import reactPlugin from "eslint-plugin-react";
 
 export default [
   ...tseslint.configs.recommended,
@@ -18,6 +19,7 @@ export default [
       "@typescript-eslint": tseslint.plugin,
       "react-refresh": reactRefresh,
       import: importPlugin,
+      react: reactPlugin,
     },
     rules: {
       "@typescript-eslint/no-empty-interface": "off",
@@ -30,6 +32,7 @@ export default [
           varsIgnorePattern: "^_",
         },
       ],
+      "react/jsx-sort-props": "error",
       "import/order": [
         "error",
         {

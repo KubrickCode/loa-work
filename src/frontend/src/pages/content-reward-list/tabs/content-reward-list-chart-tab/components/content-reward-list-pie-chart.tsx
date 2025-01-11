@@ -69,30 +69,30 @@ export const ContentRewardListPieChart = () => {
     >
       {chartData.map((content) => (
         <Box
-          key={content.contentName}
           border="1px solid"
           borderColor="gray.900"
           borderRadius="md"
-          p={{ base: 4, md: 6 }}
           height={400}
+          key={content.contentName}
+          p={{ base: 4, md: 6 }}
           width="100%"
         >
-          <Text textAlign="center" fontWeight="bold" mb={4}>
+          <Text fontWeight="bold" mb={4} textAlign="center">
             {content.contentName}
           </Text>
           <Box height="calc(100% - 40px)" px={{ base: 2, md: 6 }}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer height="100%" width="100%">
               <PieChart>
                 <Pie
                   data={content.rewards}
                   dataKey="value"
-                  nameKey="name"
                   label={({ name, percent }) =>
                     `${name} (${(percent * 100).toFixed(0)}%)`
                   }
+                  nameKey="name"
                 >
                   {content.rewards.map((_, index) => (
-                    <Cell key={index} fill={content.rewards[index].color} />
+                    <Cell fill={content.rewards[index].color} key={index} />
                   ))}
                 </Pie>
                 <Tooltip

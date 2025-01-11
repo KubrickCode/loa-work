@@ -33,11 +33,11 @@ export const SegmentedControl = React.forwardRef<
       <For each={data}>
         {(item) => (
           <SegmentGroup.Item
-            key={item.value}
-            value={item.value}
             disabled={item.disabled}
             justifyContent="center"
+            key={item.value}
             minW={14}
+            value={item.value}
           >
             <SegmentGroup.ItemText>{item.label}</SegmentGroup.ItemText>
             <SegmentGroup.ItemHiddenInput />

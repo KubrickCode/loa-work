@@ -82,8 +82,8 @@ export const ContentRewardListTable = () => {
           render({ data }) {
             return (
               <ItemNameWithImage
-                src={data.contentCategory.imageUrl}
                 name={data.contentCategory.name}
+                src={data.contentCategory.imageUrl}
               />
             );
           },
@@ -104,7 +104,7 @@ export const ContentRewardListTable = () => {
         ...data.contentRewardItems.map(
           ({ imageUrl, name }): Column<(typeof rows)[number]["data"]> => ({
             align: "right",
-            header: <ItemNameWithImage src={imageUrl} name={name} />,
+            header: <ItemNameWithImage name={name} src={imageUrl} />,
             render({ data }) {
               const reward = data.contentRewards.find(
                 (reward) => reward.contentRewardItem.name === name

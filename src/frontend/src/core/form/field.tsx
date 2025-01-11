@@ -26,8 +26,8 @@ export const Field = ({ name, ...otherProps }: FieldProps) => {
   return (
     <FieldContext.Provider value={{ name }}>
       <ChakraField
-        invalid={!!error}
         errorText={error?.message}
+        invalid={!!error}
         {...otherProps}
       />
     </FieldContext.Provider>

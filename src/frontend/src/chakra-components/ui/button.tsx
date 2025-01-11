@@ -22,13 +22,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading && !loadingText ? (
           <>
             <AbsoluteCenter display="inline-flex">
-              <Spinner size="inherit" color="inherit" />
+              <Spinner color="inherit" size="inherit" />
             </AbsoluteCenter>
             <Span opacity={0}>{children}</Span>
           </>
         ) : loading && loadingText ? (
           <>
-            <Spinner size="inherit" color="inherit" />
+            <Spinner color="inherit" size="inherit" />
             {loadingText}
           </>
         ) : (

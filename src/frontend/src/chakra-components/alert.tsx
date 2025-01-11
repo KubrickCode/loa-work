@@ -38,12 +38,12 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {endElement}
         {closable && (
           <CloseButton
-            size="sm"
-            pos="relative"
-            top="-2"
-            insetEnd="-2"
             alignSelf="flex-start"
+            insetEnd="-2"
             onClick={onClose}
+            pos="relative"
+            size="sm"
+            top="-2"
           />
         )}
       </ChakraAlert.Root>

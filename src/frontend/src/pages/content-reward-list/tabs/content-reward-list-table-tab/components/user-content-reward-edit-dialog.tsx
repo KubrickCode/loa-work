@@ -81,7 +81,7 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
               label={reward.contentRewardItem.name}
               name={`userContentRewards.${index}.averageQuantity`}
             >
-              <Input type="number" step="0.01" />
+              <Input step="0.01" type="number" />
             </Field>
           ))}
         </Fields>

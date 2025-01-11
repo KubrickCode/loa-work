@@ -59,7 +59,7 @@ export const ContentWageListBarChart = () => {
   const tooltipTextColor = useColorModeValue("#1A202C", "#fff");
 
   return (
-    <ResponsiveContainer width="100%" height={chartHeight}>
+    <ResponsiveContainer height={chartHeight} width="100%">
       <BarChart
         data={chartData}
         layout="vertical"

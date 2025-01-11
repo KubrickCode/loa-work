@@ -77,9 +77,9 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
     ) => {
       return (
         <Table.Cell
-          key={columnIndex}
           alignItems="center"
           justifyContent="center"
+          key={columnIndex}
           whiteSpace="nowrap"
           {...(column.align && { textAlign: column.align })}
         >
@@ -117,8 +117,8 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
                 {...(column.align && { textAlign: column.align })}
               >
                 <Box
-                  display="flex"
                   alignItems="center"
+                  display="flex"
                   gap={1}
                   justifyContent={column.align}
                   whiteSpace="nowrap"
@@ -126,10 +126,10 @@ export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
                   {column.header}
                   {column.sortKey && (
                     <SortControl
-                      onClick={() => handleSort(column)}
                       currentState={
                         currentSortKey === column.sortKey ? sortOrder : null
                       }
+                      onClick={() => handleSort(column)}
                     />
                   )}
                 </Box>

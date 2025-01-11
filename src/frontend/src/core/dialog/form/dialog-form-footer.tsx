@@ -17,7 +17,7 @@ export const DialogFormFooter = () => {
 
   return (
     <ChakraDialogFooter>
-      <Flex direction="column" gap={2} align="flex-end" w="full">
+      <Flex align="flex-end" direction="column" gap={2} w="full">
         {formError && (
           <Alert status="error" title={formError?.message?.toString()} />
         )}

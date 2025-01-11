@@ -31,9 +31,9 @@ export const Routes = () => {
     <ReactRouter.Routes>
       {_.map(routes, ({ path, component }) => (
         <ReactRouter.Route
+          element={createElement(component)}
           key={path}
           path={path}
-          element={createElement(component)}
         />
       ))}
     </ReactRouter.Routes>

@@ -8,7 +8,7 @@ import {
 import { SkeletonText } from "~/chakra-components/ui/skeleton";
 
 export const TableSkeleton = ({ line }: { line: number }) => {
-  return <SkeletonText noOfLines={line} gap="4" p={4} />;
+  return <SkeletonText gap="4" noOfLines={line} p={4} />;
 };
 
 export const Page = () => {

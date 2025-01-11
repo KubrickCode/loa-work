@@ -81,8 +81,8 @@ export const ContentWageListTable = ({
           render({ data }) {
             return (
               <ItemNameWithImage
-                src={data.content.contentCategory.imageUrl}
                 name={data.content.contentCategory.name}
+                src={data.content.contentCategory.imageUrl}
               />
             );
           },

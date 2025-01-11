@@ -9,7 +9,7 @@ export type SectionProps = BoxProps & {
 
 export const Section = ({ children, title, ...props }: SectionProps) => {
   return (
-    <Box w="100%" p={4} boxShadow="md" borderRadius="md" {...props}>
+    <Box borderRadius="md" boxShadow="md" p={4} w="100%" {...props}>
       <Flex direction="column" gap={4}>
         {title && (
           <Text fontSize="lg" fontWeight="semibold">

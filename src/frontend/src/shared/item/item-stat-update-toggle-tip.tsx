@@ -13,10 +13,10 @@ export const ItemStatUpdateToggleTip = () => {
     <Flex alignItems="center" gap={1}>
       <Text fontSize="xs">아이템 시세 갱신 일시</Text>
       <InfoTip
+        content={<Content isOpen={isOpen} />}
         onOpenChange={(details) => {
           setIsOpen(details.open);
         }}
-        content={<Content isOpen={isOpen} />}
       />
     </Flex>
   );

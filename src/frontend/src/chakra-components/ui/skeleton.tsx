@@ -15,7 +15,7 @@ export const SkeletonCircle = React.forwardRef<
 >(function SkeletonCircle(props, ref) {
   const { size, ...rest } = props
   return (
-    <Circle size={size} asChild ref={ref}>
+    <Circle asChild ref={ref} size={size}>
       <ChakraSkeleton {...rest} />
     </Circle>
   )
@@ -29,7 +29,7 @@ export const SkeletonText = React.forwardRef<HTMLDivElement, SkeletonTextProps>(
   function SkeletonText(props, ref) {
     const { noOfLines = 3, gap, ...rest } = props
     return (
-      <Stack gap={gap} width="full" ref={ref}>
+      <Stack gap={gap} ref={ref} width="full">
         {Array.from({ length: noOfLines }).map((_, index) => (
           <ChakraSkeleton
             height="4"
