@@ -1,7 +1,5 @@
+import { Box } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { useSafeQuery } from "~/core/graphql";
-import { ContentWageHistoryListLineChartDocument } from "~/core/graphql/generated";
-import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import { useMemo } from "react";
 import {
   LineChart,
@@ -13,8 +11,12 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Box } from "@chakra-ui/react";
+
 import { useColorModeValue } from "~/chakra-components/ui/color-mode";
+import { useSafeQuery } from "~/core/graphql";
+import { ContentWageHistoryListLineChartDocument } from "~/core/graphql/generated";
+import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
+
 
 const CHART_COLORS = [
   "#FF6B6B",

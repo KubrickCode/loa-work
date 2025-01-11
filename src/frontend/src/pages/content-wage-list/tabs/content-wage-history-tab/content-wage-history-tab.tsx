@@ -1,8 +1,10 @@
-import { Section } from "~/core/section";
-import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
 import { Flex } from "@chakra-ui/react";
-import { ContentWageListFilters } from "../../components";
+
+import { Section } from "~/core/section";
 import { ItemStatUpdateToggleTip } from "~/shared/item";
+
+import { ContentWageListFilters } from "../../components";
+import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
 import { ContentWageHistoryListLineChart } from "./components/content-wage-history-list-line-chart";
 
 export const ContentWageHistoryTab = () => {

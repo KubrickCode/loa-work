@@ -1,6 +1,7 @@
 import { Box, BoxProps, Flex, Text } from "@chakra-ui/react";
-import { ErrorBoundary } from "../error";
 import { ReactNode } from "react";
+
+import { ErrorBoundary } from "../error";
 
 export type SectionProps = BoxProps & {
   title?: ReactNode;

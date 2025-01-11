@@ -1,18 +1,22 @@
+import { FormatNumber, IconButton } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { IoIosSettings } from "react-icons/io";
+
+import { useAuth } from "~/core/auth";
+import { DialogTrigger } from "~/core/dialog";
+import { FormatGold } from "~/core/format";
+import { useSafeQuery } from "~/core/graphql";
 import {
   ContentWageListTableDocument,
   ContentWageListTableQuery,
 } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
-import { useSafeQuery } from "~/core/graphql";
-import { FormatNumber, IconButton } from "@chakra-ui/react";
-import { FormatGold } from "~/core/format";
-import { useAuth } from "~/core/auth";
-import { DialogTrigger } from "~/core/dialog";
-import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
-import { IoIosSettings } from "react-icons/io";
-import { useEffect } from "react";
-import { ItemNameWithImage } from "~/shared/item";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
+import { ItemNameWithImage } from "~/shared/item";
+
+import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
+
+
 
 export const ContentWageListTable = ({
   setRefetchTable,

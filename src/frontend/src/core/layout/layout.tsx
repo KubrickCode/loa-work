@@ -1,9 +1,10 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
-import { Header } from "./header";
 import { Toaster } from "~/chakra-components/ui/toaster";
+
 import { Footer } from "./footer";
+import { Header } from "./header";
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (

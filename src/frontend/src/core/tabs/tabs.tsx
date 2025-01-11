@@ -1,6 +1,7 @@
 import { Tabs as ChakraTabs } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { useQueryParams, StringParam } from "use-query-params";
+
 import { Loader } from "../loader";
 
 export type TabPanel = {

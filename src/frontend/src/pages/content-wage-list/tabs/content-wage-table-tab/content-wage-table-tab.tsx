@@ -1,16 +1,18 @@
+import { Flex } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
+import { IoIosCalculator, IoIosSettings } from "react-icons/io";
+
+import { Button } from "~/chakra-components/ui/button";
+import { useAuth } from "~/core/auth";
+import { DialogTrigger } from "~/core/dialog";
 import { Loader } from "~/core/loader";
 import { Section } from "~/core/section";
-import { DialogTrigger } from "~/core/dialog";
-import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-setting-dialog";
-import { Button } from "~/chakra-components/ui/button";
-import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 import { ItemStatUpdateToggleTip } from "~/shared/item";
-import { Flex } from "@chakra-ui/react";
+
 import { ContentWageListTable } from "./components/content-wage-list-table";
-import { useAuth } from "~/core/auth";
-import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
+import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-setting-dialog";
 import { ContentWageListFilters } from "../../components";
+import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
 import { CustomContentWageCalculateDialog } from "./components/custom-content-wage-calculate-dialog";
 
 export const ContentWageTableTab = () => {

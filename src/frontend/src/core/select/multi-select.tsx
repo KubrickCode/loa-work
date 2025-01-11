@@ -1,5 +1,6 @@
-import { BaseSelect, BaseSelectProps } from "./select";
 import { Dispatch, SetStateAction } from "react";
+
+import { BaseSelect, BaseSelectProps } from "./select";
 
 type MultiSelectProps<T extends string | number> = Omit<
   BaseSelectProps<T>,

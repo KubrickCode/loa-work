@@ -1,5 +1,6 @@
 import { Flex, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+
 import { ErrorBoundary } from "../error";
 
 type SplitLayoutProps = {

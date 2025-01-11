@@ -2,6 +2,7 @@ import { SimpleGrid, Box, Text, Flex } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { ResponsiveContainer } from "recharts";
+
 import { useColorModeValue } from "~/chakra-components/ui/color-mode";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";

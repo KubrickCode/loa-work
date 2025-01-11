@@ -1,5 +1,6 @@
 import { Page } from "~/core/page";
 import { Tabs } from "~/core/tabs";
+
 import { ContentRewardListChartTab, ContentRewardListTableTab } from "./tabs";
 
 export const ContentRewardListPage = () => {

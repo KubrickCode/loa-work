@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import { SortControl } from "./sort-control";
 
 export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {

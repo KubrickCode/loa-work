@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+
 import { useSafeQuery } from "~/core/graphql";
 import { ContentCategoriesDocument } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";

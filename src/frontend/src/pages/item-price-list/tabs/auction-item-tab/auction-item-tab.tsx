@@ -1,8 +1,10 @@
 import { Suspense } from "react";
+
 import { AccordionCard } from "~/core/accordion";
-import { Loader } from "~/core/loader";
-import { AuctionItemListTable } from "./components/auction-item-list-table";
 import { SplitLayout } from "~/core/layout";
+import { Loader } from "~/core/loader";
+
+import { AuctionItemListTable } from "./components/auction-item-list-table";
 
 export const AuctionItemTab = () => {
   return (

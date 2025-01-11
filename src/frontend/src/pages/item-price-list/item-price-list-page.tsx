@@ -1,6 +1,7 @@
 import { Page } from "~/core/page";
-import { AuctionItemTab, ExtraItemTab, MarketItemTab } from "./tabs";
 import { Tabs } from "~/core/tabs";
+
+import { AuctionItemTab, ExtraItemTab, MarketItemTab } from "./tabs";
 
 export const ItemPriceListPage = () => {
   const tabPanels = [

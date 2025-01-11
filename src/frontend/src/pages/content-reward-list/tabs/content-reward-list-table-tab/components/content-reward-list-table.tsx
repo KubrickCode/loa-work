@@ -1,17 +1,18 @@
+import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
+import { FaLock } from "react-icons/fa";
+import { IoIosSettings } from "react-icons/io";
+
+import { Tooltip } from "~/chakra-components/ui/tooltip";
+import { useAuth } from "~/core/auth";
+import { DialogTrigger } from "~/core/dialog";
+import { FormatGold } from "~/core/format";
+import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardListTableDocument } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
-
-import { useContentRewardListPage } from "../../../content-reward-list-page-context";
-import { useSafeQuery } from "~/core/graphql";
-import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
-import { DialogTrigger } from "~/core/dialog";
-import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
-import { IoIosSettings } from "react-icons/io";
-import { FormatGold } from "~/core/format";
-import { useAuth } from "~/core/auth";
 import { ItemNameWithImage } from "~/shared/item";
-import { FaLock } from "react-icons/fa";
-import { Tooltip } from "~/chakra-components/ui/tooltip";
+
+import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
+import { useContentRewardListPage } from "../../../content-reward-list-page-context";
 
 export const ContentRewardListTable = () => {
   const { isAuthenticated } = useAuth();

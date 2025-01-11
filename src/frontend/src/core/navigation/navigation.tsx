@@ -1,8 +1,9 @@
 import { Box, Flex, Button } from "@chakra-ui/react";
 import _ from "lodash";
-import { useLocation, useNavigate } from "react-router-dom";
-import { navigationData } from "./navigation-data";
+import { useState } from "react";
 import { IoIosMenu } from "react-icons/io";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import {
   DrawerRoot,
   DrawerTrigger,
@@ -11,8 +12,10 @@ import {
   DrawerCloseTrigger,
   DrawerBackdrop,
 } from "~/chakra-components/ui/drawer";
-import { useState } from "react";
+
+
 import { Manual } from "./manual";
+import { navigationData } from "./navigation-data";
 
 export const Navigation = () => {
   const location = useLocation();

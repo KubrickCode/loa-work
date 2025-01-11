@@ -1,6 +1,8 @@
 import { Suspense } from "react";
+
 import { AccordionCard } from "~/core/accordion";
 import { Loader } from "~/core/loader";
+
 import { ExtraItemListTable } from "./components/extra-item-list-table";
 
 export const ExtraItemTab = () => {

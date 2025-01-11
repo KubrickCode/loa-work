@@ -1,3 +1,7 @@
+import { IconButton } from "@chakra-ui/react";
+import { IoIosSettings } from "react-icons/io";
+
+import { useAuth } from "~/core/auth";
 import { DialogTrigger } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
@@ -8,10 +12,8 @@ import {
 } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
+
 import { UserExtraItemPriceEditDialog } from "./user-extra-item-price-edit-dialog";
-import { useAuth } from "~/core/auth";
-import { IconButton } from "@chakra-ui/react";
-import { IoIosSettings } from "react-icons/io";
 
 export const ExtraItemListTable = () => {
   const { isAuthenticated } = useAuth();

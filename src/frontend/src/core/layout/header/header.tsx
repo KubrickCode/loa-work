@@ -1,8 +1,8 @@
 import { Flex, Heading } from "@chakra-ui/react";
-
-import { Navigation } from "../../navigation";
-import { HeaderMenu } from "./header-menu";
 import { Link } from "react-router-dom";
+
+import { HeaderMenu } from "./header-menu";
+import { Navigation } from "../../navigation";
 
 export const Header = () => {
   return (

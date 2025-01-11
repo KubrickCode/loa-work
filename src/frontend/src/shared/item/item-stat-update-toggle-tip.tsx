@@ -1,9 +1,10 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+
 import { InfoTip } from "~/chakra-components/ui/toggle-tip";
+import { formatDateTime } from "~/core/format";
 import { useQuery } from "~/core/graphql";
 import { ItemStatUpdateToggleTipDocument } from "~/core/graphql/generated";
-import { formatDateTime } from "~/core/format";
-import { useState, useEffect } from "react";
 
 export const ItemStatUpdateToggleTip = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,7 @@
 import { StackProps, VStack } from "@chakra-ui/react";
-import { ErrorBoundary } from "../error";
 import { Suspense } from "react";
+
+import { ErrorBoundary } from "../error";
 import { Loader } from "../loader";
 
 export type PageProps = StackProps;

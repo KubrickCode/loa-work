@@ -1,6 +1,4 @@
-import { useSafeQuery } from "~/core/graphql";
-import { ContentWageListBarChartDocument } from "~/core/graphql/generated";
-import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
+import { useBreakpointValue } from "@chakra-ui/react";
 import {
   Bar,
   BarChart,
@@ -11,8 +9,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useBreakpointValue } from "@chakra-ui/react";
+
 import { useColorModeValue } from "~/chakra-components/ui/color-mode";
+import { useSafeQuery } from "~/core/graphql";
+import { ContentWageListBarChartDocument } from "~/core/graphql/generated";
+import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
+
 
 export const ContentWageListBarChart = () => {
   const {

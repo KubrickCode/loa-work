@@ -2,8 +2,9 @@
 
 import type { CollectionItem } from "@chakra-ui/react";
 import { Select as ChakraSelect, Portal, Spinner } from "@chakra-ui/react";
-import { CloseButton } from "./close-button";
 import * as React from "react";
+
+import { CloseButton } from "./close-button";
 
 interface SelectTriggerProps extends ChakraSelect.ControlProps {
   clearable?: boolean;

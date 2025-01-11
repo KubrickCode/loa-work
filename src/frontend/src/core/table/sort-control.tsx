@@ -1,5 +1,6 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+
 import { useColorModeValue } from "~/chakra-components/ui/color-mode";
 
 const ArrowIcon = ({

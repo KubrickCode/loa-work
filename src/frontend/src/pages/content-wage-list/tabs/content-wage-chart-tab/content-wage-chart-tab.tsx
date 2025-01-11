@@ -1,9 +1,12 @@
-import { Section } from "~/core/section";
-import { ContentWageListBarChart } from "./components/content-wage-list-bar-chart";
-import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
 import { Flex } from "@chakra-ui/react";
-import { ContentWageListFilters } from "../../components";
+
+import { Section } from "~/core/section";
 import { ItemStatUpdateToggleTip } from "~/shared/item";
+
+import { ContentWageListBarChart } from "./components/content-wage-list-bar-chart";
+import { ContentWageListFilters } from "../../components";
+import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
+
 
 export const ContentWageChartTab = () => {
   return (
