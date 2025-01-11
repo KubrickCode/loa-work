@@ -25,9 +25,7 @@ export type InputProps<T> = Omit<ChakraInputProps, "onChange" | "type"> & {
 };
 
 export const Input = <T extends HTMLInputTypeAttribute = "text">({
-  helpText,
   onAfterChange,
-  rightAddOn,
   type,
   ...otherProps
 }: InputProps<T>) => {

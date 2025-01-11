@@ -95,7 +95,7 @@ export const ContentWageHistoryListLineChart = () => {
 
     return Array.from(dateMap.values())
       .sort((a, b) => dayjs(a.originalDate).diff(dayjs(b.originalDate)))
-      .map(({ originalDate, ...rest }) => rest);
+      .map(({ _, ...rest }) => rest);
   }, [data]);
 
   const tooltipBgColor = useColorModeValue("#fff", "#222");
