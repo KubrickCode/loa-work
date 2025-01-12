@@ -33,6 +33,12 @@
         "command": "just prisma studio"
       },
       {
+        "name": "Push",
+        "terminalName": "Push",
+        "color": "green",
+        "command": "git add . && git commit --amend --no-edit && git push -f"
+      },
+      {
         "name": "Release",
         "terminalName": "Release",
         "color": "green",
