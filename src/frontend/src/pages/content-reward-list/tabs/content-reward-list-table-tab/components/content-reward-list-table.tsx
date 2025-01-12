@@ -74,7 +74,7 @@ export const ContentRewardListTable = () => {
                     />
                   );
                 },
-              } as Column<(typeof rows)[number]["data"]>,
+              },
             ]
           : []),
         {
