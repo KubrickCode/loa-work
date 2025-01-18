@@ -41,11 +41,11 @@ export const client = new ApolloClient({
   }),
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: "no-cache",
+      fetchPolicy: "cache-and-network",
       errorPolicy: "all",
     },
     query: {
-      fetchPolicy: "no-cache",
+      fetchPolicy: "network-only",
       errorPolicy: "all",
     },
     mutate: {
