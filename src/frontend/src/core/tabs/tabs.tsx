@@ -26,10 +26,12 @@ export const Tabs = ({ panels, queryKey = "tab" }: TabsProps) => {
 
   return (
     <ChakraTabs.Root
+      lazyMount
       onValueChange={(details) => {
         const panel = panels.find((p) => p.label === details.value);
         if (panel) setQuery({ [queryKey]: panel.id });
       }}
+      unmountOnExit
       value={currentPanel.label}
       variant="outline"
     >
