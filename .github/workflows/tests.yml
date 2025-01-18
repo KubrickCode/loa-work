@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  web-tests:
-    name: Run web tests
+  backend-tests:
+    name: Run Backend tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,7 +39,7 @@ jobs:
           wait-on tcp:5432
 
       - name: Run tests
-        run: just test web
+        run: just test backend
 
   go-tests:
     name: Run Go tests

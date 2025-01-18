@@ -128,7 +128,7 @@ test target *args:
   #!/usr/bin/env bash
   set -euox pipefail
   case "{{ target }}" in
-    web)
+    backend)
       echo "NodeJS:" $(node -v)
       echo "Prisma Engine:" {{ prisma_engine }}
 
