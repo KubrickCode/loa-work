@@ -55,6 +55,7 @@ model AuctionItemStat {
   auctionItemId Int         @map("auction_item_id")
   auctionItem   AuctionItem @relation(fields: [auctionItemId], references: [id], onDelete: Cascade)
 
+  @@index([auctionItemId])
   @@map("auction_item_stat")
 }
 
@@ -234,6 +235,7 @@ model MarketItemStat {
   marketItemId Int        @map("market_item_id")
   marketItem   MarketItem @relation(fields: [marketItemId], references: [id], onDelete: Cascade)
 
+  @@index([marketItemId])
   @@map("market_item_stat")
 }
 
