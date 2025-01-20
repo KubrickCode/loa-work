@@ -129,6 +129,7 @@ jobs:
               -p 3000:3000 \
               -e NODE_ENV=production \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e PRISMA_DATABASE_URL="${{ secrets.PRISMA_DATABASE_URL }}" \
               -e GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" \
               -e GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" \
               -e GOOGLE_AUTH_CALLBACK_URL="${{ secrets.GOOGLE_AUTH_CALLBACK_URL }}" \
