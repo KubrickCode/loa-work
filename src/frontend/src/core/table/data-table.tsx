@@ -12,6 +12,10 @@ import { SortControl } from "./sort-control";
 
 export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
   columns: Column<T>[];
+  defaultSorting?: {
+    sortKey: string;
+    value: "asc" | "desc";
+  };
   rows: {
     data: T;
   }[];
@@ -25,9 +29,17 @@ export type Column<T> = {
   sortValue?: (data: T) => number | string | null;
 };
 
-export const DataTable = <T,>({ columns, rows }: DataTableProps<T>) => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
-  const [currentSortKey, setCurrentSortKey] = useState<string | null>(null);
+export const DataTable = <T,>({
+  columns,
+  defaultSorting,
+  rows,
+}: DataTableProps<T>) => {
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(
+    defaultSorting?.value || null
+  );
+  const [currentSortKey, setCurrentSortKey] = useState<string | null>(
+    defaultSorting?.sortKey || null
+  );
 
   const displayRows = useMemo(() => {
     if (currentSortKey && sortOrder) {
