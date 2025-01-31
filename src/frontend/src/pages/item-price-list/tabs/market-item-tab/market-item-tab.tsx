@@ -26,7 +26,14 @@ export const MarketItemTab = () => {
       secondGroup={
         <AccordionCard title="유물 각인서">
           <Suspense fallback={<Loader.TableSkeleton line={30} />}>
-            <MarketItemListTable categoryName="각인서" grade="유물" />
+            <MarketItemListTable
+              categoryName="각인서"
+              defaultSorting={{
+                sortKey: "currentMinPrice",
+                value: "desc",
+              }}
+              grade="유물"
+            />
           </Suspense>
         </AccordionCard>
       }

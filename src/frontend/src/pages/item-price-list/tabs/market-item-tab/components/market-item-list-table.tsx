@@ -3,16 +3,18 @@ import { Flex, Text } from "@chakra-ui/react";
 import { formatDateTime, FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { MarketItemListTableDocument } from "~/core/graphql/generated";
-import { DataTable } from "~/core/table";
+import { DataTable, DataTableProps } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
 
 type MarketItemListTableProps = {
   categoryName: string;
+  defaultSorting?: DataTableProps<any>["defaultSorting"];
   grade?: string;
 };
 
 export const MarketItemListTable = ({
   categoryName,
+  defaultSorting,
   grade,
 }: MarketItemListTableProps) => {
   const { data } = useSafeQuery(MarketItemListTableDocument, {
@@ -73,6 +75,7 @@ export const MarketItemListTable = ({
             sortKey: "currentMinPrice",
           },
         ]}
+        defaultSorting={defaultSorting}
         rows={data.marketItemList.map((data) => ({
           data,
         }))}
