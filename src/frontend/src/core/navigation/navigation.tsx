@@ -13,7 +13,6 @@ import {
   DrawerBackdrop,
 } from "~/chakra-components/ui/drawer";
 
-
 import { Manual } from "./manual";
 import { navigationData } from "./navigation-data";
 
@@ -30,7 +29,7 @@ export const Navigation = () => {
   return (
     <Box as="nav">
       {/* 데스크톱 네비게이션 */}
-      <Flex display={{ base: "none", md: "flex" }} gap={1}>
+      <Flex display={{ base: "none", md: "flex" }} gap={2}>
         {navigationData.map(({ label, url }) => (
           <Button
             key={label + url}
