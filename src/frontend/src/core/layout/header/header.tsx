@@ -7,7 +7,7 @@ import { Navigation } from "../../navigation";
 export const Header = () => {
   return (
     <Flex as="header" justifyContent="space-between" p={2}>
-      <Flex alignItems="center" gap={4}>
+      <Flex alignItems="center" gap={{ base: 0, md: 4 }}>
         <Link to="/">
           <Heading display={{ base: "none", md: "block" }}>로직장</Heading>
         </Link>
