@@ -47,6 +47,10 @@ export const AuctionItemListTable = ({
             sortKey: "avgBuyPrice",
           },
         ]}
+        defaultSorting={{
+          sortKey: "avgBuyPrice",
+          value: "desc",
+        }}
         rows={data.auctionItemList.map((data) => ({
           data,
         }))}
