@@ -22,6 +22,7 @@ export const AuctionItemListTable = ({
       statsTake: 1,
       statsOrderBy: [{ field: "createdAt", order: "desc" }],
     },
+    fetchPolicy: "cache-and-network",
   });
 
   return (

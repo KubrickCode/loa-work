@@ -29,6 +29,7 @@ export const MarketItemListTable = ({
       statsTake: 1,
       statsOrderBy: [{ field: "createdAt", order: "desc" }],
     },
+    fetchPolicy: "cache-and-network",
   });
 
   return (
