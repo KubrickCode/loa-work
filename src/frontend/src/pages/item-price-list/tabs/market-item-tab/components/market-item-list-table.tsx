@@ -1,12 +1,5 @@
-import { Flex, HStack, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { Flex, Text } from "@chakra-ui/react";
 
-import {
-  PaginationItems,
-  PaginationNextTrigger,
-  PaginationPrevTrigger,
-  PaginationRoot,
-} from "~/chakra-components/pagination";
 import { formatDateTime, FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { MarketItemListTableDocument } from "~/core/graphql/generated";
@@ -35,15 +28,6 @@ export const MarketItemListTable = ({
       statsOrderBy: [{ field: "createdAt", order: "desc" }],
     },
   });
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
-  const totalItems = data.marketItemList.length;
-
-  const currentData = data.marketItemList.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
   return (
     <Flex direction="column" gap={2}>
@@ -92,22 +76,11 @@ export const MarketItemListTable = ({
           },
         ]}
         defaultSorting={defaultSorting}
-        rows={currentData.map((data) => ({
+        pagination
+        rows={data.marketItemList.map((data) => ({
           data,
         }))}
       />
-      <PaginationRoot
-        count={totalItems}
-        onPageChange={({ page }) => setCurrentPage(page)}
-        page={currentPage}
-        pageSize={pageSize}
-      >
-        <HStack>
-          <PaginationPrevTrigger />
-          <PaginationItems />
-          <PaginationNextTrigger />
-        </HStack>
-      </PaginationRoot>
     </Flex>
   );
 };

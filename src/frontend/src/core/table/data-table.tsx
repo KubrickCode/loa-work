@@ -1,4 +1,4 @@
-import { Box, Table } from "@chakra-ui/react";
+import { Box, HStack, Table } from "@chakra-ui/react";
 import _ from "lodash";
 import {
   ReactNode,
@@ -7,6 +7,13 @@ import {
   useMemo,
   useState,
 } from "react";
+
+import {
+  PaginationItems,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+} from "~/chakra-components/pagination";
 
 import { SortControl } from "./sort-control";
 
@@ -19,6 +26,7 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
   rows: {
     data: T;
   }[];
+  pagination?: boolean;
 };
 
 export type Column<T> = {
@@ -33,6 +41,7 @@ export const DataTable = <T,>({
   columns,
   defaultSorting,
   rows,
+  pagination = false,
 }: DataTableProps<T>) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(
     defaultSorting?.value || null
@@ -79,6 +88,15 @@ export const DataTable = <T,>({
     setSortOrder(newOrder);
     setCurrentSortKey(newOrder ? column.sortKey : null);
   };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const totalItems = displayRows.length;
+
+  const currentData = displayRows.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   const renderColumn = useCallback(
     (
@@ -150,9 +168,25 @@ export const DataTable = <T,>({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {displayRows.map((row, index) => renderRow(row, index))}
+          {pagination
+            ? currentData.map((row, index) => renderRow(row, index))
+            : displayRows.map((row, index) => renderRow(row, index))}
         </Table.Body>
       </Table.Root>
+      {pagination && (
+        <PaginationRoot
+          count={totalItems}
+          onPageChange={({ page }) => setCurrentPage(page)}
+          page={currentPage}
+          pageSize={pageSize}
+        >
+          <HStack mt={4}>
+            <PaginationPrevTrigger />
+            <PaginationItems />
+            <PaginationNextTrigger />
+          </HStack>
+        </PaginationRoot>
+      )}
     </Box>
   );
 };
