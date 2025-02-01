@@ -18,7 +18,7 @@ class UserGoldExchangeRateEditInput {
   id: number;
 
   @Field(() => Int)
-  goldAmount: number;
+  krwAmount: number;
 }
 
 @ObjectType()
@@ -39,13 +39,13 @@ export class UserGoldExchangeRateEditMutation {
   async userGoldExchangeRateEdit(
     @Args('input') input: UserGoldExchangeRateEditInput,
   ) {
-    const { id, goldAmount } = input;
+    const { id, krwAmount } = input;
 
     await this.userGoldExchangeRateService.validateUserGoldExchangeRate(id);
 
     await this.prisma.userGoldExchangeRate.update({
       where: { id },
-      data: { goldAmount },
+      data: { krwAmount },
     });
 
     return { ok: true };

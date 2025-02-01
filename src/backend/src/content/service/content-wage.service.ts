@@ -105,7 +105,7 @@ export class ContentWageService {
       await this.userGoldExchangeRateService.getGoldExchangeRate();
 
     const totalKRW =
-      (gold * goldExchangeRate.goldAmount) / goldExchangeRate.krwAmount;
+      (gold * goldExchangeRate.krwAmount) / goldExchangeRate.goldAmount;
 
     const hours = duration / 3600;
     const hourlyWage = totalKRW / hours;

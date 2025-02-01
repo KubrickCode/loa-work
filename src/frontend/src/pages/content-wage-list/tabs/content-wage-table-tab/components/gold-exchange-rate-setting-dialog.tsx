@@ -35,7 +35,7 @@ export const GoldExchangeRateSettingDialog = ({
 
 const schema = z.object({
   id: z.number(),
-  goldAmount: z.number(),
+  krwAmount: z.number(),
 });
 
 const Body = ({ onComplete }: { onComplete: () => void }) => {
@@ -51,7 +51,7 @@ const Body = ({ onComplete }: { onComplete: () => void }) => {
     >
       defaultValues={{
         id: userGoldExchangeRate.id,
-        goldAmount: userGoldExchangeRate.goldAmount,
+        krwAmount: userGoldExchangeRate.krwAmount,
       }}
       mutation={UserGoldExchangeRateEditDocument}
       onComplete={() => {
@@ -67,8 +67,8 @@ const Body = ({ onComplete }: { onComplete: () => void }) => {
       <DialogBody>
         <Fields>
           <Field
-            label={`${userGoldExchangeRate.krwAmount}원당 골드`}
-            name="goldAmount"
+            label={`${userGoldExchangeRate.goldAmount}골드 당 원(KRW)`}
+            name="krwAmount"
           >
             <Input type="number" />
           </Field>

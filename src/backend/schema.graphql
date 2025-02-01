@@ -288,8 +288,8 @@ type UserGoldExchangeRate {
 }
 
 input UserGoldExchangeRateEditInput {
-  goldAmount: Int!
   id: Int!
+  krwAmount: Int!
 }
 
 type UserGoldExchangeRateEditResult {
