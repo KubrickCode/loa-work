@@ -19,8 +19,6 @@ import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange
 import { ContentRewardItemResolver } from './object/content-reward-item.resolver';
 import { UserContentRewardItemEditMutation } from './mutation/user-content-reward-item-edit.mutation';
 import { ContentRewardItemQuery } from './query/content-reward-item.query';
-import { ContentWageHistoryListQuery } from './query/content-wage-history-list.query';
-import { ContentWithHistoriesResolver } from './object/content-with-histories.resolver';
 import { CustomContentWageCalculateMutation } from './mutation/custom-content-wage-calculate.mutation';
 
 @Module({
@@ -45,8 +43,6 @@ import { CustomContentWageCalculateMutation } from './mutation/custom-content-wa
     ContentRewardItemResolver,
     UserContentRewardItemEditMutation,
     ContentRewardItemQuery,
-    ContentWageHistoryListQuery,
-    ContentWithHistoriesResolver,
     CustomContentWageCalculateMutation,
   ],
 })

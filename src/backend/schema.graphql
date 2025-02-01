@@ -134,31 +134,11 @@ type ContentWageFilter {
   includeIsSeeMore: Boolean
 }
 
-type ContentWageHistory {
-  date: String!
-  goldAmountPerHour: Int!
-}
-
-input ContentWageHistoryListFilter {
-  contentCategoryId: Int
-  endDate: String!
-  includeContentRewardItemIds: [Int!]
-  includeIsBound: Boolean
-  includeIsSeeMore: Boolean
-  startDate: String!
-}
-
 input ContentWageListFilter {
   contentCategoryId: Int
   includeContentRewardItemIds: [Int!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
-}
-
-type ContentWithHistories {
-  content: Content!
-  contentId: Int!
-  histories: [ContentWageHistory!]!
 }
 
 input CustomContentWageCalculateInput {
@@ -234,7 +214,6 @@ type Query {
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardItem(id: Int!): ContentRewardItem!
   contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
-  contentWageHistoryList(filter: ContentWageHistoryListFilter, orderBy: [OrderByArg!]): [ContentWithHistories!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   marketItemStats(orderBy: [OrderByArg!], take: Int): [MarketItemStat!]!
