@@ -10,12 +10,14 @@ type MarketItemListTableProps = {
   categoryName: string;
   defaultSorting?: DataTableProps<any>["defaultSorting"];
   grade?: string;
+  pagination?: boolean;
 };
 
 export const MarketItemListTable = ({
   categoryName,
   defaultSorting,
   grade,
+  pagination = false,
 }: MarketItemListTableProps) => {
   const { data } = useSafeQuery(MarketItemListTableDocument, {
     variables: {
@@ -76,7 +78,7 @@ export const MarketItemListTable = ({
           },
         ]}
         defaultSorting={defaultSorting}
-        pagination
+        pagination={pagination}
         rows={data.marketItemList.map((data) => ({
           data,
         }))}

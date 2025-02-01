@@ -33,6 +33,7 @@ export const MarketItemTab = () => {
                 value: "desc",
               }}
               grade="유물"
+              pagination
             />
           </Suspense>
         </AccordionCard>
