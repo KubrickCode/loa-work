@@ -65,7 +65,11 @@ export const MutationForm = <
 
           if (preventEnterSubmit) e.preventDefault();
         }}
-        onSubmit={onSubmit}
+        onSubmit={(e) => {
+          if (e) e.stopPropagation();
+
+          return onSubmit(e);
+        }}
         {...otherProps}
       >
         {typeof children === "function"
