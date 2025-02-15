@@ -8,14 +8,22 @@ export class ContentController {
   // NOTE: 거의 사용되지 않는 기능이라 특별히 코드 정리 및 보수하지 않음.
   @Get('predict-rewards')
   async predictRewards(
-    @Query('categoryName') categoryName: string,
+    @Query('categoryId') categoryIdString: string,
     @Query('level') levelString: string,
   ) {
     const level = parseInt(levelString, 10);
+    const categoryId = parseInt(categoryIdString, 10);
+
+    const category = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: {
+        id: categoryId,
+      },
+    });
+
     const previousContents = await this.prisma.content.findMany({
       where: {
         contentCategory: {
-          name: categoryName,
+          id: categoryId,
         },
         level: {
           lt: level,
@@ -85,7 +93,7 @@ export class ContentController {
 
     return {
       success: true,
-      categoryName,
+      categoryName: category.name,
       targetLevel: level,
       basedOnLevels: previousContents.map((c) => c.level),
       predictions,
