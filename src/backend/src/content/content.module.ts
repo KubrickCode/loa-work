@@ -21,9 +21,11 @@ import { UserContentRewardItemEditMutation } from './mutation/user-content-rewar
 import { ContentRewardItemQuery } from './query/content-reward-item.query';
 import { CustomContentWageCalculateMutation } from './mutation/custom-content-wage-calculate.mutation';
 import { ContentRewardsReportMutation } from './mutation/content-rewards-report.mutation';
+import { ContentController } from './content.controller';
 
 @Module({
   imports: [PrismaModule],
+  controllers: [ContentController],
   providers: [
     ContentListQuery,
     ContentRewardItemsQuery,
