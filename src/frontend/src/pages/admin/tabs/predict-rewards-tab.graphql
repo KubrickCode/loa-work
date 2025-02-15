@@ -1,0 +1,6 @@
+query PredictRewardsTab {
+  contentCategories {
+    id
+    name
+  }
+}

@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth, UserRole } from "~/core/auth";
 import { Loader } from "~/core/loader";
 import { Page } from "~/core/page";
+import { Tabs } from "~/core/tabs";
+
+import { PredictRewardsTab } from "./tabs/predict-rewards-tab";
 
 export const AdminPage = () => {
   const { user, isLoading } = useAuth();
@@ -20,5 +23,17 @@ export const AdminPage = () => {
 
   if (isLoading) return <Loader.Page />;
 
-  return <Page>어드민 페이지</Page>;
+  const tabPanels = [
+    {
+      id: "predict-rewards",
+      label: "컨텐츠 보상 예측",
+      component: <PredictRewardsTab />,
+    },
+  ];
+
+  return (
+    <Page>
+      <Tabs panels={tabPanels} />
+    </Page>
+  );
 };
