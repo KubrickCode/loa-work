@@ -379,6 +379,7 @@ export type UserContentRewardItemEditResult = {
 };
 
 export type UserContentRewardsEditInput = {
+  isReportable: Scalars['Boolean']['input'];
   userContentRewards: Array<UserContentRewardEditInput>;
 };
 

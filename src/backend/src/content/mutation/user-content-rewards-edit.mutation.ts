@@ -10,6 +10,8 @@ import {
 import { AuthGuard } from 'src/auth/auth.guard';
 import { PrismaService } from 'src/prisma';
 import { UserContentService } from '../../user/service/user-content.service';
+import { CurrentUser } from 'src/common/decorator/current-user.decorator';
+import { User } from 'src/common/object/user.object';
 
 @InputType()
 class UserContentRewardEditInput {
@@ -24,6 +26,9 @@ class UserContentRewardEditInput {
 export class UserContentRewardsEditInput {
   @Field(() => [UserContentRewardEditInput])
   userContentRewards: UserContentRewardEditInput[];
+
+  @Field()
+  isReportable: boolean;
 }
 
 @ObjectType()
@@ -43,6 +48,7 @@ export class UserContentRewardsEditMutation {
   @Mutation(() => UserContentRewardsEditResult)
   async userContentRewardsEdit(
     @Args('input') input: UserContentRewardsEditInput,
+    @CurrentUser() user: User,
   ) {
     await this.userContentService.validateUserContentRewards(
       input.userContentRewards.map((reward) => reward.id),
@@ -57,6 +63,25 @@ export class UserContentRewardsEditMutation {
           }),
         ),
       );
+
+      if (input.isReportable) {
+        await Promise.all(
+          input.userContentRewards.map(async ({ id, averageQuantity }) => {
+            const userContentReward =
+              await tx.userContentReward.findUniqueOrThrow({
+                where: { id },
+              });
+
+            return tx.reportedContentReward.create({
+              data: {
+                averageQuantity,
+                contentRewardId: userContentReward.contentRewardId,
+                userId: user.id,
+              },
+            });
+          }),
+        );
+      }
 
       return { ok: true };
     });

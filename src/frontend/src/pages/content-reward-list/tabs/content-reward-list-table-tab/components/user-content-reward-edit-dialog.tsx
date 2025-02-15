@@ -8,7 +8,7 @@ import {
   DialogFormFooter,
   DialogHeader,
 } from "~/core/dialog";
-import { Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { Checkbox, Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardEditDialogDocument,
@@ -44,6 +44,7 @@ const schema = z.object({
       averageQuantity: z.number(),
     })
   ),
+  isReportable: z.boolean(),
 });
 
 const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
@@ -61,6 +62,7 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
           id: reward.userContentReward.id,
           averageQuantity: reward.userContentReward.averageQuantity,
         })),
+        isReportable: true,
       }}
       mutation={UserContentRewardsEditDocument}
       onComplete={() => {
@@ -84,6 +86,9 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
               <Input step="0.01" type="number" />
             </Field>
           ))}
+          <Field name="isReportable">
+            <Checkbox>저장 후 데이터 제보</Checkbox>
+          </Field>
         </Fields>
       </DialogBody>
       <DialogFormFooter />

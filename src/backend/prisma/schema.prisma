@@ -117,11 +117,12 @@ model ContentReward {
   isSellable             Boolean @default(false) @map("is_sellable")
 
   // Relations
-  contentId           Int                 @map("content_id")
-  content             Content             @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  contentRewardItem   ContentRewardItem   @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
-  contentRewardItemId Int                 @map("content_reward_item_id")
-  userContentRewards  UserContentReward[]
+  contentId              Int                     @map("content_id")
+  content                Content                 @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentRewardItem      ContentRewardItem       @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+  contentRewardItemId    Int                     @map("content_reward_item_id")
+  userContentRewards     UserContentReward[]
+  reportedContentRewards ReportedContentReward[]
 
   @@unique([contentId, contentRewardItemId])
   @@map("content_reward")
@@ -239,6 +240,21 @@ model MarketItemStat {
   @@map("market_item_stat")
 }
 
+model ReportedContentReward {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  averageQuantity Decimal @map("average_quantity")
+
+  // Relations
+  contentRewardId Int           @map("content_reward_id")
+  contentReward   ContentReward @relation(fields: [contentRewardId], references: [id], onDelete: Cascade)
+  userId          Int           @map("user_id")
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("reported_content_reward")
+}
+
 model Session {
   id  String @id
   sid String @unique
@@ -266,6 +282,7 @@ model User {
   userContentRewardItems UserContentRewardItem[]
   userContentRewards     UserContentReward[]
   userGoldExchangeRate   UserGoldExchangeRate?
+  reportedContentRewards ReportedContentReward[]
 
   @@map("user")
 }

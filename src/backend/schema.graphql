@@ -271,6 +271,7 @@ type UserContentRewardItemEditResult {
 }
 
 input UserContentRewardsEditInput {
+  isReportable: Boolean!
   userContentRewards: [UserContentRewardEditInput!]!
 }
 
