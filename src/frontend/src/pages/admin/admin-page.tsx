@@ -7,6 +7,7 @@ import { Page } from "~/core/page";
 import { Tabs } from "~/core/tabs";
 
 import { PredictRewardsTab } from "./tabs/predict-rewards-tab";
+import { ValidateRewardsTab } from "./tabs/validate-rewards-tab";
 
 export const AdminPage = () => {
   const { user, isLoading } = useAuth();
@@ -28,6 +29,11 @@ export const AdminPage = () => {
       id: "predict-rewards",
       label: "컨텐츠 보상 예측",
       component: <PredictRewardsTab />,
+    },
+    {
+      id: "validate-rewards",
+      label: "컨텐츠 보상 검증",
+      component: <ValidateRewardsTab />,
     },
   ];
 

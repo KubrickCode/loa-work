@@ -1,0 +1,9 @@
+query ValidateRewardsTab {
+  contentList {
+    id
+    level
+    contentCategory {
+      name
+    }
+  }
+}
