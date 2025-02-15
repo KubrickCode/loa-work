@@ -15,10 +15,12 @@ import {
 
 import { Manual } from "./manual";
 import { navigationData } from "./navigation-data";
+import { useAuth, UserRole } from "../auth";
 
 export const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
 
   const handleNavigate = (url: string) => {
@@ -26,11 +28,21 @@ export const Navigation = () => {
     setOpen(false);
   };
 
+  const adminNavigationData =
+    user?.role === UserRole.OWNER || user?.role === UserRole.ADMIN
+      ? [
+          {
+            label: "관리자 페이지",
+            url: "/admin",
+          },
+        ]
+      : [];
+
   return (
     <Box as="nav">
       {/* 데스크톱 네비게이션 */}
       <Flex display={{ base: "none", md: "flex" }} gap={2}>
-        {navigationData.map(({ label, url }) => (
+        {[...navigationData, ...adminNavigationData].map(({ label, url }) => (
           <Button
             key={label + url}
             onClick={() => navigate(url)}
