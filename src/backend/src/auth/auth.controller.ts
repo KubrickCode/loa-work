@@ -77,6 +77,10 @@ export class AuthController {
 
   @Post('logout')
   async logout(@Req() req: Request) {
-    return req.logout((error) => console.error(error));
+    return req.logout((error) => {
+      if (error) {
+        console.error(error);
+      }
+    });
   }
 }
