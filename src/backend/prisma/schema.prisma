@@ -72,7 +72,7 @@ model Content {
   contentRewards        ContentReward[]
   contentCategory       ContentCategory        @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
   contentCategoryId     Int                    @map("content_category_id")
-  contentDurations      ContentDuration[]
+  contentDuration       ContentDuration?
   contentSeeMoreRewards ContentSeeMoreReward[]
 
   @@unique([name, contentCategoryId, gate])

@@ -36,7 +36,7 @@ export const getContentsWithRewards = ({
     name: '아비도스 1 작전',
     contentCategoryId: kurzanId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 180,
       },
@@ -82,7 +82,7 @@ export const getContentsWithRewards = ({
     name: '아비도스 2 작전',
     contentCategoryId: kurzanId,
     level: 1660,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 180,
       },
@@ -128,7 +128,7 @@ export const getContentsWithRewards = ({
     name: '아비도스 3 작전',
     contentCategoryId: kurzanId,
     level: 1680,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 180,
       },
@@ -174,7 +174,7 @@ export const getContentsWithRewards = ({
     name: '아게오로스',
     contentCategoryId: guardianRaidId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 180,
       },
@@ -210,7 +210,7 @@ export const getContentsWithRewards = ({
     name: '스콜라키아',
     contentCategoryId: guardianRaidId,
     level: 1680,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 180,
       },
@@ -246,7 +246,7 @@ export const getContentsWithRewards = ({
     name: '제 1 해금',
     contentCategoryId: cubeId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 300,
       },
@@ -292,7 +292,7 @@ export const getContentsWithRewards = ({
     name: '제 2 해금',
     contentCategoryId: cubeId,
     level: 1680,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 300,
       },
@@ -338,7 +338,7 @@ export const getContentsWithRewards = ({
     name: '1640 에포나 의뢰(x3)',
     contentCategoryId: eponaQuestId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 60,
       },
@@ -379,7 +379,7 @@ export const getContentsWithRewards = ({
     name: '1640 카오스게이트',
     contentCategoryId: chaosGateId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 180,
       },
@@ -420,7 +420,7 @@ export const getContentsWithRewards = ({
     name: '1680 카오스게이트',
     contentCategoryId: chaosGateId,
     level: 1680,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 180,
       },
@@ -461,7 +461,7 @@ export const getContentsWithRewards = ({
     name: '1640 세베크 아툰',
     contentCategoryId: fieldBossId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 300,
       },
@@ -497,7 +497,7 @@ export const getContentsWithRewards = ({
     name: '1680 세베크 아툰',
     contentCategoryId: fieldBossId,
     level: 1680,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 120,
       },
@@ -534,7 +534,7 @@ export const getContentsWithRewards = ({
     gate: 1,
     contentCategoryId: epicRaidId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -593,7 +593,7 @@ export const getContentsWithRewards = ({
     gate: 2,
     contentCategoryId: epicRaidId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -652,7 +652,7 @@ export const getContentsWithRewards = ({
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -711,7 +711,7 @@ export const getContentsWithRewards = ({
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1640,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -770,7 +770,7 @@ export const getContentsWithRewards = ({
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1660,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -829,7 +829,7 @@ export const getContentsWithRewards = ({
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1660,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -888,7 +888,7 @@ export const getContentsWithRewards = ({
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -947,7 +947,7 @@ export const getContentsWithRewards = ({
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1670,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -1006,7 +1006,7 @@ export const getContentsWithRewards = ({
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1680,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -1065,7 +1065,7 @@ export const getContentsWithRewards = ({
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1680,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -1124,7 +1124,7 @@ export const getContentsWithRewards = ({
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1690,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
@@ -1183,7 +1183,7 @@ export const getContentsWithRewards = ({
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1690,
-    contentDurations: {
+    contentDuration: {
       create: {
         defaultValue: 600,
       },
