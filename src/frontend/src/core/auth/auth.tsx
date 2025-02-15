@@ -6,6 +6,12 @@ import {
   useState,
 } from "react";
 
+export enum UserRole {
+  OWNER = "OWNER",
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
+
 export type AuthState = {
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -13,6 +19,7 @@ export type AuthState = {
   user?: {
     displayName: string;
     imageUrl?: string;
+    role: UserRole;
   } | null;
 };
 
@@ -26,6 +33,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       await fetch("/auth/logout", { method: "POST" });
       window.location.href = "/";
     },
+    user: null,
   });
 
   useEffect(() => {
