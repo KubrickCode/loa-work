@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
-@Controller('content')
+@Controller('api/content')
 export class ContentController {
   constructor(private prisma: PrismaService) {}
 
