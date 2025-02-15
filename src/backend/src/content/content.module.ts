@@ -20,6 +20,7 @@ import { ContentRewardItemResolver } from './object/content-reward-item.resolver
 import { UserContentRewardItemEditMutation } from './mutation/user-content-reward-item-edit.mutation';
 import { ContentRewardItemQuery } from './query/content-reward-item.query';
 import { CustomContentWageCalculateMutation } from './mutation/custom-content-wage-calculate.mutation';
+import { ContentRewardsReportMutation } from './mutation/content-rewards-report.mutation';
 
 @Module({
   imports: [PrismaModule],
@@ -44,6 +45,7 @@ import { CustomContentWageCalculateMutation } from './mutation/custom-content-wa
     UserContentRewardItemEditMutation,
     ContentRewardItemQuery,
     CustomContentWageCalculateMutation,
+    ContentRewardsReportMutation,
   ],
 })
 export class ContentModule {}

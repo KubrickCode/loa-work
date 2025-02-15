@@ -1,0 +1,20 @@
+query ContentRewardReportDialog($id: Int!) {
+  content(id: $id) {
+    contentRewards {
+      contentRewardItem {
+        name
+      }
+      id
+      isSellable
+      userContentReward {
+        averageQuantity
+      }
+    }
+  }
+}
+
+mutation ContentRewardsReport($input: ContentRewardsReportInput!) {
+  contentRewardsReport(input: $input) {
+    ok
+  }
+}

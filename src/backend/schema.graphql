@@ -110,6 +110,19 @@ input ContentRewardItemsFilter {
   kind: ContentRewardItemKind
 }
 
+input ContentRewardReportInput {
+  averageQuantity: Float!
+  id: Float!
+}
+
+input ContentRewardsReportInput {
+  contentRewards: [ContentRewardReportInput!]!
+}
+
+type ContentRewardsReportResult {
+  ok: Boolean!
+}
+
 type ContentSeeMoreReward {
   contentId: Int!
   contentRewardItem: ContentRewardItem!
@@ -193,6 +206,7 @@ type MarketItemStat {
 }
 
 type Mutation {
+  contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
   userContentRewardItemEdit(input: UserContentRewardItemEditInput!): UserContentRewardItemEditResult!

@@ -1,4 +1,4 @@
-import { useDialogContext } from "@chakra-ui/react";
+import { Link, useDialogContext } from "@chakra-ui/react";
 import { Suspense } from "react";
 
 import { toaster } from "~/chakra-components/ui/toaster";
@@ -7,6 +7,7 @@ import {
   DialogBody,
   DialogFormFooter,
   DialogHeader,
+  DialogTrigger,
 } from "~/core/dialog";
 import { Checkbox, Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
@@ -17,6 +18,8 @@ import {
   UserContentRewardsEditMutation,
 } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
+
+import { ContentRewardReportDialog } from "./content-reward-report-dialog";
 
 type UserContentRewardEditDialogProps = {
   contentId: number;
@@ -89,6 +92,10 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
           <Field name="isReportable">
             <Checkbox>저장 후 데이터 제보</Checkbox>
           </Field>
+          <DialogTrigger
+            dialog={<ContentRewardReportDialog contentId={contentId} />}
+            trigger={<Link variant="underline">저장없이 제보만하기</Link>}
+          />
         </Fields>
       </DialogBody>
       <DialogFormFooter />
