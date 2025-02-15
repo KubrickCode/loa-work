@@ -2,6 +2,7 @@ import _ from "lodash";
 import { createElement } from "react";
 import * as ReactRouter from "react-router-dom";
 
+import AdminPage from "~/pages/admin";
 import ContentRewardListPage from "~/pages/content-reward-list";
 import ContentWageListPage from "~/pages/content-wage-list";
 import ItemPriceListPage from "~/pages/item-price-list";
@@ -23,6 +24,10 @@ const routes = [
   {
     path: "/privacy-policy",
     component: PrivacyPolicyPage,
+  },
+  {
+    path: "/admin",
+    component: AdminPage,
   },
 ] as const;
 
