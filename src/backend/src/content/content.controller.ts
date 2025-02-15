@@ -91,4 +91,88 @@ export class ContentController {
       predictions,
     };
   }
+
+  @Get('validate-rewards-by-reports')
+  async validateRewardsByReports(@Query('contentId') contentIdString: string) {
+    const contentId = parseInt(contentIdString, 10);
+
+    const content = await this.prisma.content.findUnique({
+      where: {
+        id: contentId,
+      },
+      include: {
+        contentCategory: true,
+        contentRewards: {
+          include: {
+            contentRewardItem: true,
+            reportedContentRewards: true,
+          },
+        },
+      },
+    });
+
+    if (!content) {
+      return {
+        success: false,
+        message: '해당하는 컨텐츠를 찾을 수 없습니다.',
+      };
+    }
+
+    const validations = [];
+
+    for (const reward of content.contentRewards) {
+      const reports = reward.reportedContentRewards.map((r) =>
+        Number(r.averageQuantity),
+      );
+
+      if (reports.length < 3) {
+        validations.push({
+          itemName: reward.contentRewardItem.name,
+          currentQuantity: Number(reward.defaultAverageQuantity),
+          status: 'insufficient_data',
+          message: '충분한 제보 데이터가 없습니다.',
+          reportCount: reports.length,
+        });
+        continue;
+      }
+
+      // 평균과 표준편차 계산
+      const mean = reports.reduce((a, b) => a + b) / reports.length;
+      const stdDev = Math.sqrt(
+        reports.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) /
+          reports.length,
+      );
+
+      // 이상치 제거 (평균에서 ±2 표준편차 벗어나는 값)
+      const validReports = reports.filter(
+        (r) => Math.abs(r - mean) <= 2 * stdDev,
+      );
+
+      const validMean =
+        validReports.reduce((a, b) => a + b) / validReports.length;
+      const currentQuantity = Number(reward.defaultAverageQuantity);
+      const difference =
+        ((validMean - currentQuantity) / currentQuantity) * 100;
+
+      validations.push({
+        itemName: reward.contentRewardItem.name,
+        currentQuantity,
+        reportedQuantity: validMean,
+        difference: `${difference.toFixed(1)}%`,
+        status:
+          Math.abs(difference) > 10 ? 'significant_difference' : 'acceptable',
+        totalReports: reports.length,
+        validReports: validReports.length,
+        excludedReports: reports.length - validReports.length,
+      });
+    }
+
+    return {
+      success: true,
+      contentId,
+      categoryName: content.contentCategory.name,
+      level: content.level,
+      validations,
+    };
+  }
 }
