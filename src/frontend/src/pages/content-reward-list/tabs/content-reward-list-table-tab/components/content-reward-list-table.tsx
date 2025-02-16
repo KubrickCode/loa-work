@@ -56,6 +56,7 @@ export const ContentRewardListTable = () => {
         ...(isAuthenticated
           ? [
               {
+                align: "center" as const,
                 header: "",
                 render({ data }: { data: (typeof rows)[number]["data"] }) {
                   return (

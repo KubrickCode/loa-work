@@ -16,8 +16,6 @@ import { ItemNameWithImage } from "~/shared/item";
 
 import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
 
-
-
 export const ContentWageListTable = ({
   setRefetchTable,
 }: {
@@ -51,6 +49,7 @@ export const ContentWageListTable = ({
         ...(isAuthenticated
           ? [
               {
+                align: "center" as const,
                 header: "",
                 render({
                   data,
