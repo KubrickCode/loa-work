@@ -13,7 +13,12 @@ export type DialogTriggerProps = {
 export const DialogTrigger = ({ dialog, trigger }: DialogTriggerProps) => {
   const [open, setOpen] = useState(false);
   return (
-    <DialogRoot lazyMount onOpenChange={(e) => setOpen(e.open)} open={open}>
+    <DialogRoot
+      lazyMount
+      modal={false}
+      onOpenChange={(e) => setOpen(e.open)}
+      open={open}
+    >
       <ChakraDialogTrigger asChild>{trigger}</ChakraDialogTrigger>
       {dialog}
     </DialogRoot>
