@@ -138,7 +138,7 @@ export const DataTable = <T,>({
 
   return (
     <Box overflowX="auto">
-      <Table.Root striped>
+      <Table.Root showColumnBorder striped>
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => (
