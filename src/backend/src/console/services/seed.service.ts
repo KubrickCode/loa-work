@@ -458,7 +458,7 @@ export class SeedService {
 
   async goldExchangeRate() {
     await this.prisma.goldExchangeRate.create({
-      data: { krwAmount: 100, goldAmount: 50 },
+      data: { krwAmount: 50, goldAmount: 100 },
     });
   }
 }
