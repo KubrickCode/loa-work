@@ -1,5 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 
+import { Checkbox as ChakraCheckbox } from "~/chakra-components/ui/checkbox";
 import { toaster } from "~/chakra-components/ui/toaster";
 import {
   Checkbox,
@@ -194,6 +195,9 @@ export const ContentCreateTab = () => {
                             type="number"
                           />
                         </Field>
+                        <ChakraCheckbox disabled size="xs">
+                          판매 가능 여부
+                        </ChakraCheckbox>
                         <Field
                           name={`contentSeeMoreRewards.${index}.isExcluded`}
                         >

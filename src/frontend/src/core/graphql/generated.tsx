@@ -91,7 +91,7 @@ export type ContentCreateResult = {
 
 export type ContentCreateRewardItemsInput = {
   contentRewardItemId: Scalars['Int']['input'];
-  defaultAverageQuantity: Scalars['Int']['input'];
+  defaultAverageQuantity: Scalars['Float']['input'];
   isExcluded: Scalars['Boolean']['input'];
   isSellable: Scalars['Boolean']['input'];
 };
@@ -99,7 +99,7 @@ export type ContentCreateRewardItemsInput = {
 export type ContentCreateSeeMoreRewardsInput = {
   contentRewardItemId: Scalars['Int']['input'];
   isExcluded: Scalars['Boolean']['input'];
-  quantity: Scalars['Int']['input'];
+  quantity: Scalars['Float']['input'];
 };
 
 export type ContentDuration = {
