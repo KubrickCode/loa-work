@@ -35,9 +35,19 @@ export class ContentListQuery {
   ) {
     const contents = await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
-      orderBy: {
-        id: 'asc',
-      },
+      orderBy: [
+        {
+          contentCategory: {
+            id: 'asc',
+          },
+        },
+        {
+          level: 'asc',
+        },
+        {
+          id: 'asc',
+        },
+      ],
     });
 
     return contents.map((content) =>

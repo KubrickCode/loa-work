@@ -41,9 +41,19 @@ export class ContentWageListQuery {
   ) {
     const contents = await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
-      orderBy: {
-        id: 'asc',
-      },
+      orderBy: [
+        {
+          contentCategory: {
+            id: 'asc',
+          },
+        },
+        {
+          level: 'asc',
+        },
+        {
+          id: 'asc',
+        },
+      ],
       include: {
         contentSeeMoreRewards: {
           include: {
