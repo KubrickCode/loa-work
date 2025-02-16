@@ -55,6 +55,33 @@ type ContentCategory {
   updatedAt: DateTime!
 }
 
+input ContentCreateInput {
+  categoryId: Int!
+  contentRewards: [ContentCreateRewardItemsInput!]!
+  contentSeeMoreRewards: [ContentCreateSeeMoreRewardsInput!]
+  duration: Int!
+  gate: Int
+  level: Int!
+  name: String!
+}
+
+type ContentCreateResult {
+  ok: Boolean!
+}
+
+input ContentCreateRewardItemsInput {
+  contentRewardItemId: Int!
+  defaultAverageQuantity: Float!
+  isExcluded: Boolean!
+  isSellable: Boolean!
+}
+
+input ContentCreateSeeMoreRewardsInput {
+  contentRewardItemId: Int!
+  isExcluded: Boolean!
+  quantity: Float!
+}
+
 type ContentDuration {
   contentId: Int!
   createdAt: DateTime!
@@ -206,6 +233,7 @@ type MarketItemStat {
 }
 
 type Mutation {
+  contentCreate(input: ContentCreateInput!): ContentCreateResult!
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!

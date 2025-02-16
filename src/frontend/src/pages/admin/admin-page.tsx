@@ -6,6 +6,7 @@ import { Loader } from "~/core/loader";
 import { Page } from "~/core/page";
 import { Tabs } from "~/core/tabs";
 
+import { ContentCreateTab } from "./tabs/content-create-tab";
 import { PredictRewardsTab } from "./tabs/predict-rewards-tab";
 import { ValidateRewardsTab } from "./tabs/validate-rewards-tab";
 
@@ -34,6 +35,11 @@ export const AdminPage = () => {
       id: "validate-rewards",
       label: "컨텐츠 보상 검증",
       component: <ValidateRewardsTab />,
+    },
+    {
+      id: "content-create",
+      label: "컨텐츠 생성",
+      component: <ContentCreateTab />,
     },
   ];
 

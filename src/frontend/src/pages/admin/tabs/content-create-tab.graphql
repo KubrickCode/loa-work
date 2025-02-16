@@ -1,0 +1,16 @@
+query ContentCreateTabData {
+  contentCategories {
+    id
+    name
+  }
+  contentRewardItems {
+    id
+    name
+  }
+}
+
+mutation ContentCreateTab($input: ContentCreateInput!) {
+  contentCreate(input: $input) {
+    ok
+  }
+}
