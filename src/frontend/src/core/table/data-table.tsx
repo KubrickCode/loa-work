@@ -137,7 +137,7 @@ export const DataTable = <T,>({
   );
 
   return (
-    <Box overflowX="auto">
+    <Table.ScrollArea>
       <Table.Root showColumnBorder striped>
         <Table.Header>
           <Table.Row>
@@ -187,6 +187,6 @@ export const DataTable = <T,>({
           </HStack>
         </PaginationRoot>
       )}
-    </Box>
+    </Table.ScrollArea>
   );
 };
