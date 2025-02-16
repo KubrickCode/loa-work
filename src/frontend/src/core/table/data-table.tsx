@@ -138,7 +138,7 @@ export const DataTable = <T,>({
 
   return (
     <Table.ScrollArea maxHeight="4xl">
-      <Table.Root showColumnBorder stickyHeader striped>
+      <Table.Root showColumnBorder stickyHeader>
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => (
