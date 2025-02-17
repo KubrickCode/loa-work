@@ -36,7 +36,11 @@ export const Manual = () => {
           <AccordionRoot collapsible defaultValue={["0"]}>
             {accordionItems.map((item, index) => (
               <AccordionItem key={index} value={index.toString()}>
-                <AccordionItemTrigger cursor="pointer" indicatorPlacement="end">
+                <AccordionItemTrigger
+                  cursor="pointer"
+                  indicatorPlacement="end"
+                  p={3}
+                >
                   {item.title}
                 </AccordionItemTrigger>
                 <AccordionItemContent>{item.paragraph}</AccordionItemContent>
