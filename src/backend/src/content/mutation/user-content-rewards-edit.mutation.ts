@@ -12,6 +12,7 @@ import { PrismaService } from 'src/prisma';
 import { UserContentService } from '../../user/service/user-content.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { User } from 'src/common/object/user.object';
+import { Prisma, UserRole } from '@prisma/client';
 
 @InputType()
 class UserContentRewardEditInput {
@@ -55,6 +56,10 @@ export class UserContentRewardsEditMutation {
     );
 
     return await this.prisma.$transaction(async (tx) => {
+      if (user.role === UserRole.OWNER) {
+        await this.editDefaultContentRewards(input.userContentRewards, tx);
+      }
+
       await Promise.all(
         input.userContentRewards.map(({ id, averageQuantity }) =>
           tx.userContentReward.update({
@@ -85,5 +90,40 @@ export class UserContentRewardsEditMutation {
 
       return { ok: true };
     });
+  }
+
+  private async editDefaultContentRewards(
+    userContentRewards: UserContentRewardEditInput[],
+    tx: Prisma.TransactionClient,
+  ) {
+    await Promise.all(
+      userContentRewards.map(async ({ id, averageQuantity }) => {
+        const userContentReward = await tx.userContentReward.findUniqueOrThrow({
+          where: { id },
+          include: {
+            contentReward: true,
+          },
+        });
+
+        await tx.userContentReward.updateMany({
+          where: {
+            contentRewardId: userContentReward.contentRewardId,
+            isEdited: false,
+          },
+          data: {
+            averageQuantity,
+          },
+        });
+
+        await tx.contentReward.update({
+          where: {
+            id: userContentReward.contentRewardId,
+          },
+          data: {
+            defaultAverageQuantity: averageQuantity,
+          },
+        });
+      }),
+    );
   }
 }
