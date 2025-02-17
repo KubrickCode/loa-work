@@ -75,6 +75,7 @@ export const ContentRewardListTable = () => {
                     />
                   );
                 },
+                width: "32px",
               },
             ]
           : []),

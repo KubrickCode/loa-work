@@ -35,6 +35,7 @@ export type Column<T> = {
   render: (props: { data: T; rowIndex: number }) => JSX.Element | null;
   sortKey?: string;
   sortValue?: (data: T) => number | string | null;
+  width?: Table.ColumnHeaderProps["width"];
 };
 
 export const DataTable = <T,>({
@@ -145,6 +146,7 @@ export const DataTable = <T,>({
               <Table.ColumnHeader
                 key={index}
                 {...(column.align && { textAlign: column.align })}
+                {...(column.width && { width: column.width })}
               >
                 <Box
                   alignItems="center"

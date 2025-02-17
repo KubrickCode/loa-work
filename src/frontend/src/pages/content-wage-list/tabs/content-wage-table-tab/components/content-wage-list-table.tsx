@@ -72,6 +72,7 @@ export const ContentWageListTable = ({
                     />
                   );
                 },
+                width: "32px",
               },
             ]
           : []),

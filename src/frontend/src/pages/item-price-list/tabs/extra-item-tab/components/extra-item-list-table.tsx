@@ -32,6 +32,7 @@ export const ExtraItemListTable = () => {
         ...(isAuthenticated
           ? [
               {
+                align: "center" as const,
                 header: "",
                 render({
                   data,
@@ -54,6 +55,7 @@ export const ExtraItemListTable = () => {
                     />
                   );
                 },
+                width: "32px",
               },
             ]
           : []),
