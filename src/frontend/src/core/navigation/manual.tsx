@@ -33,7 +33,7 @@ export const Manual = () => {
           <DrawerTitle>설명서</DrawerTitle>
         </DrawerHeader>
         <DrawerBody>
-          <AccordionRoot collapsible defaultValue={["0"]} variant="enclosed">
+          <AccordionRoot collapsible variant="enclosed">
             {accordionItems.map((item, index) => (
               <AccordionItem
                 key={index}
