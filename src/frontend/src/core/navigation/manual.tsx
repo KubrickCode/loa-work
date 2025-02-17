@@ -126,31 +126,29 @@ const accordionItems = [
     title: "컨텐츠별 보상 책정 방식",
     paragraph: (
       <>
-        <Flex flexWrap="wrap" gap={1}>
-          <Text>컨텐츠에서 수급 가능한 보상은</Text>
-          <Link color="blue.500" href="/content-reward-list" target="_blank">
-            컨텐츠별 보상 페이지
-          </Link>
-          <Text>에서 확인할 수 있습니다.</Text>
-        </Flex>
         <Text>
-          해당 보상은 기본적으로 웹 서칭 + 개발자 개인적인 인게임 플레이 통계를
-          바탕으로 책정되었습니다.
+          컨텐츠에서 수급 가능한 보상은{" "}
+          {
+            <Link color="blue.500" href="/content-reward-list" target="_blank">
+              컨텐츠별 보상 페이지
+            </Link>
+          }{" "}
+          에서 확인할 수 있습니다.
         </Text>
         <Text>
-          매 번 이런식으로 유지보수 될 수 없기 때문에 앞으로는 제보되는 데이터를
-          바탕으로 기본값은 업데이트하고자 합니다.
+          해당 보상은 기본적으로 서칭 기반 자료 & 인게임 플레이 통계 & 기존 보상
+          상승률에 기반한 예측 데이터로 작성되었습니다.
         </Text>
-        <Flex flexWrap="wrap" gap={1}>
-          <Text>
-            또한 해당 데이터는 로스트아크에서 제공하지 않아 정확할 수 없는
-            데이터이기에
-          </Text>
-          <Link color="blue.500" href="/content-reward-list" target="_blank">
-            컨텐츠별 보상 페이지
-          </Link>
-          <Text>에서 로그인 후 직접 수정하실 수 있습니다.</Text>
-        </Flex>
+        <Text>
+          해당 데이터는 로스트아크에서 제공하지 않아 정확할 수 없는 데이터이기에{" "}
+          {
+            <Link color="blue.500" href="/content-reward-list" target="_blank">
+              컨텐츠별 보상 페이지
+            </Link>
+          }{" "}
+          에서 로그인 후 직접 수정하실 수 있으며, 수정 화면에서 데이터 제보가
+          가능하니 많은 제보 부탁드립니다.
+        </Text>
       </>
     ),
   },
