@@ -50,7 +50,7 @@ export const ContentWageListTable = ({
           ? [
               {
                 align: "center" as const,
-                header: "",
+                header: "관리",
                 render({
                   data,
                 }: {

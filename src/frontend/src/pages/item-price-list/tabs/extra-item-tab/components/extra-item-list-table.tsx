@@ -33,7 +33,7 @@ export const ExtraItemListTable = () => {
           ? [
               {
                 align: "center" as const,
-                header: "",
+                header: "관리",
                 render({
                   data,
                 }: {

@@ -57,7 +57,7 @@ export const ContentRewardListTable = () => {
           ? [
               {
                 align: "center" as const,
-                header: "",
+                header: "관리",
                 render({ data }: { data: (typeof rows)[number]["data"] }) {
                   return (
                     <DialogTrigger
