@@ -152,10 +152,16 @@ export const ContentCreateTab = () => {
                           type="number"
                         />
                       </Field>
-                      <Field name={`contentRewards.${index}.isSellable`}>
+                      <Field
+                        name={`contentRewards.${index}.isSellable`}
+                        optional
+                      >
                         <Checkbox size="xs">판매 가능 여부</Checkbox>
                       </Field>
-                      <Field name={`contentRewards.${index}.isExcluded`}>
+                      <Field
+                        name={`contentRewards.${index}.isExcluded`}
+                        optional
+                      >
                         <Checkbox size="xs">제외 여부</Checkbox>
                       </Field>
                     </Flex>
@@ -202,6 +208,7 @@ export const ContentCreateTab = () => {
                         </ChakraCheckbox>
                         <Field
                           name={`contentSeeMoreRewards.${index}.isExcluded`}
+                          optional
                         >
                           <Checkbox size="xs">제외 여부</Checkbox>
                         </Field>
