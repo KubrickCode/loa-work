@@ -37,6 +37,7 @@ export const Manual = () => {
             {accordionItems.map((item, index) => (
               <AccordionItem key={index} value={index.toString()}>
                 <AccordionItemTrigger
+                  _hover={{ bgColor: "rgba(0,0,0,0.1)" }}
                   cursor="pointer"
                   indicatorPlacement="end"
                   p={3}
