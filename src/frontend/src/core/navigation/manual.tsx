@@ -33,9 +33,13 @@ export const Manual = () => {
           <DrawerTitle>설명서</DrawerTitle>
         </DrawerHeader>
         <DrawerBody>
-          <AccordionRoot collapsible defaultValue={["0"]}>
+          <AccordionRoot collapsible defaultValue={["0"]} variant="enclosed">
             {accordionItems.map((item, index) => (
-              <AccordionItem key={index} value={index.toString()}>
+              <AccordionItem
+                key={index}
+                rounded="none"
+                value={index.toString()}
+              >
                 <AccordionItemTrigger
                   _hover={{ bgColor: "rgba(0,0,0,0.1)" }}
                   cursor="pointer"
