@@ -56,6 +56,7 @@ export const Navigation = () => {
       {/* 모바일 네비게이션 */}
       <Box display={{ base: "block", md: "none" }}>
         <DrawerRoot
+          modal={false}
           onOpenChange={(e) => setOpen(e.open)}
           open={open}
           placement="start"
