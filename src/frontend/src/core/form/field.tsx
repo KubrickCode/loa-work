@@ -1,3 +1,4 @@
+import { Badge } from "@chakra-ui/react";
 import { createContext, useContext } from "react";
 import { useFormContext, get } from "react-hook-form";
 
@@ -14,9 +15,14 @@ export const FieldContext = createContext<FieldContextType | null>(null);
 
 export type FieldProps = ChakraFieldProps & {
   name: string;
+  optional?: boolean;
 };
 
-export const Field = ({ name, ...otherProps }: FieldProps) => {
+export const Field = ({
+  name,
+  optional = false,
+  ...otherProps
+}: FieldProps) => {
   const {
     formState: { errors },
   } = useFormContext();
@@ -28,6 +34,14 @@ export const Field = ({ name, ...otherProps }: FieldProps) => {
       <ChakraField
         errorText={error?.message}
         invalid={!!error}
+        optionalText={
+          optional && (
+            <Badge size="xs" variant="surface">
+              Optional
+            </Badge>
+          )
+        }
+        required={!optional}
         {...otherProps}
       />
     </FieldContext.Provider>
