@@ -89,7 +89,7 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
               <Input step="0.01" type="number" />
             </Field>
           ))}
-          <Field name="isReportable">
+          <Field name="isReportable" optional>
             <Checkbox>저장 후 데이터 제보</Checkbox>
           </Field>
           <DialogTrigger
