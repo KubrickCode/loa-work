@@ -310,6 +310,7 @@ model UserContentReward {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   averageQuantity Decimal @map("average_quantity")
+  isEdited        Boolean @default(false) @map("is_edited")
 
   // Relations
   contentRewardId Int           @map("content_reward_id")

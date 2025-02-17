@@ -59,7 +59,7 @@ export class UserContentRewardsEditMutation {
         input.userContentRewards.map(({ id, averageQuantity }) =>
           tx.userContentReward.update({
             where: { id },
-            data: { averageQuantity },
+            data: { averageQuantity, isEdited: true },
           }),
         ),
       );
