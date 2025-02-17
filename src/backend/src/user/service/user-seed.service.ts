@@ -17,23 +17,27 @@ export class UserSeedService {
     });
 
     if (!user.userContentRewards.length) {
-      await this.makeContentRewards(userId, tx);
+      await this.makeContentRewards(userId, tx, user.createdAt);
     }
 
     if (!user.userContentDurations.length) {
-      await this.makeContentDurations(userId, tx);
+      await this.makeContentDurations(userId, tx, user.createdAt);
     }
 
     if (!user.userContentRewardItems.length) {
-      await this.makeContentRewardItems(userId, tx);
+      await this.makeContentRewardItems(userId, tx, user.createdAt);
     }
 
     if (!user.userGoldExchangeRate) {
-      await this.makeGoldExchangeRate(userId, tx);
+      await this.makeGoldExchangeRate(userId, tx, user.createdAt);
     }
   }
 
-  async makeContentRewards(userId: number, tx: Prisma.TransactionClient) {
+  async makeContentRewards(
+    userId: number,
+    tx: Prisma.TransactionClient,
+    createdAt: Date,
+  ) {
     const defaultRewards = await tx.contentReward.findMany();
 
     await tx.userContentReward.createMany({
@@ -42,12 +46,17 @@ export class UserSeedService {
           contentRewardId: id,
           averageQuantity,
           userId,
+          createdAt,
         }),
       ),
     });
   }
 
-  async makeContentRewardItems(userId: number, tx: Prisma.TransactionClient) {
+  async makeContentRewardItems(
+    userId: number,
+    tx: Prisma.TransactionClient,
+    createdAt: Date,
+  ) {
     const defaultRewardItems = await tx.contentRewardItem.findMany({
       where: {
         isEditable: true,
@@ -64,11 +73,16 @@ export class UserSeedService {
         contentRewardItemId: id,
         price: contentRewardItemPrices[0].value,
         userId,
+        createdAt,
       })),
     });
   }
 
-  async makeContentDurations(userId: number, tx: Prisma.TransactionClient) {
+  async makeContentDurations(
+    userId: number,
+    tx: Prisma.TransactionClient,
+    createdAt: Date,
+  ) {
     const defaultDurations = await tx.contentDuration.findMany();
 
     await tx.userContentDuration.createMany({
@@ -76,11 +90,16 @@ export class UserSeedService {
         contentDurationId: id,
         value,
         userId,
+        createdAt,
       })),
     });
   }
 
-  async makeGoldExchangeRate(userId: number, tx: Prisma.TransactionClient) {
+  async makeGoldExchangeRate(
+    userId: number,
+    tx: Prisma.TransactionClient,
+    createdAt: Date,
+  ) {
     const { krwAmount, goldAmount } = await tx.goldExchangeRate.findFirst();
 
     await tx.userGoldExchangeRate.create({
@@ -88,6 +107,7 @@ export class UserSeedService {
         userId,
         krwAmount,
         goldAmount,
+        createdAt,
       },
     });
   }
