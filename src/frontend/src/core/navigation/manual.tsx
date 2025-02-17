@@ -44,7 +44,9 @@ export const Manual = () => {
                 >
                   {item.title}
                 </AccordionItemTrigger>
-                <AccordionItemContent>{item.paragraph}</AccordionItemContent>
+                <AccordionItemContent px={4}>
+                  {item.paragraph}
+                </AccordionItemContent>
               </AccordionItem>
             ))}
           </AccordionRoot>
