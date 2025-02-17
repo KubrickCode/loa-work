@@ -144,6 +144,7 @@ export const ContentCreateTab = () => {
                       <Field
                         label={reward.name}
                         name={`contentRewards.${index}.defaultAverageQuantity`}
+                        optional
                       >
                         <Input
                           disabled={watch(`contentRewards.${index}.isExcluded`)}
@@ -186,6 +187,7 @@ export const ContentCreateTab = () => {
                         <Field
                           label={reward.name}
                           name={`contentSeeMoreRewards.${index}.quantity`}
+                          optional
                         >
                           <Input
                             disabled={watch(
