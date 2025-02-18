@@ -7,8 +7,8 @@ export class User extends BaseObject {
   @Field()
   displayName: string;
 
-  @Field()
-  email: string;
+  @Field(() => String, { nullable: true })
+  email?: string;
 
   @Field(() => String, { nullable: true })
   imageUrl?: string;

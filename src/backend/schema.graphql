@@ -272,7 +272,7 @@ type Query {
 type User {
   createdAt: DateTime!
   displayName: String!
-  email: String!
+  email: String
   id: Int!
   imageUrl: String
   provider: AuthProvider!
