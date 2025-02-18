@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from './base.object';
 import { AuthProvider, UserRole } from '@prisma/client';
 

@@ -29,6 +29,12 @@ type AuctionItemStat {
   startPrice: Int!
 }
 
+enum AuthProvider {
+  DISCORD
+  GOOGLE
+  KAKAO
+}
+
 type Content {
   contentCategory: ContentCategory!
   contentCategoryId: Int!
@@ -260,6 +266,19 @@ type Query {
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   marketItemStats(orderBy: [OrderByArg!], take: Int): [MarketItemStat!]!
   userGoldExchangeRate: UserGoldExchangeRate!
+  userList: [User!]!
+}
+
+type User {
+  createdAt: DateTime!
+  displayName: String!
+  email: String!
+  id: Int!
+  imageUrl: String
+  provider: AuthProvider!
+  refId: String!
+  role: UserRole!
+  updatedAt: DateTime!
 }
 
 type UserContentDuration {
@@ -337,4 +356,10 @@ input UserGoldExchangeRateEditInput {
 
 type UserGoldExchangeRateEditResult {
   ok: Boolean!
+}
+
+enum UserRole {
+  ADMIN
+  OWNER
+  USER
 }

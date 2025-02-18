@@ -8,6 +8,7 @@ import { Tabs } from "~/core/tabs";
 
 import { ContentCreateTab } from "./tabs/content-create-tab";
 import { PredictRewardsTab } from "./tabs/predict-rewards-tab";
+import { UserListTab } from "./tabs/user-list-tab";
 import { ValidateRewardsTab } from "./tabs/validate-rewards-tab";
 
 export const AdminPage = () => {
@@ -40,6 +41,11 @@ export const AdminPage = () => {
       id: "content-create",
       label: "컨텐츠 생성",
       component: <ContentCreateTab />,
+    },
+    {
+      id: "user-list",
+      label: "유저 관리",
+      component: <UserListTab />,
     },
   ];
 
