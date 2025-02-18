@@ -18,7 +18,9 @@ export type AuthState = {
   logout: () => void;
   user?: {
     displayName: string;
+    email?: string;
     imageUrl?: string;
+    refId: string;
     role: UserRole;
   } | null;
 };
