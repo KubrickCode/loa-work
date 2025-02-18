@@ -31,9 +31,21 @@ export const UserListTab = () => {
             },
           },
           {
+            header: "이메일",
+            render({ data }) {
+              return <>{data.email}</>;
+            },
+          },
+          {
             header: "플랫폼",
             render({ data }) {
               return <>{data.provider}</>;
+            },
+          },
+          {
+            header: "고유식별자",
+            render({ data }) {
+              return <>{data.refId}</>;
             },
           },
         ]}

@@ -1,7 +1,9 @@
 query UserListTabQuery {
   userList {
     displayName
+    email
     imageUrl
     provider
+    refId
   }
 }
