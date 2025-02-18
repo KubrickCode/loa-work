@@ -68,7 +68,11 @@ export const ContentRewardListTable = () => {
                         />
                       }
                       trigger={
-                        <IconButton size="xs" variant="surface">
+                        <IconButton
+                          disabled={data.isSeeMore}
+                          size="xs"
+                          variant="surface"
+                        >
                           <IoIosSettings />
                         </IconButton>
                       }
