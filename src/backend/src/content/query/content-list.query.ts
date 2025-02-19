@@ -21,6 +21,9 @@ export class ContentListFilter {
   @Field(() => Boolean, { nullable: true })
   includeIsSeeMore?: boolean;
 
+  @Field(() => String, { nullable: true })
+  keyword?: string;
+
   @Field(() => ContentListWageFilter, { nullable: true })
   wageFilter?: ContentListWageFilter;
 }
@@ -70,6 +73,25 @@ export class ContentListQuery {
 
     if (filter?.contentCategoryId) {
       where.contentCategoryId = filter.contentCategoryId;
+    }
+
+    if (filter?.keyword) {
+      where.OR = [
+        {
+          name: {
+            contains: filter.keyword,
+            mode: 'insensitive',
+          },
+        },
+        {
+          contentCategory: {
+            name: {
+              contains: filter.keyword,
+              mode: 'insensitive',
+            },
+          },
+        },
+      ];
     }
 
     return where;

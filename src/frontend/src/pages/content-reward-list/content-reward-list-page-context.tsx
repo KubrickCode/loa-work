@@ -2,7 +2,9 @@ import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 type ContentRewardListPageContextType = {
   contentCategoryId: number | null;
+  keyword: string;
   setContentCategoryId: (id: number | null) => void;
+  setKeyword: (keyword: string) => void;
 };
 
 const ContentRewardListPageContext = createContext<
@@ -15,10 +17,11 @@ export const ContentRewardListPageProvider = ({
   const [contentCategoryId, setContentCategoryId] = useState<number | null>(
     null
   );
+  const [keyword, setKeyword] = useState("");
 
   return (
     <ContentRewardListPageContext.Provider
-      value={{ contentCategoryId, setContentCategoryId }}
+      value={{ contentCategoryId, keyword, setContentCategoryId, setKeyword }}
     >
       {children}
     </ContentRewardListPageContext.Provider>

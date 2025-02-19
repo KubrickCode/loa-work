@@ -121,6 +121,7 @@ export type ContentDuration = {
 export type ContentListFilter = {
   contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
+  keyword?: InputMaybe<Scalars['String']['input']>;
   wageFilter?: InputMaybe<ContentListWageFilter>;
 };
 

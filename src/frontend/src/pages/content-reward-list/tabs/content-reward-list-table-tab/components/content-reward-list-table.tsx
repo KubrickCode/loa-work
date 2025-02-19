@@ -16,11 +16,12 @@ import { useContentRewardListPage } from "../../../content-reward-list-page-cont
 
 export const ContentRewardListTable = () => {
   const { isAuthenticated } = useAuth();
-  const { contentCategoryId } = useContentRewardListPage();
+  const { contentCategoryId, keyword } = useContentRewardListPage();
   const { data, refetch } = useSafeQuery(ContentRewardListTableDocument, {
     variables: {
       filter: {
         contentCategoryId: Number(contentCategoryId),
+        keyword,
       },
     },
   });
