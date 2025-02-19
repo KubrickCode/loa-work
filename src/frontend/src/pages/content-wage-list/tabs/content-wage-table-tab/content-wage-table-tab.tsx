@@ -7,7 +7,6 @@ import { useAuth } from "~/core/auth";
 import { DialogTrigger } from "~/core/dialog";
 import { Loader } from "~/core/loader";
 import { Section } from "~/core/section";
-import { ItemStatUpdateToggleTip } from "~/shared/item";
 
 import { ContentWageListTable } from "./components/content-wage-list-table";
 import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-setting-dialog";
@@ -46,7 +45,6 @@ export const ContentWageTableTab = () => {
                 </Button>
               }
             />
-            <ItemStatUpdateToggleTip />
           </Flex>
           <ContentWageListTable setRefetchTable={setRefetchTable} />
         </ContentWageListPageProvider>

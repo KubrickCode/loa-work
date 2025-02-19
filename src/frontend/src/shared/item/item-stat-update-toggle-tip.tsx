@@ -1,7 +1,7 @@
-import { Flex, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Link, Spinner, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
-import { InfoTip } from "~/chakra-components/ui/toggle-tip";
+import { ToggleTip } from "~/chakra-components/ui/toggle-tip";
 import { formatDateTime } from "~/core/format";
 import { useQuery } from "~/core/graphql";
 import { ItemStatUpdateToggleTipDocument } from "~/core/graphql/generated";
@@ -10,15 +10,12 @@ export const ItemStatUpdateToggleTip = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Flex alignItems="center" gap={1}>
-      <Text fontSize="xs">아이템 시세 갱신 일시</Text>
-      <InfoTip
-        content={<Content isOpen={isOpen} />}
-        onOpenChange={(details) => {
-          setIsOpen(details.open);
-        }}
-      />
-    </Flex>
+    <ToggleTip
+      content={<Content isOpen={isOpen} />}
+      onOpenChange={({ open }) => setIsOpen(open)}
+    >
+      <Link>아이템 시세 갱신 일시</Link>
+    </ToggleTip>
   );
 };
 

@@ -1,5 +1,7 @@
 import { Flex, Link } from "@chakra-ui/react";
 
+import { ItemStatUpdateToggleTip } from "~/shared/item";
+
 export const Footer = () => {
   return (
     <Flex
@@ -17,6 +19,7 @@ export const Footer = () => {
       <Link href={import.meta.env.VITE_KAKAO_OPEN_TALK_URL} target="_blank">
         오픈채팅
       </Link>
+      <ItemStatUpdateToggleTip />
     </Flex>
   );
 };

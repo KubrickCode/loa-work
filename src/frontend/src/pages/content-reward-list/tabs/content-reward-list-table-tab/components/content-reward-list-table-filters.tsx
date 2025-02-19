@@ -2,7 +2,6 @@ import { Flex } from "@chakra-ui/react";
 
 import { SearchInput } from "~/core/form";
 import { ContentCategoryFilter } from "~/shared/content";
-import { ItemStatUpdateToggleTip } from "~/shared/item";
 
 import { useContentRewardListPage } from "../../../content-reward-list-page-context";
 
@@ -17,7 +16,6 @@ export const ContentRewardListTableFilters = () => {
         onChange={setContentCategoryId}
         value={contentCategoryId}
       />
-      <ItemStatUpdateToggleTip />
     </Flex>
   );
 };
