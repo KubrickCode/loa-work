@@ -229,6 +229,7 @@ input MarketItemListFilter {
   categoryName: String
   grade: String
   isStatScraperEnabled: Boolean
+  keyword: String
 }
 
 type MarketItemStat {

@@ -9,6 +9,9 @@ export class MarketItemListFilter {
   categoryName?: string;
 
   @Field({ nullable: true })
+  keyword?: string;
+
+  @Field({ nullable: true })
   grade?: string;
 
   @Field(() => Boolean, { nullable: true })
@@ -43,6 +46,17 @@ export class MarketItemListQuery {
 
     if (filter?.grade) {
       whereArgs.grade = filter.grade;
+    }
+
+    if (filter?.keyword) {
+      whereArgs.OR = [
+        {
+          name: {
+            contains: filter.keyword,
+            mode: 'insensitive',
+          },
+        },
+      ];
     }
 
     return whereArgs;
