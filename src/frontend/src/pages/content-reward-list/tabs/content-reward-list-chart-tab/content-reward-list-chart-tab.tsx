@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+
+import { Loader } from "~/core/loader";
 import { Section } from "~/core/section";
 
 import { ContentRewardListPieChart } from "./components/content-reward-list-pie-chart";
@@ -9,7 +12,9 @@ export const ContentRewardListChartTab = () => {
     <Section title="보상 비율">
       <ContentRewardListPageProvider>
         <ContentRewardListTableFilters />
-        <ContentRewardListPieChart />
+        <Suspense fallback={<Loader.Block />}>
+          <ContentRewardListPieChart />
+        </Suspense>
       </ContentRewardListPageProvider>
     </Section>
   );
