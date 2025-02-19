@@ -20,35 +20,35 @@ export const ContentWageTableTab = () => {
 
   return (
     <Section>
-      <Suspense fallback={<Loader.TableSkeleton line={30} />}>
-        <ContentWageListPageProvider>
-          <Flex alignItems="center" gap={2} wrap="wrap">
-            <ContentWageListFilters />
-            {isAuthenticated && (
-              <DialogTrigger
-                dialog={
-                  <GoldExchangeRateSettingDialog onComplete={refetchTable} />
-                }
-                trigger={
-                  <Button size="xs" variant="outline">
-                    <IoIosSettings /> 골드 환율 설정
-                  </Button>
-                }
-              />
-            )}
+      <ContentWageListPageProvider>
+        <Flex alignItems="center" gap={2} wrap="wrap">
+          <ContentWageListFilters />
+          {isAuthenticated && (
             <DialogTrigger
-              dialog={<CustomContentWageCalculateDialog />}
+              dialog={
+                <GoldExchangeRateSettingDialog onComplete={refetchTable} />
+              }
               trigger={
                 <Button size="xs" variant="outline">
-                  <IoIosCalculator />
-                  시급 계산기
+                  <IoIosSettings /> 골드 환율 설정
                 </Button>
               }
             />
-          </Flex>
+          )}
+          <DialogTrigger
+            dialog={<CustomContentWageCalculateDialog />}
+            trigger={
+              <Button size="xs" variant="outline">
+                <IoIosCalculator />
+                시급 계산기
+              </Button>
+            }
+          />
+        </Flex>
+        <Suspense fallback={<Loader.TableSkeleton line={30} />}>
           <ContentWageListTable setRefetchTable={setRefetchTable} />
-        </ContentWageListPageProvider>
-      </Suspense>
+        </Suspense>
+      </ContentWageListPageProvider>
     </Section>
   );
 };
