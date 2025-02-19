@@ -12,6 +12,9 @@ export class ContentWageListFilter {
   @Field(() => Int, { nullable: true })
   contentCategoryId?: number;
 
+  @Field(() => String, { nullable: true })
+  keyword?: string;
+
   @Field(() => [Int], { nullable: true })
   includeContentRewardItemIds?: number[];
 
@@ -122,6 +125,17 @@ export class ContentWageListQuery {
 
     if (filter?.contentCategoryId) {
       where.contentCategoryId = filter.contentCategoryId;
+    }
+
+    if (filter?.keyword) {
+      where.AND = [
+        {
+          name: {
+            contains: filter.keyword,
+            mode: 'insensitive',
+          },
+        },
+      ];
     }
 
     return where;

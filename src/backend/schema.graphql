@@ -185,6 +185,7 @@ input ContentWageListFilter {
   includeContentRewardItemIds: [Int!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
+  keyword: String
 }
 
 input CustomContentWageCalculateInput {

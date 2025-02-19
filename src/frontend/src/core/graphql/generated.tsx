@@ -212,6 +212,7 @@ export type ContentWageListFilter = {
   includeContentRewardItemIds?: InputMaybe<Array<Scalars['Int']['input']>>;
   includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
+  keyword?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CustomContentWageCalculateInput = {

@@ -19,6 +19,9 @@ type ContentWageListPageContextType = {
   contentCategoryId: number | null;
   setContentCategoryId: (id: number | null) => void;
 
+  keyword: string;
+  setKeyword: (value: string) => void;
+
   includeIsSeeMore?: boolean;
   setIncludeIsSeeMore: (value: boolean) => void;
 
@@ -42,6 +45,7 @@ export const ContentWageListPageProvider = ({
   const [contentCategoryId, setContentCategoryId] = useState<number | null>(
     null
   );
+  const [keyword, setKeyword] = useState<string>("");
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
   const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =
@@ -52,6 +56,8 @@ export const ContentWageListPageProvider = ({
       value={{
         contentRewardItems,
         contentCategoryId,
+        keyword,
+        setKeyword,
         includeIsSeeMore,
         includeIsBound,
         setContentCategoryId,

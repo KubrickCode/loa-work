@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { IoFilter } from "react-icons/io5";
 
 import { Button } from "~/chakra-components/ui/button";
@@ -12,19 +12,22 @@ import {
   PopoverTrigger,
 } from "~/chakra-components/ui/popover";
 import { SegmentedControl } from "~/chakra-components/ui/segmented-control";
+import { SearchInput } from "~/core/form";
 import { MultiSelect } from "~/core/select";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import { ContentCategoryFilter } from "~/shared/content";
 
 export const ContentWageListFilters = () => {
-  const { contentCategoryId, setContentCategoryId } = useContentWageListPage();
+  const { contentCategoryId, setContentCategoryId, setKeyword } =
+    useContentWageListPage();
 
   const handleCategoryChange = (value: number | null) => {
     setContentCategoryId(value || null);
   };
 
   return (
-    <Box>
+    <Flex gap={2}>
+      <SearchInput onSearch={setKeyword} />
       <PopoverRoot positioning={{ placement: "bottom-end" }}>
         <PopoverTrigger asChild>
           <Button size="xs" variant="outline">
@@ -56,7 +59,7 @@ export const ContentWageListFilters = () => {
           <PopoverCloseTrigger />
         </PopoverContent>
       </PopoverRoot>
-    </Box>
+    </Flex>
   );
 };
 
