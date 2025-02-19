@@ -1,7 +1,14 @@
+import * as Sentry from "@sentry/react";
 import LogRocket from "logrocket";
 import { useEffect } from "react";
 
 import { useAuth } from "../auth";
+
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  integrations: [Sentry.browserTracingIntegration()],
+  tracePropagationTargets: [import.meta.env.VITE_CLIENT_DOMAIN],
+});
 
 export const Logger = () => {
   const { user } = useAuth();
