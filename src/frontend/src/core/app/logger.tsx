@@ -7,17 +7,17 @@ export const Logger = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (import.meta.env.PROD) {
-      LogRocket.init(import.meta.env.VITE_LOGROCKET_ID);
+    if (!import.meta.env.PROD) return;
 
-      if (user) {
-        LogRocket.identify(user.email ?? user.refId, {
-          email: user.email ?? "",
-          id: user.refId,
-          name: user.displayName,
-        });
-      }
-    }
+    LogRocket.init(import.meta.env.VITE_LOGROCKET_ID);
+
+    if (!user) return;
+
+    LogRocket.identify(user.email ?? user.refId, {
+      email: user.email ?? "",
+      id: user.refId,
+      name: user.displayName,
+    });
   }, [user]);
 
   return null;
