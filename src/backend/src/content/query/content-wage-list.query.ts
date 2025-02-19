@@ -128,11 +128,19 @@ export class ContentWageListQuery {
     }
 
     if (filter?.keyword) {
-      where.AND = [
+      where.OR = [
         {
           name: {
             contains: filter.keyword,
             mode: 'insensitive',
+          },
+        },
+        {
+          contentCategory: {
+            name: {
+              contains: filter.keyword,
+              mode: 'insensitive',
+            },
           },
         },
       ];
