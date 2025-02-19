@@ -18,7 +18,7 @@ import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-l
 import { ContentCategoryFilter } from "~/shared/content";
 
 export const ContentWageListFilters = () => {
-  const { contentCategoryId, setContentCategoryId, setKeyword } =
+  const { contentCategoryId, keyword, setContentCategoryId, setKeyword } =
     useContentWageListPage();
 
   const handleCategoryChange = (value: number | null) => {
@@ -27,7 +27,7 @@ export const ContentWageListFilters = () => {
 
   return (
     <Flex gap={2}>
-      <SearchInput onSearch={setKeyword} />
+      <SearchInput onSearch={setKeyword} value={keyword} />
       <PopoverRoot positioning={{ placement: "bottom-end" }}>
         <PopoverTrigger asChild>
           <Button size="xs" variant="outline">
