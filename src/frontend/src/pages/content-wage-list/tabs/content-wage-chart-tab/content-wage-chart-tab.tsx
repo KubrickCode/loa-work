@@ -1,5 +1,7 @@
 import { Flex } from "@chakra-ui/react";
+import { Suspense } from "react";
 
+import { Loader } from "~/core/loader";
 import { Section } from "~/core/section";
 
 import { ContentWageListBarChart } from "./components/content-wage-list-bar-chart";
@@ -12,7 +14,9 @@ export const ContentWageChartTab = () => {
       <ContentWageListPageProvider>
         <Flex direction="column" gap={2}>
           <ContentWageListFilters />
-          <ContentWageListBarChart />
+          <Suspense fallback={<Loader.TableSkeleton line={30} />}>
+            <ContentWageListBarChart />
+          </Suspense>
         </Flex>
       </ContentWageListPageProvider>
     </Section>
