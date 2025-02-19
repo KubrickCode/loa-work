@@ -15,13 +15,13 @@ import { useSafeQuery } from "~/core/graphql";
 import { ContentWageListBarChartDocument } from "~/core/graphql/generated";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 
-
 export const ContentWageListBarChart = () => {
   const {
     contentCategoryId,
     includeIsSeeMore,
     includeIsBound,
     includeContentRewardItemIds,
+    keyword,
   } = useContentWageListPage();
 
   const { data } = useSafeQuery(ContentWageListBarChartDocument, {
@@ -31,6 +31,7 @@ export const ContentWageListBarChart = () => {
         includeIsSeeMore,
         includeIsBound,
         includeContentRewardItemIds,
+        keyword,
       },
       orderBy: [
         {
