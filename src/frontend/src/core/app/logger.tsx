@@ -8,7 +8,7 @@ export const Logger = () => {
 
   useEffect(() => {
     if (import.meta.env.PROD) {
-      LogRocket.init("z3zzrq/loa-work");
+      LogRocket.init(import.meta.env.VITE_LOGROCKET_ID);
 
       if (user) {
         LogRocket.identify(user.email ?? user.refId, {
