@@ -137,39 +137,51 @@ export const DataTable = <T,>({
     [columns, renderColumn]
   );
 
+  const hasData = rows.length > 0;
+
   return (
     <Table.ScrollArea maxHeight="4xl">
-      <Table.Root interactive showColumnBorder stickyHeader>
+      <Table.Root interactive={hasData} showColumnBorder stickyHeader>
         <Table.Header>
           <Table.Row>
-            {columns.map((column, index) => (
-              <Table.ColumnHeader
-                key={index}
-                {...(column.align && { textAlign: column.align })}
-                {...(column.width && { width: column.width })}
-              >
-                <Box
-                  alignItems="center"
-                  display="flex"
-                  gap={1}
-                  justifyContent={column.align}
-                  whiteSpace="nowrap"
+            {hasData &&
+              columns.map((column, index) => (
+                <Table.ColumnHeader
+                  key={index}
+                  {...(column.align && { textAlign: column.align })}
+                  {...(column.width && { width: column.width })}
                 >
-                  {column.header}
-                  {column.sortKey && (
-                    <SortControl
-                      currentState={
-                        currentSortKey === column.sortKey ? sortOrder : null
-                      }
-                      onClick={() => handleSort(column)}
-                    />
-                  )}
-                </Box>
-              </Table.ColumnHeader>
-            ))}
+                  <Box
+                    alignItems="center"
+                    display="flex"
+                    gap={1}
+                    justifyContent={column.align}
+                    whiteSpace="nowrap"
+                  >
+                    {column.header}
+                    {column.sortKey && (
+                      <SortControl
+                        currentState={
+                          currentSortKey === column.sortKey ? sortOrder : null
+                        }
+                        onClick={() => handleSort(column)}
+                      />
+                    )}
+                  </Box>
+                </Table.ColumnHeader>
+              ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
+          {!hasData && (
+            <Table.Row>
+              <Table.Cell colSpan={columns.length}>
+                <Box p={24} textAlign="center" width="100%">
+                  조회된 데이터가 없습니다
+                </Box>
+              </Table.Cell>
+            </Table.Row>
+          )}
           {pagination
             ? currentData.map((row, index) => renderRow(row, index))
             : displayRows.map((row, index) => renderRow(row, index))}
