@@ -1,7 +1,7 @@
 import { Flex, Link, Spinner, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
-import { ToggleTip } from "~/chakra-components/ui/toggle-tip";
+import { ToggleTip } from "~/core/chakra-components/ui/toggle-tip";
 import { formatDateTime } from "~/core/format";
 import { useQuery } from "~/core/graphql";
 import { ItemStatUpdateToggleTipDocument } from "~/core/graphql/generated";

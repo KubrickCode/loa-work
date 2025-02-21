@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 
-import { Checkbox as ChakraCheckbox } from "~/chakra-components/ui/checkbox";
-import { toaster } from "~/chakra-components/ui/toaster";
+import { Checkbox as ChakraCheckbox } from "~/core/chakra-components/ui/checkbox";
+import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Checkbox,
   Field,

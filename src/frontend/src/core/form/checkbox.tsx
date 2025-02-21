@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form";
 import {
   Checkbox as ChakraCheckbox,
   CheckboxProps,
-} from "~/chakra-components/ui/checkbox";
+} from "~/core/chakra-components/ui/checkbox";
 
 import { useFieldContext } from "./field";
 

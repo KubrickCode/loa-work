@@ -3,7 +3,7 @@ import { ReactNode, useState } from "react";
 import {
   DialogTrigger as ChakraDialogTrigger,
   DialogRoot,
-} from "~/chakra-components/ui/dialog";
+} from "~/core/chakra-components/ui/dialog";
 
 export type DialogTriggerProps = {
   dialog: ReactNode;

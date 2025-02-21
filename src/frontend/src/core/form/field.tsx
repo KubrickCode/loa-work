@@ -5,7 +5,7 @@ import { useFormContext, get } from "react-hook-form";
 import {
   Field as ChakraField,
   FieldProps as ChakraFieldProps,
-} from "~/chakra-components/ui/field";
+} from "~/core/chakra-components/ui/field";
 
 export type FieldContextType = {
   name: string;

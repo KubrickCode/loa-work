@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuSearch } from "react-icons/lu";
 
-import { InputGroup } from "~/chakra-components/ui/input-group";
+import { InputGroup } from "~/core/chakra-components/ui/input-group";
 
 type SearchInputProps = InputProps & {
   onSearch: (value: string) => void;

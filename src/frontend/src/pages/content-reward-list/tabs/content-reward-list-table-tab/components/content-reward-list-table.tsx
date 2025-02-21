@@ -2,7 +2,7 @@ import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
 import { FaLock } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 
-import { Tooltip } from "~/chakra-components/ui/tooltip";
+import { Tooltip } from "~/core/chakra-components/ui/tooltip";
 import { useAuth } from "~/core/auth";
 import { DialogTrigger } from "~/core/dialog";
 import { FormatGold } from "~/core/format";

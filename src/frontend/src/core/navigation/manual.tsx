@@ -6,7 +6,7 @@ import {
   AccordionItemContent,
   AccordionItemTrigger,
   AccordionRoot,
-} from "~/chakra-components/ui/accordion";
+} from "~/core/chakra-components/ui/accordion";
 import {
   DrawerRoot,
   DrawerTrigger,
@@ -16,7 +16,7 @@ import {
   DrawerBackdrop,
   DrawerHeader,
   DrawerTitle,
-} from "~/chakra-components/ui/drawer";
+} from "~/core/chakra-components/ui/drawer";
 
 export const Manual = () => {
   return (

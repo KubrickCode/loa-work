@@ -1,7 +1,7 @@
 import { createListCollection, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { Button } from "~/chakra-components/ui/button";
+import { Button } from "~/core/chakra-components/ui/button";
 import {
   SelectContent,
   SelectItem,
@@ -9,7 +9,7 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "~/chakra-components/ui/select";
+} from "~/core/chakra-components/ui/select";
 import { useSafeQuery } from "~/core/graphql";
 import { PredictRewardsTabDocument } from "~/core/graphql/generated";
 import { Section } from "~/core/section";

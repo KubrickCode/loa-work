@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
-import { Button } from "~/chakra-components/ui/button";
+import { Button } from "~/core/chakra-components/ui/button";
 import { useAuth } from "~/core/auth";
 import { DialogTrigger } from "~/core/dialog";
 import { Loader } from "~/core/loader";

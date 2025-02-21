@@ -10,7 +10,7 @@ import {
   YAxis,
 } from "recharts";
 
-import { useColorModeValue } from "~/chakra-components/ui/color-mode";
+import { useColorModeValue } from "~/core/chakra-components/ui/color-mode";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentWageListBarChartDocument } from "~/core/graphql/generated";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";

@@ -1,7 +1,7 @@
 import { Link, useDialogContext } from "@chakra-ui/react";
 import { Suspense } from "react";
 
-import { toaster } from "~/chakra-components/ui/toaster";
+import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,

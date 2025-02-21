@@ -1,11 +1,11 @@
 import { Flex } from "@chakra-ui/react";
 
-import { Alert } from "~/chakra-components/alert";
-import { Button } from "~/chakra-components/ui/button";
+import { Alert } from "~/core/chakra-components/alert";
+import { Button } from "~/core/chakra-components/ui/button";
 import {
   DialogFooter as ChakraDialogFooter,
   DialogActionTrigger,
-} from "~/chakra-components/ui/dialog";
+} from "~/core/chakra-components/ui/dialog";
 import { FORM_ERROR_FIELD, SubmitButton, useFormContext } from "~/core/form";
 
 export const DialogFormFooter = () => {

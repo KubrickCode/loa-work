@@ -5,7 +5,7 @@ import {
   AccordionItemContent,
   AccordionItemTrigger,
   AccordionRoot,
-} from "~/chakra-components/ui/accordion";
+} from "~/core/chakra-components/ui/accordion";
 
 export type AccordionProps = PropsWithChildren & {
   title: string;

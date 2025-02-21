@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
-import { Toaster } from "~/chakra-components/ui/toaster";
+import { Toaster } from "~/core/chakra-components/ui/toaster";
 
 import { Footer } from "./footer";
 import { Header } from "./header";

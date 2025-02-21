@@ -4,8 +4,8 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "~/chakra-components/ui/select";
-import { SkeletonText } from "~/chakra-components/ui/skeleton";
+} from "~/core/chakra-components/ui/select";
+import { SkeletonText } from "~/core/chakra-components/ui/skeleton";
 
 export const TableSkeleton = ({ line }: { line: number }) => {
   return <SkeletonText gap="4" noOfLines={line} p={4} />;

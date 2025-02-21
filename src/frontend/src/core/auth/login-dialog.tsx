@@ -3,7 +3,7 @@ import { FaDiscord } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { RiKakaoTalkFill } from "react-icons/ri";
 
-import { Button } from "~/chakra-components/ui/button";
+import { Button } from "~/core/chakra-components/ui/button";
 import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
 
 export const LoginDialog = () => {

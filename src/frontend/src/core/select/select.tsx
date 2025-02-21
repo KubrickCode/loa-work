@@ -6,7 +6,7 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "~/chakra-components/ui/select";
+} from "~/core/chakra-components/ui/select";
 
 export type BaseSelectProps<T extends string | number> = Omit<
   SelectRootProps,

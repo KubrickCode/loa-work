@@ -1,14 +1,17 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { MdLogin, MdLogout } from "react-icons/md";
 
-import { Avatar } from "~/chakra-components/ui/avatar";
-import { Button } from "~/chakra-components/ui/button";
-import { ColorModeIcon, useColorMode } from "~/chakra-components/ui/color-mode";
+import { Avatar } from "~/core/chakra-components/ui/avatar";
+import { Button } from "~/core/chakra-components/ui/button";
+import {
+  ColorModeIcon,
+  useColorMode,
+} from "~/core/chakra-components/ui/color-mode";
 import {
   MenuContent,
   MenuRoot,
   MenuTrigger,
-} from "~/chakra-components/ui/menu";
+} from "~/core/chakra-components/ui/menu";
 import { LoginDialog, useAuth } from "~/core/auth";
 import { DialogTrigger } from "~/core/dialog";
 import { MenuItem } from "~/core/menu";

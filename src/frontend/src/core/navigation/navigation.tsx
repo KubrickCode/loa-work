@@ -11,7 +11,7 @@ import {
   DrawerBody,
   DrawerCloseTrigger,
   DrawerBackdrop,
-} from "~/chakra-components/ui/drawer";
+} from "~/core/chakra-components/ui/drawer";
 
 import { Manual } from "./manual";
 import { navigationData } from "./navigation-data";

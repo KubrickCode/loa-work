@@ -13,7 +13,7 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
-} from "~/chakra-components/pagination";
+} from "~/core/chakra-components/pagination";
 
 import { SortControl } from "./sort-control";
 
