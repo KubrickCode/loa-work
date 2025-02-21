@@ -27,7 +27,7 @@ const Body = () => {
             borderWidth={1}
             color="gray.700"
             onClick={() => {
-              window.location.href = import.meta.env.VITE_GOOGLE_LOGIN_URL;
+              window.location.href = "/auth/google";
             }}
           >
             <FcGoogle /> Google로 계속하기
@@ -47,7 +47,7 @@ const Body = () => {
             bg="#FEE500"
             color="rgba(0,0,0,0.85)"
             onClick={() => {
-              window.location.href = import.meta.env.VITE_KAKAO_LOGIN_URL;
+              window.location.href = "/auth/kakao";
             }}
           >
             <RiKakaoTalkFill /> 카카오로 계속하기

@@ -20,9 +20,7 @@ jobs:
 
       - name: Build Frontend
         env:
-          VITE_GOOGLE_LOGIN_URL: ${{ secrets.VITE_GOOGLE_LOGIN_URL }}
           VITE_DISCORD_LOGIN_URL: ${{ secrets.VITE_DISCORD_LOGIN_URL }}
-          VITE_KAKAO_LOGIN_URL: ${{ secrets.VITE_KAKAO_LOGIN_URL }}
           VITE_KAKAO_OPEN_TALK_URL: ${{ secrets.VITE_KAKAO_OPEN_TALK_URL }}
           VITE_LOGROCKET_ID: ${{ secrets.VITE_LOGROCKET_ID }}
           VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
