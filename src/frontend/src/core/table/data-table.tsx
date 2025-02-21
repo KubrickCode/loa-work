@@ -1,4 +1,4 @@
-import { Box, HStack, Table } from "@chakra-ui/react";
+import { Box, EmptyState, HStack, Table } from "@chakra-ui/react";
 import _ from "lodash";
 import {
   ReactNode,
@@ -174,13 +174,13 @@ export const DataTable = <T,>({
         </Table.Header>
         <Table.Body>
           {!hasData && (
-            <Table.Row>
-              <Table.Cell colSpan={columns.length}>
-                <Box p={24} textAlign="center" width="100%">
+            <EmptyState.Root size="lg">
+              <EmptyState.Content py={24}>
+                <EmptyState.Description>
                   조회된 데이터가 없습니다
-                </Box>
-              </Table.Cell>
-            </Table.Row>
+                </EmptyState.Description>
+              </EmptyState.Content>
+            </EmptyState.Root>
           )}
           {pagination
             ? currentData.map((row, index) => renderRow(row, index))
