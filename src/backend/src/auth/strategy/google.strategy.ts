@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthProvider } from '@prisma/client';
-import { OAuth2Strategy, VerifyFunction } from 'passport-google-oauth';
+import { Strategy } from 'passport-google-oauth20';
 import { PrismaService } from 'src/prisma';
 import { UserSeedService } from 'src/user/service/user-seed.service';
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
+export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     configService: ConfigService,
     private prisma: PrismaService,
@@ -21,13 +21,8 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
     });
   }
 
-  async validate(
-    _accessToken: string,
-    _refreshToken: string,
-    profile: any,
-    done: VerifyFunction,
-  ) {
-    await this.prisma.$transaction(async (tx) => {
+  async validate(_accessToken: string, _refreshToken: string, profile: any) {
+    return await this.prisma.$transaction(async (tx) => {
       const user = await tx.user.upsert({
         create: {
           displayName: profile.displayName,
@@ -48,7 +43,7 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
 
       await this.userSeedService.makeAllSeedData(user.id, tx);
 
-      done(undefined, user);
+      return user;
     });
   }
 }
