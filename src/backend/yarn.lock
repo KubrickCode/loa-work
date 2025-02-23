@@ -1454,6 +1454,14 @@
     "@types/passport" "*"
     "@types/passport-oauth2" "*"
 
+"@types/passport-kakao@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/passport-kakao/-/passport-kakao-1.0.3.tgz#b42e02e5649b5574d6bab35a74bad7a8d05f334f"
+  integrity sha512-McK5kpeiOptvjIPkiA/QS3k82//z5JM7Y3yBLMDvEA0QMMhFMcWUHhyebL1Qy+0i0n8jS+Oe4U6xAvkU22SXXA==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+
 "@types/passport-oauth2@*":
   version "1.4.17"
   resolved "https://registry.yarnpkg.com/@types/passport-oauth2/-/passport-oauth2-1.4.17.tgz#d5d54339d44f6883d03e69dc0cc0e2114067abb4"
