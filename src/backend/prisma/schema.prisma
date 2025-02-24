@@ -344,8 +344,9 @@ model UserGoldExchangeRate {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  goldAmount Int @map("gold_amount")
-  krwAmount  Int @map("krw_amount")
+  goldAmount Int     @map("gold_amount")
+  isEdited   Boolean @default(false) @map("is_edited")
+  krwAmount  Int     @map("krw_amount")
 
   // Relations
   userId Int  @unique @map("user_id")
