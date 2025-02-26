@@ -41,18 +41,16 @@ export const ExtraItemListTable = () => {
                 }) {
                   return (
                     <DialogTrigger
-                      dialog={
-                        <UserExtraItemPriceEditDialog
-                          contentRewardItemId={data.id}
-                          onComplete={refetch}
-                        />
-                      }
-                      trigger={
-                        <IconButton size="xs" variant="surface">
-                          <IoIosSettings />
-                        </IconButton>
-                      }
-                    />
+                      dialog={UserExtraItemPriceEditDialog}
+                      dialogProps={{
+                        contentRewardItemId: data.id,
+                        onComplete: refetch,
+                      }}
+                    >
+                      <IconButton size="xs" variant="surface">
+                        <IoIosSettings />
+                      </IconButton>
+                    </DialogTrigger>
                   );
                 },
                 width: "32px",

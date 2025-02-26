@@ -7,6 +7,7 @@ import {
   DialogBody,
   DialogFormFooter,
   DialogHeader,
+  DialogProps,
   DialogTrigger,
 } from "~/core/dialog";
 import { Checkbox, Field, Fields, Input, MutationForm, z } from "~/core/form";
@@ -29,9 +30,10 @@ type UserContentRewardEditDialogProps = {
 export const UserContentRewardEditDialog = ({
   contentId,
   onComplete,
-}: UserContentRewardEditDialogProps) => {
+  ...dialogProps
+}: UserContentRewardEditDialogProps & DialogProps) => {
   return (
-    <Dialog>
+    <Dialog {...dialogProps}>
       <DialogHeader>보상 수정</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
         <Body contentId={contentId} onComplete={onComplete} />
@@ -93,9 +95,13 @@ const Body = ({ contentId, onComplete }: UserContentRewardEditDialogProps) => {
             <Checkbox>저장 후 데이터 제보</Checkbox>
           </Field>
           <DialogTrigger
-            dialog={<ContentRewardReportDialog contentId={contentId} />}
-            trigger={<Link variant="underline">저장없이 제보만하기</Link>}
-          />
+            dialog={ContentRewardReportDialog}
+            dialogProps={{
+              contentId,
+            }}
+          >
+            <Link variant="underline">저장없이 제보만하기</Link>
+          </DialogTrigger>
         </Fields>
       </DialogBody>
       <DialogFormFooter />

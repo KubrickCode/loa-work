@@ -7,6 +7,7 @@ import {
   DialogBody,
   DialogFormFooter,
   DialogHeader,
+  DialogProps,
 } from "~/core/dialog";
 import { Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
@@ -26,9 +27,10 @@ type UserExtraItemPriceEditDialogProps = {
 export const UserExtraItemPriceEditDialog = ({
   contentRewardItemId,
   onComplete,
-}: UserExtraItemPriceEditDialogProps) => {
+  ...dialogProps
+}: UserExtraItemPriceEditDialogProps & DialogProps) => {
   return (
-    <Dialog>
+    <Dialog {...dialogProps}>
       <DialogHeader>기타 아이템 골드 가치 수정</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
         <Body

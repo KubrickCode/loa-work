@@ -7,6 +7,7 @@ import {
   DialogBody,
   DialogFormFooter,
   DialogHeader,
+  DialogProps,
 } from "~/core/dialog";
 import { Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
@@ -24,9 +25,10 @@ type ContentRewardReportDialogProps = {
 
 export const ContentRewardReportDialog = ({
   contentId,
-}: ContentRewardReportDialogProps) => {
+  ...dialogProps
+}: ContentRewardReportDialogProps & DialogProps) => {
   return (
-    <Dialog>
+    <Dialog {...dialogProps}>
       <DialogHeader>보상 제보</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
         <Body contentId={contentId} />

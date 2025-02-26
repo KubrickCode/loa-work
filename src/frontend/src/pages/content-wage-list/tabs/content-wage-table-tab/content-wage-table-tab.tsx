@@ -2,8 +2,8 @@ import { Flex } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
-import { Button } from "~/core/chakra-components/ui/button";
 import { useAuth } from "~/core/auth";
+import { Button } from "~/core/chakra-components/ui/button";
 import { DialogTrigger } from "~/core/dialog";
 import { Loader } from "~/core/loader";
 import { Section } from "~/core/section";
@@ -25,25 +25,22 @@ export const ContentWageTableTab = () => {
           <ContentWageListFilters />
           {isAuthenticated && (
             <DialogTrigger
-              dialog={
-                <GoldExchangeRateSettingDialog onComplete={refetchTable} />
-              }
-              trigger={
-                <Button size="xs" variant="outline">
-                  <IoIosSettings /> 골드 환율 설정
-                </Button>
-              }
-            />
-          )}
-          <DialogTrigger
-            dialog={<CustomContentWageCalculateDialog />}
-            trigger={
+              dialog={GoldExchangeRateSettingDialog}
+              dialogProps={{
+                onComplete: refetchTable,
+              }}
+            >
               <Button size="xs" variant="outline">
-                <IoIosCalculator />
-                시급 계산기
+                <IoIosSettings /> 골드 환율 설정
               </Button>
-            }
-          />
+            </DialogTrigger>
+          )}
+          <DialogTrigger dialog={CustomContentWageCalculateDialog}>
+            <Button size="xs" variant="outline">
+              <IoIosCalculator />
+              시급 계산기
+            </Button>
+          </DialogTrigger>
         </Flex>
         <Suspense fallback={<Loader.TableSkeleton line={30} />}>
           <ContentWageListTable setRefetchTable={setRefetchTable} />

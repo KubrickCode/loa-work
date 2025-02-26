@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
-import { DialogTrigger } from "~/core/dialog";
+import { DialogTrigger } from "~/core/dialog/dialog-trigger";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -60,18 +60,16 @@ export const ContentWageListTable = ({
                 }) {
                   return (
                     <DialogTrigger
-                      dialog={
-                        <UserContentDurationEditDialog
-                          contentDurationId={data.content.contentDuration.id}
-                          onComplete={refetch}
-                        />
-                      }
-                      trigger={
-                        <IconButton size="xs" variant="surface">
-                          <IoIosSettings />
-                        </IconButton>
-                      }
-                    />
+                      dialog={UserContentDurationEditDialog}
+                      dialogProps={{
+                        contentDurationId: data.content.contentDuration.id,
+                        onComplete: refetch,
+                      }}
+                    >
+                      <IconButton size="xs" variant="surface">
+                        <IoIosSettings />
+                      </IconButton>
+                    </DialogTrigger>
                   );
                 },
                 width: "32px",

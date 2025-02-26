@@ -1,26 +1,41 @@
-import { ReactNode, useState } from "react";
+import { Flex, FlexProps, useDisclosure } from "@chakra-ui/react";
+import { ComponentPropsWithoutRef, createElement, ElementType } from "react";
 
-import {
-  DialogTrigger as ChakraDialogTrigger,
-  DialogRoot,
-} from "~/core/chakra-components/ui/dialog";
-
-export type DialogTriggerProps = {
-  dialog: ReactNode;
-  trigger: ReactNode;
+export type DialogTriggerProps<T extends ElementType> = FlexProps & {
+  dialog: T;
+  dialogProps?: Omit<ComponentPropsWithoutRef<T>, "open" | "onClose">;
 };
 
-export const DialogTrigger = ({ dialog, trigger }: DialogTriggerProps) => {
-  const [open, setOpen] = useState(false);
+export const DialogTrigger = <T extends ElementType>({
+  children,
+  dialog,
+  dialogProps,
+  ...otherProps
+}: DialogTriggerProps<T>) => {
+  const { onOpen, onClose, open } = useDisclosure();
+
+  const renderModal = () => {
+    if (!open) return null;
+
+    return createElement(dialog, {
+      ...dialogProps,
+      onClose,
+      open,
+    });
+  };
+
   return (
-    <DialogRoot
-      lazyMount
-      modal={false}
-      onOpenChange={(e) => setOpen(e.open)}
-      open={open}
-    >
-      <ChakraDialogTrigger asChild>{trigger}</ChakraDialogTrigger>
-      {dialog}
-    </DialogRoot>
+    <>
+      <Flex
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpen();
+        }}
+        {...otherProps}
+      >
+        {children}
+      </Flex>
+      {renderModal()}
+    </>
   );
 };

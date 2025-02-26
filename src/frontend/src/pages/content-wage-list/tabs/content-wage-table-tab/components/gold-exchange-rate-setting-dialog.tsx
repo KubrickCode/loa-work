@@ -7,6 +7,7 @@ import {
   DialogBody,
   DialogFormFooter,
   DialogHeader,
+  DialogProps,
 } from "~/core/dialog";
 import { Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
@@ -20,11 +21,12 @@ import { Loader } from "~/core/loader";
 
 export const GoldExchangeRateSettingDialog = ({
   onComplete,
+  ...dialogProps
 }: {
   onComplete: () => void;
-}) => {
+} & DialogProps) => {
   return (
-    <Dialog>
+    <Dialog {...dialogProps}>
       <DialogHeader>골드 환율 설정</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
         <Body onComplete={onComplete} />

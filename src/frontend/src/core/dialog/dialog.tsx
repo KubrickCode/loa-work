@@ -1,13 +1,16 @@
 import { PropsWithChildren } from "react";
 
-import {
-  DialogCloseTrigger,
-  DialogContent,
-} from "~/core/chakra-components/ui/dialog";
+import { DialogContent, DialogRoot } from "~/core/chakra-components/ui/dialog";
 
-export const Dialog = ({ children, ...props }: PropsWithChildren) => (
-  <DialogContent {...props}>
-    {children}
-    <DialogCloseTrigger />
-  </DialogContent>
-);
+export type DialogProps = PropsWithChildren & {
+  onClose: () => void;
+  open: boolean;
+};
+
+export const Dialog = ({ children, onClose, open }: DialogProps) => {
+  return (
+    <DialogRoot lazyMount modal={false} onOpenChange={onClose} open={open}>
+      <DialogContent>{children}</DialogContent>
+    </DialogRoot>
+  );
+};

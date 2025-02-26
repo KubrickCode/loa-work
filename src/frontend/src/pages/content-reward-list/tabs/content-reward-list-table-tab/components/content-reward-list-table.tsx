@@ -2,8 +2,8 @@ import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
 import { FaLock } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 
-import { Tooltip } from "~/core/chakra-components/ui/tooltip";
 import { useAuth } from "~/core/auth";
+import { Tooltip } from "~/core/chakra-components/ui/tooltip";
 import { DialogTrigger } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
@@ -62,22 +62,20 @@ export const ContentRewardListTable = () => {
                 render({ data }: { data: (typeof rows)[number]["data"] }) {
                   return (
                     <DialogTrigger
-                      dialog={
-                        <UserContentRewardEditDialog
-                          contentId={data.id}
-                          onComplete={refetch}
-                        />
-                      }
-                      trigger={
-                        <IconButton
-                          disabled={data.isSeeMore}
-                          size="xs"
-                          variant="surface"
-                        >
-                          <IoIosSettings />
-                        </IconButton>
-                      }
-                    />
+                      dialog={UserContentRewardEditDialog}
+                      dialogProps={{
+                        contentId: data.id,
+                        onComplete: refetch,
+                      }}
+                    >
+                      <IconButton
+                        disabled={data.isSeeMore}
+                        size="xs"
+                        variant="surface"
+                      >
+                        <IoIosSettings />
+                      </IconButton>
+                    </DialogTrigger>
                   );
                 },
                 width: "32px",

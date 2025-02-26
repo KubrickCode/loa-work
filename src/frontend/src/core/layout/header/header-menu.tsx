@@ -1,6 +1,7 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { MdLogin, MdLogout } from "react-icons/md";
 
+import { LoginDialog, useAuth } from "~/core/auth";
 import { Avatar } from "~/core/chakra-components/ui/avatar";
 import { Button } from "~/core/chakra-components/ui/button";
 import {
@@ -12,7 +13,6 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "~/core/chakra-components/ui/menu";
-import { LoginDialog, useAuth } from "~/core/auth";
 import { DialogTrigger } from "~/core/dialog";
 import { MenuItem } from "~/core/menu";
 
@@ -39,15 +39,12 @@ export const HeaderMenu = () => {
             로그아웃
           </MenuItem>
         ) : (
-          <DialogTrigger
-            dialog={<LoginDialog />}
-            trigger={
-              <MenuItem value="login">
-                <MdLogin />
-                로그인
-              </MenuItem>
-            }
-          />
+          <DialogTrigger dialog={LoginDialog}>
+            <MenuItem value="login">
+              <MdLogin />
+              로그인
+            </MenuItem>
+          </DialogTrigger>
         )}
       </MenuContent>
     </MenuRoot>

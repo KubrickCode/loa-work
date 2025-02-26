@@ -4,11 +4,17 @@ import { FcGoogle } from "react-icons/fc";
 import { RiKakaoTalkFill } from "react-icons/ri";
 
 import { Button } from "~/core/chakra-components/ui/button";
-import { Dialog, DialogBody, DialogFooter, DialogHeader } from "~/core/dialog";
+import {
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  DialogProps,
+} from "~/core/dialog";
 
-export const LoginDialog = () => {
+export const LoginDialog = (dialogProps: DialogProps) => {
   return (
-    <Dialog>
+    <Dialog {...dialogProps}>
       <DialogHeader>로그인</DialogHeader>
       <Body />
     </Dialog>

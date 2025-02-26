@@ -8,6 +8,7 @@ import {
   DialogBody,
   DialogFormFooter,
   DialogHeader,
+  DialogProps,
 } from "~/core/dialog";
 import { Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { FormatGold } from "~/core/format";
@@ -21,9 +22,9 @@ import {
 } from "~/core/graphql/generated";
 import { Loader } from "~/core/loader";
 
-export const CustomContentWageCalculateDialog = () => {
+export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
   return (
-    <Dialog>
+    <Dialog {...dialogProps}>
       <DialogHeader>컨텐츠 시급 계산기</DialogHeader>
       <Suspense fallback={<Loader.Block />}>
         <Body />
