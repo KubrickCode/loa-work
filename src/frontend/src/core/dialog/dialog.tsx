@@ -10,7 +10,13 @@ export type DialogProps = PropsWithChildren & {
 
 export const Dialog = ({ children, onClose, open }: DialogProps) => {
   return (
-    <DialogRoot lazyMount modal={false} onOpenChange={onClose} open={open}>
+    <DialogRoot
+      lazyMount
+      modal={false}
+      onOpenChange={onClose}
+      open={open}
+      scrollBehavior="inside"
+    >
       <Portal>
         <DialogBackdrop />
         {children}
