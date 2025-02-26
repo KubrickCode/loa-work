@@ -292,7 +292,8 @@ model UserContentDuration {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  value Int // 소요시간(초)
+  isEdited Boolean @default(false) @map("is_edited")
+  value    Int // 소요시간(초)
 
   // Relations
   contentDurationId Int             @map("content_duration_id")
