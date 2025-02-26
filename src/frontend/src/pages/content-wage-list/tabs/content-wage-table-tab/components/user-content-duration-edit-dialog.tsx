@@ -1,12 +1,21 @@
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   DialogBody,
+  DialogCloseButton,
   DialogContent,
-  DialogFormFooter,
+  DialogFooter,
   DialogHeader,
 } from "~/core/dialog";
 import { Dialog, DialogProps } from "~/core/dialog/dialog";
-import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
+import {
+  Field,
+  FormBody,
+  FormFooter,
+  Input,
+  MutationForm,
+  SubmitButton,
+  z,
+} from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentDurationEditDialogDocument,
@@ -42,27 +51,27 @@ export const UserContentDurationEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>소요시간 수정</DialogHeader>
-        <MutationForm<
-          UserContentDurationEditInput,
-          UserContentDurationEditMutation
-        >
-          defaultValues={{
-            id: userContentDuration.id,
-            value: userContentDuration.value,
-          }}
-          mutation={UserContentDurationEditDocument}
-          onComplete={() => {
-            dialogProps.onClose();
-            onComplete();
-            toaster.create({
-              title: "컨텐츠 소요시간이 수정되었습니다.",
-              type: "success",
-            });
-          }}
-          schema={schema}
-        >
+      <MutationForm<
+        UserContentDurationEditInput,
+        UserContentDurationEditMutation
+      >
+        defaultValues={{
+          id: userContentDuration.id,
+          value: userContentDuration.value,
+        }}
+        mutation={UserContentDurationEditDocument}
+        onComplete={() => {
+          dialogProps.onClose();
+          onComplete();
+          toaster.create({
+            title: "컨텐츠 소요시간이 수정되었습니다.",
+            type: "success",
+          });
+        }}
+        schema={schema}
+      >
+        <DialogContent>
+          <DialogHeader>소요시간 수정</DialogHeader>
           <DialogBody>
             <FormBody>
               <Field label="소요시간(초 단위)" name="value">
@@ -70,9 +79,14 @@ export const UserContentDurationEditDialog = ({
               </Field>
             </FormBody>
           </DialogBody>
-          <DialogFormFooter />
-        </MutationForm>
-      </DialogContent>
+          <DialogFooter>
+            <FormFooter>
+              <DialogCloseButton />
+              <SubmitButton />
+            </FormFooter>
+          </DialogFooter>
+        </DialogContent>
+      </MutationForm>
     </Dialog>
   );
 };

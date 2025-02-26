@@ -2,12 +2,21 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogCloseButton,
   DialogContent,
-  DialogFormFooter,
+  DialogFooter,
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
+import {
+  Field,
+  FormBody,
+  FormFooter,
+  Input,
+  MutationForm,
+  SubmitButton,
+  z,
+} from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentRewardReportDialogDocument,
@@ -41,25 +50,25 @@ export const ContentRewardReportDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>보상 제보</DialogHeader>
-        <MutationForm<ContentRewardsReportInput, ContentRewardsReportMutation>
-          defaultValues={{
-            contentRewards: data.content.contentRewards.map((reward) => ({
-              id: reward.id,
-              averageQuantity: reward.userContentReward.averageQuantity,
-            })),
-          }}
-          mutation={ContentRewardsReportDocument}
-          onComplete={() => {
-            dialogProps.onClose();
-            toaster.create({
-              title: "컨텐츠 보상이 제보되었습니다.",
-              type: "success",
-            });
-          }}
-          schema={schema}
-        >
+      <MutationForm<ContentRewardsReportInput, ContentRewardsReportMutation>
+        defaultValues={{
+          contentRewards: data.content.contentRewards.map((reward) => ({
+            id: reward.id,
+            averageQuantity: reward.userContentReward.averageQuantity,
+          })),
+        }}
+        mutation={ContentRewardsReportDocument}
+        onComplete={() => {
+          dialogProps.onClose();
+          toaster.create({
+            title: "컨텐츠 보상이 제보되었습니다.",
+            type: "success",
+          });
+        }}
+        schema={schema}
+      >
+        <DialogContent>
+          <DialogHeader>보상 제보</DialogHeader>
           <DialogBody>
             <FormBody>
               {data.content.contentRewards.map((reward, index) => (
@@ -73,9 +82,14 @@ export const ContentRewardReportDialog = ({
               ))}
             </FormBody>
           </DialogBody>
-          <DialogFormFooter />
-        </MutationForm>
-      </DialogContent>
+          <DialogFooter>
+            <FormFooter>
+              <DialogCloseButton />
+              <SubmitButton />
+            </FormFooter>
+          </DialogFooter>
+        </DialogContent>
+      </MutationForm>
     </Dialog>
   );
 };

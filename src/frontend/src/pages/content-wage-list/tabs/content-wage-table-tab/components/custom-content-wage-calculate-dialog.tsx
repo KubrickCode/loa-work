@@ -6,12 +6,21 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogCloseButton,
   DialogContent,
-  DialogFormFooter,
+  DialogFooter,
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
+import {
+  Field,
+  FormBody,
+  FormFooter,
+  Input,
+  MutationForm,
+  SubmitButton,
+  z,
+} from "~/core/form";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -38,31 +47,31 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
 
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>컨텐츠 시급 계산기</DialogHeader>
-        <MutationForm<
-          CustomContentWageCalculateInput,
-          CustomContentWageCalculateDialogMutationMutation
-        >
-          defaultValues={{
-            duration: 0,
-            rewardItems: data.contentRewardItems.map((item) => ({
-              id: item.id,
-              quantity: 0,
-            })),
-          }}
-          mutation={CustomContentWageCalculateDialogMutationDocument}
-          onComplete={({ data }) => {
-            toaster.create({
-              title: "계산이 완료되었습니다.",
-              type: "success",
-            });
-            if (data?.customContentWageCalculate.ok) {
-              setResult(data.customContentWageCalculate);
-            }
-          }}
-          schema={schema}
-        >
+      <MutationForm<
+        CustomContentWageCalculateInput,
+        CustomContentWageCalculateDialogMutationMutation
+      >
+        defaultValues={{
+          duration: 0,
+          rewardItems: data.contentRewardItems.map((item) => ({
+            id: item.id,
+            quantity: 0,
+          })),
+        }}
+        mutation={CustomContentWageCalculateDialogMutationDocument}
+        onComplete={({ data }) => {
+          toaster.create({
+            title: "계산이 완료되었습니다.",
+            type: "success",
+          });
+          if (data?.customContentWageCalculate.ok) {
+            setResult(data.customContentWageCalculate);
+          }
+        }}
+        schema={schema}
+      >
+        <DialogContent>
+          <DialogHeader>컨텐츠 시급 계산기</DialogHeader>
           <DialogBody>
             <FormBody>
               <Flex direction="column" fontSize="xs">
@@ -106,9 +115,14 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
               )}
             </FormBody>
           </DialogBody>
-          <DialogFormFooter />
-        </MutationForm>
-      </DialogContent>
+          <DialogFooter>
+            <FormFooter>
+              <DialogCloseButton />
+              <SubmitButton />
+            </FormFooter>
+          </DialogFooter>
+        </DialogContent>
+      </MutationForm>
     </Dialog>
   );
 };

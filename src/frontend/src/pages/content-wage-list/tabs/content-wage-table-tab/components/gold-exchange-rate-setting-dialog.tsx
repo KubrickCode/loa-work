@@ -2,12 +2,21 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogCloseButton,
   DialogContent,
-  DialogFormFooter,
+  DialogFooter,
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
+import {
+  Field,
+  FormBody,
+  FormFooter,
+  Input,
+  MutationForm,
+  SubmitButton,
+  z,
+} from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserGoldExchangeRateEditDocument,
@@ -33,27 +42,27 @@ export const GoldExchangeRateSettingDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>골드 환율 설정</DialogHeader>
-        <MutationForm<
-          UserGoldExchangeRateEditInput,
-          UserGoldExchangeRateEditMutation
-        >
-          defaultValues={{
-            id: userGoldExchangeRate.id,
-            krwAmount: userGoldExchangeRate.krwAmount,
-          }}
-          mutation={UserGoldExchangeRateEditDocument}
-          onComplete={() => {
-            dialogProps.onClose();
-            onComplete();
-            toaster.create({
-              title: "골드 환율이 수정되었습니다.",
-              type: "success",
-            });
-          }}
-          schema={schema}
-        >
+      <MutationForm<
+        UserGoldExchangeRateEditInput,
+        UserGoldExchangeRateEditMutation
+      >
+        defaultValues={{
+          id: userGoldExchangeRate.id,
+          krwAmount: userGoldExchangeRate.krwAmount,
+        }}
+        mutation={UserGoldExchangeRateEditDocument}
+        onComplete={() => {
+          dialogProps.onClose();
+          onComplete();
+          toaster.create({
+            title: "골드 환율이 수정되었습니다.",
+            type: "success",
+          });
+        }}
+        schema={schema}
+      >
+        <DialogContent>
+          <DialogHeader>골드 환율 설정</DialogHeader>
           <DialogBody>
             <FormBody>
               <Field
@@ -64,9 +73,14 @@ export const GoldExchangeRateSettingDialog = ({
               </Field>
             </FormBody>
           </DialogBody>
-          <DialogFormFooter />
-        </MutationForm>
-      </DialogContent>
+          <DialogFooter>
+            <FormFooter>
+              <DialogCloseButton />
+              <SubmitButton />
+            </FormFooter>
+          </DialogFooter>
+        </DialogContent>
+      </MutationForm>
     </Dialog>
   );
 };

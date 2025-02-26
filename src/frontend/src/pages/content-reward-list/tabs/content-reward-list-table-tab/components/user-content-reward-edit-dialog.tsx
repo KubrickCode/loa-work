@@ -4,13 +4,23 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogCloseButton,
   DialogContent,
-  DialogFormFooter,
+  DialogFooter,
   DialogHeader,
   DialogProps,
   DialogTrigger,
 } from "~/core/dialog";
-import { Checkbox, Field, FormBody, Input, MutationForm, z } from "~/core/form";
+import {
+  Checkbox,
+  Field,
+  FormBody,
+  FormFooter,
+  Input,
+  MutationForm,
+  SubmitButton,
+  z,
+} from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardEditDialogDocument,
@@ -49,30 +59,28 @@ export const UserContentRewardEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>보상 수정</DialogHeader>
-        <MutationForm<
-          UserContentRewardsEditInput,
-          UserContentRewardsEditMutation
-        >
-          defaultValues={{
-            userContentRewards: data.content.contentRewards.map((reward) => ({
-              id: reward.userContentReward.id,
-              averageQuantity: reward.userContentReward.averageQuantity,
-            })),
-            isReportable: true,
-          }}
-          mutation={UserContentRewardsEditDocument}
-          onComplete={() => {
-            dialogProps.onClose();
-            onComplete();
-            toaster.create({
-              title: "컨텐츠 보상이 수정되었습니다.",
-              type: "success",
-            });
-          }}
-          schema={schema}
-        >
+      <MutationForm<UserContentRewardsEditInput, UserContentRewardsEditMutation>
+        defaultValues={{
+          userContentRewards: data.content.contentRewards.map((reward) => ({
+            id: reward.userContentReward.id,
+            averageQuantity: reward.userContentReward.averageQuantity,
+          })),
+          isReportable: true,
+        }}
+        mutation={UserContentRewardsEditDocument}
+        onComplete={() => {
+          dialogProps.onClose();
+          onComplete();
+          toaster.create({
+            title: "컨텐츠 보상이 수정되었습니다.",
+            type: "success",
+          });
+        }}
+        schema={schema}
+      >
+        <DialogContent>
+          <DialogHeader>보상 수정</DialogHeader>
+
           <DialogBody>
             <FormBody>
               {data.content.contentRewards.map((reward, index) => (
@@ -97,9 +105,14 @@ export const UserContentRewardEditDialog = ({
               </DialogTrigger>
             </FormBody>
           </DialogBody>
-          <DialogFormFooter />
-        </MutationForm>
-      </DialogContent>
+          <DialogFooter>
+            <FormFooter>
+              <DialogCloseButton />
+              <SubmitButton />
+            </FormFooter>
+          </DialogFooter>
+        </DialogContent>
+      </MutationForm>
     </Dialog>
   );
 };

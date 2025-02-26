@@ -2,6 +2,7 @@ export * from "./checkbox";
 export * from "./field";
 export * from "./form-body";
 export * from "./form-context";
+export * from "./form-footer";
 export * from "./form";
 export * from "./input";
 export * from "./mutation-form";
