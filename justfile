@@ -29,6 +29,19 @@ go-test:
 makemigration name:
   just prisma migrate dev --create-only --name {{ name }}
 
+mockgen:
+  #!/usr/bin/env bash
+  set -euox pipefail
+  if ! command -v mockgen &> /dev/null; then
+    go install go.uber.org/mock/mockgen@latest
+  fi
+
+  cd ./src/go/libs/loa-db
+  rm -rf *mock.go
+  grep -rl --include='*.go' --exclude='*_mock.go' "interface" . | while read -r file; do
+    mockgen -source="$file" -package=loadb -self_package=github.com/KubrickCode/loa-work/src/go/libs/loadb > "${file%.*}_mock.go"
+  done
+
 migrate:
   just prisma migrate dev
 
