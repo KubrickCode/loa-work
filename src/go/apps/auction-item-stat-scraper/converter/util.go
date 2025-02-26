@@ -6,6 +6,10 @@ import (
 )
 
 func calculateAveragePrice(stats []loadb.AuctionItemStat) decimal.Decimal {
+	if len(stats) == 0 {
+		return decimal.NewFromInt(0)
+	}
+
 	totalPrice := decimal.NewFromInt(0)
 	for _, stat := range stats {
 		totalPrice = totalPrice.Add(decimal.NewFromInt(int64(stat.BuyPrice)))
