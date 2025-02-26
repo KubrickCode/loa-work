@@ -173,18 +173,23 @@ export const DataTable = <T,>({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {!hasData && (
-            <EmptyState.Root size="lg">
-              <EmptyState.Content py={24}>
-                <EmptyState.Description>
-                  조회된 데이터가 없습니다
-                </EmptyState.Description>
-              </EmptyState.Content>
-            </EmptyState.Root>
+          {!hasData ? (
+            <Table.Row>
+              <Table.Cell colSpan={columns.length}>
+                <EmptyState.Root size="lg">
+                  <EmptyState.Content py={24}>
+                    <EmptyState.Description>
+                      조회된 데이터가 없습니다
+                    </EmptyState.Description>
+                  </EmptyState.Content>
+                </EmptyState.Root>
+              </Table.Cell>
+            </Table.Row>
+          ) : pagination ? (
+            currentData.map((row, index) => renderRow(row, index))
+          ) : (
+            displayRows.map((row, index) => renderRow(row, index))
           )}
-          {pagination
-            ? currentData.map((row, index) => renderRow(row, index))
-            : displayRows.map((row, index) => renderRow(row, index))}
         </Table.Body>
       </Table.Root>
       {pagination && (
