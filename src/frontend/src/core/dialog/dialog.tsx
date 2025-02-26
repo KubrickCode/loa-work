@@ -1,3 +1,4 @@
+import { Portal } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
 import { DialogBackdrop, DialogRoot } from "~/core/chakra-components/ui/dialog";
@@ -10,8 +11,10 @@ export type DialogProps = PropsWithChildren & {
 export const Dialog = ({ children, onClose, open }: DialogProps) => {
   return (
     <DialogRoot lazyMount modal={false} onOpenChange={onClose} open={open}>
-      <DialogBackdrop />
-      {children}
+      <Portal>
+        <DialogBackdrop />
+        {children}
+      </Portal>
     </DialogRoot>
   );
 };
