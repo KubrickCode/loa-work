@@ -6,7 +6,7 @@ import {
   DialogHeader,
 } from "~/core/dialog";
 import { Dialog, DialogProps } from "~/core/dialog/dialog";
-import { Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentDurationEditDialogDocument,
@@ -64,11 +64,11 @@ export const UserContentDurationEditDialog = ({
           schema={schema}
         >
           <DialogBody>
-            <Fields>
+            <FormBody>
               <Field label="소요시간(초 단위)" name="value">
                 <Input type="number" />
               </Field>
-            </Fields>
+            </FormBody>
           </DialogBody>
           <DialogFormFooter />
         </MutationForm>

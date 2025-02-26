@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import { Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -64,7 +64,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
           schema={schema}
         >
           <DialogBody>
-            <Fields>
+            <FormBody>
               <Flex direction="column" fontSize="xs">
                 <Text>가상의 컨텐츠 시급을 계산합니다.</Text>
                 <Text>소요시간 및 각 보상의 1수당 수량을 입력하세요.</Text>
@@ -104,7 +104,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                   </Flex>
                 </Alert>
               )}
-            </Fields>
+            </FormBody>
           </DialogBody>
           <DialogFormFooter />
         </MutationForm>

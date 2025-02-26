@@ -10,7 +10,7 @@ import {
   DialogProps,
   DialogTrigger,
 } from "~/core/dialog";
-import { Checkbox, Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { Checkbox, Field, FormBody, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardEditDialogDocument,
@@ -74,7 +74,7 @@ export const UserContentRewardEditDialog = ({
           schema={schema}
         >
           <DialogBody>
-            <Fields>
+            <FormBody>
               {data.content.contentRewards.map((reward, index) => (
                 <Field
                   key={reward.userContentReward.id}
@@ -95,7 +95,7 @@ export const UserContentRewardEditDialog = ({
               >
                 <Link variant="underline">저장없이 제보만하기</Link>
               </DialogTrigger>
-            </Fields>
+            </FormBody>
           </DialogBody>
           <DialogFormFooter />
         </MutationForm>

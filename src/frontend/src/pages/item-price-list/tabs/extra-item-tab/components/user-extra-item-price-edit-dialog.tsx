@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import { Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardItemEditDocument,
@@ -65,11 +65,11 @@ export const UserExtraItemPriceEditDialog = ({
           schema={schema}
         >
           <DialogBody>
-            <Fields>
+            <FormBody>
               <Field label="개당 골드" name="price">
                 <Input type="number" />
               </Field>
-            </Fields>
+            </FormBody>
           </DialogBody>
           <DialogFormFooter />
         </MutationForm>

@@ -1,6 +1,6 @@
 export * from "./checkbox";
 export * from "./field";
-export * from "./fields";
+export * from "./form-body";
 export * from "./form-context";
 export * from "./form";
 export * from "./input";

@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import { Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserGoldExchangeRateEditDocument,
@@ -55,14 +55,14 @@ export const GoldExchangeRateSettingDialog = ({
           schema={schema}
         >
           <DialogBody>
-            <Fields>
+            <FormBody>
               <Field
                 label={`${userGoldExchangeRate.goldAmount}골드 당 원(KRW)`}
                 name="krwAmount"
               >
                 <Input type="number" />
               </Field>
-            </Fields>
+            </FormBody>
           </DialogBody>
           <DialogFormFooter />
         </MutationForm>

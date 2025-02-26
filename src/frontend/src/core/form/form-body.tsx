@@ -1,7 +1,7 @@
 import { Flex, FlexProps } from "@chakra-ui/react";
 
-export type FieldsProps = FlexProps;
+export type FormBodyProps = FlexProps;
 
-export const Fields = (props: FieldsProps) => (
+export const FormBody = (props: FormBodyProps) => (
   <Flex direction="column" gap={4} {...props} />
 );

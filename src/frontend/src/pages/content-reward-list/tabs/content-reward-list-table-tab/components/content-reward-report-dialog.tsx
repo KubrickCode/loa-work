@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import { Field, Fields, Input, MutationForm, z } from "~/core/form";
+import { Field, FormBody, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentRewardReportDialogDocument,
@@ -61,7 +61,7 @@ export const ContentRewardReportDialog = ({
           schema={schema}
         >
           <DialogBody>
-            <Fields>
+            <FormBody>
               {data.content.contentRewards.map((reward, index) => (
                 <Field
                   key={reward.id}
@@ -71,7 +71,7 @@ export const ContentRewardReportDialog = ({
                   <Input step="0.01" type="number" />
                 </Field>
               ))}
-            </Fields>
+            </FormBody>
           </DialogBody>
           <DialogFormFooter />
         </MutationForm>

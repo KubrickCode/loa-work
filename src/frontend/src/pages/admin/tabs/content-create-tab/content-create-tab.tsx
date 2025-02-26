@@ -5,7 +5,7 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Checkbox,
   Field,
-  Fields,
+  FormBody,
   Input,
   MutationForm,
   Select,
@@ -83,7 +83,7 @@ export const ContentCreateTab = () => {
           );
 
           return (
-            <Fields w="1200px">
+            <FormBody w="1200px">
               <Flex gap={4}>
                 <Flex
                   border="1px solid"
@@ -218,7 +218,7 @@ export const ContentCreateTab = () => {
                 )}
               </Flex>
               <SubmitButton />
-            </Fields>
+            </FormBody>
           );
         }}
       </MutationForm>
