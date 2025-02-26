@@ -7,6 +7,7 @@ import { Button } from "~/core/chakra-components/ui/button";
 import {
   Dialog,
   DialogBody,
+  DialogContent,
   DialogFooter,
   DialogHeader,
   DialogProps,
@@ -15,8 +16,10 @@ import {
 export const LoginDialog = (dialogProps: DialogProps) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogHeader>로그인</DialogHeader>
-      <Body />
+      <DialogContent>
+        <DialogHeader>로그인</DialogHeader>
+        <Body />
+      </DialogContent>
     </Dialog>
   );
 };

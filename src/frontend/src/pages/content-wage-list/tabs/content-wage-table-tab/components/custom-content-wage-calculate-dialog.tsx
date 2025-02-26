@@ -6,6 +6,7 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogContent,
   DialogFormFooter,
   DialogHeader,
   DialogProps,
@@ -25,10 +26,12 @@ import { Loader } from "~/core/loader";
 export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogHeader>컨텐츠 시급 계산기</DialogHeader>
-      <Suspense fallback={<Loader.Block />}>
-        <Body />
-      </Suspense>
+      <DialogContent>
+        <DialogHeader>컨텐츠 시급 계산기</DialogHeader>
+        <Suspense fallback={<Loader.Block />}>
+          <Body />
+        </Suspense>
+      </DialogContent>
     </Dialog>
   );
 };

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-import { DialogContent, DialogRoot } from "~/core/chakra-components/ui/dialog";
+import { DialogRoot } from "~/core/chakra-components/ui/dialog";
 
 export type DialogProps = PropsWithChildren & {
   onClose: () => void;
@@ -10,7 +10,7 @@ export type DialogProps = PropsWithChildren & {
 export const Dialog = ({ children, onClose, open }: DialogProps) => {
   return (
     <DialogRoot lazyMount modal={false} onOpenChange={onClose} open={open}>
-      <DialogContent>{children}</DialogContent>
+      {children}
     </DialogRoot>
   );
 };

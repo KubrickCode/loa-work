@@ -5,6 +5,7 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogContent,
   DialogFormFooter,
   DialogHeader,
   DialogProps,
@@ -34,10 +35,12 @@ export const UserContentRewardEditDialog = ({
 }: UserContentRewardEditDialogProps & DialogProps) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogHeader>보상 수정</DialogHeader>
-      <Suspense fallback={<Loader.Block />}>
-        <Body contentId={contentId} onComplete={onComplete} />
-      </Suspense>
+      <DialogContent>
+        <DialogHeader>보상 수정</DialogHeader>
+        <Suspense fallback={<Loader.Block />}>
+          <Body contentId={contentId} onComplete={onComplete} />
+        </Suspense>
+      </DialogContent>
     </Dialog>
   );
 };

@@ -2,7 +2,12 @@ import { useDialogContext } from "@chakra-ui/react";
 import { Suspense } from "react";
 
 import { toaster } from "~/core/chakra-components/ui/toaster";
-import { DialogBody, DialogFormFooter, DialogHeader } from "~/core/dialog";
+import {
+  DialogBody,
+  DialogContent,
+  DialogFormFooter,
+  DialogHeader,
+} from "~/core/dialog";
 import { Dialog, DialogProps } from "~/core/dialog/dialog";
 import { Field, Fields, Input, MutationForm, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
@@ -26,10 +31,12 @@ export const UserContentDurationEditDialog = ({
 }: DialogProps & UserContentDurationEditDialogProps) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogHeader>소요시간 수정</DialogHeader>
-      <Suspense fallback={<Loader.Block />}>
-        <Body contentDurationId={contentDurationId} onComplete={onComplete} />
-      </Suspense>
+      <DialogContent>
+        <DialogHeader>소요시간 수정</DialogHeader>
+        <Suspense fallback={<Loader.Block />}>
+          <Body contentDurationId={contentDurationId} onComplete={onComplete} />
+        </Suspense>
+      </DialogContent>
     </Dialog>
   );
 };

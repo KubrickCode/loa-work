@@ -5,6 +5,7 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogContent,
   DialogFormFooter,
   DialogHeader,
   DialogProps,
@@ -27,10 +28,12 @@ export const GoldExchangeRateSettingDialog = ({
 } & DialogProps) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogHeader>골드 환율 설정</DialogHeader>
-      <Suspense fallback={<Loader.Block />}>
-        <Body onComplete={onComplete} />
-      </Suspense>
+      <DialogContent>
+        <DialogHeader>골드 환율 설정</DialogHeader>
+        <Suspense fallback={<Loader.Block />}>
+          <Body onComplete={onComplete} />
+        </Suspense>
+      </DialogContent>
     </Dialog>
   );
 };

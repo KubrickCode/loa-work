@@ -5,6 +5,7 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
   DialogBody,
+  DialogContent,
   DialogFormFooter,
   DialogHeader,
   DialogProps,
@@ -31,13 +32,15 @@ export const UserExtraItemPriceEditDialog = ({
 }: UserExtraItemPriceEditDialogProps & DialogProps) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogHeader>기타 아이템 골드 가치 수정</DialogHeader>
-      <Suspense fallback={<Loader.Block />}>
-        <Body
-          contentRewardItemId={contentRewardItemId}
-          onComplete={onComplete}
-        />
-      </Suspense>
+      <DialogContent>
+        <DialogHeader>기타 아이템 골드 가치 수정</DialogHeader>
+        <Suspense fallback={<Loader.Block />}>
+          <Body
+            contentRewardItemId={contentRewardItemId}
+            onComplete={onComplete}
+          />
+        </Suspense>
+      </DialogContent>
     </Dialog>
   );
 };
