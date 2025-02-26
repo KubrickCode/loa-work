@@ -192,7 +192,7 @@ export const DataTable = <T,>({
           )}
         </Table.Body>
       </Table.Root>
-      {pagination && (
+      {pagination && hasData && (
         <PaginationRoot
           count={totalItems}
           onPageChange={({ page }) => setCurrentPage(page)}
