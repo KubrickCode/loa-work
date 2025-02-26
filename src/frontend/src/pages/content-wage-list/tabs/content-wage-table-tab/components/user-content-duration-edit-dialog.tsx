@@ -1,6 +1,3 @@
-import { useDialogContext } from "@chakra-ui/react";
-import { Suspense } from "react";
-
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   DialogBody,
@@ -17,7 +14,11 @@ import {
   UserContentDurationEditInput,
   UserContentDurationEditMutation,
 } from "~/core/graphql/generated";
-import { Loader } from "~/core/loader";
+
+const schema = z.object({
+  id: z.number(),
+  value: z.number(),
+});
 
 type UserContentDurationEditDialogProps = {
   contentDurationId: number;
@@ -29,28 +30,6 @@ export const UserContentDurationEditDialog = ({
   onComplete,
   ...dialogProps
 }: DialogProps & UserContentDurationEditDialogProps) => {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>소요시간 수정</DialogHeader>
-        <Suspense fallback={<Loader.Block />}>
-          <Body contentDurationId={contentDurationId} onComplete={onComplete} />
-        </Suspense>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-const schema = z.object({
-  id: z.number(),
-  value: z.number(),
-});
-
-const Body = ({
-  contentDurationId,
-  onComplete,
-}: UserContentDurationEditDialogProps) => {
-  const { setOpen } = useDialogContext();
   const { data } = useSafeQuery(UserContentDurationEditDialogDocument, {
     variables: {
       id: contentDurationId,
@@ -62,30 +41,38 @@ const Body = ({
   } = data;
 
   return (
-    <MutationForm<UserContentDurationEditInput, UserContentDurationEditMutation>
-      defaultValues={{
-        id: userContentDuration.id,
-        value: userContentDuration.value,
-      }}
-      mutation={UserContentDurationEditDocument}
-      onComplete={() => {
-        setOpen(false);
-        onComplete();
-        toaster.create({
-          title: "컨텐츠 소요시간이 수정되었습니다.",
-          type: "success",
-        });
-      }}
-      schema={schema}
-    >
-      <DialogBody>
-        <Fields>
-          <Field label="소요시간(초 단위)" name="value">
-            <Input type="number" />
-          </Field>
-        </Fields>
-      </DialogBody>
-      <DialogFormFooter />
-    </MutationForm>
+    <Dialog {...dialogProps}>
+      <DialogContent>
+        <DialogHeader>소요시간 수정</DialogHeader>
+        <MutationForm<
+          UserContentDurationEditInput,
+          UserContentDurationEditMutation
+        >
+          defaultValues={{
+            id: userContentDuration.id,
+            value: userContentDuration.value,
+          }}
+          mutation={UserContentDurationEditDocument}
+          onComplete={() => {
+            dialogProps.onClose();
+            onComplete();
+            toaster.create({
+              title: "컨텐츠 소요시간이 수정되었습니다.",
+              type: "success",
+            });
+          }}
+          schema={schema}
+        >
+          <DialogBody>
+            <Fields>
+              <Field label="소요시간(초 단위)" name="value">
+                <Input type="number" />
+              </Field>
+            </Fields>
+          </DialogBody>
+          <DialogFormFooter />
+        </MutationForm>
+      </DialogContent>
+    </Dialog>
   );
 };

@@ -1,6 +1,3 @@
-import { useDialogContext } from "@chakra-ui/react";
-import { Suspense } from "react";
-
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import {
   Dialog,
@@ -18,27 +15,6 @@ import {
   ContentRewardsReportInput,
   ContentRewardsReportMutation,
 } from "~/core/graphql/generated";
-import { Loader } from "~/core/loader";
-
-type ContentRewardReportDialogProps = {
-  contentId: number;
-};
-
-export const ContentRewardReportDialog = ({
-  contentId,
-  ...dialogProps
-}: ContentRewardReportDialogProps & DialogProps) => {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>보상 제보</DialogHeader>
-        <Suspense fallback={<Loader.Block />}>
-          <Body contentId={contentId} />
-        </Suspense>
-      </DialogContent>
-    </Dialog>
-  );
-};
 
 const schema = z.object({
   contentRewards: z.array(
@@ -49,8 +25,14 @@ const schema = z.object({
   ),
 });
 
-const Body = ({ contentId }: ContentRewardReportDialogProps) => {
-  const { setOpen } = useDialogContext();
+type ContentRewardReportDialogProps = {
+  contentId: number;
+};
+
+export const ContentRewardReportDialog = ({
+  contentId,
+  ...dialogProps
+}: ContentRewardReportDialogProps & DialogProps) => {
   const { data } = useSafeQuery(ContentRewardReportDialogDocument, {
     variables: {
       id: contentId,
@@ -58,37 +40,42 @@ const Body = ({ contentId }: ContentRewardReportDialogProps) => {
   });
 
   return (
-    <MutationForm<ContentRewardsReportInput, ContentRewardsReportMutation>
-      defaultValues={{
-        contentRewards: data.content.contentRewards.map((reward) => ({
-          id: reward.id,
-          averageQuantity: reward.userContentReward.averageQuantity,
-        })),
-      }}
-      mutation={ContentRewardsReportDocument}
-      onComplete={() => {
-        setOpen(false);
-        toaster.create({
-          title: "컨텐츠 보상이 제보되었습니다.",
-          type: "success",
-        });
-      }}
-      schema={schema}
-    >
-      <DialogBody>
-        <Fields>
-          {data.content.contentRewards.map((reward, index) => (
-            <Field
-              key={reward.id}
-              label={reward.contentRewardItem.name}
-              name={`contentRewards.${index}.averageQuantity`}
-            >
-              <Input step="0.01" type="number" />
-            </Field>
-          ))}
-        </Fields>
-      </DialogBody>
-      <DialogFormFooter />
-    </MutationForm>
+    <Dialog {...dialogProps}>
+      <DialogContent>
+        <DialogHeader>보상 제보</DialogHeader>
+        <MutationForm<ContentRewardsReportInput, ContentRewardsReportMutation>
+          defaultValues={{
+            contentRewards: data.content.contentRewards.map((reward) => ({
+              id: reward.id,
+              averageQuantity: reward.userContentReward.averageQuantity,
+            })),
+          }}
+          mutation={ContentRewardsReportDocument}
+          onComplete={() => {
+            dialogProps.onClose();
+            toaster.create({
+              title: "컨텐츠 보상이 제보되었습니다.",
+              type: "success",
+            });
+          }}
+          schema={schema}
+        >
+          <DialogBody>
+            <Fields>
+              {data.content.contentRewards.map((reward, index) => (
+                <Field
+                  key={reward.id}
+                  label={reward.contentRewardItem.name}
+                  name={`contentRewards.${index}.averageQuantity`}
+                >
+                  <Input step="0.01" type="number" />
+                </Field>
+              ))}
+            </Fields>
+          </DialogBody>
+          <DialogFormFooter />
+        </MutationForm>
+      </DialogContent>
+    </Dialog>
   );
 };
