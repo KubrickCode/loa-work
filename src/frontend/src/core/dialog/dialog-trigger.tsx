@@ -1,5 +1,12 @@
-import { Flex, FlexProps, useDisclosure } from "@chakra-ui/react";
-import { ComponentPropsWithoutRef, createElement, ElementType } from "react";
+import { Center, Flex, FlexProps, useDisclosure } from "@chakra-ui/react";
+import {
+  ComponentPropsWithoutRef,
+  createElement,
+  ElementType,
+  Suspense,
+} from "react";
+
+import { Loader } from "../loader";
 
 export type DialogTriggerProps<T extends ElementType> = FlexProps & {
   dialog: T;
@@ -17,11 +24,15 @@ export const DialogTrigger = <T extends ElementType>({
   const renderModal = () => {
     if (!open) return null;
 
-    return createElement(dialog, {
-      ...dialogProps,
-      onClose,
-      open,
-    });
+    return (
+      <Suspense fallback={<BackdropLoader />}>
+        {createElement(dialog, {
+          ...dialogProps,
+          onClose,
+          open,
+        })}
+      </Suspense>
+    );
   };
 
   return (
@@ -37,5 +48,21 @@ export const DialogTrigger = <T extends ElementType>({
       </Flex>
       {renderModal()}
     </>
+  );
+};
+
+const BackdropLoader = () => {
+  return (
+    <Center
+      bg="blackAlpha.600"
+      bottom={0}
+      left={0}
+      position="fixed"
+      right={0}
+      top={0}
+      zIndex="modal"
+    >
+      <Loader.Block />
+    </Center>
   );
 };
