@@ -48,7 +48,6 @@ class CustomContentWageCalculateResult {
 export class CustomContentWageCalculateMutation {
   constructor(private contentWageService: ContentWageService) {}
 
-  @UseGuards(AuthGuard)
   @Mutation(() => CustomContentWageCalculateResult)
   async customContentWageCalculate(
     @Args('input') input: CustomContentWageCalculateInput,
