@@ -82,7 +82,7 @@ export const useMutationForm = <
             }
             break;
 
-          case "INTERNAL_SERVER_ERROR":
+          default:
             setError(FORM_ERROR_FIELD as any, {
               type: "manual",
               message: error.message,
