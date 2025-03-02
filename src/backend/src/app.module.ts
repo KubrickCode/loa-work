@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ExchangeRateModule } from './exchange-rate/exchange-rate.module';
 import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { MonitoringModule } from './monitoring/monitoring.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'frontend'),
     }),
+    MonitoringModule,
   ],
 })
 export class AppModule {}
