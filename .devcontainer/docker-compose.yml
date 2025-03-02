@@ -24,5 +24,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
 
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    network_mode: "service:workspace"
+
 volumes:
   postgres-data:
