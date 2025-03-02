@@ -155,27 +155,6 @@ jobs:
             docker system prune -af --volumes
             docker exec web-service npx prisma migrate deploy --schema=/app/prisma/schema.prisma
 
-      # - name: Copy CloudWatch files
-      #   uses: appleboy/scp-action@master
-      #   with:
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ubuntu
-      #     key: ${{ secrets.EC2_SSH_KEY }}
-      #     source: ".github/scripts/cloudwatch-config.json,.github/scripts/setup-cloudwatch.sh"
-      #     target: "~"
-      #     strip_components: 2
-
-      # - name: Setup CloudWatch
-      #   env:
-      #     SERVICE_NAME: web-service
-      #     CENTRAL_ACCOUNT_ID: ${{ secrets.CENTRAL_ACCOUNT_ID }}
-      #   run: |
-      #     echo "${{ secrets.EC2_SSH_KEY }}" > private_key && chmod 600 private_key
-      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/cloudwatch-config.json ubuntu@${{ secrets.EC2_HOST }}:~/cloudwatch-config.json
-      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/setup-cloudwatch.sh ubuntu@${{ secrets.EC2_HOST }}:~/setup-cloudwatch.sh
-      #     ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_HOST }} "chmod +x ~/setup-cloudwatch.sh && SERVICE_NAME=$SERVICE_NAME CENTRAL_ACCOUNT_ID=$CENTRAL_ACCOUNT_ID ~/setup-cloudwatch.sh"
-      #     rm private_key
-
   deploy-go-services:
     strategy:
       matrix:
@@ -254,24 +233,3 @@ jobs:
               -e LOA_API_TOKEN="${{ secrets.LOA_API_TOKEN }}" \
               --restart always \
               ${{ secrets.ECR_REGISTRY }}/loa-work/${{ matrix.name }}:latest
-
-      # - name: Copy CloudWatch files
-      #   uses: appleboy/scp-action@master
-      #   with:
-      #     host: ${{ secrets[matrix.host-secret] }}
-      #     username: ubuntu
-      #     key: ${{ secrets[matrix.ssh-key-secret] }}
-      #     source: ".github/scripts/cloudwatch-config.json,.github/scripts/setup-cloudwatch.sh"
-      #     target: "~"
-      #     strip_components: 2
-
-      # - name: Setup CloudWatch
-      #   env:
-      #     SERVICE_NAME: ${{ matrix.name }}
-      #     CENTRAL_ACCOUNT_ID: ${{ secrets.CENTRAL_ACCOUNT_ID }}
-      #   run: |
-      #     echo "${{ secrets[matrix.ssh-key-secret] }}" > private_key && chmod 600 private_key
-      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/cloudwatch-config.json ubuntu@${{ secrets[matrix.host-secret] }}:~/cloudwatch-config.json
-      #     scp -o StrictHostKeyChecking=no -i private_key .github/scripts/setup-cloudwatch.sh ubuntu@${{ secrets[matrix.host-secret] }}:~/setup-cloudwatch.sh
-      #     ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets[matrix.host-secret] }} "chmod +x ~/setup-cloudwatch.sh && SERVICE_NAME=$SERVICE_NAME CENTRAL_ACCOUNT_ID=$CENTRAL_ACCOUNT_ID ~/setup-cloudwatch.sh"
-      #     rm private_key
