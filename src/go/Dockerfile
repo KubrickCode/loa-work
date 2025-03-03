@@ -20,4 +20,5 @@ ENV TZ=Asia/Seoul
 ENV METRICS_PORT=3000
 
 COPY --from=builder /app/${APP_PATH}/app /app/app
+EXPOSE ${METRICS_PORT}
 CMD ["/app/app"]
