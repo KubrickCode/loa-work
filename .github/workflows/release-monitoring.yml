@@ -26,7 +26,7 @@ jobs:
           source: "infra/prometheus/prometheus.yml,infra/prometheus/nginx-monitoring.conf"
           target: "/home/ubuntu"
 
-      - name: Deploy Prometheus and Nginx to Monitoring EC2
+      - name: Deploy Prometheus, Nginx, and Grafana to Monitoring EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.MONITORING_EC2_HOST }}
@@ -52,9 +52,20 @@ jobs:
             sudo cp /home/ubuntu/infra/prometheus/nginx-monitoring.conf /etc/nginx/sites-available/default
             sudo nginx -t && sudo systemctl reload nginx
 
+            # Create Docker network
+            sudo docker network create monitoring-network || true
+
             # Run Prometheus container
             sudo docker stop prometheus || true
             sudo docker rm prometheus || true
             sudo docker run -d --name prometheus -p 9090:9090 \
+              --network monitoring-network \
               -v /home/ubuntu/infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
               prom/prometheus:latest
+
+            # Run Grafana container
+            sudo docker stop grafana || true
+            sudo docker rm grafana || true
+            sudo docker run -d --name grafana -p 3000:3000 \
+              --network monitoring-network \
+              grafana/grafana:latest
