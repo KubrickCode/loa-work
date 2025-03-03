@@ -23,7 +23,7 @@ jobs:
           host: ${{ secrets.MONITORING_EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.MONITORING_EC2_SSH_KEY }}
-          source: "infra/prometheus/prometheus.yml,infra/prometheus/nginx-monitoring.conf"
+          source: "infra/monitoring/prometheus.yml,infra/monitoring/nginx-monitoring.conf"
           target: "/home/ubuntu"
 
       - name: Deploy Prometheus, Nginx, and Grafana to Monitoring EC2
@@ -49,7 +49,7 @@ jobs:
             fi
 
             # Copy Nginx config
-            sudo cp /home/ubuntu/infra/prometheus/nginx-monitoring.conf /etc/nginx/sites-available/default
+            sudo cp /home/ubuntu/infra/monitoring/nginx-monitoring.conf /etc/nginx/sites-available/default
             sudo nginx -t && sudo systemctl reload nginx
 
             # Create Docker network
@@ -60,7 +60,7 @@ jobs:
             sudo docker rm prometheus || true
             sudo docker run -d --name prometheus -p 9090:9090 \
               --network monitoring-network \
-              -v /home/ubuntu/infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+              -v /home/ubuntu/infra/monitoring/prometheus.yml:/etc/monitoring/prometheus.yml \
               prom/prometheus:latest
 
             # Run Grafana container
