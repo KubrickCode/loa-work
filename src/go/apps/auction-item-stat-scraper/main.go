@@ -2,15 +2,26 @@ package main
 
 import (
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/KubrickCode/loa-work/src/go/apps/auction-item-stat-scraper/converter"
 	"github.com/KubrickCode/loa-work/src/go/apps/auction-item-stat-scraper/scraper"
+	"github.com/KubrickCode/loa-work/src/go/libs/env"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/monitoring"
 	"github.com/KubrickCode/loa-work/src/go/libs/schedule"
 )
 
 func main() {
+	metricsPort, err := strconv.Atoi(env.GetEnvFallback("METRICS_PORT", "3002"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	monitor := monitoring.NewMonitor("auction-item-stat-scraper", metricsPort)
+	monitor.Start()
+
 	db, err := loadb.New()
 	if err != nil {
 		log.Fatal(err)
