@@ -9,5 +9,6 @@ use (
 	./src/go/libs/http-client
 	./src/go/libs/loa-api
 	./src/go/libs/loa-db
+	./src/go/libs/monitoring
 	./src/go/libs/schedule
 )
