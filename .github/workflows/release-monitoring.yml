@@ -1,0 +1,60 @@
+name: Deploy Monitoring
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-monitoring:
+    name: Deploy Monitoring Service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_MONITORING_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_MONITORING_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Copy prometheus.yml and nginx config to Monitoring EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.MONITORING_EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.MONITORING_EC2_SSH_KEY }}
+          source: "infra/prometheus/prometheus.yml,infra/prometheus/nginx-monitoring.conf"
+          target: "/home/ubuntu"
+
+      - name: Deploy Prometheus and Nginx to Monitoring EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.MONITORING_EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.MONITORING_EC2_SSH_KEY }}
+          script: |
+            # Install Docker if not present
+            if ! command -v docker &> /dev/null; then
+              sudo apt update
+              sudo apt install -y docker.io
+              sudo usermod -aG docker ubuntu
+              sudo systemctl enable docker
+              sudo systemctl start docker
+            fi
+
+            # Install Nginx if not present
+            if ! command -v nginx &> /dev/null; then
+              sudo apt update
+              sudo apt install -y nginx
+            fi
+
+            # Copy Nginx config
+            sudo cp /home/ubuntu/infra/prometheus/nginx-monitoring.conf /etc/nginx/sites-available/default
+            sudo nginx -t && sudo systemctl reload nginx
+
+            # Run Prometheus container
+            sudo docker stop prometheus || true
+            sudo docker rm prometheus || true
+            sudo docker run -d --name prometheus -p 9090:9090 \
+              -v /home/ubuntu/infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+              prom/prometheus:latest
