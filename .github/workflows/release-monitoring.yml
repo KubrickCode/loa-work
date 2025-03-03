@@ -17,6 +17,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_MONITORING_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Create nginx config
+        run: |
+          cp infra/monitoring/nginx-monitoring.conf nginx-monitoring.conf
+
       - name: Copy prometheus.yml and nginx config to Monitoring EC2
         uses: appleboy/scp-action@master
         with:
@@ -46,11 +50,21 @@ jobs:
             # Install Nginx if not present
             if ! command -v nginx &> /dev/null; then
               sudo apt update
-              sudo apt install -y nginx
+              sudo apt install -y nginx certbot python3-certbot-nginx
             fi
 
-            # Copy Nginx config
+            # Backup and copy Nginx config
+            sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
             sudo cp /home/ubuntu/infra/monitoring/nginx-monitoring.conf /etc/nginx/sites-available/default
+
+            # Configure SSL/TLS with certbot
+            if [ ! -d "/etc/letsencrypt/live/loa-work-grafana.duckdns.org" ]; then
+              sudo certbot --nginx -d loa-work-grafana.duckdns.org --non-interactive --agree-tos --email ${{ secrets.CERTBOT_EMAIL }}
+            else
+              sudo certbot renew --non-interactive
+            fi
+
+            # Test and reload Nginx
             sudo nginx -t && sudo systemctl reload nginx
 
             # Create Docker network
