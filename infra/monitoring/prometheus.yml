@@ -2,7 +2,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: "web-backend"
+  - job_name: "web-application"
     static_configs:
       - targets: ["loa-work.info:443"]
     scheme: https
