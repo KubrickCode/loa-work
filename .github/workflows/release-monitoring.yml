@@ -25,6 +25,7 @@ jobs:
           key: ${{ secrets.MONITORING_EC2_SSH_KEY }}
           source: "infra/monitoring/prometheus.yml,infra/monitoring/nginx-monitoring.conf"
           target: "/home/ubuntu"
+          timeout: "120s"
 
       - name: Deploy Prometheus, Nginx, and Grafana to Monitoring EC2
         uses: appleboy/ssh-action@master
