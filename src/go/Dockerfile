@@ -17,6 +17,7 @@ WORKDIR /app
 
 RUN apk --no-cache add tzdata
 ENV TZ=Asia/Seoul
+ENV METRICS_PORT=3000
 
 COPY --from=builder /app/${APP_PATH}/app /app/app
 CMD ["/app/app"]

@@ -6,3 +6,9 @@ scrape_configs:
     static_configs:
       - targets: ["loa-work.info:443"]
     scheme: https
+  - job_name: "market-item-stat-scraper"
+    static_configs:
+      - targets: ["13.209.193.49:3000"]
+  - job_name: "auction-item-stat-scraper"
+    static_configs:
+      - targets: ["43.203.41.103:3000"]
