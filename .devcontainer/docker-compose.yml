@@ -30,5 +30,15 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     network_mode: "service:workspace"
 
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    volumes:
+      - grafana-data:/var/lib/grafana
+    network_mode: "service:workspace"
+    environment:
+      - GF_SERVER_HTTP_PORT=8888
+
 volumes:
   postgres-data:
+  grafana-data:
