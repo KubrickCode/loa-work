@@ -73,9 +73,13 @@ jobs:
             # Run Prometheus container
             sudo docker stop prometheus || true
             sudo docker rm prometheus || true
+            if ! sudo docker volume ls | grep -q prometheus-data; then
+              sudo docker volume create prometheus-data
+            fi
             sudo docker run -d --name prometheus -p 9090:9090 \
               --network monitoring-network \
               -v /home/ubuntu/infra/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
+              -v prometheus-data:/prometheus \
               prom/prometheus:latest
 
             # Run Grafana container
