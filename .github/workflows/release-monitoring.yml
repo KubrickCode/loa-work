@@ -17,21 +17,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_MONITORING_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Create nginx config
+      - name: Create config files
         run: |
           cp infra/monitoring/nginx-monitoring.conf nginx-monitoring.conf
+          cp infra/monitoring/prometheus.yml prometheus.yml
+          cp infra/monitoring/loki.yaml loki.yaml
+          cp infra/monitoring/promtail.yaml promtail.yaml
 
-      - name: Copy prometheus.yml and nginx config to Monitoring EC2
+      - name: Copy config files to Monitoring EC2
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.MONITORING_EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.MONITORING_EC2_SSH_KEY }}
-          source: "infra/monitoring/prometheus.yml,infra/monitoring/nginx-monitoring.conf"
+          source: "infra/monitoring/prometheus.yml,infra/monitoring/nginx-monitoring.conf,infra/monitoring/loki.yaml,infra/monitoring/promtail.yaml"
           target: "/home/ubuntu"
           timeout: "120s"
 
-      - name: Deploy Prometheus, Nginx, and Grafana to Monitoring EC2
+      - name: Deploy Prometheus, Loki, Promtail, Nginx, and Grafana to Monitoring EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.MONITORING_EC2_HOST }}
@@ -81,6 +84,28 @@ jobs:
               -v /home/ubuntu/infra/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
               -v prometheus-data:/prometheus \
               prom/prometheus:latest
+
+            sudo mkdir -p /data/loki/index /data/loki/chunks /data/loki/wal /data/loki/compactor
+            sudo chown -R 10001:docker /data/loki
+            sudo chmod -R 775 /data/loki
+
+            # Run Loki container
+            sudo docker stop loki || true
+            sudo docker rm loki || true
+            sudo docker run -d --name loki -p 3100:3100 \
+              --network monitoring-network \
+              -v /home/ubuntu/infra/monitoring/loki.yaml:/etc/loki/config.yaml \
+              -v /data/loki:/data \
+              grafana/loki:2.9.0 -config.file=/etc/loki/config.yaml
+
+            # Run Promtail container
+            sudo docker stop promtail || true
+            sudo docker rm promtail || true
+            sudo docker run -d --name promtail \
+              --network monitoring-network \
+              -v /var/lib/docker/containers:/var/lib/docker/containers:ro \
+              -v /home/ubuntu/infra/monitoring/promtail.yaml:/etc/promtail/config.yaml \
+              grafana/promtail:2.9.0 -config.file=/etc/promtail/config.yaml
 
             # Run Grafana container
             sudo docker stop grafana || true
