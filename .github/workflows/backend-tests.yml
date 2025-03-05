@@ -35,7 +35,19 @@ jobs:
         run: just deps
 
       - name: Create and start databases
-        run: docker compose -f ./infra/docker-compose.ci.yaml up -d
+        run: |
+          echo 'version: "3.8"
+
+          services:
+            postgres:
+              image: postgres:13.1-alpine
+              environment:
+                POSTGRES_USER: postgres
+                POSTGRES_PASSWORD: postgres
+                POSTGRES_DB: postgres
+              ports:
+                - "5432:5432"' > docker-compose.ci.yaml
+          docker compose -f docker-compose.ci.yaml up -d
 
       - name: Wait for database to be ready
         run: |
