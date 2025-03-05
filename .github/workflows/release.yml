@@ -247,6 +247,36 @@ jobs:
             ./setup.sh "${{ secrets.AWS_ACCESS_KEY_ID }}" "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             rm setup.sh
 
+      - name: Create promtail config for ${{ matrix.name }}
+        run: |
+          cp infra/go/${{ matrix.name }}-promtail.yaml promtail-${{ matrix.name }}.yaml
+
+      - name: Copy Promtail config for ${{ matrix.name }}
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets[matrix.host-secret] }}
+          username: ubuntu
+          key: ${{ secrets[matrix.ssh-key-secret] }}
+          source: "promtail-${{ matrix.name }}.yaml"
+          target: "/home/ubuntu"
+
+      - name: Deploy Promtail to EC2 for ${{ matrix.name }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets[matrix.host-secret] }}
+          username: ubuntu
+          key: ${{ secrets[matrix.ssh-key-secret] }}
+          script: |
+            sudo docker pull grafana/promtail:2.9.0
+            sudo docker stop promtail || true
+            sudo docker rm promtail || true
+            sudo docker run -d \
+              --name promtail \
+              --network host \
+              -v /var/lib/docker/containers:/var/lib/docker/containers:ro \
+              -v /home/ubuntu/promtail-${{ matrix.name }}.yaml:/etc/promtail/config.yaml \
+              grafana/promtail:2.9.0 -config.file=/etc/promtail/config.yaml || echo "Docker run failed: $?"
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
