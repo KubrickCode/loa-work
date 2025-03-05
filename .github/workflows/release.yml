@@ -45,7 +45,7 @@ jobs:
 
       - name: Create nginx config
         run: |
-          cp infra/nginx/default.conf default.conf
+          cp infra/web/default.conf default.conf
 
       - name: Copy nginx config
         uses: appleboy/scp-action@master
