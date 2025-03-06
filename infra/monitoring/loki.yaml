@@ -25,7 +25,6 @@ ingester:
 
 compactor:
   working_directory: "/data/loki/compactor"
-  shared_store: filesystem
 
 schema_config:
   configs:
@@ -50,3 +49,6 @@ ruler:
     type: local
     local:
       directory: /data/loki/rules
+
+limits_config:
+  allow_structured_metadata: false
