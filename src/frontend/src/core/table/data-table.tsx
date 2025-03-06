@@ -38,6 +38,9 @@ export type Column<T> = {
   width?: Table.ColumnHeaderProps["width"];
 };
 
+// NOTE: 현재 해당 컴포넌트는 칼럼의 정렬 및 페이지네이션까지 모두 책임지고 있음.
+// 이는 기본적으로 서버에서 책임지는 것이 좋으나, 현재 데이터가 많지 않은 테이블 위주로만 보여주고 있기 때문에 가볍게 사용할 수 있도록
+// 클라이언트 사이드로 해당 기능들을 제공하도록 함. 이는 추후 변경될 수 있음.
 export const DataTable = <T,>({
   columns,
   defaultSorting,
