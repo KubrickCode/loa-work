@@ -1,0 +1,60 @@
+name: Lint Code
+
+on:
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - reopened
+      - unlocked
+    paths:
+      - "src/backend/**"
+      - "src/frontend/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "src/backend/**"
+      - "src/frontend/**"
+  workflow_dispatch:
+
+jobs:
+  lint-backend:
+    name: Lint Backend Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v2
+        with:
+          node-version: "22.11.0"
+
+      - uses: extractions/setup-just@v1
+
+      - name: Install dependencies
+        run: just deps-backend
+
+      - name: Lint Backend
+        run: just lint backend
+
+  lint-frontend:
+    name: Lint Frontend Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v2
+        with:
+          node-version: "22.11.0"
+
+      - uses: extractions/setup-just@v1
+
+      - name: Install dependencies
+        run: just deps-frontend
+
+      - name: Lint Frontend
+        run: just lint frontend
