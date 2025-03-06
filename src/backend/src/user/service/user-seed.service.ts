@@ -3,8 +3,6 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserSeedService {
-  constructor() {}
-
   async makeAllSeedData(userId: number, tx: Prisma.TransactionClient) {
     const user = await tx.user.findUniqueOrThrow({
       where: { id: userId },

@@ -1,4 +1,4 @@
-import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { MarketItem } from '../object/market-item.object';
 import { Prisma } from '@prisma/client';

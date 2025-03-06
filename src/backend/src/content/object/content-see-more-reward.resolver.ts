@@ -1,6 +1,5 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
-import { ContentReward } from './content-reward.object';
 import { ContentRewardItem } from './content-reward-item.object';
 import { ContentSeeMoreReward } from './content-see-more-reward.object';
 

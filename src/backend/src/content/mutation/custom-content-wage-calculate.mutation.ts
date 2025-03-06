@@ -1,4 +1,3 @@
-import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Field,
@@ -8,7 +7,6 @@ import {
   ObjectType,
   Resolver,
 } from '@nestjs/graphql';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { ContentWageService } from '../service/content-wage.service';
 
 @InputType()

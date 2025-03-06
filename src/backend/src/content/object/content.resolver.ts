@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma';
 import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
 import { ContentCategory } from './content-category.object';
-import * as Prisma from '@prisma/client';
 import { UserContentService } from '../../user/service/user-content.service';
 import { ContentSeeMoreReward } from './content-see-more-reward.object';
 import { ContentDuration } from './content-duration.object';

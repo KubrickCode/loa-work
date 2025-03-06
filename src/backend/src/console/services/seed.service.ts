@@ -121,8 +121,8 @@ export class SeedService {
       Prisma.AuctionItemUncheckedCreateInput,
       'auctionItemCategoryId' | 'name' | 'imageUrl' | 'isStatScraperEnabled'
     >;
-    let damageGems: Option[] = [];
-    let coolDownGems: Option[] = [];
+    const damageGems: Option[] = [];
+    const coolDownGems: Option[] = [];
 
     const auctionItemCategory =
       await this.prisma.auctionItemCategory.findFirstOrThrow({
@@ -444,7 +444,7 @@ export class SeedService {
         });
       }
 
-      const { basePrice, ...itemWithoutBasePrice } = item;
+      const { basePrice: _basePrice, ...itemWithoutBasePrice } = item;
       await this.prisma.contentRewardItem.create({
         data: {
           ...itemWithoutBasePrice,
