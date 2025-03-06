@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from "~/core/chakra-components/ui/popover";
 import { SegmentedControl } from "~/core/chakra-components/ui/segmented-control";
-import { SearchInput } from "~/core/form";
+import { Form } from "~/core/form";
 import { MultiSelect } from "~/core/select";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import { ContentCategoryFilter } from "~/shared/content";
@@ -27,7 +27,7 @@ export const ContentWageListFilters = () => {
 
   return (
     <Flex gap={2}>
-      <SearchInput onSearch={setKeyword} value={keyword} />
+      <Form.SearchInput onSearch={setKeyword} value={keyword} />
       <PopoverRoot positioning={{ placement: "bottom-end" }}>
         <PopoverTrigger asChild>
           <Button size="xs" variant="outline">

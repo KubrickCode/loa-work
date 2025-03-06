@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 
-import { SearchInput } from "~/core/form";
+import { Form } from "~/core/form";
 import { ContentCategoryFilter } from "~/shared/content";
 
 import { useContentRewardListPage } from "../../../content-reward-list-page-context";
@@ -11,7 +11,7 @@ export const ContentRewardListTableFilters = () => {
 
   return (
     <Flex alignItems="center" gap={2}>
-      <SearchInput onSearch={setKeyword} value={keyword} />
+      <Form.SearchInput onSearch={setKeyword} value={keyword} />
       <ContentCategoryFilter
         onChange={setContentCategoryId}
         value={contentCategoryId}

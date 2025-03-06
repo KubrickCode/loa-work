@@ -8,15 +8,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import {
-  Field,
-  FormBody,
-  FormFooter,
-  Input,
-  MutationForm,
-  SubmitButton,
-  z,
-} from "~/core/form";
+import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardItemEditDocument,
@@ -52,7 +44,7 @@ export const UserExtraItemPriceEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <MutationForm<
+      <Form.Mutation<
         UserContentRewardItemEditInput,
         UserContentRewardItemEditMutation
       >
@@ -74,20 +66,20 @@ export const UserExtraItemPriceEditDialog = ({
         <DialogContent>
           <DialogHeader>기타 아이템 골드 가치 수정</DialogHeader>
           <DialogBody>
-            <FormBody>
-              <Field label="개당 골드" name="price">
-                <Input type="number" />
-              </Field>
-            </FormBody>
+            <Form.Body>
+              <Form.Field label="개당 골드" name="price">
+                <Form.Input type="number" />
+              </Form.Field>
+            </Form.Body>
           </DialogBody>
           <DialogFooter>
-            <FormFooter>
+            <Form.Footer>
               <DialogCloseButton />
-              <SubmitButton />
-            </FormFooter>
+              <Form.SubmitButton />
+            </Form.Footer>
           </DialogFooter>
         </DialogContent>
-      </MutationForm>
+      </Form.Mutation>
     </Dialog>
   );
 };

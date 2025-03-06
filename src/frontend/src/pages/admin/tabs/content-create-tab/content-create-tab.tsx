@@ -2,16 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 
 import { Checkbox as ChakraCheckbox } from "~/core/chakra-components/ui/checkbox";
 import { toaster } from "~/core/chakra-components/ui/toaster";
-import {
-  Checkbox,
-  Field,
-  FormBody,
-  Input,
-  MutationForm,
-  Select,
-  SubmitButton,
-  z,
-} from "~/core/form";
+import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentCreateInput,
@@ -51,7 +42,7 @@ export const ContentCreateTab = () => {
 
   return (
     <Section>
-      <MutationForm<ContentCreateInput, ContentCreateTabMutation>
+      <Form.Mutation<ContentCreateInput, ContentCreateTabMutation>
         defaultValues={{
           contentRewards: data.contentRewardItems.map(({ id }) => ({
             contentRewardItemId: id,
@@ -83,7 +74,7 @@ export const ContentCreateTab = () => {
           );
 
           return (
-            <FormBody w="1200px">
+            <Form.Body w="1200px">
               <Flex gap={4}>
                 <Flex
                   border="1px solid"
@@ -95,8 +86,8 @@ export const ContentCreateTab = () => {
                   w="full"
                 >
                   <Text>컨텐츠 정보</Text>
-                  <Field label="카테고리" name="categoryId">
-                    <Select
+                  <Form.Field label="카테고리" name="categoryId">
+                    <Form.Select
                       items={data.contentCategories.map((category) => ({
                         label: category.name,
                         value: category.id,
@@ -104,20 +95,20 @@ export const ContentCreateTab = () => {
                       name="categoryId"
                       placeholder="카테고리 선택"
                     />
-                  </Field>
-                  <Field label="레벨" name="level">
-                    <Input type="number" />
-                  </Field>
-                  <Field label="이름" name="name">
-                    <Input />
-                  </Field>
-                  <Field label="소요시간(초)" name="duration">
-                    <Input type="number" />
-                  </Field>
+                  </Form.Field>
+                  <Form.Field label="레벨" name="level">
+                    <Form.Input type="number" />
+                  </Form.Field>
+                  <Form.Field label="이름" name="name">
+                    <Form.Input />
+                  </Form.Field>
+                  <Form.Field label="소요시간(초)" name="duration">
+                    <Form.Input type="number" />
+                  </Form.Field>
                   {isRaid && (
-                    <Field label="관문" name="gate">
-                      <Input type="number" />
-                    </Field>
+                    <Form.Field label="관문" name="gate">
+                      <Form.Input type="number" />
+                    </Form.Field>
                   )}
                 </Flex>
                 <Flex
@@ -141,29 +132,29 @@ export const ContentCreateTab = () => {
                       rounded="md"
                       w="full"
                     >
-                      <Field
+                      <Form.Field
                         label={reward.name}
                         name={`contentRewards.${index}.defaultAverageQuantity`}
                         optional
                       >
-                        <Input
+                        <Form.Input
                           disabled={watch(`contentRewards.${index}.isExcluded`)}
                           step="0.01"
                           type="number"
                         />
-                      </Field>
-                      <Field
+                      </Form.Field>
+                      <Form.Field
                         name={`contentRewards.${index}.isSellable`}
                         optional
                       >
-                        <Checkbox size="xs">판매 가능 여부</Checkbox>
-                      </Field>
-                      <Field
+                        <Form.Checkbox size="xs">판매 가능 여부</Form.Checkbox>
+                      </Form.Field>
+                      <Form.Field
                         name={`contentRewards.${index}.isExcluded`}
                         optional
                       >
-                        <Checkbox size="xs">제외 여부</Checkbox>
-                      </Field>
+                        <Form.Checkbox size="xs">제외 여부</Form.Checkbox>
+                      </Form.Field>
                     </Flex>
                   ))}
                 </Flex>
@@ -190,38 +181,38 @@ export const ContentCreateTab = () => {
                         rounded="md"
                         w="full"
                       >
-                        <Field
+                        <Form.Field
                           label={reward.name}
                           name={`contentSeeMoreRewards.${index}.quantity`}
                           optional
                         >
-                          <Input
+                          <Form.Input
                             disabled={watch(
                               `contentSeeMoreRewards.${index}.isExcluded`
                             )}
                             step="0.01"
                             type="number"
                           />
-                        </Field>
+                        </Form.Field>
                         <ChakraCheckbox disabled size="xs">
                           판매 가능 여부
                         </ChakraCheckbox>
-                        <Field
+                        <Form.Field
                           name={`contentSeeMoreRewards.${index}.isExcluded`}
                           optional
                         >
-                          <Checkbox size="xs">제외 여부</Checkbox>
-                        </Field>
+                          <Form.Checkbox size="xs">제외 여부</Form.Checkbox>
+                        </Form.Field>
                       </Flex>
                     ))}
                   </Flex>
                 )}
               </Flex>
-              <SubmitButton />
-            </FormBody>
+              <Form.SubmitButton />
+            </Form.Body>
           );
         }}
-      </MutationForm>
+      </Form.Mutation>
     </Section>
   );
 };

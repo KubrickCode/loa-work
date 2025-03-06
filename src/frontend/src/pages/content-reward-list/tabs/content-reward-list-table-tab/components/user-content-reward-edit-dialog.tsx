@@ -11,16 +11,7 @@ import {
   DialogProps,
   DialogTrigger,
 } from "~/core/dialog";
-import {
-  Checkbox,
-  Field,
-  FormBody,
-  FormFooter,
-  Input,
-  MutationForm,
-  SubmitButton,
-  z,
-} from "~/core/form";
+import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentRewardEditDialogDocument,
@@ -59,7 +50,10 @@ export const UserContentRewardEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <MutationForm<UserContentRewardsEditInput, UserContentRewardsEditMutation>
+      <Form.Mutation<
+        UserContentRewardsEditInput,
+        UserContentRewardsEditMutation
+      >
         defaultValues={{
           userContentRewards: data.content.contentRewards.map((reward) => ({
             id: reward.userContentReward.id,
@@ -82,19 +76,19 @@ export const UserContentRewardEditDialog = ({
           <DialogHeader>보상 수정</DialogHeader>
 
           <DialogBody>
-            <FormBody>
+            <Form.Body>
               {data.content.contentRewards.map((reward, index) => (
-                <Field
+                <Form.Field
                   key={reward.userContentReward.id}
                   label={reward.contentRewardItem.name}
                   name={`userContentRewards.${index}.averageQuantity`}
                 >
-                  <Input step="0.01" type="number" />
-                </Field>
+                  <Form.Input step="0.01" type="number" />
+                </Form.Field>
               ))}
-              <Field name="isReportable" optional>
-                <Checkbox>저장 후 데이터 제보</Checkbox>
-              </Field>
+              <Form.Field name="isReportable" optional>
+                <Form.Checkbox>저장 후 데이터 제보</Form.Checkbox>
+              </Form.Field>
               <DialogTrigger
                 dialog={ContentRewardReportDialog}
                 dialogProps={{
@@ -103,16 +97,16 @@ export const UserContentRewardEditDialog = ({
               >
                 <Link variant="underline">저장없이 제보만하기</Link>
               </DialogTrigger>
-            </FormBody>
+            </Form.Body>
           </DialogBody>
           <DialogFooter>
-            <FormFooter>
+            <Form.Footer>
               <DialogCloseButton />
-              <SubmitButton />
-            </FormFooter>
+              <Form.SubmitButton />
+            </Form.Footer>
           </DialogFooter>
         </DialogContent>
-      </MutationForm>
+      </Form.Mutation>
     </Dialog>
   );
 };

@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { SearchInput } from "~/core/form";
+import { Form } from "~/core/form";
 import { formatDateTime, FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { MarketItemListTableDocument } from "~/core/graphql/generated";
@@ -42,7 +42,7 @@ export const MarketItemListTable = ({
         마지막 업데이트 일시:{" "}
         {formatDateTime(data.marketItemStats[0]?.createdAt)}
       </Text>
-      <SearchInput onSearch={setKeyword} value={keyword} />
+      <Form.SearchInput onSearch={setKeyword} value={keyword} />
       <DataTable
         columns={[
           {

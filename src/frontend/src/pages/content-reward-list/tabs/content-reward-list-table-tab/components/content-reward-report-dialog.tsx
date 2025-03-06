@@ -8,15 +8,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import {
-  Field,
-  FormBody,
-  FormFooter,
-  Input,
-  MutationForm,
-  SubmitButton,
-  z,
-} from "~/core/form";
+import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentRewardReportDialogDocument,
@@ -50,7 +42,7 @@ export const ContentRewardReportDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <MutationForm<ContentRewardsReportInput, ContentRewardsReportMutation>
+      <Form.Mutation<ContentRewardsReportInput, ContentRewardsReportMutation>
         defaultValues={{
           contentRewards: data.content.contentRewards.map((reward) => ({
             id: reward.id,
@@ -70,26 +62,26 @@ export const ContentRewardReportDialog = ({
         <DialogContent>
           <DialogHeader>보상 제보</DialogHeader>
           <DialogBody>
-            <FormBody>
+            <Form.Body>
               {data.content.contentRewards.map((reward, index) => (
-                <Field
+                <Form.Field
                   key={reward.id}
                   label={reward.contentRewardItem.name}
                   name={`contentRewards.${index}.averageQuantity`}
                 >
-                  <Input step="0.01" type="number" />
-                </Field>
+                  <Form.Input step="0.01" type="number" />
+                </Form.Field>
               ))}
-            </FormBody>
+            </Form.Body>
           </DialogBody>
           <DialogFooter>
-            <FormFooter>
+            <Form.Footer>
               <DialogCloseButton />
-              <SubmitButton />
-            </FormFooter>
+              <Form.SubmitButton />
+            </Form.Footer>
           </DialogFooter>
         </DialogContent>
-      </MutationForm>
+      </Form.Mutation>
     </Dialog>
   );
 };

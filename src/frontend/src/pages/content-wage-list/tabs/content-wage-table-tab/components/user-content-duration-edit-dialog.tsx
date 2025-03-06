@@ -7,15 +7,7 @@ import {
   DialogHeader,
 } from "~/core/dialog";
 import { Dialog, DialogProps } from "~/core/dialog/dialog";
-import {
-  Field,
-  FormBody,
-  FormFooter,
-  Input,
-  MutationForm,
-  SubmitButton,
-  z,
-} from "~/core/form";
+import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserContentDurationEditDialogDocument,
@@ -51,7 +43,7 @@ export const UserContentDurationEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <MutationForm<
+      <Form.Mutation<
         UserContentDurationEditInput,
         UserContentDurationEditMutation
       >
@@ -73,20 +65,20 @@ export const UserContentDurationEditDialog = ({
         <DialogContent>
           <DialogHeader>소요시간 수정</DialogHeader>
           <DialogBody>
-            <FormBody>
-              <Field label="소요시간(초 단위)" name="value">
-                <Input type="number" />
-              </Field>
-            </FormBody>
+            <Form.Body>
+              <Form.Field label="소요시간(초 단위)" name="value">
+                <Form.Input type="number" />
+              </Form.Field>
+            </Form.Body>
           </DialogBody>
           <DialogFooter>
-            <FormFooter>
+            <Form.Footer>
               <DialogCloseButton />
-              <SubmitButton />
-            </FormFooter>
+              <Form.SubmitButton />
+            </Form.Footer>
           </DialogFooter>
         </DialogContent>
-      </MutationForm>
+      </Form.Mutation>
     </Dialog>
   );
 };

@@ -8,15 +8,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import {
-  Field,
-  FormBody,
-  FormFooter,
-  Input,
-  MutationForm,
-  SubmitButton,
-  z,
-} from "~/core/form";
+import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
   UserGoldExchangeRateEditDocument,
@@ -42,7 +34,7 @@ export const GoldExchangeRateSettingDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <MutationForm<
+      <Form.Mutation<
         UserGoldExchangeRateEditInput,
         UserGoldExchangeRateEditMutation
       >
@@ -64,23 +56,23 @@ export const GoldExchangeRateSettingDialog = ({
         <DialogContent>
           <DialogHeader>골드 환율 설정</DialogHeader>
           <DialogBody>
-            <FormBody>
-              <Field
+            <Form.Body>
+              <Form.Field
                 label={`${userGoldExchangeRate.goldAmount}골드 당 원(KRW)`}
                 name="krwAmount"
               >
-                <Input type="number" />
-              </Field>
-            </FormBody>
+                <Form.Input type="number" />
+              </Form.Field>
+            </Form.Body>
           </DialogBody>
           <DialogFooter>
-            <FormFooter>
+            <Form.Footer>
               <DialogCloseButton />
-              <SubmitButton />
-            </FormFooter>
+              <Form.SubmitButton />
+            </Form.Footer>
           </DialogFooter>
         </DialogContent>
-      </MutationForm>
+      </Form.Mutation>
     </Dialog>
   );
 };

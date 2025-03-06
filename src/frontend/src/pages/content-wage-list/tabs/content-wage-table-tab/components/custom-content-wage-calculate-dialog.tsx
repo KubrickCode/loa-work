@@ -12,15 +12,7 @@ import {
   DialogHeader,
   DialogProps,
 } from "~/core/dialog";
-import {
-  Field,
-  FormBody,
-  FormFooter,
-  Input,
-  MutationForm,
-  SubmitButton,
-  z,
-} from "~/core/form";
+import { Form, z } from "~/core/form";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -47,7 +39,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
 
   return (
     <Dialog {...dialogProps}>
-      <MutationForm<
+      <Form.Mutation<
         CustomContentWageCalculateInput,
         CustomContentWageCalculateDialogMutationMutation
       >
@@ -73,23 +65,23 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
         <DialogContent>
           <DialogHeader>컨텐츠 시급 계산기</DialogHeader>
           <DialogBody>
-            <FormBody>
+            <Form.Body>
               <Flex direction="column" fontSize="xs">
                 <Text>가상의 컨텐츠 시급을 계산합니다.</Text>
                 <Text>소요시간 및 각 보상의 1수당 수량을 입력하세요.</Text>
               </Flex>
 
-              <Field label="소요시간(초 단위)" name="duration">
-                <Input type="number" />
-              </Field>
+              <Form.Field label="소요시간(초 단위)" name="duration">
+                <Form.Input type="number" />
+              </Form.Field>
               {data.contentRewardItems.map((item, index) => (
-                <Field
+                <Form.Field
                   key={item.id}
                   label={`${item.name}`}
                   name={`rewardItems.${index}.quantity`}
                 >
-                  <Input type="number" />
-                </Field>
+                  <Form.Input type="number" />
+                </Form.Field>
               ))}
               {result && (
                 <Alert startElement={<></>} status="info" title="계산 결과:">
@@ -113,16 +105,16 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                   </Flex>
                 </Alert>
               )}
-            </FormBody>
+            </Form.Body>
           </DialogBody>
           <DialogFooter>
-            <FormFooter>
+            <Form.Footer>
               <DialogCloseButton />
-              <SubmitButton />
-            </FormFooter>
+              <Form.SubmitButton />
+            </Form.Footer>
           </DialogFooter>
         </DialogContent>
-      </MutationForm>
+      </Form.Mutation>
     </Dialog>
   );
 };
