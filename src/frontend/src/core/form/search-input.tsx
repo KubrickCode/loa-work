@@ -11,6 +11,7 @@ type SearchInputProps = InputProps & {
 };
 
 export const SearchInput = ({
+  maxWidth = "xs",
   onSearch,
   value,
   ...otherProps
@@ -57,6 +58,7 @@ export const SearchInput = ({
         </IconButton>
       }
       endOffset="-2px"
+      maxWidth={maxWidth}
       startElement={<LuSearch />}
       startOffset="0px"
       {...otherProps}
