@@ -26,6 +26,29 @@ deps-backend:
 go-test:
   go list -f '{{{{.Dir}}' -m | xargs -I {} go test {}/...
 
+lint target="all":
+  #!/usr/bin/env bash
+  set -euox pipefail
+  case "{{ target }}" in
+    all)
+      just lint backend
+      just lint frontend
+      ;;
+    backend)
+      cd "{{ backend_dir }}"
+      yarn format
+      yarn lint
+      ;;
+    frontend)
+      cd "{{ frontend_dir }}"
+      yarn eslint --ignore-pattern "generated.tsx" --max-warnings=0 "src/**/*.tsx"
+      ;;
+    *)
+      echo "Unknown target: {{ target }}"
+      exit 1
+      ;;
+  esac
+
 makemigration name:
   just prisma migrate dev --create-only --name {{ name }}
 
