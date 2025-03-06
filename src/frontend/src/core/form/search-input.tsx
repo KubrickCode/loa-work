@@ -59,6 +59,7 @@ export const SearchInput = ({
       endOffset="-2px"
       startElement={<LuSearch />}
       startOffset="0px"
+      {...otherProps}
     >
       <Input
         onBlur={() => reset(false)}
@@ -72,7 +73,6 @@ export const SearchInput = ({
         placeholder="검색..."
         size="xs"
         value={input}
-        {...otherProps}
       />
     </InputGroup>
   );
