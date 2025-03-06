@@ -11,7 +11,7 @@ export const TableSkeleton = ({ line }: { line: number }) => {
   return <SkeletonText gap="4" noOfLines={line} p={4} />;
 };
 
-export const Page = () => {
+export const PageLoader = () => {
   return (
     <Flex
       alignItems="center"
@@ -24,7 +24,7 @@ export const Page = () => {
   );
 };
 
-export const Select = () => {
+export const SelectLoader = () => {
   const frameworks = createListCollection({
     items: [],
   });
@@ -38,7 +38,7 @@ export const Select = () => {
   );
 };
 
-export const Block = () => {
+export const BlockLoader = () => {
   return (
     <VStack justifyContent="center" minHeight="sm">
       <Spinner />

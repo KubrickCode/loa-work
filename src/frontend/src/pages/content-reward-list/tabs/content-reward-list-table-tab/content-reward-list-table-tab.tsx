@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { Loader } from "~/core/loader";
+import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 
 import { ContentRewardListTable } from "./components/content-reward-list-table";
@@ -12,7 +12,7 @@ export const ContentRewardListTableTab = () => {
     <Section>
       <ContentRewardListPageProvider>
         <ContentRewardListTableFilters />
-        <Suspense fallback={<Loader.TableSkeleton line={30} />}>
+        <Suspense fallback={<TableSkeleton line={30} />}>
           <ContentRewardListTable />
         </Suspense>
       </ContentRewardListPageProvider>

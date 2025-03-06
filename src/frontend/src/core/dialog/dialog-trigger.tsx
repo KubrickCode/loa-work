@@ -6,7 +6,7 @@ import {
   Suspense,
 } from "react";
 
-import { Loader } from "../loader";
+import { BlockLoader } from "../loader";
 
 export type DialogTriggerProps<T extends ElementType> = FlexProps & {
   dialog: T;
@@ -62,7 +62,7 @@ const BackdropLoader = () => {
       top={0}
       zIndex="modal"
     >
-      <Loader.Block />
+      <BlockLoader />
     </Center>
   );
 };

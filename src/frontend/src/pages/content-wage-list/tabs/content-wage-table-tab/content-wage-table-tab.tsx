@@ -5,7 +5,7 @@ import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 import { useAuth } from "~/core/auth";
 import { Button } from "~/core/chakra-components/ui/button";
 import { DialogTrigger } from "~/core/dialog";
-import { Loader } from "~/core/loader";
+import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 
 import { ContentWageListTable } from "./components/content-wage-list-table";
@@ -42,7 +42,7 @@ export const ContentWageTableTab = () => {
             </Button>
           </DialogTrigger>
         </Flex>
-        <Suspense fallback={<Loader.TableSkeleton line={30} />}>
+        <Suspense fallback={<TableSkeleton line={30} />}>
           <ContentWageListTable setRefetchTable={setRefetchTable} />
         </Suspense>
       </ContentWageListPageProvider>

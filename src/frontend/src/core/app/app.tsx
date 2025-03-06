@@ -6,7 +6,7 @@ import { GraphQLProvider } from "../graphql";
 import { Layout } from "../layout";
 import { ThemeProvider } from "../theme";
 import { Router, Routes } from "./router";
-import { Loader } from "../loader";
+import { PageLoader } from "../loader";
 import { Logger } from "./logger";
 
 export const App = () => {
@@ -18,7 +18,7 @@ export const App = () => {
           <GraphQLProvider>
             <Layout>
               <ErrorBoundary>
-                <Suspense fallback={<Loader.Page />}>
+                <Suspense fallback={<PageLoader />}>
                   <Routes />
                 </Suspense>
               </ErrorBoundary>

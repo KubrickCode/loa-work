@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth, UserRole } from "~/core/auth";
-import { Loader } from "~/core/loader";
+import { PageLoader } from "~/core/loader";
 import { Page } from "~/core/page";
 import { Tabs } from "~/core/tabs";
 
@@ -24,7 +24,7 @@ export const AdminPage = () => {
     }
   }, [user, isLoading, navigate]);
 
-  if (isLoading) return <Loader.Page />;
+  if (isLoading) return <PageLoader />;
 
   const tabPanels = [
     {

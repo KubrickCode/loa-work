@@ -2,7 +2,7 @@ import { Suspense } from "react";
 
 import { useSafeQuery } from "~/core/graphql";
 import { ContentCategoriesDocument } from "~/core/graphql/generated";
-import { Loader } from "~/core/loader";
+import { SelectLoader } from "~/core/loader";
 import { Select } from "~/core/select";
 
 type ContentCategoryFilterProps = {
@@ -12,7 +12,7 @@ type ContentCategoryFilterProps = {
 
 export const ContentCategoryFilter = (props: ContentCategoryFilterProps) => {
   return (
-    <Suspense fallback={<Loader.Select />}>
+    <Suspense fallback={<SelectLoader />}>
       <WrappedContentCategoryFilter {...props} />
     </Suspense>
   );
