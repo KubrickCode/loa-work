@@ -96,7 +96,7 @@ jobs:
               --network monitoring-network \
               -v /home/ubuntu/infra/monitoring/loki.yaml:/etc/loki/config.yaml \
               -v /data/loki:/data \
-              grafana/loki:2.9.0 -config.file=/etc/loki/config.yaml
+              grafana/loki:3.4 -config.file=/etc/loki/config.yaml
 
             # Run Promtail container
             sudo docker stop promtail || true
@@ -105,7 +105,7 @@ jobs:
               --network monitoring-network \
               -v /var/lib/docker/containers:/var/lib/docker/containers:ro \
               -v /home/ubuntu/infra/monitoring/promtail.yaml:/etc/promtail/config.yaml \
-              grafana/promtail:2.9.0 -config.file=/etc/promtail/config.yaml
+              grafana/promtail:3.4 -config.file=/etc/promtail/config.yaml
 
             # Run Grafana container
             sudo docker stop grafana || true

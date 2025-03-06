@@ -128,7 +128,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo docker pull grafana/promtail:2.9.0
+            sudo docker pull grafana/promtail:3.4
             sudo docker stop promtail || true
             sudo docker rm promtail || true
             sudo docker run -d \
@@ -137,7 +137,7 @@ jobs:
               -v /var/lib/docker/containers:/var/lib/docker/containers:ro \
               -v /home/ubuntu/promtail.yaml:/etc/promtail/config.yaml \
               --user root \
-              grafana/promtail:2.9.0 -config.file=/etc/promtail/config.yaml || echo "Docker run failed: $?"
+              grafana/promtail:3.4 -config.file=/etc/promtail/config.yaml || echo "Docker run failed: $?"
 
       - name: Deploy Web Service to EC2
         uses: appleboy/ssh-action@master
@@ -267,7 +267,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets[matrix.ssh-key-secret] }}
           script: |
-            sudo docker pull grafana/promtail:2.9.0
+            sudo docker pull grafana/promtail:3.4
             sudo docker stop promtail || true
             sudo docker rm promtail || true
             sudo docker run -d \
@@ -275,7 +275,7 @@ jobs:
               --network host \
               -v /var/lib/docker/containers:/var/lib/docker/containers:ro \
               -v /home/ubuntu/promtail-${{ matrix.name }}.yaml:/etc/promtail/config.yaml \
-              grafana/promtail:2.9.0 -config.file=/etc/promtail/config.yaml || echo "Docker run failed: $?"
+              grafana/promtail:3.4 -config.file=/etc/promtail/config.yaml || echo "Docker run failed: $?"
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
