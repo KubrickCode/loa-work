@@ -110,7 +110,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
           <DialogFooter>
             <Form.Footer>
               <DialogCloseButton />
-              <Form.SubmitButton />
+              <Form.SubmitButton>계산</Form.SubmitButton>
             </Form.Footer>
           </DialogFooter>
         </DialogContent>
