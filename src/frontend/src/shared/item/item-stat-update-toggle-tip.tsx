@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import { ToggleTip } from "~/core/chakra-components/ui/toggle-tip";
 import { formatDateTime } from "~/core/format";
-import { useQuery } from "~/core/graphql";
+import { useLazyQuery } from "~/core/graphql";
 import { ItemStatUpdateToggleTipDocument } from "~/core/graphql/generated";
 
 export const ItemStatUpdateToggleTip = () => {
@@ -20,7 +20,7 @@ export const ItemStatUpdateToggleTip = () => {
 };
 
 const Content = ({ isOpen }: { isOpen: boolean }) => {
-  const { data, loading, error, refetch } = useQuery(
+  const [fetch, { data, loading, error }] = useLazyQuery(
     ItemStatUpdateToggleTipDocument,
     {
       variables: {
@@ -31,21 +31,27 @@ const Content = ({ isOpen }: { isOpen: boolean }) => {
   );
 
   useEffect(() => {
-    if (isOpen) refetch();
-  }, [isOpen, refetch]);
+    if (isOpen) fetch();
+  }, [isOpen, fetch]);
 
-  if (loading) return <Spinner />;
-  if (error) return <Text>{error.message}</Text>;
   if (!data) return null;
 
   return (
     <Flex direction="column" gap={2} p={2}>
-      <Text>
-        거래소 아이템: {formatDateTime(data.marketItemStats[0]?.createdAt)}
-      </Text>
-      <Text>
-        경매장 아이템: {formatDateTime(data.auctionItemStats[0]?.createdAt)}
-      </Text>
+      {loading ? (
+        <Spinner />
+      ) : error ? (
+        <Text>{error.message}</Text>
+      ) : (
+        <>
+          <Text>
+            거래소 아이템: {formatDateTime(data.marketItemStats[0]?.createdAt)}
+          </Text>
+          <Text>
+            경매장 아이템: {formatDateTime(data.auctionItemStats[0]?.createdAt)}
+          </Text>
+        </>
+      )}
     </Flex>
   );
 };
