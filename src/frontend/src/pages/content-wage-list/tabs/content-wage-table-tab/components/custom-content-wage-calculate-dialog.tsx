@@ -3,15 +3,7 @@ import { useState } from "react";
 
 import { Alert } from "~/core/chakra-components/alert";
 import { toaster } from "~/core/chakra-components/ui/toaster";
-import {
-  Dialog,
-  DialogBody,
-  DialogCloseButton,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogProps,
-} from "~/core/dialog";
+import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
@@ -62,9 +54,9 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
         }}
         schema={schema}
       >
-        <DialogContent>
-          <DialogHeader>컨텐츠 시급 계산기</DialogHeader>
-          <DialogBody>
+        <Dialog.Content>
+          <Dialog.Header>컨텐츠 시급 계산기</Dialog.Header>
+          <Dialog.Body>
             <Form.Body>
               <Flex direction="column" fontSize="xs">
                 <Text>가상의 컨텐츠 시급을 계산합니다.</Text>
@@ -106,14 +98,14 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                 </Alert>
               )}
             </Form.Body>
-          </DialogBody>
-          <DialogFooter>
+          </Dialog.Body>
+          <Dialog.Footer>
             <Form.Footer>
-              <DialogCloseButton />
+              <Dialog.CloseButton />
               <Form.SubmitButton>계산</Form.SubmitButton>
             </Form.Footer>
-          </DialogFooter>
-        </DialogContent>
+          </Dialog.Footer>
+        </Dialog.Content>
       </Form.Mutation>
     </Dialog>
   );

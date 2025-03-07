@@ -4,7 +4,7 @@ import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
 import { Button } from "~/core/chakra-components/ui/button";
-import { DialogTrigger } from "~/core/dialog";
+import { Dialog } from "~/core/dialog";
 import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 
@@ -24,7 +24,7 @@ export const ContentWageTableTab = () => {
         <Flex alignItems="center" gap={2} wrap="wrap">
           <ContentWageListFilters />
           {isAuthenticated && (
-            <DialogTrigger
+            <Dialog.Trigger
               dialog={GoldExchangeRateSettingDialog}
               dialogProps={{
                 onComplete: refetchTable,
@@ -33,14 +33,14 @@ export const ContentWageTableTab = () => {
               <Button size="xs" variant="outline">
                 <IoIosSettings /> 골드 환율 설정
               </Button>
-            </DialogTrigger>
+            </Dialog.Trigger>
           )}
-          <DialogTrigger dialog={CustomContentWageCalculateDialog}>
+          <Dialog.Trigger dialog={CustomContentWageCalculateDialog}>
             <Button size="xs" variant="outline">
               <IoIosCalculator />
               시급 계산기
             </Button>
-          </DialogTrigger>
+          </Dialog.Trigger>
         </Flex>
         <Suspense fallback={<TableSkeleton line={30} />}>
           <ContentWageListTable setRefetchTable={setRefetchTable} />

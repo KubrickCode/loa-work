@@ -2,7 +2,7 @@ import { IconButton } from "@chakra-ui/react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
-import { DialogTrigger } from "~/core/dialog";
+import { Dialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -40,7 +40,7 @@ export const ExtraItemListTable = () => {
                   data: ExtraItemListTableQuery["contentRewardItems"][number];
                 }) {
                   return (
-                    <DialogTrigger
+                    <Dialog.Trigger
                       dialog={UserExtraItemPriceEditDialog}
                       dialogProps={{
                         contentRewardItemId: data.id,
@@ -50,7 +50,7 @@ export const ExtraItemListTable = () => {
                       <IconButton size="xs" variant="surface">
                         <IoIosSettings />
                       </IconButton>
-                    </DialogTrigger>
+                    </Dialog.Trigger>
                   );
                 },
                 width: "32px",

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
-import { DialogTrigger } from "~/core/dialog/dialog-trigger";
+import { Dialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -59,7 +59,7 @@ export const ContentWageListTable = ({
                   data: ContentWageListTableQuery["contentWageList"][number];
                 }) {
                   return (
-                    <DialogTrigger
+                    <Dialog.Trigger
                       dialog={UserContentDurationEditDialog}
                       dialogProps={{
                         contentDurationId: data.content.contentDuration.id,
@@ -69,7 +69,7 @@ export const ContentWageListTable = ({
                       <IconButton size="xs" variant="surface">
                         <IoIosSettings />
                       </IconButton>
-                    </DialogTrigger>
+                    </Dialog.Trigger>
                   );
                 },
                 width: "32px",

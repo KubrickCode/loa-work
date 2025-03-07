@@ -13,7 +13,7 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "~/core/chakra-components/ui/menu";
-import { DialogTrigger } from "~/core/dialog";
+import { Dialog } from "~/core/dialog";
 import { MenuItem } from "~/core/menu";
 
 export const HeaderMenu = () => {
@@ -39,12 +39,12 @@ export const HeaderMenu = () => {
             로그아웃
           </MenuItem>
         ) : (
-          <DialogTrigger dialog={LoginDialog}>
+          <Dialog.Trigger dialog={LoginDialog}>
             <MenuItem value="login">
               <MdLogin />
               로그인
             </MenuItem>
-          </DialogTrigger>
+          </Dialog.Trigger>
         )}
       </MenuContent>
     </MenuRoot>

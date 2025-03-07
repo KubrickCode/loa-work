@@ -1,13 +1,5 @@
 import { toaster } from "~/core/chakra-components/ui/toaster";
-import {
-  Dialog,
-  DialogBody,
-  DialogCloseButton,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogProps,
-} from "~/core/dialog";
+import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -63,22 +55,22 @@ export const UserExtraItemPriceEditDialog = ({
         }}
         schema={schema}
       >
-        <DialogContent>
-          <DialogHeader>기타 아이템 골드 가치 수정</DialogHeader>
-          <DialogBody>
+        <Dialog.Content>
+          <Dialog.Header>기타 아이템 골드 가치 수정</Dialog.Header>
+          <Dialog.Body>
             <Form.Body>
               <Form.Field label="개당 골드" name="price">
                 <Form.Input type="number" />
               </Form.Field>
             </Form.Body>
-          </DialogBody>
-          <DialogFooter>
+          </Dialog.Body>
+          <Dialog.Footer>
             <Form.Footer>
-              <DialogCloseButton />
+              <Dialog.CloseButton />
               <Form.SubmitButton />
             </Form.Footer>
-          </DialogFooter>
-        </DialogContent>
+          </Dialog.Footer>
+        </Dialog.Content>
       </Form.Mutation>
     </Dialog>
   );

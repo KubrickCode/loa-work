@@ -4,21 +4,14 @@ import { FcGoogle } from "react-icons/fc";
 import { RiKakaoTalkFill } from "react-icons/ri";
 
 import { Button } from "~/core/chakra-components/ui/button";
-import {
-  Dialog,
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogProps,
-} from "~/core/dialog";
+import { Dialog, DialogProps } from "~/core/dialog";
 
 export const LoginDialog = (dialogProps: DialogProps) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
-        <DialogHeader>로그인</DialogHeader>
-        <DialogBody>
+      <Dialog.Content>
+        <Dialog.Header>로그인</Dialog.Header>
+        <Dialog.Body>
           <Flex direction="column" gap={3}>
             <Button
               _hover={{ bg: "gray.50" }}
@@ -53,9 +46,9 @@ export const LoginDialog = (dialogProps: DialogProps) => {
               <RiKakaoTalkFill /> 카카오로 계속하기
             </Button>
           </Flex>
-        </DialogBody>
-        <DialogFooter />
-      </DialogContent>
+        </Dialog.Body>
+        <Dialog.Footer />
+      </Dialog.Content>
     </Dialog>
   );
 };

@@ -1,16 +1,7 @@
 import { Link } from "@chakra-ui/react";
 
 import { toaster } from "~/core/chakra-components/ui/toaster";
-import {
-  Dialog,
-  DialogBody,
-  DialogCloseButton,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogProps,
-  DialogTrigger,
-} from "~/core/dialog";
+import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -72,10 +63,9 @@ export const UserContentRewardEditDialog = ({
         }}
         schema={schema}
       >
-        <DialogContent>
-          <DialogHeader>보상 수정</DialogHeader>
-
-          <DialogBody>
+        <Dialog.Content>
+          <Dialog.Header>보상 수정</Dialog.Header>
+          <Dialog.Body>
             <Form.Body>
               {data.content.contentRewards.map((reward, index) => (
                 <Form.Field
@@ -89,23 +79,23 @@ export const UserContentRewardEditDialog = ({
               <Form.Field name="isReportable" optional>
                 <Form.Checkbox>저장 후 데이터 제보</Form.Checkbox>
               </Form.Field>
-              <DialogTrigger
+              <Dialog.Trigger
                 dialog={ContentRewardReportDialog}
                 dialogProps={{
                   contentId,
                 }}
               >
                 <Link variant="underline">저장없이 제보만하기</Link>
-              </DialogTrigger>
+              </Dialog.Trigger>
             </Form.Body>
-          </DialogBody>
-          <DialogFooter>
+          </Dialog.Body>
+          <Dialog.Footer>
             <Form.Footer>
-              <DialogCloseButton />
+              <Dialog.CloseButton />
               <Form.SubmitButton />
             </Form.Footer>
-          </DialogFooter>
-        </DialogContent>
+          </Dialog.Footer>
+        </Dialog.Content>
       </Form.Mutation>
     </Dialog>
   );

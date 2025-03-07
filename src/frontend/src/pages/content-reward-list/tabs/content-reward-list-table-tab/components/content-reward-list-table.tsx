@@ -4,7 +4,7 @@ import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
 import { Tooltip } from "~/core/chakra-components/ui/tooltip";
-import { DialogTrigger } from "~/core/dialog";
+import { Dialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardListTableDocument } from "~/core/graphql/generated";
@@ -61,7 +61,7 @@ export const ContentRewardListTable = () => {
                 header: "관리",
                 render({ data }: { data: (typeof rows)[number]["data"] }) {
                   return (
-                    <DialogTrigger
+                    <Dialog.Trigger
                       dialog={UserContentRewardEditDialog}
                       dialogProps={{
                         contentId: data.id,
@@ -75,7 +75,7 @@ export const ContentRewardListTable = () => {
                       >
                         <IoIosSettings />
                       </IconButton>
-                    </DialogTrigger>
+                    </Dialog.Trigger>
                   );
                 },
                 width: "32px",

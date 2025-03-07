@@ -1,13 +1,5 @@
 import { toaster } from "~/core/chakra-components/ui/toaster";
-import {
-  Dialog,
-  DialogBody,
-  DialogCloseButton,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogProps,
-} from "~/core/dialog";
+import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -59,9 +51,9 @@ export const ContentRewardReportDialog = ({
         }}
         schema={schema}
       >
-        <DialogContent>
-          <DialogHeader>보상 제보</DialogHeader>
-          <DialogBody>
+        <Dialog.Content>
+          <Dialog.Header>보상 제보</Dialog.Header>
+          <Dialog.Body>
             <Form.Body>
               {data.content.contentRewards.map((reward, index) => (
                 <Form.Field
@@ -73,14 +65,14 @@ export const ContentRewardReportDialog = ({
                 </Form.Field>
               ))}
             </Form.Body>
-          </DialogBody>
-          <DialogFooter>
+          </Dialog.Body>
+          <Dialog.Footer>
             <Form.Footer>
-              <DialogCloseButton />
+              <Dialog.CloseButton />
               <Form.SubmitButton />
             </Form.Footer>
-          </DialogFooter>
-        </DialogContent>
+          </Dialog.Footer>
+        </Dialog.Content>
       </Form.Mutation>
     </Dialog>
   );

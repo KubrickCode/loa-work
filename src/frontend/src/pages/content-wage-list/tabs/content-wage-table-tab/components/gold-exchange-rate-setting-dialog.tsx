@@ -1,13 +1,5 @@
 import { toaster } from "~/core/chakra-components/ui/toaster";
-import {
-  Dialog,
-  DialogBody,
-  DialogCloseButton,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogProps,
-} from "~/core/dialog";
+import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
@@ -53,9 +45,9 @@ export const GoldExchangeRateSettingDialog = ({
         }}
         schema={schema}
       >
-        <DialogContent>
-          <DialogHeader>골드 환율 설정</DialogHeader>
-          <DialogBody>
+        <Dialog.Content>
+          <Dialog.Header>골드 환율 설정</Dialog.Header>
+          <Dialog.Body>
             <Form.Body>
               <Form.Field
                 label={`${userGoldExchangeRate.goldAmount}골드 당 원(KRW)`}
@@ -64,14 +56,14 @@ export const GoldExchangeRateSettingDialog = ({
                 <Form.Input type="number" />
               </Form.Field>
             </Form.Body>
-          </DialogBody>
-          <DialogFooter>
+          </Dialog.Body>
+          <Dialog.Footer>
             <Form.Footer>
-              <DialogCloseButton />
+              <Dialog.CloseButton />
               <Form.SubmitButton />
             </Form.Footer>
-          </DialogFooter>
-        </DialogContent>
+          </Dialog.Footer>
+        </Dialog.Content>
       </Form.Mutation>
     </Dialog>
   );
