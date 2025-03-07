@@ -24,23 +24,6 @@
 - **개발 환경**: Dev Container, Docker, VSCode
 - **기타 도구**: Chakra UI, Prisma, Gorm, LostArk API, Passport, Jest
 
-## 📂 프로젝트 구조
-
-```
-loa-work
-├── backend
-│   ├── controllers
-│   ├── models
-│   ├── routes
-│   └── services
-├── frontend
-│   ├── components
-│   ├── hooks
-│   ├── pages
-│   └── utils
-└── scripts
-```
-
 ## 🧑‍💻 설치 및 실행 방법
 
 ### 1. 저장소 클론하기
