@@ -14,10 +14,15 @@
 
 ## 🛠️ 기술 스택
 
-- **프론트엔드**: React, TypeScript
-- **백엔드**: Node.js, Express
-- **데이터 시각화**: Chart.js, D3.js
-- **데이터베이스**: MongoDB 또는 PostgreSQL (사용 중인 DB에 따라 수정 필요)
+- **웹 애플리케이션**: TypeScript, GraphQL, ReactJS, NestJS
+- **데이터 수집**: Go
+- **데이터베이스**: PostgreSQL
+- **인프라**: AWS, Nginx, Docker
+- **서비스 관리**: 백오피스, Grafana, Prometheus, Loki, Promtail, LogRocket, Sentry
+- **배포 자동화**: Github Action
+- **이슈 관리**: Github Issue
+- **개발 환경**: Dev Container, Docker, VSCode
+- **기타 도구**: Chakra UI, Prisma, Gorm, LostArk API, Passport, Jest
 
 ## 📂 프로젝트 구조
 
