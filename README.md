@@ -24,49 +24,6 @@
 - **개발 환경**: Dev Container, Docker, VSCode
 - **기타 도구**: Chakra UI, Prisma, Gorm, LostArk API, Passport, Jest
 
-## 🧑‍💻 설치 및 실행 방법
-
-### 1. 저장소 클론하기
-
-```bash
-git clone <저장소 주소>
-cd loa-work
-```
-
-### 2. 의존성 설치하기
-
-```bash
-# 프론트엔드
-cd frontend
-npm install
-
-# 백엔드
-cd ../backend
-npm install
-```
-
-### 3. 환경 변수 설정하기
-
-`.env.example` 파일을 참고하여 `.env` 파일을 생성하고 필요한 환경 변수를 설정합니다.
-
-### 4. 프로젝트 실행하기
-
-```bash
-# 프론트엔드 실행
-cd frontend
-npm run dev
-
-# 백엔드 실행
-cd ../backend
-npm run dev
-```
-
-## 📈 향후 계획
-
-- 더 다양한 컨텐츠 데이터 추가
-- 사용자 데이터 기반의 개인화된 추천 기능 추가
-- 모바일 친화적인 UI 개선
-
 ## 🤝 기여 방법
 
 이 프로젝트에 기여하고 싶으신 분들은 자유롭게 이슈를 생성하거나 풀 리퀘스트를 보내주세요. 모든 기여는 환영합니다!
