@@ -19,6 +19,9 @@ import { MonitoringModule } from './monitoring/monitoring.module';
       driver: ApolloDriver,
       useFactory: () => ({
         autoSchemaFile: join(process.cwd(), 'schema.graphql'),
+        buildSchemaOptions: {
+          numberScalarMode: 'integer',
+        },
         context: ({ req, res }) => ({
           req,
           res,

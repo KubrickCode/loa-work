@@ -1,4 +1,4 @@
-import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from '../object/content.object';
 import { Prisma } from '@prisma/client';
@@ -15,7 +15,7 @@ export class ContentListWageFilter {
 
 @InputType()
 export class ContentListFilter {
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   contentCategoryId?: number;
 
   @Field(() => Boolean, { nullable: true })

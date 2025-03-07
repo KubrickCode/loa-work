@@ -3,7 +3,6 @@ import {
   Args,
   Field,
   InputType,
-  Int,
   Mutation,
   ObjectType,
   Resolver,
@@ -17,10 +16,10 @@ import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange
 
 @InputType()
 class UserGoldExchangeRateEditInput {
-  @Field(() => Int)
+  @Field()
   id: number;
 
-  @Field(() => Int)
+  @Field()
   krwAmount: number;
 }
 

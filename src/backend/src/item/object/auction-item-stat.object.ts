@@ -1,17 +1,17 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class AuctionItemStat {
-  @Field(() => Int)
+  @Field()
   auctionItemId: number;
 
-  @Field(() => Int)
+  @Field()
   bidPrice: number;
 
-  @Field(() => Int)
+  @Field()
   bidStartPrice: number;
 
-  @Field(() => Int)
+  @Field()
   buyPrice: number;
 
   @Field()
@@ -20,12 +20,12 @@ export class AuctionItemStat {
   @Field()
   endDate: Date;
 
-  @Field(() => Int)
+  @Field()
   id: number;
 
   @Field(() => Boolean)
   isCompetitive: boolean;
 
-  @Field(() => Int)
+  @Field()
   startPrice: number;
 }

@@ -1,4 +1,4 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { AuctionItemStat } from '../object/auction-item-stat.object';
 import { OrderByArg } from 'src/common/object/order-by-arg.object';
@@ -14,7 +14,7 @@ export class AuctionItemStatsQuery {
       nullable: true,
     })
     orderBy?: OrderByArg[],
-    @Args('take', { type: () => Int, nullable: true }) take: number | null = 10,
+    @Args('take', { nullable: true }) take: number | null = 10,
   ) {
     return await this.prisma.auctionItemStat.findMany({
       take,

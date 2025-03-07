@@ -4,7 +4,6 @@ import {
   Field,
   Float,
   InputType,
-  Int,
   Mutation,
   ObjectType,
   Resolver,
@@ -14,7 +13,7 @@ import { PrismaService } from 'src/prisma';
 
 @InputType()
 export class ContentCreateInput {
-  @Field(() => Int)
+  @Field()
   categoryId: number;
 
   @Field(() => [ContentCreateRewardItemsInput])
@@ -23,13 +22,13 @@ export class ContentCreateInput {
   @Field(() => [ContentCreateSeeMoreRewardsInput], { nullable: true })
   contentSeeMoreRewards?: ContentCreateSeeMoreRewardsInput[];
 
-  @Field(() => Int)
+  @Field()
   duration: number;
 
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   gate?: number | null;
 
-  @Field(() => Int)
+  @Field()
   level: number;
 
   @Field()
@@ -38,7 +37,7 @@ export class ContentCreateInput {
 
 @InputType()
 export class ContentCreateRewardItemsInput {
-  @Field(() => Int)
+  @Field()
   contentRewardItemId: number;
 
   @Field(() => Float)
@@ -53,7 +52,7 @@ export class ContentCreateRewardItemsInput {
 
 @InputType()
 export class ContentCreateSeeMoreRewardsInput {
-  @Field(() => Int)
+  @Field()
   contentRewardItemId: number;
 
   @Field(() => Float)

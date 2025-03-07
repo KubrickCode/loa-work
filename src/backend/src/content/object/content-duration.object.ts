@@ -1,11 +1,11 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
 export class ContentDuration extends BaseObject {
-  @Field(() => Int)
+  @Field()
   contentId: number;
 
-  @Field(() => Int)
+  @Field()
   defaultValue: number;
 }

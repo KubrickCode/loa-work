@@ -1,4 +1,4 @@
-import { Int, Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
@@ -56,7 +56,7 @@ export class ContentResolver {
     return `${name}${gate ? ` ${gate}관문` : ''}`;
   }
 
-  @ResolveField(() => Int)
+  @ResolveField(() => Number)
   async duration(@Parent() content: Content) {
     return await this.userContentService.getContentDuration(content.id);
   }

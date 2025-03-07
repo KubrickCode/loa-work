@@ -1,9 +1,9 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
 export class MarketItem extends BaseObject {
-  @Field(() => Int)
+  @Field()
   bundleCount: number;
 
   @Field()
@@ -15,6 +15,6 @@ export class MarketItem extends BaseObject {
   @Field()
   name: string;
 
-  @Field(() => Int)
+  @Field()
   refId: number;
 }

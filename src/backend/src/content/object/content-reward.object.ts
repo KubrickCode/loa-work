@@ -1,9 +1,9 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
 export class ContentReward extends BaseObject {
-  @Field(() => Int)
+  @Field()
   contentRewardItemId: number;
 
   @Field(() => Boolean)

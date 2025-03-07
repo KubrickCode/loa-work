@@ -2,7 +2,6 @@ import {
   Args,
   Field,
   InputType,
-  Int,
   Mutation,
   ObjectType,
   Resolver,
@@ -32,13 +31,13 @@ class CustomContentWageCalculateResult {
   @Field(() => Boolean)
   ok: boolean;
 
-  @Field(() => Int)
+  @Field()
   krwAmountPerHour: number;
 
-  @Field(() => Int)
+  @Field()
   goldAmountPerHour: number;
 
-  @Field(() => Int)
+  @Field()
   goldAmountPerClear: number;
 }
 

@@ -145,8 +145,8 @@ input ContentRewardItemsFilter {
 }
 
 input ContentRewardReportInput {
-  averageQuantity: Float!
-  id: Float!
+  averageQuantity: Int!
+  id: Int!
 }
 
 input ContentRewardsReportInput {
@@ -190,7 +190,7 @@ input ContentWageListFilter {
 }
 
 input CustomContentWageCalculateInput {
-  duration: Float!
+  duration: Int!
   rewardItems: [CustomContentWageCalculateRewardItemInput!]!
 }
 
@@ -202,8 +202,8 @@ type CustomContentWageCalculateResult {
 }
 
 input CustomContentWageCalculateRewardItemInput {
-  id: Float!
-  quantity: Float!
+  id: Int!
+  quantity: Int!
 }
 
 """
@@ -294,8 +294,8 @@ type UserContentDuration {
 }
 
 input UserContentDurationEditInput {
-  id: Float!
-  value: Float!
+  id: Int!
+  value: Int!
 }
 
 type UserContentDurationEditResult {
@@ -312,8 +312,8 @@ type UserContentReward {
 }
 
 input UserContentRewardEditInput {
-  averageQuantity: Float!
-  id: Float!
+  averageQuantity: Int!
+  id: Int!
 }
 
 type UserContentRewardItem {

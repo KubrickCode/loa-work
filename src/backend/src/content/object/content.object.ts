@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
@@ -15,16 +15,16 @@ export class ContentWageFilter {
 
 @ObjectType()
 export class Content extends BaseObject {
-  @Field(() => Int)
+  @Field()
   contentCategoryId: number;
 
   @Field(() => ContentWageFilter, { nullable: true })
   wageFilter?: ContentWageFilter;
 
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   gate?: number;
 
-  @Field(() => Int)
+  @Field()
   level: number;
 
   @Field()

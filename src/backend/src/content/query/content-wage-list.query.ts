@@ -1,4 +1,4 @@
-import { Args, Field, InputType, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Prisma } from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
@@ -9,13 +9,13 @@ import _ from 'lodash';
 
 @InputType()
 export class ContentWageListFilter {
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   contentCategoryId?: number;
 
   @Field(() => String, { nullable: true })
   keyword?: string;
 
-  @Field(() => [Int], { nullable: true })
+  @Field(() => [Number], { nullable: true })
   includeContentRewardItemIds?: number[];
 
   @Field(() => Boolean, { nullable: true })

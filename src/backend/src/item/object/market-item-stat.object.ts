@@ -1,20 +1,20 @@
-import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class MarketItemStat {
   @Field()
   createdAt: Date;
 
-  @Field(() => Int)
+  @Field()
   currentMinPrice: number;
 
-  @Field(() => Int)
+  @Field()
   id: number;
 
-  @Field(() => Int)
+  @Field()
   marketItemId: number;
 
-  @Field(() => Int)
+  @Field()
   recentPrice: number;
 
   @Field(() => Float)

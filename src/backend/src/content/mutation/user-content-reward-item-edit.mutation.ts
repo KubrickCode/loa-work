@@ -4,7 +4,6 @@ import {
   Field,
   Float,
   InputType,
-  Int,
   Mutation,
   ObjectType,
   Resolver,
@@ -15,7 +14,7 @@ import { UserContentService } from '../../user/service/user-content.service';
 
 @InputType()
 class UserContentRewardItemEditInput {
-  @Field(() => Int)
+  @Field()
   id: number;
 
   @Field(() => Float)
