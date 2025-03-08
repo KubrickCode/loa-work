@@ -1,10 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { PrismaService } from '../../prisma';
 import { CONTEXT } from '@nestjs/graphql';
 import { ContextType } from './types';
 import dayjs from 'dayjs';
 import { ContentRewardItemKind } from '@prisma/client';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Injectable()
 export class UserContentService {
   constructor(

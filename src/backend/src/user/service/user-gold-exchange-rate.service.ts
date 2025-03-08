@@ -1,8 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { PrismaService } from '../../prisma';
 import { CONTEXT } from '@nestjs/graphql';
 import { ContextType } from './types';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Injectable()
 export class UserGoldExchangeRateService {
   constructor(
