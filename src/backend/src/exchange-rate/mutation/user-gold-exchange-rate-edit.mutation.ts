@@ -2,6 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Field,
+  Float,
   InputType,
   Mutation,
   ObjectType,
@@ -19,7 +20,7 @@ class UserGoldExchangeRateEditInput {
   @Field()
   id: number;
 
-  @Field()
+  @Field(() => Float)
   krwAmount: number;
 }
 

@@ -1,16 +1,16 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class ContentWage {
   @Field()
   contentId: number;
 
-  @Field()
+  @Field(() => Float)
   krwAmountPerHour: number;
 
-  @Field()
+  @Field(() => Float)
   goldAmountPerHour: number;
 
-  @Field()
+  @Field(() => Float)
   goldAmountPerClear: number;
 }

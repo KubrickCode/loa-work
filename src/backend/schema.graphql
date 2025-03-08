@@ -19,14 +19,14 @@ input AuctionItemListFilter {
 
 type AuctionItemStat {
   auctionItemId: Int!
-  bidPrice: Int!
-  bidStartPrice: Int!
-  buyPrice: Int!
+  bidPrice: Float!
+  bidStartPrice: Float!
+  buyPrice: Float!
   createdAt: DateTime!
   endDate: DateTime!
   id: Int!
   isCompetitive: Boolean!
-  startPrice: Int!
+  startPrice: Float!
 }
 
 enum AuthProvider {
@@ -145,7 +145,7 @@ input ContentRewardItemsFilter {
 }
 
 input ContentRewardReportInput {
-  averageQuantity: Int!
+  averageQuantity: Float!
   id: Int!
 }
 
@@ -163,16 +163,16 @@ type ContentSeeMoreReward {
   contentRewardItemId: Int!
   createdAt: DateTime!
   id: Int!
-  quantity: Int!
+  quantity: Float!
   updatedAt: DateTime!
 }
 
 type ContentWage {
   content: Content!
   contentId: Int!
-  goldAmountPerClear: Int!
-  goldAmountPerHour: Int!
-  krwAmountPerHour: Int!
+  goldAmountPerClear: Float!
+  goldAmountPerHour: Float!
+  krwAmountPerHour: Float!
 }
 
 type ContentWageFilter {
@@ -203,7 +203,7 @@ type CustomContentWageCalculateResult {
 
 input CustomContentWageCalculateRewardItemInput {
   id: Int!
-  quantity: Int!
+  quantity: Float!
 }
 
 """
@@ -234,10 +234,10 @@ input MarketItemListFilter {
 
 type MarketItemStat {
   createdAt: DateTime!
-  currentMinPrice: Int!
+  currentMinPrice: Float!
   id: Int!
   marketItemId: Int!
-  recentPrice: Int!
+  recentPrice: Float!
   yDayAvgPrice: Float!
 }
 
@@ -312,7 +312,7 @@ type UserContentReward {
 }
 
 input UserContentRewardEditInput {
-  averageQuantity: Int!
+  averageQuantity: Float!
   id: Int!
 }
 
@@ -345,16 +345,16 @@ type UserContentRewardsEditResult {
 
 type UserGoldExchangeRate {
   createdAt: DateTime!
-  goldAmount: Int!
+  goldAmount: Float!
   id: Int!
-  krwAmount: Int!
+  krwAmount: Float!
   updatedAt: DateTime!
   userId: Int!
 }
 
 input UserGoldExchangeRateEditInput {
   id: Int!
-  krwAmount: Int!
+  krwAmount: Float!
 }
 
 type UserGoldExchangeRateEditResult {

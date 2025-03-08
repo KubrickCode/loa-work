@@ -1,6 +1,7 @@
 import {
   Args,
   Field,
+  Float,
   InputType,
   Mutation,
   ObjectType,
@@ -23,7 +24,7 @@ class CustomContentWageCalculateRewardItemInput {
   @Field()
   id: number;
 
-  @Field()
+  @Field(() => Float)
   quantity: number;
 }
 

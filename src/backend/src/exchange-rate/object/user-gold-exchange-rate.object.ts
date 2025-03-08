@@ -1,12 +1,12 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
 export class UserGoldExchangeRate extends BaseObject {
-  @Field()
+  @Field(() => Float)
   krwAmount: number;
 
-  @Field()
+  @Field(() => Float)
   goldAmount: number;
 
   @Field()

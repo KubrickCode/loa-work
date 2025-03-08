@@ -2,6 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Field,
+  Float,
   InputType,
   Mutation,
   ObjectType,
@@ -17,7 +18,7 @@ class ContentRewardReportInput {
   @Field()
   id: number;
 
-  @Field()
+  @Field(() => Float)
   averageQuantity: number;
 }
 

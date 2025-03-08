@@ -5,7 +5,7 @@ export class MarketItemStat {
   @Field()
   createdAt: Date;
 
-  @Field()
+  @Field(() => Float)
   currentMinPrice: number;
 
   @Field()
@@ -14,7 +14,7 @@ export class MarketItemStat {
   @Field()
   marketItemId: number;
 
-  @Field()
+  @Field(() => Float)
   recentPrice: number;
 
   @Field(() => Float)

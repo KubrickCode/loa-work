@@ -1,17 +1,17 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class AuctionItemStat {
   @Field()
   auctionItemId: number;
 
-  @Field()
+  @Field(() => Float)
   bidPrice: number;
 
-  @Field()
+  @Field(() => Float)
   bidStartPrice: number;
 
-  @Field()
+  @Field(() => Float)
   buyPrice: number;
 
   @Field()
@@ -26,6 +26,6 @@ export class AuctionItemStat {
   @Field(() => Boolean)
   isCompetitive: boolean;
 
-  @Field()
+  @Field(() => Float)
   startPrice: number;
 }
