@@ -7,6 +7,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { ContentWageService } from '../service/content-wage.service';
+import { UserInputError } from 'apollo-server-express';
 
 @InputType()
 class CustomContentWageCalculateInput {
@@ -52,7 +53,9 @@ export class CustomContentWageCalculateMutation {
     const { duration, rewardItems } = input;
 
     if (duration <= 0) {
-      throw new Error('소요시간은 0초 보다 커야 합니다.');
+      throw new UserInputError('소요시간은 0초 보다 커야 합니다.', {
+        field: 'duration',
+      });
     }
 
     const rewardsGold = await this.contentWageService.calculateGold(
