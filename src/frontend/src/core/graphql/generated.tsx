@@ -168,8 +168,8 @@ export type ContentRewardItemsFilter = {
 };
 
 export type ContentRewardReportInput = {
-  averageQuantity: Scalars['Float']['input'];
-  id: Scalars['Float']['input'];
+  averageQuantity: Scalars['Int']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type ContentRewardsReportInput = {
@@ -217,7 +217,7 @@ export type ContentWageListFilter = {
 };
 
 export type CustomContentWageCalculateInput = {
-  duration: Scalars['Float']['input'];
+  duration: Scalars['Int']['input'];
   rewardItems: Array<CustomContentWageCalculateRewardItemInput>;
 };
 
@@ -230,8 +230,8 @@ export type CustomContentWageCalculateResult = {
 };
 
 export type CustomContentWageCalculateRewardItemInput = {
-  id: Scalars['Float']['input'];
-  quantity: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
+  quantity: Scalars['Int']['input'];
 };
 
 export type MarketItem = {
@@ -411,8 +411,8 @@ export type UserContentDuration = {
 };
 
 export type UserContentDurationEditInput = {
-  id: Scalars['Float']['input'];
-  value: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
+  value: Scalars['Int']['input'];
 };
 
 export type UserContentDurationEditResult = {
@@ -431,8 +431,8 @@ export type UserContentReward = {
 };
 
 export type UserContentRewardEditInput = {
-  averageQuantity: Scalars['Float']['input'];
-  id: Scalars['Float']['input'];
+  averageQuantity: Scalars['Int']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type UserContentRewardItem = {
