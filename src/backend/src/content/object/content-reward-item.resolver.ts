@@ -6,6 +6,8 @@ import { User } from 'src/common/object/user.object';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { PrismaService } from 'src/prisma';
 import { UserContentRewardItem } from './user-content-reward-item.object';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Resolver(() => ContentRewardItem)
 export class ContentRewardItemResolver {
@@ -37,13 +39,12 @@ export class ContentRewardItemResolver {
     );
   }
 
+  @UseGuards(AuthGuard)
   @ResolveField(() => UserContentRewardItem)
   async userContentRewardItem(
     @Parent() contentRewardItem: ContentRewardItem,
-    @CurrentUser() user?: User,
+    @CurrentUser() user: User,
   ) {
-    if (!user) throw new Error('User is not logged in');
-
     return await this.prisma.userContentRewardItem.findUniqueOrThrow({
       where: {
         userId_contentRewardItemId: {
