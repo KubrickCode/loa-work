@@ -25,6 +25,7 @@ export class ContentWageListFilter {
   includeIsBound?: boolean;
 }
 
+// TODO: E2E Test 작성
 @Resolver()
 export class ContentWageListQuery {
   constructor(

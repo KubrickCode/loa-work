@@ -17,6 +17,7 @@ func NewScraper(db loadb.DB) *Scraper {
 	return &Scraper{db: db}
 }
 
+// TODO: Test 작성
 func (s *Scraper) Start() error {
 	categories, err := s.getCategoriesToScrape()
 	if err != nil {
@@ -36,6 +37,7 @@ func (s *Scraper) Start() error {
 	return nil
 }
 
+// TODO: Test 작성
 func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
 	categories, err := s.db.MarketItemCategory().FindItemScraperEnabledAll()
 	if err != nil {
@@ -49,6 +51,7 @@ func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
 	return categories, nil
 }
 
+// TODO: Test 작성
 func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb.MarketItem, error) {
 	var itemsToUpsert []loadb.MarketItem
 	seenItems := make(map[string]bool)
@@ -104,6 +107,7 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 	return itemsToUpsert, nil
 }
 
+// TODO: Test 작성
 func (s *Scraper) saveItems(items []loadb.MarketItem) error {
 	log.Println("Market items saved successfully")
 

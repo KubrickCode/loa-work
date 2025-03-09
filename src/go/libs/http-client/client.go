@@ -41,6 +41,7 @@ func (c *Client) Do(req *http.Request, out interface{}) error {
 	return parseResponse(resp.Body, out)
 }
 
+// TODO: Test 작성
 func (c *Client) retry(req *http.Request) (*http.Response, error) {
 	var resp *http.Response
 	var err error
@@ -63,6 +64,7 @@ func (c *Client) retry(req *http.Request) (*http.Response, error) {
 	return nil, errors.Wrapf(err, "failed to send request after %d attempts", maxRetries)
 }
 
+// TODO: Test 작성
 func parseResponse(body io.Reader, out interface{}) error {
 	bodyBytes, err := io.ReadAll(body)
 	if err != nil {

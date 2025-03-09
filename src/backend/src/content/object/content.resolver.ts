@@ -61,6 +61,7 @@ export class ContentResolver {
     return await this.userContentService.getContentDuration(content.id);
   }
 
+  // TODO: Test 작성
   @ResolveField(() => String)
   async durationText(@Parent() content: Content) {
     const durationInSeconds = await this.duration(content);

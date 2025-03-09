@@ -9,6 +9,7 @@ export class AuctionItemResolver {
 
   constructor(private prisma: PrismaService) {}
 
+  // TODO: Test 작성
   @ResolveField(() => Float, { nullable: true })
   async avgBuyPrice(@Parent() auctionItem: AuctionItem) {
     const stats = await this.prisma.auctionItemStat.findMany({

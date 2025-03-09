@@ -14,6 +14,7 @@ export class ContentWageService {
     private userGoldExchangeRateService: UserGoldExchangeRateService,
   ) {}
 
+  // TODO: Test 작성
   async calculateGold(rewards: Reward[]) {
     let gold = 0;
 
@@ -29,6 +30,7 @@ export class ContentWageService {
     return gold;
   }
 
+  // TODO: Test 작성
   async calculateGoldByDate(rewards: Reward[], date: Date) {
     let gold = 0;
 
@@ -45,6 +47,7 @@ export class ContentWageService {
     return gold;
   }
 
+  // TODO: Test 작성
   async calculateSeeMoreRewardsGold(
     contentSeeMoreRewards: {
       contentRewardItemId: number;
@@ -72,6 +75,7 @@ export class ContentWageService {
     return await this.calculateGold(seeMoreRewards);
   }
 
+  // TODO: Test 작성
   async calculateSeeMoreRewardsGoldByDate(
     contentSeeMoreRewards: {
       contentRewardItemId: number;
@@ -100,6 +104,7 @@ export class ContentWageService {
     return await this.calculateGoldByDate(seeMoreRewards, date);
   }
 
+  // TODO: Test 작성
   async calculateWage({ gold, duration }: { gold: number; duration: number }) {
     const goldExchangeRate =
       await this.userGoldExchangeRateService.getGoldExchangeRate();

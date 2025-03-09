@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
+// TODO: Test 작성
 /**
  * 특정 테이블의 모든 컬럼명을 반환하는 함수
  *
