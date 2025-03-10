@@ -98,4 +98,41 @@ describe('UserContentService', () => {
 
     expect(price).toBe(userPrice);
   });
+
+  it('getContentRewardItemPrice - logged in user but not editable', async () => {
+    const user = await prisma.user.create({
+      data: {
+        refId: faker.string.uuid(),
+        displayName: faker.person.fullName(),
+        provider: AuthProvider.KAKAO,
+      },
+    });
+    jest.spyOn(service, 'getUserId').mockReturnValue(user.id);
+
+    const contentRewardItem = await prisma.contentRewardItem.create({
+      data: {
+        name: faker.lorem.word(),
+        kind: ContentRewardItemKind.MARKET_ITEM,
+        imageUrl: faker.image.url(),
+        isEditable: false,
+        contentRewardItemPrices: {
+          createMany: {
+            data: [{ value: 100 }],
+          },
+        },
+      },
+    });
+
+    await prisma.userContentRewardItem.create({
+      data: {
+        userId: user.id,
+        contentRewardItemId: contentRewardItem.id,
+        price: 250,
+      },
+    });
+
+    const price = await service.getContentRewardItemPrice(contentRewardItem.id);
+
+    expect(price).toBe(100);
+  });
 });
