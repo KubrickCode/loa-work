@@ -14,7 +14,7 @@ export class UserContentService {
     @Inject(CONTEXT) private context: ContextType,
   ) {}
 
-  private getUserId() {
+  getUserId() {
     return this.context.req?.user?.id;
   }
 

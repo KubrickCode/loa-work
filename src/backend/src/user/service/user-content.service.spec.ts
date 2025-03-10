@@ -6,6 +6,7 @@ import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange
 import { faker } from '@faker-js/faker/.';
 import { ContentRewardItemKind } from '@prisma/client';
 import { ContentWageService } from 'src/content/service/content-wage.service';
+import { AuthProvider } from '.prisma/client';
 
 describe('UserContentService', () => {
   let module: TestingModule;
@@ -56,5 +57,43 @@ describe('UserContentService', () => {
     const price = await service.getContentRewardItemPrice(contentRewardItem.id);
 
     expect(price).toBe(100);
+  });
+
+  it('getContentRewardItemPrice - logged in user', async () => {
+    const user = await prisma.user.create({
+      data: {
+        refId: faker.string.uuid(),
+        displayName: faker.person.fullName(),
+        provider: AuthProvider.KAKAO,
+      },
+    });
+    jest.spyOn(service, 'getUserId').mockReturnValue(user.id);
+
+    const contentRewardItem = await prisma.contentRewardItem.create({
+      data: {
+        name: faker.lorem.word(),
+        kind: ContentRewardItemKind.MARKET_ITEM,
+        imageUrl: faker.image.url(),
+        isEditable: true,
+        contentRewardItemPrices: {
+          createMany: {
+            data: [{ value: 100 }],
+          },
+        },
+      },
+    });
+
+    const userPrice = 250;
+    await prisma.userContentRewardItem.create({
+      data: {
+        userId: user.id,
+        contentRewardItemId: contentRewardItem.id,
+        price: userPrice,
+      },
+    });
+
+    const price = await service.getContentRewardItemPrice(contentRewardItem.id);
+
+    expect(price).toBe(userPrice);
   });
 });
