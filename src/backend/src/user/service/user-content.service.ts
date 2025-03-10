@@ -5,12 +5,14 @@ import { ContextType } from './types';
 import dayjs from 'dayjs';
 import { ContentRewardItemKind } from '@prisma/client';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ContentRewardItemService } from 'src/content/service/content-reward-item.service';
 
 @UseGuards(AuthGuard)
 @Injectable()
 export class UserContentService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly contentRewardItemService: ContentRewardItemService,
     @Inject(CONTEXT) private context: ContextType,
   ) {}
 
@@ -22,18 +24,14 @@ export class UserContentService {
   async getContentRewardItemPrice(contentRewardItemId: number) {
     const userId = this.getUserId();
 
-    const { isEditable, contentRewardItemPrices } =
+    const defaultPrice = await this.contentRewardItemService.getPrice(
+      contentRewardItemId,
+    );
+
+    const { isEditable } =
       await this.prisma.contentRewardItem.findUniqueOrThrow({
         where: {
           id: contentRewardItemId,
-        },
-        include: {
-          contentRewardItemPrices: {
-            take: 1,
-            orderBy: {
-              createdAt: 'desc',
-            },
-          },
         },
       });
 
@@ -49,7 +47,7 @@ export class UserContentService {
               },
             })
           ).price
-        : contentRewardItemPrices[0].value;
+        : defaultPrice;
 
     return price.toNumber();
   }

@@ -7,6 +7,7 @@ import { faker } from '@faker-js/faker/.';
 import { ContentRewardItemKind } from '@prisma/client';
 import { ContentWageService } from 'src/content/service/content-wage.service';
 import { AuthProvider } from '.prisma/client';
+import { ContentRewardItemService } from 'src/content/service/content-reward-item.service';
 
 describe('UserContentService', () => {
   let module: TestingModule;
@@ -20,6 +21,7 @@ describe('UserContentService', () => {
         ContentWageService,
         UserContentService,
         UserGoldExchangeRateService,
+        ContentRewardItemService,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
