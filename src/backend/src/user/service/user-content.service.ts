@@ -2,8 +2,6 @@ import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { PrismaService } from '../../prisma';
 import { CONTEXT } from '@nestjs/graphql';
 import { ContextType } from './types';
-import dayjs from 'dayjs';
-import { ContentRewardItemKind } from '@prisma/client';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ContentRewardItemService } from 'src/content/service/content-reward-item.service';
 
@@ -50,40 +48,6 @@ export class UserContentService {
         : defaultPrice;
 
     return price.toNumber();
-  }
-
-  // TODO: Test 작성
-  async getContentRewardItemAveragePriceByDate(
-    contentRewardItemId: number,
-    date: Date,
-  ) {
-    const rewardItem = await this.prisma.contentRewardItem.findUniqueOrThrow({
-      where: {
-        id: contentRewardItemId,
-      },
-      select: {
-        kind: true,
-      },
-    });
-
-    const prices = await this.prisma.contentRewardItemPrice.aggregate({
-      _avg: {
-        value: true,
-      },
-      where: {
-        contentRewardItemId,
-        createdAt: {
-          gte: dayjs(date).startOf('day').toDate(),
-          lte: dayjs(date).endOf('day').toDate(),
-        },
-      },
-    });
-
-    const avgPrice = prices._avg.value ? prices._avg.value.toNumber() : 0;
-
-    return rewardItem.kind === ContentRewardItemKind.EXTRA_ITEM
-      ? await this.getContentRewardItemPrice(contentRewardItemId)
-      : avgPrice;
   }
 
   // TODO: Test 작성
