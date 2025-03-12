@@ -17,46 +17,50 @@ func NewConverter(db loadb.DB) *Converter {
 
 // TODO: Test 작성
 func (s *Converter) Start() error {
-	items, err := s.db.ContentRewardItem().FindManyByKind(loadb.ContentRewardItemKind.MARKET_ITEM)
-	if err != nil {
-		return err
-	}
-
-	var pricesToCreate []loadb.ContentRewardItemPrice
-	for _, item := range items {
-		if item.Name == FateFragmentName {
-			price, err := s.getSmallFateFragmentBuyPricePerOne()
-			if err != nil {
-				return err
-			}
-			pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
-				ContentRewardItemID: item.ID,
-				Value:               price,
-			})
-		} else {
-			price, err := s.getMarketItemCurrentMinPrice(item.Name)
-			if err != nil {
-				return err
-			}
-			pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
-				ContentRewardItemID: item.ID,
-				Value:               price,
-			})
+	err := s.db.WithTransaction(func(tx loadb.DB) error {
+		items, err := tx.ContentRewardItem().FindManyByKind(loadb.ContentRewardItemKind.MARKET_ITEM)
+		if err != nil {
+			return err
 		}
-	}
 
-	if err := s.db.ContentRewardItemPrice().CreateMany(pricesToCreate); err != nil {
-		return err
-	}
+		var pricesToCreate []loadb.ContentRewardItemPrice
+		for _, item := range items {
+			if item.Name == FateFragmentName {
+				price, err := s.getSmallFateFragmentBuyPricePerOne(tx)
+				if err != nil {
+					return err
+				}
+				pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
+					ContentRewardItemID: item.ID,
+					Value:               price,
+				})
+			} else {
+				price, err := s.getMarketItemCurrentMinPrice(item.Name, tx)
+				if err != nil {
+					return err
+				}
+				pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
+					ContentRewardItemID: item.ID,
+					Value:               price,
+				})
+			}
+		}
 
-	log.Println("Market Item Stats Converted To Content Reward Item Price Done")
+		if err := tx.ContentRewardItemPrice().CreateMany(pricesToCreate); err != nil {
+			return err
+		}
 
-	return nil
+		log.Println("Market Item Stats Converted To Content Reward Item Price Done")
+
+		return nil
+	})
+
+	return err
 }
 
 // TODO: Test 작성
-func (s *Converter) getMarketItemCurrentMinPrice(itemName string) (decimal.Decimal, error) {
-	item, err := s.db.MarketItem().FindWithStatsByName(itemName)
+func (s *Converter) getMarketItemCurrentMinPrice(itemName string, tx loadb.DB) (decimal.Decimal, error) {
+	item, err := tx.MarketItem().FindWithStatsByName(itemName)
 	if err != nil {
 		return decimal.Zero, err
 	}
@@ -68,8 +72,8 @@ func (s *Converter) getMarketItemCurrentMinPrice(itemName string) (decimal.Decim
 }
 
 // TODO: Test 작성
-func (s *Converter) getSmallFateFragmentBuyPricePerOne() (decimal.Decimal, error) {
-	item, err := s.db.MarketItem().FindWithStatsByName(SmallFateFragmentName)
+func (s *Converter) getSmallFateFragmentBuyPricePerOne(tx loadb.DB) (decimal.Decimal, error) {
+	item, err := tx.MarketItem().FindWithStatsByName(SmallFateFragmentName)
 	if err != nil {
 		return decimal.Zero, err
 	}
