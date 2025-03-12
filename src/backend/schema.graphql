@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type AuctionItem {
-  avgBuyPrice: Float
+  avgBuyPrice: Float!
   createdAt: DateTime!
   id: Int!
   imageUrl: String!

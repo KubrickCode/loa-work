@@ -19,6 +19,10 @@ func NewConverter(db loadb.DB) *Converter {
 // TODO: Test 작성
 func (s *Converter) Start() error {
 	err := s.db.WithTransaction(func(tx loadb.DB) error {
+		if err := s.updateAuctionItems(tx); err != nil {
+			return err
+		}
+
 		items, err := tx.ContentRewardItem().FindManyByKind(loadb.ContentRewardItemKind.AUCTION_ITEM)
 		if err != nil {
 			return err
@@ -68,4 +72,25 @@ func (s *Converter) get1LevelGemPrice(tx loadb.DB) (decimal.Decimal, error) {
 
 	averagePrice := damageGemPrice.Add(coolDownGemPrice).Div(decimal.NewFromInt(2))
 	return averagePrice, nil
+}
+
+// TODO: Test 작성
+func (s *Converter) updateAuctionItems(tx loadb.DB) error {
+	const recentStatsCount = 10
+
+	auctionItems, err := tx.AuctionItem().FindAllWithRecentStats(recentStatsCount)
+	if err != nil {
+		return err
+	}
+
+	for _, item := range auctionItems {
+		item.AvgBuyPrice = calculateAveragePrice(item.AuctionItemStats)
+
+		if err := tx.AuctionItem().UpdateStat(item); err != nil {
+			return err
+		}
+	}
+
+	log.Println("Auction Items Updated With Recent Stats")
+	return nil
 }

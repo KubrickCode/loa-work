@@ -28,6 +28,7 @@ model AuctionItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
+  avgBuyPrice          Decimal @default(0) @map("avg_buy_price") // 평균 즉시 구매가
   imageUrl             String  @map("image_url")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
   name                 String  @unique
@@ -209,11 +210,14 @@ model MarketItem {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   bundleCount          Int     @map("bundle_count") // 묶음 판매 단위
+  currentMinPrice      Int     @default(0) @map("current_min_price") // 최저가
   grade                String
   imageUrl             String  @map("image_url")
   isStatScraperEnabled Boolean @default(false) @map("is_stat_scraper_enabled")
   name                 String
+  recentPrice          Int     @default(0) @map("recent_price") // 최근 거래가
   refId                Int     @unique @map("ref_id")
+  yDayAvgPrice         Decimal @default(0) @map("y_day_avg_price") // 전일 평균 거래가
 
   // Relations
   marketItemCategoryId Int                @map("market_item_category_id")

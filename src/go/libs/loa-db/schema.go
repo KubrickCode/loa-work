@@ -11,9 +11,10 @@ type AuctionItem struct {
 	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
 	UpdatedAt time.Time `gorm:"column:updated_at;autoUpdateTime"`
 
-	Name                 string `gorm:"column:name;not null"`
-	ImageUrl             string `gorm:"column:image_url;not null"`
-	IsStatScraperEnabled bool   `gorm:"column:is_stat_scraper_enabled;not null"`
+	AvgBuyPrice          decimal.Decimal `gorm:"column:avg_buy_price;not null;default:0"`
+	Name                 string          `gorm:"column:name;not null"`
+	ImageUrl             string          `gorm:"column:image_url;not null"`
+	IsStatScraperEnabled bool            `gorm:"column:is_stat_scraper_enabled;not null"`
 
 	// Relations
 	AuctionItemCategoryID int                 `gorm:"column:auction_item_category_id;not null"`
@@ -77,6 +78,10 @@ type MarketItem struct {
 	Grade       string `gorm:"column:grade;not null"`
 	ImageUrl    string `gorm:"column:image_url;not null"`
 	RefID       int    `gorm:"column:ref_id;unique;not null"`
+
+	CurrentMinPrice int             `gorm:"column:current_min_price;not null;default:0"`
+	RecentPrice     int             `gorm:"column:recent_price;not null;default:0"`
+	YDayAvgPrice    decimal.Decimal `gorm:"column:y_day_avg_price;type:decimal;not null;default:0"`
 
 	// Relations
 	MarketItemCategoryID int                `gorm:"column:market_item_category_id;not null"`

@@ -19,7 +19,7 @@ export type Scalars = {
 
 export type AuctionItem = {
   __typename?: 'AuctionItem';
-  avgBuyPrice?: Maybe<Scalars['Float']['output']>;
+  avgBuyPrice: Scalars['Float']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
   imageUrl: Scalars['String']['output'];
@@ -36,14 +36,14 @@ export type AuctionItemListFilter = {
 export type AuctionItemStat = {
   __typename?: 'AuctionItemStat';
   auctionItemId: Scalars['Int']['output'];
-  bidPrice: Scalars['Int']['output'];
-  bidStartPrice: Scalars['Int']['output'];
-  buyPrice: Scalars['Int']['output'];
+  bidPrice: Scalars['Float']['output'];
+  bidStartPrice: Scalars['Float']['output'];
+  buyPrice: Scalars['Float']['output'];
   createdAt: Scalars['DateTime']['output'];
   endDate: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
   isCompetitive: Scalars['Boolean']['output'];
-  startPrice: Scalars['Int']['output'];
+  startPrice: Scalars['Float']['output'];
 };
 
 export enum AuthProvider {
@@ -168,7 +168,7 @@ export type ContentRewardItemsFilter = {
 };
 
 export type ContentRewardReportInput = {
-  averageQuantity: Scalars['Int']['input'];
+  averageQuantity: Scalars['Float']['input'];
   id: Scalars['Int']['input'];
 };
 
@@ -188,7 +188,7 @@ export type ContentSeeMoreReward = {
   contentRewardItemId: Scalars['Int']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
-  quantity: Scalars['Int']['output'];
+  quantity: Scalars['Float']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -196,9 +196,9 @@ export type ContentWage = {
   __typename?: 'ContentWage';
   content: Content;
   contentId: Scalars['Int']['output'];
-  goldAmountPerClear: Scalars['Int']['output'];
-  goldAmountPerHour: Scalars['Int']['output'];
-  krwAmountPerHour: Scalars['Int']['output'];
+  goldAmountPerClear: Scalars['Float']['output'];
+  goldAmountPerHour: Scalars['Float']['output'];
+  krwAmountPerHour: Scalars['Float']['output'];
 };
 
 export type ContentWageFilter = {
@@ -231,7 +231,7 @@ export type CustomContentWageCalculateResult = {
 
 export type CustomContentWageCalculateRewardItemInput = {
   id: Scalars['Int']['input'];
-  quantity: Scalars['Int']['input'];
+  quantity: Scalars['Float']['input'];
 };
 
 export type MarketItem = {
@@ -259,10 +259,10 @@ export type MarketItemListFilter = {
 export type MarketItemStat = {
   __typename?: 'MarketItemStat';
   createdAt: Scalars['DateTime']['output'];
-  currentMinPrice: Scalars['Int']['output'];
+  currentMinPrice: Scalars['Float']['output'];
   id: Scalars['Int']['output'];
   marketItemId: Scalars['Int']['output'];
-  recentPrice: Scalars['Int']['output'];
+  recentPrice: Scalars['Float']['output'];
   yDayAvgPrice: Scalars['Float']['output'];
 };
 
@@ -431,7 +431,7 @@ export type UserContentReward = {
 };
 
 export type UserContentRewardEditInput = {
-  averageQuantity: Scalars['Int']['input'];
+  averageQuantity: Scalars['Float']['input'];
   id: Scalars['Int']['input'];
 };
 
@@ -468,16 +468,16 @@ export type UserContentRewardsEditResult = {
 export type UserGoldExchangeRate = {
   __typename?: 'UserGoldExchangeRate';
   createdAt: Scalars['DateTime']['output'];
-  goldAmount: Scalars['Int']['output'];
+  goldAmount: Scalars['Float']['output'];
   id: Scalars['Int']['output'];
-  krwAmount: Scalars['Int']['output'];
+  krwAmount: Scalars['Float']['output'];
   updatedAt: Scalars['DateTime']['output'];
   userId: Scalars['Int']['output'];
 };
 
 export type UserGoldExchangeRateEditInput = {
   id: Scalars['Int']['input'];
-  krwAmount: Scalars['Int']['input'];
+  krwAmount: Scalars['Float']['input'];
 };
 
 export type UserGoldExchangeRateEditResult = {
@@ -625,7 +625,7 @@ export type AuctionItemListTableQueryVariables = Exact<{
 }>;
 
 
-export type AuctionItemListTableQuery = { __typename?: 'Query', auctionItemList: Array<{ __typename?: 'AuctionItem', avgBuyPrice?: number | null, imageUrl: string, name: string }>, auctionItemStats: Array<{ __typename?: 'AuctionItemStat', createdAt: Date }> };
+export type AuctionItemListTableQuery = { __typename?: 'Query', auctionItemList: Array<{ __typename?: 'AuctionItem', avgBuyPrice: number, imageUrl: string, name: string }>, auctionItemStats: Array<{ __typename?: 'AuctionItemStat', createdAt: Date }> };
 
 export type ExtraItemListTableQueryVariables = Exact<{
   filter?: InputMaybe<ContentRewardItemsFilter>;
