@@ -1,14 +1,14 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
-import { MarketItemStat } from '../object/market-item-stat.object';
 import { OrderByArg } from 'src/common/object/order-by-arg.object';
+import { AuctionItem } from '../object/auction-item.object';
 
 @Resolver()
-export class MarketItemStatsQuery {
+export class AuctionItemsQuery {
   constructor(private prisma: PrismaService) {}
 
-  @Query(() => [MarketItemStat])
-  async marketItemStats(
+  @Query(() => [AuctionItem])
+  async auctionItems(
     @Args('orderBy', {
       type: () => [OrderByArg],
       nullable: true,
@@ -16,7 +16,7 @@ export class MarketItemStatsQuery {
     orderBy?: OrderByArg[],
     @Args('take', { nullable: true }) take: number | null = 10,
   ) {
-    return await this.prisma.marketItemStat.findMany({
+    return await this.prisma.auctionItem.findMany({
       take,
       orderBy: orderBy
         ? orderBy.map((o) => ({ [o.field]: o.order }))

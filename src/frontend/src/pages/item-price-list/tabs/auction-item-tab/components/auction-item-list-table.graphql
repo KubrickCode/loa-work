@@ -1,14 +1,14 @@
 query AuctionItemListTable(
   $filter: AuctionItemListFilter
-  $statsTake: Int
-  $statsOrderBy: [OrderByArg!]
+  $take: Int
+  $orderBy: [OrderByArg!]
 ) {
   auctionItemList(filter: $filter) {
     avgBuyPrice
     imageUrl
     name
   }
-  auctionItemStats(take: $statsTake, orderBy: $statsOrderBy) {
-    createdAt
+  auctionItems(take: $take, orderBy: $orderBy) {
+    updatedAt
   }
 }

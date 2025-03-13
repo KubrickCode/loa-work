@@ -30,8 +30,8 @@ export const MarketItemListTable = ({
         keyword,
         grade,
       },
-      statsTake: 1,
-      statsOrderBy: [{ field: "createdAt", order: "desc" }],
+      take: 1,
+      orderBy: [{ field: "updatedAt", order: "desc" }],
     },
     fetchPolicy: "cache-and-network",
   });
@@ -39,8 +39,7 @@ export const MarketItemListTable = ({
   return (
     <Flex direction="column" gap={2}>
       <Text fontSize="xs">
-        마지막 업데이트 일시:{" "}
-        {formatDateTime(data.marketItemStats[0]?.createdAt)}
+        마지막 업데이트 일시: {formatDateTime(data.marketItems[0]?.updatedAt)}
       </Text>
       <Form.SearchInput onSearch={setKeyword} value={keyword} />
       <DataTable

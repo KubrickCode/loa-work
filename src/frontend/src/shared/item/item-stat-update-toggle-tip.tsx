@@ -25,7 +25,7 @@ const Content = ({ isOpen }: { isOpen: boolean }) => {
     {
       variables: {
         take: 1,
-        orderBy: [{ field: "createdAt", order: "desc" }],
+        orderBy: [{ field: "updatedAt", order: "desc" }],
       },
     }
   );
@@ -45,10 +45,10 @@ const Content = ({ isOpen }: { isOpen: boolean }) => {
       ) : (
         <>
           <Text>
-            거래소 아이템: {formatDateTime(data.marketItemStats[0]?.createdAt)}
+            거래소 아이템: {formatDateTime(data.marketItems[0]?.updatedAt)}
           </Text>
           <Text>
-            경매장 아이템: {formatDateTime(data.auctionItemStats[0]?.createdAt)}
+            경매장 아이템: {formatDateTime(data.auctionItems[0]?.updatedAt)}
           </Text>
         </>
       )}

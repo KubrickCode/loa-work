@@ -17,18 +17,6 @@ input AuctionItemListFilter {
   nameKeyword: String
 }
 
-type AuctionItemStat {
-  auctionItemId: Int!
-  bidPrice: Float!
-  bidStartPrice: Float!
-  buyPrice: Float!
-  createdAt: DateTime!
-  endDate: DateTime!
-  id: Int!
-  isCompetitive: Boolean!
-  startPrice: Float!
-}
-
 enum AuthProvider {
   DISCORD
   GOOGLE
@@ -231,15 +219,6 @@ input MarketItemListFilter {
   keyword: String
 }
 
-type MarketItemStat {
-  createdAt: DateTime!
-  currentMinPrice: Float!
-  id: Int!
-  marketItemId: Int!
-  recentPrice: Float!
-  yDayAvgPrice: Float!
-}
-
 type Mutation {
   contentCreate(input: ContentCreateInput!): ContentCreateResult!
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
@@ -257,7 +236,7 @@ input OrderByArg {
 
 type Query {
   auctionItemList(filter: AuctionItemListFilter): [AuctionItem!]!
-  auctionItemStats(orderBy: [OrderByArg!], take: Int): [AuctionItemStat!]!
+  auctionItems(orderBy: [OrderByArg!], take: Int): [AuctionItem!]!
   content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
   contentDuration(id: Int!): ContentDuration!
@@ -266,7 +245,7 @@ type Query {
   contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
-  marketItemStats(orderBy: [OrderByArg!], take: Int): [MarketItemStat!]!
+  marketItems(orderBy: [OrderByArg!], take: Int): [MarketItem!]!
   userGoldExchangeRate: UserGoldExchangeRate!
   userList: [User!]!
 }
