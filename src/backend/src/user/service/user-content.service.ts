@@ -3,14 +3,12 @@ import { PrismaService } from '../../prisma';
 import { CONTEXT } from '@nestjs/graphql';
 import { ContextType } from './types';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { ContentRewardItemService } from 'src/content/service/content-reward-item.service';
 
 @UseGuards(AuthGuard)
 @Injectable()
 export class UserContentService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly contentRewardItemService: ContentRewardItemService,
     @Inject(CONTEXT) private context: ContextType,
   ) {}
 
@@ -22,9 +20,12 @@ export class UserContentService {
   async getContentRewardItemPrice(contentRewardItemId: number) {
     const userId = this.getUserId();
 
-    const defaultPrice = await this.contentRewardItemService.getPrice(
-      contentRewardItemId,
-    );
+    const { price: defaultPrice } =
+      await this.prisma.contentRewardItem.findUniqueOrThrow({
+        where: {
+          id: contentRewardItemId,
+        },
+      });
 
     const { isEditable } =
       await this.prisma.contentRewardItem.findUniqueOrThrow({

@@ -7,7 +7,7 @@ import (
 
 type MarketItemDB interface {
 	FindAllWithLatestStats() ([]MarketItem, error)
-	FindWithStatsByName(name string) (MarketItem, error)
+	FindByName(name string) (MarketItem, error)
 	FindStatScraperEnabledAll() ([]MarketItem, error)
 	UpdateStat(item MarketItem) error
 	UpsertMany(items []MarketItem) error
@@ -48,12 +48,9 @@ func (db *marketItemDB) FindAllWithLatestStats() ([]MarketItem, error) {
 	return items, nil
 }
 
-func (db *marketItemDB) FindWithStatsByName(name string) (MarketItem, error) {
+func (db *marketItemDB) FindByName(name string) (MarketItem, error) {
 	var item MarketItem
 	err := db.gdb.
-		Preload("MarketItemStats", func(db *gorm.DB) *gorm.DB {
-			return db.Order("created_at desc")
-		}).
 		Where("name = ?", name).
 		First(&item).Error
 

@@ -7,7 +7,7 @@ import (
 type AuctionItemDB interface {
 	FindAllWithRecentStats(take int) ([]AuctionItem, error)
 	FindStatScraperEnabledAll() ([]AuctionItem, error)
-	FindWithStatsByName(name string, take int) (AuctionItem, error)
+	FindByName(name string) (AuctionItem, error)
 	UpdateStat(item AuctionItem) error
 }
 
@@ -50,12 +50,9 @@ func (db *auctionItemDB) FindStatScraperEnabledAll() ([]AuctionItem, error) {
 	return items, err
 }
 
-func (db *auctionItemDB) FindWithStatsByName(name string, take int) (AuctionItem, error) {
+func (db *auctionItemDB) FindByName(name string) (AuctionItem, error) {
 	var item AuctionItem
 	err := db.gdb.
-		Preload("AuctionItemStats", func(db *gorm.DB) *gorm.DB {
-			return db.Order("created_at desc").Limit(take)
-		}).
 		Where("name = ?", name).
 		First(&item).Error
 

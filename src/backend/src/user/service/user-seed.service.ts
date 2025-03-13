@@ -59,17 +59,12 @@ export class UserSeedService {
       where: {
         isEditable: true,
       },
-      include: {
-        contentRewardItemPrices: {
-          take: 1,
-        },
-      },
     });
 
     await tx.userContentRewardItem.createMany({
-      data: defaultRewardItems.map(({ id, contentRewardItemPrices }) => ({
+      data: defaultRewardItems.map(({ id, price }) => ({
         contentRewardItemId: id,
-        price: contentRewardItemPrices[0].value,
+        price,
         userId,
         createdAt,
       })),

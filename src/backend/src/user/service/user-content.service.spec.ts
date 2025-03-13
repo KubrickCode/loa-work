@@ -7,7 +7,6 @@ import { faker } from '@faker-js/faker/.';
 import { ContentRewardItemKind } from '@prisma/client';
 import { ContentWageService } from 'src/content/service/content-wage.service';
 import { AuthProvider } from '.prisma/client';
-import { ContentRewardItemService } from 'src/content/service/content-reward-item.service';
 
 describe('UserContentService', () => {
   let module: TestingModule;
@@ -21,7 +20,6 @@ describe('UserContentService', () => {
         ContentWageService,
         UserContentService,
         UserGoldExchangeRateService,
-        ContentRewardItemService,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -48,11 +46,7 @@ describe('UserContentService', () => {
         name: faker.lorem.word(),
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl: faker.image.url(),
-        contentRewardItemPrices: {
-          createMany: {
-            data: [{ value: 100 }, { value: 200 }, { value: 300 }],
-          },
-        },
+        price: 100,
       },
     });
 
@@ -77,11 +71,7 @@ describe('UserContentService', () => {
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl: faker.image.url(),
         isEditable: true,
-        contentRewardItemPrices: {
-          createMany: {
-            data: [{ value: 100 }],
-          },
-        },
+        price: 100,
       },
     });
 
@@ -115,11 +105,7 @@ describe('UserContentService', () => {
         kind: ContentRewardItemKind.MARKET_ITEM,
         imageUrl: faker.image.url(),
         isEditable: false,
-        contentRewardItemPrices: {
-          createMany: {
-            data: [{ value: 100 }],
-          },
-        },
+        price: 100,
       },
     });
 

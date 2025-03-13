@@ -96,20 +96,6 @@ func (mr *MockDBMockRecorder) ContentRewardItem() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContentRewardItem", reflect.TypeOf((*MockDB)(nil).ContentRewardItem))
 }
 
-// ContentRewardItemPrice mocks base method.
-func (m *MockDB) ContentRewardItemPrice() ContentRewardItemPriceDB {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ContentRewardItemPrice")
-	ret0, _ := ret[0].(ContentRewardItemPriceDB)
-	return ret0
-}
-
-// ContentRewardItemPrice indicates an expected call of ContentRewardItemPrice.
-func (mr *MockDBMockRecorder) ContentRewardItemPrice() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContentRewardItemPrice", reflect.TypeOf((*MockDB)(nil).ContentRewardItemPrice))
-}
-
 // Gorm mocks base method.
 func (m *MockDB) Gorm() *gorm.DB {
 	m.ctrl.T.Helper()

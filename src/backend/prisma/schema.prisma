@@ -138,27 +138,14 @@ model ContentRewardItem {
   isEditable Boolean               @default(false) @map("is_editable")
   kind       ContentRewardItemKind
   name       String                @unique
+  price      Decimal               @default(0)
 
   // Relations
-  contentRewards          ContentReward[]
-  userContentRewardItems  UserContentRewardItem[]
-  contentSeeMoreRewards   ContentSeeMoreReward[]
-  contentRewardItemPrices ContentRewardItemPrice[]
+  contentRewards         ContentReward[]
+  userContentRewardItems UserContentRewardItem[]
+  contentSeeMoreRewards  ContentSeeMoreReward[]
 
   @@map("content_reward_item")
-}
-
-model ContentRewardItemPrice {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  value Decimal
-
-  // Relations
-  contentRewardItemId Int               @map("content_reward_item_id")
-  contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
-
-  @@map("content_reward_item_price")
 }
 
 model ContentSeeMoreReward {

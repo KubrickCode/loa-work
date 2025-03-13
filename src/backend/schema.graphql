@@ -122,7 +122,6 @@ type ContentReward {
 
 type ContentRewardItem {
   createdAt: DateTime!
-  defaultPrice: Float!
   id: Int!
   imageUrl: String!
   kind: ContentRewardItemKind!

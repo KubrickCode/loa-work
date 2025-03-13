@@ -23,7 +23,6 @@ import { CustomContentWageCalculateMutation } from './mutation/custom-content-wa
 import { ContentRewardsReportMutation } from './mutation/content-rewards-report.mutation';
 import { ContentController } from './content.controller';
 import { ContentCreateMutation } from './mutation/content-create.mutation';
-import { ContentRewardItemService } from './service/content-reward-item.service';
 
 @Module({
   imports: [PrismaModule],
@@ -51,7 +50,6 @@ import { ContentRewardItemService } from './service/content-reward-item.service'
     CustomContentWageCalculateMutation,
     ContentRewardsReportMutation,
     ContentCreateMutation,
-    ContentRewardItemService,
   ],
 })
 export class ContentModule {}

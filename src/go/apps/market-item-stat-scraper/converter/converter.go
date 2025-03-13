@@ -27,30 +27,26 @@ func (s *Converter) Start() error {
 			return err
 		}
 
-		var pricesToCreate []loadb.ContentRewardItemPrice
+		var itemsToUpdate []loadb.ContentRewardItem
 		for _, item := range items {
 			if item.Name == FateFragmentName {
 				price, err := s.getSmallFateFragmentBuyPricePerOne(tx)
 				if err != nil {
 					return err
 				}
-				pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
-					ContentRewardItemID: item.ID,
-					Value:               price,
-				})
+				item.Price = price
+				itemsToUpdate = append(itemsToUpdate, item)
 			} else {
 				price, err := s.getMarketItemCurrentMinPrice(item.Name, tx)
 				if err != nil {
 					return err
 				}
-				pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
-					ContentRewardItemID: item.ID,
-					Value:               price,
-				})
+				item.Price = price
+				itemsToUpdate = append(itemsToUpdate, item)
 			}
 		}
 
-		if err := tx.ContentRewardItemPrice().CreateMany(pricesToCreate); err != nil {
+		if err := tx.ContentRewardItem().UpdateMany(itemsToUpdate); err != nil {
 			return err
 		}
 
@@ -64,26 +60,26 @@ func (s *Converter) Start() error {
 
 // TODO: Test 작성
 func (s *Converter) getMarketItemCurrentMinPrice(itemName string, tx loadb.DB) (decimal.Decimal, error) {
-	item, err := tx.MarketItem().FindWithStatsByName(itemName)
+	item, err := tx.MarketItem().FindByName(itemName)
 	if err != nil {
 		return decimal.Zero, err
 	}
 
 	bundleCount := decimal.NewFromInt(int64(item.BundleCount))
-	currentPrice := decimal.NewFromInt(int64(item.MarketItemStats[0].CurrentMinPrice))
+	currentPrice := decimal.NewFromInt(int64(item.CurrentMinPrice))
 
 	return currentPrice.Div(bundleCount), nil
 }
 
 // TODO: Test 작성
 func (s *Converter) getSmallFateFragmentBuyPricePerOne(tx loadb.DB) (decimal.Decimal, error) {
-	item, err := tx.MarketItem().FindWithStatsByName(SmallFateFragmentName)
+	item, err := tx.MarketItem().FindByName(SmallFateFragmentName)
 	if err != nil {
 		return decimal.Zero, err
 	}
 
 	bundleCount := decimal.NewFromInt(int64(SmallFateFragmentBundleCount))
-	currentPrice := decimal.NewFromInt(int64(item.MarketItemStats[0].CurrentMinPrice))
+	currentPrice := decimal.NewFromInt(int64(item.CurrentMinPrice))
 
 	return currentPrice.Div(bundleCount), nil
 }

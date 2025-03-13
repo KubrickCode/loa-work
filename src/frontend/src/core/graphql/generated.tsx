@@ -145,7 +145,6 @@ export type ContentReward = {
 export type ContentRewardItem = {
   __typename?: 'ContentRewardItem';
   createdAt: Scalars['DateTime']['output'];
-  defaultPrice: Scalars['Float']['output'];
   id: Scalars['Int']['output'];
   imageUrl: Scalars['String']['output'];
   kind: ContentRewardItemKind;

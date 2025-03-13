@@ -331,11 +331,7 @@ export class SeedService {
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png',
         isEditable: true,
-        contentRewardItemPrices: {
-          create: {
-            value: 0,
-          },
-        },
+        price: 0,
       },
     });
 
@@ -346,11 +342,7 @@ export class SeedService {
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
         isEditable: true,
-        contentRewardItemPrices: {
-          create: {
-            value: 0,
-          },
-        },
+        price: 0,
       },
     });
 
@@ -361,11 +353,7 @@ export class SeedService {
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1735996903/hdamkxuzmvbwyopjhmcb.png',
         isEditable: false,
-        contentRewardItemPrices: {
-          create: {
-            value: 1,
-          },
-        },
+        price: 1,
       },
     });
 
@@ -448,9 +436,7 @@ export class SeedService {
       await this.prisma.contentRewardItem.create({
         data: {
           ...itemWithoutBasePrice,
-          contentRewardItemPrices: {
-            create: priceData,
-          },
+          price: priceData[0].value,
         },
       });
     }

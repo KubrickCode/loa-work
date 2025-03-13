@@ -28,23 +28,21 @@ func (s *Converter) Start() error {
 			return err
 		}
 
-		var pricesToCreate []loadb.ContentRewardItemPrice
+		var itemsToUpdate []loadb.ContentRewardItem
 		for _, item := range items {
 			if item.Name == OneLevelGemName {
 				price, err := s.get1LevelGemPrice(tx)
 				if err != nil {
 					return err
 				}
-				pricesToCreate = append(pricesToCreate, loadb.ContentRewardItemPrice{
-					ContentRewardItemID: item.ID,
-					Value:               price,
-				})
+				item.Price = price
+				itemsToUpdate = append(itemsToUpdate, item)
 			} else {
 				return fmt.Errorf("unknown item: %s", item.Name)
 			}
 		}
 
-		if err := tx.ContentRewardItemPrice().CreateMany(pricesToCreate); err != nil {
+		if err := tx.ContentRewardItem().UpdateMany(itemsToUpdate); err != nil {
 			return err
 		}
 
@@ -58,19 +56,16 @@ func (s *Converter) Start() error {
 
 // TODO: Test 작성
 func (s *Converter) get1LevelGemPrice(tx loadb.DB) (decimal.Decimal, error) {
-	damageGem, err := tx.AuctionItem().FindWithStatsByName(OneLevelDamageGemName, RecentGemStatsCount)
+	damageGem, err := tx.AuctionItem().FindByName(OneLevelDamageGemName)
 	if err != nil {
 		return decimal.Decimal{}, err
 	}
-	coolDownGem, err := tx.AuctionItem().FindWithStatsByName(OneLevelCoolDownGemName, RecentGemStatsCount)
+	coolDownGem, err := tx.AuctionItem().FindByName(OneLevelCoolDownGemName)
 	if err != nil {
 		return decimal.Decimal{}, err
 	}
 
-	damageGemPrice := calculateAveragePrice(damageGem.AuctionItemStats)
-	coolDownGemPrice := calculateAveragePrice(coolDownGem.AuctionItemStats)
-
-	averagePrice := damageGemPrice.Add(coolDownGemPrice).Div(decimal.NewFromInt(2))
+	averagePrice := damageGem.AvgBuyPrice.Add(coolDownGem.AvgBuyPrice).Div(decimal.NewFromInt(2))
 	return averagePrice, nil
 }
 
