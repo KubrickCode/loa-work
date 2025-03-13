@@ -39,6 +39,36 @@ func (m *MockMarketItemDB) EXPECT() *MockMarketItemDBMockRecorder {
 	return m.recorder
 }
 
+// FindAllWithLatestStats mocks base method.
+func (m *MockMarketItemDB) FindAllWithLatestStats() ([]MarketItem, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAllWithLatestStats")
+	ret0, _ := ret[0].([]MarketItem)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAllWithLatestStats indicates an expected call of FindAllWithLatestStats.
+func (mr *MockMarketItemDBMockRecorder) FindAllWithLatestStats() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllWithLatestStats", reflect.TypeOf((*MockMarketItemDB)(nil).FindAllWithLatestStats))
+}
+
+// FindByName mocks base method.
+func (m *MockMarketItemDB) FindByName(name string) (MarketItem, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByName", name)
+	ret0, _ := ret[0].(MarketItem)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByName indicates an expected call of FindByName.
+func (mr *MockMarketItemDBMockRecorder) FindByName(name any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByName", reflect.TypeOf((*MockMarketItemDB)(nil).FindByName), name)
+}
+
 // FindStatScraperEnabledAll mocks base method.
 func (m *MockMarketItemDB) FindStatScraperEnabledAll() ([]MarketItem, error) {
 	m.ctrl.T.Helper()
@@ -54,19 +84,18 @@ func (mr *MockMarketItemDBMockRecorder) FindStatScraperEnabledAll() *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindStatScraperEnabledAll", reflect.TypeOf((*MockMarketItemDB)(nil).FindStatScraperEnabledAll))
 }
 
-// FindWithStatsByName mocks base method.
-func (m *MockMarketItemDB) FindWithStatsByName(name string) (MarketItem, error) {
+// UpdateStat mocks base method.
+func (m *MockMarketItemDB) UpdateStat(item MarketItem) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindWithStatsByName", name)
-	ret0, _ := ret[0].(MarketItem)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret := m.ctrl.Call(m, "UpdateStat", item)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
-// FindWithStatsByName indicates an expected call of FindWithStatsByName.
-func (mr *MockMarketItemDBMockRecorder) FindWithStatsByName(name any) *gomock.Call {
+// UpdateStat indicates an expected call of UpdateStat.
+func (mr *MockMarketItemDBMockRecorder) UpdateStat(item any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindWithStatsByName", reflect.TypeOf((*MockMarketItemDB)(nil).FindWithStatsByName), name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStat", reflect.TypeOf((*MockMarketItemDB)(nil).UpdateStat), item)
 }
 
 // UpsertMany mocks base method.
