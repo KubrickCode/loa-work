@@ -6,30 +6,28 @@ import { ContentCategory } from './content-category.object';
 import { UserContentService } from '../../user/service/user-content.service';
 import { ContentSeeMoreReward } from './content-see-more-reward.object';
 import { ContentDuration } from './content-duration.object';
+import { DataLoaderService } from 'src/dataloader/data-loader.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
   constructor(
     private prisma: PrismaService,
     private userContentService: UserContentService,
+    private dataLoaderService: DataLoaderService,
   ) {}
 
   @ResolveField(() => ContentCategory)
   async contentCategory(@Parent() content: Content) {
-    return await this.prisma.contentCategory.findUniqueOrThrow({
-      where: {
-        id: content.contentCategoryId,
-      },
-    });
+    return await this.dataLoaderService.contentCategory.findUniqueOrThrowById(
+      content.contentCategoryId,
+    );
   }
 
   @ResolveField(() => ContentDuration)
   async contentDuration(@Parent() content: Content) {
-    return await this.prisma.contentDuration.findUniqueOrThrow({
-      where: {
-        contentId: content.id,
-      },
-    });
+    return await this.dataLoaderService.contentDuration.findUniqueOrThrowByContentId(
+      content.id,
+    );
   }
 
   @ResolveField(() => [ContentReward])

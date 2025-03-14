@@ -35,6 +35,7 @@
     "@prisma/client": "5.22.0",
     "@quixo3/prisma-session-store": "3.1.13",
     "apollo-server-express": "3.13.0",
+    "dataloader": "2.2.3",
     "dayjs": "1.11.13",
     "express-session": "1.18.1",
     "graphql": "16.9.0",
