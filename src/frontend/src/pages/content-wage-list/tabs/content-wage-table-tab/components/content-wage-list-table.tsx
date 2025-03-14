@@ -1,4 +1,4 @@
-import { FormatNumber, IconButton } from "@chakra-ui/react";
+import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { IoIosSettings } from "react-icons/io";
 
@@ -11,6 +11,7 @@ import {
   ContentWageListTableQuery,
 } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
+import { InfoTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import { ItemNameWithImage } from "~/shared/item";
 
@@ -102,7 +103,12 @@ export const ContentWageListTable = ({
         },
         {
           align: "right",
-          header: "소요시간",
+          header: (
+            <Flex alignItems="center" gap={1}>
+              소요시간
+              <InfoTooltip content="로그인 후 수정 가능합니다" />
+            </Flex>
+          ),
           render({ data }) {
             return <>{data.content.durationText}</>;
           },
