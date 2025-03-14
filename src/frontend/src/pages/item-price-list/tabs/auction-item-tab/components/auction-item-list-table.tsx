@@ -1,10 +1,10 @@
 import { Flex, Text } from "@chakra-ui/react";
 
+import { InfoTip } from "~/core/chakra-components/ui/toggle-tip";
 import { formatDateTime, FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { AuctionItemListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
-import { InfoTooltip } from "~/core/tooltip";
 import { ItemNameWithImage } from "~/shared/item";
 
 type AuctionItemListTableProps = {
@@ -44,7 +44,7 @@ export const AuctionItemListTable = ({
             header: (
               <Flex alignItems="center" gap={1}>
                 평균 즉시 구매가
-                <InfoTooltip content="즉시 구매가 최저가순 첫 페이지 10개 항목 평균입니다" />
+                <InfoTip content="즉시 구매가 최저가순 첫 페이지 10개 항목 평균입니다" />
               </Flex>
             ),
             render({ data }) {

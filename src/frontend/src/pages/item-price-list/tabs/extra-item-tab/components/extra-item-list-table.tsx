@@ -2,6 +2,7 @@ import { Flex, IconButton } from "@chakra-ui/react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
+import { InfoTip } from "~/core/chakra-components/ui/toggle-tip";
 import { Dialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
@@ -11,7 +12,6 @@ import {
   ExtraItemListTableQuery,
 } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
-import { InfoTooltip } from "~/core/tooltip";
 import { ItemNameWithImage } from "~/shared/item";
 
 import { UserExtraItemPriceEditDialog } from "./user-extra-item-price-edit-dialog";
@@ -69,7 +69,7 @@ export const ExtraItemListTable = () => {
           header: (
             <Flex alignItems="center" gap={1}>
               개당 골드 가치
-              <InfoTooltip content="로그인 후 수정 가능합니다" />
+              <InfoTip content="로그인 후 수정 가능합니다" />
             </Flex>
           ),
           render({ data }) {
