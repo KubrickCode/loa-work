@@ -32,20 +32,16 @@ export class ContentResolver {
 
   @ResolveField(() => [ContentReward])
   async contentRewards(@Parent() content: Content) {
-    return await this.prisma.contentReward.findMany({
-      where: {
-        contentId: content.id,
-      },
-    });
+    return await this.dataLoaderService.contentRewards.findManyByContentId(
+      content.id,
+    );
   }
 
   @ResolveField(() => [ContentSeeMoreReward])
   async contentSeeMoreRewards(@Parent() content: Content) {
-    return await this.prisma.contentSeeMoreReward.findMany({
-      where: {
-        contentId: content.id,
-      },
-    });
+    return await this.dataLoaderService.contentSeeMoreRewards.findManyByContentId(
+      content.id,
+    );
   }
 
   @ResolveField(() => String)

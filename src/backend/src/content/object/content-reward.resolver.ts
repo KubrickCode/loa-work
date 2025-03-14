@@ -8,21 +8,21 @@ import { User } from 'src/common/object/user.object';
 import { UserContentReward } from './user-content-reward.object';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { DataLoaderService } from 'src/dataloader/data-loader.service';
 
 @Resolver(() => ContentReward)
 export class ContentRewardResolver {
   constructor(
     private prisma: PrismaService,
     private userContentService: UserContentService,
+    private dataLoaderService: DataLoaderService,
   ) {}
 
   @ResolveField(() => ContentRewardItem)
   async contentRewardItem(@Parent() contentReward: ContentReward) {
-    return await this.prisma.contentRewardItem.findUniqueOrThrow({
-      where: {
-        id: contentReward.contentRewardItemId,
-      },
-    });
+    return await this.dataLoaderService.contentRewardItem.findUniqueOrThrowById(
+      contentReward.contentRewardItemId,
+    );
   }
 
   @ResolveField(() => Float)
