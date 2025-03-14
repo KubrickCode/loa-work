@@ -68,10 +68,10 @@ const accordionItems = [
       <Flex flexWrap="wrap" gap={1}>
         <Link
           color="blue.500"
-          href="https://open.kakao.com/o/g05VYL8g"
+          href={import.meta.env.VITE_DISCORD_SERVER_LINK}
           target="_blank"
         >
-          카카오톡 오픈채팅방
+          디스코드 서버
         </Link>
         <Text>에서 문의해주세요.</Text>
       </Flex>
