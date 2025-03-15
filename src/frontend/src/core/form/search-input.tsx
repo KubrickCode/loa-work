@@ -64,6 +64,7 @@ export const SearchInput = ({
       {...otherProps}
     >
       <Input
+        enterKeyHint="search"
         onBlur={() => reset(false)}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => {
