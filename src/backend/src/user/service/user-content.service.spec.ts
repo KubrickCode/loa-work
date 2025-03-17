@@ -7,6 +7,9 @@ import { User } from '@prisma/client';
 import { ContentWageService } from 'src/content/service/content-wage.service';
 import { UserFactory } from 'src/test/factory/user.factory';
 import { ContentRewardItemFactory } from 'src/test/factory/content-reward-item.factory';
+import { ContentFactory } from 'src/test/factory/content.factory';
+import { faker } from '@faker-js/faker/.';
+import { ContentDurationFactory } from 'src/test/factory/content-duration.factory';
 
 describe('UserContentService', () => {
   let module: TestingModule;
@@ -14,6 +17,8 @@ describe('UserContentService', () => {
   let service: UserContentService;
   let userFactory: UserFactory;
   let contentRewardItemFactory: ContentRewardItemFactory;
+  let contentFactory: ContentFactory;
+  let contentDurationFactory: ContentDurationFactory;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -24,6 +29,8 @@ describe('UserContentService', () => {
         UserGoldExchangeRateService,
         UserFactory,
         ContentRewardItemFactory,
+        ContentFactory,
+        ContentDurationFactory,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -35,6 +42,8 @@ describe('UserContentService', () => {
     service = module.get(UserContentService);
     userFactory = module.get(UserFactory);
     contentRewardItemFactory = module.get(ContentRewardItemFactory);
+    contentFactory = module.get(ContentFactory);
+    contentDurationFactory = module.get(ContentDurationFactory);
   });
 
   afterAll(async () => {
@@ -56,6 +65,21 @@ describe('UserContentService', () => {
       );
 
       expect(result).toBe(price);
+    });
+
+    it('getContentDuration', async () => {
+      const content = await contentFactory.create();
+      const duration = faker.number.int({ min: 1000, max: 10000 });
+
+      await prisma.contentDuration.create({
+        data: {
+          contentId: content.id,
+          defaultValue: duration,
+        },
+      });
+
+      const result = await service.getContentDuration(content.id);
+      expect(result).toBe(duration);
     });
   });
 
@@ -105,6 +129,27 @@ describe('UserContentService', () => {
       );
 
       expect(result).toBe(price);
+    });
+
+    it('getContentDuration', async () => {
+      const content = await contentFactory.create();
+      const contentDuration = await contentDurationFactory.create({
+        data: {
+          contentId: content.id,
+        },
+      });
+      const duration = faker.number.int({ min: 1000, max: 10000 });
+
+      await prisma.userContentDuration.create({
+        data: {
+          userId: user.id,
+          contentDurationId: contentDuration.id,
+          value: duration,
+        },
+      });
+
+      const result = await service.getContentDuration(content.id);
+      expect(result).toBe(duration);
     });
   });
 });
