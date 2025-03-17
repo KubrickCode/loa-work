@@ -4,13 +4,14 @@ import { ContentWageService } from './content-wage.service';
 import { UserContentService } from '../../user/service/user-content.service';
 import { CONTEXT } from '@nestjs/graphql';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
-import { AuthProvider } from '@prisma/client';
+import { UserFactory } from 'src/test/factory/user.factory';
 
 // 현재 중요 테스트는 해당 서비스에만 필요한 상황이라 아래와 같이 작성하고, 필요 시 팩토리 코드로 아래 데이터들을 생성하고 재사용할 수 있도록 해야함.
 describe('ContentWageService', () => {
   let module: TestingModule;
   let prisma: PrismaService;
   let service: ContentWageService;
+  let userFactory: UserFactory;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
@@ -19,6 +20,7 @@ describe('ContentWageService', () => {
         ContentWageService,
         UserContentService,
         UserGoldExchangeRateService,
+        UserFactory,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -28,6 +30,7 @@ describe('ContentWageService', () => {
 
     prisma = module.get(PrismaService);
     service = module.get(ContentWageService);
+    userFactory = module.get(UserFactory);
 
     await prisma.clearDatabase();
   });
@@ -84,13 +87,7 @@ describe('ContentWageService', () => {
     });
 
     it('기본 계산(유저 환율 사용)', async () => {
-      const user = await prisma.user.create({
-        data: {
-          displayName: 'test',
-          provider: AuthProvider.GOOGLE,
-          refId: 'test',
-        },
-      });
+      const user = await userFactory.create();
 
       await prisma.userGoldExchangeRate.create({
         data: {

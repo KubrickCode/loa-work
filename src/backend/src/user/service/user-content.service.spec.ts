@@ -6,12 +6,13 @@ import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange
 import { faker } from '@faker-js/faker/.';
 import { ContentRewardItemKind } from '@prisma/client';
 import { ContentWageService } from 'src/content/service/content-wage.service';
-import { AuthProvider } from '.prisma/client';
+import { UserFactory } from 'src/test/factory/user.factory';
 
 describe('UserContentService', () => {
   let module: TestingModule;
   let prisma: PrismaService;
   let service: UserContentService;
+  let userFactory: UserFactory;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
@@ -20,6 +21,7 @@ describe('UserContentService', () => {
         ContentWageService,
         UserContentService,
         UserGoldExchangeRateService,
+        UserFactory,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -29,6 +31,8 @@ describe('UserContentService', () => {
 
     prisma = module.get(PrismaService);
     service = module.get(UserContentService);
+    userFactory = module.get(UserFactory);
+
     await prisma.clearDatabase();
   });
 
@@ -56,13 +60,7 @@ describe('UserContentService', () => {
   });
 
   it('getContentRewardItemPrice - logged in user', async () => {
-    const user = await prisma.user.create({
-      data: {
-        refId: faker.string.uuid(),
-        displayName: faker.person.fullName(),
-        provider: AuthProvider.KAKAO,
-      },
-    });
+    const user = await userFactory.create();
     jest.spyOn(service, 'getUserId').mockReturnValue(user.id);
 
     const contentRewardItem = await prisma.contentRewardItem.create({
@@ -90,13 +88,7 @@ describe('UserContentService', () => {
   });
 
   it('getContentRewardItemPrice - logged in user but not editable', async () => {
-    const user = await prisma.user.create({
-      data: {
-        refId: faker.string.uuid(),
-        displayName: faker.person.fullName(),
-        provider: AuthProvider.KAKAO,
-      },
-    });
+    const user = await userFactory.create();
     jest.spyOn(service, 'getUserId').mockReturnValue(user.id);
 
     const contentRewardItem = await prisma.contentRewardItem.create({
