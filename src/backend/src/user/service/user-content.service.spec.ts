@@ -3,16 +3,17 @@ import { PrismaService } from 'src/prisma';
 import { UserContentService } from '../../user/service/user-content.service';
 import { CONTEXT } from '@nestjs/graphql';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
-import { faker } from '@faker-js/faker/.';
-import { ContentRewardItemKind, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { ContentWageService } from 'src/content/service/content-wage.service';
 import { UserFactory } from 'src/test/factory/user.factory';
+import { ContentRewardItemFactory } from 'src/test/factory/content-reward-item.factory';
 
 describe('UserContentService', () => {
   let module: TestingModule;
   let prisma: PrismaService;
   let service: UserContentService;
   let userFactory: UserFactory;
+  let contentRewardItemFactory: ContentRewardItemFactory;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -22,6 +23,7 @@ describe('UserContentService', () => {
         UserContentService,
         UserGoldExchangeRateService,
         UserFactory,
+        ContentRewardItemFactory,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -32,6 +34,7 @@ describe('UserContentService', () => {
     prisma = module.get(PrismaService);
     service = module.get(UserContentService);
     userFactory = module.get(UserFactory);
+    contentRewardItemFactory = module.get(ContentRewardItemFactory);
   });
 
   afterAll(async () => {
@@ -42,11 +45,8 @@ describe('UserContentService', () => {
     it('getContentRewardItemPrice', async () => {
       const price = 100;
 
-      const contentRewardItem = await prisma.contentRewardItem.create({
+      const contentRewardItem = await contentRewardItemFactory.create({
         data: {
-          name: faker.lorem.word(),
-          kind: ContentRewardItemKind.MARKET_ITEM,
-          imageUrl: faker.image.url(),
           price,
         },
       });
@@ -68,11 +68,8 @@ describe('UserContentService', () => {
     });
 
     it('getContentRewardItemPrice', async () => {
-      const contentRewardItem = await prisma.contentRewardItem.create({
+      const contentRewardItem = await contentRewardItemFactory.create({
         data: {
-          name: faker.lorem.word(),
-          kind: ContentRewardItemKind.MARKET_ITEM,
-          imageUrl: faker.image.url(),
           isEditable: true,
           price: 100,
         },
@@ -96,11 +93,8 @@ describe('UserContentService', () => {
 
     it('getContentRewardItemPrice - not editable', async () => {
       const price = 100;
-      const contentRewardItem = await prisma.contentRewardItem.create({
+      const contentRewardItem = await contentRewardItemFactory.create({
         data: {
-          name: faker.lorem.word(),
-          kind: ContentRewardItemKind.MARKET_ITEM,
-          imageUrl: faker.image.url(),
           isEditable: false,
           price,
         },
