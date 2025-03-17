@@ -10,6 +10,7 @@ import { ContentRewardItemFactory } from 'src/test/factory/content-reward-item.f
 import { ContentFactory } from 'src/test/factory/content.factory';
 import { faker } from '@faker-js/faker/.';
 import { ContentDurationFactory } from 'src/test/factory/content-duration.factory';
+import { ContentRewardFactory } from 'src/test/factory/content-reward.factory';
 
 describe('UserContentService', () => {
   let module: TestingModule;
@@ -19,6 +20,7 @@ describe('UserContentService', () => {
   let contentRewardItemFactory: ContentRewardItemFactory;
   let contentFactory: ContentFactory;
   let contentDurationFactory: ContentDurationFactory;
+  let contentRewardFactory: ContentRewardFactory;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -31,6 +33,7 @@ describe('UserContentService', () => {
         ContentRewardItemFactory,
         ContentFactory,
         ContentDurationFactory,
+        ContentRewardFactory,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -44,6 +47,7 @@ describe('UserContentService', () => {
     contentRewardItemFactory = module.get(ContentRewardItemFactory);
     contentFactory = module.get(ContentFactory);
     contentDurationFactory = module.get(ContentDurationFactory);
+    contentRewardFactory = module.get(ContentRewardFactory);
   });
 
   afterAll(async () => {
@@ -80,6 +84,26 @@ describe('UserContentService', () => {
 
       const result = await service.getContentDuration(content.id);
       expect(result).toBe(duration);
+    });
+
+    it('getContentRewardAverageQuantity', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem = await contentRewardItemFactory.create();
+
+      const averageQuantity = faker.number.float({ min: 1, max: 10000 });
+
+      const contentReward = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem.id,
+          defaultAverageQuantity: averageQuantity,
+        },
+      });
+
+      const result = await service.getContentRewardAverageQuantity(
+        contentReward.id,
+      );
+      expect(result.toNumber()).toBe(averageQuantity);
     });
   });
 
@@ -150,6 +174,24 @@ describe('UserContentService', () => {
 
       const result = await service.getContentDuration(content.id);
       expect(result).toBe(duration);
+    });
+
+    it('getContentRewardAverageQuantity', async () => {
+      const averageQuantity = faker.number.float({ min: 1, max: 10000 });
+
+      const contentReward = await contentRewardFactory.create();
+      await prisma.userContentReward.create({
+        data: {
+          userId: user.id,
+          contentRewardId: contentReward.id,
+          averageQuantity,
+        },
+      });
+
+      const result = await service.getContentRewardAverageQuantity(
+        contentReward.id,
+      );
+      expect(result.toNumber()).toBe(averageQuantity);
     });
   });
 });
