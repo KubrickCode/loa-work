@@ -61,7 +61,7 @@ describe('UserContentService', () => {
 
   it('getContentRewardItemPrice - logged in user', async () => {
     const user = await userFactory.create();
-    jest.spyOn(service, 'getUserId').mockReturnValue(user.id);
+    service['context'].req.user = { id: user.id };
 
     const contentRewardItem = await prisma.contentRewardItem.create({
       data: {
@@ -89,7 +89,7 @@ describe('UserContentService', () => {
 
   it('getContentRewardItemPrice - logged in user but not editable', async () => {
     const user = await userFactory.create();
-    jest.spyOn(service, 'getUserId').mockReturnValue(user.id);
+    service['context'].req.user = { id: user.id };
 
     const contentRewardItem = await prisma.contentRewardItem.create({
       data: {
