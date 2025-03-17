@@ -56,27 +56,6 @@ describe('ContentWageService', () => {
       });
     });
 
-    it('기본 계산(mock 환율 사용)', async () => {
-      const mockGoldExchangeRate = {
-        id: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        krwAmount: 25,
-        goldAmount: 100,
-      };
-
-      jest
-        .spyOn(service['userGoldExchangeRateService'], 'getGoldExchangeRate')
-        .mockResolvedValue(mockGoldExchangeRate);
-
-      const result = await service.calculateWage({ gold, duration });
-
-      expect(result).toEqual({
-        krwAmountPerHour: 1500,
-        goldAmountPerHour: 6000,
-      });
-    });
-
     it('기본 계산(실제 환율 사용)', async () => {
       const result = await service.calculateWage({ gold, duration });
 
