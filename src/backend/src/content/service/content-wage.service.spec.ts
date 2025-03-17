@@ -13,7 +13,7 @@ describe('ContentWageService', () => {
   let service: ContentWageService;
   let userFactory: UserFactory;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     module = await Test.createTestingModule({
       providers: [
         PrismaService,
@@ -31,12 +31,6 @@ describe('ContentWageService', () => {
     prisma = module.get(PrismaService);
     service = module.get(ContentWageService);
     userFactory = module.get(UserFactory);
-
-    await prisma.clearDatabase();
-  });
-
-  afterEach(async () => {
-    await prisma.clearDatabase();
   });
 
   afterAll(async () => {
@@ -47,7 +41,7 @@ describe('ContentWageService', () => {
     const gold = 1000;
     const duration = 600; // 10 minutes
 
-    beforeEach(async () => {
+    beforeAll(async () => {
       await prisma.goldExchangeRate.create({
         data: {
           krwAmount: 25,

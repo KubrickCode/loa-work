@@ -14,7 +14,7 @@ describe('UserContentService', () => {
   let service: UserContentService;
   let userFactory: UserFactory;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     module = await Test.createTestingModule({
       providers: [
         PrismaService,
@@ -32,12 +32,6 @@ describe('UserContentService', () => {
     prisma = module.get(PrismaService);
     service = module.get(UserContentService);
     userFactory = module.get(UserFactory);
-
-    await prisma.clearDatabase();
-  });
-
-  afterEach(async () => {
-    await prisma.clearDatabase();
   });
 
   afterAll(async () => {
