@@ -4,7 +4,7 @@ import { UserContentService } from '../../user/service/user-content.service';
 import { CONTEXT } from '@nestjs/graphql';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 import { faker } from '@faker-js/faker/.';
-import { ContentRewardItemKind } from '@prisma/client';
+import { ContentRewardItemKind, User } from '@prisma/client';
 import { ContentWageService } from 'src/content/service/content-wage.service';
 import { UserFactory } from 'src/test/factory/user.factory';
 
@@ -38,73 +38,79 @@ describe('UserContentService', () => {
     await module.close();
   });
 
-  it('getContentRewardItemPrice - guest', async () => {
-    const contentRewardItem = await prisma.contentRewardItem.create({
-      data: {
-        name: faker.lorem.word(),
-        kind: ContentRewardItemKind.MARKET_ITEM,
-        imageUrl: faker.image.url(),
-        price: 100,
-      },
+  describe('not logged in', () => {
+    it('getContentRewardItemPrice', async () => {
+      const price = 100;
+
+      const contentRewardItem = await prisma.contentRewardItem.create({
+        data: {
+          name: faker.lorem.word(),
+          kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl: faker.image.url(),
+          price,
+        },
+      });
+
+      const result = await service.getContentRewardItemPrice(
+        contentRewardItem.id,
+      );
+
+      expect(result).toBe(price);
     });
-
-    const price = await service.getContentRewardItemPrice(contentRewardItem.id);
-
-    expect(price).toBe(100);
   });
 
-  it('getContentRewardItemPrice - logged in user', async () => {
-    const user = await userFactory.create();
-    service['context'].req.user = { id: user.id };
+  describe('logged in', () => {
+    let user: User;
 
-    const contentRewardItem = await prisma.contentRewardItem.create({
-      data: {
-        name: faker.lorem.word(),
-        kind: ContentRewardItemKind.MARKET_ITEM,
-        imageUrl: faker.image.url(),
-        isEditable: true,
-        price: 100,
-      },
+    beforeAll(async () => {
+      user = await userFactory.create();
+      service['context'].req.user = { id: user.id };
     });
 
-    const userPrice = 250;
-    await prisma.userContentRewardItem.create({
-      data: {
-        userId: user.id,
-        contentRewardItemId: contentRewardItem.id,
-        price: userPrice,
-      },
+    it('getContentRewardItemPrice', async () => {
+      const contentRewardItem = await prisma.contentRewardItem.create({
+        data: {
+          name: faker.lorem.word(),
+          kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl: faker.image.url(),
+          isEditable: true,
+          price: 100,
+        },
+      });
+
+      const userPrice = 250;
+      await prisma.userContentRewardItem.create({
+        data: {
+          userId: user.id,
+          contentRewardItemId: contentRewardItem.id,
+          price: userPrice,
+        },
+      });
+
+      const result = await service.getContentRewardItemPrice(
+        contentRewardItem.id,
+      );
+
+      expect(result).toBe(userPrice);
     });
 
-    const price = await service.getContentRewardItemPrice(contentRewardItem.id);
+    it('getContentRewardItemPrice - not editable', async () => {
+      const price = 100;
+      const contentRewardItem = await prisma.contentRewardItem.create({
+        data: {
+          name: faker.lorem.word(),
+          kind: ContentRewardItemKind.MARKET_ITEM,
+          imageUrl: faker.image.url(),
+          isEditable: false,
+          price,
+        },
+      });
 
-    expect(price).toBe(userPrice);
-  });
+      const result = await service.getContentRewardItemPrice(
+        contentRewardItem.id,
+      );
 
-  it('getContentRewardItemPrice - logged in user but not editable', async () => {
-    const user = await userFactory.create();
-    service['context'].req.user = { id: user.id };
-
-    const contentRewardItem = await prisma.contentRewardItem.create({
-      data: {
-        name: faker.lorem.word(),
-        kind: ContentRewardItemKind.MARKET_ITEM,
-        imageUrl: faker.image.url(),
-        isEditable: false,
-        price: 100,
-      },
+      expect(result).toBe(price);
     });
-
-    await prisma.userContentRewardItem.create({
-      data: {
-        userId: user.id,
-        contentRewardItemId: contentRewardItem.id,
-        price: 250,
-      },
-    });
-
-    const price = await service.getContentRewardItemPrice(contentRewardItem.id);
-
-    expect(price).toBe(100);
   });
 });
