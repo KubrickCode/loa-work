@@ -58,7 +58,6 @@ export class ContentWageService {
     return await this.calculateGold(seeMoreRewards);
   }
 
-  // TODO: Test 작성
   async calculateWage({ gold, duration }: { gold: number; duration: number }) {
     const goldExchangeRate =
       await this.userGoldExchangeRateService.getGoldExchangeRate();
