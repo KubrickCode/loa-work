@@ -20,7 +20,7 @@ import {
 
 export const Manual = () => {
   return (
-    <DrawerRoot modal={false} size="xl">
+    <DrawerRoot modal={false} size={{ base: "xl", sm: "md", md: "lg" }}>
       <DrawerBackdrop />
       <DrawerTrigger asChild>
         <Button justifyContent="flex-start" variant="outline">
