@@ -12,6 +12,7 @@ describe('ContentWageService', () => {
   let prisma: PrismaService;
   let service: ContentWageService;
   let userFactory: UserFactory;
+  let userGoldExchangeRateService: UserGoldExchangeRateService;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -31,6 +32,7 @@ describe('ContentWageService', () => {
     prisma = module.get(PrismaService);
     service = module.get(ContentWageService);
     userFactory = module.get(UserFactory);
+    userGoldExchangeRateService = module.get(UserGoldExchangeRateService);
   });
 
   afterAll(async () => {
@@ -70,9 +72,6 @@ describe('ContentWageService', () => {
         },
       });
 
-      const userGoldExchangeRateService = module.get(
-        UserGoldExchangeRateService,
-      );
       userGoldExchangeRateService['context'].req.user = { id: user.id };
 
       const result = await service.calculateWage({ gold, duration });
