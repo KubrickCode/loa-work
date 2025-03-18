@@ -100,12 +100,7 @@ const accordionItems = [
         <List.Item>
           각 컨텐츠에서 얻을 수 있는 아이템의 "개당 가격"은 다음과 같이
           계산되며,{" "}
-          <Link
-            color="blue.500"
-            href="/content-reward-list"
-            mr={1}
-            target="_blank"
-          >
+          <Link color="blue.500" href="/item-price-list" mr={1} target="_blank">
             아이템 시세 페이지
           </Link>
           에서 확인할 수 있습니다.
