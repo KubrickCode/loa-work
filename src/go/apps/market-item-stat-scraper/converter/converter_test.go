@@ -267,3 +267,179 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
 	})
 }
+
+func TestUpdateMarketItems(t *testing.T) {
+	t.Run("여러 아이템의 통계 업데이트", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		marketItems := []loadb.MarketItem{
+			{
+				ID:              1,
+				Name:            "아이템1",
+				CurrentMinPrice: 100,
+				RecentPrice:     100,
+				YDayAvgPrice:    decimal.NewFromInt(100),
+				MarketItemStats: []loadb.MarketItemStat{
+					{
+						ID:              11,
+						MarketItemID:    1,
+						CurrentMinPrice: 200,
+						RecentPrice:     250,
+						YDayAvgPrice:    decimal.NewFromInt(220),
+					},
+				},
+			},
+			{
+				ID:              2,
+				Name:            "아이템2",
+				CurrentMinPrice: 300,
+				RecentPrice:     300,
+				YDayAvgPrice:    decimal.NewFromInt(300),
+				MarketItemStats: []loadb.MarketItemStat{
+					{
+						ID:              22,
+						MarketItemID:    2,
+						CurrentMinPrice: 350,
+						RecentPrice:     370,
+						YDayAvgPrice:    decimal.NewFromInt(360),
+					},
+				},
+			},
+			{
+				ID:              3,
+				Name:            "통계없음",
+				CurrentMinPrice: 500,
+				RecentPrice:     500,
+				YDayAvgPrice:    decimal.NewFromInt(500),
+				MarketItemStats: []loadb.MarketItemStat{},
+			},
+		}
+
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(marketItems, nil)
+
+		mockMarketItemDB.EXPECT().UpdateStat(gomock.Any()).Do(func(item loadb.MarketItem) {
+			if item.ID == 1 {
+				assert.Equal(t, 200, item.CurrentMinPrice)
+				assert.Equal(t, 250, item.RecentPrice)
+				assert.True(t, decimal.NewFromInt(220).Equal(item.YDayAvgPrice))
+			} else if item.ID == 2 {
+				assert.Equal(t, 350, item.CurrentMinPrice)
+				assert.Equal(t, 370, item.RecentPrice)
+				assert.True(t, decimal.NewFromInt(360).Equal(item.YDayAvgPrice))
+			}
+		}).Return(nil).Times(2)
+
+		converter := NewConverter(mockDB)
+		err := converter.updateMarketItems(mockDB)
+		assert.NoError(t, err)
+	})
+
+	t.Run("통계 조회 중 오류 발생", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		expectedError := errors.New("데이터베이스 조회 오류")
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(nil, expectedError)
+
+		converter := NewConverter(mockDB)
+		err := converter.updateMarketItems(mockDB)
+		assert.Error(t, err)
+		assert.Equal(t, expectedError, err)
+	})
+
+	t.Run("아이템 업데이트 중 오류 발생", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		marketItems := []loadb.MarketItem{
+			{
+				ID:              1,
+				Name:            "아이템1",
+				CurrentMinPrice: 100,
+				RecentPrice:     100,
+				YDayAvgPrice:    decimal.NewFromInt(100),
+				MarketItemStats: []loadb.MarketItemStat{
+					{
+						ID:              11,
+						MarketItemID:    1,
+						CurrentMinPrice: 200,
+						RecentPrice:     200,
+						YDayAvgPrice:    decimal.NewFromInt(200),
+					},
+				},
+			},
+		}
+
+		updateError := errors.New("업데이트 중 오류 발생")
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(marketItems, nil)
+		mockMarketItemDB.EXPECT().UpdateStat(gomock.Any()).Return(updateError)
+
+		converter := NewConverter(mockDB)
+		err := converter.updateMarketItems(mockDB)
+		assert.Error(t, err)
+		assert.Equal(t, updateError, err)
+	})
+
+	t.Run("빈 아이템 목록 처리", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		emptyItems := []loadb.MarketItem{}
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(emptyItems, nil)
+
+		converter := NewConverter(mockDB)
+		err := converter.updateMarketItems(mockDB)
+		assert.NoError(t, err)
+	})
+
+	t.Run("모든 아이템에 통계가 없는 경우", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		marketItems := []loadb.MarketItem{
+			{
+				ID:              1,
+				Name:            "통계없음1",
+				CurrentMinPrice: 100,
+				RecentPrice:     100,
+				YDayAvgPrice:    decimal.NewFromInt(100),
+				MarketItemStats: []loadb.MarketItemStat{},
+			},
+			{
+				ID:              2,
+				Name:            "통계없음2",
+				CurrentMinPrice: 200,
+				RecentPrice:     200,
+				YDayAvgPrice:    decimal.NewFromInt(200),
+				MarketItemStats: []loadb.MarketItemStat{},
+			},
+		}
+
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(marketItems, nil)
+
+		converter := NewConverter(mockDB)
+		err := converter.updateMarketItems(mockDB)
+		assert.NoError(t, err)
+	})
+}
