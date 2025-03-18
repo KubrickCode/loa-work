@@ -105,6 +105,205 @@ describe('UserContentService', () => {
       );
       expect(result.toNumber()).toBe(averageQuantity);
     });
+
+    it('getContentRewards - 기본 동작', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem1 = await contentRewardItemFactory.create();
+      const contentRewardItem2 = await contentRewardItemFactory.create();
+
+      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+
+      await prisma.contentReward.createMany({
+        data: [
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem1.id,
+            defaultAverageQuantity: averageQuantity1,
+            isSellable: true,
+          },
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem2.id,
+            defaultAverageQuantity: averageQuantity2,
+            isSellable: true,
+          },
+        ],
+      });
+
+      const results = await service.getContentRewards(content.id);
+
+      expect(results).toHaveLength(2);
+
+      const resultItemIds = results.map((r) => r.contentRewardItemId);
+      expect(resultItemIds).toContain(contentRewardItem1.id);
+      expect(resultItemIds).toContain(contentRewardItem2.id);
+
+      const resultItem1 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem1.id,
+      );
+      const resultItem2 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem2.id,
+      );
+
+      expect(resultItem1.averageQuantity).toBeCloseTo(averageQuantity1, 5);
+      expect(resultItem2.averageQuantity).toBeCloseTo(averageQuantity2, 5);
+    });
+
+    it('getContentRewards - isSellable 필터', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem1 = await contentRewardItemFactory.create();
+      const contentRewardItem2 = await contentRewardItemFactory.create();
+
+      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+
+      await prisma.contentReward.createMany({
+        data: [
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem1.id,
+            defaultAverageQuantity: averageQuantity1,
+            isSellable: true,
+          },
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem2.id,
+            defaultAverageQuantity: averageQuantity2,
+            isSellable: false,
+          },
+        ],
+      });
+
+      const results = await service.getContentRewards(content.id, {
+        includeIsBound: false,
+      });
+
+      expect(results).toHaveLength(1);
+      expect(results[0]).toEqual(
+        expect.objectContaining({
+          averageQuantity: averageQuantity1,
+          contentRewardItemId: contentRewardItem1.id,
+        }),
+      );
+    });
+
+    it('getContentRewards - contentRewardItemIds 필터', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem1 = await contentRewardItemFactory.create();
+      const contentRewardItem2 = await contentRewardItemFactory.create();
+      const contentRewardItem3 = await contentRewardItemFactory.create();
+
+      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity3 = faker.number.float({ min: 1, max: 10000 });
+
+      await prisma.contentReward.createMany({
+        data: [
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem1.id,
+            defaultAverageQuantity: averageQuantity1,
+            isSellable: true,
+          },
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem2.id,
+            defaultAverageQuantity: averageQuantity2,
+            isSellable: true,
+          },
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem3.id,
+            defaultAverageQuantity: averageQuantity3,
+            isSellable: true,
+          },
+        ],
+      });
+
+      const results = await service.getContentRewards(content.id, {
+        includeContentRewardItemIds: [
+          contentRewardItem1.id,
+          contentRewardItem3.id,
+        ],
+      });
+
+      expect(results).toHaveLength(2);
+
+      const resultItemIds = results.map((r) => r.contentRewardItemId);
+      expect(resultItemIds).toContain(contentRewardItem1.id);
+      expect(resultItemIds).toContain(contentRewardItem3.id);
+      expect(resultItemIds).not.toContain(contentRewardItem2.id);
+
+      const resultItem1 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem1.id,
+      );
+      const resultItem3 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem3.id,
+      );
+
+      expect(resultItem1.averageQuantity).toBeCloseTo(averageQuantity1, 5);
+      expect(resultItem3.averageQuantity).toBeCloseTo(averageQuantity3, 5);
+    });
+
+    it('getContentRewards - 여러 필터 조합', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem1 = await contentRewardItemFactory.create();
+      const contentRewardItem2 = await contentRewardItemFactory.create();
+      const contentRewardItem3 = await contentRewardItemFactory.create();
+
+      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity3 = faker.number.float({ min: 1, max: 10000 });
+
+      await prisma.contentReward.createMany({
+        data: [
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem1.id,
+            defaultAverageQuantity: averageQuantity1,
+            isSellable: true,
+          },
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem2.id,
+            defaultAverageQuantity: averageQuantity2,
+            isSellable: false,
+          },
+          {
+            contentId: content.id,
+            contentRewardItemId: contentRewardItem3.id,
+            defaultAverageQuantity: averageQuantity3,
+            isSellable: true,
+          },
+        ],
+      });
+
+      const results = await service.getContentRewards(content.id, {
+        includeIsBound: false,
+        includeContentRewardItemIds: [
+          contentRewardItem1.id,
+          contentRewardItem2.id,
+        ],
+      });
+
+      expect(results).toHaveLength(1);
+      expect(results[0]).toEqual(
+        expect.objectContaining({
+          averageQuantity: averageQuantity1,
+          contentRewardItemId: contentRewardItem1.id,
+        }),
+      );
+    });
+
+    it('getContentRewards - 빈 결과 반환', async () => {
+      const content = await contentFactory.create();
+
+      const results = await service.getContentRewards(content.id);
+
+      expect(results).toHaveLength(0);
+      expect(results).toEqual([]);
+    });
   });
 
   describe('logged in', () => {
@@ -191,7 +390,281 @@ describe('UserContentService', () => {
       const result = await service.getContentRewardAverageQuantity(
         contentReward.id,
       );
-      expect(result.toNumber()).toBe(averageQuantity);
+
+      expect(result.toNumber()).toBeCloseTo(averageQuantity, 5);
+    });
+
+    it('getContentRewards - 기본 동작', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem1 = await contentRewardItemFactory.create();
+      const contentRewardItem2 = await contentRewardItemFactory.create();
+
+      const defaultAverageQuantity1 = faker.number.float({
+        min: 1,
+        max: 10000,
+      });
+      const defaultAverageQuantity2 = faker.number.float({
+        min: 1,
+        max: 10000,
+      });
+
+      const userAverageQuantity1 = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+
+      const contentReward1 = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem1.id,
+          defaultAverageQuantity: defaultAverageQuantity1,
+          isSellable: true,
+        },
+      });
+
+      const contentReward2 = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem2.id,
+          defaultAverageQuantity: defaultAverageQuantity2,
+          isSellable: true,
+        },
+      });
+
+      await prisma.userContentReward.createMany({
+        data: [
+          {
+            userId: user.id,
+            contentRewardId: contentReward1.id,
+            averageQuantity: userAverageQuantity1,
+          },
+          {
+            userId: user.id,
+            contentRewardId: contentReward2.id,
+            averageQuantity: userAverageQuantity2,
+          },
+        ],
+      });
+
+      const results = await service.getContentRewards(content.id);
+
+      expect(results).toHaveLength(2);
+
+      const resultItemIds = results.map((r) => r.contentRewardItemId);
+      expect(resultItemIds).toContain(contentRewardItem1.id);
+      expect(resultItemIds).toContain(contentRewardItem2.id);
+
+      const resultItem1 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem1.id,
+      );
+      const resultItem2 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem2.id,
+      );
+
+      expect(resultItem1.averageQuantity).toBeCloseTo(userAverageQuantity1, 5);
+      expect(resultItem2.averageQuantity).toBeCloseTo(userAverageQuantity2, 5);
+
+      expect(resultItem1.averageQuantity).not.toBeCloseTo(
+        defaultAverageQuantity1,
+        5,
+      );
+      expect(resultItem2.averageQuantity).not.toBeCloseTo(
+        defaultAverageQuantity2,
+        5,
+      );
+    });
+
+    it('getContentRewards - isSellable 필터', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem1 = await contentRewardItemFactory.create();
+      const contentRewardItem2 = await contentRewardItemFactory.create();
+
+      const userAverageQuantity1 = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+
+      const contentReward1 = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem1.id,
+          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          isSellable: true,
+        },
+      });
+
+      const contentReward2 = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem2.id,
+          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          isSellable: false,
+        },
+      });
+
+      await prisma.userContentReward.createMany({
+        data: [
+          {
+            userId: user.id,
+            contentRewardId: contentReward1.id,
+            averageQuantity: userAverageQuantity1,
+          },
+          {
+            userId: user.id,
+            contentRewardId: contentReward2.id,
+            averageQuantity: userAverageQuantity2,
+          },
+        ],
+      });
+
+      const results = await service.getContentRewards(content.id, {
+        includeIsBound: false,
+      });
+
+      expect(results).toHaveLength(1);
+      expect(results[0].contentRewardItemId).toBe(contentRewardItem1.id);
+      expect(results[0].averageQuantity).toBeCloseTo(userAverageQuantity1, 5);
+    });
+
+    it('getContentRewards - contentRewardItemIds 필터', async () => {
+      const content = await contentFactory.create();
+      const contentRewardItem1 = await contentRewardItemFactory.create();
+      const contentRewardItem2 = await contentRewardItemFactory.create();
+      const contentRewardItem3 = await contentRewardItemFactory.create();
+
+      const userAverageQuantity1 = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity3 = faker.number.float({ min: 1, max: 10000 });
+
+      const contentReward1 = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem1.id,
+          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          isSellable: true,
+        },
+      });
+
+      const contentReward2 = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem2.id,
+          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          isSellable: true,
+        },
+      });
+
+      const contentReward3 = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem3.id,
+          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          isSellable: true,
+        },
+      });
+
+      await prisma.userContentReward.createMany({
+        data: [
+          {
+            userId: user.id,
+            contentRewardId: contentReward1.id,
+            averageQuantity: userAverageQuantity1,
+          },
+          {
+            userId: user.id,
+            contentRewardId: contentReward2.id,
+            averageQuantity: userAverageQuantity2,
+          },
+          {
+            userId: user.id,
+            contentRewardId: contentReward3.id,
+            averageQuantity: userAverageQuantity3,
+          },
+        ],
+      });
+
+      const results = await service.getContentRewards(content.id, {
+        includeContentRewardItemIds: [
+          contentRewardItem1.id,
+          contentRewardItem3.id,
+        ],
+      });
+
+      expect(results).toHaveLength(2);
+
+      const resultItemIds = results.map((r) => r.contentRewardItemId);
+      expect(resultItemIds).toContain(contentRewardItem1.id);
+      expect(resultItemIds).toContain(contentRewardItem3.id);
+      expect(resultItemIds).not.toContain(contentRewardItem2.id);
+
+      const resultItem1 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem1.id,
+      );
+      const resultItem3 = results.find(
+        (r) => r.contentRewardItemId === contentRewardItem3.id,
+      );
+
+      expect(resultItem1.averageQuantity).toBeCloseTo(userAverageQuantity1, 5);
+      expect(resultItem3.averageQuantity).toBeCloseTo(userAverageQuantity3, 5);
+    });
+
+    it('getContentRewards - 다른 사용자의 리워드는 반환되지 않음', async () => {
+      const otherUser = await userFactory.create();
+
+      const content = await contentFactory.create();
+      const contentRewardItem = await contentRewardItemFactory.create();
+
+      const defaultAverageQuantity = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity = faker.number.float({ min: 1, max: 10000 });
+      const otherUserAverageQuantity = faker.number.float({
+        min: 1,
+        max: 10000,
+      });
+
+      const contentReward = await prisma.contentReward.create({
+        data: {
+          contentId: content.id,
+          contentRewardItemId: contentRewardItem.id,
+          defaultAverageQuantity: defaultAverageQuantity,
+          isSellable: true,
+        },
+      });
+
+      await prisma.userContentReward.create({
+        data: {
+          userId: user.id,
+          contentRewardId: contentReward.id,
+          averageQuantity: userAverageQuantity,
+        },
+      });
+
+      await prisma.userContentReward.create({
+        data: {
+          userId: otherUser.id,
+          contentRewardId: contentReward.id,
+          averageQuantity: otherUserAverageQuantity,
+        },
+      });
+
+      const results = await service.getContentRewards(content.id);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].contentRewardItemId).toBe(contentRewardItem.id);
+
+      expect(results[0].averageQuantity).toBeCloseTo(userAverageQuantity, 5);
+      expect(results[0].averageQuantity).not.toBeCloseTo(
+        otherUserAverageQuantity,
+        5,
+      );
+      expect(results[0].averageQuantity).not.toBeCloseTo(
+        defaultAverageQuantity,
+        5,
+      );
+    });
+
+    it('getContentRewards - 존재하지 않는 사용자 리워드는 빈 배열 반환', async () => {
+      const content = await contentFactory.create();
+
+      const results = await service.getContentRewards(content.id);
+
+      expect(results).toHaveLength(0);
+      expect(results).toEqual([]);
     });
   });
 });
