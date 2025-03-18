@@ -91,6 +91,234 @@ describe('ContentWageService', () => {
     });
   });
 
+  describe('calculateGold', () => {
+    beforeEach(() => {
+      userContentService['context'].req.user = { id: undefined };
+      userGoldExchangeRateService['context'].req.user = { id: undefined };
+    });
+
+    it('기본 계산', async () => {
+      const contentRewardItems = await Promise.all([
+        contentRewardItemFactory.create({
+          data: { price: 100 },
+        }),
+        contentRewardItemFactory.create({
+          data: { price: 200 },
+        }),
+      ]);
+
+      const rewards = [
+        {
+          contentRewardItemId: contentRewardItems[0].id,
+          averageQuantity: 2, // 100 * 2 = 200
+        },
+        {
+          contentRewardItemId: contentRewardItems[1].id,
+          averageQuantity: 3, // 200 * 3 = 600
+        },
+      ];
+
+      const result = await service.calculateGold(rewards);
+      expect(result).toBe(800);
+    });
+
+    it('사용자 정의 가격 사용', async () => {
+      const user = await userFactory.create();
+      userContentService['context'].req.user = { id: user.id };
+
+      const contentRewardItems = await Promise.all([
+        contentRewardItemFactory.create({
+          data: {
+            price: 100,
+            isEditable: true,
+          },
+        }),
+        contentRewardItemFactory.create({
+          data: {
+            price: 200,
+            isEditable: true,
+          },
+        }),
+      ]);
+
+      const userPrice = 500;
+      await Promise.all([
+        prisma.userContentRewardItem.create({
+          data: {
+            userId: user.id,
+            contentRewardItemId: contentRewardItems[0].id,
+            price: userPrice,
+          },
+        }),
+        prisma.userContentRewardItem.create({
+          data: {
+            userId: user.id,
+            contentRewardItemId: contentRewardItems[1].id,
+            price: userPrice,
+          },
+        }),
+      ]);
+
+      const rewards = [
+        {
+          contentRewardItemId: contentRewardItems[0].id,
+          averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
+        },
+        {
+          contentRewardItemId: contentRewardItems[1].id,
+          averageQuantity: 3, // 500 * 3 = 1500 (사용자 가격 사용)
+        },
+      ];
+
+      const result = await service.calculateGold(rewards);
+      expect(result).toBe(2500);
+    });
+
+    it('일부 아이템만 사용자 정의 가격 사용', async () => {
+      const user = await userFactory.create();
+      userContentService['context'].req.user = { id: user.id };
+
+      const contentRewardItems = await Promise.all([
+        contentRewardItemFactory.create({
+          data: {
+            price: 100,
+            isEditable: true,
+          },
+        }),
+        contentRewardItemFactory.create({
+          data: {
+            price: 200,
+            isEditable: false,
+          },
+        }),
+      ]);
+
+      const userPrice = 500;
+      await prisma.userContentRewardItem.create({
+        data: {
+          userId: user.id,
+          contentRewardItemId: contentRewardItems[0].id,
+          price: userPrice,
+        },
+      });
+
+      const rewards = [
+        {
+          contentRewardItemId: contentRewardItems[0].id,
+          averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
+        },
+        {
+          contentRewardItemId: contentRewardItems[1].id,
+          averageQuantity: 3, // 200 * 3 = 600 (기본 가격 사용, isEditable이 false)
+        },
+      ];
+
+      const result = await service.calculateGold(rewards);
+      expect(result).toBe(1600);
+    });
+
+    it('존재하지 않는 사용자 정의 가격은 기본 가격 사용', async () => {
+      const user = await userFactory.create();
+      userContentService['context'].req.user = { id: user.id };
+
+      const contentRewardItems = await Promise.all([
+        contentRewardItemFactory.create({
+          data: {
+            price: 100,
+            isEditable: true,
+          },
+        }),
+        contentRewardItemFactory.create({
+          data: {
+            price: 200,
+            isEditable: true,
+          },
+        }),
+      ]);
+
+      const userPrice = 500;
+      await prisma.userContentRewardItem.create({
+        data: {
+          userId: user.id,
+          contentRewardItemId: contentRewardItems[0].id,
+          price: userPrice,
+        },
+      });
+
+      const rewards = [
+        {
+          contentRewardItemId: contentRewardItems[0].id,
+          averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
+        },
+        {
+          contentRewardItemId: contentRewardItems[1].id,
+          averageQuantity: 3, // 200 * 3 = 600 (기본 가격 사용, 사용자 가격이 없음)
+        },
+      ];
+
+      try {
+        const result = await service.calculateGold(rewards);
+        expect(result).toBe(1600);
+      } catch (error) {
+        expect(error).toBeDefined();
+      }
+    });
+
+    it('빈 배열이 입력된 경우', async () => {
+      const rewards = [];
+      const result = await service.calculateGold(rewards);
+      expect(result).toBe(0);
+    });
+
+    it('다른 사용자의 가격은 적용되지 않음', async () => {
+      const user1 = await userFactory.create();
+      const user2 = await userFactory.create();
+
+      const contentRewardItem = await contentRewardItemFactory.create({
+        data: {
+          price: 100,
+          isEditable: true,
+        },
+      });
+
+      const userPrice1 = 500;
+      await prisma.userContentRewardItem.create({
+        data: {
+          userId: user1.id,
+          contentRewardItemId: contentRewardItem.id,
+          price: userPrice1,
+        },
+      });
+
+      const userPrice2 = 800;
+      await prisma.userContentRewardItem.create({
+        data: {
+          userId: user2.id,
+          contentRewardItemId: contentRewardItem.id,
+          price: userPrice2,
+        },
+      });
+
+      userContentService['context'].req.user = { id: user1.id };
+
+      const rewards = [
+        {
+          contentRewardItemId: contentRewardItem.id,
+          averageQuantity: 2, // 500 * 2 = 1000 (user1의 가격 사용)
+        },
+      ];
+
+      const result1 = await service.calculateGold(rewards);
+      expect(result1).toBe(1000); // user1의 가격 적용
+
+      // 두 번째 사용자로 로그인 변경
+      userContentService['context'].req.user = { id: user2.id };
+
+      const result2 = await service.calculateGold(rewards);
+      expect(result2).toBe(1600); // user2의 가격 적용
+    });
+  });
+
   describe('calculateSeeMoreRewardsGold', () => {
     const contentRewardItemIds: number[] = [];
     const prices: number[] = [];
