@@ -139,3 +139,131 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 		assert.True(t, expected.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expected, result)
 	})
 }
+
+func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
+	t.Run("정상적인 운명의 파편 가격 계산", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		marketItem := loadb.MarketItem{
+			Name:            SmallFateFragmentName,
+			CurrentMinPrice: 1000,
+			BundleCount:     SmallFateFragmentBundleCount,
+		}
+
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+
+		converter := NewConverter(mockDB)
+
+		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
+
+		assert.NoError(t, err)
+		expectedPrice := decimal.NewFromInt(1000).Div(decimal.NewFromInt(int64(SmallFateFragmentBundleCount)))
+		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+	})
+
+	t.Run("운명의 파편을 찾을 수 없는 경우", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		expectedError := errors.New("item not found")
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(loadb.MarketItem{}, expectedError)
+
+		converter := NewConverter(mockDB)
+
+		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
+
+		assert.Error(t, err)
+		assert.Equal(t, expectedError, err)
+		assert.True(t, decimal.Zero.Equal(result), "에러 발생 시 0을 반환해야 합니다")
+	})
+
+	t.Run("운명의 파편 가격이 0인 경우", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		marketItem := loadb.MarketItem{
+			Name:            SmallFateFragmentName,
+			CurrentMinPrice: 0,
+			BundleCount:     SmallFateFragmentBundleCount,
+		}
+
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+
+		converter := NewConverter(mockDB)
+
+		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
+
+		assert.NoError(t, err)
+		assert.True(t, decimal.Zero.Equal(result), "가격이 0인 경우 0을 반환해야 합니다")
+	})
+
+	t.Run("기본 번들 개수가 변경된 경우", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		customBundleCount := 100
+
+		marketItem := loadb.MarketItem{
+			Name:            SmallFateFragmentName,
+			CurrentMinPrice: 10000,
+			BundleCount:     customBundleCount,
+		}
+
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+
+		converter := NewConverter(mockDB)
+
+		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
+
+		assert.NoError(t, err)
+
+		expectedPrice := decimal.NewFromInt(10000).Div(decimal.NewFromInt(int64(SmallFateFragmentBundleCount)))
+		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+
+		differentExpectedPrice := decimal.NewFromInt(10000).Div(decimal.NewFromInt(int64(customBundleCount)))
+		assert.False(t, differentExpectedPrice.Equal(result), "DB의 번들 개수를 사용한 결과(%s)와 하드코딩된 상수를 사용한 결과(%s)는 달라야 합니다", differentExpectedPrice, result)
+	})
+
+	t.Run("큰 가격에 대한 계산", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockDB := loadb.NewMockDB(ctrl)
+		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+
+		largePrice := 9999999
+		marketItem := loadb.MarketItem{
+			Name:            SmallFateFragmentName,
+			CurrentMinPrice: largePrice,
+			BundleCount:     SmallFateFragmentBundleCount,
+		}
+
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
+		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+
+		converter := NewConverter(mockDB)
+
+		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
+
+		assert.NoError(t, err)
+		expectedPrice := decimal.NewFromInt(int64(largePrice)).Div(decimal.NewFromInt(int64(SmallFateFragmentBundleCount)))
+		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+	})
+}
