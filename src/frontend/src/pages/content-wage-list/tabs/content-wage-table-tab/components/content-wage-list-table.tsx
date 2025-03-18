@@ -115,7 +115,7 @@ export const ContentWageListTable = ({
         },
         {
           align: "right",
-          header: "시급(KRW)",
+          header: "시급(원)",
           render({ data }) {
             return (
               <FormatNumber

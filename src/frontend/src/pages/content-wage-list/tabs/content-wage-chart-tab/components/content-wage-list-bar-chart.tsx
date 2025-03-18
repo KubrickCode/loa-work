@@ -97,7 +97,7 @@ export const ContentWageListBarChart = () => {
             color: tooltipTextColor,
           }}
         />
-        <Bar dataKey="시급" fill="#8884d8" name="시급(KRW/Gold)" />
+        <Bar dataKey="시급" fill="#8884d8" name="시급(원/Gold)" />
       </BarChart>
     </ResponsiveContainer>
   );

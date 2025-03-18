@@ -79,7 +79,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                 <Alert startElement={<></>} status="info" title="계산 결과:">
                   <Flex direction="column" gap={1} p={1}>
                     <Flex gap={1}>
-                      <Text>시급(KRW): </Text>
+                      <Text>시급(원): </Text>
                       <FormatNumber
                         currency="KRW"
                         style="currency"
