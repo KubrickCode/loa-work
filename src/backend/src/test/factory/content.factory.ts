@@ -18,12 +18,17 @@ export class ContentFactory {
     data?: Partial<Prisma.ContentUncheckedCreateInput>;
   }) {
     const name = this.uniqueEnforcer.enforce(faker.word.noun);
-    const contentCategory = await this.contentCategoryFactory.create();
+    let contentCategoryId = options?.data?.contentCategoryId;
+
+    if (!contentCategoryId) {
+      const contentCategory = await this.contentCategoryFactory.create();
+      contentCategoryId = contentCategory.id;
+    }
 
     return await this.prisma.content.create({
       data: {
         name,
-        contentCategoryId: contentCategory.id,
+        contentCategoryId,
         level: faker.number.int({ min: 1640, max: 1740 }),
         ...options?.data,
       },

@@ -13,12 +13,17 @@ export class ContentDurationFactory {
   async create(options?: {
     data?: Partial<Prisma.ContentDurationUncheckedCreateInput>;
   }) {
-    const content = await this.contentFactory.create();
+    let contentId = options?.data?.contentId;
+
+    if (!contentId) {
+      const content = await this.contentFactory.create();
+      contentId = content.id;
+    }
 
     return await this.prisma.contentDuration.create({
       data: {
         defaultValue: faker.number.int({ min: 1000, max: 10000 }),
-        contentId: content.id,
+        contentId,
         ...options?.data,
       },
     });

@@ -17,13 +17,23 @@ export class ContentRewardFactory {
   async create(options?: {
     data?: Partial<Prisma.ContentRewardUncheckedCreateInput>;
   }) {
-    const content = await this.contentFactory.create();
-    const contentRewardItem = await this.contentRewardItemFactory.create();
+    let contentId = options?.data?.contentId;
+    let contentRewardItemId = options?.data?.contentRewardItemId;
+
+    if (!contentId) {
+      const content = await this.contentFactory.create();
+      contentId = content.id;
+    }
+
+    if (!contentRewardItemId) {
+      const contentRewardItem = await this.contentRewardItemFactory.create();
+      contentRewardItemId = contentRewardItem.id;
+    }
 
     return await this.prisma.contentReward.create({
       data: {
-        contentId: content.id,
-        contentRewardItemId: contentRewardItem.id,
+        contentId,
+        contentRewardItemId,
         defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
         ...options?.data,
       },
