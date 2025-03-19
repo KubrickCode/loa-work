@@ -1,3 +1,4 @@
+import { Flex, Text } from "@chakra-ui/react";
 import { Suspense } from "react";
 
 import { BlockLoader } from "~/core/loader";
@@ -9,7 +10,14 @@ import { ContentRewardListTableFilters } from "../content-reward-list-table-tab/
 
 export const ContentRewardListChartTab = () => {
   return (
-    <Section title="보상 비율">
+    <Section
+      title={
+        <Flex alignItems="center" gap={2}>
+          <Text>보상 비율</Text>
+          <Text fontSize="xs">작은 화면에서 아직 잘 보이지 않아요</Text>
+        </Flex>
+      }
+    >
       <ContentRewardListPageProvider>
         <ContentRewardListTableFilters />
         <Suspense fallback={<BlockLoader />}>

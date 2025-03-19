@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { Suspense } from "react";
 
 import { TableSkeleton } from "~/core/loader";
@@ -10,7 +10,14 @@ import { ContentWageListPageProvider } from "../../content-wage-list-page-contex
 
 export const ContentWageChartTab = () => {
   return (
-    <Section title="시급 비교">
+    <Section
+      title={
+        <Flex alignItems="center" gap={2}>
+          <Text>시급 비교</Text>
+          <Text fontSize="xs">작은 화면에서 아직 잘 보이지 않아요</Text>
+        </Flex>
+      }
+    >
       <ContentWageListPageProvider>
         <Flex direction="column" gap={2}>
           <ContentWageListFilters />
