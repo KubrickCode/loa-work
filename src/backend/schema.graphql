@@ -273,7 +273,8 @@ type UserContentDuration {
 
 input UserContentDurationEditInput {
   id: Int!
-  value: Int!
+  minutes: Int!
+  seconds: Int!
 }
 
 type UserContentDurationEditResult {

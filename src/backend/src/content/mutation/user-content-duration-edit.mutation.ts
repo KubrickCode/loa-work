@@ -20,7 +20,10 @@ class UserContentDurationEditInput {
   id: number;
 
   @Field()
-  value: number;
+  minutes: number;
+
+  @Field()
+  seconds: number;
 }
 
 @ObjectType()
@@ -42,18 +45,26 @@ export class UserContentDurationEditMutation {
     @Args('input') input: UserContentDurationEditInput,
     @CurrentUser() user: User,
   ) {
-    const { id, value } = input;
+    const { id, minutes, seconds } = input;
+
+    // 분과 초를 받아서 초 단위로 변환
+    const totalSeconds = minutes * 60 + seconds;
+
+    // 값이 음수가 아닌지 확인
+    if (totalSeconds < 0 || minutes < 0 || seconds < 0 || seconds >= 60) {
+      throw new Error('유효하지 않은 시간 형식입니다.');
+    }
 
     await this.userContentService.validateUserContentDuration(id);
 
     return await this.prisma.$transaction(async (tx) => {
       if (user.role === UserRole.OWNER) {
-        await this.editDefaultContentDuration(input, tx);
+        await this.editDefaultContentDuration({ id, totalSeconds }, tx);
       }
 
       await tx.userContentDuration.update({
         where: { id },
-        data: { isEdited: true, value },
+        data: { isEdited: true, value: totalSeconds },
       });
 
       return { ok: true };
@@ -61,7 +72,7 @@ export class UserContentDurationEditMutation {
   }
 
   async editDefaultContentDuration(
-    { id, value }: UserContentDurationEditInput,
+    { id, totalSeconds }: { id: number; totalSeconds: number },
     tx: Prisma.TransactionClient,
   ) {
     const { contentDurationId } =
@@ -75,7 +86,7 @@ export class UserContentDurationEditMutation {
         isEdited: false,
       },
       data: {
-        value,
+        value: totalSeconds,
       },
     });
 
@@ -84,7 +95,7 @@ export class UserContentDurationEditMutation {
         id: contentDurationId,
       },
       data: {
-        defaultValue: value,
+        defaultValue: totalSeconds,
       },
     });
   }

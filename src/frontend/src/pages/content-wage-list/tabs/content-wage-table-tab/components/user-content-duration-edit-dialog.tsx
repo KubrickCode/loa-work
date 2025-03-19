@@ -11,7 +11,8 @@ import {
 
 const schema = z.object({
   id: z.number(),
-  value: z.number(),
+  minutes: z.number().min(0),
+  seconds: z.number().min(0).max(59),
 });
 
 type UserContentDurationEditDialogProps = {
@@ -34,6 +35,10 @@ export const UserContentDurationEditDialog = ({
     contentDuration: { userContentDuration },
   } = data;
 
+  const totalSeconds = userContentDuration.value;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
   return (
     <Dialog {...dialogProps}>
       <Form.Mutation<
@@ -42,7 +47,8 @@ export const UserContentDurationEditDialog = ({
       >
         defaultValues={{
           id: userContentDuration.id,
-          value: userContentDuration.value,
+          minutes: minutes,
+          seconds: seconds,
         }}
         mutation={UserContentDurationEditDocument}
         onComplete={() => {
@@ -59,8 +65,11 @@ export const UserContentDurationEditDialog = ({
           <Dialog.Header>소요시간 수정</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
-              <Form.Field label="소요시간(초 단위)" name="value">
-                <Form.Input type="number" />
+              <Form.Field label="분" name="minutes">
+                <Form.Input min={0} type="number" />
+              </Form.Field>
+              <Form.Field label="초" name="seconds">
+                <Form.Input max={59} min={0} type="number" />
               </Form.Field>
             </Form.Body>
           </Dialog.Body>

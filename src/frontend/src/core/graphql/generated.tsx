@@ -388,7 +388,8 @@ export type UserContentDuration = {
 
 export type UserContentDurationEditInput = {
   id: Scalars['Int']['input'];
-  value: Scalars['Int']['input'];
+  minutes: Scalars['Int']['input'];
+  seconds: Scalars['Int']['input'];
 };
 
 export type UserContentDurationEditResult = {
