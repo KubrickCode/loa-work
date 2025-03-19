@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 import { ErrorBoundary } from "../error";
 
-export type SectionProps = BoxProps & {
+export type SectionProps = Omit<BoxProps, "title"> & {
   title?: ReactNode;
 };
 
