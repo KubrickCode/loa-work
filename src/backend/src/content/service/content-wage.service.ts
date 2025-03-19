@@ -14,7 +14,6 @@ export class ContentWageService {
     private userGoldExchangeRateService: UserGoldExchangeRateService,
   ) {}
 
-  // TODO: Test 작성
   async calculateGold(rewards: Reward[]) {
     let gold = 0;
 
@@ -30,7 +29,6 @@ export class ContentWageService {
     return gold;
   }
 
-  // TODO: Test 작성
   async calculateSeeMoreRewardsGold(
     contentSeeMoreRewards: {
       contentRewardItemId: number;

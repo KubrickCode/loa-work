@@ -23,7 +23,6 @@ func NewMarketItemDB(gdb *gorm.DB) *marketItemDB {
 	}
 }
 
-// TODO: Test 작성
 func (db *marketItemDB) FindAllWithLatestStats() ([]MarketItem, error) {
 	var items []MarketItem
 

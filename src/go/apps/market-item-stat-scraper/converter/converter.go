@@ -15,7 +15,6 @@ func NewConverter(db loadb.DB) *Converter {
 	return &Converter{db: db}
 }
 
-// TODO: Test 작성
 func (s *Converter) Start() error {
 	err := s.db.WithTransaction(func(tx loadb.DB) error {
 		if err := s.updateMarketItems(tx); err != nil {
@@ -58,7 +57,6 @@ func (s *Converter) Start() error {
 	return err
 }
 
-// TODO: Test 작성
 func (s *Converter) getMarketItemCurrentMinPrice(itemName string, tx loadb.DB) (decimal.Decimal, error) {
 	item, err := tx.MarketItem().FindByName(itemName)
 	if err != nil {
@@ -71,7 +69,6 @@ func (s *Converter) getMarketItemCurrentMinPrice(itemName string, tx loadb.DB) (
 	return currentPrice.Div(bundleCount), nil
 }
 
-// TODO: Test 작성
 func (s *Converter) getSmallFateFragmentBuyPricePerOne(tx loadb.DB) (decimal.Decimal, error) {
 	item, err := tx.MarketItem().FindByName(SmallFateFragmentName)
 	if err != nil {
@@ -84,7 +81,6 @@ func (s *Converter) getSmallFateFragmentBuyPricePerOne(tx loadb.DB) (decimal.Dec
 	return currentPrice.Div(bundleCount), nil
 }
 
-// TODO: Test 작성
 func (s *Converter) updateMarketItems(tx loadb.DB) error {
 	marketItemsWithStats, err := tx.MarketItem().FindAllWithLatestStats()
 	if err != nil {

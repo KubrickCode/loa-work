@@ -19,7 +19,6 @@ func NewScraper(db loadb.DB) *Scraper {
 	return &Scraper{db: db}
 }
 
-// TODO: Test 작성
 func (s *Scraper) Start() error {
 	items, err := s.getItemsToScrape()
 	if err != nil {
@@ -34,7 +33,6 @@ func (s *Scraper) Start() error {
 	return nil
 }
 
-// TODO: Test 작성
 func (s *Scraper) saveItemStats(items []loadb.MarketItem) error {
 	var statsToCreate []loadb.MarketItemStat
 
@@ -64,7 +62,6 @@ func (s *Scraper) saveItemStats(items []loadb.MarketItem) error {
 	return nil
 }
 
-// TODO: Test 작성
 func (s *Scraper) getItemsToScrape() ([]loadb.MarketItem, error) {
 	items, err := s.db.MarketItem().FindStatScraperEnabledAll()
 	if err != nil {
@@ -78,7 +75,6 @@ func (s *Scraper) getItemsToScrape() ([]loadb.MarketItem, error) {
 	return items, nil
 }
 
-// TODO: Test 작성
 func (s *Scraper) getCategoryByItem(item loadb.MarketItem) (*loadb.MarketItemCategory, error) {
 	category, err := s.db.MarketItemCategory().FindByID(item.MarketItemCategoryID)
 	if err != nil {
@@ -92,7 +88,6 @@ func (s *Scraper) getCategoryByItem(item loadb.MarketItem) (*loadb.MarketItemCat
 	return category, nil
 }
 
-// TODO: Test 작성
 func (s *Scraper) getItemStatToCreate(category *loadb.MarketItemCategory, item loadb.MarketItem) (*loadb.MarketItemStat, error) {
 	marketItem, err := request.GetMarketItem(&loaApi.GetMarketItemParams{
 		CategoryCode: category.Code,

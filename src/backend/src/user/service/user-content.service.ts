@@ -16,7 +16,7 @@ export class UserContentService {
     return this.context.req?.user?.id;
   }
 
-  // TODO: Test 작성
+  //  Test 작성
   async getContentRewardItemPrice(contentRewardItemId: number) {
     const userId = this.getUserId();
 
@@ -51,7 +51,6 @@ export class UserContentService {
     return price.toNumber();
   }
 
-  // TODO: Test 작성
   async getContentDuration(contentId: number) {
     const userId = this.getUserId();
 
@@ -77,7 +76,6 @@ export class UserContentService {
       : contentDuration.defaultValue;
   }
 
-  // TODO: Test 작성
   async getContentRewardAverageQuantity(contentRewardId: number) {
     const userId = this.getUserId();
 
@@ -101,7 +99,6 @@ export class UserContentService {
       : contentReward.defaultAverageQuantity;
   }
 
-  // TODO: Test 작성
   async getContentRewards(
     contentId: number,
     filter?: {
@@ -148,7 +145,6 @@ export class UserContentService {
     );
   }
 
-  // TODO: Test 작성
   async validateUserContentRewards(rewardIds: number[]) {
     const userId = this.getUserId();
 
@@ -166,7 +162,6 @@ export class UserContentService {
     return true;
   }
 
-  // TODO: Test 작성
   async validateUserContentRewardItem(rewardItemId: number) {
     const userId = this.getUserId();
 
@@ -182,7 +177,6 @@ export class UserContentService {
     return true;
   }
 
-  // TODO: Test 작성
   async validateUserContentDuration(durationId: number) {
     const userId = this.getUserId();
 

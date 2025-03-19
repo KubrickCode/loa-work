@@ -16,7 +16,6 @@ export class UserGoldExchangeRateService {
     return this.context.req?.user?.id;
   }
 
-  // TODO: Test 작성
   async getGoldExchangeRate() {
     const userId = this.getUserId();
 
@@ -32,7 +31,6 @@ export class UserGoldExchangeRateService {
       : goldExchangeRate;
   }
 
-  // TODO: Test 작성
   async validateUserGoldExchangeRate(rateId: number) {
     const userId = this.getUserId();
 

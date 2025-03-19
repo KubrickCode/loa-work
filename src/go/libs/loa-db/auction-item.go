@@ -21,7 +21,6 @@ func NewAuctionItemDB(gdb *gorm.DB) *auctionItemDB {
 	}
 }
 
-// TODO: Test 작성
 func (db *auctionItemDB) FindAllWithRecentStats(take int) ([]AuctionItem, error) {
 	var items []AuctionItem
 

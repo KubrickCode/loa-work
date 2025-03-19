@@ -16,7 +16,6 @@ func NewConverter(db loadb.DB) *Converter {
 	return &Converter{db: db}
 }
 
-// TODO: Test 작성
 func (s *Converter) Start() error {
 	err := s.db.WithTransaction(func(tx loadb.DB) error {
 		if err := s.updateAuctionItems(tx); err != nil {
@@ -54,7 +53,6 @@ func (s *Converter) Start() error {
 	return err
 }
 
-// TODO: Test 작성
 func (s *Converter) get1LevelGemPrice(tx loadb.DB) (decimal.Decimal, error) {
 	damageGem, err := tx.AuctionItem().FindByName(OneLevelDamageGemName)
 	if err != nil {
@@ -69,7 +67,6 @@ func (s *Converter) get1LevelGemPrice(tx loadb.DB) (decimal.Decimal, error) {
 	return averagePrice, nil
 }
 
-// TODO: Test 작성
 func (s *Converter) updateAuctionItems(tx loadb.DB) error {
 	const recentStatsCount = 10
 

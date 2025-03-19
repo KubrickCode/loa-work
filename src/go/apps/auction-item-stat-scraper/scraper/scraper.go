@@ -58,7 +58,6 @@ func (s *Scraper) getCategoryByItem(item loadb.AuctionItem) (*loadb.AuctionItemC
 	return category, nil
 }
 
-// TODO: Test 작성
 func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item loadb.AuctionItem) ([]loadb.AuctionItemStat, error) {
 	auctionItemListResp, err := request.GetAuctionItemList(&loaApi.GetAuctionItemListParams{
 		CategoryCode:  category.Code,
@@ -98,7 +97,6 @@ func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item
 	return stats, nil
 }
 
-// TODO: Test 작성
 func (s *Scraper) saveItemStats(items []loadb.AuctionItem) error {
 	return s.db.WithTransaction(func(tx loadb.DB) error {
 		for _, item := range items {
