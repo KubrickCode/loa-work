@@ -19,35 +19,37 @@ export default () => {
     },
   };
 
-  assert(
-    config.google.clientID,
-    'GOOGLE_CLIENT_ID environment variable is missing',
-  );
+  if (config.env === 'production') {
+    assert(
+      config.google.clientID,
+      'GOOGLE_CLIENT_ID environment variable is missing',
+    );
 
-  assert(
-    config.google.clientSecret,
-    'GOOGLE_CLIENT_SECRET environment variable is missing',
-  );
+    assert(
+      config.google.clientSecret,
+      'GOOGLE_CLIENT_SECRET environment variable is missing',
+    );
 
-  assert(
-    config.discord.clientID,
-    'DISCORD_CLIENT_ID environment variable is missing',
-  );
+    assert(
+      config.discord.clientID,
+      'DISCORD_CLIENT_ID environment variable is missing',
+    );
 
-  assert(
-    config.discord.clientSecret,
-    'DISCORD_CLIENT_SECRET environment variable is missing',
-  );
+    assert(
+      config.discord.clientSecret,
+      'DISCORD_CLIENT_SECRET environment variable is missing',
+    );
 
-  assert(
-    config.kakao.clientID,
-    'KAKAO_CLIENT_ID environment variable is missing',
-  );
+    assert(
+      config.kakao.clientID,
+      'KAKAO_CLIENT_ID environment variable is missing',
+    );
 
-  assert(
-    config.kakao.clientSecret,
-    'KAKAO_CLIENT_SECRET environment variable is missing',
-  );
+    assert(
+      config.kakao.clientSecret,
+      'KAKAO_CLIENT_SECRET environment variable is missing',
+    );
+  }
 
   return config;
 };
