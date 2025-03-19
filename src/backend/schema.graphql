@@ -177,8 +177,9 @@ input ContentWageListFilter {
 }
 
 input CustomContentWageCalculateInput {
-  duration: Int!
+  minutes: Int!
   rewardItems: [CustomContentWageCalculateRewardItemInput!]!
+  seconds: Int!
 }
 
 type CustomContentWageCalculateResult {

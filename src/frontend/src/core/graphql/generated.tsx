@@ -203,8 +203,9 @@ export type ContentWageListFilter = {
 };
 
 export type CustomContentWageCalculateInput = {
-  duration: Scalars['Int']['input'];
+  minutes: Scalars['Int']['input'];
   rewardItems: Array<CustomContentWageCalculateRewardItemInput>;
+  seconds: Scalars['Int']['input'];
 };
 
 export type CustomContentWageCalculateResult = {

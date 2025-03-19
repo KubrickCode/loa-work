@@ -16,7 +16,8 @@ import {
 } from "~/core/graphql/generated";
 
 const schema = z.object({
-  duration: z.number(),
+  minutes: z.number().min(0),
+  seconds: z.number().min(0).max(59),
   rewardItems: z.array(
     z.object({
       id: z.number(),
@@ -36,7 +37,8 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
         CustomContentWageCalculateDialogMutationMutation
       >
         defaultValues={{
-          duration: 0,
+          minutes: 0,
+          seconds: 0,
           rewardItems: data.contentRewardItems.map((item) => ({
             id: item.id,
             quantity: 0,
@@ -63,9 +65,18 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                 <Text>소요시간 및 각 보상의 1수당 수량을 입력하세요.</Text>
               </Flex>
 
-              <Form.Field label="소요시간(초 단위)" name="duration">
-                <Form.Input type="number" />
-              </Form.Field>
+              <Flex direction="column" gap={1}>
+                <Text fontSize="xs">소요시간</Text>
+                <Flex gap={4}>
+                  <Form.Field label="분" name="minutes">
+                    <Form.Input min={0} type="number" />
+                  </Form.Field>
+                  <Form.Field label="초" name="seconds">
+                    <Form.Input max={59} min={0} type="number" />
+                  </Form.Field>
+                </Flex>
+              </Flex>
+
               {data.contentRewardItems.map((item, index) => (
                 <Form.Field
                   key={item.id}
