@@ -59,3 +59,11 @@ jobs:
 
       - name: Run e2e tests
         run: just test-e2e
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_AUTH_CALLBACK_URL: ${{ secrets.GOOGLE_AUTH_CALLBACK_URL }}
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+          DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
