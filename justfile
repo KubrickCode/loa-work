@@ -174,7 +174,7 @@ test target *args:
       ;;
   esac
 
-test-e2e:
+test-e2e *args:
   #!/usr/bin/env bash
   set -euox pipefail
   echo "NodeJS:" $(node -v)
@@ -182,4 +182,4 @@ test-e2e:
 
   just setup-testdb
   cd "{{ backend_dir }}"
-  PRISMA_DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --config ./jest-e2e.json --runInBand --no-compilation-cache
+  PRISMA_DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --config ./jest-e2e.json --runInBand --no-compilation-cache {{ args }}
