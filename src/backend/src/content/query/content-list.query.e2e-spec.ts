@@ -32,6 +32,7 @@ describe('ContentListQuery (e2e)', () => {
   });
 
   afterAll(async () => {
+    await prisma.clearDatabase();
     await prisma.$disconnect();
     app.close();
   });
