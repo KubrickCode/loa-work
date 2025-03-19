@@ -1,6 +1,7 @@
 package scraper
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
@@ -9,14 +10,16 @@ import (
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 	"github.com/shopspring/decimal"
+	"golang.org/x/time/rate"
 )
 
 type Scraper struct {
-	db loadb.DB
+	db          loadb.DB
+	rateLimiter *rate.Limiter
 }
 
 func NewScraper(db loadb.DB) *Scraper {
-	return &Scraper{db: db}
+	return &Scraper{db: db, rateLimiter: rate.NewLimiter(rate.Every(time.Second), 1)}
 }
 
 func (s *Scraper) Start() error {
@@ -89,6 +92,10 @@ func (s *Scraper) getCategoryByItem(item loadb.MarketItem) (*loadb.MarketItemCat
 }
 
 func (s *Scraper) getItemStatToCreate(category *loadb.MarketItemCategory, item loadb.MarketItem) (*loadb.MarketItemStat, error) {
+	if err := s.rateLimiter.Wait(context.Background()); err != nil {
+		return nil, fmt.Errorf("rate limiter error: %w", err)
+	}
+
 	marketItem, err := request.GetMarketItem(&loaApi.GetMarketItemParams{
 		CategoryCode: category.Code,
 		ItemName:     item.Name,
@@ -104,9 +111,6 @@ func (s *Scraper) getItemStatToCreate(category *loadb.MarketItemCategory, item l
 		YDayAvgPrice:    decimal.NewFromFloat(marketItem.YDayAvgPrice),
 		MarketItemID:    item.ID,
 	}
-
-	// TODO: sleep 동기 처리 개선 필요
-	time.Sleep(time.Second)
 
 	return &stat, nil
 }

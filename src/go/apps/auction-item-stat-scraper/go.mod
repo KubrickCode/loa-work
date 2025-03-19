@@ -1,6 +1,8 @@
 module github.com/KubrickCode/loa-work/src/go/apps/auction-item-stat-scraper
 
-go 1.23
+go 1.23.0
+
+toolchain go1.23.6
 
 require (
 	github.com/KubrickCode/loa-work/src/go/libs/env v0.0.0
@@ -11,6 +13,7 @@ require (
 	github.com/shopspring/decimal v1.4.0
 	github.com/stretchr/testify v1.10.0
 	go.uber.org/mock v0.5.0
+	golang.org/x/time v0.11.0
 )
 
 require (

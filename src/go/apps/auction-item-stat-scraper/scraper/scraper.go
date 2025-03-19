@@ -1,6 +1,7 @@
 package scraper
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
@@ -8,14 +9,16 @@ import (
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"golang.org/x/time/rate"
 )
 
 type Scraper struct {
-	db loadb.DB
+	db          loadb.DB
+	rateLimiter *rate.Limiter
 }
 
 func NewScraper(db loadb.DB) *Scraper {
-	return &Scraper{db: db}
+	return &Scraper{db: db, rateLimiter: rate.NewLimiter(rate.Every(time.Second), 1)}
 }
 
 func (s *Scraper) Start() error {
@@ -59,6 +62,10 @@ func (s *Scraper) getCategoryByItem(item loadb.AuctionItem) (*loadb.AuctionItemC
 }
 
 func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item loadb.AuctionItem) ([]loadb.AuctionItemStat, error) {
+	if err := s.rateLimiter.Wait(context.Background()); err != nil {
+		return nil, fmt.Errorf("rate limiter error: %w", err)
+	}
+
 	auctionItemListResp, err := request.GetAuctionItemList(&loaApi.GetAuctionItemListParams{
 		CategoryCode:  category.Code,
 		ItemName:      item.Name,
