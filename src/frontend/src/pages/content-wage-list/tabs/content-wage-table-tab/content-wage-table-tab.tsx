@@ -49,7 +49,7 @@ export const ContentWageTableTab = () => {
               시급 계산기
             </Button>
           </Dialog.Trigger>
-          <Badge fontSize="xs" size="lg" variant="subtle">
+          <Badge fontSize="xs" gap={2} size="lg" variant="subtle">
             <FaInfoCircle />
             현재 골드 환율 - {goldAmount}:{krwAmount}
           </Badge>
