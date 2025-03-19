@@ -56,3 +56,6 @@ jobs:
 
       - name: Run tests
         run: just test backend
+
+      - name: Run e2e tests
+        run: just test-e2e
