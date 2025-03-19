@@ -1,3 +1,5 @@
+import { Flex } from "@chakra-ui/react";
+
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
@@ -65,12 +67,14 @@ export const UserContentDurationEditDialog = ({
           <Dialog.Header>소요시간 수정</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
-              <Form.Field label="분" name="minutes">
-                <Form.Input min={0} type="number" />
-              </Form.Field>
-              <Form.Field label="초" name="seconds">
-                <Form.Input max={59} min={0} type="number" />
-              </Form.Field>
+              <Flex gap={4}>
+                <Form.Field label="분" name="minutes">
+                  <Form.Input min={0} type="number" />
+                </Form.Field>
+                <Form.Field label="초" name="seconds">
+                  <Form.Input max={59} min={0} type="number" />
+                </Form.Field>
+              </Flex>
             </Form.Body>
           </Dialog.Body>
           <Dialog.Footer>
