@@ -1,4 +1,4 @@
-import { Badge, Flex } from "@chakra-ui/react";
+import { Badge, Flex, Text } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { IoIosCalculator, IoIosSettings } from "react-icons/io";
@@ -51,7 +51,10 @@ export const ContentWageTableTab = () => {
           </Dialog.Trigger>
           <Badge fontSize="xs" gap={2} py={1.5} size="lg" variant="surface">
             <FaInfoCircle />
-            현재 골드 환율 - {goldAmount}:{krwAmount}
+            현재 골드 환율{" "}
+            <Text fontWeight="extrabold">
+              {goldAmount}:{krwAmount}
+            </Text>
           </Badge>
         </Flex>
         <Suspense fallback={<TableSkeleton line={30} />}>
