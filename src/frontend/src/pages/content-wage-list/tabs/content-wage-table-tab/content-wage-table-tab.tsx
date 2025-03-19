@@ -1,10 +1,13 @@
-import { Flex } from "@chakra-ui/react";
+import { Badge, Flex } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
+import { FaInfoCircle } from "react-icons/fa";
 import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
 import { Button } from "~/core/chakra-components/ui/button";
 import { Dialog } from "~/core/dialog";
+import { useSafeQuery } from "~/core/graphql";
+import { ContentWageTableTabDocument } from "~/core/graphql/generated";
 import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 
@@ -17,6 +20,8 @@ import { CustomContentWageCalculateDialog } from "./components/custom-content-wa
 export const ContentWageTableTab = () => {
   const { isAuthenticated } = useAuth();
   const [refetchTable, setRefetchTable] = useState<() => void>(() => {});
+  const { data, refetch } = useSafeQuery(ContentWageTableTabDocument);
+  const { goldAmount, krwAmount } = data.goldExchangeRate;
 
   return (
     <Section>
@@ -27,7 +32,10 @@ export const ContentWageTableTab = () => {
             <Dialog.Trigger
               dialog={GoldExchangeRateSettingDialog}
               dialogProps={{
-                onComplete: refetchTable,
+                onComplete: () => {
+                  refetch();
+                  refetchTable();
+                },
               }}
             >
               <Button size="xs" variant="outline">
@@ -41,6 +49,10 @@ export const ContentWageTableTab = () => {
               시급 계산기
             </Button>
           </Dialog.Trigger>
+          <Badge fontSize="xs" size="lg" variant="subtle">
+            <FaInfoCircle />
+            현재 골드 환율 - {goldAmount}:{krwAmount}
+          </Badge>
         </Flex>
         <Suspense fallback={<TableSkeleton line={30} />}>
           <ContentWageListTable setRefetchTable={setRefetchTable} />

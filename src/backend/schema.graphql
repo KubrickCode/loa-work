@@ -245,6 +245,7 @@ type Query {
   contentRewardItem(id: Int!): ContentRewardItem!
   contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
+  goldExchangeRate: UserGoldExchangeRate!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   marketItems(orderBy: [OrderByArg!], take: Int): [MarketItem!]!
   userGoldExchangeRate: UserGoldExchangeRate!

@@ -1,0 +1,6 @@
+query ContentWageTableTab {
+  goldExchangeRate {
+    goldAmount
+    krwAmount
+  }
+}
