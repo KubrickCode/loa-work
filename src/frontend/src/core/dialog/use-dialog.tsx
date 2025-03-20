@@ -4,6 +4,7 @@ import {
   createElement,
   ElementType,
   Suspense,
+  useState,
 } from "react";
 
 import { BlockLoader } from "../loader";
@@ -15,9 +16,19 @@ export type UseDialogProps<T extends ElementType> = {
 
 export const useDialog = <T extends ElementType>({
   dialog,
-  dialogProps,
+  dialogProps: initialDialogProps,
 }: UseDialogProps<T>) => {
   const { onOpen, onClose, open, onToggle } = useDisclosure();
+  const [currentDialogProps, setCurrentDialogProps] =
+    useState(initialDialogProps);
+
+  const handleOpen = (newDialogProps?: UseDialogProps<T>["dialogProps"]) => {
+    if (newDialogProps) {
+      setCurrentDialogProps({ ...initialDialogProps, ...newDialogProps });
+    }
+
+    onOpen();
+  };
 
   const renderModal = () => {
     if (!open) return null;
@@ -25,7 +36,7 @@ export const useDialog = <T extends ElementType>({
     return (
       <Suspense fallback={<BackdropLoader />}>
         {createElement(dialog, {
-          ...dialogProps,
+          ...currentDialogProps,
           onClose,
           open,
         })}
@@ -35,7 +46,7 @@ export const useDialog = <T extends ElementType>({
 
   return {
     onClose,
-    onOpen,
+    onOpen: handleOpen,
     onToggle,
     open,
     renderModal,
