@@ -28,7 +28,6 @@ export class ContentListFilter {
   wageFilter?: ContentListWageFilter;
 }
 
-// TODO: E2E Test 작성
 @Resolver()
 export class ContentListQuery {
   constructor(private prisma: PrismaService) {}
