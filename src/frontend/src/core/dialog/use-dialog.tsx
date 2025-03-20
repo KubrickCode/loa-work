@@ -11,7 +11,10 @@ import { BlockLoader } from "../loader";
 
 export type UseDialogProps<T extends ElementType> = {
   dialog: T;
-  dialogProps?: Omit<ComponentPropsWithoutRef<T>, "open" | "onClose">;
+  dialogProps?: Omit<
+    ComponentPropsWithoutRef<T>,
+    "children" | "open" | "onClose"
+  >;
 };
 
 export const useDialog = <T extends ElementType>({
