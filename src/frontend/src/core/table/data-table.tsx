@@ -129,10 +129,16 @@ export const DataTable = <T,>({
     []
   );
 
+  const hasData = rows.length > 0;
+  const isInteractive =
+    hasData &&
+    getRowProps?.({ data: rows[0].data, index: 0 })?.onClick !== undefined;
+
   const renderRow = useCallback(
     (row: DataTableProps<T>["rows"][number], rowIndex: number) => {
       return (
         <Table.Row
+          cursor={isInteractive ? "pointer" : "default"}
           key={rowIndex}
           {...(getRowProps && getRowProps({ data: row.data, index: rowIndex }))}
         >
@@ -145,11 +151,9 @@ export const DataTable = <T,>({
     [columns, renderColumn]
   );
 
-  const hasData = rows.length > 0;
-
   return (
     <Table.ScrollArea maxHeight="4xl">
-      <Table.Root interactive={hasData} showColumnBorder stickyHeader>
+      <Table.Root interactive={isInteractive} showColumnBorder stickyHeader>
         <Table.Header>
           <Table.Row>
             {hasData &&
