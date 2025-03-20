@@ -15,7 +15,7 @@ export const DataGrid = ({
   columns = { base: 1, sm: 2, md: 3, lg: 4, xl: 6, "2xl": 8 },
 }: DataGridProps) => {
   return (
-    <SimpleGrid columns={columns}>
+    <SimpleGrid columns={columns} gap={4}>
       {items.map((item, index) => (
         <Box key={index}>
           <DataList.Root size="sm">
