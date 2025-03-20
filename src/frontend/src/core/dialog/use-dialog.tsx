@@ -13,10 +13,10 @@ export type UseDialogProps<T extends ElementType> = {
   dialogProps?: Omit<ComponentPropsWithoutRef<T>, "open" | "onClose">;
 };
 
-export const useDialog = ({
+export const useDialog = <T extends ElementType>({
   dialog,
   dialogProps,
-}: UseDialogProps<ElementType>) => {
+}: UseDialogProps<T>) => {
   const { onOpen, onClose, open, onToggle } = useDisclosure();
 
   const renderModal = () => {
