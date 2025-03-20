@@ -4,11 +4,12 @@ import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
 import { Tooltip } from "~/core/chakra-components/ui/tooltip";
-import { Dialog } from "~/core/dialog";
+import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardListTableDocument } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
+import { ContentDetailsDialog } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
 import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
@@ -24,6 +25,9 @@ export const ContentRewardListTable = () => {
         keyword,
       },
     },
+  });
+  const { onOpen, renderModal } = useDialog({
+    dialog: ContentDetailsDialog,
   });
 
   const rows = data.contentList.flatMap((content) => [
@@ -52,99 +56,107 @@ export const ContentRewardListTable = () => {
   ]);
 
   return (
-    <DataTable
-      columns={[
-        ...(isAuthenticated
-          ? [
-              {
-                align: "center" as const,
-                header: "관리",
-                render({ data }: { data: (typeof rows)[number]["data"] }) {
-                  return (
-                    <Dialog.Trigger
-                      dialog={UserContentRewardEditDialog}
-                      dialogProps={{
-                        contentId: data.id,
-                        onComplete: refetch,
-                      }}
-                    >
-                      <IconButton
-                        disabled={data.isSeeMore}
-                        size="xs"
-                        variant="surface"
+    <>
+      <DataTable
+        columns={[
+          ...(isAuthenticated
+            ? [
+                {
+                  align: "center" as const,
+                  header: "관리",
+                  render({ data }: { data: (typeof rows)[number]["data"] }) {
+                    return (
+                      <Dialog.Trigger
+                        dialog={UserContentRewardEditDialog}
+                        dialogProps={{
+                          contentId: data.id,
+                          onComplete: refetch,
+                        }}
                       >
-                        <IoIosSettings />
-                      </IconButton>
-                    </Dialog.Trigger>
-                  );
+                        <IconButton
+                          disabled={data.isSeeMore}
+                          size="xs"
+                          variant="surface"
+                        >
+                          <IoIosSettings />
+                        </IconButton>
+                      </Dialog.Trigger>
+                    );
+                  },
+                  width: "32px",
                 },
-                width: "32px",
-              },
-            ]
-          : []),
-        {
-          header: "종류",
-          render({ data }) {
-            return (
-              <ItemNameWithImage
-                name={data.contentCategory.name}
-                src={data.contentCategory.imageUrl}
-              />
-            );
-          },
-        },
-        {
-          header: "레벨",
-          render({ data }) {
-            return <>{data.level}</>;
-          },
-          sortKey: "level",
-        },
-        {
-          header: "이름",
-          render({ data }) {
-            return <>{data.displayName}</>;
-          },
-        },
-        ...data.contentRewardItems.map(
-          ({ imageUrl, name }): Column<(typeof rows)[number]["data"]> => ({
-            align: "right",
-            header: <ItemNameWithImage name={name} src={imageUrl} />,
+              ]
+            : []),
+          {
+            header: "종류",
             render({ data }) {
-              const reward = data.contentRewards.find(
-                (reward) => reward.contentRewardItem.name === name
-              );
-
-              if (!reward) return <>-</>;
-
-              const isGold = name === "골드";
-
               return (
-                <Flex alignItems="center" display="inline-flex" gap={1}>
-                  {!reward.isSellable && !isGold && (
-                    <Tooltip content="거래 불가">
-                      <FaLock />
-                    </Tooltip>
-                  )}
-                  {isGold ? (
-                    <FormatGold value={reward.averageQuantity} />
-                  ) : (
-                    <FormatNumber value={reward.averageQuantity} />
-                  )}
-                </Flex>
+                <ItemNameWithImage
+                  name={data.contentCategory.name}
+                  src={data.contentCategory.imageUrl}
+                />
               );
             },
-            sortKey: name,
-            sortValue: (data) => {
-              const reward = data.contentRewards.find(
-                (reward) => reward.contentRewardItem.name === name
-              );
-              return reward?.averageQuantity ?? 0;
+          },
+          {
+            header: "레벨",
+            render({ data }) {
+              return <>{data.level}</>;
             },
-          })
-        ),
-      ]}
-      rows={rows}
-    />
+            sortKey: "level",
+          },
+          {
+            header: "이름",
+            render({ data }) {
+              return <>{data.displayName}</>;
+            },
+          },
+          ...data.contentRewardItems.map(
+            ({ imageUrl, name }): Column<(typeof rows)[number]["data"]> => ({
+              align: "right",
+              header: <ItemNameWithImage name={name} src={imageUrl} />,
+              render({ data }) {
+                const reward = data.contentRewards.find(
+                  (reward) => reward.contentRewardItem.name === name
+                );
+
+                if (!reward) return <>-</>;
+
+                const isGold = name === "골드";
+
+                return (
+                  <Flex alignItems="center" display="inline-flex" gap={1}>
+                    {!reward.isSellable && !isGold && (
+                      <Tooltip content="거래 불가">
+                        <FaLock />
+                      </Tooltip>
+                    )}
+                    {isGold ? (
+                      <FormatGold value={reward.averageQuantity} />
+                    ) : (
+                      <FormatNumber value={reward.averageQuantity} />
+                    )}
+                  </Flex>
+                );
+              },
+              sortKey: name,
+              sortValue: (data) => {
+                const reward = data.contentRewards.find(
+                  (reward) => reward.contentRewardItem.name === name
+                );
+                return reward?.averageQuantity ?? 0;
+              },
+            })
+          ),
+        ]}
+        getRowProps={(row) => ({
+          onClick: () => {
+            onOpen({ contentId: row.data.id });
+          },
+        })}
+        rows={rows}
+      />
+      {renderModal()}
+    </>
   );
 };

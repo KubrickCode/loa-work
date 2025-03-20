@@ -1,0 +1,10 @@
+query ContentDetailsDialog($contentId: Int!) {
+  content(id: $contentId) {
+    contentCategory {
+      imageUrl
+      name
+    }
+    level
+    name
+  }
+}
