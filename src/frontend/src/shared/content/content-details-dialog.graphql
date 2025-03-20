@@ -4,7 +4,7 @@ query ContentDetailsDialog($contentId: Int!) {
       imageUrl
       name
     }
+    displayName
     level
-    name
   }
 }

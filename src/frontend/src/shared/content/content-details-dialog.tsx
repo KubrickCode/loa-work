@@ -31,7 +31,7 @@ export const ContentDetailsDialog = ({
       ),
     },
     { label: "레벨", value: data.content.level },
-    { label: "이름", value: data.content.name },
+    { label: "이름", value: data.content.displayName },
   ];
 
   return (
