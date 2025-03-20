@@ -1,4 +1,4 @@
-import { Portal } from "@chakra-ui/react";
+import { DialogRootProps, Portal } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
 import { DialogBackdrop, DialogRoot } from "~/core/chakra-components/ui/dialog";
@@ -13,9 +13,10 @@ import { DialogTrigger } from "./dialog-trigger";
 export type DialogProps = PropsWithChildren & {
   onClose: () => void;
   open: boolean;
+  size?: DialogRootProps["size"];
 };
 
-const Dialog = ({ children, onClose, open }: DialogProps) => {
+const Dialog = ({ children, onClose, open, size = "md" }: DialogProps) => {
   return (
     <DialogRoot
       lazyMount
@@ -23,6 +24,7 @@ const Dialog = ({ children, onClose, open }: DialogProps) => {
       onOpenChange={onClose}
       open={open}
       scrollBehavior="inside"
+      size={size}
     >
       <Portal>
         <DialogBackdrop />
