@@ -23,6 +23,7 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
     sortKey: string;
     value: "asc" | "desc";
   };
+  getRowProps?: (row: { data: T; index: number }) => { [key: string]: any };
   rows: {
     data: T;
   }[];
@@ -44,6 +45,7 @@ export type Column<T> = {
 export const DataTable = <T,>({
   columns,
   defaultSorting,
+  getRowProps,
   rows,
   pagination = false,
 }: DataTableProps<T>) => {
@@ -130,7 +132,10 @@ export const DataTable = <T,>({
   const renderRow = useCallback(
     (row: DataTableProps<T>["rows"][number], rowIndex: number) => {
       return (
-        <Table.Row key={rowIndex}>
+        <Table.Row
+          key={rowIndex}
+          {...(getRowProps && getRowProps({ data: row.data, index: rowIndex }))}
+        >
           {columns.map((column, index) =>
             renderColumn(row, rowIndex, column, index)
           )}
