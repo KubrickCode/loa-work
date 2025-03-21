@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 export type DataGridProps = {
   columns?: SimpleGridProps["columns"];
   items: {
-    label: string;
+    label: ReactNode;
     value: ReactNode;
   }[];
 };
