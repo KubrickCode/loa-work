@@ -12,6 +12,13 @@ query ContentDetailsDialog($contentId: Int!) {
       }
       isSellable
     }
+    contentSeeMoreRewards {
+      contentRewardItem {
+        imageUrl
+        name
+      }
+      quantity
+    }
     displayName
     level
   }

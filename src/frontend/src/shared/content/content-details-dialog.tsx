@@ -49,6 +49,19 @@ export const ContentDetailsDialog = ({
     })
   );
 
+  const contentSeeMoreRewardsItems = data.content.contentSeeMoreRewards.map(
+    (contentSeeMoreReward) => ({
+      label: (
+        <ItemNameWithImage
+          name={contentSeeMoreReward.contentRewardItem.name}
+          reverse
+          src={contentSeeMoreReward.contentRewardItem.imageUrl}
+        />
+      ),
+      value: contentSeeMoreReward.quantity,
+    })
+  );
+
   return (
     <Dialog size="cover" {...dialogProps}>
       <Dialog.Content>
@@ -61,6 +74,11 @@ export const ContentDetailsDialog = ({
             <Section title="컨텐츠 보상">
               <DataGrid items={contentRewardsItems} />
             </Section>
+            {contentSeeMoreRewardsItems.length > 0 && (
+              <Section title="컨텐츠 더보기 보상">
+                <DataGrid items={contentSeeMoreRewardsItems} />
+              </Section>
+            )}
           </Flex>
         </Dialog.Body>
         <Dialog.Footer />
