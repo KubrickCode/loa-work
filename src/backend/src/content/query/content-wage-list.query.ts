@@ -2,7 +2,6 @@ import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Prisma } from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
-import { UserContentService } from '../../user/service/user-content.service';
 import { ContentWage } from '../object/content-wage.object';
 import { OrderByArg } from 'src/common/object/order-by-arg.object';
 import _ from 'lodash';
@@ -30,7 +29,6 @@ export class ContentWageListQuery {
   constructor(
     private prisma: PrismaService,
     private contentWageService: ContentWageService,
-    private userContentService: UserContentService,
   ) {}
 
   @Query(() => [ContentWage])
@@ -67,46 +65,11 @@ export class ContentWageListQuery {
     });
 
     const promises = contents.map(async (content) => {
-      const rewards = await this.userContentService.getContentRewards(
-        content.id,
-        {
-          includeIsBound: filter?.includeIsBound,
-          includeContentRewardItemIds: filter?.includeContentRewardItemIds,
-        },
-      );
-
-      const rewardsGold = await this.contentWageService.calculateGold(rewards);
-
-      const shouldIncludeSeeMoreRewards =
-        filter?.includeIsSeeMore &&
-        filter?.includeIsBound !== false &&
-        content.contentSeeMoreRewards.length > 0;
-
-      const seeMoreGold = shouldIncludeSeeMoreRewards
-        ? await this.contentWageService.calculateSeeMoreRewardsGold(
-            content.contentSeeMoreRewards,
-            filter.includeContentRewardItemIds,
-          )
-        : 0;
-
-      const gold = rewardsGold + seeMoreGold;
-
-      const duration = await this.userContentService.getContentDuration(
-        content.id,
-      );
-
-      const { krwAmountPerHour, goldAmountPerHour } =
-        await this.contentWageService.calculateWage({
-          gold,
-          duration,
-        });
-
-      return {
-        contentId: content.id,
-        krwAmountPerHour,
-        goldAmountPerHour,
-        goldAmountPerClear: Math.round(gold),
-      };
+      return await this.contentWageService.getContentWage(content.id, {
+        includeIsBound: filter?.includeIsBound,
+        includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+        includeIsSeeMore: filter?.includeIsSeeMore,
+      });
     });
 
     const result = orderBy

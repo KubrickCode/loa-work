@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserContentService } from '../../user/service/user-content.service';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
+import { PrismaService } from 'src/prisma';
 
 type Reward = {
   averageQuantity: number;
@@ -12,6 +13,7 @@ export class ContentWageService {
   constructor(
     private userContentService: UserContentService,
     private userGoldExchangeRateService: UserGoldExchangeRateService,
+    private prisma: PrismaService,
   ) {}
 
   async calculateGold(rewards: Reward[]) {
@@ -70,6 +72,63 @@ export class ContentWageService {
     return {
       krwAmountPerHour: Math.round(hourlyWage),
       goldAmountPerHour: Math.round(hourlyGold),
+    };
+  }
+
+  // TODO: test
+  async getContentWage(
+    contentId: number,
+    filter: {
+      includeIsBound?: boolean;
+      includeContentRewardItemIds?: number[];
+      includeIsSeeMore?: boolean;
+    },
+  ) {
+    const content = await this.prisma.content.findUniqueOrThrow({
+      where: { id: contentId },
+      include: {
+        contentSeeMoreRewards: true,
+      },
+    });
+
+    const rewards = await this.userContentService.getContentRewards(
+      content.id,
+      {
+        includeIsBound: filter?.includeIsBound,
+        includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+      },
+    );
+
+    const rewardsGold = await this.calculateGold(rewards);
+
+    const shouldIncludeSeeMoreRewards =
+      filter?.includeIsSeeMore &&
+      filter?.includeIsBound !== false &&
+      content.contentSeeMoreRewards.length > 0;
+
+    const seeMoreGold = shouldIncludeSeeMoreRewards
+      ? await this.calculateSeeMoreRewardsGold(
+          content.contentSeeMoreRewards,
+          filter.includeContentRewardItemIds,
+        )
+      : 0;
+
+    const gold = rewardsGold + seeMoreGold;
+
+    const duration = await this.userContentService.getContentDuration(
+      content.id,
+    );
+
+    const { krwAmountPerHour, goldAmountPerHour } = await this.calculateWage({
+      gold,
+      duration,
+    });
+
+    return {
+      contentId: content.id,
+      krwAmountPerHour,
+      goldAmountPerHour,
+      goldAmountPerClear: Math.round(gold),
     };
   }
 }
