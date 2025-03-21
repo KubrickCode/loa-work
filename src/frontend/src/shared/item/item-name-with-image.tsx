@@ -1,15 +1,29 @@
 import { Flex, Image } from "@chakra-ui/react";
 
 export type ItemNameWithImageProps = {
-  src: string;
   name: string;
+  reverse?: boolean;
+  src: string;
 };
 
-export const ItemNameWithImage = ({ src, name }: ItemNameWithImageProps) => {
+export const ItemNameWithImage = ({
+  name,
+  reverse = false,
+  src,
+}: ItemNameWithImageProps) => {
   return (
     <Flex alignItems="center" gap={2}>
-      <Image maxHeight={6} maxWidth={6} src={src} />
-      {name}
+      {reverse ? (
+        <>
+          {name}
+          <Image maxHeight={6} maxWidth={6} src={src} />
+        </>
+      ) : (
+        <>
+          <Image maxHeight={6} maxWidth={6} src={src} />
+          {name}
+        </>
+      )}
     </Flex>
   );
 };

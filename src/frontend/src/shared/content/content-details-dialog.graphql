@@ -4,6 +4,14 @@ query ContentDetailsDialog($contentId: Int!) {
       imageUrl
       name
     }
+    contentRewards {
+      averageQuantity
+      contentRewardItem {
+        imageUrl
+        name
+      }
+      isSellable
+    }
     displayName
     level
   }
