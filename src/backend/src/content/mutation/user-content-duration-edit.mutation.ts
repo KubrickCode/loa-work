@@ -51,8 +51,8 @@ export class UserContentDurationEditMutation {
     // 분과 초를 받아서 초 단위로 변환
     const totalSeconds = minutes * 60 + seconds;
 
-    // 값이 음수가 아닌지 확인
-    if (totalSeconds < 0 || minutes < 0 || seconds < 0 || seconds >= 60) {
+    // 값이 0 초과인지 확인
+    if (totalSeconds <= 0 || seconds >= 60) {
       throw new Error('유효하지 않은 시간 형식입니다.');
     }
 
