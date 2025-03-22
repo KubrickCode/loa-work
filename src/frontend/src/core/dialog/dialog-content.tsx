@@ -9,7 +9,11 @@ export const DialogContent = ({
   children,
   ...otherProps
 }: DialogContentProps) => (
-  <ChakraDialogContent portalled={false} {...otherProps}>
+  <ChakraDialogContent
+    onClick={(e) => e.stopPropagation()}
+    portalled={false}
+    {...otherProps}
+  >
     {children}
     <DialogCloseTrigger />
   </ChakraDialogContent>
