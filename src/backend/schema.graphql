@@ -38,7 +38,8 @@ type Content {
   level: Int!
   name: String!
   updatedAt: DateTime!
-  wageFilter: ContentWageFilter
+  wage(filter: ContentWageFilter): ContentWage!
+  wageFilter: ContentObjectWageFilter
 }
 
 type ContentCategory {
@@ -95,6 +96,12 @@ input ContentListFilter {
 input ContentListWageFilter {
   includeContentRewardItems: [String!]
   includeIsBound: Boolean
+}
+
+type ContentObjectWageFilter {
+  includeContentRewardItems: [String!]
+  includeIsBound: Boolean
+  includeIsSeeMore: Boolean
 }
 
 type ContentReward {
@@ -162,8 +169,8 @@ type ContentWage {
   krwAmountPerHour: Float!
 }
 
-type ContentWageFilter {
-  includeContentRewardItems: [String!]
+input ContentWageFilter {
+  includeContentRewardItemIds: [Int!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
 }

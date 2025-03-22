@@ -22,4 +22,22 @@ query ContentDetailsDialog($contentId: Int!) {
     displayName
     level
   }
+  contentRewardItems {
+    id
+    name
+  }
+}
+
+query ContentDetailsDialogWageSection(
+  $contentId: Int!
+  $filter: ContentWageFilter
+) {
+  content(id: $contentId) {
+    id
+    wage(filter: $filter) {
+      krwAmountPerHour
+      goldAmountPerHour
+      goldAmountPerClear
+    }
+  }
 }

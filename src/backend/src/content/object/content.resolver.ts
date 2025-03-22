@@ -1,4 +1,4 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from './content.object';
 import { ContentReward } from './content-reward.object';
@@ -7,6 +7,8 @@ import { UserContentService } from '../../user/service/user-content.service';
 import { ContentSeeMoreReward } from './content-see-more-reward.object';
 import { ContentDuration } from './content-duration.object';
 import { DataLoaderService } from 'src/dataloader/data-loader.service';
+import { ContentWage, ContentWageFilter } from './content-wage.object';
+import { ContentWageService } from '../service/content-wage.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -14,6 +16,7 @@ export class ContentResolver {
     private prisma: PrismaService,
     private userContentService: UserContentService,
     private dataLoaderService: DataLoaderService,
+    private contentWageService: ContentWageService,
   ) {}
 
   @ResolveField(() => ContentCategory)
@@ -62,5 +65,13 @@ export class ContentResolver {
     const seconds = durationInSeconds % 60;
 
     return seconds === 0 ? `${minutes}분` : `${minutes}분 ${seconds}초`;
+  }
+
+  @ResolveField(() => ContentWage)
+  async wage(
+    @Parent() content: Content,
+    @Args('filter', { nullable: true }) filter?: ContentWageFilter,
+  ) {
+    return await this.contentWageService.getContentWage(content.id, filter);
   }
 }

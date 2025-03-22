@@ -1,4 +1,4 @@
-import { Field, Float, ObjectType } from '@nestjs/graphql';
+import { Field, Float, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class ContentWage {
@@ -13,4 +13,16 @@ export class ContentWage {
 
   @Field(() => Float)
   goldAmountPerClear: number;
+}
+
+@InputType()
+export class ContentWageFilter {
+  @Field(() => [Number], { nullable: true })
+  includeContentRewardItemIds?: number[];
+
+  @Field(() => Boolean, { nullable: true })
+  includeIsSeeMore?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  includeIsBound?: boolean;
 }
