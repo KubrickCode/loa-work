@@ -71,10 +71,10 @@ export const UserContentDurationEditDialog = ({
             <Form.Body>
               <Flex gap={4}>
                 <Form.Field label="분" name="minutes">
-                  <Form.Input min={0} type="number" />
+                  <Form.NumberInput min={0} />
                 </Form.Field>
                 <Form.Field label="초" name="seconds">
-                  <Form.Input max={59} min={0} type="number" />
+                  <Form.NumberInput max={59} min={0} />
                 </Form.Field>
               </Flex>
             </Form.Body>
