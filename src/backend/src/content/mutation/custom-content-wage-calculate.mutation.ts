@@ -3,6 +3,7 @@ import {
   Field,
   Float,
   InputType,
+  Int,
   Mutation,
   ObjectType,
   Resolver,
@@ -12,10 +13,10 @@ import { UserInputError } from 'apollo-server-express';
 
 @InputType()
 class CustomContentWageCalculateInput {
-  @Field()
+  @Field(() => Int)
   minutes: number;
 
-  @Field()
+  @Field(() => Int)
   seconds: number;
 
   @Field(() => [CustomContentWageCalculateRewardItemInput])

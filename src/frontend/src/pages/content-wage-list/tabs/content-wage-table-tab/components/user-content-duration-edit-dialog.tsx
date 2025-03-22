@@ -13,8 +13,8 @@ import {
 
 const schema = z.object({
   id: z.number(),
-  minutes: z.number().min(0),
-  seconds: z.number().min(0).max(59),
+  minutes: z.number().int().min(0),
+  seconds: z.number().int().min(0).max(59),
 });
 
 type UserContentDurationEditDialogProps = {

@@ -3,6 +3,7 @@ import {
   Args,
   Field,
   InputType,
+  Int,
   Mutation,
   ObjectType,
   Resolver,
@@ -19,10 +20,10 @@ class UserContentDurationEditInput {
   @Field()
   id: number;
 
-  @Field()
+  @Field(() => Int)
   minutes: number;
 
-  @Field()
+  @Field(() => Int)
   seconds: number;
 }
 
