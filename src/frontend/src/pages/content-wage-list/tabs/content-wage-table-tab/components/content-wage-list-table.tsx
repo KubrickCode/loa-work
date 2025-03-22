@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
-import { InfoTip } from "~/core/chakra-components/ui/toggle-tip";
+import { Tooltip } from "~/core/chakra-components/ui/tooltip";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
@@ -77,12 +77,7 @@ export const ContentWageListTable = ({
           },
           {
             align: "right",
-            header: (
-              <Flex alignItems="center" gap={1}>
-                소요시간
-                <InfoTip content="로그인 후 수정 가능합니다" />
-              </Flex>
-            ),
+            header: "소요시간",
             render({ data }) {
               return (
                 <Flex alignItems="center" display="inline-flex" gap={2}>
@@ -94,13 +89,18 @@ export const ContentWageListTable = ({
                       onComplete: refetch,
                     }}
                   >
-                    <IconButton
-                      disabled={!isAuthenticated}
-                      size="2xs"
-                      variant="surface"
+                    <Tooltip
+                      content="로그인 후 수정 가능합니다"
+                      disabled={isAuthenticated}
                     >
-                      <IoIosSettings />
-                    </IconButton>
+                      <IconButton
+                        disabled={!isAuthenticated}
+                        size="2xs"
+                        variant="surface"
+                      >
+                        <IoIosSettings />
+                      </IconButton>
+                    </Tooltip>
                   </Dialog.Trigger>
                 </Flex>
               );
