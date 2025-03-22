@@ -14,6 +14,7 @@ import {
 import { SegmentedControl } from "~/core/chakra-components/ui/segmented-control";
 import { DataGrid } from "~/core/data-grid";
 import { Dialog, DialogProps } from "~/core/dialog";
+import { DialogCloseButton } from "~/core/dialog/dialog-close-button";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentDetailsDialogDocument,
@@ -102,7 +103,9 @@ export const ContentDetailsDialog = ({
             )}
           </Flex>
         </Dialog.Body>
-        <Dialog.Footer />
+        <Dialog.Footer>
+          <DialogCloseButton />
+        </Dialog.Footer>
       </Dialog.Content>
     </Dialog>
   );
