@@ -1,4 +1,5 @@
 import { useBreakpointValue } from "@chakra-ui/react";
+import { useMemo } from "react";
 import {
   Bar,
   BarChart,
@@ -8,6 +9,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  Cell,
 } from "recharts";
 
 import { useColorModeValue } from "~/core/chakra-components/ui/color-mode";
@@ -59,6 +61,29 @@ export const ContentWageListBarChart = () => {
   const tooltipBgColor = useColorModeValue("#fff", "#222");
   const tooltipTextColor = useColorModeValue("#1A202C", "#fff");
 
+  const categoryColors = useMemo(() => {
+    const categories = [...new Set(chartData.map((item) => item.category))];
+    const colors = [
+      "#8884d8",
+      "#82ca9d",
+      "#ffc658",
+      "#ff8042",
+      "#0088fe",
+      "#00C49F",
+      "#FFBB28",
+      "#FF8042",
+      "#8884d8",
+      "#82ca9d",
+    ];
+
+    const colorMap: Record<string, string> = {};
+    categories.forEach((category, index) => {
+      colorMap[category] = colors[index % colors.length];
+    });
+
+    return colorMap;
+  }, [chartData]);
+
   return (
     <ResponsiveContainer height={chartHeight} width="100%">
       <BarChart
@@ -97,7 +122,11 @@ export const ContentWageListBarChart = () => {
             color: tooltipTextColor,
           }}
         />
-        <Bar dataKey="시급" fill="#8884d8" name="시급(원/Gold)" />
+        <Bar dataKey="시급" fill="#8884d8" name="시급(원/Gold)">
+          {chartData.map((entry, index) => (
+            <Cell fill={categoryColors[entry.category]} key={`cell-${index}`} />
+          ))}
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );
