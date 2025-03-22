@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
-import { Tooltip } from "~/core/chakra-components/ui/tooltip";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
+import { LoginTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import { ContentDetailsDialog } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
@@ -89,10 +89,7 @@ export const ContentWageListTable = ({
                       onComplete: refetch,
                     }}
                   >
-                    <Tooltip
-                      content="로그인 후 수정 가능합니다"
-                      disabled={isAuthenticated}
-                    >
+                    <LoginTooltip>
                       <IconButton
                         disabled={!isAuthenticated}
                         size="2xs"
@@ -100,7 +97,7 @@ export const ContentWageListTable = ({
                       >
                         <IoIosSettings />
                       </IconButton>
-                    </Tooltip>
+                    </LoginTooltip>
                   </Dialog.Trigger>
                 </Flex>
               );
