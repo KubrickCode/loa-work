@@ -78,6 +78,7 @@ input ContentCreateSeeMoreRewardsInput {
 }
 
 type ContentDuration {
+  content: Content!
   contentId: Int!
   createdAt: DateTime!
   defaultValue: Int!

@@ -56,7 +56,9 @@ export const UserExtraItemPriceEditDialog = ({
         schema={schema}
       >
         <Dialog.Content>
-          <Dialog.Header>기타 아이템 골드 가치 수정</Dialog.Header>
+          <Dialog.Header>
+            {data.contentRewardItem.name} - 골드 가치 수정
+          </Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               <Form.Field label="개당 골드" name="price">

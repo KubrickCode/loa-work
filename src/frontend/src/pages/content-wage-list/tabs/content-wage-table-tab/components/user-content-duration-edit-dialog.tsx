@@ -64,7 +64,9 @@ export const UserContentDurationEditDialog = ({
         schema={schema}
       >
         <Dialog.Content>
-          <Dialog.Header>소요시간 수정</Dialog.Header>
+          <Dialog.Header>
+            {data.contentDuration.content.displayName} - 소요시간 수정
+          </Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               <Flex gap={4}>

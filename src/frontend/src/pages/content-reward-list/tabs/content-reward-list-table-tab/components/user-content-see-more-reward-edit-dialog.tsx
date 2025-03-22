@@ -60,7 +60,9 @@ export const UserContentSeeMoreRewardEditDialog = ({
         schema={schema}
       >
         <Dialog.Content>
-          <Dialog.Header>보상 수정</Dialog.Header>
+          <Dialog.Header>
+            {data.content.displayName} - 더보기 보상 수정
+          </Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               {data.content.contentSeeMoreRewards.map((reward, index) => (

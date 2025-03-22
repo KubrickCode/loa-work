@@ -1,5 +1,6 @@
 query UserExtraItemPriceEditDialog($id: Int!) {
   contentRewardItem(id: $id) {
+    name
     userContentRewardItem {
       id
       price
