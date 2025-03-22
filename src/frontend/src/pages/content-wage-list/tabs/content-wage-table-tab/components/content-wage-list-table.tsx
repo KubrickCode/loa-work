@@ -126,7 +126,11 @@ export const ContentWageListTable = () => {
           },
         ]}
         getRowProps={({ data }) => ({
-          onClick: () => onOpen({ contentId: data.content.id }),
+          onClick: () =>
+            onOpen({
+              contentId: data.content.id,
+              onComplete: refetch,
+            }),
         })}
         rows={data.contentWageList.map((data) => ({
           data,

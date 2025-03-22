@@ -1,7 +1,9 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, IconButton, Text } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
+import { IoIosSettings } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 
+import { useAuth } from "~/core/auth";
 import { Button } from "~/core/chakra-components/ui/button";
 import { Field } from "~/core/chakra-components/ui/field";
 import {
@@ -23,22 +25,29 @@ import {
 import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 import { MultiSelect } from "~/core/select";
+import { LoginTooltip } from "~/core/tooltip";
 
 import { ItemNameWithImage } from "../item";
+import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
+import { UserContentSeeMoreRewardEditDialog } from "./user-content-see-more-reward-edit-dialog";
 
 type ContentDetailsDialogProps = DialogProps & {
   contentId: number;
+  onComplete: () => void;
 };
 
 export const ContentDetailsDialog = ({
   contentId,
-  ...dialogProps
+  onClose,
+  onComplete,
+  open,
 }: ContentDetailsDialogProps) => {
-  const { data } = useSafeQuery(ContentDetailsDialogDocument, {
+  const { data, refetch } = useSafeQuery(ContentDetailsDialogDocument, {
     variables: {
       contentId,
     },
   });
+  const { isAuthenticated } = useAuth();
 
   const basicInfoItems = [
     {
@@ -81,7 +90,14 @@ export const ContentDetailsDialog = ({
   );
 
   return (
-    <Dialog size="xl" {...dialogProps}>
+    <Dialog
+      onClose={() => {
+        onClose();
+        onComplete();
+      }}
+      open={open}
+      size="xl"
+    >
       <Dialog.Content>
         <Dialog.Header>컨텐츠 상세 정보</Dialog.Header>
         <Dialog.Body>
@@ -93,11 +109,57 @@ export const ContentDetailsDialog = ({
               contentId={contentId}
               contentRewardItems={data.contentRewardItems}
             />
-            <Section title="보상 정보">
+            <Section
+              title={
+                <Flex alignItems="center" gap={2}>
+                  <Text>보상 정보</Text>
+                  <Dialog.Trigger
+                    dialog={UserContentRewardEditDialog}
+                    dialogProps={{
+                      contentId,
+                      onComplete: refetch,
+                    }}
+                  >
+                    <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
+                      <IconButton
+                        disabled={!isAuthenticated}
+                        size="2xs"
+                        variant="surface"
+                      >
+                        <IoIosSettings />
+                      </IconButton>
+                    </LoginTooltip>
+                  </Dialog.Trigger>
+                </Flex>
+              }
+            >
               <DataGrid items={contentRewardsItems} />
             </Section>
             {contentSeeMoreRewardsItems.length > 0 && (
-              <Section title="더보기 보상 정보">
+              <Section
+                title={
+                  <Flex alignItems="center" gap={2}>
+                    <Text>더보기 보상 정보</Text>
+                    <Dialog.Trigger
+                      dialog={UserContentSeeMoreRewardEditDialog}
+                      dialogProps={{
+                        contentId,
+                        onComplete: refetch,
+                      }}
+                    >
+                      <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
+                        <IconButton
+                          disabled={!isAuthenticated}
+                          size="2xs"
+                          variant="surface"
+                        >
+                          <IoIosSettings />
+                        </IconButton>
+                      </LoginTooltip>
+                    </Dialog.Trigger>
+                  </Flex>
+                }
+              >
                 <DataGrid items={contentSeeMoreRewardsItems} />
               </Section>
             )}

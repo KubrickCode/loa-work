@@ -157,7 +157,10 @@ export const ContentRewardListTable = () => {
         ]}
         getRowProps={(row) => ({
           onClick: () => {
-            onOpen({ contentId: row.data.id });
+            onOpen({
+              contentId: row.data.id,
+              onComplete: refetch,
+            });
           },
         })}
         rows={rows}
