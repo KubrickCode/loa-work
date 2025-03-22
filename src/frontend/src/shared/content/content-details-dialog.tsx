@@ -92,11 +92,11 @@ export const ContentDetailsDialog = ({
               contentId={contentId}
               contentRewardItems={data.contentRewardItems}
             />
-            <Section title="컨텐츠 보상">
+            <Section title="보상 정보">
               <DataGrid items={contentRewardsItems} />
             </Section>
             {contentSeeMoreRewardsItems.length > 0 && (
-              <Section title="컨텐츠 더보기 보상">
+              <Section title="더보기 보상 정보">
                 <DataGrid items={contentSeeMoreRewardsItems} />
               </Section>
             )}
@@ -124,7 +124,7 @@ const ContentWageSection = ({
     <Section
       title={
         <Flex alignItems="center" gap={4}>
-          컨텐츠 시급{" "}
+          시급 정보{" "}
           <PopoverRoot positioning={{ placement: "bottom-end" }}>
             <PopoverTrigger asChild>
               <Button size="xs" variant="outline">
