@@ -128,7 +128,7 @@ const ContentWageSection = ({
       title={
         <Flex alignItems="center" gap={4}>
           시급 정보{" "}
-          <PopoverRoot positioning={{ placement: "bottom-end" }}>
+          <PopoverRoot positioning={{ placement: "right-end" }}>
             <PopoverTrigger asChild>
               <Button size="xs" variant="outline">
                 <IoFilter />
