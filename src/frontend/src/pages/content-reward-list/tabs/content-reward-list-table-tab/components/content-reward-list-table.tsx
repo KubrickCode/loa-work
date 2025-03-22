@@ -10,11 +10,13 @@ import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardListTableDocument } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 import { LoginTooltip } from "~/core/tooltip";
-import { ContentDetailsDialog } from "~/shared/content";
+import {
+  ContentDetailsDialog,
+  UserContentRewardEditDialog,
+  UserContentSeeMoreRewardEditDialog,
+} from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
-import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
-import { UserContentSeeMoreRewardEditDialog } from "./user-content-see-more-reward-edit-dialog";
 import { useContentRewardListPage } from "../../../content-reward-list-page-context";
 
 export const ContentRewardListTable = () => {
