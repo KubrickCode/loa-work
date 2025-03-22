@@ -90,6 +90,7 @@ export const ContentRewardListPieChart = () => {
                     `${name} (${(percent * 100).toFixed(0)}%)`
                   }
                   nameKey="name"
+                  style={{ fontSize: "12px" }}
                 >
                   {content.rewards.map((_, index) => (
                     <Cell fill={content.rewards[index].color} key={index} />
