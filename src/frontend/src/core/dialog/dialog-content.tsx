@@ -11,6 +11,8 @@ export const DialogContent = ({
 }: DialogContentProps) => (
   <ChakraDialogContent
     onClick={(e) => e.stopPropagation()}
+    onKeyDown={(e) => e.stopPropagation()}
+    onTouchStart={(e) => e.stopPropagation()}
     portalled={false}
     {...otherProps}
   >
