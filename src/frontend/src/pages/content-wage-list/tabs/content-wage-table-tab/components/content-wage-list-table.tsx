@@ -1,4 +1,4 @@
-import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
+import { Flex, FormatNumber, IconButton, Text } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { IoIosSettings } from "react-icons/io";
 
@@ -7,10 +7,7 @@ import { InfoTip } from "~/core/chakra-components/ui/toggle-tip";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import {
-  ContentWageListTableDocument,
-  ContentWageListTableQuery,
-} from "~/core/graphql/generated";
+import { ContentWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import { ContentDetailsDialog } from "~/shared/content";
@@ -54,34 +51,6 @@ export const ContentWageListTable = ({
     <>
       <DataTable
         columns={[
-          ...(isAuthenticated
-            ? [
-                {
-                  align: "center" as const,
-                  header: "관리",
-                  render({
-                    data,
-                  }: {
-                    data: ContentWageListTableQuery["contentWageList"][number];
-                  }) {
-                    return (
-                      <Dialog.Trigger
-                        dialog={UserContentDurationEditDialog}
-                        dialogProps={{
-                          contentDurationId: data.content.contentDuration.id,
-                          onComplete: refetch,
-                        }}
-                      >
-                        <IconButton size="xs" variant="surface">
-                          <IoIosSettings />
-                        </IconButton>
-                      </Dialog.Trigger>
-                    );
-                  },
-                  width: "32px",
-                },
-              ]
-            : []),
           {
             header: "종류",
             render({ data }) {
@@ -115,7 +84,26 @@ export const ContentWageListTable = ({
               </Flex>
             ),
             render({ data }) {
-              return <>{data.content.durationText}</>;
+              return (
+                <Flex alignItems="center" display="inline-flex" gap={2}>
+                  <Text>{data.content.durationText}</Text>
+                  <Dialog.Trigger
+                    dialog={UserContentDurationEditDialog}
+                    dialogProps={{
+                      contentDurationId: data.content.contentDuration.id,
+                      onComplete: refetch,
+                    }}
+                  >
+                    <IconButton
+                      disabled={!isAuthenticated}
+                      size="2xs"
+                      variant="surface"
+                    >
+                      <IoIosSettings />
+                    </IconButton>
+                  </Dialog.Trigger>
+                </Flex>
+              );
             },
           },
           {
