@@ -10,6 +10,7 @@ import { useSafeQuery } from "~/core/graphql";
 import { ContentWageTableTabDocument } from "~/core/graphql/generated";
 import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
+import { LoginTooltip } from "~/core/tooltip";
 
 import { ContentWageListTable } from "./components/content-wage-list-table";
 import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-setting-dialog";
@@ -28,21 +29,21 @@ export const ContentWageTableTab = () => {
       <ContentWageListPageProvider>
         <Flex alignItems="center" gap={2} wrap="wrap">
           <ContentWageListFilters />
-          {isAuthenticated && (
-            <Dialog.Trigger
-              dialog={GoldExchangeRateSettingDialog}
-              dialogProps={{
-                onComplete: () => {
-                  refetch();
-                  refetchTable();
-                },
-              }}
-            >
-              <Button size="xs" variant="outline">
+          <Dialog.Trigger
+            dialog={GoldExchangeRateSettingDialog}
+            dialogProps={{
+              onComplete: () => {
+                refetch();
+                refetchTable();
+              },
+            }}
+          >
+            <LoginTooltip>
+              <Button disabled={!isAuthenticated} size="xs" variant="outline">
                 <IoIosSettings /> 골드 환율 설정
               </Button>
-            </Dialog.Trigger>
-          )}
+            </LoginTooltip>
+          </Dialog.Trigger>
           <Dialog.Trigger dialog={CustomContentWageCalculateDialog}>
             <Button size="xs" variant="outline">
               <IoIosCalculator />
