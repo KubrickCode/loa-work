@@ -12,6 +12,7 @@ import {
   ExtraItemListTableQuery,
 } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
+import { LoginTooltip } from "~/core/tooltip";
 import { ItemNameWithImage } from "~/shared/item";
 
 import { UserExtraItemPriceEditDialog } from "./user-extra-item-price-edit-dialog";
@@ -30,34 +31,36 @@ export const ExtraItemListTable = () => {
   return (
     <DataTable
       columns={[
-        ...(isAuthenticated
-          ? [
-              {
-                align: "center" as const,
-                header: "관리",
-                render({
-                  data,
-                }: {
-                  data: ExtraItemListTableQuery["contentRewardItems"][number];
-                }) {
-                  return (
-                    <Dialog.Trigger
-                      dialog={UserExtraItemPriceEditDialog}
-                      dialogProps={{
-                        contentRewardItemId: data.id,
-                        onComplete: refetch,
-                      }}
-                    >
-                      <IconButton size="xs" variant="surface">
-                        <IoIosSettings />
-                      </IconButton>
-                    </Dialog.Trigger>
-                  );
-                },
-                width: "32px",
-              },
-            ]
-          : []),
+        {
+          align: "center" as const,
+          header: "관리",
+          render({
+            data,
+          }: {
+            data: ExtraItemListTableQuery["contentRewardItems"][number];
+          }) {
+            return (
+              <Dialog.Trigger
+                dialog={UserExtraItemPriceEditDialog}
+                dialogProps={{
+                  contentRewardItemId: data.id,
+                  onComplete: refetch,
+                }}
+              >
+                <LoginTooltip content="로그인 후 골드 가치를 수정할 수 있습니다">
+                  <IconButton
+                    disabled={!isAuthenticated}
+                    size="xs"
+                    variant="surface"
+                  >
+                    <IoIosSettings />
+                  </IconButton>
+                </LoginTooltip>
+              </Dialog.Trigger>
+            );
+          },
+          width: "32px",
+        },
         {
           header: "아이템",
           render({ data }) {
