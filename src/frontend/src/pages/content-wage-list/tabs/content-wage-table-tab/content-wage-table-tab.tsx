@@ -1,12 +1,15 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
 import { Button } from "~/core/chakra-components/ui/button";
 import { Dialog } from "~/core/dialog";
-import { useSafeQuery } from "~/core/graphql";
-import { ContentWageTableTabDocument } from "~/core/graphql/generated";
+import { client, useSafeQuery } from "~/core/graphql";
+import {
+  ContentWageListTableDocument,
+  ContentWageTableTabDocument,
+} from "~/core/graphql/generated";
 import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 import { LoginTooltip } from "~/core/tooltip";
@@ -19,7 +22,6 @@ import { CustomContentWageCalculateDialog } from "./components/custom-content-wa
 
 export const ContentWageTableTab = () => {
   const { isAuthenticated } = useAuth();
-  const [refetchTable, setRefetchTable] = useState<() => void>(() => {});
   const { data, refetch } = useSafeQuery(ContentWageTableTabDocument);
   const { goldAmount, krwAmount } = data.goldExchangeRate;
 
@@ -33,7 +35,9 @@ export const ContentWageTableTab = () => {
             dialogProps={{
               onComplete: () => {
                 refetch();
-                refetchTable();
+                client.refetchQueries({
+                  include: [ContentWageListTableDocument],
+                });
               },
             }}
           >
@@ -54,7 +58,7 @@ export const ContentWageTableTab = () => {
           </Dialog.Trigger>
         </Flex>
         <Suspense fallback={<TableSkeleton line={30} />}>
-          <ContentWageListTable setRefetchTable={setRefetchTable} />
+          <ContentWageListTable />
         </Suspense>
       </ContentWageListPageProvider>
     </Section>

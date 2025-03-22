@@ -1,5 +1,4 @@
 import { Flex, FormatNumber, IconButton, Text } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
@@ -15,11 +14,7 @@ import { ItemNameWithImage } from "~/shared/item";
 
 import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
 
-export const ContentWageListTable = ({
-  setRefetchTable,
-}: {
-  setRefetchTable: (fn: () => void) => void;
-}) => {
+export const ContentWageListTable = () => {
   const { isAuthenticated } = useAuth();
   const {
     contentCategoryId,
@@ -42,10 +37,6 @@ export const ContentWageListTable = ({
   const { onOpen, renderModal } = useDialog({
     dialog: ContentDetailsDialog,
   });
-
-  useEffect(() => {
-    setRefetchTable(() => refetch);
-  }, [refetch, setRefetchTable]);
 
   return (
     <>
