@@ -80,7 +80,7 @@ export const ContentDetailsDialog = ({
   );
 
   return (
-    <Dialog size="cover" {...dialogProps}>
+    <Dialog size="xl" {...dialogProps}>
       <Dialog.Content>
         <Dialog.Header>컨텐츠 상세 정보</Dialog.Header>
         <Dialog.Body>
