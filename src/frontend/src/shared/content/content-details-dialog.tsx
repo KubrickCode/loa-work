@@ -20,7 +20,7 @@ import {
   ContentDetailsDialogDocument,
   ContentDetailsDialogWageSectionDocument,
 } from "~/core/graphql/generated";
-import { BlockLoader } from "~/core/loader";
+import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 import { MultiSelect } from "~/core/select";
 
@@ -167,7 +167,7 @@ const ContentWageSection = ({
         </Flex>
       }
     >
-      <Suspense fallback={<BlockLoader />}>
+      <Suspense fallback={<TableSkeleton line={1} />}>
         <ContentWageSectionDataGrid
           contentId={contentId}
           includeContentRewardItemIds={includeContentRewardItemIds}
