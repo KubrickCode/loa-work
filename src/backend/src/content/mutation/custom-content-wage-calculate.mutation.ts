@@ -9,7 +9,6 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { ContentWageService } from '../service/content-wage.service';
-import { UserInputError } from 'apollo-server-express';
 
 @InputType()
 class CustomContentWageCalculateInput {
@@ -60,22 +59,8 @@ export class CustomContentWageCalculateMutation {
     // 분과 초를 받아서 초 단위로 변환
     const duration = minutes * 60 + seconds;
 
-    if (duration <= 0) {
-      throw new UserInputError('소요시간은 0초 보다 커야 합니다.', {
-        field: 'duration',
-      });
-    }
-
-    if (seconds < 0 || seconds >= 60) {
-      throw new UserInputError('초는 0~59 사이의 값이어야 합니다.', {
-        field: 'seconds',
-      });
-    }
-
-    if (minutes < 0) {
-      throw new UserInputError('분은 0 이상이어야 합니다.', {
-        field: 'minutes',
-      });
+    if (duration <= 0 || seconds >= 60) {
+      throw new Error('유효하지 않은 시간 형식입니다.');
     }
 
     const rewardsGold = await this.contentWageService.calculateGold(
