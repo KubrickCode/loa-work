@@ -1,6 +1,5 @@
-import { Badge, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
-import { FaInfoCircle } from "react-icons/fa";
 import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
@@ -40,7 +39,10 @@ export const ContentWageTableTab = () => {
           >
             <LoginTooltip>
               <Button disabled={!isAuthenticated} size="xs" variant="outline">
-                <IoIosSettings /> 골드 환율 설정
+                <IoIosSettings /> 골드 환율 설정{" "}
+                <Text fontWeight="extrabold">
+                  ({goldAmount}:{krwAmount})
+                </Text>
               </Button>
             </LoginTooltip>
           </Dialog.Trigger>
@@ -50,13 +52,6 @@ export const ContentWageTableTab = () => {
               시급 계산기
             </Button>
           </Dialog.Trigger>
-          <Badge fontSize="xs" gap={2} py={1.5} size="lg" variant="surface">
-            <FaInfoCircle />
-            현재 골드 환율{" "}
-            <Text fontWeight="extrabold">
-              {goldAmount}:{krwAmount}
-            </Text>
-          </Badge>
         </Flex>
         <Suspense fallback={<TableSkeleton line={30} />}>
           <ContentWageListTable setRefetchTable={setRefetchTable} />
