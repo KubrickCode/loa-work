@@ -159,6 +159,7 @@ type ContentSeeMoreReward {
   id: Int!
   quantity: Float!
   updatedAt: DateTime!
+  userContentSeeMoreReward: UserContentSeeMoreReward!
 }
 
 type ContentWage {
@@ -234,6 +235,7 @@ type Mutation {
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
   userContentRewardItemEdit(input: UserContentRewardItemEditInput!): UserContentRewardItemEditResult!
   userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
+  userContentSeeMoreRewardsEdit(input: UserContentSeeMoreRewardsEditInput!): UserContentSeeMoreRewardsEditResult!
   userGoldExchangeRateEdit(input: UserGoldExchangeRateEditInput!): UserGoldExchangeRateEditResult!
 }
 
@@ -328,6 +330,26 @@ input UserContentRewardsEditInput {
 }
 
 type UserContentRewardsEditResult {
+  ok: Boolean!
+}
+
+type UserContentSeeMoreReward {
+  createdAt: DateTime!
+  id: Int!
+  quantity: Float!
+  updatedAt: DateTime!
+}
+
+input UserContentSeeMoreRewardEditInput {
+  id: Int!
+  quantity: Float!
+}
+
+input UserContentSeeMoreRewardsEditInput {
+  userContentSeeMoreRewards: [UserContentSeeMoreRewardEditInput!]!
+}
+
+type UserContentSeeMoreRewardsEditResult {
   ok: Boolean!
 }
 

@@ -99,6 +99,25 @@ export class UserContentService {
       : contentReward.defaultAverageQuantity;
   }
 
+  async getContentSeeMoreRewardQuantity(contentSeeMoreRewardId: number) {
+    const userId = this.getUserId();
+
+    const contentSeeMoreReward =
+      await this.prisma.contentSeeMoreReward.findUniqueOrThrow({
+        where: { id: contentSeeMoreRewardId },
+      });
+
+    return userId
+      ? (
+          await this.prisma.userContentSeeMoreReward.findUniqueOrThrow({
+            where: {
+              userId_contentSeeMoreRewardId: { userId, contentSeeMoreRewardId },
+            },
+          })
+        ).quantity
+      : contentSeeMoreReward.quantity;
+  }
+
   async getContentRewards(
     contentId: number,
     filter?: {
@@ -145,6 +164,48 @@ export class UserContentService {
     );
   }
 
+  async getContentSeeMoreRewards(
+    contentId: number,
+    filter?: {
+      includeContentRewardItemIds?: number[];
+    },
+  ) {
+    const userId = this.getUserId();
+
+    const where = {
+      contentId,
+      ...(filter?.includeContentRewardItemIds && {
+        contentRewardItemId: { in: filter.includeContentRewardItemIds },
+      }),
+    };
+
+    if (userId) {
+      const userRewards = await this.prisma.userContentSeeMoreReward.findMany({
+        where: {
+          userId,
+          contentSeeMoreReward: where,
+        },
+        include: {
+          contentSeeMoreReward: true,
+        },
+      });
+
+      return userRewards.map(({ quantity, contentSeeMoreReward }) => ({
+        quantity: quantity.toNumber(),
+        contentRewardItemId: contentSeeMoreReward.contentRewardItemId,
+      }));
+    }
+
+    const defaultRewards = await this.prisma.contentSeeMoreReward.findMany({
+      where,
+    });
+
+    return defaultRewards.map(({ quantity, contentRewardItemId }) => ({
+      quantity: quantity.toNumber(),
+      contentRewardItemId,
+    }));
+  }
+
   async validateUserContentRewards(rewardIds: number[]) {
     const userId = this.getUserId();
 
@@ -156,6 +217,21 @@ export class UserContentService {
     });
 
     if (userContentRewards.length !== rewardIds.length) {
+      throw new Error('일부 리워드에 대한 수정 권한이 없습니다');
+    }
+
+    return true;
+  }
+
+  async validateUserContentSeeMoreRewards(rewardIds: number[]) {
+    const userId = this.getUserId();
+
+    const userContentSeeMoreRewards =
+      await this.prisma.userContentSeeMoreReward.findMany({
+        where: { id: { in: rewardIds }, userId },
+      });
+
+    if (userContentSeeMoreRewards.length !== rewardIds.length) {
       throw new Error('일부 리워드에 대한 수정 권한이 없습니다');
     }
 

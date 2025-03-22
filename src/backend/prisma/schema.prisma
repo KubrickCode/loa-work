@@ -156,10 +156,11 @@ model ContentSeeMoreReward {
   quantity Decimal
 
   // Relations
-  contentId           Int               @map("content_id")
-  content             Content           @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  contentRewardItemId Int               @map("content_reward_item_id")
-  contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+  contentId                 Int                        @map("content_id")
+  content                   Content                    @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentRewardItemId       Int                        @map("content_reward_item_id")
+  contentRewardItem         ContentRewardItem          @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+  userContentSeeMoreRewards UserContentSeeMoreReward[]
 
   @@map("content_see_more_reward")
 }
@@ -269,11 +270,12 @@ model User {
   role        UserRole     @default(USER)
 
   // Relations
-  userContentDurations   UserContentDuration[]
-  userContentRewardItems UserContentRewardItem[]
-  userContentRewards     UserContentReward[]
-  userGoldExchangeRate   UserGoldExchangeRate?
-  reportedContentRewards ReportedContentReward[]
+  userContentDurations      UserContentDuration[]
+  userContentRewardItems    UserContentRewardItem[]
+  userContentRewards        UserContentReward[]
+  userGoldExchangeRate      UserGoldExchangeRate?
+  reportedContentRewards    ReportedContentReward[]
+  userContentSeeMoreRewards UserContentSeeMoreReward[]
 
   @@map("user")
 }
@@ -312,6 +314,24 @@ model UserContentReward {
 
   @@unique([userId, contentRewardId])
   @@map("user_content_reward")
+}
+
+model UserContentSeeMoreReward {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  isEdited Boolean @default(false) @map("is_edited")
+  quantity Decimal
+
+  // Relations
+  contentSeeMoreRewardId Int                  @map("content_see_more_reward_id")
+  contentSeeMoreReward   ContentSeeMoreReward @relation(fields: [contentSeeMoreRewardId], references: [id], onDelete: Cascade)
+  userId                 Int                  @map("user_id")
+  user                   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentSeeMoreRewardId])
+  @@map("user_content_see_more_reward")
 }
 
 model UserContentRewardItem {

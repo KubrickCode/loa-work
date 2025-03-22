@@ -24,6 +24,7 @@ import { ContentRewardsReportMutation } from './mutation/content-rewards-report.
 import { ContentController } from './content.controller';
 import { ContentCreateMutation } from './mutation/content-create.mutation';
 import { DataLoaderService } from 'src/dataloader/data-loader.service';
+import { UserContentSeeMoreRewardsEditMutation } from './mutation/user-content-see-more-rewards-edit.mutation';
 
 @Module({
   imports: [PrismaModule],
@@ -52,6 +53,7 @@ import { DataLoaderService } from 'src/dataloader/data-loader.service';
     ContentRewardsReportMutation,
     ContentCreateMutation,
     DataLoaderService,
+    UserContentSeeMoreRewardsEditMutation,
   ],
 })
 export class ContentModule {}

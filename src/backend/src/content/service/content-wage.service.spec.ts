@@ -348,15 +348,15 @@ describe('ContentWageService', () => {
       const contentSeeMoreRewards = [
         {
           contentRewardItemId: contentRewardItemIds[0],
-          quantity: { toNumber: () => 2 },
+          quantity: 2,
         },
         {
           contentRewardItemId: contentRewardItemIds[1],
-          quantity: { toNumber: () => 3 },
+          quantity: 3,
         },
         {
           contentRewardItemId: contentRewardItemIds[2],
-          quantity: { toNumber: () => 1 },
+          quantity: 1,
         },
       ];
 
@@ -370,15 +370,15 @@ describe('ContentWageService', () => {
       const contentSeeMoreRewards = [
         {
           contentRewardItemId: contentRewardItemIds[0],
-          quantity: { toNumber: () => 2 },
+          quantity: 2,
         },
         {
           contentRewardItemId: contentRewardItemIds[1],
-          quantity: { toNumber: () => 3 },
+          quantity: 3,
         },
         {
           contentRewardItemId: contentRewardItemIds[2],
-          quantity: { toNumber: () => 1 },
+          quantity: 1,
         },
       ];
 
@@ -436,11 +436,11 @@ describe('ContentWageService', () => {
       const contentSeeMoreRewards = [
         {
           contentRewardItemId: contentRewardItems[0].id,
-          quantity: { toNumber: () => 2 },
+          quantity: 2,
         },
         {
           contentRewardItemId: contentRewardItems[1].id,
-          quantity: { toNumber: () => 3 },
+          quantity: 3,
         },
       ];
 

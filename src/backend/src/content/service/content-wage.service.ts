@@ -34,9 +34,7 @@ export class ContentWageService {
   async calculateSeeMoreRewardsGold(
     contentSeeMoreRewards: {
       contentRewardItemId: number;
-      quantity: {
-        toNumber: () => number;
-      };
+      quantity: number;
     }[],
     includeContentRewardItemIds?: number[],
   ) {
@@ -51,7 +49,7 @@ export class ContentWageService {
         return true;
       })
       .map((reward) => ({
-        averageQuantity: reward.quantity.toNumber(),
+        averageQuantity: reward.quantity,
         contentRewardItemId: reward.contentRewardItemId,
       }));
 
@@ -86,9 +84,6 @@ export class ContentWageService {
   ) {
     const content = await this.prisma.content.findUniqueOrThrow({
       where: { id: contentId },
-      include: {
-        contentSeeMoreRewards: true,
-      },
     });
 
     const rewards = await this.userContentService.getContentRewards(
@@ -99,16 +94,21 @@ export class ContentWageService {
       },
     );
 
+    const seeMoreRewards =
+      await this.userContentService.getContentSeeMoreRewards(content.id, {
+        includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+      });
+
     const rewardsGold = await this.calculateGold(rewards);
 
     const shouldIncludeSeeMoreRewards =
       filter?.includeIsSeeMore &&
       filter?.includeIsBound !== false &&
-      content.contentSeeMoreRewards.length > 0;
+      seeMoreRewards.length > 0;
 
     const seeMoreGold = shouldIncludeSeeMoreRewards
       ? await this.calculateSeeMoreRewardsGold(
-          content.contentSeeMoreRewards,
+          seeMoreRewards,
           filter.includeContentRewardItemIds,
         )
       : 0;

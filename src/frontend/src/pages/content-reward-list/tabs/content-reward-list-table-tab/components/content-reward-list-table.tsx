@@ -14,6 +14,7 @@ import { ContentDetailsDialog } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
 import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
+import { UserContentSeeMoreRewardEditDialog } from "./user-content-see-more-reward-edit-dialog";
 import { useContentRewardListPage } from "../../../content-reward-list-page-context";
 
 export const ContentRewardListTable = () => {
@@ -66,7 +67,11 @@ export const ContentRewardListTable = () => {
             render({ data }: { data: (typeof rows)[number]["data"] }) {
               return (
                 <Dialog.Trigger
-                  dialog={UserContentRewardEditDialog}
+                  dialog={
+                    data.isSeeMore
+                      ? UserContentSeeMoreRewardEditDialog
+                      : UserContentRewardEditDialog
+                  }
                   dialogProps={{
                     contentId: data.id,
                     onComplete: refetch,
@@ -74,7 +79,7 @@ export const ContentRewardListTable = () => {
                 >
                   <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
                     <IconButton
-                      disabled={data.isSeeMore || !isAuthenticated}
+                      disabled={!isAuthenticated}
                       size="xs"
                       variant="surface"
                     >
