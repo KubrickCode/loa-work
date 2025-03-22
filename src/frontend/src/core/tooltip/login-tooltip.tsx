@@ -1,3 +1,4 @@
+import { Box, useDisclosure } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
 import { useAuth } from "../auth";
@@ -12,10 +13,13 @@ export const LoginTooltip = ({
   content = "로그인 후 수정 가능합니다",
 }: LoginTooltipProps) => {
   const { isAuthenticated } = useAuth();
+  const { open, onOpen, onClose, onToggle } = useDisclosure();
 
   return (
-    <Tooltip content={content} disabled={isAuthenticated}>
-      {children}
+    <Tooltip content={content} disabled={isAuthenticated} open={open}>
+      <Box onMouseEnter={onOpen} onMouseLeave={onClose} onTouchStart={onToggle}>
+        {children}
+      </Box>
     </Tooltip>
   );
 };
