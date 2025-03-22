@@ -498,7 +498,7 @@ export type UserGoldExchangeRate = {
 
 export type UserGoldExchangeRateEditInput = {
   id: Scalars['Int']['input'];
-  krwAmount: Scalars['Float']['input'];
+  krwAmount: Scalars['Int']['input'];
 };
 
 export type UserGoldExchangeRateEditResult = {

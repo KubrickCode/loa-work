@@ -11,7 +11,7 @@ import {
 
 const schema = z.object({
   id: z.number(),
-  krwAmount: z.number(),
+  krwAmount: z.number().int().min(0),
 });
 
 export const GoldExchangeRateSettingDialog = ({
@@ -53,7 +53,7 @@ export const GoldExchangeRateSettingDialog = ({
                 label={`${userGoldExchangeRate.goldAmount}골드 당 원(KRW)`}
                 name="krwAmount"
               >
-                <Form.Input type="number" />
+                <Form.NumberInput />
               </Form.Field>
             </Form.Body>
           </Dialog.Body>
