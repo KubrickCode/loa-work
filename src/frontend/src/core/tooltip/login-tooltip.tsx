@@ -16,7 +16,7 @@ export const LoginTooltip = ({
   const { open, onOpen, onClose, onToggle } = useDisclosure();
 
   return (
-    <Tooltip content={content} disabled={isAuthenticated} open={open}>
+    <Tooltip content={content} disabled={isAuthenticated} open={open} showArrow>
       <Box onMouseEnter={onOpen} onMouseLeave={onClose} onTouchStart={onToggle}>
         {children}
       </Box>
