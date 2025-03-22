@@ -12,7 +12,7 @@ export type DataGridProps = {
 
 export const DataGrid = ({
   items,
-  columns = { base: 1, sm: 2, md: 3, lg: 4, xl: 6 },
+  columns = { base: 1, sm: 2, md: 3, lg: 4 },
 }: DataGridProps) => {
   return (
     <SimpleGrid columns={columns} gap={4}>
