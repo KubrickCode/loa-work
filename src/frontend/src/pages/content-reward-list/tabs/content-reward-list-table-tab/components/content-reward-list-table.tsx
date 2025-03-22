@@ -9,6 +9,7 @@ import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentRewardListTableDocument } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
+import { LoginTooltip } from "~/core/tooltip";
 import { ContentDetailsDialog } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
@@ -59,34 +60,32 @@ export const ContentRewardListTable = () => {
     <>
       <DataTable
         columns={[
-          ...(isAuthenticated
-            ? [
-                {
-                  align: "center" as const,
-                  header: "관리",
-                  render({ data }: { data: (typeof rows)[number]["data"] }) {
-                    return (
-                      <Dialog.Trigger
-                        dialog={UserContentRewardEditDialog}
-                        dialogProps={{
-                          contentId: data.id,
-                          onComplete: refetch,
-                        }}
-                      >
-                        <IconButton
-                          disabled={data.isSeeMore}
-                          size="xs"
-                          variant="surface"
-                        >
-                          <IoIosSettings />
-                        </IconButton>
-                      </Dialog.Trigger>
-                    );
-                  },
-                  width: "32px",
-                },
-              ]
-            : []),
+          {
+            align: "center" as const,
+            header: "관리",
+            render({ data }: { data: (typeof rows)[number]["data"] }) {
+              return (
+                <Dialog.Trigger
+                  dialog={UserContentRewardEditDialog}
+                  dialogProps={{
+                    contentId: data.id,
+                    onComplete: refetch,
+                  }}
+                >
+                  <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
+                    <IconButton
+                      disabled={data.isSeeMore || !isAuthenticated}
+                      size="xs"
+                      variant="surface"
+                    >
+                      <IoIosSettings />
+                    </IconButton>
+                  </LoginTooltip>
+                </Dialog.Trigger>
+              );
+            },
+            width: "32px",
+          },
           {
             header: "종류",
             render({ data }) {
