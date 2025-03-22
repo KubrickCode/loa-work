@@ -3,11 +3,18 @@ import { PropsWithChildren } from "react";
 import { useAuth } from "../auth";
 import { Tooltip } from "../chakra-components/ui/tooltip";
 
-export const LoginTooltip = ({ children }: PropsWithChildren) => {
+export type LoginTooltipProps = PropsWithChildren & {
+  content?: string;
+};
+
+export const LoginTooltip = ({
+  children,
+  content = "로그인 후 수정 가능합니다",
+}: LoginTooltipProps) => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <Tooltip content="로그인 후 수정 가능합니다" disabled={isAuthenticated}>
+    <Tooltip content={content} disabled={isAuthenticated}>
       {children}
     </Tooltip>
   );
