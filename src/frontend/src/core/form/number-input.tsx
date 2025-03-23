@@ -16,8 +16,8 @@ export const NumberInput = ({ ...otherProps }: NumberInputProps) => {
       render={({ field: { onChange, value } }) => {
         return (
           <NumberInputRoot
-            onValueChange={({ value }) => {
-              onChange(Number(value));
+            onValueChange={({ value: newValue }) => {
+              onChange(Number(newValue));
             }}
             value={value}
             width="full"
