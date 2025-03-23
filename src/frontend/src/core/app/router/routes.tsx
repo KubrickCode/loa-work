@@ -6,6 +6,7 @@ import AdminPage from "~/pages/admin";
 import ContentRewardListPage from "~/pages/content-reward-list";
 import ContentWageListPage from "~/pages/content-wage-list";
 import ItemPriceListPage from "~/pages/item-price-list";
+import { NotFoundPage } from "~/pages/not-found-page";
 import { PrivacyPolicyPage } from "~/pages/privacy-policy";
 
 const routes = [
@@ -28,6 +29,10 @@ const routes = [
   {
     path: "/admin",
     component: AdminPage,
+  },
+  {
+    path: "*",
+    component: NotFoundPage,
   },
 ] as const;
 
