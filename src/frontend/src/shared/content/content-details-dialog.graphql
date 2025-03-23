@@ -33,6 +33,7 @@ query ContentDetailsDialogWageSection(
   $filter: ContentWageFilter
 ) {
   content(id: $contentId) {
+    durationText
     id
     wage(filter: $filter) {
       krwAmountPerHour

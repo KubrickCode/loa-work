@@ -264,6 +264,7 @@ const ContentWageSectionDataGrid = ({
   });
 
   const wageItems = [
+    { label: "소요 시간", value: data.content.durationText },
     { label: "시급(원)", value: data.content.wage.krwAmountPerHour },
     { label: "시급(골드)", value: data.content.wage.goldAmountPerHour },
     { label: "1수당 골드", value: data.content.wage.goldAmountPerClear },
