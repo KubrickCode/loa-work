@@ -71,7 +71,7 @@ export const UserContentSeeMoreRewardEditDialog = ({
                   label={reward.contentRewardItem.name}
                   name={`userContentSeeMoreRewards.${index}.quantity`}
                 >
-                  <Form.Input step="0.01" type="number" />
+                  <Form.NumberInput />
                 </Form.Field>
               ))}
             </Form.Body>

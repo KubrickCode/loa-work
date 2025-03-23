@@ -62,7 +62,7 @@ export const UserExtraItemPriceEditDialog = ({
           <Dialog.Body>
             <Form.Body>
               <Form.Field label="개당 골드" name="price">
-                <Form.Input type="number" />
+                <Form.NumberInput />
               </Form.Field>
             </Form.Body>
           </Dialog.Body>

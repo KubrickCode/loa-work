@@ -83,7 +83,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                   label={`${item.name}`}
                   name={`rewardItems.${index}.quantity`}
                 >
-                  <Form.Input type="number" />
+                  <Form.NumberInput />
                 </Form.Field>
               ))}
               {result && (

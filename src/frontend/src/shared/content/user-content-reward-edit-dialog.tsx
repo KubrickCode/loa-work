@@ -73,7 +73,7 @@ export const UserContentRewardEditDialog = ({
                   label={reward.contentRewardItem.name}
                   name={`userContentRewards.${index}.averageQuantity`}
                 >
-                  <Form.Input step="0.01" type="number" />
+                  <Form.NumberInput />
                 </Form.Field>
               ))}
               <Form.Field name="isReportable" optional>
