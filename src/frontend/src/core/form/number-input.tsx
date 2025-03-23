@@ -20,6 +20,7 @@ export const NumberInput = ({ ...otherProps }: NumberInputProps) => {
               onChange(Number(value));
             }}
             value={value}
+            width="full"
             {...otherProps}
           >
             <NumberInputField inputMode="numeric" />
