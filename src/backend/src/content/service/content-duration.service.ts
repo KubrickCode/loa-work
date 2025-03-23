@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class ContentDurationService {
@@ -11,8 +12,14 @@ export class ContentDurationService {
   }) {
     const totalSeconds = minutes * 60 + seconds;
 
-    if (totalSeconds <= 0 || seconds >= 60) {
-      throw new Error('유효하지 않은 시간 형식입니다.');
+    if (totalSeconds <= 0) {
+      throw new Error('총 소요 시간은 0분 0초보다 커야 합니다.');
+    }
+
+    if (seconds >= 60) {
+      throw new UserInputError('초는 60초 미만이어야 합니다.', {
+        field: 'seconds',
+      });
     }
 
     return totalSeconds;
