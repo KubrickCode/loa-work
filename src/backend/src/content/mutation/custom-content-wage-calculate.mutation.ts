@@ -9,6 +9,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { ContentWageService } from '../service/content-wage.service';
+import { ContentDurationService } from '../service/content-duration.service';
 
 @InputType()
 class CustomContentWageCalculateInput {
@@ -48,7 +49,10 @@ class CustomContentWageCalculateResult {
 
 @Resolver()
 export class CustomContentWageCalculateMutation {
-  constructor(private contentWageService: ContentWageService) {}
+  constructor(
+    private contentWageService: ContentWageService,
+    private contentDurationService: ContentDurationService,
+  ) {}
 
   @Mutation(() => CustomContentWageCalculateResult)
   async customContentWageCalculate(
@@ -56,12 +60,10 @@ export class CustomContentWageCalculateMutation {
   ) {
     const { minutes, seconds, rewardItems } = input;
 
-    // 분과 초를 받아서 초 단위로 변환
-    const duration = minutes * 60 + seconds;
-
-    if (duration <= 0 || seconds >= 60) {
-      throw new Error('유효하지 않은 시간 형식입니다.');
-    }
+    const totalSeconds = this.contentDurationService.getValidatedTotalSeconds({
+      minutes,
+      seconds,
+    });
 
     const rewardsGold = await this.contentWageService.calculateGold(
       rewardItems.map((item) => ({
@@ -73,7 +75,7 @@ export class CustomContentWageCalculateMutation {
     const { krwAmountPerHour, goldAmountPerHour } =
       await this.contentWageService.calculateWage({
         gold: rewardsGold,
-        duration,
+        duration: totalSeconds,
       });
 
     return {

@@ -14,6 +14,7 @@ import { UserContentService } from '../../user/service/user-content.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { User } from 'src/common/object/user.object';
 import { Prisma, UserRole } from '@prisma/client';
+import { ContentDurationService } from '../service/content-duration.service';
 
 @InputType()
 class UserContentDurationEditInput {
@@ -38,6 +39,7 @@ export class UserContentDurationEditMutation {
   constructor(
     private prisma: PrismaService,
     private userContentService: UserContentService,
+    private contentDurationService: ContentDurationService,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -48,13 +50,10 @@ export class UserContentDurationEditMutation {
   ) {
     const { id, minutes, seconds } = input;
 
-    // 분과 초를 받아서 초 단위로 변환
-    const totalSeconds = minutes * 60 + seconds;
-
-    // 값이 0 초과인지 확인
-    if (totalSeconds <= 0 || seconds >= 60) {
-      throw new Error('유효하지 않은 시간 형식입니다.');
-    }
+    const totalSeconds = this.contentDurationService.getValidatedTotalSeconds({
+      minutes,
+      seconds,
+    });
 
     await this.userContentService.validateUserContentDuration(id);
 
