@@ -17,7 +17,10 @@ export const NumberInput = ({ ...otherProps }: NumberInputProps) => {
         return (
           <NumberInputRoot
             onValueChange={({ value: newValue }) => {
-              onChange(Number(newValue));
+              const numberValue = Number(newValue);
+              if (!isNaN(numberValue)) {
+                onChange(numberValue);
+              }
             }}
             value={value}
             width="full"
