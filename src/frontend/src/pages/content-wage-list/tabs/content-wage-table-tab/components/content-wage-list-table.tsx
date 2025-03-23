@@ -9,10 +9,11 @@ import { ContentWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { LoginTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
-import { ContentDetailsDialog } from "~/shared/content";
+import {
+  ContentDetailsDialog,
+  UserContentDurationEditDialog,
+} from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
-
-import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
 
 export const ContentWageListTable = () => {
   const { isAuthenticated } = useAuth();
