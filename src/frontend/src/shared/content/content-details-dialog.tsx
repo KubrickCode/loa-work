@@ -197,7 +197,7 @@ const ContentWageSection = ({
                 필터
               </Button>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent portalled={false}>
               <PopoverArrow />
               <PopoverBody>
                 <Flex direction="column" gap={4}>
