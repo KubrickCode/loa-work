@@ -28,6 +28,7 @@ import { MultiSelect } from "~/core/select";
 import { LoginTooltip } from "~/core/tooltip";
 
 import { ItemNameWithImage } from "../item";
+import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
 import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
 import { UserContentSeeMoreRewardEditDialog } from "./user-content-see-more-reward-edit-dialog";
 
@@ -252,19 +253,47 @@ const ContentWageSectionDataGrid = ({
   includeIsBound: boolean;
   includeContentRewardItemIds: number[];
 }) => {
-  const { data } = useSafeQuery(ContentDetailsDialogWageSectionDocument, {
-    variables: {
-      contentId,
-      filter: {
-        includeIsSeeMore,
-        includeIsBound,
-        includeContentRewardItemIds,
+  const { isAuthenticated } = useAuth();
+  const { data, refetch } = useSafeQuery(
+    ContentDetailsDialogWageSectionDocument,
+    {
+      variables: {
+        contentId,
+        filter: {
+          includeIsSeeMore,
+          includeIsBound,
+          includeContentRewardItemIds,
+        },
       },
-    },
-  });
+    }
+  );
 
   const wageItems = [
-    { label: "소요 시간", value: data.content.durationText },
+    {
+      label: "소요 시간",
+      value: (
+        <Flex alignItems="center" gap={2}>
+          <Text>{data.content.durationText}</Text>
+          <Dialog.Trigger
+            dialog={UserContentDurationEditDialog}
+            dialogProps={{
+              contentDurationId: data.content.contentDuration.id,
+              onComplete: refetch,
+            }}
+          >
+            <LoginTooltip>
+              <IconButton
+                disabled={!isAuthenticated}
+                size="2xs"
+                variant="surface"
+              >
+                <IoIosSettings />
+              </IconButton>
+            </LoginTooltip>
+          </Dialog.Trigger>
+        </Flex>
+      ),
+    },
     { label: "시급(원)", value: data.content.wage.krwAmountPerHour },
     { label: "시급(골드)", value: data.content.wage.goldAmountPerHour },
     { label: "1수당 골드", value: data.content.wage.goldAmountPerClear },
