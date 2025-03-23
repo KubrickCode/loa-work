@@ -11,7 +11,7 @@ import {
 
 const schema = z.object({
   id: z.number(),
-  krwAmount: z.number().int().min(0),
+  krwAmount: z.number().int32().min(0),
 });
 
 export const GoldExchangeRateSettingDialog = ({

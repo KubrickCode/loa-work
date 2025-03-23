@@ -16,8 +16,8 @@ import {
 } from "~/core/graphql/generated";
 
 const schema = z.object({
-  minutes: z.number().int().min(0),
-  seconds: z.number().int().min(0).max(59),
+  minutes: z.number().int32().min(0),
+  seconds: z.number().int32().min(0).max(59),
   rewardItems: z.array(
     z.object({
       id: z.number(),
