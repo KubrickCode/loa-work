@@ -33,7 +33,7 @@ export const Input = <T extends HTMLInputTypeAttribute = "text">({
 
   return (
     <Controller
-      name={name as any}
+      name={name}
       render={({ field: { onBlur, onChange, ref, value } }) => {
         return (
           <Flex direction="column" width="full">
