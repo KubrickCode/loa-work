@@ -1,12 +1,12 @@
 import { Controller } from "react-hook-form";
 
 import { useFieldContext } from "./field";
+import { INT32_MAX, INT32_MIN } from "./zod";
 import {
   NumberInputField,
   NumberInputProps,
   NumberInputRoot,
 } from "../chakra-components/ui/number-input";
-import { INT32_MAX, INT32_MIN } from "./zod";
 
 export const NumberInput = ({ ...otherProps }: NumberInputProps) => {
   const { name } = useFieldContext();
@@ -17,8 +17,8 @@ export const NumberInput = ({ ...otherProps }: NumberInputProps) => {
       render={({ field: { onChange, value } }) => {
         return (
           <NumberInputRoot
-            min={INT32_MIN}
             max={INT32_MAX}
+            min={INT32_MIN}
             onValueChange={({ value: newValue }) => {
               const numberValue = Number(newValue);
               if (!isNaN(numberValue)) {
