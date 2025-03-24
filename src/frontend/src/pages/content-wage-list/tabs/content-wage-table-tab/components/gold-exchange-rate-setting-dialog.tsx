@@ -53,7 +53,7 @@ export const GoldExchangeRateSettingDialog = ({
                 label={`${userGoldExchangeRate.goldAmount}골드 당 원(KRW)`}
                 name="krwAmount"
               >
-                <Form.NumberInput />
+                <Form.NumberInput min={0} />
               </Form.Field>
             </Form.Body>
           </Dialog.Body>
