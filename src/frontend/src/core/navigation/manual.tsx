@@ -28,7 +28,7 @@ export const Manual = () => {
           설명서
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent portalled={false}>
         <DrawerHeader>
           <DrawerTitle>설명서</DrawerTitle>
         </DrawerHeader>
