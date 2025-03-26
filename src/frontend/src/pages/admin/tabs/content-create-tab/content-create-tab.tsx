@@ -70,7 +70,8 @@ export const ContentCreateTab = () => {
             (category) =>
               category.id === watch("categoryId") &&
               (category.name === "에픽 레이드" ||
-                category.name === "카제로스 레이드")
+                category.name === "카제로스 레이드" ||
+                category.name === "강습 레이드")
           );
 
           return (
