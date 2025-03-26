@@ -128,6 +128,7 @@ export class ContentCreateMutation {
         include: {
           contentDuration: true,
           contentRewards: true,
+          contentSeeMoreRewards: true,
         },
       });
 
@@ -139,6 +140,14 @@ export class ContentCreateMutation {
             data: content.contentRewards.map((reward) => ({
               contentRewardId: reward.id,
               averageQuantity: reward.defaultAverageQuantity,
+              userId: user.id,
+            })),
+          });
+
+          await tx.userContentSeeMoreReward.createMany({
+            data: content.contentSeeMoreRewards.map((reward) => ({
+              contentSeeMoreRewardId: reward.id,
+              quantity: reward.quantity,
               userId: user.id,
             })),
           });
