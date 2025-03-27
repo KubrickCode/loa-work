@@ -2,6 +2,7 @@ import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { ContentRewardItem } from '../object/content-reward-item.object';
 import { ContentRewardItemKind, Prisma } from '@prisma/client';
+import { contentRewardItemSortOrder } from '../constants';
 
 @InputType()
 class ContentRewardItemsFilter {
@@ -20,11 +21,14 @@ export class ContentRewardItemsQuery {
   async contentRewardItems(
     @Args('filter', { nullable: true }) filter?: ContentRewardItemsFilter,
   ) {
-    return await this.prisma.contentRewardItem.findMany({
+    const items = await this.prisma.contentRewardItem.findMany({
       where: this.buildWhereArgs(filter),
-      orderBy: {
-        id: 'asc',
-      },
+    });
+
+    return items.sort((a, b) => {
+      const aOrder = contentRewardItemSortOrder[a.name] || 999;
+      const bOrder = contentRewardItemSortOrder[b.name] || 999;
+      return aOrder - bOrder;
     });
   }
 

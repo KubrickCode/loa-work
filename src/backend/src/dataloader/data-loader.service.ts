@@ -7,6 +7,7 @@ import {
   ContentDuration,
   ContentRewardItem,
 } from '@prisma/client';
+import { contentRewardItemSortOrder } from 'src/content/constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class DataLoaderService {
@@ -79,9 +80,20 @@ export class DataLoaderService {
           where: {
             contentId: { in: contentIds as number[] },
           },
+          include: {
+            contentRewardItem: true,
+          },
         });
 
-        const rewardsGrouped = _.groupBy(rewards, 'contentId');
+        const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
+          const aOrder =
+            contentRewardItemSortOrder[a.contentRewardItem.name] || 999;
+          const bOrder =
+            contentRewardItemSortOrder[b.contentRewardItem.name] || 999;
+          return aOrder - bOrder;
+        });
+
+        const rewardsGrouped = _.groupBy(sortedRewards, 'contentId');
 
         return contentIds.map((id) => rewardsGrouped[id] || []);
       },
@@ -127,9 +139,20 @@ export class DataLoaderService {
           where: {
             contentId: { in: contentIds as number[] },
           },
+          include: {
+            contentRewardItem: true,
+          },
         });
 
-        const rewardsGrouped = _.groupBy(rewards, 'contentId');
+        const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
+          const aOrder =
+            contentRewardItemSortOrder[a.contentRewardItem.name] || 999;
+          const bOrder =
+            contentRewardItemSortOrder[b.contentRewardItem.name] || 999;
+          return aOrder - bOrder;
+        });
+
+        const rewardsGrouped = _.groupBy(sortedRewards, 'contentId');
 
         return contentIds.map((id) => rewardsGrouped[id] || []);
       },
