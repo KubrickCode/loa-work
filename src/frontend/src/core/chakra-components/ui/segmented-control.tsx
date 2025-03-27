@@ -33,6 +33,7 @@ export const SegmentedControl = React.forwardRef<
       <For each={data}>
         {(item) => (
           <SegmentGroup.Item
+            cursor="pointer"
             disabled={item.disabled}
             justifyContent="center"
             key={item.value}
