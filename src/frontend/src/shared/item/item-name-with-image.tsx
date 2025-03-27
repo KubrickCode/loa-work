@@ -16,11 +16,11 @@ export const ItemNameWithImage = ({
       {reverse ? (
         <>
           {name}
-          <Image maxHeight={6} maxWidth={6} src={src} />
+          <Image maxHeight={4} maxWidth={4} src={src} />
         </>
       ) : (
         <>
-          <Image maxHeight={6} maxWidth={6} src={src} />
+          <Image maxHeight={4} maxWidth={4} src={src} />
           {name}
         </>
       )}
