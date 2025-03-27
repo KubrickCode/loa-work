@@ -2,6 +2,7 @@ import { Flex, IconButton, Text } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 import { IoIosSettings } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
+import { LuPencilLine } from "react-icons/lu";
 
 import { useAuth } from "~/core/auth";
 import { Button } from "~/core/chakra-components/ui/button";
@@ -284,10 +285,13 @@ const ContentWageSectionDataGrid = ({
             <LoginTooltip>
               <IconButton
                 disabled={!isAuthenticated}
+                h={4}
+                minW={4}
+                p={0}
                 size="2xs"
-                variant="surface"
+                variant="ghost"
               >
-                <IoIosSettings />
+                <LuPencilLine />
               </IconButton>
             </LoginTooltip>
           </Dialog.Trigger>
