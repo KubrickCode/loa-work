@@ -21,9 +21,22 @@ export const NumberInput = ({ ...otherProps }: NumberInputProps) => {
             min={INT32_MIN}
             onValueChange={({ value: newValue }) => {
               const numberValue = Number(newValue);
-              if (!isNaN(numberValue)) {
-                onChange(numberValue);
+              if (newValue === "-") {
+                onChange("-");
+                return;
               }
+
+              if (newValue === "") {
+                onChange("");
+                return;
+              }
+
+              if (isNaN(numberValue)) {
+                onChange("");
+                return;
+              }
+
+              onChange(numberValue);
             }}
             value={value}
             width="full"
