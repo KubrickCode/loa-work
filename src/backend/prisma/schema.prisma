@@ -76,7 +76,7 @@ model Content {
   contentDuration       ContentDuration?
   contentSeeMoreRewards ContentSeeMoreReward[]
 
-  @@unique([name, contentCategoryId, gate])
+  @@unique([name, gate])
   @@map("content")
 }
 
