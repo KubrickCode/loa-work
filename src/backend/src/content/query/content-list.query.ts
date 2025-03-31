@@ -5,15 +5,6 @@ import { Prisma } from '@prisma/client';
 import _ from 'lodash';
 
 @InputType()
-export class ContentListWageFilter {
-  @Field(() => Boolean, { nullable: true })
-  includeIsBound?: boolean;
-
-  @Field(() => [String], { nullable: true })
-  includeContentRewardItems?: string[];
-}
-
-@InputType()
 export class ContentListFilter {
   @Field({ nullable: true })
   contentCategoryId?: number;
@@ -23,9 +14,6 @@ export class ContentListFilter {
 
   @Field(() => String, { nullable: true })
   keyword?: string;
-
-  @Field(() => ContentListWageFilter, { nullable: true })
-  wageFilter?: ContentListWageFilter;
 }
 
 @Resolver()
@@ -36,7 +24,7 @@ export class ContentListQuery {
   async contentList(
     @Args('filter', { nullable: true }) filter?: ContentListFilter,
   ) {
-    const contents = await this.prisma.content.findMany({
+    return await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
       orderBy: [
         {
@@ -52,20 +40,6 @@ export class ContentListQuery {
         },
       ],
     });
-
-    return contents.map((content) =>
-      _.merge({}, content, {
-        wageFilter: {
-          ...(filter?.wageFilter?.includeIsBound === false && {
-            includeIsBound: false,
-          }),
-          ...(filter?.wageFilter?.includeContentRewardItems && {
-            includeContentRewardItems:
-              filter.wageFilter.includeContentRewardItems,
-          }),
-        },
-      }),
-    );
   }
 
   buildWhereArgs(filter?: ContentListFilter) {

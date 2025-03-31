@@ -116,12 +116,6 @@ export type ContentListFilter = {
   contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
   keyword?: InputMaybe<Scalars['String']['input']>;
-  wageFilter?: InputMaybe<ContentListWageFilter>;
-};
-
-export type ContentListWageFilter = {
-  includeContentRewardItems?: InputMaybe<Array<Scalars['String']['input']>>;
-  includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ContentObjectWageFilter = {
