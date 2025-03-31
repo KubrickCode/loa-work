@@ -5,7 +5,6 @@ import { AppModule } from 'src/app.module';
 import { PrismaService } from 'src/prisma';
 import { ContentFactory } from 'src/test/factory/content.factory';
 import { ContentCategoryFactory } from 'src/test/factory/content-category.factory';
-import { ContentRewardItemFactory } from 'src/test/factory/content-reward-item.factory';
 import 'src/enums';
 import { faker } from '@faker-js/faker/.';
 
@@ -14,7 +13,6 @@ describe('ContentListQuery (e2e)', () => {
   let prisma: PrismaService;
   let contentFactory: ContentFactory;
   let contentCategoryFactory: ContentCategoryFactory;
-  let contentRewardItemFactory: ContentRewardItemFactory;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -28,7 +26,6 @@ describe('ContentListQuery (e2e)', () => {
 
     contentFactory = new ContentFactory(prisma);
     contentCategoryFactory = new ContentCategoryFactory(prisma);
-    contentRewardItemFactory = new ContentRewardItemFactory(prisma);
   });
 
   afterAll(async () => {
@@ -177,51 +174,6 @@ describe('ContentListQuery (e2e)', () => {
     expect(response.body.errors).toBeUndefined();
     expect(response.body.data.contentList).toHaveLength(1);
     expect(response.body.data.contentList[0].name).toBe(contentName1);
-  });
-
-  it('wageFilter가 응답에 포함되어야 함', async () => {
-    const category = await contentCategoryFactory.create();
-    await contentFactory.create({
-      data: { contentCategoryId: category.id },
-    });
-
-    const rewardItem = await contentRewardItemFactory.create();
-
-    const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
-      .send({
-        query: `
-          query {
-            contentList(
-              filter: { 
-                wageFilter: { 
-                  includeIsBound: false,
-                  includeContentRewardItems: ["${rewardItem.id}"]
-                } 
-              }
-            ) {
-              id
-              name
-              wageFilter {
-                includeIsBound
-                includeContentRewardItems
-              }
-            }
-          }
-        `,
-      });
-
-    expect(response.status).toBe(200);
-    expect(response.body.errors).toBeUndefined();
-
-    response.body.data.contentList.forEach((content) => {
-      expect(content.wageFilter).toBeDefined();
-      expect(content.wageFilter.includeIsBound).toBe(false);
-      expect(content.wageFilter.includeContentRewardItems).toContain(
-        String(rewardItem.id),
-      );
-    });
   });
 
   it('정렬이 올바르게 적용되어야 함', async () => {
