@@ -14,7 +14,10 @@ import {
 
 import { useColorModeValue } from "~/core/chakra-components/ui/color-mode";
 import { useSafeQuery } from "~/core/graphql";
-import { ContentWageListBarChartDocument } from "~/core/graphql/generated";
+import {
+  ContentGroupWageListBarChartDocument,
+  ContentWageListBarChartDocument,
+} from "~/core/graphql/generated";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 
 export const ContentWageListBarChart = () => {
@@ -24,9 +27,10 @@ export const ContentWageListBarChart = () => {
     includeIsBound,
     includeContentRewardItemIds,
     keyword,
+    shouldMergeGate,
   } = useContentWageListPage();
 
-  const { data } = useSafeQuery(ContentWageListBarChartDocument, {
+  const { data: wageListData } = useSafeQuery(ContentWageListBarChartDocument, {
     variables: {
       filter: {
         contentCategoryId,
@@ -44,12 +48,40 @@ export const ContentWageListBarChart = () => {
     },
   });
 
-  const chartData = data.contentWageList.map((item) => ({
-    name: item.content.displayName,
-    category: item.content.contentCategory.name,
-    시급: item.krwAmountPerHour,
-    goldAmountPerHour: item.goldAmountPerHour,
-  }));
+  const { data: groupWageListData } = useSafeQuery(
+    ContentGroupWageListBarChartDocument,
+    {
+      variables: {
+        filter: {
+          contentCategoryId,
+          includeIsSeeMore,
+          includeIsBound,
+          includeContentRewardItemIds,
+          keyword,
+        },
+        orderBy: [
+          {
+            field: "goldAmountPerHour",
+            order: "desc",
+          },
+        ],
+      },
+    }
+  );
+
+  const chartData = shouldMergeGate
+    ? groupWageListData.contentGroupWageList.map((item) => ({
+        name: item.contentGroup.name,
+        category: item.contentGroup.contentCategory.name,
+        시급: item.krwAmountPerHour,
+        goldAmountPerHour: item.goldAmountPerHour,
+      }))
+    : wageListData.contentWageList.map((item) => ({
+        name: item.content.displayName,
+        category: item.content.contentCategory.name,
+        시급: item.krwAmountPerHour,
+        goldAmountPerHour: item.goldAmountPerHour,
+      }));
 
   const chartHeight = Math.max(chartData.length * 40, 400);
 
