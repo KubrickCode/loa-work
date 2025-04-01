@@ -5,17 +5,17 @@ import { useAuth } from "~/core/auth";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import { ContentWageListTableDocument } from "~/core/graphql/generated";
+import { ContentGroupWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import { LoginTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import {
-  ContentDetailsDialog,
-  UserContentDurationEditDialog,
+  ContentGroupDetailsDialog,
+  UserContentGroupDurationEditDialog,
 } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
-export const ContentWageListTable = () => {
+export const ContentGroupWageListTable = () => {
   const { isAuthenticated } = useAuth();
   const {
     contentCategoryId,
@@ -26,9 +26,9 @@ export const ContentWageListTable = () => {
     shouldMergeGate,
   } = useContentWageListPage();
 
-  if (shouldMergeGate) return null;
+  if (!shouldMergeGate) return null;
 
-  const { data, refetch } = useSafeQuery(ContentWageListTableDocument, {
+  const { data, refetch } = useSafeQuery(ContentGroupWageListTableDocument, {
     variables: {
       filter: {
         contentCategoryId,
@@ -39,8 +39,9 @@ export const ContentWageListTable = () => {
       },
     },
   });
+
   const { onOpen, renderModal } = useDialog({
-    dialog: ContentDetailsDialog,
+    dialog: ContentGroupDetailsDialog,
   });
 
   return (
@@ -52,8 +53,8 @@ export const ContentWageListTable = () => {
             render({ data }) {
               return (
                 <ItemNameWithImage
-                  name={data.content.contentCategory.name}
-                  src={data.content.contentCategory.imageUrl}
+                  name={data.contentGroup.contentCategory.name}
+                  src={data.contentGroup.contentCategory.imageUrl}
                 />
               );
             },
@@ -61,14 +62,14 @@ export const ContentWageListTable = () => {
           {
             header: "레벨",
             render({ data }) {
-              return <>{data.content.level}</>;
+              return <>{data.contentGroup.level}</>;
             },
-            sortKey: "content.level",
+            sortKey: "contentGroup.level",
           },
           {
             header: "이름",
             render({ data }) {
-              return <>{data.content.displayName}</>;
+              return <>{data.contentGroup.name}</>;
             },
           },
           {
@@ -77,11 +78,11 @@ export const ContentWageListTable = () => {
             render({ data }) {
               return (
                 <Flex alignItems="center" display="inline-flex" gap={2}>
-                  <Text>{data.content.durationText}</Text>
+                  <Text>{data.contentGroup.durationText}</Text>
                   <Dialog.Trigger
-                    dialog={UserContentDurationEditDialog}
+                    dialog={UserContentGroupDurationEditDialog}
                     dialogProps={{
-                      contentDurationId: data.content.contentDuration.id,
+                      contentIds: data.contentGroup.contentIds,
                       onComplete: refetch,
                     }}
                   >
@@ -133,11 +134,11 @@ export const ContentWageListTable = () => {
         getRowProps={({ data }) => ({
           onClick: () =>
             onOpen({
-              contentId: data.content.id,
+              contentIds: data.contentGroup.contentIds,
               onComplete: refetch,
             }),
         })}
-        rows={data.contentWageList.map((data) => ({
+        rows={data.contentGroupWageList.map((data) => ({
           data,
         }))}
       />

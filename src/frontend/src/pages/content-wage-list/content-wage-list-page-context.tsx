@@ -30,6 +30,9 @@ type ContentWageListPageContextType = {
 
   includeContentRewardItemIds: number[];
   setIncludeContentRewardItemIds: Dispatch<SetStateAction<number[]>>;
+
+  shouldMergeGate?: boolean;
+  setShouldMergeGate: (value: boolean) => void;
 };
 
 const ContentWageListPageContext = createContext<
@@ -50,6 +53,7 @@ export const ContentWageListPageProvider = ({
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
   const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =
     useState<number[]>(contentRewardItems.map((item) => item.id));
+  const [shouldMergeGate, setShouldMergeGate] = useState<boolean>(true);
 
   return (
     <ContentWageListPageContext.Provider
@@ -65,6 +69,8 @@ export const ContentWageListPageProvider = ({
         setIncludeIsBound,
         includeContentRewardItemIds,
         setIncludeContentRewardItemIds,
+        shouldMergeGate,
+        setShouldMergeGate,
       }}
     >
       {children}

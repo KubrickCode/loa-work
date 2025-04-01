@@ -1,0 +1,9 @@
+query ContentGroupDetailsDialog($contentIds: [Int!]!) {
+  contentGroup(filter: { contentIds: $contentIds }) {
+    contents {
+      gate
+      id
+    }
+    name
+  }
+}

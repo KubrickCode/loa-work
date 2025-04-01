@@ -26,6 +26,11 @@ import { ContentCreateMutation } from './mutation/content-create.mutation';
 import { DataLoaderService } from 'src/dataloader/data-loader.service';
 import { UserContentSeeMoreRewardsEditMutation } from './mutation/user-content-see-more-rewards-edit.mutation';
 import { ContentDurationService } from './service/content-duration.service';
+import { ContentGroupResolver } from './object/content-group.resolver';
+import { ContentGroupWageListQuery } from './query/content-group-wage-list.query';
+import { UserContentDurationsEditMutation } from './mutation/user-content-durations-edit.mutation';
+import { ContentsQuery } from './query/contents.query';
+import { ContentGroupQuery } from './query/content-group.query';
 
 @Module({
   imports: [PrismaModule],
@@ -56,6 +61,11 @@ import { ContentDurationService } from './service/content-duration.service';
     DataLoaderService,
     UserContentSeeMoreRewardsEditMutation,
     ContentDurationService,
+    ContentGroupWageListQuery,
+    ContentGroupResolver,
+    UserContentDurationsEditMutation,
+    ContentsQuery,
+    ContentGroupQuery,
   ],
 })
 export class ContentModule {}

@@ -131,4 +131,68 @@ export class ContentWageService {
       goldAmountPerClear: Math.round(gold),
     };
   }
+
+  async getContentGroupWage(
+    contentIds: number[],
+    filter: {
+      includeIsBound?: boolean;
+      includeContentRewardItemIds?: number[];
+      includeIsSeeMore?: boolean;
+    },
+  ) {
+    let totalGold = 0;
+    let totalDuration = 0;
+
+    for (const contentId of contentIds) {
+      const content = await this.prisma.content.findUniqueOrThrow({
+        where: { id: contentId },
+      });
+
+      const rewards = await this.userContentService.getContentRewards(
+        content.id,
+        {
+          includeIsBound: filter?.includeIsBound,
+          includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+        },
+      );
+
+      const seeMoreRewards =
+        await this.userContentService.getContentSeeMoreRewards(content.id, {
+          includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+        });
+
+      const rewardsGold = await this.calculateGold(rewards);
+
+      const shouldIncludeSeeMoreRewards =
+        filter?.includeIsSeeMore &&
+        filter?.includeIsBound !== false &&
+        seeMoreRewards.length > 0;
+
+      const seeMoreGold = shouldIncludeSeeMoreRewards
+        ? await this.calculateSeeMoreRewardsGold(
+            seeMoreRewards,
+            filter.includeContentRewardItemIds,
+          )
+        : 0;
+
+      const gold = rewardsGold + seeMoreGold;
+      totalGold += gold;
+
+      const duration = await this.userContentService.getContentDuration(
+        content.id,
+      );
+      totalDuration += duration;
+    }
+
+    const { krwAmountPerHour, goldAmountPerHour } = await this.calculateWage({
+      gold: totalGold,
+      duration: totalDuration,
+    });
+
+    return {
+      krwAmountPerHour,
+      goldAmountPerHour,
+      goldAmountPerClear: Math.round(totalGold),
+    };
+  }
 }

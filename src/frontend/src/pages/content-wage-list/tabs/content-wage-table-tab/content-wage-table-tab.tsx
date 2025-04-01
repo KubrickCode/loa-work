@@ -18,6 +18,7 @@ import { ContentWageListTable } from "./components/content-wage-list-table";
 import { GoldExchangeRateSettingDialog } from "./components/gold-exchange-rate-setting-dialog";
 import { ContentWageListFilters } from "../../components";
 import { ContentWageListPageProvider } from "../../content-wage-list-page-context";
+import { ContentGroupWageListTable } from "./components/content-group-wage-list-table";
 import { CustomContentWageCalculateDialog } from "./components/custom-content-wage-calculate-dialog";
 
 export const ContentWageTableTab = () => {
@@ -59,6 +60,9 @@ export const ContentWageTableTab = () => {
         </Flex>
         <Suspense fallback={<TableSkeleton line={30} />}>
           <ContentWageListTable />
+        </Suspense>
+        <Suspense fallback={<TableSkeleton line={30} />}>
+          <ContentGroupWageListTable />
         </Suspense>
       </ContentWageListPageProvider>
     </Section>

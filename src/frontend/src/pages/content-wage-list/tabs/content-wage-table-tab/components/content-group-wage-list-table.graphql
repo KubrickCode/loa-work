@@ -1,0 +1,17 @@
+query ContentGroupWageListTable($filter: ContentGroupWageListFilter) {
+  contentGroupWageList(filter: $filter) {
+    contentGroup {
+      contentCategory {
+        imageUrl
+        name
+      }
+      contentIds
+      durationText
+      level
+      name
+    }
+    goldAmountPerHour
+    goldAmountPerClear
+    krwAmountPerHour
+  }
+}
