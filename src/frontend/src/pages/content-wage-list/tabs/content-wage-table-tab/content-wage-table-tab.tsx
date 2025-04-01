@@ -9,6 +9,7 @@ import { client, useSafeQuery } from "~/core/graphql";
 import {
   ContentWageListTableDocument,
   ContentWageTableTabDocument,
+  ContentGroupWageListTableDocument,
 } from "~/core/graphql/generated";
 import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
@@ -37,7 +38,10 @@ export const ContentWageTableTab = () => {
               onComplete: () => {
                 refetch();
                 client.refetchQueries({
-                  include: [ContentWageListTableDocument],
+                  include: [
+                    ContentWageListTableDocument,
+                    ContentGroupWageListTableDocument,
+                  ],
                 });
               },
             }}
