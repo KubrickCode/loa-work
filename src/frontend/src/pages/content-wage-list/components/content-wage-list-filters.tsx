@@ -18,8 +18,14 @@ import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-l
 import { ContentCategoryFilter } from "~/shared/content";
 
 export const ContentWageListFilters = () => {
-  const { contentCategoryId, keyword, setContentCategoryId, setKeyword } =
-    useContentWageListPage();
+  const {
+    contentCategoryId,
+    keyword,
+    setContentCategoryId,
+    setKeyword,
+    shouldMergeGate,
+    setShouldMergeGate,
+  } = useContentWageListPage();
 
   const handleCategoryChange = (value: number | null) => {
     setContentCategoryId(value || null);
@@ -53,6 +59,16 @@ export const ContentWageListFilters = () => {
               </Field>
               <Field label="귀속 재료 포함 여부">
                 <ContentIsBoundFilter />
+              </Field>
+              <Field label="관문 합쳐보기">
+                <SegmentedControl
+                  items={[
+                    { label: "합쳐보기", value: "true" },
+                    { label: "분리하기", value: "false" },
+                  ]}
+                  onValueChange={(e) => setShouldMergeGate(e.value === "true")}
+                  value={shouldMergeGate ? "true" : "false"}
+                />
               </Field>
             </Flex>
           </PopoverBody>

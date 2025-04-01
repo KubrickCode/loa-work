@@ -87,6 +87,36 @@ type ContentDuration {
   userContentDuration: UserContentDuration!
 }
 
+type ContentGroup {
+  contentCategory: ContentCategory!
+  contentCategoryId: Int!
+  contentIds: [Int!]!
+  contents: [Content!]!
+  duration: Int!
+  durationText: String!
+  level: Int!
+  name: String!
+}
+
+input ContentGroupFilter {
+  contentIds: [Int!]
+}
+
+type ContentGroupWage {
+  contentGroup: ContentGroup!
+  goldAmountPerClear: Float!
+  goldAmountPerHour: Float!
+  krwAmountPerHour: Float!
+}
+
+input ContentGroupWageListFilter {
+  contentCategoryId: Int
+  includeContentRewardItemIds: [Int!]
+  includeIsBound: Boolean
+  includeIsSeeMore: Boolean
+  keyword: String
+}
+
 input ContentListFilter {
   contentCategoryId: Int
   includeIsSeeMore: Boolean
@@ -179,6 +209,10 @@ input ContentWageListFilter {
   keyword: String
 }
 
+input ContentsFilter {
+  ids: [Int!]
+}
+
 input CustomContentWageCalculateInput {
   minutes: Int!
   rewardItems: [CustomContentWageCalculateRewardItemInput!]!
@@ -228,6 +262,7 @@ type Mutation {
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
+  userContentDurationsEdit(input: UserContentDurationsEditInput!): UserContentDurationsEditResult!
   userContentRewardItemEdit(input: UserContentRewardItemEditInput!): UserContentRewardItemEditResult!
   userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
   userContentSeeMoreRewardsEdit(input: UserContentSeeMoreRewardsEditInput!): UserContentSeeMoreRewardsEditResult!
@@ -245,10 +280,13 @@ type Query {
   content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
   contentDuration(id: Int!): ContentDuration!
+  contentGroup(filter: ContentGroupFilter): ContentGroup!
+  contentGroupWageList(filter: ContentGroupWageListFilter, orderBy: [OrderByArg!]): [ContentGroupWage!]!
   contentList(filter: ContentListFilter): [Content!]!
   contentRewardItem(id: Int!): ContentRewardItem!
   contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
+  contents(filter: ContentsFilter): [Content!]!
   goldExchangeRate: UserGoldExchangeRate!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   marketItems(orderBy: [OrderByArg!], take: Int): [MarketItem!]!
@@ -284,6 +322,20 @@ input UserContentDurationEditInput {
 }
 
 type UserContentDurationEditResult {
+  ok: Boolean!
+}
+
+input UserContentDurationsEditInput {
+  contentDurations: [UserContentDurationsEditInputDuration!]!
+}
+
+input UserContentDurationsEditInputDuration {
+  id: Int!
+  minutes: Int!
+  seconds: Int!
+}
+
+type UserContentDurationsEditResult {
   ok: Boolean!
 }
 
