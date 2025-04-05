@@ -10,9 +10,14 @@ export const DialogTrigger = <T extends ElementType>({
   children,
   dialog,
   dialogProps,
+  disabled,
   ...otherProps
 }: DialogTriggerProps<T>) => {
-  const { onOpen, renderModal } = useDialog({ dialog, dialogProps });
+  const { onOpen, renderModal } = useDialog({
+    dialog,
+    dialogProps,
+    disabled,
+  });
 
   return (
     <>

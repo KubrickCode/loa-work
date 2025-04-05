@@ -45,6 +45,7 @@ export const ContentWageTableTab = () => {
                 });
               },
             }}
+            disabled={!isAuthenticated}
           >
             <LoginTooltip>
               <Button disabled={!isAuthenticated} size="xs" variant="outline">

@@ -15,17 +15,21 @@ export type UseDialogProps<T extends ElementType> = {
     ComponentPropsWithoutRef<T>,
     "children" | "open" | "onClose"
   >;
+  disabled?: boolean;
 };
 
 export const useDialog = <T extends ElementType>({
   dialog,
   dialogProps: initialDialogProps,
+  disabled,
 }: UseDialogProps<T>) => {
   const { onOpen, onClose, open, onToggle } = useDisclosure();
   const [currentDialogProps, setCurrentDialogProps] =
     useState(initialDialogProps);
 
   const handleOpen = (newDialogProps?: UseDialogProps<T>["dialogProps"]) => {
+    if (disabled) return;
+
     if (newDialogProps) {
       setCurrentDialogProps({ ...initialDialogProps, ...newDialogProps });
     }
@@ -34,7 +38,7 @@ export const useDialog = <T extends ElementType>({
   };
 
   const renderModal = () => {
-    if (!open) return null;
+    if (!open || disabled) return null;
 
     return (
       <Suspense fallback={<BackdropLoader />}>

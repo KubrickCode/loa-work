@@ -78,6 +78,7 @@ export const ContentRewardListTable = () => {
                     contentId: data.id,
                     onComplete: refetch,
                   }}
+                  disabled={!isAuthenticated}
                 >
                   <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
                     <IconButton

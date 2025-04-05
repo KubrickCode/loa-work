@@ -85,6 +85,7 @@ export const ContentGroupWageListTable = () => {
                       contentIds: data.contentGroup.contentIds,
                       onComplete: refetch,
                     }}
+                    disabled={!isAuthenticated}
                   >
                     <LoginTooltip>
                       <IconButton

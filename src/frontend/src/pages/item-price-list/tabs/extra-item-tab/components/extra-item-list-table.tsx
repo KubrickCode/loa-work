@@ -46,6 +46,7 @@ export const ExtraItemListTable = () => {
                   contentRewardItemId: data.id,
                   onComplete: refetch,
                 }}
+                disabled={!isAuthenticated}
               >
                 <LoginTooltip content="로그인 후 골드 가치를 수정할 수 있습니다">
                   <IconButton

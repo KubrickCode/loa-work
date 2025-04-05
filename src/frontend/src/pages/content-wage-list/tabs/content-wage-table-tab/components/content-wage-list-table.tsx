@@ -84,6 +84,7 @@ export const ContentWageListTable = () => {
                       contentDurationId: data.content.contentDuration.id,
                       onComplete: refetch,
                     }}
+                    disabled={!isAuthenticated}
                   >
                     <LoginTooltip>
                       <IconButton
