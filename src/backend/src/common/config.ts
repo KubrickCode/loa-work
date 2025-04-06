@@ -12,6 +12,8 @@ export default () => {
     discord: {
       clientID: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      goldExchangeRateWebhookURL:
+        process.env.DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL,
     },
     kakao: {
       clientID: process.env.KAKAO_CLIENT_ID,
@@ -38,6 +40,11 @@ export default () => {
     assert(
       config.discord.clientSecret,
       'DISCORD_CLIENT_SECRET environment variable is missing',
+    );
+
+    assert(
+      config.discord.goldExchangeRateWebhookURL,
+      'DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL environment variable is missing',
     );
 
     assert(

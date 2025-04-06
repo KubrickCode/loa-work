@@ -37,6 +37,7 @@
     "apollo-server-express": "3.13.0",
     "dataloader": "2.2.3",
     "dayjs": "1.11.13",
+    "discord-webhook-node": "1.1.8",
     "express-session": "1.18.1",
     "graphql": "16.9.0",
     "lodash": "4.17.21",
