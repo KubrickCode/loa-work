@@ -15,6 +15,7 @@ import {
   PaginationRoot,
 } from "~/core/chakra-components/pagination";
 
+import { FavoriteValue } from "./favorite-control";
 import { SortControl } from "./sort-control";
 
 export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
@@ -28,6 +29,8 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
     data: T;
   }[];
   pagination?: boolean;
+  favoriteKeyPath?: string;
+  favorites?: FavoriteValue[];
 };
 
 export type Column<T> = {
@@ -48,6 +51,9 @@ export const DataTable = <T,>({
   getRowProps,
   rows,
   pagination = false,
+  favoriteKeyPath,
+  favorites = [],
+  ...rest
 }: DataTableProps<T>) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(
     defaultSorting?.value || null
@@ -57,9 +63,42 @@ export const DataTable = <T,>({
   );
 
   const displayRows = useMemo(() => {
-    if (currentSortKey && sortOrder) {
+    if (!rows.length) return [];
+
+    const hasFavoriteFeature = !!favoriteKeyPath && favorites.length > 0;
+
+    let favoriteRows: typeof rows = [];
+    let normalRows: typeof rows = [];
+
+    if (hasFavoriteFeature) {
+      favoriteRows = rows.filter((row) => {
+        const value = favoriteKeyPath
+          .split(".")
+          .reduce(
+            (obj, key) => obj && obj[key as keyof typeof obj],
+            row.data as any
+          );
+        return value !== undefined && favorites.includes(value);
+      });
+
+      normalRows = rows.filter((row) => {
+        const value = favoriteKeyPath
+          .split(".")
+          .reduce(
+            (obj, key) => obj && obj[key as keyof typeof obj],
+            row.data as any
+          );
+        return value === undefined || !favorites.includes(value);
+      });
+    } else {
+      normalRows = [...rows];
+    }
+
+    const sortRows = (rowsToSort: typeof rows) => {
+      if (!currentSortKey || !sortOrder) return rowsToSort;
+
       return _.orderBy(
-        rows,
+        rowsToSort,
         [
           (row) => {
             const column = columns.find(
@@ -73,9 +112,16 @@ export const DataTable = <T,>({
         ],
         [sortOrder]
       );
+    };
+
+    if (hasFavoriteFeature) {
+      const sortedFavoriteRows = sortRows(favoriteRows);
+      const sortedNormalRows = sortRows(normalRows);
+      return [...sortedFavoriteRows, ...sortedNormalRows];
     }
-    return rows;
-  }, [rows, currentSortKey, sortOrder, columns]);
+
+    return sortRows(rows);
+  }, [rows, currentSortKey, sortOrder, columns, favoriteKeyPath, favorites]);
 
   const handleSort = (column: Column<T>) => {
     if (!column.sortKey) return;
@@ -148,11 +194,11 @@ export const DataTable = <T,>({
         </Table.Row>
       );
     },
-    [columns, renderColumn]
+    [columns, renderColumn, getRowProps, isInteractive]
   );
 
   return (
-    <Table.ScrollArea maxHeight="4xl">
+    <Table.ScrollArea maxHeight="4xl" {...rest}>
       <Table.Root interactive={isInteractive} showColumnBorder stickyHeader>
         <Table.Header>
           <Table.Row>

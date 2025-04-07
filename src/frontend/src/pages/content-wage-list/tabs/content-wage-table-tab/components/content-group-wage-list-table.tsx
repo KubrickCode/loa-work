@@ -1,4 +1,5 @@
 import { Flex, FormatNumber, IconButton, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
@@ -7,6 +8,11 @@ import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { ContentGroupWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
+import {
+  FavoriteIcon,
+  FavoriteValue,
+  getFavoritesFromStorage,
+} from "~/core/table/favorite-control";
 import { LoginTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import {
@@ -14,6 +20,8 @@ import {
   UserContentGroupDurationEditDialog,
 } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
+
+const FAVORITE_STORAGE_KEY = "content-group-wage-list-favorites";
 
 export const ContentGroupWageListTable = () => {
   const { isAuthenticated } = useAuth();
@@ -26,7 +34,13 @@ export const ContentGroupWageListTable = () => {
     shouldMergeGate,
   } = useContentWageListPage();
 
-  if (!shouldMergeGate) return null;
+  const [favorites, setFavorites] = useState<FavoriteValue[]>(
+    getFavoritesFromStorage(FAVORITE_STORAGE_KEY)
+  );
+
+  const handleFavoriteChange = (newFavorites: FavoriteValue[]) => {
+    setFavorites(newFavorites);
+  };
 
   const { data, refetch } = useSafeQuery(ContentGroupWageListTableDocument, {
     variables: {
@@ -44,10 +58,27 @@ export const ContentGroupWageListTable = () => {
     dialog: ContentGroupDetailsDialog,
   });
 
+  if (!shouldMergeGate || !data) return null;
+
   return (
     <>
       <DataTable
         columns={[
+          {
+            align: "center",
+            header: "즐겨찾기",
+            render({ data }) {
+              return (
+                <FavoriteIcon
+                  externalFavorites={favorites}
+                  id={data.contentGroup.name}
+                  onChange={handleFavoriteChange}
+                  storageKey={FAVORITE_STORAGE_KEY}
+                />
+              );
+            },
+            width: 12,
+          },
           {
             header: "종류",
             render({ data }) {
@@ -132,12 +163,17 @@ export const ContentGroupWageListTable = () => {
             sortKey: "goldAmountPerClear",
           },
         ]}
+        favoriteKeyPath="contentGroup.name"
+        favorites={favorites}
         getRowProps={({ data }) => ({
           onClick: () =>
             onOpen({
               contentIds: data.contentGroup.contentIds,
               onComplete: refetch,
             }),
+          style: favorites.includes(data.contentGroup.name)
+            ? { backgroundColor: "rgba(255, 215, 0, 0.075)" }
+            : undefined,
         })}
         rows={data.contentGroupWageList.map((data) => ({
           data,
