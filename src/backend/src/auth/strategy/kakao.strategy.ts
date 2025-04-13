@@ -14,8 +14,8 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     private userSeedService: UserSeedService,
   ) {
     super({
-      clientID: configService.get<string>('KAKAO_CLIENT_ID'),
-      clientSecret: configService.get<string>('KAKAO_CLIENT_SECRET'),
+      clientID: configService.getOrThrow<string>('KAKAO_CLIENT_ID'),
+      clientSecret: configService.getOrThrow<string>('KAKAO_CLIENT_SECRET'),
       callbackURL:
         configService.get<string>('CLIENT_HOST', 'http://localhost:3000') +
         '/auth/kakao/callback',

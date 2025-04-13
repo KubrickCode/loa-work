@@ -8,7 +8,9 @@ export class DiscordService {
 
   constructor(private configService: ConfigService) {
     this.webhook = new Webhook(
-      this.configService.get<string>('DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL'),
+      this.configService.getOrThrow<string>(
+        'DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL',
+      ),
     );
   }
 

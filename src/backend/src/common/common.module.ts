@@ -2,14 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { PrismaService } from 'src/prisma';
-import config from './config';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      load: [config],
-    }),
-  ],
+  imports: [ConfigModule],
   providers: [ConfigService, PrismaService],
   exports: [ConfigModule, PrismaService],
 })
