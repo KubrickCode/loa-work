@@ -21,13 +21,17 @@
 - **사용자 맞춤 설정**: 사용자가 직접 자신의 기준에 맞게 수치를 설정하여(환율, 소요시간, 컨텐츠 보상, 아이템 가치 등) 개인화된 결과를 얻을 수 있습니다.
 - **데이터 수집**: 계산에 필요한 각종 데이터는 별도의 서버에서 주기적으로 수집됩니다. 이는 과도한 API 호출을 방지할 수 있고, 히스토리가 지속적으로 축적되며, 웹 서버와 분리되는 등 다양한 장점으로 인해 안정적인 서비스를 제공할 수 있습니다.
 
+## 아키텍처
+
+![image](https://github.com/user-attachments/assets/c6326119-771d-496a-8c61-1c38d15b5561)
+
 ## 기술 스택
 
 - **웹**: TypeScript, GraphQL, ReactJS, NestJS
 - **데이터 수집**: Go
 - **데이터베이스**: PostgreSQL
 - **인프라**: AWS, Docker, Github Action
-- **기타 도구**: Chakra UI, Prisma, Gorm, Passport, Jest, Grafana, Prometheus, Loki, Promtail, LogRocket, Sentry
+- **기타 도구**: Chakra UI, Prisma, Gorm, Passport, Jest, Grafana, Prometheus, Loki, Promtail, LogRocket, Sentry, Doppler
 
 ## 기여 방법
 
