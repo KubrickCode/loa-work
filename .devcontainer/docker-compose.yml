@@ -17,7 +17,6 @@ services:
     image: mcr.microsoft.com/devcontainers/base:debian
     environment:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
-      PRISMA_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?pool_timeout=60
     privileged: true
     volumes:
       - ..:/workspaces/loa-work:delegated

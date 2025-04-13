@@ -158,7 +158,7 @@ setup-testdb:
   psql "{{ devdb_url }}" -c "DROP DATABASE IF EXISTS test"
   psql "{{ devdb_url }}" -c "CREATE DATABASE test OWNER postgres"
   cd "{{ backend_dir }}"
-  PRISMA_DATABASE_URL="{{ testdb_url }}" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} yarn prisma migrate dev
+  DATABASE_URL="{{ testdb_url }}" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} yarn prisma migrate dev
 
 test target *args:
   #!/usr/bin/env bash
@@ -170,7 +170,7 @@ test target *args:
 
       just setup-testdb
       cd "{{ backend_dir }}"
-      PRISMA_DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --no-compilation-cache --silent=false {{ args }}
+      DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --no-compilation-cache --silent=false {{ args }}
       ;;
   esac
 
@@ -182,4 +182,4 @@ test-e2e *args:
 
   just setup-testdb
   cd "{{ backend_dir }}"
-  PRISMA_DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --config ./jest-e2e.json --runInBand --no-compilation-cache --forceExit {{ args }}
+  DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --config ./jest-e2e.json --runInBand --no-compilation-cache --forceExit {{ args }}
