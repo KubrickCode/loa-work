@@ -290,7 +290,6 @@ jobs:
               --name ${{ matrix.name }} \
               -p 3000:3000 \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-              -e LOA_API_BASE_URL="${{ secrets.LOA_API_BASE_URL }}" \
               -e LOA_API_TOKEN="${{ secrets.LOA_API_TOKEN }}" \
               --restart always \
               ${{ secrets.ECR_REGISTRY }}/loa-work/${{ matrix.name }}:latest

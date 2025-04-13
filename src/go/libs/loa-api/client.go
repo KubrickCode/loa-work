@@ -10,6 +10,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+const loaApiBaseURL = "https://developer-lostark.game.onstove.com"
+
 type Client struct {
 	baseURL string
 	client  *httpclient.Client
@@ -17,11 +19,10 @@ type Client struct {
 }
 
 func NewClient() *Client {
-	baseURL := env.GetEnvFallback("LOA_API_BASE_URL", "https://developer-lostark.game.onstove.com")
 	token := env.MustGetEnv("LOA_API_TOKEN")
 
 	return &Client{
-		baseURL: baseURL,
+		baseURL: loaApiBaseURL,
 		client:  httpclient.NewClient(),
 		token:   token,
 	}
