@@ -9,6 +9,24 @@ prisma_engine := "binary"
 devdb_url := "postgres://postgres:postgres@localhost:5432/postgres"
 testdb_url := "postgres://postgres:postgres@localhost:5432/test?pool_timeout=60"
 
+add-package svc *args:
+  #!/usr/bin/env bash
+  set -euox pipefail
+  case {{ svc }} in
+    backend)
+      cd "{{ backend_dir }}"
+      yarn add -E {{ args }}
+      ;;
+    frontend)
+      cd "{{ frontend_dir }}"
+      yarn add -E {{ args }}
+      ;;
+    *)
+      echo "Unknown service: {{ svc }}"
+      exit 1
+      ;;
+  esac
+
 codegen:
   #!/usr/bin/env bash
   set -euox pipefail
