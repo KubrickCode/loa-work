@@ -23,6 +23,33 @@ deps-frontend:
 deps-backend:
   cd "{{ backend_dir }}" && yarn install
 
+generate-env:
+  #!/usr/bin/env bash
+  set -euox pipefail
+
+  if [[ ! -f .doppler.env ]]; then
+    echo "Error: .doppler.env file not found."
+    exit 1
+  fi
+  source .doppler.env
+
+  if [[ -z "${DOPPLER_TOKEN_ROOT:-}" ]]; then
+    echo "Error: DOPPLER_TOKEN_ROOT not set in .doppler.env."
+    exit 1
+  fi
+  if [[ -z "${DOPPLER_TOKEN_VITE:-}" ]]; then
+    echo "Error: DOPPLER_TOKEN_VITE not set in .doppler.env."
+    exit 1
+  fi
+
+  echo "Downloading secrets for dev_root..."
+  doppler secrets download --project loa-work --config dev_root --format env --no-file --token "${DOPPLER_TOKEN_ROOT}" | sed 's/"//g' > .env
+
+  echo "Downloading secrets for dev_vite..."
+  doppler secrets download --project loa-work --config dev_vite --format env --no-file --token "${DOPPLER_TOKEN_VITE}" | sed 's/"//g' > "{{ frontend_dir }}/.env"
+
+  echo "Environment files generated successfully."
+
 go-test:
   go list -f '{{{{.Dir}}' -m | xargs -I {} go test {}/...
 
