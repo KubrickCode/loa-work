@@ -173,9 +173,7 @@ jobs:
               -e KAKAO_CLIENT_ID="${{ secrets.KAKAO_CLIENT_ID }}" \
               -e KAKAO_CLIENT_SECRET="${{ secrets.KAKAO_CLIENT_SECRET }}" \
               -e KAKAO_AUTH_CALLBACK_URL="${{ secrets.KAKAO_AUTH_CALLBACK_URL }}" \
-              -e AUTH_SUCCESS_URL="${{ secrets.AUTH_SUCCESS_URL }}" \
-              -e CLIENT_ENDPOINT="${{ secrets.CLIENT_ENDPOINT }}" \
-              -e CLIENT_DOMAIN="${{ secrets.CLIENT_DOMAIN }}" \
+              -e CLIENT_HOST="${{ secrets.CLIENT_HOST }}" \
               -e SESSION_SECRET="${{ secrets.SESSION_SECRET }}" \
               --restart always \
               ${{ secrets.ECR_REGISTRY }}/loa-work/web-service:latest

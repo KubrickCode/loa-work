@@ -20,10 +20,7 @@ export class AuthController {
     };
 
     return res.redirect(
-      this.configService.get<string>(
-        'AUTH_SUCCESS_URL',
-        'http://localhost:3000/',
-      ),
+      this.configService.get<string>('CLIENT_HOST', 'http://localhost:3000/'),
     );
   }
 
@@ -41,10 +38,7 @@ export class AuthController {
     };
 
     return res.redirect(
-      this.configService.get<string>(
-        'AUTH_SUCCESS_URL',
-        'http://localhost:3000/',
-      ),
+      this.configService.get<string>('CLIENT_HOST', 'http://localhost:3000/'),
     );
   }
 
@@ -62,10 +56,7 @@ export class AuthController {
     };
 
     return res.redirect(
-      this.configService.get<string>(
-        'AUTH_SUCCESS_URL',
-        'http://localhost:3000/',
-      ),
+      this.configService.get<string>('CLIENT_HOST', 'http://localhost:3000/'),
     );
   }
 
