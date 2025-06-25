@@ -16,6 +16,7 @@ import { useColorModeValue } from "~/core/chakra-components/ui/color-mode";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentGroupWageListBarChartDocument,
+  ContentStatus,
   ContentWageListBarChartDocument,
 } from "~/core/graphql/generated";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
@@ -38,6 +39,7 @@ export const ContentWageListBarChart = () => {
         includeIsBound,
         includeContentRewardItemIds,
         keyword,
+        status: ContentStatus.ACTIVE,
       },
       orderBy: [
         {

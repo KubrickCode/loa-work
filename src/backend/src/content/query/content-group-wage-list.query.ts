@@ -1,6 +1,6 @@
 import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
-import { Prisma } from '@prisma/client';
+import { ContentStatus, Prisma } from '@prisma/client';
 import { ContentWageService } from '../service/content-wage.service';
 import { ContentWageFilter } from '../object/content-wage.object';
 import { OrderByArg } from 'src/common/object/order-by-arg.object';
@@ -14,6 +14,9 @@ export class ContentGroupWageListFilter extends ContentWageFilter {
 
   @Field(() => String, { nullable: true })
   keyword?: string;
+
+  @Field(() => ContentStatus, { nullable: true })
+  status?: ContentStatus;
 }
 
 @Resolver()
@@ -124,6 +127,10 @@ export class ContentGroupWageListQuery {
           },
         },
       ];
+    }
+
+    if (filter?.status) {
+      where.status = filter.status;
     }
 
     return where;

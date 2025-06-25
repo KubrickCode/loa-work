@@ -65,9 +65,10 @@ model Content {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  gate  Int?
-  level Int
-  name  String
+  gate   Int?
+  level  Int
+  name   String
+  status ContentStatus @default(ACTIVE)
 
   // Relations
   contentRewards        ContentReward[]
@@ -377,6 +378,11 @@ enum ContentRewardItemKind {
   AUCTION_ITEM
   MARKET_ITEM
   EXTRA_ITEM
+}
+
+enum ContentStatus {
+  ACTIVE
+  ARCHIVED
 }
 
 enum UserRole {

@@ -6,7 +6,10 @@ import { useAuth } from "~/core/auth";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import { ContentWageListTableDocument } from "~/core/graphql/generated";
+import {
+  ContentStatus,
+  ContentWageListTableDocument,
+} from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import {
   FavoriteIcon,
@@ -50,6 +53,7 @@ export const ContentWageListTable = () => {
         includeIsSeeMore,
         includeIsBound,
         includeContentRewardItemIds,
+        status: ContentStatus.ACTIVE,
       },
     },
   });

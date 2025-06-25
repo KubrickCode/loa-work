@@ -1,7 +1,7 @@
 import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { Content } from '../object/content.object';
-import { Prisma } from '@prisma/client';
+import { ContentStatus, Prisma } from '@prisma/client';
 import _ from 'lodash';
 
 @InputType()
@@ -14,6 +14,9 @@ export class ContentListFilter {
 
   @Field(() => String, { nullable: true })
   keyword?: string;
+
+  @Field(() => ContentStatus, { nullable: true })
+  status?: ContentStatus;
 }
 
 @Resolver()
@@ -66,6 +69,10 @@ export class ContentListQuery {
           },
         },
       ];
+    }
+
+    if (filter?.status) {
+      where.status = filter.status;
     }
 
     return where;

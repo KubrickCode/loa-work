@@ -142,12 +142,14 @@ export type ContentGroupWageListFilter = {
   includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
   keyword?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ContentStatus>;
 };
 
 export type ContentListFilter = {
   contentCategoryId?: InputMaybe<Scalars['Int']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
   keyword?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ContentStatus>;
 };
 
 export type ContentObjectWageFilter = {
@@ -219,6 +221,11 @@ export type ContentSeeMoreReward = {
   userContentSeeMoreReward: UserContentSeeMoreReward;
 };
 
+export enum ContentStatus {
+  ACTIVE = 'ACTIVE',
+  ARCHIVED = 'ARCHIVED'
+}
+
 export type ContentWage = {
   __typename?: 'ContentWage';
   content: Content;
@@ -240,6 +247,7 @@ export type ContentWageListFilter = {
   includeIsBound?: InputMaybe<Scalars['Boolean']['input']>;
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
   keyword?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ContentStatus>;
 };
 
 export type ContentsFilter = {

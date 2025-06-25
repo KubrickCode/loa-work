@@ -115,12 +115,14 @@ input ContentGroupWageListFilter {
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
   keyword: String
+  status: ContentStatus
 }
 
 input ContentListFilter {
   contentCategoryId: Int
   includeIsSeeMore: Boolean
   keyword: String
+  status: ContentStatus
 }
 
 type ContentObjectWageFilter {
@@ -187,6 +189,11 @@ type ContentSeeMoreReward {
   userContentSeeMoreReward: UserContentSeeMoreReward!
 }
 
+enum ContentStatus {
+  ACTIVE
+  ARCHIVED
+}
+
 type ContentWage {
   content: Content!
   contentId: Int!
@@ -207,6 +214,7 @@ input ContentWageListFilter {
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
   keyword: String
+  status: ContentStatus
 }
 
 input ContentsFilter {

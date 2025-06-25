@@ -7,7 +7,10 @@ import { Tooltip } from "~/core/chakra-components/ui/tooltip";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import { ContentRewardListTableDocument } from "~/core/graphql/generated";
+import {
+  ContentRewardListTableDocument,
+  ContentStatus,
+} from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 import { LoginTooltip } from "~/core/tooltip";
 import {
@@ -27,6 +30,7 @@ export const ContentRewardListTable = () => {
       filter: {
         contentCategoryId: Number(contentCategoryId),
         keyword,
+        status: ContentStatus.ACTIVE,
       },
     },
   });

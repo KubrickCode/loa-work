@@ -6,7 +6,10 @@ import { ResponsiveContainer } from "recharts";
 import { useColorModeValue } from "~/core/chakra-components/ui/color-mode";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import { ContentRewardListPieChartDocument } from "~/core/graphql/generated";
+import {
+  ContentRewardListPieChartDocument,
+  ContentStatus,
+} from "~/core/graphql/generated";
 import { useContentRewardListPage } from "~/pages/content-reward-list/content-reward-list-page-context";
 
 export const ContentRewardListPieChart = () => {
@@ -15,6 +18,7 @@ export const ContentRewardListPieChart = () => {
     variables: {
       filter: {
         contentCategoryId: Number(contentCategoryId),
+        status: ContentStatus.ACTIVE,
       },
     },
   });
