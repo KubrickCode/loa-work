@@ -7,7 +7,7 @@ import {
   ContentDuration,
   ContentRewardItem,
 } from '@prisma/client';
-import { contentRewardItemSortOrder } from 'src/content/constants';
+import { ContentRewardItemSortOrder } from 'src/content/constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class DataLoaderService {
@@ -87,9 +87,9 @@ export class DataLoaderService {
 
         const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
           const aOrder =
-            contentRewardItemSortOrder[a.contentRewardItem.name] || 999;
+            ContentRewardItemSortOrder[a.contentRewardItem.name] || 999;
           const bOrder =
-            contentRewardItemSortOrder[b.contentRewardItem.name] || 999;
+            ContentRewardItemSortOrder[b.contentRewardItem.name] || 999;
           return aOrder - bOrder;
         });
 
@@ -146,9 +146,9 @@ export class DataLoaderService {
 
         const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
           const aOrder =
-            contentRewardItemSortOrder[a.contentRewardItem.name] || 999;
+            ContentRewardItemSortOrder[a.contentRewardItem.name] || 999;
           const bOrder =
-            contentRewardItemSortOrder[b.contentRewardItem.name] || 999;
+            ContentRewardItemSortOrder[b.contentRewardItem.name] || 999;
           return aOrder - bOrder;
         });
 

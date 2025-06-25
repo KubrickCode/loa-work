@@ -1,5 +1,5 @@
 // 추후 유지보수성이 확실치 않은 데이터 구조 및 순서라 db에서 관리하지 않고 임시로 상수로 보상 아이템 순서를 관리함.
-export const contentRewardItemSortOrder = {
+export const ContentRewardItemSortOrder = {
   골드: 1,
   '운명의 파편': 2,
   '운명의 돌파석': 3,
