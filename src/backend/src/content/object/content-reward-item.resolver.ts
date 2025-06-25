@@ -20,6 +20,7 @@ export class ContentRewardItemResolver {
   async pieColor(@Parent() contentRewardItem: ContentRewardItem) {
     const colorMap: Record<string, string> = {
       골드: '#FFD700', // 금색
+      '골드(귀속)': '#FFD700', // 금색
       '운명의 파편': '#8A2BE2', // 보라색
       '운명의 돌파석': '#9370DB', // 연한 보라색
       '운명의 파괴석': '#DC143C', // 진한 빨간색 (Crimson)
