@@ -10,5 +10,8 @@ export class UserContentReward extends BaseObject {
   contentRewardId: number;
 
   @Field()
+  isSellable: boolean;
+
+  @Field()
   userId: number;
 }

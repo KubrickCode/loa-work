@@ -45,9 +45,10 @@ export class UserSeedService {
 
     await tx.userContentReward.createMany({
       data: defaultRewards.map(
-        ({ id, defaultAverageQuantity: averageQuantity }) => ({
+        ({ id, defaultAverageQuantity: averageQuantity, isSellable }) => ({
           contentRewardId: id,
           averageQuantity,
+          isSellable,
           userId,
           createdAt,
         }),

@@ -74,7 +74,7 @@ export const ContentDetailsDialog = ({
           src={contentReward.contentRewardItem.imageUrl}
         />
       ),
-      value: contentReward.averageQuantity,
+      value: contentReward.averageQuantity || "-",
     })
   );
 

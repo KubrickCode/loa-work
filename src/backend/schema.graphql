@@ -352,6 +352,7 @@ type UserContentReward {
   contentRewardId: Int!
   createdAt: DateTime!
   id: Int!
+  isSellable: Boolean!
   updatedAt: DateTime!
   userId: Int!
 }
@@ -359,6 +360,7 @@ type UserContentReward {
 input UserContentRewardEditInput {
   averageQuantity: Float!
   id: Int!
+  isSellable: Boolean!
 }
 
 type UserContentRewardItem {

@@ -115,7 +115,7 @@ model ContentReward {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  defaultAverageQuantity Decimal @map("default_average_quantity")
+  defaultAverageQuantity Decimal @default(0) @map("default_average_quantity")
   isSellable             Boolean @default(false) @map("is_sellable")
 
   // Relations
@@ -154,7 +154,7 @@ model ContentSeeMoreReward {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  quantity Decimal
+  quantity Decimal @default(0)
 
   // Relations
   contentId                 Int                        @map("content_id")
@@ -304,8 +304,9 @@ model UserContentReward {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  averageQuantity Decimal @map("average_quantity")
+  averageQuantity Decimal @default(0) @map("average_quantity")
   isEdited        Boolean @default(false) @map("is_edited")
+  isSellable      Boolean @default(false) @map("is_sellable")
 
   // Relations
   contentRewardId Int           @map("content_reward_id")
@@ -323,7 +324,7 @@ model UserContentSeeMoreReward {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   isEdited Boolean @default(false) @map("is_edited")
-  quantity Decimal
+  quantity Decimal @default(0)
 
   // Relations
   contentSeeMoreRewardId Int                  @map("content_see_more_reward_id")

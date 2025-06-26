@@ -99,6 +99,22 @@ export class UserContentService {
       : contentReward.defaultAverageQuantity;
   }
 
+  async getContentRewardIsSellable(contentRewardId: number) {
+    const userId = this.getUserId();
+
+    const contentReward = await this.prisma.contentReward.findUniqueOrThrow({
+      where: { id: contentRewardId },
+    });
+
+    return userId
+      ? (
+          await this.prisma.userContentReward.findUniqueOrThrow({
+            where: { userId_contentRewardId: { userId, contentRewardId } },
+          })
+        ).isSellable
+      : contentReward.isSellable;
+  }
+
   async getContentSeeMoreRewardQuantity(contentSeeMoreRewardId: number) {
     const userId = this.getUserId();
 
@@ -127,19 +143,17 @@ export class UserContentService {
   ) {
     const userId = this.getUserId();
 
-    const where = {
-      contentId,
-      ...(filter?.includeIsBound === false && { isSellable: true }),
-      ...(filter?.includeContentRewardItemIds && {
-        contentRewardItemId: { in: filter.includeContentRewardItemIds },
-      }),
-    };
-
     if (userId) {
       const userRewards = await this.prisma.userContentReward.findMany({
         where: {
           userId,
-          contentReward: where,
+          ...(filter?.includeIsBound === false && { isSellable: true }),
+          contentReward: {
+            contentId,
+            ...(filter?.includeContentRewardItemIds && {
+              contentRewardItemId: { in: filter.includeContentRewardItemIds },
+            }),
+          },
         },
         include: {
           contentReward: true,
@@ -151,6 +165,14 @@ export class UserContentService {
         contentRewardItemId: contentReward.contentRewardItemId,
       }));
     }
+
+    const where = {
+      contentId,
+      ...(filter?.includeIsBound === false && { isSellable: true }),
+      ...(filter?.includeContentRewardItemIds && {
+        contentRewardItemId: { in: filter.includeContentRewardItemIds },
+      }),
+    };
 
     const defaultRewards = await this.prisma.contentReward.findMany({
       where,
