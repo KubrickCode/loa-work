@@ -32,6 +32,13 @@ export class ContentRewardResolver {
     );
   }
 
+  @ResolveField(() => Boolean)
+  async isSellable(@Parent() contentReward: ContentReward) {
+    return await this.userContentService.getContentRewardIsSellable(
+      contentReward.id,
+    );
+  }
+
   @UseGuards(AuthGuard)
   @ResolveField(() => UserContentReward)
   async userContentReward(

@@ -503,6 +503,7 @@ export type UserContentReward = {
   contentRewardId: Scalars['Int']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
+  isSellable: Scalars['Boolean']['output'];
   updatedAt: Scalars['DateTime']['output'];
   userId: Scalars['Int']['output'];
 };
@@ -510,6 +511,7 @@ export type UserContentReward = {
 export type UserContentRewardEditInput = {
   averageQuantity: Scalars['Float']['input'];
   id: Scalars['Int']['input'];
+  isSellable: Scalars['Boolean']['input'];
 };
 
 export type UserContentRewardItem = {

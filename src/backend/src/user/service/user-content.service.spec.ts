@@ -504,11 +504,13 @@ describe('UserContentService', () => {
             userId: user.id,
             contentRewardId: contentReward1.id,
             averageQuantity: userAverageQuantity1,
+            isSellable: true,
           },
           {
             userId: user.id,
             contentRewardId: contentReward2.id,
             averageQuantity: userAverageQuantity2,
+            isSellable: false,
           },
         ],
       });

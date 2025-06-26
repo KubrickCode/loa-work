@@ -22,6 +22,9 @@ class UserContentRewardEditInput {
 
   @Field(() => Float)
   averageQuantity: number;
+
+  @Field(() => Boolean)
+  isSellable: boolean;
 }
 
 @InputType()
@@ -62,10 +65,10 @@ export class UserContentRewardsEditMutation {
       }
 
       await Promise.all(
-        input.userContentRewards.map(({ id, averageQuantity }) =>
+        input.userContentRewards.map(({ id, averageQuantity, isSellable }) =>
           tx.userContentReward.update({
             where: { id },
-            data: { averageQuantity, isEdited: true },
+            data: { averageQuantity, isEdited: true, isSellable },
           }),
         ),
       );
@@ -98,7 +101,7 @@ export class UserContentRewardsEditMutation {
     tx: Prisma.TransactionClient,
   ) {
     await Promise.all(
-      userContentRewards.map(async ({ id, averageQuantity }) => {
+      userContentRewards.map(async ({ id, averageQuantity, isSellable }) => {
         const userContentReward = await tx.userContentReward.findUniqueOrThrow({
           where: { id },
           include: {
@@ -113,6 +116,7 @@ export class UserContentRewardsEditMutation {
           },
           data: {
             averageQuantity,
+            isSellable,
           },
         });
 
@@ -122,6 +126,7 @@ export class UserContentRewardsEditMutation {
           },
           data: {
             defaultAverageQuantity: averageQuantity,
+            isSellable,
           },
         });
       }),

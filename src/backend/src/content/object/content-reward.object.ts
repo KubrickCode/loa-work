@@ -5,7 +5,4 @@ import { BaseObject } from 'src/common/object/base.object';
 export class ContentReward extends BaseObject {
   @Field()
   contentRewardItemId: number;
-
-  @Field(() => Boolean)
-  isSellable: boolean;
 }

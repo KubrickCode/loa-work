@@ -131,7 +131,7 @@ export const ContentRewardListTable = () => {
                   (reward) => reward.contentRewardItem.name === name
                 );
 
-                if (!reward) return <>-</>;
+                if (!reward || reward.averageQuantity === 0) return <>-</>;
 
                 const isGold = name === "골드";
 
