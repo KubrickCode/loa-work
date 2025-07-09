@@ -142,7 +142,6 @@ export class UserContentService {
     },
   ) {
     const userId = this.getUserId();
-
     if (userId) {
       const userRewards = await this.prisma.userContentReward.findMany({
         where: {

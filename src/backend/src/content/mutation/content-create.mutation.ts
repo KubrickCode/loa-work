@@ -141,6 +141,7 @@ export class ContentCreateMutation {
               contentRewardId: reward.id,
               averageQuantity: reward.defaultAverageQuantity,
               userId: user.id,
+              isSellable: reward.isSellable,
             })),
           });
 
