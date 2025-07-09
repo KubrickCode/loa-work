@@ -60,6 +60,7 @@ export const ContentWageListBarChart = () => {
           includeIsBound,
           includeContentRewardItemIds,
           keyword,
+          status: ContentStatus.ACTIVE,
         },
         orderBy: [
           {
