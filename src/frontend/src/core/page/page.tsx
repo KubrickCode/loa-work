@@ -7,12 +7,18 @@ import { PageLoader } from "../loader";
 
 export type PageProps = StackProps & {
   title: string;
+  description?: string;
 };
 
-export const Page = ({ children, title, ...otherProps }: PageProps) => {
+export const Page = ({
+  children,
+  title,
+  description,
+  ...otherProps
+}: PageProps) => {
   return (
     <>
-      <Helmet title={title} />
+      <Helmet description={description} title={title} />
       <VStack align="stretch" {...otherProps}>
         <ErrorBoundary>
           <Suspense fallback={<PageLoader />}>{children}</Suspense>
