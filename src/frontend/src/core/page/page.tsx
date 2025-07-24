@@ -7,7 +7,7 @@ import { PageLoader } from "../loader";
 
 export type PageProps = StackProps & {
   title: string;
-  description?: string;
+  description: string;
 };
 
 export const Page = ({

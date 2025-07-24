@@ -23,7 +23,10 @@ export const ItemPriceListPage = () => {
   ];
 
   return (
-    <Page title="아이템 시세">
+    <Page
+      description="로스트아크 실시간 아이템 시세 정보를 제공합니다. 거래소 아이템, 경매장 아이템의 최신 가격을 확인하고 시장 동향을 파악하세요."
+      title="아이템 시세"
+    >
       <Tabs panels={tabPanels} />
     </Page>
   );

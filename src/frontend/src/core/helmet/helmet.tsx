@@ -2,7 +2,7 @@ import { Helmet as ReactHelmet } from "react-helmet-async";
 
 export type HelmetProps = {
   title: string;
-  description?: string;
+  description: string;
 };
 
 export const Helmet = ({

@@ -50,7 +50,10 @@ export const AdminPage = () => {
   ];
 
   return (
-    <Page title="관리자 페이지">
+    <Page
+      description="로스트아크 컨텐츠 데이터 관리를 위한 관리자 전용 페이지입니다."
+      title="관리자 페이지"
+    >
       <Tabs panels={tabPanels} />
     </Page>
   );
