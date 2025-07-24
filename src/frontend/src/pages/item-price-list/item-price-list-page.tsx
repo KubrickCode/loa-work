@@ -23,7 +23,7 @@ export const ItemPriceListPage = () => {
   ];
 
   return (
-    <Page>
+    <Page title="아이템 시세">
       <Tabs panels={tabPanels} />
     </Page>
   );

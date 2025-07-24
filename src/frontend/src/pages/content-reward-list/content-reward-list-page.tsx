@@ -18,7 +18,7 @@ export const ContentRewardListPage = () => {
   ];
 
   return (
-    <Page>
+    <Page title="컨텐츠별 보상">
       <Tabs panels={tabPanels} />
     </Page>
   );

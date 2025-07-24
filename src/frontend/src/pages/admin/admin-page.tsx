@@ -50,7 +50,7 @@ export const AdminPage = () => {
   ];
 
   return (
-    <Page>
+    <Page title="관리자 페이지">
       <Tabs panels={tabPanels} />
     </Page>
   );

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { HelmetProvider } from "react-helmet-async";
 
 import { AuthProvider } from "../auth";
 import { ErrorBoundary } from "../error";
@@ -11,21 +12,23 @@ import { Logger } from "./logger";
 
 export const App = () => {
   return (
-    <ThemeProvider>
-      <Router>
-        <AuthProvider>
-          <Logger />
-          <GraphQLProvider>
-            <Layout>
-              <ErrorBoundary>
-                <Suspense fallback={<PageLoader />}>
-                  <Routes />
-                </Suspense>
-              </ErrorBoundary>
-            </Layout>
-          </GraphQLProvider>
-        </AuthProvider>
-      </Router>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <Router>
+          <AuthProvider>
+            <Logger />
+            <GraphQLProvider>
+              <Layout>
+                <ErrorBoundary>
+                  <Suspense fallback={<PageLoader />}>
+                    <Routes />
+                  </Suspense>
+                </ErrorBoundary>
+              </Layout>
+            </GraphQLProvider>
+          </AuthProvider>
+        </Router>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 };

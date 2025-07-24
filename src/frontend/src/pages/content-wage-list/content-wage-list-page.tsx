@@ -18,7 +18,7 @@ export const ContentWageListPage = () => {
   ];
 
   return (
-    <Page>
+    <Page title="컨텐츠별 시급">
       <Tabs panels={tabPanels} />
     </Page>
   );
