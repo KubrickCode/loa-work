@@ -10,7 +10,8 @@ export const Helmet = ({
   description = "로스트아크 컨텐츠별 시급 정보를 제공하는 사이트입니다.",
 }: HelmetProps) => {
   const fullTitle = `${title} | 로직장`;
-  const keywords = "로스트아크, Lost Ark, 시급, 로아, 쌀먹, 보상, 게임, MMORPG";
+  const keywords =
+    "로스트아크, Lost Ark, 시급, 로아, 쌀먹, 로직장, 보상, 게임, MMORPG";
   const image = "/loa-work-favicon.png";
   const currentUrl = window.location.href;
 
