@@ -31,7 +31,7 @@ func main() {
 	converter := converter.NewConverter(db)
 
 	combinedTask := func() error {
-		if err := scraper.Start(); err != nil {
+		if err := scraper.ScrapeStat(); err != nil {
 			return err
 		}
 		return converter.Start()

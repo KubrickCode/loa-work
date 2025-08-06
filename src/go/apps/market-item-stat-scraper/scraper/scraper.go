@@ -22,7 +22,7 @@ func NewScraper(db loadb.DB) *Scraper {
 	return &Scraper{db: db, rateLimiter: rate.NewLimiter(rate.Every(time.Second), 1)}
 }
 
-func (s *Scraper) Start() error {
+func (s *Scraper) ScrapeStat() error {
 	items, err := s.getItemsToScrape()
 	if err != nil {
 		return fmt.Errorf("failed to get market items: %w", err)
