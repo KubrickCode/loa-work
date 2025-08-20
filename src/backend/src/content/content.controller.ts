@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
+// TODO: 생각보다 본격적으로 사용되는 기능이라 유지보수 가능한 형태(테스트가 쉬운 형태)로 리팩토링 필요
 @Controller('api/content')
 export class ContentController {
   constructor(private prisma: PrismaService) {}
