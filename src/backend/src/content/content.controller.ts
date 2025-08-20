@@ -72,12 +72,18 @@ export class ContentController {
           const currentQuantity = rewardHistory[i].quantity;
           const previousQuantity = rewardHistory[i + 1].quantity;
 
+          // 이전 수량이 0인 경우 증가율 계산에서 제외
+          if (previousQuantity === 0) {
+            continue;
+          }
+
           const increaseFactor = currentQuantity / previousQuantity;
           totalIncreaseFactor += increaseFactor;
           increaseCount++;
         }
 
-        const averageIncreaseFactor = totalIncreaseFactor / increaseCount;
+        const averageIncreaseFactor =
+          increaseCount > 0 ? totalIncreaseFactor / increaseCount : 1;
         const predictedQuantity =
           Number(latestReward.defaultAverageQuantity) * averageIncreaseFactor;
 
@@ -159,16 +165,33 @@ export class ContentController {
       const validMean =
         validReports.reduce((a, b) => a + b) / validReports.length;
       const currentQuantity = Number(reward.defaultAverageQuantity);
-      const difference =
-        ((validMean - currentQuantity) / currentQuantity) * 100;
+
+      // currentQuantity가 0인 경우 특별 처리
+      let difference: string;
+      let status: string;
+
+      if (currentQuantity === 0) {
+        if (validMean === 0) {
+          difference = '0.0%';
+          status = 'acceptable';
+        } else {
+          difference = 'N/A (기준값 0)';
+          status = 'base_value_zero';
+        }
+      } else {
+        const diffValue =
+          ((validMean - currentQuantity) / currentQuantity) * 100;
+        difference = `${diffValue.toFixed(1)}%`;
+        status =
+          Math.abs(diffValue) > 10 ? 'significant_difference' : 'acceptable';
+      }
 
       validations.push({
         itemName: reward.contentRewardItem.name,
         currentQuantity,
         reportedQuantity: validMean,
-        difference: `${difference.toFixed(1)}%`,
-        status:
-          Math.abs(difference) > 10 ? 'significant_difference' : 'acceptable',
+        difference,
+        status,
         totalReports: reports.length,
         validReports: validReports.length,
         excludedReports: reports.length - validReports.length,
