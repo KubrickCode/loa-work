@@ -14,7 +14,7 @@ export const ItemStatUpdateToggleTip = () => {
       content={<Content isOpen={isOpen} />}
       onOpenChange={({ open }) => setIsOpen(open)}
     >
-      <Link>아이템 시세 갱신 일시</Link>
+      <Link>수집 현황</Link>
     </ToggleTip>
   );
 };
