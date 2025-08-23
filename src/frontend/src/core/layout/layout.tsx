@@ -15,7 +15,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       py={{ base: 0, md: 4 }}
     >
       <Header />
-      <Box as="main" p={3}>
+      <Box as="main" p={3} pb={12}>
         {children}
       </Box>
       <Footer />
