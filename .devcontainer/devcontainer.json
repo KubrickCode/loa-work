@@ -7,7 +7,8 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "./local-features/just": {},
     "./local-features/go": {},
-    "./local-features/node": {}
+    "./local-features/node": {},
+    "./local-features/doppler": {}
   },
   "remoteUser": "root"
 }
