@@ -139,7 +139,35 @@ jobs:
               --user root \
               grafana/promtail:3.4 -config.file=/etc/promtail/config.yaml || echo "Docker run failed: $?"
 
-      - name: Deploy Web Service to EC2
+      - name: Setup pgAdmin config files
+        run: |
+          # Parse DATABASE_URL to extract connection details
+          DB_URL="${{ secrets.DATABASE_URL }}"
+          DB_HOST=$(echo $DB_URL | sed -n 's/.*@\([^:]*\):.*/\1/p')
+          DB_USER=$(echo $DB_URL | sed -n 's/.*:\/\/\([^:]*\):.*/\1/p')
+          DB_PASS=$(echo $DB_URL | sed -n 's/.*:\/\/[^:]*:\([^@]*\)@.*/\1/p')
+          DB_NAME=$(echo $DB_URL | sed -n 's/.*\/\([^?]*\).*/\1/p')
+          
+          # Create servers.json with actual DB details
+          sed "s/HOST_PLACEHOLDER/$DB_HOST/g; s/USER_PLACEHOLDER/$DB_USER/g; s/DB_NAME_PLACEHOLDER/$DB_NAME/g" \
+            infra/pgadmin/servers.json > servers.json
+          
+          # Create pgpass with actual credentials  
+          sed "s/HOST_PLACEHOLDER/$DB_HOST/g; s/USER_PLACEHOLDER/$DB_USER/g; s/PASSWORD_PLACEHOLDER/$DB_PASS/g" \
+            infra/pgadmin/pgpass > pgpass
+          
+          chmod 600 pgpass
+
+      - name: Copy pgAdmin config to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "servers.json,pgpass"
+          target: "/home/ubuntu"
+
+      - name: Deploy Web Service and pgAdmin to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -153,7 +181,25 @@ jobs:
             docker pull ${{ secrets.ECR_REGISTRY }}/loa-work/web-service:latest
             docker stop web-service || true
             docker rm web-service || true
+            docker stop pgadmin || true
+            docker rm pgadmin || true
 
+            # Start pgAdmin with pre-configured database
+            docker run -d \
+              --name pgadmin \
+              -p 5050:80 \
+              --log-driver json-file \
+              --log-opt max-size=10m \
+              --log-opt max-file=3 \
+              -e PGADMIN_DEFAULT_EMAIL="admin@loa-work.info" \
+              -e PGADMIN_DEFAULT_PASSWORD="admin" \
+              -e PGADMIN_CONFIG_SERVER_MODE=False \
+              -v /home/ubuntu/servers.json:/pgadmin4/servers.json:ro \
+              -v /home/ubuntu/pgpass:/pgpass:ro \
+              --restart always \
+              dpage/pgadmin4:latest
+
+            # Start web service
             docker run -d \
               --name web-service \
               -p 3000:3000 \
