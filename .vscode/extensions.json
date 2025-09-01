@@ -13,6 +13,8 @@
     "streetsidesoftware.code-spell-checker",
     "wayou.vscode-todo-highlight",
     "usernamehw.errorlens",
-    "prisma.prisma"
+    "prisma.prisma",
+    "kubrickcode.tlog-vscode",
+    "kubrickcode.quick-command-buttons"
   ]
 }
