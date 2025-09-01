@@ -14,5 +14,127 @@
   "files.autoSave": "onFocusChange",
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "quickCommandButtons.buttons": [
+    {
+      "name": "Release",
+      "color": "pink",
+      "command": "git push -f origin main:release",
+      "terminalName": "Release"
+    },
+    {
+      "name": "Web App",
+      "color": "green",
+      "group": [
+        {
+          "name": "Run App",
+          "executeAll": true,
+          "group": [
+            {
+              "name": "Backend",
+              "command": "just run backend",
+              "terminalName": "Backend"
+            },
+            {
+              "name": "Frontend",
+              "command": "just run frontend",
+              "terminalName": "Frontend"
+            }
+          ],
+          "shortcut": "q"
+        },
+        {
+          "name": "Backend",
+          "command": "just run backend",
+          "terminalName": "Backend",
+          "shortcut": "w"
+        },
+        {
+          "name": "Frontend",
+          "command": "just run frontend",
+          "terminalName": "Frontend",
+          "shortcut": "e"
+        }
+      ]
+    },
+    {
+      "name": "Scraper",
+      "color": "yellow",
+      "group": [
+        {
+          "name": "Stat Scraper",
+          "executeAll": true,
+          "group": [
+            {
+              "name": "Market Item Stat Scraper",
+              "command": "just run market-item-stat-scraper",
+              "terminalName": "Market Item Stat Scraper"
+            },
+            {
+              "name": "Auction Item Stat Scraper",
+              "command": "just run auction-item-stat-scraper",
+              "terminalName": "Auction Item Stat Scraper"
+            }
+          ],
+          "shortcut": "q"
+        },
+        {
+          "name": "Market Item Category Scraper",
+          "command": "just run market-item-category-scraper",
+          "terminalName": "Market Item Category Scraper",
+          "shortcut": "w"
+        },
+        {
+          "name": "Market Item Scraper",
+          "command": "just run market-item-scraper",
+          "terminalName": "Market Item Scraper",
+          "shortcut": "e"
+        },
+        {
+          "name": "Market Item Stat Scraper",
+          "command": "just run market-item-stat-scraper",
+          "terminalName": "Market Item Stat Scraper",
+          "shortcut": "r"
+        },
+        {
+          "name": "Auction Item Stat Scraper",
+          "command": "just run auction-item-stat-scraper",
+          "terminalName": "Auction Item Stat Scraper",
+          "shortcut": "a"
+        }
+      ]
+    },
+    {
+      "name": "$(git-branch) Git",
+      "color": "skyblue",
+      "group": [
+        {
+          "name": "Push",
+          "command": "git add . && git commit --amend --no-edit && git push -f",
+          "terminalName": "Forced Push",
+          "shortcut": "q"
+        },
+        {
+          "name": "Commit",
+          "command": "git commit --amend --no-edit",
+          "shortcut": "w"
+        },
+        {
+          "name": "Reset Soft",
+          "command": "git reset --soft HEAD~1",
+          "shortcut": "e"
+        },
+        {
+          "name": "Rebase 10",
+          "command": "git rebase -i HEAD~10",
+          "shortcut": "r"
+        }
+      ]
+    }
+  ],
+  "quickCommandButtons.refreshButton": {
+    "icon": "$(refresh)",
+    "color": "white",
+    "enabled": true
   }
 }
