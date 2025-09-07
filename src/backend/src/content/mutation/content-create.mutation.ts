@@ -146,14 +146,6 @@ export class ContentCreateMutation {
               userId: user.id,
             })),
           });
-
-          await tx.userContentDuration.create({
-            data: {
-              contentId: content.contentDuration.contentId,
-              value: content.contentDuration.value,
-              userId: user.id,
-            },
-          });
         }),
       );
 
