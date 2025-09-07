@@ -1,0 +1,12 @@
+query ContentDurationEditDialog($id: Int!) {
+  content(id: $id) {
+    displayName
+    duration
+  }
+}
+
+mutation ContentDurationEdit($input: ContentDurationEditInput!) {
+  contentDurationEdit(input: $input) {
+    ok
+  }
+}
