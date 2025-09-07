@@ -5,7 +5,6 @@ import { ContentReward } from './content-reward.object';
 import { ContentCategory } from './content-category.object';
 import { UserContentService } from '../../user/service/user-content.service';
 import { ContentSeeMoreReward } from './content-see-more-reward.object';
-import { ContentDuration } from './content-duration.object';
 import { DataLoaderService } from 'src/dataloader/data-loader.service';
 import { ContentWage, ContentWageFilter } from './content-wage.object';
 import { ContentWageService } from '../service/content-wage.service';
@@ -23,13 +22,6 @@ export class ContentResolver {
   async contentCategory(@Parent() content: Content) {
     return await this.dataLoaderService.contentCategory.findUniqueOrThrowById(
       content.contentCategoryId,
-    );
-  }
-
-  @ResolveField(() => ContentDuration)
-  async contentDuration(@Parent() content: Content) {
-    return await this.dataLoaderService.contentDuration.findUniqueOrThrowByContentId(
-      content.id,
     );
   }
 

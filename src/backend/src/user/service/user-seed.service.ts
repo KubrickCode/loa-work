@@ -9,7 +9,6 @@ export class UserSeedService {
       include: {
         userContentRewards: true,
         userContentSeeMoreRewards: true,
-        userContentDurations: true,
         userItems: true,
         userGoldExchangeRate: true,
       },
@@ -21,10 +20,6 @@ export class UserSeedService {
 
     if (!user.userContentSeeMoreRewards.length) {
       await this.makeContentSeeMoreRewards(userId, tx, user.createdAt);
-    }
-
-    if (!user.userContentDurations.length) {
-      await this.makeContentDurations(userId, tx, user.createdAt);
     }
 
     if (!user.userItems.length) {
@@ -88,23 +83,6 @@ export class UserSeedService {
       data: defaultItems.map(({ id, price }) => ({
         itemId: id,
         price,
-        userId,
-        createdAt,
-      })),
-    });
-  }
-
-  async makeContentDurations(
-    userId: number,
-    tx: Prisma.TransactionClient,
-    createdAt: Date,
-  ) {
-    const defaultDurations = await tx.contentDuration.findMany();
-
-    await tx.userContentDuration.createMany({
-      data: defaultDurations.map(({ id, defaultValue: value }) => ({
-        contentDurationId: id,
-        value,
         userId,
         createdAt,
       })),

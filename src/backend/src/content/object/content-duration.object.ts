@@ -7,5 +7,5 @@ export class ContentDuration extends BaseObject {
   contentId: number;
 
   @Field()
-  defaultValue: number;
+  value: number;
 }
