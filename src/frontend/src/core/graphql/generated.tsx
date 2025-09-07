@@ -43,7 +43,6 @@ export type Content = {
   __typename?: 'Content';
   contentCategory: ContentCategory;
   contentCategoryId: Scalars['Int']['output'];
-  contentDuration: ContentDuration;
   contentRewards: Array<ContentReward>;
   contentSeeMoreRewards: Array<ContentSeeMoreReward>;
   createdAt: Scalars['DateTime']['output'];
@@ -248,6 +247,24 @@ export type CustomContentWageCalculateResult = {
   ok: Scalars['Boolean']['output'];
 };
 
+export type GoldExchangeRate = {
+  __typename?: 'GoldExchangeRate';
+  createdAt: Scalars['DateTime']['output'];
+  goldAmount: Scalars['Float']['output'];
+  id: Scalars['Int']['output'];
+  krwAmount: Scalars['Float']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type GoldExchangeRateEditInput = {
+  krwAmount: Scalars['Int']['input'];
+};
+
+export type GoldExchangeRateEditResult = {
+  __typename?: 'GoldExchangeRateEditResult';
+  ok: Scalars['Boolean']['output'];
+};
+
 export type Item = {
   __typename?: 'Item';
   createdAt: Scalars['DateTime']['output'];
@@ -299,11 +316,11 @@ export type Mutation = {
   contentCreate: ContentCreateResult;
   contentRewardsReport: ContentRewardsReportResult;
   customContentWageCalculate: CustomContentWageCalculateResult;
+  goldExchangeRateEdit: GoldExchangeRateEditResult;
   userContentDurationEdit: UserContentDurationEditResult;
   userContentDurationsEdit: UserContentDurationsEditResult;
   userContentRewardsEdit: UserContentRewardsEditResult;
   userContentSeeMoreRewardsEdit: UserContentSeeMoreRewardsEditResult;
-  userGoldExchangeRateEdit: UserGoldExchangeRateEditResult;
   userItemEdit: UserItemEditResult;
 };
 
@@ -320,6 +337,11 @@ export type MutationContentRewardsReportArgs = {
 
 export type MutationCustomContentWageCalculateArgs = {
   input: CustomContentWageCalculateInput;
+};
+
+
+export type MutationGoldExchangeRateEditArgs = {
+  input: GoldExchangeRateEditInput;
 };
 
 
@@ -340,11 +362,6 @@ export type MutationUserContentRewardsEditArgs = {
 
 export type MutationUserContentSeeMoreRewardsEditArgs = {
   input: UserContentSeeMoreRewardsEditInput;
-};
-
-
-export type MutationUserGoldExchangeRateEditArgs = {
-  input: UserGoldExchangeRateEditInput;
 };
 
 
@@ -369,12 +386,11 @@ export type Query = {
   contentList: Array<Content>;
   contentWageList: Array<ContentWage>;
   contents: Array<Content>;
-  goldExchangeRate: UserGoldExchangeRate;
+  goldExchangeRate: GoldExchangeRate;
   item: Item;
   items: Array<Item>;
   marketItemList: Array<MarketItem>;
   marketItems: Array<MarketItem>;
-  userGoldExchangeRate: UserGoldExchangeRate;
   userList: Array<User>;
 };
 
@@ -535,26 +551,6 @@ export type UserContentSeeMoreRewardsEditResult = {
   ok: Scalars['Boolean']['output'];
 };
 
-export type UserGoldExchangeRate = {
-  __typename?: 'UserGoldExchangeRate';
-  createdAt: Scalars['DateTime']['output'];
-  goldAmount: Scalars['Float']['output'];
-  id: Scalars['Int']['output'];
-  krwAmount: Scalars['Float']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-  userId: Scalars['Int']['output'];
-};
-
-export type UserGoldExchangeRateEditInput = {
-  id: Scalars['Int']['input'];
-  krwAmount: Scalars['Int']['input'];
-};
-
-export type UserGoldExchangeRateEditResult = {
-  __typename?: 'UserGoldExchangeRateEditResult';
-  ok: Scalars['Boolean']['output'];
-};
-
 export type UserItem = {
   __typename?: 'UserItem';
   createdAt: Scalars['DateTime']['output'];
@@ -669,22 +665,22 @@ export type CustomContentWageCalculateDialogMutationMutationVariables = Exact<{
 
 export type CustomContentWageCalculateDialogMutationMutation = { __typename?: 'Mutation', customContentWageCalculate: { __typename?: 'CustomContentWageCalculateResult', krwAmountPerHour: number, goldAmountPerHour: number, goldAmountPerClear: number, ok: boolean } };
 
-export type UserGoldExchangeRateSettingDialogQueryVariables = Exact<{ [key: string]: never; }>;
+export type GoldExchangeRateSettingDialogQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserGoldExchangeRateSettingDialogQuery = { __typename?: 'Query', userGoldExchangeRate: { __typename?: 'UserGoldExchangeRate', id: number, krwAmount: number, goldAmount: number } };
+export type GoldExchangeRateSettingDialogQuery = { __typename?: 'Query', goldExchangeRate: { __typename?: 'GoldExchangeRate', id: number, krwAmount: number, goldAmount: number } };
 
-export type UserGoldExchangeRateEditMutationVariables = Exact<{
-  input: UserGoldExchangeRateEditInput;
+export type GoldExchangeRateEditMutationVariables = Exact<{
+  input: GoldExchangeRateEditInput;
 }>;
 
 
-export type UserGoldExchangeRateEditMutation = { __typename?: 'Mutation', userGoldExchangeRateEdit: { __typename?: 'UserGoldExchangeRateEditResult', ok: boolean } };
+export type GoldExchangeRateEditMutation = { __typename?: 'Mutation', goldExchangeRateEdit: { __typename?: 'GoldExchangeRateEditResult', ok: boolean } };
 
 export type ContentWageTableTabQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ContentWageTableTabQuery = { __typename?: 'Query', goldExchangeRate: { __typename?: 'UserGoldExchangeRate', goldAmount: number, krwAmount: number } };
+export type ContentWageTableTabQuery = { __typename?: 'Query', goldExchangeRate: { __typename?: 'GoldExchangeRate', goldAmount: number, krwAmount: number } };
 
 export type AuctionItemListTableQueryVariables = Exact<{
   filter?: InputMaybe<AuctionItemListFilter>;
@@ -845,8 +841,8 @@ export const ContentWageListTableDocument = {"kind":"Document","definitions":[{"
 export const ItemsFilterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ItemsFilter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<ItemsFilterQuery, ItemsFilterQueryVariables>;
 export const CustomContentWageCalculateDialogQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CustomContentWageCalculateDialogQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CustomContentWageCalculateDialogQueryQuery, CustomContentWageCalculateDialogQueryQueryVariables>;
 export const CustomContentWageCalculateDialogMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CustomContentWageCalculateDialogMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CustomContentWageCalculateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"customContentWageCalculate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"krwAmountPerHour"}},{"kind":"Field","name":{"kind":"Name","value":"goldAmountPerHour"}},{"kind":"Field","name":{"kind":"Name","value":"goldAmountPerClear"}},{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<CustomContentWageCalculateDialogMutationMutation, CustomContentWageCalculateDialogMutationMutationVariables>;
-export const UserGoldExchangeRateSettingDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserGoldExchangeRateSettingDialog"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userGoldExchangeRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"krwAmount"}},{"kind":"Field","name":{"kind":"Name","value":"goldAmount"}}]}}]}}]} as unknown as DocumentNode<UserGoldExchangeRateSettingDialogQuery, UserGoldExchangeRateSettingDialogQueryVariables>;
-export const UserGoldExchangeRateEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserGoldExchangeRateEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserGoldExchangeRateEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userGoldExchangeRateEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<UserGoldExchangeRateEditMutation, UserGoldExchangeRateEditMutationVariables>;
+export const GoldExchangeRateSettingDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GoldExchangeRateSettingDialog"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"goldExchangeRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"krwAmount"}},{"kind":"Field","name":{"kind":"Name","value":"goldAmount"}}]}}]}}]} as unknown as DocumentNode<GoldExchangeRateSettingDialogQuery, GoldExchangeRateSettingDialogQueryVariables>;
+export const GoldExchangeRateEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"GoldExchangeRateEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GoldExchangeRateEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"goldExchangeRateEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<GoldExchangeRateEditMutation, GoldExchangeRateEditMutationVariables>;
 export const ContentWageTableTabDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentWageTableTab"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"goldExchangeRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"goldAmount"}},{"kind":"Field","name":{"kind":"Name","value":"krwAmount"}}]}}]}}]} as unknown as DocumentNode<ContentWageTableTabQuery, ContentWageTableTabQueryVariables>;
 export const AuctionItemListTableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuctionItemListTable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AuctionItemListFilter"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrderByArg"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auctionItemList"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"avgBuyPrice"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"auctionItems"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<AuctionItemListTableQuery, AuctionItemListTableQueryVariables>;
 export const ExtraItemListTableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExtraItemListTable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ItemsFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}}]}}]}}]} as unknown as DocumentNode<ExtraItemListTableQuery, ExtraItemListTableQueryVariables>;

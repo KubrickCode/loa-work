@@ -1,13 +1,13 @@
-query UserGoldExchangeRateSettingDialog {
-  userGoldExchangeRate {
+query GoldExchangeRateSettingDialog {
+  goldExchangeRate {
     id
     krwAmount
     goldAmount
   }
 }
 
-mutation UserGoldExchangeRateEdit($input: UserGoldExchangeRateEditInput!) {
-  userGoldExchangeRateEdit(input: $input) {
+mutation GoldExchangeRateEdit($input: GoldExchangeRateEditInput!) {
+  goldExchangeRateEdit(input: $input) {
     ok
   }
 }

@@ -10,7 +10,6 @@ export class UserSeedService {
         userContentRewards: true,
         userContentSeeMoreRewards: true,
         userItems: true,
-        userGoldExchangeRate: true,
       },
     });
 
@@ -24,10 +23,6 @@ export class UserSeedService {
 
     if (!user.userItems.length) {
       await this.makeItems(userId, tx, user.createdAt);
-    }
-
-    if (!user.userGoldExchangeRate) {
-      await this.makeGoldExchangeRate(userId, tx, user.createdAt);
     }
   }
 
@@ -86,23 +81,6 @@ export class UserSeedService {
         userId,
         createdAt,
       })),
-    });
-  }
-
-  async makeGoldExchangeRate(
-    userId: number,
-    tx: Prisma.TransactionClient,
-    createdAt: Date,
-  ) {
-    const { krwAmount, goldAmount } = await tx.goldExchangeRate.findFirst();
-
-    await tx.userGoldExchangeRate.create({
-      data: {
-        userId,
-        krwAmount,
-        goldAmount,
-        createdAt,
-      },
     });
   }
 }

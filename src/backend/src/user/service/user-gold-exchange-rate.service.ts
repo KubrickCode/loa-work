@@ -22,27 +22,17 @@ export class UserGoldExchangeRateService {
     const goldExchangeRate =
       await this.prisma.goldExchangeRate.findFirstOrThrow();
 
-    return userId
-      ? await this.prisma.userGoldExchangeRate.findUniqueOrThrow({
+    if (userId) {
+      const userGoldExchangeRate =
+        await this.prisma.userGoldExchangeRate.findUnique({
           where: {
             userId,
           },
-        })
-      : goldExchangeRate;
-  }
+        });
 
-  async validateUserGoldExchangeRate(rateId: number) {
-    const userId = this.getUserId();
-
-    const userGoldExchangeRate =
-      await this.prisma.userGoldExchangeRate.findUnique({
-        where: { id: rateId, userId },
-      });
-
-    if (!userGoldExchangeRate) {
-      throw new Error('환율에 대한 수정 권한이 없습니다');
+      return userGoldExchangeRate ?? goldExchangeRate;
     }
 
-    return true;
+    return goldExchangeRate;
   }
 }
