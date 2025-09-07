@@ -14,49 +14,49 @@ import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { User } from 'src/common/object/user.object';
 import { DiscordService } from 'src/discord/discord.service';
 import { PrismaService } from 'src/prisma';
-import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 
 @InputType()
-class UserGoldExchangeRateEditInput {
-  @Field()
-  id: number;
-
+class GoldExchangeRateEditInput {
   @Field(() => Int)
   krwAmount: number;
 }
 
 @ObjectType()
-class UserGoldExchangeRateEditResult {
+class GoldExchangeRateEditResult {
   @Field(() => Boolean)
   ok: boolean;
 }
 
 @Resolver()
-export class UserGoldExchangeRateEditMutation {
+export class GoldExchangeRateEditMutation {
   constructor(
     private prisma: PrismaService,
-    private userGoldExchangeRateService: UserGoldExchangeRateService,
     private discordService: DiscordService,
   ) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => UserGoldExchangeRateEditResult)
-  async userGoldExchangeRateEdit(
-    @Args('input') input: UserGoldExchangeRateEditInput,
+  @Mutation(() => GoldExchangeRateEditResult)
+  async goldExchangeRateEdit(
+    @Args('input') input: GoldExchangeRateEditInput,
     @CurrentUser() user: User,
   ) {
-    const { id, krwAmount } = input;
-
-    await this.userGoldExchangeRateService.validateUserGoldExchangeRate(id);
+    const { krwAmount } = input;
 
     return await this.prisma.$transaction(async (tx) => {
       if (user.role === UserRole.OWNER) {
         await this.editDefaultGoldExchangeRate(krwAmount, tx);
       }
 
-      await tx.userGoldExchangeRate.update({
-        where: { id },
-        data: { isEdited: true, krwAmount },
+      const { goldAmount } = await tx.goldExchangeRate.findFirstOrThrow();
+
+      await tx.userGoldExchangeRate.upsert({
+        where: { userId: user.id },
+        update: { krwAmount },
+        create: {
+          userId: user.id,
+          krwAmount,
+          goldAmount,
+        },
       });
 
       return { ok: true };
@@ -67,15 +67,6 @@ export class UserGoldExchangeRateEditMutation {
     krwAmount: number,
     tx: Prisma.TransactionClient,
   ) {
-    await tx.userGoldExchangeRate.updateMany({
-      where: {
-        isEdited: false,
-      },
-      data: {
-        krwAmount,
-      },
-    });
-
     const goldExchangeRate = await tx.goldExchangeRate.findFirstOrThrow();
 
     const updatedGoldExchangeRate = await tx.goldExchangeRate.update({
