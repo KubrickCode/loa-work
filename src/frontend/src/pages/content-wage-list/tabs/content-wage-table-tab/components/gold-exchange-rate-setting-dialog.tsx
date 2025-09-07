@@ -3,14 +3,13 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  UserGoldExchangeRateEditDocument,
-  UserGoldExchangeRateEditInput,
-  UserGoldExchangeRateEditMutation,
-  UserGoldExchangeRateSettingDialogDocument,
+  GoldExchangeRateEditDocument,
+  GoldExchangeRateEditInput,
+  GoldExchangeRateEditMutation,
+  GoldExchangeRateSettingDialogDocument,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
-  id: z.number(),
   krwAmount: z.number().int32().min(0),
 });
 
@@ -20,21 +19,17 @@ export const GoldExchangeRateSettingDialog = ({
 }: {
   onComplete: () => void;
 } & DialogProps) => {
-  const { data } = useSafeQuery(UserGoldExchangeRateSettingDialogDocument);
+  const { data } = useSafeQuery(GoldExchangeRateSettingDialogDocument);
 
-  const { userGoldExchangeRate } = data;
+  const { goldExchangeRate } = data;
 
   return (
     <Dialog {...dialogProps}>
-      <Form.Mutation<
-        UserGoldExchangeRateEditInput,
-        UserGoldExchangeRateEditMutation
-      >
+      <Form.Mutation<GoldExchangeRateEditInput, GoldExchangeRateEditMutation>
         defaultValues={{
-          id: userGoldExchangeRate.id,
-          krwAmount: userGoldExchangeRate.krwAmount,
+          krwAmount: goldExchangeRate.krwAmount,
         }}
-        mutation={UserGoldExchangeRateEditDocument}
+        mutation={GoldExchangeRateEditDocument}
         onComplete={() => {
           dialogProps.onClose();
           onComplete();
@@ -50,7 +45,7 @@ export const GoldExchangeRateSettingDialog = ({
           <Dialog.Body>
             <Form.Body>
               <Form.Field
-                label={`${userGoldExchangeRate.goldAmount}골드 당 원(KRW)`}
+                label={`${goldExchangeRate.goldAmount}골드 당 원(KRW)`}
                 name="krwAmount"
               >
                 <Form.NumberInput min={0} />

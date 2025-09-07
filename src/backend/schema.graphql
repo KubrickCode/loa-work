@@ -219,6 +219,22 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type GoldExchangeRate {
+  createdAt: DateTime!
+  goldAmount: Float!
+  id: Int!
+  krwAmount: Float!
+  updatedAt: DateTime!
+}
+
+input GoldExchangeRateEditInput {
+  krwAmount: Int!
+}
+
+type GoldExchangeRateEditResult {
+  ok: Boolean!
+}
+
 type Item {
   createdAt: DateTime!
   id: Int!
@@ -267,11 +283,11 @@ type Mutation {
   contentCreate(input: ContentCreateInput!): ContentCreateResult!
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
+  goldExchangeRateEdit(input: GoldExchangeRateEditInput!): GoldExchangeRateEditResult!
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
   userContentDurationsEdit(input: UserContentDurationsEditInput!): UserContentDurationsEditResult!
   userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
   userContentSeeMoreRewardsEdit(input: UserContentSeeMoreRewardsEditInput!): UserContentSeeMoreRewardsEditResult!
-  userGoldExchangeRateEdit(input: UserGoldExchangeRateEditInput!): UserGoldExchangeRateEditResult!
   userItemEdit(input: UserItemEditInput!): UserItemEditResult!
 }
 
@@ -291,12 +307,11 @@ type Query {
   contentList(filter: ContentListFilter): [Content!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
   contents(filter: ContentsFilter): [Content!]!
-  goldExchangeRate: UserGoldExchangeRate!
+  goldExchangeRate: GoldExchangeRate!
   item(id: Int!): Item!
   items(filter: ItemsFilter): [Item!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   marketItems(orderBy: [OrderByArg!], take: Int): [MarketItem!]!
-  userGoldExchangeRate: UserGoldExchangeRate!
   userList: [User!]!
 }
 
@@ -378,24 +393,6 @@ input UserContentSeeMoreRewardsEditInput {
 }
 
 type UserContentSeeMoreRewardsEditResult {
-  ok: Boolean!
-}
-
-type UserGoldExchangeRate {
-  createdAt: DateTime!
-  goldAmount: Float!
-  id: Int!
-  krwAmount: Float!
-  updatedAt: DateTime!
-  userId: Int!
-}
-
-input UserGoldExchangeRateEditInput {
-  id: Int!
-  krwAmount: Int!
-}
-
-type UserGoldExchangeRateEditResult {
   ok: Boolean!
 }
 
