@@ -40,7 +40,7 @@ jobs:
 
           services:
             postgres:
-              image: postgres:13.1-alpine
+              image: postgres:16.8-alpine
               environment:
                 POSTGRES_USER: postgres
                 POSTGRES_PASSWORD: postgres
