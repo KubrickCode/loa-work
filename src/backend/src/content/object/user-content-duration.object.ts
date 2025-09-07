@@ -4,7 +4,7 @@ import { BaseObject } from 'src/common/object/base.object';
 @ObjectType()
 export class UserContentDuration extends BaseObject {
   @Field()
-  contentDurationId: number;
+  contentId: number;
 
   @Field()
   userId: number;

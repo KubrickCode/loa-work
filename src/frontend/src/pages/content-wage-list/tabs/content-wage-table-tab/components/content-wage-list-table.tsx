@@ -118,7 +118,7 @@ export const ContentWageListTable = () => {
                   <Dialog.Trigger
                     dialog={UserContentDurationEditDialog}
                     dialogProps={{
-                      contentDurationId: data.content.contentDuration.id,
+                      contentId: data.content.id,
                       onComplete: refetch,
                     }}
                     disabled={!isAuthenticated}

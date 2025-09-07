@@ -81,7 +81,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentDurationFactory.create({
       data: {
         contentId: content.id,
-        defaultValue: 600,
+        value: 600,
       },
     });
 
@@ -160,7 +160,7 @@ describe('ContentWageListQuery (e2e)', () => {
       await contentDurationFactory.create({
         data: {
           contentId,
-          defaultValue: 600,
+          value: 600,
         },
       });
     }
@@ -226,7 +226,7 @@ describe('ContentWageListQuery (e2e)', () => {
       await contentDurationFactory.create({
         data: {
           contentId,
-          defaultValue: 600,
+          value: 600,
         },
       });
     }
@@ -294,7 +294,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentDurationFactory.create({
       data: {
         contentId: content.id,
-        defaultValue: 600,
+        value: 600,
       },
     });
 
@@ -354,7 +354,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentDurationFactory.create({
       data: {
         contentId: content.id,
-        defaultValue: 600,
+        value: 600,
       },
     });
 
@@ -445,7 +445,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentDurationFactory.create({
       data: {
         contentId: content.id,
-        defaultValue: 600,
+        value: 600,
       },
     });
 
@@ -508,7 +508,7 @@ describe('ContentWageListQuery (e2e)', () => {
       await contentDurationFactory.create({
         data: {
           contentId: content.id,
-          defaultValue: 600,
+          value: 600,
         },
       });
     }
@@ -634,7 +634,7 @@ describe('ContentWageListQuery (e2e)', () => {
       await contentDurationFactory.create({
         data: {
           contentId,
-          defaultValue: 600,
+          value: 600,
         },
       });
     }
