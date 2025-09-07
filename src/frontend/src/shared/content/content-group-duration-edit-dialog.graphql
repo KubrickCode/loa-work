@@ -1,0 +1,16 @@
+query ContentGroupDurationEditDialog($ids: [Int!]!) {
+  contentGroup(filter: { contentIds: $ids }) {
+    name
+  }
+  contents(filter: { ids: $ids }) {
+    duration
+    gate
+    id
+  }
+}
+
+mutation ContentDurationsEdit($input: ContentDurationsEditInput!) {
+  contentDurationsEdit(input: $input) {
+    ok
+  }
+}

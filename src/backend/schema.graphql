@@ -85,6 +85,30 @@ type ContentDuration {
   value: Int!
 }
 
+input ContentDurationEditInput {
+  contentId: Int!
+  minutes: Int!
+  seconds: Int!
+}
+
+type ContentDurationEditResult {
+  ok: Boolean!
+}
+
+input ContentDurationsEditInput {
+  contentDurations: [ContentDurationsEditInputDuration!]!
+}
+
+input ContentDurationsEditInputDuration {
+  contentId: Int!
+  minutes: Int!
+  seconds: Int!
+}
+
+type ContentDurationsEditResult {
+  ok: Boolean!
+}
+
 type ContentGroup {
   contentCategory: ContentCategory!
   contentCategoryId: Int!
@@ -281,11 +305,11 @@ input MarketItemListFilter {
 
 type Mutation {
   contentCreate(input: ContentCreateInput!): ContentCreateResult!
+  contentDurationEdit(input: ContentDurationEditInput!): ContentDurationEditResult!
+  contentDurationsEdit(input: ContentDurationsEditInput!): ContentDurationsEditResult!
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   goldExchangeRateEdit(input: GoldExchangeRateEditInput!): GoldExchangeRateEditResult!
-  userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
-  userContentDurationsEdit(input: UserContentDurationsEditInput!): UserContentDurationsEditResult!
   userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
   userContentSeeMoreRewardsEdit(input: UserContentSeeMoreRewardsEditInput!): UserContentSeeMoreRewardsEditResult!
   userItemEdit(input: UserItemEditInput!): UserItemEditResult!
@@ -325,30 +349,6 @@ type User {
   refId: String!
   role: UserRole!
   updatedAt: DateTime!
-}
-
-input UserContentDurationEditInput {
-  contentId: Int!
-  minutes: Int!
-  seconds: Int!
-}
-
-type UserContentDurationEditResult {
-  ok: Boolean!
-}
-
-input UserContentDurationsEditInput {
-  contentDurations: [UserContentDurationsEditInputDuration!]!
-}
-
-input UserContentDurationsEditInputDuration {
-  contentId: Int!
-  minutes: Int!
-  seconds: Int!
-}
-
-type UserContentDurationsEditResult {
-  ok: Boolean!
 }
 
 type UserContentReward {

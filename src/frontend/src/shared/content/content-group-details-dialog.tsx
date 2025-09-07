@@ -30,7 +30,7 @@ import { MultiSelect } from "~/core/select";
 import { LoginTooltip } from "~/core/tooltip";
 
 import { ItemNameWithImage } from "../item";
-import { UserContentDurationEditDialog } from "./user-content-duration-edit-dialog";
+import { UserContentDurationEditDialog } from "./content-duration-edit-dialog";
 import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
 import { UserContentSeeMoreRewardEditDialog } from "./user-content-see-more-reward-edit-dialog";
 
