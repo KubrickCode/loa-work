@@ -3,32 +3,33 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  UserContentSeeMoreRewardEditDialogDocument,
-  UserContentSeeMoreRewardsEditDocument,
-  UserContentSeeMoreRewardsEditInput,
-  UserContentSeeMoreRewardsEditMutation,
+  ContentSeeMoreRewardEditDialogDocument,
+  ContentSeeMoreRewardsEditDocument,
+  ContentSeeMoreRewardsEditInput,
+  ContentSeeMoreRewardsEditMutation,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
-  userContentSeeMoreRewards: z.array(
+  contentSeeMoreRewards: z.array(
     z.object({
-      id: z.number(),
+      contentId: z.number(),
+      itemId: z.number(),
       quantity: z.number(),
     })
   ),
 });
 
-type UserContentSeeMoreRewardEditDialogProps = {
+type ContentSeeMoreRewardEditDialogProps = {
   contentId: number;
   onComplete: () => void;
 };
 
-export const UserContentSeeMoreRewardEditDialog = ({
+export const ContentSeeMoreRewardEditDialog = ({
   contentId,
   onComplete,
   ...dialogProps
-}: UserContentSeeMoreRewardEditDialogProps & DialogProps) => {
-  const { data } = useSafeQuery(UserContentSeeMoreRewardEditDialogDocument, {
+}: ContentSeeMoreRewardEditDialogProps & DialogProps) => {
+  const { data } = useSafeQuery(ContentSeeMoreRewardEditDialogDocument, {
     variables: {
       id: contentId,
     },
@@ -37,18 +38,19 @@ export const UserContentSeeMoreRewardEditDialog = ({
   return (
     <Dialog {...dialogProps}>
       <Form.Mutation<
-        UserContentSeeMoreRewardsEditInput,
-        UserContentSeeMoreRewardsEditMutation
+        ContentSeeMoreRewardsEditInput,
+        ContentSeeMoreRewardsEditMutation
       >
         defaultValues={{
-          userContentSeeMoreRewards: data.content.contentSeeMoreRewards.map(
+          contentSeeMoreRewards: data.content.contentSeeMoreRewards.map(
             (reward) => ({
-              id: reward.userContentSeeMoreReward.id,
-              quantity: reward.userContentSeeMoreReward.quantity,
+              contentId,
+              itemId: reward.item.id,
+              quantity: reward.quantity,
             })
           ),
         }}
-        mutation={UserContentSeeMoreRewardsEditDocument}
+        mutation={ContentSeeMoreRewardsEditDocument}
         onComplete={() => {
           dialogProps.onClose();
           onComplete();
@@ -67,9 +69,9 @@ export const UserContentSeeMoreRewardEditDialog = ({
             <Form.Body>
               {data.content.contentSeeMoreRewards.map((reward, index) => (
                 <Form.Field
-                  key={reward.userContentSeeMoreReward.id}
+                  key={reward.id}
                   label={reward.item.name}
-                  name={`userContentSeeMoreRewards.${index}.quantity`}
+                  name={`contentSeeMoreRewards.${index}.quantity`}
                 >
                   <Form.NumberInput />
                 </Form.Field>

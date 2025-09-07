@@ -1,14 +1,12 @@
 query ContentRewardReportDialog($id: Int!) {
   content(id: $id) {
     contentRewards {
+      averageQuantity
       item {
         name
       }
       id
       isSellable
-      userContentReward {
-        averageQuantity
-      }
     }
   }
 }

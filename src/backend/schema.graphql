@@ -60,8 +60,7 @@ input ContentCreateInput {
 }
 
 input ContentCreateItemsInput {
-  defaultAverageQuantity: Float!
-  isExcluded: Boolean!
+  averageQuantity: Float!
   isSellable: Boolean!
   itemId: Int!
 }
@@ -71,7 +70,6 @@ type ContentCreateResult {
 }
 
 input ContentCreateSeeMoreRewardsInput {
-  isExcluded: Boolean!
   itemId: Int!
   quantity: Float!
 }
@@ -161,12 +159,27 @@ type ContentReward {
   item: Item!
   itemId: Int!
   updatedAt: DateTime!
-  userContentReward: UserContentReward!
+}
+
+input ContentRewardEditInput {
+  averageQuantity: Float!
+  contentId: Int!
+  isSellable: Boolean!
+  itemId: Int!
 }
 
 input ContentRewardReportInput {
   averageQuantity: Float!
   id: Int!
+}
+
+input ContentRewardsEditInput {
+  contentRewards: [ContentRewardEditInput!]!
+  isReportable: Boolean!
+}
+
+type ContentRewardsEditResult {
+  ok: Boolean!
 }
 
 input ContentRewardsReportInput {
@@ -185,7 +198,20 @@ type ContentSeeMoreReward {
   itemId: Int!
   quantity: Float!
   updatedAt: DateTime!
-  userContentSeeMoreReward: UserContentSeeMoreReward!
+}
+
+input ContentSeeMoreRewardEditInput {
+  contentId: Int!
+  itemId: Int!
+  quantity: Float!
+}
+
+input ContentSeeMoreRewardsEditInput {
+  contentSeeMoreRewards: [ContentSeeMoreRewardEditInput!]!
+}
+
+type ContentSeeMoreRewardsEditResult {
+  ok: Boolean!
 }
 
 enum ContentStatus {
@@ -307,11 +333,11 @@ type Mutation {
   contentCreate(input: ContentCreateInput!): ContentCreateResult!
   contentDurationEdit(input: ContentDurationEditInput!): ContentDurationEditResult!
   contentDurationsEdit(input: ContentDurationsEditInput!): ContentDurationsEditResult!
+  contentRewardsEdit(input: ContentRewardsEditInput!): ContentRewardsEditResult!
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
+  contentSeeMoreRewardsEdit(input: ContentSeeMoreRewardsEditInput!): ContentSeeMoreRewardsEditResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   goldExchangeRateEdit(input: GoldExchangeRateEditInput!): GoldExchangeRateEditResult!
-  userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
-  userContentSeeMoreRewardsEdit(input: UserContentSeeMoreRewardsEditInput!): UserContentSeeMoreRewardsEditResult!
   userItemEdit(input: UserItemEditInput!): UserItemEditResult!
 }
 
@@ -349,51 +375,6 @@ type User {
   refId: String!
   role: UserRole!
   updatedAt: DateTime!
-}
-
-type UserContentReward {
-  averageQuantity: Float!
-  contentRewardId: Int!
-  createdAt: DateTime!
-  id: Int!
-  isSellable: Boolean!
-  updatedAt: DateTime!
-  userId: Int!
-}
-
-input UserContentRewardEditInput {
-  averageQuantity: Float!
-  id: Int!
-  isSellable: Boolean!
-}
-
-input UserContentRewardsEditInput {
-  isReportable: Boolean!
-  userContentRewards: [UserContentRewardEditInput!]!
-}
-
-type UserContentRewardsEditResult {
-  ok: Boolean!
-}
-
-type UserContentSeeMoreReward {
-  createdAt: DateTime!
-  id: Int!
-  quantity: Float!
-  updatedAt: DateTime!
-}
-
-input UserContentSeeMoreRewardEditInput {
-  id: Int!
-  quantity: Float!
-}
-
-input UserContentSeeMoreRewardsEditInput {
-  userContentSeeMoreRewards: [UserContentSeeMoreRewardEditInput!]!
-}
-
-type UserContentSeeMoreRewardsEditResult {
-  ok: Boolean!
 }
 
 type UserItem {

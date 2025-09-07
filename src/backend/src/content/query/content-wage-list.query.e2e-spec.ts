@@ -74,7 +74,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content.id,
         itemId: item.id,
-        defaultAverageQuantity: 5,
+        averageQuantity: 5,
         isSellable: true,
       },
     });
@@ -152,7 +152,7 @@ describe('ContentWageListQuery (e2e)', () => {
         data: {
           contentId,
           itemId: item.id,
-          defaultAverageQuantity: 5,
+          averageQuantity: 5,
           isSellable: true,
         },
       });
@@ -218,7 +218,7 @@ describe('ContentWageListQuery (e2e)', () => {
         data: {
           contentId,
           itemId: item.id,
-          defaultAverageQuantity: 5,
+          averageQuantity: 5,
           isSellable: true,
         },
       });
@@ -276,7 +276,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content.id,
         itemId: item1.id,
-        defaultAverageQuantity: 5, // 100 * 5 = 500
+        averageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
     });
@@ -285,7 +285,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content.id,
         itemId: item2.id,
-        defaultAverageQuantity: 3, // 200 * 3 = 600
+        averageQuantity: 3, // 200 * 3 = 600
         isSellable: true,
       },
     });
@@ -336,7 +336,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content.id,
         itemId: item.id,
-        defaultAverageQuantity: 5, // 100 * 5 = 500
+        averageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
     });
@@ -426,7 +426,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content.id,
         itemId: item1.id,
-        defaultAverageQuantity: 5, // 100 * 5 = 500
+        averageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
     });
@@ -436,7 +436,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content.id,
         itemId: item2.id,
-        defaultAverageQuantity: 3, // 200 * 3 = 600
+        averageQuantity: 3, // 200 * 3 = 600
         isSellable: false,
       },
     });
@@ -499,7 +499,7 @@ describe('ContentWageListQuery (e2e)', () => {
         data: {
           contentId: content.id,
           itemId: item.id,
-          defaultAverageQuantity: goldValues[i] / 100, // 100 * (수량) = goldValues[i]
+          averageQuantity: goldValues[i] / 100, // 100 * (수량) = goldValues[i]
           isSellable: true,
         },
       });
@@ -605,7 +605,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content1.id,
         itemId: item1.id,
-        defaultAverageQuantity: 5, // 100 * 5 = 500
+        averageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
     });
@@ -614,7 +614,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content1.id,
         itemId: item2.id,
-        defaultAverageQuantity: 3, // 200 * 3 = 600
+        averageQuantity: 3, // 200 * 3 = 600
         isSellable: false,
       },
     });
@@ -624,7 +624,7 @@ describe('ContentWageListQuery (e2e)', () => {
       data: {
         contentId: content2.id,
         itemId: item1.id,
-        defaultAverageQuantity: 2, // 100 * 2 = 200
+        averageQuantity: 2, // 100 * 2 = 200
         isSellable: true,
       },
     });

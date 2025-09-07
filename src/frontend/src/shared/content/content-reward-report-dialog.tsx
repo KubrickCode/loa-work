@@ -38,7 +38,7 @@ export const ContentRewardReportDialog = ({
         defaultValues={{
           contentRewards: data.content.contentRewards.map((reward) => ({
             id: reward.id,
-            averageQuantity: reward.userContentReward.averageQuantity,
+            averageQuantity: reward.averageQuantity,
           })),
         }}
         mutation={ContentRewardsReportDocument}

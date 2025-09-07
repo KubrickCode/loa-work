@@ -94,7 +94,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item.id,
-          defaultAverageQuantity: averageQuantity,
+          averageQuantity: averageQuantity,
         },
       });
 
@@ -117,13 +117,13 @@ describe('UserContentService', () => {
           {
             contentId: content.id,
             itemId: item1.id,
-            defaultAverageQuantity: averageQuantity1,
+            averageQuantity: averageQuantity1,
             isSellable: true,
           },
           {
             contentId: content.id,
             itemId: item2.id,
-            defaultAverageQuantity: averageQuantity2,
+            averageQuantity: averageQuantity2,
             isSellable: true,
           },
         ],
@@ -157,13 +157,13 @@ describe('UserContentService', () => {
           {
             contentId: content.id,
             itemId: item1.id,
-            defaultAverageQuantity: averageQuantity1,
+            averageQuantity: averageQuantity1,
             isSellable: true,
           },
           {
             contentId: content.id,
             itemId: item2.id,
-            defaultAverageQuantity: averageQuantity2,
+            averageQuantity: averageQuantity2,
             isSellable: false,
           },
         ],
@@ -197,19 +197,19 @@ describe('UserContentService', () => {
           {
             contentId: content.id,
             itemId: item1.id,
-            defaultAverageQuantity: averageQuantity1,
+            averageQuantity: averageQuantity1,
             isSellable: true,
           },
           {
             contentId: content.id,
             itemId: item2.id,
-            defaultAverageQuantity: averageQuantity2,
+            averageQuantity: averageQuantity2,
             isSellable: true,
           },
           {
             contentId: content.id,
             itemId: item3.id,
-            defaultAverageQuantity: averageQuantity3,
+            averageQuantity: averageQuantity3,
             isSellable: true,
           },
         ],
@@ -248,19 +248,19 @@ describe('UserContentService', () => {
           {
             contentId: content.id,
             itemId: item1.id,
-            defaultAverageQuantity: averageQuantity1,
+            averageQuantity: averageQuantity1,
             isSellable: true,
           },
           {
             contentId: content.id,
             itemId: item2.id,
-            defaultAverageQuantity: averageQuantity2,
+            averageQuantity: averageQuantity2,
             isSellable: false,
           },
           {
             contentId: content.id,
             itemId: item3.id,
-            defaultAverageQuantity: averageQuantity3,
+            averageQuantity: averageQuantity3,
             isSellable: true,
           },
         ],
@@ -362,7 +362,8 @@ describe('UserContentService', () => {
       await prisma.userContentReward.create({
         data: {
           userId: user.id,
-          contentRewardId: contentReward.id,
+          contentId: contentReward.contentId,
+          itemId: contentReward.itemId,
           averageQuantity,
         },
       });
@@ -379,11 +380,11 @@ describe('UserContentService', () => {
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
 
-      const defaultAverageQuantity1 = faker.number.float({
+      const averageQuantity1 = faker.number.float({
         min: 1,
         max: 10000,
       });
-      const defaultAverageQuantity2 = faker.number.float({
+      const averageQuantity2 = faker.number.float({
         min: 1,
         max: 10000,
       });
@@ -395,7 +396,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item1.id,
-          defaultAverageQuantity: defaultAverageQuantity1,
+          averageQuantity: averageQuantity1,
           isSellable: true,
         },
       });
@@ -404,7 +405,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item2.id,
-          defaultAverageQuantity: defaultAverageQuantity2,
+          averageQuantity: averageQuantity2,
           isSellable: true,
         },
       });
@@ -413,12 +414,14 @@ describe('UserContentService', () => {
         data: [
           {
             userId: user.id,
-            contentRewardId: contentReward1.id,
+            contentId: contentReward1.contentId,
+            itemId: contentReward1.itemId,
             averageQuantity: userAverageQuantity1,
           },
           {
             userId: user.id,
-            contentRewardId: contentReward2.id,
+            contentId: contentReward2.contentId,
+            itemId: contentReward2.itemId,
             averageQuantity: userAverageQuantity2,
           },
         ],
@@ -438,14 +441,8 @@ describe('UserContentService', () => {
       expect(resultItem1.averageQuantity).toBeCloseTo(userAverageQuantity1, 5);
       expect(resultItem2.averageQuantity).toBeCloseTo(userAverageQuantity2, 5);
 
-      expect(resultItem1.averageQuantity).not.toBeCloseTo(
-        defaultAverageQuantity1,
-        5,
-      );
-      expect(resultItem2.averageQuantity).not.toBeCloseTo(
-        defaultAverageQuantity2,
-        5,
-      );
+      expect(resultItem1.averageQuantity).not.toBeCloseTo(averageQuantity1, 5);
+      expect(resultItem2.averageQuantity).not.toBeCloseTo(averageQuantity2, 5);
     });
 
     it('getContentRewards - isSellable 필터', async () => {
@@ -460,7 +457,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item1.id,
-          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
         },
       });
@@ -469,7 +466,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item2.id,
-          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: false,
         },
       });
@@ -478,13 +475,15 @@ describe('UserContentService', () => {
         data: [
           {
             userId: user.id,
-            contentRewardId: contentReward1.id,
+            contentId: contentReward1.contentId,
+            itemId: contentReward1.itemId,
             averageQuantity: userAverageQuantity1,
             isSellable: true,
           },
           {
             userId: user.id,
-            contentRewardId: contentReward2.id,
+            contentId: contentReward2.contentId,
+            itemId: contentReward2.itemId,
             averageQuantity: userAverageQuantity2,
             isSellable: false,
           },
@@ -514,7 +513,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item1.id,
-          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
         },
       });
@@ -523,7 +522,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item2.id,
-          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
         },
       });
@@ -532,7 +531,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item3.id,
-          defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
         },
       });
@@ -541,17 +540,20 @@ describe('UserContentService', () => {
         data: [
           {
             userId: user.id,
-            contentRewardId: contentReward1.id,
+            contentId: contentReward1.contentId,
+            itemId: contentReward1.itemId,
             averageQuantity: userAverageQuantity1,
           },
           {
             userId: user.id,
-            contentRewardId: contentReward2.id,
+            contentId: contentReward2.contentId,
+            itemId: contentReward2.itemId,
             averageQuantity: userAverageQuantity2,
           },
           {
             userId: user.id,
-            contentRewardId: contentReward3.id,
+            contentId: contentReward3.contentId,
+            itemId: contentReward3.itemId,
             averageQuantity: userAverageQuantity3,
           },
         ],
@@ -581,7 +583,7 @@ describe('UserContentService', () => {
       const content = await contentFactory.create();
       const item = await itemFactory.create();
 
-      const defaultAverageQuantity = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity = faker.number.float({ min: 1, max: 10000 });
       const userAverageQuantity = faker.number.float({ min: 1, max: 10000 });
       const otherUserAverageQuantity = faker.number.float({
         min: 1,
@@ -592,7 +594,7 @@ describe('UserContentService', () => {
         data: {
           contentId: content.id,
           itemId: item.id,
-          defaultAverageQuantity: defaultAverageQuantity,
+          averageQuantity: averageQuantity,
           isSellable: true,
         },
       });
@@ -600,7 +602,8 @@ describe('UserContentService', () => {
       await prisma.userContentReward.create({
         data: {
           userId: user.id,
-          contentRewardId: contentReward.id,
+          contentId: contentReward.contentId,
+          itemId: contentReward.itemId,
           averageQuantity: userAverageQuantity,
         },
       });
@@ -608,7 +611,8 @@ describe('UserContentService', () => {
       await prisma.userContentReward.create({
         data: {
           userId: otherUser.id,
-          contentRewardId: contentReward.id,
+          contentId: contentReward.contentId,
+          itemId: contentReward.itemId,
           averageQuantity: otherUserAverageQuantity,
         },
       });
@@ -623,10 +627,7 @@ describe('UserContentService', () => {
         otherUserAverageQuantity,
         5,
       );
-      expect(results[0].averageQuantity).not.toBeCloseTo(
-        defaultAverageQuantity,
-        5,
-      );
+      expect(results[0].averageQuantity).not.toBeCloseTo(averageQuantity, 5);
     });
 
     it('getContentRewards - 존재하지 않는 사용자 리워드는 빈 배열 반환', async () => {

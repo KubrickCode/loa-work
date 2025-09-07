@@ -1,0 +1,19 @@
+query ContentSeeMoreRewardEditDialog($id: Int!) {
+  content(id: $id) {
+    contentSeeMoreRewards {
+      id
+      item {
+        id
+        name
+      }
+      quantity
+    }
+    displayName
+  }
+}
+
+mutation ContentSeeMoreRewardsEdit($input: ContentSeeMoreRewardsEditInput!) {
+  contentSeeMoreRewardsEdit(input: $input) {
+    ok
+  }
+}

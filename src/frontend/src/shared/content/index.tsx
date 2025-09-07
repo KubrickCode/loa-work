@@ -3,5 +3,5 @@ export * from "./content-details-dialog";
 export * from "./content-group-details-dialog";
 export * from "./content-duration-edit-dialog";
 export * from "./content-group-duration-edit-dialog";
-export * from "./user-content-reward-edit-dialog";
-export * from "./user-content-see-more-reward-edit-dialog";
+export * from "./content-reward-edit-dialog";
+export * from "./content-see-more-reward-edit-dialog";

@@ -6,36 +6,37 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  UserContentRewardEditDialogDocument,
-  UserContentRewardsEditDocument,
-  UserContentRewardsEditInput,
-  UserContentRewardsEditMutation,
+  ContentRewardEditDialogDocument,
+  ContentRewardsEditDocument,
+  ContentRewardsEditInput,
+  ContentRewardsEditMutation,
 } from "~/core/graphql/generated";
 
 import { ContentRewardReportDialog } from "./content-reward-report-dialog";
 
 const schema = z.object({
-  userContentRewards: z.array(
+  contentRewards: z.array(
     z.object({
-      id: z.number(),
       averageQuantity: z.number(),
+      contentId: z.number(),
       isSellable: z.boolean(),
+      itemId: z.number(),
     })
   ),
   isReportable: z.boolean(),
 });
 
-type UserContentRewardEditDialogProps = {
+type ContentRewardEditDialogProps = {
   contentId: number;
   onComplete: () => void;
 };
 
-export const UserContentRewardEditDialog = ({
+export const ContentRewardEditDialog = ({
   contentId,
   onComplete,
   ...dialogProps
-}: UserContentRewardEditDialogProps & DialogProps) => {
-  const { data } = useSafeQuery(UserContentRewardEditDialogDocument, {
+}: ContentRewardEditDialogProps & DialogProps) => {
+  const { data } = useSafeQuery(ContentRewardEditDialogDocument, {
     variables: {
       id: contentId,
     },
@@ -43,19 +44,17 @@ export const UserContentRewardEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <Form.Mutation<
-        UserContentRewardsEditInput,
-        UserContentRewardsEditMutation
-      >
+      <Form.Mutation<ContentRewardsEditInput, ContentRewardsEditMutation>
         defaultValues={{
-          userContentRewards: data.content.contentRewards.map((reward) => ({
-            id: reward.userContentReward.id,
-            averageQuantity: reward.userContentReward.averageQuantity,
+          contentRewards: data.content.contentRewards.map((reward) => ({
+            contentId,
+            itemId: reward.item.id,
+            averageQuantity: reward.averageQuantity,
             isSellable: reward.isSellable,
           })),
           isReportable: true,
         }}
-        mutation={UserContentRewardsEditDocument}
+        mutation={ContentRewardsEditDocument}
         onComplete={() => {
           dialogProps.onClose();
           onComplete();
@@ -75,9 +74,9 @@ export const UserContentRewardEditDialog = ({
               <Form.Body>
                 {data.content.contentRewards.map((reward, index) => (
                   <Form.Field
-                    key={reward.userContentReward.id}
+                    key={reward.id}
                     label={reward.item.name}
-                    name={`userContentRewards.${index}.averageQuantity`}
+                    name={`contentRewards.${index}.averageQuantity`}
                   >
                     <InputGroup
                       endElement={
@@ -91,12 +90,12 @@ export const UserContentRewardEditDialog = ({
                             fontSize="sm"
                             onChange={(e) => {
                               setValue(
-                                `userContentRewards.${index}.isSellable`,
+                                `contentRewards.${index}.isSellable`,
                                 e.target.value === "true"
                               );
                             }}
                             value={
-                              watch(`userContentRewards.${index}.isSellable`)
+                              watch(`contentRewards.${index}.isSellable`)
                                 ? "true"
                                 : "false"
                             }
