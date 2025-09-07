@@ -1,11 +1,11 @@
 package loadb
 
-var ContentRewardItemKind = struct {
-	AUCTION_ITEM string
-	MARKET_ITEM  string
-	EXTRA_ITEM   string
+var ItemKind = struct {
+	AUCTION string
+	MARKET  string
+	EXTRA   string
 }{
-	AUCTION_ITEM: "AUCTION_ITEM",
-	MARKET_ITEM:  "MARKET_ITEM",
-	EXTRA_ITEM:   "EXTRA_ITEM",
+	AUCTION: "AUCTION",
+	MARKET:  "MARKET",
+	EXTRA:   "EXTRA",
 }

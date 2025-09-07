@@ -1,7 +1,7 @@
 query UserContentSeeMoreRewardEditDialog($id: Int!) {
   content(id: $id) {
     contentSeeMoreRewards {
-      contentRewardItem {
+      item {
         name
       }
       userContentSeeMoreReward {

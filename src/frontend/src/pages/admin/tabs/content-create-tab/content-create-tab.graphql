@@ -3,7 +3,7 @@ query ContentCreateTabData {
     id
     name
   }
-  contentRewardItems {
+  items {
     id
     name
   }

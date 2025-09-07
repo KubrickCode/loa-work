@@ -1,7 +1,7 @@
 import { Float, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma';
 import { ContentReward } from './content-reward.object';
-import { ContentRewardItem } from './content-reward-item.object';
+import { Item } from './item.object';
 import { UserContentService } from '../../user/service/user-content.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { User } from 'src/common/object/user.object';
@@ -18,10 +18,10 @@ export class ContentRewardResolver {
     private dataLoaderService: DataLoaderService,
   ) {}
 
-  @ResolveField(() => ContentRewardItem)
-  async contentRewardItem(@Parent() contentReward: ContentReward) {
-    return await this.dataLoaderService.contentRewardItem.findUniqueOrThrowById(
-      contentReward.contentRewardItemId,
+  @ResolveField(() => Item)
+  async item(@Parent() contentReward: ContentReward) {
+    return await this.dataLoaderService.item.findUniqueOrThrowById(
+      contentReward.itemId,
     );
   }
 

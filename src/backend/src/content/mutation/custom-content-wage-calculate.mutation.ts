@@ -19,12 +19,12 @@ class CustomContentWageCalculateInput {
   @Field(() => Int)
   seconds: number;
 
-  @Field(() => [CustomContentWageCalculateRewardItemInput])
-  rewardItems: CustomContentWageCalculateRewardItemInput[];
+  @Field(() => [CustomContentWageCalculateItemsInput])
+  items: CustomContentWageCalculateItemsInput[];
 }
 
 @InputType()
-class CustomContentWageCalculateRewardItemInput {
+class CustomContentWageCalculateItemsInput {
   @Field()
   id: number;
 
@@ -58,7 +58,7 @@ export class CustomContentWageCalculateMutation {
   async customContentWageCalculate(
     @Args('input') input: CustomContentWageCalculateInput,
   ) {
-    const { minutes, seconds, rewardItems } = input;
+    const { minutes, seconds, items } = input;
 
     const totalSeconds = this.contentDurationService.getValidatedTotalSeconds({
       minutes,
@@ -66,8 +66,8 @@ export class CustomContentWageCalculateMutation {
     });
 
     const rewardsGold = await this.contentWageService.calculateGold(
-      rewardItems.map((item) => ({
-        contentRewardItemId: item.id,
+      items.map((item) => ({
+        itemId: item.id,
         averageQuantity: item.quantity,
       })),
     );

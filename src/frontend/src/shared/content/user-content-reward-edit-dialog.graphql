@@ -1,7 +1,7 @@
 query UserContentRewardEditDialog($id: Int!) {
   content(id: $id) {
     contentRewards {
-      contentRewardItem {
+      item {
         name
       }
       isSellable

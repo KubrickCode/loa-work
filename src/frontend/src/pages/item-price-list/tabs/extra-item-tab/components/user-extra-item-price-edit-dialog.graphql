@@ -1,15 +1,15 @@
 query UserExtraItemPriceEditDialog($id: Int!) {
-  contentRewardItem(id: $id) {
+  item(id: $id) {
     name
-    userContentRewardItem {
+    userItem {
       id
       price
     }
   }
 }
 
-mutation UserContentRewardItemEdit($input: UserContentRewardItemEditInput!) {
-  userContentRewardItemEdit(input: $input) {
+mutation UserItemEdit($input: UserItemEditInput!) {
+  userItemEdit(input: $input) {
     ok
   }
 }

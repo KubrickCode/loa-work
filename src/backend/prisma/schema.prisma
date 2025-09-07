@@ -121,32 +121,32 @@ model ContentReward {
   // Relations
   contentId              Int                     @map("content_id")
   content                Content                 @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  contentRewardItem      ContentRewardItem       @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
-  contentRewardItemId    Int                     @map("content_reward_item_id")
+  item                   Item                    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId                 Int                     @map("item_id")
   userContentRewards     UserContentReward[]
   reportedContentRewards ReportedContentReward[]
 
-  @@unique([contentId, contentRewardItemId])
+  @@unique([contentId, itemId])
   @@map("content_reward")
 }
 
-model ContentRewardItem {
+model Item {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  imageUrl   String                @map("image_url")
-  isEditable Boolean               @default(false) @map("is_editable")
-  kind       ContentRewardItemKind
-  name       String                @unique
-  price      Decimal               @default(0)
+  imageUrl   String   @map("image_url")
+  isEditable Boolean  @default(false) @map("is_editable")
+  kind       ItemKind
+  name       String   @unique
+  price      Decimal  @default(0)
 
   // Relations
-  contentRewards         ContentReward[]
-  userContentRewardItems UserContentRewardItem[]
-  contentSeeMoreRewards  ContentSeeMoreReward[]
+  contentRewards        ContentReward[]
+  userItems             UserItem[]
+  contentSeeMoreRewards ContentSeeMoreReward[]
 
-  @@map("content_reward_item")
+  @@map("item")
 }
 
 model ContentSeeMoreReward {
@@ -159,8 +159,8 @@ model ContentSeeMoreReward {
   // Relations
   contentId                 Int                        @map("content_id")
   content                   Content                    @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  contentRewardItemId       Int                        @map("content_reward_item_id")
-  contentRewardItem         ContentRewardItem          @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
+  itemId                    Int                        @map("item_id")
+  item                      Item                       @relation(fields: [itemId], references: [id], onDelete: Cascade)
   userContentSeeMoreRewards UserContentSeeMoreReward[]
 
   @@map("content_see_more_reward")
@@ -272,7 +272,7 @@ model User {
 
   // Relations
   userContentDurations      UserContentDuration[]
-  userContentRewardItems    UserContentRewardItem[]
+  userItems                 UserItem[]
   userContentRewards        UserContentReward[]
   userGoldExchangeRate      UserGoldExchangeRate?
   reportedContentRewards    ReportedContentReward[]
@@ -336,7 +336,7 @@ model UserContentSeeMoreReward {
   @@map("user_content_see_more_reward")
 }
 
-model UserContentRewardItem {
+model UserItem {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
@@ -344,13 +344,13 @@ model UserContentRewardItem {
   price Decimal @default(0) // 개당 가격
 
   // Relations
-  contentRewardItemId Int               @map("content_reward_item_id")
-  contentRewardItem   ContentRewardItem @relation(fields: [contentRewardItemId], references: [id], onDelete: Cascade)
-  userId              Int               @map("user_id")
-  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemId Int  @map("item_id")
+  item   Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, contentRewardItemId])
-  @@map("user_content_reward_item")
+  @@unique([userId, itemId])
+  @@map("user_item")
 }
 
 model UserGoldExchangeRate {
@@ -375,10 +375,10 @@ enum AuthProvider {
   KAKAO
 }
 
-enum ContentRewardItemKind {
-  AUCTION_ITEM
-  MARKET_ITEM
-  EXTRA_ITEM
+enum ItemKind {
+  AUCTION
+  MARKET
+  EXTRA
 }
 
 enum ContentStatus {

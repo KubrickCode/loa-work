@@ -6,8 +6,8 @@ import { CONTEXT } from '@nestjs/graphql';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 import { UserFactory } from 'src/test/factory/user.factory';
 import { faker } from '@faker-js/faker/.';
-import { ContentRewardItemKind } from '@prisma/client';
-import { ContentRewardItemFactory } from 'src/test/factory/content-reward-item.factory';
+import { ItemKind } from '@prisma/client';
+import { ItemFactory } from 'src/test/factory/item.factory';
 
 // 현재 중요 테스트는 해당 서비스에만 필요한 상황이라 아래와 같이 작성하고, 필요 시 팩토리 코드로 아래 데이터들을 생성하고 재사용할 수 있도록 해야함.
 describe('ContentWageService', () => {
@@ -17,7 +17,7 @@ describe('ContentWageService', () => {
   let userFactory: UserFactory;
   let userGoldExchangeRateService: UserGoldExchangeRateService;
   let userContentService: UserContentService;
-  let contentRewardItemFactory: ContentRewardItemFactory;
+  let itemFactory: ItemFactory;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -27,7 +27,7 @@ describe('ContentWageService', () => {
         UserContentService,
         UserGoldExchangeRateService,
         UserFactory,
-        ContentRewardItemFactory,
+        ItemFactory,
         {
           provide: CONTEXT,
           useValue: { req: { user: { id: undefined } } },
@@ -40,7 +40,7 @@ describe('ContentWageService', () => {
     userFactory = module.get(UserFactory);
     userGoldExchangeRateService = module.get(UserGoldExchangeRateService);
     userContentService = module.get(UserContentService);
-    contentRewardItemFactory = module.get(ContentRewardItemFactory);
+    itemFactory = module.get(ItemFactory);
   });
 
   afterAll(async () => {
@@ -98,22 +98,22 @@ describe('ContentWageService', () => {
     });
 
     it('기본 계산', async () => {
-      const contentRewardItems = await Promise.all([
-        contentRewardItemFactory.create({
+      const items = await Promise.all([
+        itemFactory.create({
           data: { price: 100 },
         }),
-        contentRewardItemFactory.create({
+        itemFactory.create({
           data: { price: 200 },
         }),
       ]);
 
       const rewards = [
         {
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           averageQuantity: 2, // 100 * 2 = 200
         },
         {
-          contentRewardItemId: contentRewardItems[1].id,
+          itemId: items[1].id,
           averageQuantity: 3, // 200 * 3 = 600
         },
       ];
@@ -126,14 +126,14 @@ describe('ContentWageService', () => {
       const user = await userFactory.create();
       userContentService['context'].req.user = { id: user.id };
 
-      const contentRewardItems = await Promise.all([
-        contentRewardItemFactory.create({
+      const items = await Promise.all([
+        itemFactory.create({
           data: {
             price: 100,
             isEditable: true,
           },
         }),
-        contentRewardItemFactory.create({
+        itemFactory.create({
           data: {
             price: 200,
             isEditable: true,
@@ -143,17 +143,17 @@ describe('ContentWageService', () => {
 
       const userPrice = 500;
       await Promise.all([
-        prisma.userContentRewardItem.create({
+        prisma.userItem.create({
           data: {
             userId: user.id,
-            contentRewardItemId: contentRewardItems[0].id,
+            itemId: items[0].id,
             price: userPrice,
           },
         }),
-        prisma.userContentRewardItem.create({
+        prisma.userItem.create({
           data: {
             userId: user.id,
-            contentRewardItemId: contentRewardItems[1].id,
+            itemId: items[1].id,
             price: userPrice,
           },
         }),
@@ -161,11 +161,11 @@ describe('ContentWageService', () => {
 
       const rewards = [
         {
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
         },
         {
-          contentRewardItemId: contentRewardItems[1].id,
+          itemId: items[1].id,
           averageQuantity: 3, // 500 * 3 = 1500 (사용자 가격 사용)
         },
       ];
@@ -178,14 +178,14 @@ describe('ContentWageService', () => {
       const user = await userFactory.create();
       userContentService['context'].req.user = { id: user.id };
 
-      const contentRewardItems = await Promise.all([
-        contentRewardItemFactory.create({
+      const items = await Promise.all([
+        itemFactory.create({
           data: {
             price: 100,
             isEditable: true,
           },
         }),
-        contentRewardItemFactory.create({
+        itemFactory.create({
           data: {
             price: 200,
             isEditable: false,
@@ -194,21 +194,21 @@ describe('ContentWageService', () => {
       ]);
 
       const userPrice = 500;
-      await prisma.userContentRewardItem.create({
+      await prisma.userItem.create({
         data: {
           userId: user.id,
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           price: userPrice,
         },
       });
 
       const rewards = [
         {
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
         },
         {
-          contentRewardItemId: contentRewardItems[1].id,
+          itemId: items[1].id,
           averageQuantity: 3, // 200 * 3 = 600 (기본 가격 사용, isEditable이 false)
         },
       ];
@@ -221,14 +221,14 @@ describe('ContentWageService', () => {
       const user = await userFactory.create();
       userContentService['context'].req.user = { id: user.id };
 
-      const contentRewardItems = await Promise.all([
-        contentRewardItemFactory.create({
+      const items = await Promise.all([
+        itemFactory.create({
           data: {
             price: 100,
             isEditable: true,
           },
         }),
-        contentRewardItemFactory.create({
+        itemFactory.create({
           data: {
             price: 200,
             isEditable: true,
@@ -237,21 +237,21 @@ describe('ContentWageService', () => {
       ]);
 
       const userPrice = 500;
-      await prisma.userContentRewardItem.create({
+      await prisma.userItem.create({
         data: {
           userId: user.id,
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           price: userPrice,
         },
       });
 
       const rewards = [
         {
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
         },
         {
-          contentRewardItemId: contentRewardItems[1].id,
+          itemId: items[1].id,
           averageQuantity: 3, // 200 * 3 = 600 (기본 가격 사용, 사용자 가격이 없음)
         },
       ];
@@ -274,7 +274,7 @@ describe('ContentWageService', () => {
       const user1 = await userFactory.create();
       const user2 = await userFactory.create();
 
-      const contentRewardItem = await contentRewardItemFactory.create({
+      const item = await itemFactory.create({
         data: {
           price: 100,
           isEditable: true,
@@ -282,19 +282,19 @@ describe('ContentWageService', () => {
       });
 
       const userPrice1 = 500;
-      await prisma.userContentRewardItem.create({
+      await prisma.userItem.create({
         data: {
           userId: user1.id,
-          contentRewardItemId: contentRewardItem.id,
+          itemId: item.id,
           price: userPrice1,
         },
       });
 
       const userPrice2 = 800;
-      await prisma.userContentRewardItem.create({
+      await prisma.userItem.create({
         data: {
           userId: user2.id,
-          contentRewardItemId: contentRewardItem.id,
+          itemId: item.id,
           price: userPrice2,
         },
       });
@@ -303,7 +303,7 @@ describe('ContentWageService', () => {
 
       const rewards = [
         {
-          contentRewardItemId: contentRewardItem.id,
+          itemId: item.id,
           averageQuantity: 2, // 500 * 2 = 1000 (user1의 가격 사용)
         },
       ];
@@ -320,7 +320,7 @@ describe('ContentWageService', () => {
   });
 
   describe('calculateSeeMoreRewardsGold', () => {
-    const contentRewardItemIds: number[] = [];
+    const itemIds: number[] = [];
     const prices: number[] = [];
 
     beforeAll(async () => {
@@ -331,31 +331,31 @@ describe('ContentWageService', () => {
         const price = (i + 1) * 100;
         prices.push(price);
 
-        const contentRewardItem = await prisma.contentRewardItem.create({
+        const item = await prisma.item.create({
           data: {
             name: `테스트 아이템 ${i + 1}`,
             price,
             imageUrl: faker.image.url(),
-            kind: ContentRewardItemKind.MARKET_ITEM,
+            kind: ItemKind.MARKET,
           },
         });
 
-        contentRewardItemIds.push(contentRewardItem.id);
+        itemIds.push(item.id);
       }
     });
 
     it('기본 계산', async () => {
       const contentSeeMoreRewards = [
         {
-          contentRewardItemId: contentRewardItemIds[0],
+          itemId: itemIds[0],
           quantity: 2,
         },
         {
-          contentRewardItemId: contentRewardItemIds[1],
+          itemId: itemIds[1],
           quantity: 3,
         },
         {
-          contentRewardItemId: contentRewardItemIds[2],
+          itemId: itemIds[2],
           quantity: 1,
         },
       ];
@@ -369,22 +369,22 @@ describe('ContentWageService', () => {
     it('필터를 적용한 계산', async () => {
       const contentSeeMoreRewards = [
         {
-          contentRewardItemId: contentRewardItemIds[0],
+          itemId: itemIds[0],
           quantity: 2,
         },
         {
-          contentRewardItemId: contentRewardItemIds[1],
+          itemId: itemIds[1],
           quantity: 3,
         },
         {
-          contentRewardItemId: contentRewardItemIds[2],
+          itemId: itemIds[2],
           quantity: 1,
         },
       ];
 
       const result = await service.calculateSeeMoreRewardsGold(
         contentSeeMoreRewards,
-        [contentRewardItemIds[0], contentRewardItemIds[1]],
+        [itemIds[0], itemIds[1]],
       );
       expect(result).toBe(800);
     });
@@ -402,14 +402,14 @@ describe('ContentWageService', () => {
       userContentService['context'].req.user = { id: user.id };
       userGoldExchangeRateService['context'].req.user = { id: user.id };
 
-      const contentRewardItems = await Promise.all([
-        contentRewardItemFactory.create({
+      const items = await Promise.all([
+        itemFactory.create({
           data: {
             price: 100,
             isEditable: true,
           },
         }),
-        contentRewardItemFactory.create({
+        itemFactory.create({
           data: {
             price: 200,
             isEditable: true,
@@ -418,28 +418,28 @@ describe('ContentWageService', () => {
       ]);
 
       const userPrice = 500;
-      await prisma.userContentRewardItem.create({
+      await prisma.userItem.create({
         data: {
           userId: user.id,
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           price: userPrice,
         },
       });
-      await prisma.userContentRewardItem.create({
+      await prisma.userItem.create({
         data: {
           userId: user.id,
-          contentRewardItemId: contentRewardItems[1].id,
+          itemId: items[1].id,
           price: userPrice,
         },
       });
 
       const contentSeeMoreRewards = [
         {
-          contentRewardItemId: contentRewardItems[0].id,
+          itemId: items[0].id,
           quantity: 2,
         },
         {
-          contentRewardItemId: contentRewardItems[1].id,
+          itemId: items[1].id,
           quantity: 3,
         },
       ];

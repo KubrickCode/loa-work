@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma';
 
 type Reward = {
   averageQuantity: number;
-  contentRewardItemId: number;
+  itemId: number;
 };
 
 @Injectable()
@@ -20,9 +20,7 @@ export class ContentWageService {
     let gold = 0;
 
     for (const reward of rewards) {
-      const price = await this.userContentService.getContentRewardItemPrice(
-        reward.contentRewardItemId,
-      );
+      const price = await this.userContentService.getItemPrice(reward.itemId);
 
       const averageQuantity = reward.averageQuantity;
       gold += price * averageQuantity;
@@ -33,24 +31,21 @@ export class ContentWageService {
 
   async calculateSeeMoreRewardsGold(
     contentSeeMoreRewards: {
-      contentRewardItemId: number;
+      itemId: number;
       quantity: number;
     }[],
-    includeContentRewardItemIds?: number[],
+    includeItemIds?: number[],
   ) {
     const seeMoreRewards = contentSeeMoreRewards
       .filter((reward) => {
-        if (
-          includeContentRewardItemIds &&
-          !includeContentRewardItemIds.includes(reward.contentRewardItemId)
-        ) {
+        if (includeItemIds && !includeItemIds.includes(reward.itemId)) {
           return false;
         }
         return true;
       })
       .map((reward) => ({
         averageQuantity: reward.quantity,
-        contentRewardItemId: reward.contentRewardItemId,
+        itemId: reward.itemId,
       }));
 
     return await this.calculateGold(seeMoreRewards);
@@ -78,7 +73,7 @@ export class ContentWageService {
     contentId: number,
     filter: {
       includeIsBound?: boolean;
-      includeContentRewardItemIds?: number[];
+      includeItemIds?: number[];
       includeIsSeeMore?: boolean;
     },
   ) {
@@ -90,13 +85,13 @@ export class ContentWageService {
       content.id,
       {
         includeIsBound: filter?.includeIsBound,
-        includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+        includeItemIds: filter?.includeItemIds,
       },
     );
 
     const seeMoreRewards =
       await this.userContentService.getContentSeeMoreRewards(content.id, {
-        includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+        includeItemIds: filter?.includeItemIds,
       });
 
     const rewardsGold = await this.calculateGold(rewards);
@@ -109,7 +104,7 @@ export class ContentWageService {
     const seeMoreGold = shouldIncludeSeeMoreRewards
       ? await this.calculateSeeMoreRewardsGold(
           seeMoreRewards,
-          filter.includeContentRewardItemIds,
+          filter.includeItemIds,
         )
       : 0;
 
@@ -136,7 +131,7 @@ export class ContentWageService {
     contentIds: number[],
     filter: {
       includeIsBound?: boolean;
-      includeContentRewardItemIds?: number[];
+      includeItemIds?: number[];
       includeIsSeeMore?: boolean;
     },
   ) {
@@ -152,13 +147,13 @@ export class ContentWageService {
         content.id,
         {
           includeIsBound: filter?.includeIsBound,
-          includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+          includeItemIds: filter?.includeItemIds,
         },
       );
 
       const seeMoreRewards =
         await this.userContentService.getContentSeeMoreRewards(content.id, {
-          includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+          includeItemIds: filter?.includeItemIds,
         });
 
       const rewardsGold = await this.calculateGold(rewards);
@@ -171,7 +166,7 @@ export class ContentWageService {
       const seeMoreGold = shouldIncludeSeeMoreRewards
         ? await this.calculateSeeMoreRewardsGold(
             seeMoreRewards,
-            filter.includeContentRewardItemIds,
+            filter.includeItemIds,
           )
         : 0;
 

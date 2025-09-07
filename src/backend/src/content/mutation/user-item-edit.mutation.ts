@@ -13,7 +13,7 @@ import { PrismaService } from 'src/prisma';
 import { UserContentService } from '../../user/service/user-content.service';
 
 @InputType()
-class UserContentRewardItemEditInput {
+class UserItemEditInput {
   @Field()
   id: number;
 
@@ -22,28 +22,26 @@ class UserContentRewardItemEditInput {
 }
 
 @ObjectType()
-class UserContentRewardItemEditResult {
+class UserItemEditResult {
   @Field(() => Boolean)
   ok: boolean;
 }
 
 @Resolver()
-export class UserContentRewardItemEditMutation {
+export class UserItemEditMutation {
   constructor(
     private prisma: PrismaService,
     private userContentService: UserContentService,
   ) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => UserContentRewardItemEditResult)
-  async userContentRewardItemEdit(
-    @Args('input') input: UserContentRewardItemEditInput,
-  ) {
+  @Mutation(() => UserItemEditResult)
+  async userItemEdit(@Args('input') input: UserItemEditInput) {
     const { id, price } = input;
 
-    await this.userContentService.validateUserContentRewardItem(id);
+    await this.userContentService.validateUserItem(id);
 
-    await this.prisma.userContentRewardItem.update({
+    await this.prisma.userItem.update({
       where: { id },
       data: { price },
     });

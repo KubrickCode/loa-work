@@ -69,9 +69,9 @@ export const ContentDetailsDialog = ({
     (contentReward) => ({
       label: (
         <ItemNameWithImage
-          name={contentReward.contentRewardItem.name}
+          name={contentReward.item.name}
           reverse
-          src={contentReward.contentRewardItem.imageUrl}
+          src={contentReward.item.imageUrl}
         />
       ),
       value: contentReward.averageQuantity || "-",
@@ -82,9 +82,9 @@ export const ContentDetailsDialog = ({
     (contentSeeMoreReward) => ({
       label: (
         <ItemNameWithImage
-          name={contentSeeMoreReward.contentRewardItem.name}
+          name={contentSeeMoreReward.item.name}
           reverse
-          src={contentSeeMoreReward.contentRewardItem.imageUrl}
+          src={contentSeeMoreReward.item.imageUrl}
         />
       ),
       value: contentSeeMoreReward.quantity,
@@ -107,10 +107,7 @@ export const ContentDetailsDialog = ({
             <Section title="기본 정보">
               <DataGrid items={basicInfoItems} />
             </Section>
-            <ContentWageSection
-              contentId={contentId}
-              contentRewardItems={data.contentRewardItems}
-            />
+            <ContentWageSection contentId={contentId} items={data.items} />
             <Section
               title={
                 <Flex alignItems="center" gap={2}>
@@ -179,15 +176,16 @@ export const ContentDetailsDialog = ({
 
 const ContentWageSection = ({
   contentId,
-  contentRewardItems,
+  items,
 }: {
   contentId: number;
-  contentRewardItems: { id: number; name: string }[];
+  items: { id: number; name: string }[];
 }) => {
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState(false);
   const [includeIsBound, setIncludeIsBound] = useState(false);
-  const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =
-    useState<number[]>(contentRewardItems.map(({ id }) => id));
+  const [includeItemIds, setIncludeItemIds] = useState<number[]>(
+    items.map(({ id }) => id)
+  );
 
   return (
     <Section
@@ -206,12 +204,10 @@ const ContentWageSection = ({
               <PopoverBody>
                 <Flex direction="column" gap={4}>
                   <Field label="컨텐츠 보상 종류" w="auto">
-                    <ContentRewardItemsFilter
-                      contentRewardItems={contentRewardItems}
-                      includeContentRewardItemIds={includeContentRewardItemIds}
-                      setIncludeContentRewardItemIds={
-                        setIncludeContentRewardItemIds
-                      }
+                    <ItemsFilter
+                      includeItemIds={includeItemIds}
+                      items={items}
+                      setIncludeItemIds={setIncludeItemIds}
                     />
                   </Field>
                   <Field label="더보기 포함 여부" w="auto">
@@ -236,9 +232,9 @@ const ContentWageSection = ({
       <Suspense fallback={<TableSkeleton line={1} />}>
         <ContentWageSectionDataGrid
           contentId={contentId}
-          includeContentRewardItemIds={includeContentRewardItemIds}
           includeIsBound={includeIsBound}
           includeIsSeeMore={includeIsSeeMore}
+          includeItemIds={includeItemIds}
         />
       </Suspense>
     </Section>
@@ -249,12 +245,12 @@ const ContentWageSectionDataGrid = ({
   contentId,
   includeIsSeeMore,
   includeIsBound,
-  includeContentRewardItemIds,
+  includeItemIds,
 }: {
   contentId: number;
   includeIsSeeMore: boolean;
   includeIsBound: boolean;
-  includeContentRewardItemIds: number[];
+  includeItemIds: number[];
 }) => {
   const { isAuthenticated } = useAuth();
   const { data, refetch } = useSafeQuery(
@@ -265,7 +261,7 @@ const ContentWageSectionDataGrid = ({
         filter: {
           includeIsSeeMore,
           includeIsBound,
-          includeContentRewardItemIds,
+          includeItemIds,
         },
       },
     }
@@ -347,16 +343,16 @@ const ContentIsBoundFilter = ({
   );
 };
 
-const ContentRewardItemsFilter = ({
-  contentRewardItems,
-  includeContentRewardItemIds,
-  setIncludeContentRewardItemIds,
+const ItemsFilter = ({
+  items: rewardItems,
+  includeItemIds,
+  setIncludeItemIds,
 }: {
-  contentRewardItems: { id: number; name: string }[];
-  includeContentRewardItemIds: number[];
-  setIncludeContentRewardItemIds: (value: number[]) => void;
+  items: { id: number; name: string }[];
+  includeItemIds: number[];
+  setIncludeItemIds: (value: number[]) => void;
 }) => {
-  const items = contentRewardItems.map(({ id, name }) => ({
+  const items = rewardItems.map(({ id, name }) => ({
     label: name,
     value: id,
   }));
@@ -364,9 +360,9 @@ const ContentRewardItemsFilter = ({
   return (
     <MultiSelect
       items={items}
-      onChange={setIncludeContentRewardItemIds}
+      onChange={setIncludeItemIds}
       placeholder="보상 아이템 선택"
-      value={includeContentRewardItemIds}
+      value={includeItemIds}
     />
   );
 };

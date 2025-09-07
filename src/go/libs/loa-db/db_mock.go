@@ -82,20 +82,6 @@ func (mr *MockDBMockRecorder) AuctionItemStat() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AuctionItemStat", reflect.TypeOf((*MockDB)(nil).AuctionItemStat))
 }
 
-// ContentRewardItem mocks base method.
-func (m *MockDB) ContentRewardItem() ContentRewardItemDB {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ContentRewardItem")
-	ret0, _ := ret[0].(ContentRewardItemDB)
-	return ret0
-}
-
-// ContentRewardItem indicates an expected call of ContentRewardItem.
-func (mr *MockDBMockRecorder) ContentRewardItem() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ContentRewardItem", reflect.TypeOf((*MockDB)(nil).ContentRewardItem))
-}
-
 // Gorm mocks base method.
 func (m *MockDB) Gorm() *gorm.DB {
 	m.ctrl.T.Helper()
@@ -108,6 +94,20 @@ func (m *MockDB) Gorm() *gorm.DB {
 func (mr *MockDBMockRecorder) Gorm() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Gorm", reflect.TypeOf((*MockDB)(nil).Gorm))
+}
+
+// Item mocks base method.
+func (m *MockDB) Item() ItemDB {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Item")
+	ret0, _ := ret[0].(ItemDB)
+	return ret0
+}
+
+// Item indicates an expected call of Item.
+func (mr *MockDBMockRecorder) Item() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Item", reflect.TypeOf((*MockDB)(nil).Item))
 }
 
 // MarketItem mocks base method.

@@ -10,7 +10,7 @@ export class UserSeedService {
         userContentRewards: true,
         userContentSeeMoreRewards: true,
         userContentDurations: true,
-        userContentRewardItems: true,
+        userItems: true,
         userGoldExchangeRate: true,
       },
     });
@@ -27,8 +27,8 @@ export class UserSeedService {
       await this.makeContentDurations(userId, tx, user.createdAt);
     }
 
-    if (!user.userContentRewardItems.length) {
-      await this.makeContentRewardItems(userId, tx, user.createdAt);
+    if (!user.userItems.length) {
+      await this.makeItems(userId, tx, user.createdAt);
     }
 
     if (!user.userGoldExchangeRate) {
@@ -73,20 +73,20 @@ export class UserSeedService {
     });
   }
 
-  async makeContentRewardItems(
+  async makeItems(
     userId: number,
     tx: Prisma.TransactionClient,
     createdAt: Date,
   ) {
-    const defaultRewardItems = await tx.contentRewardItem.findMany({
+    const defaultItems = await tx.item.findMany({
       where: {
         isEditable: true,
       },
     });
 
-    await tx.userContentRewardItem.createMany({
-      data: defaultRewardItems.map(({ id, price }) => ({
-        contentRewardItemId: id,
+    await tx.userItem.createMany({
+      data: defaultItems.map(({ id, price }) => ({
+        itemId: id,
         price,
         userId,
         createdAt,

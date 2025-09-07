@@ -1,5 +1,5 @@
 query CustomContentWageCalculateDialogQuery {
-  contentRewardItems {
+  items {
     id
     name
   }
