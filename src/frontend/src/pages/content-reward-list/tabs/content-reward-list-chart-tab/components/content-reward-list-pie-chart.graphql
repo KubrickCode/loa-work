@@ -4,7 +4,7 @@ query ContentRewardListPieChart($filter: ContentListFilter) {
     displayName
     contentRewards {
       averageQuantity
-      contentRewardItem {
+      item {
         id
         name
         price
@@ -14,7 +14,7 @@ query ContentRewardListPieChart($filter: ContentListFilter) {
     }
     contentSeeMoreRewards {
       quantity
-      contentRewardItem {
+      item {
         id
         name
         price

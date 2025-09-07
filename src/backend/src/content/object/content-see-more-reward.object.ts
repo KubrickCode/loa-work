@@ -7,5 +7,5 @@ export class ContentSeeMoreReward extends BaseObject {
   contentId: number;
 
   @Field()
-  contentRewardItemId: number;
+  itemId: number;
 }

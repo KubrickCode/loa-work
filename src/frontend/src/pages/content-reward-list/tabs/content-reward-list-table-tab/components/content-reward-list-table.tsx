@@ -54,7 +54,7 @@ export const ContentRewardListTable = () => {
               displayName: `${content.displayName} (더보기)`,
               contentRewards: content.contentSeeMoreRewards.map((reward) => ({
                 averageQuantity: reward.quantity,
-                contentRewardItem: reward.contentRewardItem,
+                item: reward.item,
                 isSellable: false,
               })),
             },
@@ -122,13 +122,13 @@ export const ContentRewardListTable = () => {
               return <>{data.displayName}</>;
             },
           },
-          ...data.contentRewardItems.map(
+          ...data.items.map(
             ({ imageUrl, name }): Column<(typeof rows)[number]["data"]> => ({
               align: "right",
               header: <ItemNameWithImage name={name} src={imageUrl} />,
               render({ data }) {
                 const reward = data.contentRewards.find(
-                  (reward) => reward.contentRewardItem.name === name
+                  (reward) => reward.item.name === name
                 );
 
                 if (!reward || reward.averageQuantity === 0) return <>-</>;
@@ -153,7 +153,7 @@ export const ContentRewardListTable = () => {
               sortKey: name,
               sortValue: (data) => {
                 const reward = data.contentRewards.find(
-                  (reward) => reward.contentRewardItem.name === name
+                  (reward) => reward.item.name === name
                 );
                 return reward?.averageQuantity ?? 0;
               },

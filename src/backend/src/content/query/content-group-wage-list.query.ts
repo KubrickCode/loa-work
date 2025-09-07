@@ -54,7 +54,7 @@ export class ContentGroupWageListQuery {
         contentCategory: true,
         contentSeeMoreRewards: {
           include: {
-            contentRewardItem: true,
+            item: true,
           },
         },
       },
@@ -75,7 +75,7 @@ export class ContentGroupWageListQuery {
           contentIds,
           {
             includeIsBound: filter?.includeIsBound,
-            includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+            includeItemIds: filter?.includeItemIds,
             includeIsSeeMore: filter?.includeIsSeeMore,
           },
         );

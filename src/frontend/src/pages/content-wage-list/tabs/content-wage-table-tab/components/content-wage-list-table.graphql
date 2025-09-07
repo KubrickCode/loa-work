@@ -19,8 +19,8 @@ query ContentWageListTable($filter: ContentWageListFilter) {
   }
 }
 
-query ContentRewardItemsFilter {
-  contentRewardItems {
+query ItemsFilter {
+  items {
     id
     name
   }

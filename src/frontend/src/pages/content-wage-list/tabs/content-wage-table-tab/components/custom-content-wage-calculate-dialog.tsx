@@ -18,7 +18,7 @@ import {
 const schema = z.object({
   minutes: z.number().int32().min(0),
   seconds: z.number().int32().min(0).max(59),
-  rewardItems: z.array(
+  items: z.array(
     z.object({
       id: z.number(),
       quantity: z.number(),
@@ -39,7 +39,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
         defaultValues={{
           minutes: 0,
           seconds: 0,
-          rewardItems: data.contentRewardItems.map((item) => ({
+          items: data.items.map((item) => ({
             id: item.id,
             quantity: 0,
           })),
@@ -77,11 +77,11 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                 </Flex>
               </Flex>
 
-              {data.contentRewardItems.map((item, index) => (
+              {data.items.map((item, index) => (
                 <Form.Field
                   key={item.id}
                   label={`${item.name}`}
-                  name={`rewardItems.${index}.quantity`}
+                  name={`items.${index}.quantity`}
                 >
                   <Form.NumberInput />
                 </Form.Field>

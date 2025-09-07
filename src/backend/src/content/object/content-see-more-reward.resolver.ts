@@ -1,5 +1,5 @@
 import { Float, Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { ContentRewardItem } from './content-reward-item.object';
+import { Item } from './item.object';
 import { ContentSeeMoreReward } from './content-see-more-reward.object';
 import { DataLoaderService } from 'src/dataloader/data-loader.service';
 import { UseGuards } from '@nestjs/common';
@@ -18,12 +18,10 @@ export class ContentSeeMoreRewardResolver {
     private userContentService: UserContentService,
   ) {}
 
-  @ResolveField(() => ContentRewardItem)
-  async contentRewardItem(
-    @Parent() contentSeeMoreReward: ContentSeeMoreReward,
-  ) {
-    return await this.dataLoaderService.contentRewardItem.findUniqueOrThrowById(
-      contentSeeMoreReward.contentRewardItemId,
+  @ResolveField(() => Item)
+  async item(@Parent() contentSeeMoreReward: ContentSeeMoreReward) {
+    return await this.dataLoaderService.item.findUniqueOrThrowById(
+      contentSeeMoreReward.itemId,
     );
   }
 

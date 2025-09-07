@@ -6,14 +6,14 @@ query ContentDetailsDialog($contentId: Int!) {
     }
     contentRewards {
       averageQuantity
-      contentRewardItem {
+      item {
         imageUrl
         name
       }
       isSellable
     }
     contentSeeMoreRewards {
-      contentRewardItem {
+      item {
         imageUrl
         name
       }
@@ -22,7 +22,7 @@ query ContentDetailsDialog($contentId: Int!) {
     displayName
     level
   }
-  contentRewardItems {
+  items {
     id
     name
   }

@@ -33,7 +33,7 @@ export class ContentController {
       include: {
         contentRewards: {
           include: {
-            contentRewardItem: true,
+            item: true,
           },
         },
       },
@@ -56,7 +56,7 @@ export class ContentController {
       const rewardHistory = previousContents
         .map((content) => {
           const reward = content.contentRewards.find(
-            (r) => r.contentRewardItemId === latestReward.contentRewardItemId,
+            (r) => r.itemId === latestReward.itemId,
           );
           return {
             level: content.level,
@@ -89,7 +89,7 @@ export class ContentController {
           Number(latestReward.defaultAverageQuantity) * averageIncreaseFactor;
 
         predictions.push({
-          itemName: latestReward.contentRewardItem.name,
+          itemName: latestReward.item.name,
           predictedQuantity: predictedQuantity,
           previousQuantity: Number(latestReward.defaultAverageQuantity),
           averageIncreaseFactor: averageIncreaseFactor,
@@ -119,7 +119,7 @@ export class ContentController {
         contentCategory: true,
         contentRewards: {
           include: {
-            contentRewardItem: true,
+            item: true,
             reportedContentRewards: true,
           },
         },
@@ -142,7 +142,7 @@ export class ContentController {
 
       if (reports.length < 3) {
         validations.push({
-          itemName: reward.contentRewardItem.name,
+          itemName: reward.item.name,
           currentQuantity: Number(reward.defaultAverageQuantity),
           status: 'insufficient_data',
           message: '충분한 제보 데이터가 없습니다.',
@@ -188,7 +188,7 @@ export class ContentController {
       }
 
       validations.push({
-        itemName: reward.contentRewardItem.name,
+        itemName: reward.item.name,
         currentQuantity,
         reportedQuantity: validMean,
         difference,

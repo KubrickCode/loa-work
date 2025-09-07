@@ -16,7 +16,7 @@ const schema = z.object({
   categoryId: z.number(),
   contentRewards: z.array(
     z.object({
-      contentRewardItemId: z.number(),
+      itemId: z.number(),
       defaultAverageQuantity: z.number(),
       isSellable: z.boolean(),
       isExcluded: z.boolean(),
@@ -25,7 +25,7 @@ const schema = z.object({
   contentSeeMoreRewards: z
     .array(
       z.object({
-        contentRewardItemId: z.number(),
+        itemId: z.number(),
         quantity: z.number(),
         isExcluded: z.boolean(),
       })
@@ -44,14 +44,14 @@ export const ContentCreateTab = () => {
     <Section>
       <Form.Mutation<ContentCreateInput, ContentCreateTabMutation>
         defaultValues={{
-          contentRewards: data.contentRewardItems.map(({ id }) => ({
-            contentRewardItemId: id,
+          contentRewards: data.items.map(({ id }) => ({
+            itemId: id,
             defaultAverageQuantity: 0,
             isSellable: true,
             isExcluded: true,
           })),
-          contentSeeMoreRewards: data.contentRewardItems.map(({ id }) => ({
-            contentRewardItemId: id,
+          contentSeeMoreRewards: data.items.map(({ id }) => ({
+            itemId: id,
             quantity: 0,
             isExcluded: true,
           })),
@@ -123,7 +123,7 @@ export const ContentCreateTab = () => {
                   w="full"
                 >
                   <Text>컨텐츠 보상</Text>
-                  {data.contentRewardItems.map((reward, index) => (
+                  {data.items.map((reward, index) => (
                     <Flex
                       border="1px solid"
                       borderColor="gray.700"
@@ -172,19 +172,19 @@ export const ContentCreateTab = () => {
                     w="full"
                   >
                     <Text>더보기 보상</Text>
-                    {data.contentRewardItems.map((reward, index) => (
+                    {data.items.map((item, index) => (
                       <Flex
                         border="1px solid"
                         borderColor="gray.700"
                         direction="column"
                         gap={2}
-                        key={`content-see-more-reward-${reward.id}`}
+                        key={`content-see-more-reward-${item.id}`}
                         p={2}
                         rounded="md"
                         w="full"
                       >
                         <Form.Field
-                          label={reward.name}
+                          label={item.name}
                           name={`contentSeeMoreRewards.${index}.quantity`}
                           optional
                         >

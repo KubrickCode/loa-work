@@ -1,14 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { ContentRewardItemKind } from '@prisma/client';
+import { ItemKind } from '@prisma/client';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
-export class ContentRewardItem extends BaseObject {
+export class Item extends BaseObject {
   @Field()
   imageUrl: string;
 
-  @Field(() => ContentRewardItemKind)
-  kind: ContentRewardItemKind;
+  @Field(() => ItemKind)
+  kind: ItemKind;
 
   @Field()
   name: string;

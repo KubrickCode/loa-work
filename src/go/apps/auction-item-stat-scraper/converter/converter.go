@@ -22,12 +22,12 @@ func (s *Converter) Start() error {
 			return err
 		}
 
-		items, err := tx.ContentRewardItem().FindManyByKind(loadb.ContentRewardItemKind.AUCTION_ITEM)
+		items, err := tx.Item().FindManyByKind(loadb.ItemKind.AUCTION)
 		if err != nil {
 			return err
 		}
 
-		var itemsToUpdate []loadb.ContentRewardItem
+		var itemsToUpdate []loadb.Item
 		for _, item := range items {
 			if item.Name == OneLevelGemName {
 				price, err := s.get1LevelGemPrice(tx)
@@ -41,7 +41,7 @@ func (s *Converter) Start() error {
 			}
 		}
 
-		if err := tx.ContentRewardItem().UpdateMany(itemsToUpdate); err != nil {
+		if err := tx.Item().UpdateMany(itemsToUpdate); err != nil {
 			return err
 		}
 

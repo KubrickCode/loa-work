@@ -52,7 +52,7 @@ export class ContentWageListQuery {
       include: {
         contentSeeMoreRewards: {
           include: {
-            contentRewardItem: true,
+            item: true,
           },
         },
       },
@@ -61,7 +61,7 @@ export class ContentWageListQuery {
     const promises = contents.map(async (content) => {
       return await this.contentWageService.getContentWage(content.id, {
         includeIsBound: filter?.includeIsBound,
-        includeContentRewardItemIds: filter?.includeContentRewardItemIds,
+        includeItemIds: filter?.includeItemIds,
         includeIsSeeMore: filter?.includeIsSeeMore,
       });
     });

@@ -1,5 +1,5 @@
-query ExtraItemListTable($filter: ContentRewardItemsFilter) {
-  contentRewardItems(filter: $filter) {
+query ExtraItemListTable($filter: ItemsFilter) {
+  items(filter: $filter) {
     id
     imageUrl
     name

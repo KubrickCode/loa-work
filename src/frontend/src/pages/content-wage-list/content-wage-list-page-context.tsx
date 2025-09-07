@@ -9,12 +9,12 @@ import {
 
 import { useSafeQuery } from "~/core/graphql";
 import {
-  ContentRewardItemsFilterDocument,
-  ContentRewardItemsFilterQuery,
+  ItemsFilterDocument,
+  ItemsFilterQuery,
 } from "~/core/graphql/generated";
 
 type ContentWageListPageContextType = {
-  contentRewardItems: ContentRewardItemsFilterQuery["contentRewardItems"];
+  items: ItemsFilterQuery["items"];
 
   contentCategoryId: number | null;
   setContentCategoryId: (id: number | null) => void;
@@ -28,8 +28,8 @@ type ContentWageListPageContextType = {
   includeIsBound?: boolean;
   setIncludeIsBound: (value: boolean) => void;
 
-  includeContentRewardItemIds: number[];
-  setIncludeContentRewardItemIds: Dispatch<SetStateAction<number[]>>;
+  includeItemIds: number[];
+  setIncludeItemIds: Dispatch<SetStateAction<number[]>>;
 
   shouldMergeGate?: boolean;
   setShouldMergeGate: (value: boolean) => void;
@@ -43,22 +43,23 @@ export const ContentWageListPageProvider = ({
   children,
 }: PropsWithChildren) => {
   const {
-    data: { contentRewardItems },
-  } = useSafeQuery(ContentRewardItemsFilterDocument);
+    data: { items },
+  } = useSafeQuery(ItemsFilterDocument);
   const [contentCategoryId, setContentCategoryId] = useState<number | null>(
     null
   );
   const [keyword, setKeyword] = useState<string>("");
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
-  const [includeContentRewardItemIds, setIncludeContentRewardItemIds] =
-    useState<number[]>(contentRewardItems.map((item) => item.id));
+  const [includeItemIds, setIncludeItemIds] = useState<number[]>(
+    items.map((item) => item.id)
+  );
   const [shouldMergeGate, setShouldMergeGate] = useState<boolean>(true);
 
   return (
     <ContentWageListPageContext.Provider
       value={{
-        contentRewardItems,
+        items,
         contentCategoryId,
         keyword,
         setKeyword,
@@ -67,8 +68,8 @@ export const ContentWageListPageProvider = ({
         setContentCategoryId,
         setIncludeIsSeeMore,
         setIncludeIsBound,
-        includeContentRewardItemIds,
-        setIncludeContentRewardItemIds,
+        includeItemIds,
+        setIncludeItemIds,
         shouldMergeGate,
         setShouldMergeGate,
       }}

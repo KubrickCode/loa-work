@@ -47,7 +47,7 @@ type AuctionItemCategory struct {
 	Name string `gorm:"not null"`
 }
 
-type ContentRewardItem struct {
+type Item struct {
 	ID        int       `gorm:"primaryKey"`
 	CreatedAt time.Time `gorm:"column:created_at;default:CURRENT_TIMESTAMP"`
 	UpdatedAt time.Time `gorm:"column:updated_at;autoUpdateTime"`

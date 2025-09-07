@@ -18,7 +18,7 @@ export class ContentWage {
 @InputType()
 export class ContentWageFilter {
   @Field(() => [Number], { nullable: true })
-  includeContentRewardItemIds?: number[];
+  includeItemIds?: number[];
 
   @Field(() => Boolean, { nullable: true })
   includeIsSeeMore?: boolean;

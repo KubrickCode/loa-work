@@ -6,14 +6,14 @@ query ContentRewardListTable($filter: ContentListFilter) {
     }
     contentRewards {
       averageQuantity
-      contentRewardItem {
+      item {
         name
       }
       isSellable
     }
     contentSeeMoreRewards {
       quantity
-      contentRewardItem {
+      item {
         name
       }
     }
@@ -21,7 +21,7 @@ query ContentRewardListTable($filter: ContentListFilter) {
     id
     level
   }
-  contentRewardItems {
+  items {
     imageUrl
     name
   }
