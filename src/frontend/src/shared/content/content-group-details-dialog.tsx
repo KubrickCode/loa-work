@@ -30,9 +30,9 @@ import { MultiSelect } from "~/core/select";
 import { LoginTooltip } from "~/core/tooltip";
 
 import { ItemNameWithImage } from "../item";
-import { UserContentDurationEditDialog } from "./content-duration-edit-dialog";
-import { UserContentRewardEditDialog } from "./user-content-reward-edit-dialog";
-import { UserContentSeeMoreRewardEditDialog } from "./user-content-see-more-reward-edit-dialog";
+import { ContentDurationEditDialog } from "./content-duration-edit-dialog";
+import { ContentRewardEditDialog } from "./content-reward-edit-dialog";
+import { ContentSeeMoreRewardEditDialog } from "./content-see-more-reward-edit-dialog";
 
 type ContentGroupDetailsDialogProps = DialogProps & {
   contentIds: number[];
@@ -144,7 +144,7 @@ const ContentGroupSection = ({ contentId }: { contentId: number }) => {
           <Flex alignItems="center" gap={2}>
             <Text>보상 정보</Text>
             <Dialog.Trigger
-              dialog={UserContentRewardEditDialog}
+              dialog={ContentRewardEditDialog}
               dialogProps={{
                 contentId,
                 onComplete: refetch,
@@ -172,7 +172,7 @@ const ContentGroupSection = ({ contentId }: { contentId: number }) => {
             <Flex alignItems="center" gap={2}>
               <Text>더보기 보상 정보</Text>
               <Dialog.Trigger
-                dialog={UserContentSeeMoreRewardEditDialog}
+                dialog={ContentSeeMoreRewardEditDialog}
                 dialogProps={{
                   contentId,
                   onComplete: refetch,
@@ -299,7 +299,7 @@ const ContentWageSectionDataGrid = ({
         <Flex alignItems="center" gap={2}>
           <Text>{data.content.durationText}</Text>
           <Dialog.Trigger
-            dialog={UserContentDurationEditDialog}
+            dialog={ContentDurationEditDialog}
             dialogProps={{
               contentId,
               onComplete: refetch,

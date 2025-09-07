@@ -41,7 +41,7 @@ export class ContentCreateItemsInput {
   itemId: number;
 
   @Field(() => Float)
-  defaultAverageQuantity: number;
+  averageQuantity: number;
 
   @Field()
   isSellable: boolean;
@@ -85,71 +85,41 @@ export class ContentCreateMutation {
       name,
     } = input;
 
-    return await this.prisma.$transaction(async (tx) => {
-      const content = await tx.content.create({
-        data: {
-          contentCategoryId: categoryId,
-          contentDuration: {
-            create: {
-              value: duration,
-            },
+    await this.prisma.content.create({
+      data: {
+        contentCategoryId: categoryId,
+        contentDuration: {
+          create: {
+            value: duration,
           },
-          contentRewards: {
-            createMany: {
-              data: contentRewards
-                .filter(({ isExcluded }) => !isExcluded)
-                .map(({ itemId, defaultAverageQuantity, isSellable }) => ({
-                  itemId,
-                  defaultAverageQuantity,
-                  isSellable,
-                })),
-            },
-          },
-          contentSeeMoreRewards: {
-            createMany: {
-              data: contentSeeMoreRewards
-                .filter(({ isExcluded }) => !isExcluded)
-                .map(({ itemId, quantity }) => ({
-                  itemId,
-                  quantity,
-                })),
-            },
-          },
-          gate,
-          level,
-          name,
         },
-        include: {
-          contentDuration: true,
-          contentRewards: true,
-          contentSeeMoreRewards: true,
+        contentRewards: {
+          createMany: {
+            data: contentRewards
+              .filter(({ isExcluded }) => !isExcluded)
+              .map(({ itemId, averageQuantity, isSellable }) => ({
+                itemId,
+                averageQuantity,
+                isSellable,
+              })),
+          },
         },
-      });
-
-      const users = await tx.user.findMany();
-
-      await Promise.all(
-        users.map(async (user) => {
-          await tx.userContentReward.createMany({
-            data: content.contentRewards.map((reward) => ({
-              contentRewardId: reward.id,
-              averageQuantity: reward.defaultAverageQuantity,
-              userId: user.id,
-              isSellable: reward.isSellable,
-            })),
-          });
-
-          await tx.userContentSeeMoreReward.createMany({
-            data: content.contentSeeMoreRewards.map((reward) => ({
-              contentSeeMoreRewardId: reward.id,
-              quantity: reward.quantity,
-              userId: user.id,
-            })),
-          });
-        }),
-      );
-
-      return { ok: true };
+        contentSeeMoreRewards: {
+          createMany: {
+            data: contentSeeMoreRewards
+              .filter(({ isExcluded }) => !isExcluded)
+              .map(({ itemId, quantity }) => ({
+                itemId,
+                quantity,
+              })),
+          },
+        },
+        gate,
+        level,
+        name,
+      },
     });
+
+    return { ok: true };
   }
 }

@@ -32,7 +32,7 @@ export class ContentRewardFactory {
       data: {
         contentId,
         itemId,
-        defaultAverageQuantity: faker.number.float({ min: 1, max: 10000 }),
+        averageQuantity: faker.number.float({ min: 1, max: 10000 }),
         ...options?.data,
       },
     });

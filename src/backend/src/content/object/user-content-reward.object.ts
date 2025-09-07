@@ -7,7 +7,7 @@ export class UserContentReward extends BaseObject {
   averageQuantity: number;
 
   @Field()
-  contentRewardId: number;
+  contentId: number;
 
   @Field()
   isSellable: boolean;

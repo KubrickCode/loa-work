@@ -17,7 +17,7 @@ const schema = z.object({
   contentRewards: z.array(
     z.object({
       itemId: z.number(),
-      defaultAverageQuantity: z.number(),
+      averageQuantity: z.number(),
       isSellable: z.boolean(),
       isExcluded: z.boolean(),
     })
@@ -46,7 +46,7 @@ export const ContentCreateTab = () => {
         defaultValues={{
           contentRewards: data.items.map(({ id }) => ({
             itemId: id,
-            defaultAverageQuantity: 0,
+            averageQuantity: 0,
             isSellable: true,
             isExcluded: true,
           })),
@@ -136,7 +136,7 @@ export const ContentCreateTab = () => {
                     >
                       <Form.Field
                         label={reward.name}
-                        name={`contentRewards.${index}.defaultAverageQuantity`}
+                        name={`contentRewards.${index}.averageQuantity`}
                         optional
                       >
                         <Form.Input

@@ -83,7 +83,7 @@ export type ContentCreateInput = {
 };
 
 export type ContentCreateItemsInput = {
-  defaultAverageQuantity: Scalars['Float']['input'];
+  averageQuantity: Scalars['Float']['input'];
   isExcluded: Scalars['Boolean']['input'];
   isSellable: Scalars['Boolean']['input'];
   itemId: Scalars['Int']['input'];
@@ -192,12 +192,28 @@ export type ContentReward = {
   item: Item;
   itemId: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
-  userContentReward: UserContentReward;
+};
+
+export type ContentRewardEditInput = {
+  averageQuantity: Scalars['Float']['input'];
+  contentId: Scalars['Int']['input'];
+  isSellable: Scalars['Boolean']['input'];
+  itemId: Scalars['Int']['input'];
 };
 
 export type ContentRewardReportInput = {
   averageQuantity: Scalars['Float']['input'];
   id: Scalars['Int']['input'];
+};
+
+export type ContentRewardsEditInput = {
+  contentRewards: Array<ContentRewardEditInput>;
+  isReportable: Scalars['Boolean']['input'];
+};
+
+export type ContentRewardsEditResult = {
+  __typename?: 'ContentRewardsEditResult';
+  ok: Scalars['Boolean']['output'];
 };
 
 export type ContentRewardsReportInput = {
@@ -218,7 +234,21 @@ export type ContentSeeMoreReward = {
   itemId: Scalars['Int']['output'];
   quantity: Scalars['Float']['output'];
   updatedAt: Scalars['DateTime']['output'];
-  userContentSeeMoreReward: UserContentSeeMoreReward;
+};
+
+export type ContentSeeMoreRewardEditInput = {
+  contentId: Scalars['Int']['input'];
+  itemId: Scalars['Int']['input'];
+  quantity: Scalars['Float']['input'];
+};
+
+export type ContentSeeMoreRewardsEditInput = {
+  contentSeeMoreRewards: Array<ContentSeeMoreRewardEditInput>;
+};
+
+export type ContentSeeMoreRewardsEditResult = {
+  __typename?: 'ContentSeeMoreRewardsEditResult';
+  ok: Scalars['Boolean']['output'];
 };
 
 export enum ContentStatus {
@@ -342,11 +372,11 @@ export type Mutation = {
   contentCreate: ContentCreateResult;
   contentDurationEdit: ContentDurationEditResult;
   contentDurationsEdit: ContentDurationsEditResult;
+  contentRewardsEdit: ContentRewardsEditResult;
   contentRewardsReport: ContentRewardsReportResult;
+  contentSeeMoreRewardsEdit: ContentSeeMoreRewardsEditResult;
   customContentWageCalculate: CustomContentWageCalculateResult;
   goldExchangeRateEdit: GoldExchangeRateEditResult;
-  userContentRewardsEdit: UserContentRewardsEditResult;
-  userContentSeeMoreRewardsEdit: UserContentSeeMoreRewardsEditResult;
   userItemEdit: UserItemEditResult;
 };
 
@@ -366,8 +396,18 @@ export type MutationContentDurationsEditArgs = {
 };
 
 
+export type MutationContentRewardsEditArgs = {
+  input: ContentRewardsEditInput;
+};
+
+
 export type MutationContentRewardsReportArgs = {
   input: ContentRewardsReportInput;
+};
+
+
+export type MutationContentSeeMoreRewardsEditArgs = {
+  input: ContentSeeMoreRewardsEditInput;
 };
 
 
@@ -378,16 +418,6 @@ export type MutationCustomContentWageCalculateArgs = {
 
 export type MutationGoldExchangeRateEditArgs = {
   input: GoldExchangeRateEditInput;
-};
-
-
-export type MutationUserContentRewardsEditArgs = {
-  input: UserContentRewardsEditInput;
-};
-
-
-export type MutationUserContentSeeMoreRewardsEditArgs = {
-  input: UserContentSeeMoreRewardsEditInput;
 };
 
 
@@ -500,55 +530,6 @@ export type User = {
   refId: Scalars['String']['output'];
   role: UserRole;
   updatedAt: Scalars['DateTime']['output'];
-};
-
-export type UserContentReward = {
-  __typename?: 'UserContentReward';
-  averageQuantity: Scalars['Float']['output'];
-  contentRewardId: Scalars['Int']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['Int']['output'];
-  isSellable: Scalars['Boolean']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-  userId: Scalars['Int']['output'];
-};
-
-export type UserContentRewardEditInput = {
-  averageQuantity: Scalars['Float']['input'];
-  id: Scalars['Int']['input'];
-  isSellable: Scalars['Boolean']['input'];
-};
-
-export type UserContentRewardsEditInput = {
-  isReportable: Scalars['Boolean']['input'];
-  userContentRewards: Array<UserContentRewardEditInput>;
-};
-
-export type UserContentRewardsEditResult = {
-  __typename?: 'UserContentRewardsEditResult';
-  ok: Scalars['Boolean']['output'];
-};
-
-export type UserContentSeeMoreReward = {
-  __typename?: 'UserContentSeeMoreReward';
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['Int']['output'];
-  quantity: Scalars['Float']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type UserContentSeeMoreRewardEditInput = {
-  id: Scalars['Int']['input'];
-  quantity: Scalars['Float']['input'];
-};
-
-export type UserContentSeeMoreRewardsEditInput = {
-  userContentSeeMoreRewards: Array<UserContentSeeMoreRewardEditInput>;
-};
-
-export type UserContentSeeMoreRewardsEditResult = {
-  __typename?: 'UserContentSeeMoreRewardsEditResult';
-  ok: Scalars['Boolean']['output'];
 };
 
 export type UserItem = {
@@ -776,12 +757,26 @@ export type ContentDurationsEditMutationVariables = Exact<{
 
 export type ContentDurationsEditMutation = { __typename?: 'Mutation', contentDurationsEdit: { __typename?: 'ContentDurationsEditResult', ok: boolean } };
 
+export type ContentRewardEditDialogQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type ContentRewardEditDialogQuery = { __typename?: 'Query', content: { __typename?: 'Content', displayName: string, contentRewards: Array<{ __typename?: 'ContentReward', averageQuantity: number, id: number, isSellable: boolean, item: { __typename?: 'Item', id: number, name: string } }> } };
+
+export type ContentRewardsEditMutationVariables = Exact<{
+  input: ContentRewardsEditInput;
+}>;
+
+
+export type ContentRewardsEditMutation = { __typename?: 'Mutation', contentRewardsEdit: { __typename?: 'ContentRewardsEditResult', ok: boolean } };
+
 export type ContentRewardReportDialogQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type ContentRewardReportDialogQuery = { __typename?: 'Query', content: { __typename?: 'Content', contentRewards: Array<{ __typename?: 'ContentReward', id: number, isSellable: boolean, item: { __typename?: 'Item', name: string }, userContentReward: { __typename?: 'UserContentReward', averageQuantity: number } }> } };
+export type ContentRewardReportDialogQuery = { __typename?: 'Query', content: { __typename?: 'Content', contentRewards: Array<{ __typename?: 'ContentReward', averageQuantity: number, id: number, isSellable: boolean, item: { __typename?: 'Item', name: string } }> } };
 
 export type ContentRewardsReportMutationVariables = Exact<{
   input: ContentRewardsReportInput;
@@ -790,33 +785,19 @@ export type ContentRewardsReportMutationVariables = Exact<{
 
 export type ContentRewardsReportMutation = { __typename?: 'Mutation', contentRewardsReport: { __typename?: 'ContentRewardsReportResult', ok: boolean } };
 
-export type UserContentRewardEditDialogQueryVariables = Exact<{
+export type ContentSeeMoreRewardEditDialogQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type UserContentRewardEditDialogQuery = { __typename?: 'Query', content: { __typename?: 'Content', displayName: string, contentRewards: Array<{ __typename?: 'ContentReward', isSellable: boolean, item: { __typename?: 'Item', name: string }, userContentReward: { __typename?: 'UserContentReward', averageQuantity: number, id: number } }> } };
+export type ContentSeeMoreRewardEditDialogQuery = { __typename?: 'Query', content: { __typename?: 'Content', displayName: string, contentSeeMoreRewards: Array<{ __typename?: 'ContentSeeMoreReward', id: number, quantity: number, item: { __typename?: 'Item', id: number, name: string } }> } };
 
-export type UserContentRewardsEditMutationVariables = Exact<{
-  input: UserContentRewardsEditInput;
+export type ContentSeeMoreRewardsEditMutationVariables = Exact<{
+  input: ContentSeeMoreRewardsEditInput;
 }>;
 
 
-export type UserContentRewardsEditMutation = { __typename?: 'Mutation', userContentRewardsEdit: { __typename?: 'UserContentRewardsEditResult', ok: boolean } };
-
-export type UserContentSeeMoreRewardEditDialogQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type UserContentSeeMoreRewardEditDialogQuery = { __typename?: 'Query', content: { __typename?: 'Content', displayName: string, contentSeeMoreRewards: Array<{ __typename?: 'ContentSeeMoreReward', item: { __typename?: 'Item', name: string }, userContentSeeMoreReward: { __typename?: 'UserContentSeeMoreReward', quantity: number, id: number } }> } };
-
-export type UserContentSeeMoreRewardsEditMutationVariables = Exact<{
-  input: UserContentSeeMoreRewardsEditInput;
-}>;
-
-
-export type UserContentSeeMoreRewardsEditMutation = { __typename?: 'Mutation', userContentSeeMoreRewardsEdit: { __typename?: 'UserContentSeeMoreRewardsEditResult', ok: boolean } };
+export type ContentSeeMoreRewardsEditMutation = { __typename?: 'Mutation', contentSeeMoreRewardsEdit: { __typename?: 'ContentSeeMoreRewardsEditResult', ok: boolean } };
 
 export type ItemStatUpdateToggleTipQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -857,10 +838,10 @@ export const ContentDurationEditDocument = {"kind":"Document","definitions":[{"k
 export const ContentGroupDetailsDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentGroupDetailsDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"contentIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentGroup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"contentIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"contentIds"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<ContentGroupDetailsDialogQuery, ContentGroupDetailsDialogQueryVariables>;
 export const ContentGroupDurationEditDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentGroupDurationEditDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentGroup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"contentIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"gate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ContentGroupDurationEditDialogQuery, ContentGroupDurationEditDialogQueryVariables>;
 export const ContentDurationsEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ContentDurationsEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentDurationsEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentDurationsEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<ContentDurationsEditMutation, ContentDurationsEditMutationVariables>;
-export const ContentRewardReportDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardReportDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}},{"kind":"Field","name":{"kind":"Name","value":"userContentReward"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ContentRewardReportDialogQuery, ContentRewardReportDialogQueryVariables>;
+export const ContentRewardEditDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardEditDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<ContentRewardEditDialogQuery, ContentRewardEditDialogQueryVariables>;
+export const ContentRewardsEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ContentRewardsEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentRewardsEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewardsEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<ContentRewardsEditMutation, ContentRewardsEditMutationVariables>;
+export const ContentRewardReportDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRewardReportDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}},{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}}]}}]}}]}}]} as unknown as DocumentNode<ContentRewardReportDialogQuery, ContentRewardReportDialogQueryVariables>;
 export const ContentRewardsReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ContentRewardsReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentRewardsReportInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewardsReport"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<ContentRewardsReportMutation, ContentRewardsReportMutationVariables>;
-export const UserContentRewardEditDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserContentRewardEditDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isSellable"}},{"kind":"Field","name":{"kind":"Name","value":"userContentReward"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageQuantity"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<UserContentRewardEditDialogQuery, UserContentRewardEditDialogQueryVariables>;
-export const UserContentRewardsEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserContentRewardsEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserContentRewardsEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userContentRewardsEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<UserContentRewardsEditMutation, UserContentRewardsEditMutationVariables>;
-export const UserContentSeeMoreRewardEditDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserContentSeeMoreRewardEditDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentSeeMoreRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"userContentSeeMoreReward"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<UserContentSeeMoreRewardEditDialogQuery, UserContentSeeMoreRewardEditDialogQueryVariables>;
-export const UserContentSeeMoreRewardsEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UserContentSeeMoreRewardsEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserContentSeeMoreRewardsEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userContentSeeMoreRewardsEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<UserContentSeeMoreRewardsEditMutation, UserContentSeeMoreRewardsEditMutationVariables>;
+export const ContentSeeMoreRewardEditDialogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentSeeMoreRewardEditDialog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentSeeMoreRewards"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}}]}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<ContentSeeMoreRewardEditDialogQuery, ContentSeeMoreRewardEditDialogQueryVariables>;
+export const ContentSeeMoreRewardsEditDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ContentSeeMoreRewardsEdit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ContentSeeMoreRewardsEditInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentSeeMoreRewardsEdit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<ContentSeeMoreRewardsEditMutation, ContentSeeMoreRewardsEditMutationVariables>;
 export const ItemStatUpdateToggleTipDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ItemStatUpdateToggleTip"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrderByArg"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"marketItems"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"auctionItems"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<ItemStatUpdateToggleTipQuery, ItemStatUpdateToggleTipQueryVariables>;

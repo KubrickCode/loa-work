@@ -15,8 +15,8 @@ import { Column, DataTable } from "~/core/table";
 import { LoginTooltip } from "~/core/tooltip";
 import {
   ContentDetailsDialog,
-  UserContentRewardEditDialog,
-  UserContentSeeMoreRewardEditDialog,
+  ContentRewardEditDialog,
+  ContentSeeMoreRewardEditDialog,
 } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
@@ -75,8 +75,8 @@ export const ContentRewardListTable = () => {
                 <Dialog.Trigger
                   dialog={
                     data.isSeeMore
-                      ? UserContentSeeMoreRewardEditDialog
-                      : UserContentRewardEditDialog
+                      ? ContentSeeMoreRewardEditDialog
+                      : ContentRewardEditDialog
                   }
                   dialogProps={{
                     contentId: data.id,

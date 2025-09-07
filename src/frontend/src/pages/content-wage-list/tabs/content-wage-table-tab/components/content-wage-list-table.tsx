@@ -20,7 +20,7 @@ import { LoginTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
 import {
   ContentDetailsDialog,
-  UserContentDurationEditDialog,
+  ContentDurationEditDialog,
 } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
@@ -116,7 +116,7 @@ export const ContentWageListTable = () => {
                 <Flex alignItems="center" display="inline-flex" gap={2}>
                   <Text>{data.content.durationText}</Text>
                   <Dialog.Trigger
-                    dialog={UserContentDurationEditDialog}
+                    dialog={ContentDurationEditDialog}
                     dialogProps={{
                       contentId: data.content.id,
                       onComplete: refetch,
