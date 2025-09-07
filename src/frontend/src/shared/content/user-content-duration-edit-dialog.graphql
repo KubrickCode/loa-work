@@ -1,12 +1,7 @@
 query UserContentDurationEditDialog($id: Int!) {
-  contentDuration(id: $id) {
-    content {
-      displayName
-    }
-    userContentDuration {
-      id
-      value
-    }
+  content(id: $id) {
+    displayName
+    duration
   }
 }
 

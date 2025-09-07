@@ -3,13 +3,9 @@ query UserContentGroupDurationEditDialog($ids: [Int!]!) {
     name
   }
   contents(filter: { ids: $ids }) {
-    contentDuration {
-      userContentDuration {
-        id
-        value
-      }
-    }
+    duration
     gate
+    id
   }
 }
 

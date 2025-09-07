@@ -91,7 +91,7 @@ export class ContentCreateMutation {
           contentCategoryId: categoryId,
           contentDuration: {
             create: {
-              defaultValue: duration,
+              value: duration,
             },
           },
           contentRewards: {
@@ -149,8 +149,8 @@ export class ContentCreateMutation {
 
           await tx.userContentDuration.create({
             data: {
-              contentDurationId: content.contentDuration.id,
-              value: content.contentDuration.defaultValue,
+              contentId: content.contentDuration.contentId,
+              value: content.contentDuration.value,
               userId: user.id,
             },
           });

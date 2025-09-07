@@ -76,7 +76,7 @@ describe('UserContentService', () => {
       await prisma.contentDuration.create({
         data: {
           contentId: content.id,
-          defaultValue: duration,
+          value: duration,
         },
       });
 
@@ -336,7 +336,7 @@ describe('UserContentService', () => {
 
     it('getContentDuration', async () => {
       const content = await contentFactory.create();
-      const contentDuration = await contentDurationFactory.create({
+      await contentDurationFactory.create({
         data: {
           contentId: content.id,
         },
@@ -346,7 +346,7 @@ describe('UserContentService', () => {
       await prisma.userContentDuration.create({
         data: {
           userId: user.id,
-          contentDurationId: contentDuration.id,
+          contentId: content.id,
           value: duration,
         },
       });

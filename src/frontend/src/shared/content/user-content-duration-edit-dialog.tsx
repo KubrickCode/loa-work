@@ -12,32 +12,28 @@ import {
 } from "~/core/graphql/generated";
 
 const schema = z.object({
-  id: z.number(),
+  contentId: z.number(),
   minutes: z.number().int32().min(0),
   seconds: z.number().int32().min(0).max(59),
 });
 
 type UserContentDurationEditDialogProps = {
-  contentDurationId: number;
+  contentId: number;
   onComplete: () => void;
 };
 
 export const UserContentDurationEditDialog = ({
-  contentDurationId,
+  contentId,
   onComplete,
   ...dialogProps
 }: DialogProps & UserContentDurationEditDialogProps) => {
   const { data } = useSafeQuery(UserContentDurationEditDialogDocument, {
     variables: {
-      id: contentDurationId,
+      id: contentId,
     },
   });
 
-  const {
-    contentDuration: { userContentDuration },
-  } = data;
-
-  const totalSeconds = userContentDuration.value;
+  const totalSeconds = data.content.duration;
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
@@ -48,7 +44,7 @@ export const UserContentDurationEditDialog = ({
         UserContentDurationEditMutation
       >
         defaultValues={{
-          id: userContentDuration.id,
+          contentId: contentId,
           minutes: minutes,
           seconds: seconds,
         }}
@@ -65,7 +61,7 @@ export const UserContentDurationEditDialog = ({
       >
         <Dialog.Content>
           <Dialog.Header>
-            {data.contentDuration.content.displayName} - 소요시간 수정
+            {data.content.displayName} - 소요시간 수정
           </Dialog.Header>
           <Dialog.Body>
             <Form.Body>

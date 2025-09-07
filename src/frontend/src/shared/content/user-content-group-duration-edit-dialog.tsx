@@ -14,7 +14,7 @@ import {
 const schema = z.object({
   contentDurations: z.array(
     z.object({
-      id: z.number(),
+      contentId: z.number(),
       minutes: z.number().int32().min(0),
       seconds: z.number().int32().min(0).max(59),
     })
@@ -44,13 +44,13 @@ export const UserContentGroupDurationEditDialog = ({
         UserContentDurationsEditMutation
       >
         defaultValues={{
-          contentDurations: data.contents.map(({ contentDuration }) => {
-            const totalSeconds = contentDuration.userContentDuration.value;
+          contentDurations: data.contents.map(({ duration, id }) => {
+            const totalSeconds = duration;
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
 
             return {
-              id: contentDuration.userContentDuration.id,
+              contentId: id,
               minutes: minutes,
               seconds: seconds,
             };

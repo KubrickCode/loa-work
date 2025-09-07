@@ -22,7 +22,7 @@ export class ContentDurationFactory {
 
     return await this.prisma.contentDuration.create({
       data: {
-        defaultValue: faker.number.int({ min: 1000, max: 10000 }),
+        value: faker.number.int({ min: 1000, max: 10000 }),
         contentId,
         ...options?.data,
       },

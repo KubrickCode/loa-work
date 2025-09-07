@@ -5,9 +5,6 @@ query ContentWageListTable($filter: ContentWageListFilter) {
         imageUrl
         name
       }
-      contentDuration {
-        id
-      }
       displayName
       durationText
       id

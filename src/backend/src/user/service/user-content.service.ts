@@ -60,18 +60,23 @@ export class UserContentService {
       },
     );
 
-    return userId
-      ? (
-          await this.prisma.userContentDuration.findUniqueOrThrow({
-            where: {
-              contentDurationId_userId: {
-                contentDurationId: contentDuration.id,
-                userId,
-              },
+    if (userId) {
+      const userContentDuration =
+        await this.prisma.userContentDuration.findUnique({
+          where: {
+            contentId_userId: {
+              contentId,
+              userId,
             },
-          })
-        ).value
-      : contentDuration.defaultValue;
+          },
+        });
+
+      return userContentDuration
+        ? userContentDuration.value
+        : contentDuration.value;
+    }
+
+    return contentDuration.value;
   }
 
   async getContentRewardAverageQuantity(contentRewardId: number) {
@@ -264,24 +269,6 @@ export class UserContentService {
 
     if (!userItem) {
       throw new Error('아이템에 대한 수정 권한이 없습니다');
-    }
-
-    return true;
-  }
-
-  async validateUserContentDuration(durationId: number) {
-    const userId = this.getUserId();
-
-    const userContentDuration =
-      await this.prisma.userContentDuration.findUnique({
-        where: {
-          id: durationId,
-          userId,
-        },
-      });
-
-    if (!userContentDuration) {
-      throw new Error('소요시간에 대한 수정 권한이 없습니다');
     }
 
     return true;

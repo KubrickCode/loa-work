@@ -26,7 +26,6 @@ enum AuthProvider {
 type Content {
   contentCategory: ContentCategory!
   contentCategoryId: Int!
-  contentDuration: ContentDuration!
   contentRewards: [ContentReward!]!
   contentSeeMoreRewards: [ContentSeeMoreReward!]!
   createdAt: DateTime!
@@ -81,10 +80,9 @@ type ContentDuration {
   content: Content!
   contentId: Int!
   createdAt: DateTime!
-  defaultValue: Int!
   id: Int!
   updatedAt: DateTime!
-  userContentDuration: UserContentDuration!
+  value: Int!
 }
 
 type ContentGroup {
@@ -314,17 +312,8 @@ type User {
   updatedAt: DateTime!
 }
 
-type UserContentDuration {
-  contentDurationId: Int!
-  createdAt: DateTime!
-  id: Int!
-  updatedAt: DateTime!
-  userId: Int!
-  value: Int!
-}
-
 input UserContentDurationEditInput {
-  id: Int!
+  contentId: Int!
   minutes: Int!
   seconds: Int!
 }
@@ -338,7 +327,7 @@ input UserContentDurationsEditInput {
 }
 
 input UserContentDurationsEditInputDuration {
-  id: Int!
+  contentId: Int!
   minutes: Int!
   seconds: Int!
 }
