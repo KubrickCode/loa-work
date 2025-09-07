@@ -6,7 +6,7 @@ import { ItemsQuery } from './query/items.query';
 import { ContentCategoriesQuery } from './query/content-categories.query';
 import { ContentWageService } from './service/content-wage.service';
 import { ContentQuery } from './query/content.query';
-import { UserContentRewardsEditMutation } from './mutation/user-content-rewards-edit.mutation';
+import { ContentRewardsEditMutation } from './mutation/content-rewards-edit.mutation';
 import { ContentRewardResolver } from './object/content-reward.resolver';
 import { UserContentService } from '../user/service/user-content.service';
 import { ContentWageListQuery } from './query/content-wage-list.query';
@@ -24,7 +24,7 @@ import { ContentRewardsReportMutation } from './mutation/content-rewards-report.
 import { ContentController } from './content.controller';
 import { ContentCreateMutation } from './mutation/content-create.mutation';
 import { DataLoaderService } from 'src/dataloader/data-loader.service';
-import { UserContentSeeMoreRewardsEditMutation } from './mutation/user-content-see-more-rewards-edit.mutation';
+import { ContentSeeMoreRewardsEditMutation } from './mutation/content-see-more-rewards-edit.mutation';
 import { ContentDurationService } from './service/content-duration.service';
 import { ContentGroupResolver } from './object/content-group.resolver';
 import { ContentGroupWageListQuery } from './query/content-group-wage-list.query';
@@ -42,7 +42,7 @@ import { ContentGroupQuery } from './query/content-group.query';
     ContentCategoriesQuery,
     ContentWageService,
     ContentQuery,
-    UserContentRewardsEditMutation,
+    ContentRewardsEditMutation,
     ContentRewardResolver,
     UserContentService,
     ContentWageListQuery,
@@ -59,7 +59,7 @@ import { ContentGroupQuery } from './query/content-group.query';
     ContentRewardsReportMutation,
     ContentCreateMutation,
     DataLoaderService,
-    UserContentSeeMoreRewardsEditMutation,
+    ContentSeeMoreRewardsEditMutation,
     ContentDurationService,
     ContentGroupWageListQuery,
     ContentGroupResolver,

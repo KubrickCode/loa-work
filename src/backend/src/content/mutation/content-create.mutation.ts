@@ -41,13 +41,10 @@ export class ContentCreateItemsInput {
   itemId: number;
 
   @Field(() => Float)
-  defaultAverageQuantity: number;
+  averageQuantity: number;
 
   @Field()
   isSellable: boolean;
-
-  @Field()
-  isExcluded: boolean;
 }
 
 @InputType()
@@ -57,9 +54,6 @@ export class ContentCreateSeeMoreRewardsInput {
 
   @Field(() => Float)
   quantity: number;
-
-  @Field()
-  isExcluded: boolean;
 }
 
 @ObjectType()
@@ -85,71 +79,55 @@ export class ContentCreateMutation {
       name,
     } = input;
 
-    return await this.prisma.$transaction(async (tx) => {
-      const content = await tx.content.create({
-        data: {
-          contentCategoryId: categoryId,
-          contentDuration: {
-            create: {
-              value: duration,
-            },
+    // 카테고리 정보 조회하여 레이드 여부 확인
+    const category = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { id: categoryId },
+    });
+
+    // TODO: 레이드 유형인지 판단하여 더보기 보상 생성 여부를 판단하는데, 구조적으로 더 나은 방법 검토 필요.
+    const isRaid = [
+      '에픽 레이드',
+      '카제로스 레이드',
+      '강습 레이드',
+      '군단장 레이드',
+    ].includes(category.name);
+
+    await this.prisma.content.create({
+      data: {
+        contentCategoryId: categoryId,
+        contentDuration: {
+          create: {
+            value: duration,
           },
-          contentRewards: {
-            createMany: {
-              data: contentRewards
-                .filter(({ isExcluded }) => !isExcluded)
-                .map(({ itemId, defaultAverageQuantity, isSellable }) => ({
-                  itemId,
-                  defaultAverageQuantity,
-                  isSellable,
-                })),
-            },
+        },
+        contentRewards: {
+          createMany: {
+            data: contentRewards.map(
+              ({ itemId, averageQuantity, isSellable }) => ({
+                itemId,
+                averageQuantity,
+                isSellable,
+              }),
+            ),
           },
-          contentSeeMoreRewards: {
-            createMany: {
-              data: contentSeeMoreRewards
-                .filter(({ isExcluded }) => !isExcluded)
-                .map(({ itemId, quantity }) => ({
+        },
+        ...(isRaid &&
+          contentSeeMoreRewards?.length && {
+            contentSeeMoreRewards: {
+              createMany: {
+                data: contentSeeMoreRewards.map(({ itemId, quantity }) => ({
                   itemId,
                   quantity,
                 })),
+              },
             },
-          },
-          gate,
-          level,
-          name,
-        },
-        include: {
-          contentDuration: true,
-          contentRewards: true,
-          contentSeeMoreRewards: true,
-        },
-      });
-
-      const users = await tx.user.findMany();
-
-      await Promise.all(
-        users.map(async (user) => {
-          await tx.userContentReward.createMany({
-            data: content.contentRewards.map((reward) => ({
-              contentRewardId: reward.id,
-              averageQuantity: reward.defaultAverageQuantity,
-              userId: user.id,
-              isSellable: reward.isSellable,
-            })),
-          });
-
-          await tx.userContentSeeMoreReward.createMany({
-            data: content.contentSeeMoreRewards.map((reward) => ({
-              contentSeeMoreRewardId: reward.id,
-              quantity: reward.quantity,
-              userId: user.id,
-            })),
-          });
-        }),
-      );
-
-      return { ok: true };
+          }),
+        gate,
+        level,
+        name,
+      },
     });
+
+    return { ok: true };
   }
 }

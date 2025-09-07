@@ -71,12 +71,14 @@ model Content {
   status ContentStatus @default(ACTIVE)
 
   // Relations
-  contentRewards        ContentReward[]
-  contentCategory       ContentCategory        @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
-  contentCategoryId     Int                    @map("content_category_id")
-  contentDuration       ContentDuration?
-  contentSeeMoreRewards ContentSeeMoreReward[]
-  userContentDurations  UserContentDuration[]
+  contentRewards            ContentReward[]
+  contentCategory           ContentCategory            @relation(fields: [contentCategoryId], references: [id], onDelete: Cascade)
+  contentCategoryId         Int                        @map("content_category_id")
+  contentDuration           ContentDuration?
+  contentSeeMoreRewards     ContentSeeMoreReward[]
+  userContentDurations      UserContentDuration[]
+  userContentRewards        UserContentReward[]
+  userContentSeeMoreRewards UserContentSeeMoreReward[]
 
   @@unique([name, gate])
   @@map("content")
@@ -115,15 +117,14 @@ model ContentReward {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  defaultAverageQuantity Decimal @default(0) @map("default_average_quantity")
-  isSellable             Boolean @default(false) @map("is_sellable")
+  averageQuantity Decimal @default(0) @map("average_quantity")
+  isSellable      Boolean @default(false) @map("is_sellable")
 
   // Relations
   contentId              Int                     @map("content_id")
   content                Content                 @relation(fields: [contentId], references: [id], onDelete: Cascade)
   item                   Item                    @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId                 Int                     @map("item_id")
-  userContentRewards     UserContentReward[]
   reportedContentRewards ReportedContentReward[]
 
   @@unique([contentId, itemId])
@@ -142,9 +143,11 @@ model Item {
   price      Decimal  @default(0)
 
   // Relations
-  contentRewards        ContentReward[]
-  userItems             UserItem[]
-  contentSeeMoreRewards ContentSeeMoreReward[]
+  contentRewards            ContentReward[]
+  userItems                 UserItem[]
+  contentSeeMoreRewards     ContentSeeMoreReward[]
+  userContentRewards        UserContentReward[]
+  userContentSeeMoreRewards UserContentSeeMoreReward[]
 
   @@map("item")
 }
@@ -157,12 +160,12 @@ model ContentSeeMoreReward {
   quantity Decimal @default(0)
 
   // Relations
-  contentId                 Int                        @map("content_id")
-  content                   Content                    @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  itemId                    Int                        @map("item_id")
-  item                      Item                       @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  userContentSeeMoreRewards UserContentSeeMoreReward[]
+  contentId Int     @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  itemId    Int     @map("item_id")
+  item      Item    @relation(fields: [itemId], references: [id], onDelete: Cascade)
 
+  @@unique([contentId, itemId])
   @@map("content_see_more_reward")
 }
 
@@ -304,16 +307,17 @@ model UserContentReward {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   averageQuantity Decimal @default(0) @map("average_quantity")
-  isEdited        Boolean @default(false) @map("is_edited")
   isSellable      Boolean @default(false) @map("is_sellable")
 
   // Relations
-  contentRewardId Int           @map("content_reward_id")
-  contentReward   ContentReward @relation(fields: [contentRewardId], references: [id], onDelete: Cascade)
-  userId          Int           @map("user_id")
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId Int     @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  item      Item    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId    Int     @map("item_id")
+  userId    Int     @map("user_id")
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, contentRewardId])
+  @@unique([userId, contentId, itemId])
   @@map("user_content_reward")
 }
 
@@ -322,16 +326,17 @@ model UserContentSeeMoreReward {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  isEdited Boolean @default(false) @map("is_edited")
   quantity Decimal @default(0)
 
   // Relations
-  contentSeeMoreRewardId Int                  @map("content_see_more_reward_id")
-  contentSeeMoreReward   ContentSeeMoreReward @relation(fields: [contentSeeMoreRewardId], references: [id], onDelete: Cascade)
-  userId                 Int                  @map("user_id")
-  user                   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId Int     @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  itemId    Int     @map("item_id")
+  item      Item    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  userId    Int     @map("user_id")
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, contentSeeMoreRewardId])
+  @@unique([userId, contentId, itemId])
   @@map("user_content_see_more_reward")
 }
 

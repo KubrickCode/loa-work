@@ -7,60 +7,13 @@ export class UserSeedService {
     const user = await tx.user.findUniqueOrThrow({
       where: { id: userId },
       include: {
-        userContentRewards: true,
-        userContentSeeMoreRewards: true,
         userItems: true,
       },
     });
 
-    if (!user.userContentRewards.length) {
-      await this.makeContentRewards(userId, tx, user.createdAt);
-    }
-
-    if (!user.userContentSeeMoreRewards.length) {
-      await this.makeContentSeeMoreRewards(userId, tx, user.createdAt);
-    }
-
     if (!user.userItems.length) {
       await this.makeItems(userId, tx, user.createdAt);
     }
-  }
-
-  async makeContentRewards(
-    userId: number,
-    tx: Prisma.TransactionClient,
-    createdAt: Date,
-  ) {
-    const defaultRewards = await tx.contentReward.findMany();
-
-    await tx.userContentReward.createMany({
-      data: defaultRewards.map(
-        ({ id, defaultAverageQuantity: averageQuantity, isSellable }) => ({
-          contentRewardId: id,
-          averageQuantity,
-          isSellable,
-          userId,
-          createdAt,
-        }),
-      ),
-    });
-  }
-
-  async makeContentSeeMoreRewards(
-    userId: number,
-    tx: Prisma.TransactionClient,
-    createdAt: Date,
-  ) {
-    const defaultSeeMoreRewards = await tx.contentSeeMoreReward.findMany();
-
-    await tx.userContentSeeMoreReward.createMany({
-      data: defaultSeeMoreRewards.map(({ id, quantity }) => ({
-        contentSeeMoreRewardId: id,
-        quantity,
-        userId,
-        createdAt,
-      })),
-    });
   }
 
   async makeItems(

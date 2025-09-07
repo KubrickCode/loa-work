@@ -46,32 +46,32 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.sillingId,
-            defaultAverageQuantity: 173415,
+            averageQuantity: 173415,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 21900,
+            averageQuantity: 21900,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 10.8,
+            averageQuantity: 10.8,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 166.6,
+            averageQuantity: 166.6,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 450.9,
+            averageQuantity: 450.9,
             isSellable: true,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 2.7,
+            averageQuantity: 2.7,
             isSellable: true,
           },
         ],
@@ -92,32 +92,32 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.sillingId,
-            defaultAverageQuantity: 188312,
+            averageQuantity: 188312,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 28907,
+            averageQuantity: 28907,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 14.3,
+            averageQuantity: 14.3,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 178,
+            averageQuantity: 178,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 515,
+            averageQuantity: 515,
             isSellable: true,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 4.3,
+            averageQuantity: 4.3,
             isSellable: true,
           },
         ],
@@ -138,32 +138,32 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.sillingId,
-            defaultAverageQuantity: 195058,
+            averageQuantity: 195058,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 32476,
+            averageQuantity: 32476,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 17.5,
+            averageQuantity: 17.5,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 220.6,
+            averageQuantity: 220.6,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 626.6,
+            averageQuantity: 626.6,
             isSellable: true,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 4.4,
+            averageQuantity: 4.4,
             isSellable: true,
           },
         ],
@@ -184,22 +184,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.sillingId,
-            defaultAverageQuantity: 35120,
+            averageQuantity: 35120,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 12.4,
+            averageQuantity: 12.4,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 96.2,
+            averageQuantity: 96.2,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 286.7,
+            averageQuantity: 286.7,
             isSellable: true,
           },
         ],
@@ -220,22 +220,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.sillingId,
-            defaultAverageQuantity: 39046,
+            averageQuantity: 39046,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 17.6,
+            averageQuantity: 17.6,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 148.4,
+            averageQuantity: 148.4,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 450,
+            averageQuantity: 450,
             isSellable: true,
           },
         ],
@@ -256,32 +256,32 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.sillingId,
-            defaultAverageQuantity: 139591,
+            averageQuantity: 139591,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 14,
+            averageQuantity: 14,
             isSellable: false,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 9,
+            averageQuantity: 9,
             isSellable: true,
           },
           {
             itemId: itemIds.lavaBreathId,
-            defaultAverageQuantity: 4,
+            averageQuantity: 4,
             isSellable: false,
           },
           {
             itemId: itemIds.iceBreathId,
-            defaultAverageQuantity: 4,
+            averageQuantity: 4,
             isSellable: false,
           },
           {
             itemId: itemIds.cardExpId,
-            defaultAverageQuantity: 14000,
+            averageQuantity: 14000,
             isSellable: false,
           },
         ],
@@ -302,32 +302,32 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.sillingId,
-            defaultAverageQuantity: 150322,
+            averageQuantity: 150322,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 25,
+            averageQuantity: 25,
             isSellable: false,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 18,
+            averageQuantity: 18,
             isSellable: true,
           },
           {
             itemId: itemIds.lavaBreathId,
-            defaultAverageQuantity: 5,
+            averageQuantity: 5,
             isSellable: false,
           },
           {
             itemId: itemIds.iceBreathId,
-            defaultAverageQuantity: 5,
+            averageQuantity: 5,
             isSellable: false,
           },
           {
             itemId: itemIds.cardExpId,
-            defaultAverageQuantity: 14500,
+            averageQuantity: 14500,
             isSellable: false,
           },
         ],
@@ -348,27 +348,27 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 750,
+            averageQuantity: 750,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 1380,
+            averageQuantity: 1380,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyBreakstoneId,
-            defaultAverageQuantity: 5,
+            averageQuantity: 5,
             isSellable: false,
           },
           {
             itemId: itemIds.lavaBreathId,
-            defaultAverageQuantity: 1,
+            averageQuantity: 1,
             isSellable: false,
           },
           {
             itemId: itemIds.iceBreathId,
-            defaultAverageQuantity: 1,
+            averageQuantity: 1,
             isSellable: false,
           },
         ],
@@ -389,27 +389,27 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4000,
+            averageQuantity: 4000,
             isSellable: true,
           },
           {
             itemId: itemIds.lavaBreathId,
-            defaultAverageQuantity: 2,
+            averageQuantity: 2,
             isSellable: true,
           },
           {
             itemId: itemIds.iceBreathId,
-            defaultAverageQuantity: 2,
+            averageQuantity: 2,
             isSellable: true,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 2,
+            averageQuantity: 2,
             isSellable: true,
           },
           {
             itemId: itemIds.cardExpId,
-            defaultAverageQuantity: 2500,
+            averageQuantity: 2500,
             isSellable: false,
           },
         ],
@@ -430,27 +430,27 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4500,
+            averageQuantity: 4500,
             isSellable: true,
           },
           {
             itemId: itemIds.lavaBreathId,
-            defaultAverageQuantity: 3,
+            averageQuantity: 3,
             isSellable: true,
           },
           {
             itemId: itemIds.iceBreathId,
-            defaultAverageQuantity: 3,
+            averageQuantity: 3,
             isSellable: true,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 3,
+            averageQuantity: 3,
             isSellable: true,
           },
           {
             itemId: itemIds.cardExpId,
-            defaultAverageQuantity: 6000,
+            averageQuantity: 6000,
             isSellable: false,
           },
         ],
@@ -471,22 +471,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 40,
+            averageQuantity: 40,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 120,
+            averageQuantity: 120,
             isSellable: true,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 12,
+            averageQuantity: 12,
             isSellable: true,
           },
           {
             itemId: itemIds.cardExpId,
-            defaultAverageQuantity: 2500,
+            averageQuantity: 2500,
             isSellable: false,
           },
         ],
@@ -507,22 +507,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 60,
+            averageQuantity: 60,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 180,
+            averageQuantity: 180,
             isSellable: true,
           },
           {
             itemId: itemIds.level1GemId,
-            defaultAverageQuantity: 16,
+            averageQuantity: 16,
             isSellable: true,
           },
           {
             itemId: itemIds.cardExpId,
-            defaultAverageQuantity: 2500,
+            averageQuantity: 2500,
             isSellable: false,
           },
         ],
@@ -544,22 +544,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 7000,
+            averageQuantity: 7000,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 3000,
+            averageQuantity: 3000,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 210,
+            averageQuantity: 210,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 420,
+            averageQuantity: 420,
             isSellable: false,
           },
         ],
@@ -603,22 +603,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 14500,
+            averageQuantity: 14500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4000,
+            averageQuantity: 4000,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 270,
+            averageQuantity: 270,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 540,
+            averageQuantity: 540,
             isSellable: false,
           },
         ],
@@ -662,22 +662,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 6000,
+            averageQuantity: 6000,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 2700,
+            averageQuantity: 2700,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 200,
+            averageQuantity: 200,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 400,
+            averageQuantity: 400,
             isSellable: false,
           },
         ],
@@ -721,22 +721,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 12500,
+            averageQuantity: 12500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 3800,
+            averageQuantity: 3800,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 260,
+            averageQuantity: 260,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 520,
+            averageQuantity: 520,
             isSellable: false,
           },
         ],
@@ -780,22 +780,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 7500,
+            averageQuantity: 7500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 3600,
+            averageQuantity: 3600,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 480,
+            averageQuantity: 480,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 960,
+            averageQuantity: 960,
             isSellable: false,
           },
         ],
@@ -839,22 +839,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 15500,
+            averageQuantity: 15500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4400,
+            averageQuantity: 4400,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 580,
+            averageQuantity: 580,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 1160,
+            averageQuantity: 1160,
             isSellable: false,
           },
         ],
@@ -898,22 +898,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 8500,
+            averageQuantity: 8500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4000,
+            averageQuantity: 4000,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 540,
+            averageQuantity: 540,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 1080,
+            averageQuantity: 1080,
             isSellable: false,
           },
         ],
@@ -957,22 +957,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 16500,
+            averageQuantity: 16500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4600,
+            averageQuantity: 4600,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 640,
+            averageQuantity: 640,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 1280,
+            averageQuantity: 1280,
             isSellable: false,
           },
         ],
@@ -1016,22 +1016,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 9000,
+            averageQuantity: 9000,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4200,
+            averageQuantity: 4200,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 680,
+            averageQuantity: 680,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 1320,
+            averageQuantity: 1320,
             isSellable: false,
           },
         ],
@@ -1075,22 +1075,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 18500,
+            averageQuantity: 18500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 5400,
+            averageQuantity: 5400,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 660,
+            averageQuantity: 660,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 1320,
+            averageQuantity: 1320,
             isSellable: false,
           },
         ],
@@ -1134,22 +1134,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 10000,
+            averageQuantity: 10000,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 4600,
+            averageQuantity: 4600,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 640,
+            averageQuantity: 640,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 1280,
+            averageQuantity: 1280,
             isSellable: false,
           },
         ],
@@ -1193,22 +1193,22 @@ export const getContentsWithRewards = ({
         data: [
           {
             itemId: itemIds.goldId,
-            defaultAverageQuantity: 20500,
+            averageQuantity: 20500,
             isSellable: true,
           },
           {
             itemId: itemIds.destinyFragmentId,
-            defaultAverageQuantity: 6000,
+            averageQuantity: 6000,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyDestructionId,
-            defaultAverageQuantity: 700,
+            averageQuantity: 700,
             isSellable: false,
           },
           {
             itemId: itemIds.destinyGuardianId,
-            defaultAverageQuantity: 1400,
+            averageQuantity: 1400,
             isSellable: false,
           },
         ],

@@ -17,9 +17,8 @@ const schema = z.object({
   contentRewards: z.array(
     z.object({
       itemId: z.number(),
-      defaultAverageQuantity: z.number(),
+      averageQuantity: z.number(),
       isSellable: z.boolean(),
-      isExcluded: z.boolean(),
     })
   ),
   contentSeeMoreRewards: z
@@ -27,7 +26,6 @@ const schema = z.object({
       z.object({
         itemId: z.number(),
         quantity: z.number(),
-        isExcluded: z.boolean(),
       })
     )
     .optional(),
@@ -46,14 +44,12 @@ export const ContentCreateTab = () => {
         defaultValues={{
           contentRewards: data.items.map(({ id }) => ({
             itemId: id,
-            defaultAverageQuantity: 0,
+            averageQuantity: 0,
             isSellable: true,
-            isExcluded: true,
           })),
           contentSeeMoreRewards: data.items.map(({ id }) => ({
             itemId: id,
             quantity: 0,
-            isExcluded: true,
           })),
         }}
         mutation={ContentCreateTabDocument}
@@ -66,6 +62,7 @@ export const ContentCreateTab = () => {
         schema={schema}
       >
         {({ watch }) => {
+          // TODO: 레이드 유형인지 판단하여 더보기 보상 생성 여부를 판단하는데, 구조적으로 더 나은 방법 검토 필요.
           const isRaid = data.contentCategories.some(
             (category) =>
               category.id === watch("categoryId") &&
@@ -136,26 +133,16 @@ export const ContentCreateTab = () => {
                     >
                       <Form.Field
                         label={reward.name}
-                        name={`contentRewards.${index}.defaultAverageQuantity`}
+                        name={`contentRewards.${index}.averageQuantity`}
                         optional
                       >
-                        <Form.Input
-                          disabled={watch(`contentRewards.${index}.isExcluded`)}
-                          step="0.01"
-                          type="number"
-                        />
+                        <Form.Input step="0.01" type="number" />
                       </Form.Field>
                       <Form.Field
                         name={`contentRewards.${index}.isSellable`}
                         optional
                       >
                         <Form.Checkbox size="xs">판매 가능 여부</Form.Checkbox>
-                      </Form.Field>
-                      <Form.Field
-                        name={`contentRewards.${index}.isExcluded`}
-                        optional
-                      >
-                        <Form.Checkbox size="xs">제외 여부</Form.Checkbox>
                       </Form.Field>
                     </Flex>
                   ))}
@@ -188,23 +175,11 @@ export const ContentCreateTab = () => {
                           name={`contentSeeMoreRewards.${index}.quantity`}
                           optional
                         >
-                          <Form.Input
-                            disabled={watch(
-                              `contentSeeMoreRewards.${index}.isExcluded`
-                            )}
-                            step="0.01"
-                            type="number"
-                          />
+                          <Form.Input step="0.01" type="number" />
                         </Form.Field>
                         <ChakraCheckbox disabled size="xs">
                           판매 가능 여부
                         </ChakraCheckbox>
-                        <Form.Field
-                          name={`contentSeeMoreRewards.${index}.isExcluded`}
-                          optional
-                        >
-                          <Form.Checkbox size="xs">제외 여부</Form.Checkbox>
-                        </Form.Field>
                       </Flex>
                     ))}
                   </Flex>

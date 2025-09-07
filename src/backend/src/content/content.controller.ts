@@ -60,7 +60,7 @@ export class ContentController {
           );
           return {
             level: content.level,
-            quantity: reward ? Number(reward.defaultAverageQuantity) : null,
+            quantity: reward ? Number(reward.averageQuantity) : null,
           };
         })
         .filter((h) => h.quantity !== null);
@@ -86,12 +86,12 @@ export class ContentController {
         const averageIncreaseFactor =
           increaseCount > 0 ? totalIncreaseFactor / increaseCount : 1;
         const predictedQuantity =
-          Number(latestReward.defaultAverageQuantity) * averageIncreaseFactor;
+          Number(latestReward.averageQuantity) * averageIncreaseFactor;
 
         predictions.push({
           itemName: latestReward.item.name,
           predictedQuantity: predictedQuantity,
-          previousQuantity: Number(latestReward.defaultAverageQuantity),
+          previousQuantity: Number(latestReward.averageQuantity),
           averageIncreaseFactor: averageIncreaseFactor,
           historyLevels: rewardHistory.map((h) => h.level),
         });
@@ -143,7 +143,7 @@ export class ContentController {
       if (reports.length < 3) {
         validations.push({
           itemName: reward.item.name,
-          currentQuantity: Number(reward.defaultAverageQuantity),
+          currentQuantity: Number(reward.averageQuantity),
           status: 'insufficient_data',
           message: '충분한 제보 데이터가 없습니다.',
           reportCount: reports.length,
@@ -165,7 +165,7 @@ export class ContentController {
 
       const validMean =
         validReports.reduce((a, b) => a + b) / validReports.length;
-      const currentQuantity = Number(reward.defaultAverageQuantity);
+      const currentQuantity = Number(reward.averageQuantity);
 
       // currentQuantity가 0인 경우 특별 처리
       let difference: string;
