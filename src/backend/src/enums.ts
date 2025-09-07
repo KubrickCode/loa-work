@@ -1,13 +1,13 @@
 import { registerEnumType } from '@nestjs/graphql';
 import {
   AuthProvider,
-  ContentRewardItemKind,
+  ItemKind,
   ContentStatus,
   UserRole,
 } from '@prisma/client';
 
-registerEnumType(ContentRewardItemKind, {
-  name: 'ContentRewardItemKind',
+registerEnumType(ItemKind, {
+  name: 'ItemKind',
 });
 
 registerEnumType(AuthProvider, {

@@ -15,7 +15,7 @@ type DB interface {
 	AuctionItem() AuctionItemDB
 	AuctionItemCategory() AuctionItemCategoryDB
 	AuctionItemStat() AuctionItemStatDB
-	ContentRewardItem() ContentRewardItemDB
+	Item() ItemDB
 	MarketItem() MarketItemDB
 	MarketItemCategory() MarketItemCategoryDB
 	MarketItemStat() MarketItemStatDB
@@ -27,7 +27,7 @@ type database struct {
 	auctionItem         AuctionItemDB
 	auctionItemCategory AuctionItemCategoryDB
 	auctionItemStat     AuctionItemStatDB
-	contentRewardItem   ContentRewardItemDB
+	item                ItemDB
 	marketItem          MarketItemDB
 	marketItemCategory  MarketItemCategoryDB
 	marketItemStat      MarketItemStatDB
@@ -64,7 +64,7 @@ func (db *database) initRepos() {
 	db.auctionItem = NewAuctionItemDB(gdb)
 	db.auctionItemCategory = NewAuctionItemCategoryDB(gdb)
 	db.auctionItemStat = NewAuctionItemStatDB(gdb)
-	db.contentRewardItem = NewContentRewardItemDB(gdb)
+	db.item = NewItemDB(gdb)
 	db.marketItem = NewMarketItemDB(gdb)
 	db.marketItemCategory = NewMarketItemCategoryDB(gdb)
 	db.marketItemStat = NewMarketItemStatDB(gdb)
@@ -98,7 +98,7 @@ func (db database) AuctionItemCategory() AuctionItemCategoryDB { return db.aucti
 
 func (db database) AuctionItemStat() AuctionItemStatDB { return db.auctionItemStat }
 
-func (db database) ContentRewardItem() ContentRewardItemDB { return db.contentRewardItem }
+func (db database) Item() ItemDB { return db.item }
 
 func (db database) MarketItem() MarketItemDB { return db.marketItem }
 

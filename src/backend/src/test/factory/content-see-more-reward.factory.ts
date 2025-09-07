@@ -3,14 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
 import { Prisma } from '@prisma/client';
 import { ContentFactory } from './content.factory';
-import { ContentRewardItemFactory } from './content-reward-item.factory';
+import { ItemFactory } from './item.factory';
 
 @Injectable()
 export class ContentSeeMoreRewardFactory {
   private readonly contentFactory = new ContentFactory(this.prisma);
-  private readonly contentRewardItemFactory = new ContentRewardItemFactory(
-    this.prisma,
-  );
+  private readonly itemFactory = new ItemFactory(this.prisma);
 
   constructor(private prisma: PrismaService) {}
 
@@ -18,22 +16,22 @@ export class ContentSeeMoreRewardFactory {
     data?: Partial<Prisma.ContentSeeMoreRewardUncheckedCreateInput>;
   }) {
     let contentId = options?.data?.contentId;
-    let contentRewardItemId = options?.data?.contentRewardItemId;
+    let itemId = options?.data?.itemId;
 
     if (!contentId) {
       const content = await this.contentFactory.create();
       contentId = content.id;
     }
 
-    if (!contentRewardItemId) {
-      const contentRewardItem = await this.contentRewardItemFactory.create();
-      contentRewardItemId = contentRewardItem.id;
+    if (!itemId) {
+      const item = await this.itemFactory.create();
+      itemId = item.id;
     }
 
     return await this.prisma.contentSeeMoreReward.create({
       data: {
         contentId,
-        contentRewardItemId,
+        itemId,
         quantity: faker.number.float({ min: 1, max: 10000 }),
         ...options?.data,
       },

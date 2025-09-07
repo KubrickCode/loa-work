@@ -58,7 +58,7 @@ export const ContentRewardReportDialog = ({
               {data.content.contentRewards.map((reward, index) => (
                 <Form.Field
                   key={reward.id}
-                  label={reward.contentRewardItem.name}
+                  label={reward.item.name}
                   name={`contentRewards.${index}.averageQuantity`}
                 >
                   <Form.Input step="0.01" type="number" />

@@ -16,8 +16,8 @@ export class ContentCreateInput {
   @Field()
   categoryId: number;
 
-  @Field(() => [ContentCreateRewardItemsInput])
-  contentRewards: ContentCreateRewardItemsInput[];
+  @Field(() => [ContentCreateItemsInput])
+  contentRewards: ContentCreateItemsInput[];
 
   @Field(() => [ContentCreateSeeMoreRewardsInput], { nullable: true })
   contentSeeMoreRewards?: ContentCreateSeeMoreRewardsInput[];
@@ -36,9 +36,9 @@ export class ContentCreateInput {
 }
 
 @InputType()
-export class ContentCreateRewardItemsInput {
+export class ContentCreateItemsInput {
   @Field()
-  contentRewardItemId: number;
+  itemId: number;
 
   @Field(() => Float)
   defaultAverageQuantity: number;
@@ -53,7 +53,7 @@ export class ContentCreateRewardItemsInput {
 @InputType()
 export class ContentCreateSeeMoreRewardsInput {
   @Field()
-  contentRewardItemId: number;
+  itemId: number;
 
   @Field(() => Float)
   quantity: number;
@@ -98,25 +98,19 @@ export class ContentCreateMutation {
             createMany: {
               data: contentRewards
                 .filter(({ isExcluded }) => !isExcluded)
-                .map(
-                  ({
-                    contentRewardItemId,
-                    defaultAverageQuantity,
-                    isSellable,
-                  }) => ({
-                    contentRewardItemId,
-                    defaultAverageQuantity,
-                    isSellable,
-                  }),
-                ),
+                .map(({ itemId, defaultAverageQuantity, isSellable }) => ({
+                  itemId,
+                  defaultAverageQuantity,
+                  isSellable,
+                })),
             },
           },
           contentSeeMoreRewards: {
             createMany: {
               data: contentSeeMoreRewards
                 .filter(({ isExcluded }) => !isExcluded)
-                .map(({ contentRewardItemId, quantity }) => ({
-                  contentRewardItemId,
+                .map(({ itemId, quantity }) => ({
+                  itemId,
                   quantity,
                 })),
             },

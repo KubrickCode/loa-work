@@ -4,5 +4,5 @@ import { BaseObject } from 'src/common/object/base.object';
 @ObjectType()
 export class ContentReward extends BaseObject {
   @Field()
-  contentRewardItemId: number;
+  itemId: number;
 }

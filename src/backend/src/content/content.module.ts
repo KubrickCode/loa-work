@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PrismaModule } from 'src/prisma';
 import { ContentListQuery } from './query/content-list.query';
 import { ContentResolver } from './object/content.resolver';
-import { ContentRewardItemsQuery } from './query/content-reward-items.query';
+import { ItemsQuery } from './query/items.query';
 import { ContentCategoriesQuery } from './query/content-categories.query';
 import { ContentWageService } from './service/content-wage.service';
 import { ContentQuery } from './query/content.query';
@@ -16,9 +16,9 @@ import { UserContentDurationEditMutation } from './mutation/user-content-duratio
 import { ContentDurationResolver } from './object/content-duration.resolver';
 import { ContentDurationQuery } from './query/content-duration.query';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
-import { ContentRewardItemResolver } from './object/content-reward-item.resolver';
-import { UserContentRewardItemEditMutation } from './mutation/user-content-reward-item-edit.mutation';
-import { ContentRewardItemQuery } from './query/content-reward-item.query';
+import { ItemResolver } from './object/item.resolver';
+import { UserItemEditMutation } from './mutation/user-item-edit.mutation';
+import { ItemQuery } from './query/item.query';
 import { CustomContentWageCalculateMutation } from './mutation/custom-content-wage-calculate.mutation';
 import { ContentRewardsReportMutation } from './mutation/content-rewards-report.mutation';
 import { ContentController } from './content.controller';
@@ -37,7 +37,7 @@ import { ContentGroupQuery } from './query/content-group.query';
   controllers: [ContentController],
   providers: [
     ContentListQuery,
-    ContentRewardItemsQuery,
+    ItemsQuery,
     ContentResolver,
     ContentCategoriesQuery,
     ContentWageService,
@@ -52,9 +52,9 @@ import { ContentGroupQuery } from './query/content-group.query';
     ContentDurationResolver,
     ContentDurationQuery,
     UserGoldExchangeRateService,
-    ContentRewardItemResolver,
-    UserContentRewardItemEditMutation,
-    ContentRewardItemQuery,
+    ItemResolver,
+    UserItemEditMutation,
+    ItemQuery,
     CustomContentWageCalculateMutation,
     ContentRewardsReportMutation,
     ContentCreateMutation,

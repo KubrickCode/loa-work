@@ -52,7 +52,7 @@ export const ContentWageListFilters = () => {
                 />
               </Field>
               <Field label="컨텐츠 보상 종류">
-                <ContentRewardItemsFilter />
+                <ItemsFilter />
               </Field>
               <Field label="더보기 포함 여부">
                 <ContentSeeMoreFilter />
@@ -109,14 +109,14 @@ const ContentIsBoundFilter = () => {
   );
 };
 
-const ContentRewardItemsFilter = () => {
+const ItemsFilter = () => {
   const {
-    contentRewardItems,
-    includeContentRewardItemIds,
-    setIncludeContentRewardItemIds,
+    items: rewardItems,
+    includeItemIds,
+    setIncludeItemIds,
   } = useContentWageListPage();
 
-  const items = contentRewardItems.map(({ id, name }) => ({
+  const items = rewardItems.map(({ id, name }) => ({
     label: name,
     value: id,
   }));
@@ -124,9 +124,9 @@ const ContentRewardItemsFilter = () => {
   return (
     <MultiSelect
       items={items}
-      onChange={setIncludeContentRewardItemIds}
+      onChange={setIncludeItemIds}
       placeholder="보상 아이템 선택"
-      value={includeContentRewardItemIds}
+      value={includeItemIds}
     />
   );
 };

@@ -52,7 +52,7 @@ type ContentCategory {
 
 input ContentCreateInput {
   categoryId: Int!
-  contentRewards: [ContentCreateRewardItemsInput!]!
+  contentRewards: [ContentCreateItemsInput!]!
   contentSeeMoreRewards: [ContentCreateSeeMoreRewardsInput!]
   duration: Int!
   gate: Int
@@ -60,20 +60,20 @@ input ContentCreateInput {
   name: String!
 }
 
+input ContentCreateItemsInput {
+  defaultAverageQuantity: Float!
+  isExcluded: Boolean!
+  isSellable: Boolean!
+  itemId: Int!
+}
+
 type ContentCreateResult {
   ok: Boolean!
 }
 
-input ContentCreateRewardItemsInput {
-  contentRewardItemId: Int!
-  defaultAverageQuantity: Float!
-  isExcluded: Boolean!
-  isSellable: Boolean!
-}
-
 input ContentCreateSeeMoreRewardsInput {
-  contentRewardItemId: Int!
   isExcluded: Boolean!
+  itemId: Int!
   quantity: Float!
 }
 
@@ -111,9 +111,9 @@ type ContentGroupWage {
 
 input ContentGroupWageListFilter {
   contentCategoryId: Int
-  includeContentRewardItemIds: [Int!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
+  includeItemIds: [Int!]
   keyword: String
   status: ContentStatus
 }
@@ -126,43 +126,20 @@ input ContentListFilter {
 }
 
 type ContentObjectWageFilter {
-  includeContentRewardItems: [String!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
+  includeItemIds: [String!]
 }
 
 type ContentReward {
   averageQuantity: Float!
-  contentRewardItem: ContentRewardItem!
-  contentRewardItemId: Int!
   createdAt: DateTime!
   id: Int!
   isSellable: Boolean!
+  item: Item!
+  itemId: Int!
   updatedAt: DateTime!
   userContentReward: UserContentReward!
-}
-
-type ContentRewardItem {
-  createdAt: DateTime!
-  id: Int!
-  imageUrl: String!
-  kind: ContentRewardItemKind!
-  name: String!
-  pieColor: String!
-  price: Float!
-  updatedAt: DateTime!
-  userContentRewardItem: UserContentRewardItem!
-}
-
-enum ContentRewardItemKind {
-  AUCTION_ITEM
-  EXTRA_ITEM
-  MARKET_ITEM
-}
-
-input ContentRewardItemsFilter {
-  excludeItemName: String
-  kind: ContentRewardItemKind
 }
 
 input ContentRewardReportInput {
@@ -180,10 +157,10 @@ type ContentRewardsReportResult {
 
 type ContentSeeMoreReward {
   contentId: Int!
-  contentRewardItem: ContentRewardItem!
-  contentRewardItemId: Int!
   createdAt: DateTime!
   id: Int!
+  item: Item!
+  itemId: Int!
   quantity: Float!
   updatedAt: DateTime!
   userContentSeeMoreReward: UserContentSeeMoreReward!
@@ -203,16 +180,16 @@ type ContentWage {
 }
 
 input ContentWageFilter {
-  includeContentRewardItemIds: [Int!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
+  includeItemIds: [Int!]
 }
 
 input ContentWageListFilter {
   contentCategoryId: Int
-  includeContentRewardItemIds: [Int!]
   includeIsBound: Boolean
   includeIsSeeMore: Boolean
+  includeItemIds: [Int!]
   keyword: String
   status: ContentStatus
 }
@@ -222,9 +199,14 @@ input ContentsFilter {
 }
 
 input CustomContentWageCalculateInput {
+  items: [CustomContentWageCalculateItemsInput!]!
   minutes: Int!
-  rewardItems: [CustomContentWageCalculateRewardItemInput!]!
   seconds: Int!
+}
+
+input CustomContentWageCalculateItemsInput {
+  id: Int!
+  quantity: Float!
 }
 
 type CustomContentWageCalculateResult {
@@ -234,15 +216,33 @@ type CustomContentWageCalculateResult {
   ok: Boolean!
 }
 
-input CustomContentWageCalculateRewardItemInput {
-  id: Int!
-  quantity: Float!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type Item {
+  createdAt: DateTime!
+  id: Int!
+  imageUrl: String!
+  kind: ItemKind!
+  name: String!
+  pieColor: String!
+  price: Float!
+  updatedAt: DateTime!
+  userItem: UserItem!
+}
+
+enum ItemKind {
+  AUCTION
+  EXTRA
+  MARKET
+}
+
+input ItemsFilter {
+  excludeItemName: String
+  kind: ItemKind
+}
 
 type MarketItem {
   bundleCount: Int!
@@ -271,10 +271,10 @@ type Mutation {
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   userContentDurationEdit(input: UserContentDurationEditInput!): UserContentDurationEditResult!
   userContentDurationsEdit(input: UserContentDurationsEditInput!): UserContentDurationsEditResult!
-  userContentRewardItemEdit(input: UserContentRewardItemEditInput!): UserContentRewardItemEditResult!
   userContentRewardsEdit(input: UserContentRewardsEditInput!): UserContentRewardsEditResult!
   userContentSeeMoreRewardsEdit(input: UserContentSeeMoreRewardsEditInput!): UserContentSeeMoreRewardsEditResult!
   userGoldExchangeRateEdit(input: UserGoldExchangeRateEditInput!): UserGoldExchangeRateEditResult!
+  userItemEdit(input: UserItemEditInput!): UserItemEditResult!
 }
 
 input OrderByArg {
@@ -291,11 +291,11 @@ type Query {
   contentGroup(filter: ContentGroupFilter): ContentGroup!
   contentGroupWageList(filter: ContentGroupWageListFilter, orderBy: [OrderByArg!]): [ContentGroupWage!]!
   contentList(filter: ContentListFilter): [Content!]!
-  contentRewardItem(id: Int!): ContentRewardItem!
-  contentRewardItems(filter: ContentRewardItemsFilter): [ContentRewardItem!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
   contents(filter: ContentsFilter): [Content!]!
   goldExchangeRate: UserGoldExchangeRate!
+  item(id: Int!): Item!
+  items(filter: ItemsFilter): [Item!]!
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
   marketItems(orderBy: [OrderByArg!], take: Int): [MarketItem!]!
   userGoldExchangeRate: UserGoldExchangeRate!
@@ -363,24 +363,6 @@ input UserContentRewardEditInput {
   isSellable: Boolean!
 }
 
-type UserContentRewardItem {
-  contentRewardItemId: Int!
-  createdAt: DateTime!
-  id: Int!
-  price: Float!
-  updatedAt: DateTime!
-  userId: Int!
-}
-
-input UserContentRewardItemEditInput {
-  id: Int!
-  price: Float!
-}
-
-type UserContentRewardItemEditResult {
-  ok: Boolean!
-}
-
 input UserContentRewardsEditInput {
   isReportable: Boolean!
   userContentRewards: [UserContentRewardEditInput!]!
@@ -425,6 +407,24 @@ input UserGoldExchangeRateEditInput {
 }
 
 type UserGoldExchangeRateEditResult {
+  ok: Boolean!
+}
+
+type UserItem {
+  createdAt: DateTime!
+  id: Int!
+  itemId: Int!
+  price: Float!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+input UserItemEditInput {
+  id: Int!
+  price: Float!
+}
+
+type UserItemEditResult {
   ok: Boolean!
 }
 

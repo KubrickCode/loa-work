@@ -1,23 +1,23 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
-import { ContentRewardItem } from './content-reward-item.object';
+import { Item } from './item.object';
 import { UserContentService } from 'src/user/service/user-content.service';
 import { User } from 'src/common/object/user.object';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { PrismaService } from 'src/prisma';
-import { UserContentRewardItem } from './user-content-reward-item.object';
+import { UserItem } from './user-item.object';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 
-@Resolver(() => ContentRewardItem)
-export class ContentRewardItemResolver {
+@Resolver(() => Item)
+export class ItemResolver {
   constructor(
     private userContentService: UserContentService,
     private prisma: PrismaService,
   ) {}
 
   @ResolveField(() => String)
-  async pieColor(@Parent() contentRewardItem: ContentRewardItem) {
+  async pieColor(@Parent() item: Item) {
     const colorMap: Record<string, string> = {
       골드: '#FFD700', // 금색
       '골드(귀속)': '#FFD700', // 금색
@@ -30,27 +30,22 @@ export class ContentRewardItemResolver {
       '빙하의 숨결': '#1E90FF', // 밝은 파란색
     };
 
-    return colorMap[contentRewardItem.name] || '#8884d8';
+    return colorMap[item.name] || '#8884d8';
   }
 
   @ResolveField(() => Float)
-  async price(@Parent() contentRewardItem: ContentRewardItem) {
-    return await this.userContentService.getContentRewardItemPrice(
-      contentRewardItem.id,
-    );
+  async price(@Parent() item: Item) {
+    return await this.userContentService.getItemPrice(item.id);
   }
 
   @UseGuards(AuthGuard)
-  @ResolveField(() => UserContentRewardItem)
-  async userContentRewardItem(
-    @Parent() contentRewardItem: ContentRewardItem,
-    @CurrentUser() user: User,
-  ) {
-    return await this.prisma.userContentRewardItem.findUniqueOrThrow({
+  @ResolveField(() => UserItem)
+  async userItem(@Parent() item: Item, @CurrentUser() user: User) {
+    return await this.prisma.userItem.findUniqueOrThrow({
       where: {
-        userId_contentRewardItemId: {
+        userId_itemId: {
           userId: user.id,
-          contentRewardItemId: contentRewardItem.id,
+          itemId: item.id,
         },
       },
     });

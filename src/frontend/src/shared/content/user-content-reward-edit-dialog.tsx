@@ -76,7 +76,7 @@ export const UserContentRewardEditDialog = ({
                 {data.content.contentRewards.map((reward, index) => (
                   <Form.Field
                     key={reward.userContentReward.id}
-                    label={reward.contentRewardItem.name}
+                    label={reward.item.name}
                     name={`userContentRewards.${index}.averageQuantity`}
                   >
                     <InputGroup

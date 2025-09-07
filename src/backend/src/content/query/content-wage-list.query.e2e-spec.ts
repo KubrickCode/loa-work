@@ -3,11 +3,11 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from 'src/app.module';
 import { PrismaService } from 'src/prisma';
-import { ContentRewardItemKind } from '@prisma/client';
+import { ItemKind } from '@prisma/client';
 import 'src/enums';
 import { ContentFactory } from 'src/test/factory/content.factory';
 import { ContentRewardFactory } from 'src/test/factory/content-reward.factory';
-import { ContentRewardItemFactory } from 'src/test/factory/content-reward-item.factory';
+import { ItemFactory } from 'src/test/factory/item.factory';
 import { ContentDurationFactory } from 'src/test/factory/content-duration.factory';
 import { ContentCategoryFactory } from 'src/test/factory/content-category.factory';
 import { ContentSeeMoreRewardFactory } from 'src/test/factory/content-see-more-reward.factory';
@@ -16,7 +16,7 @@ describe('ContentWageListQuery (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let contentFactory: ContentFactory;
-  let contentRewardItemFactory: ContentRewardItemFactory;
+  let itemFactory: ItemFactory;
   let contentRewardFactory: ContentRewardFactory;
   let contentDurationFactory: ContentDurationFactory;
   let contentCategoryFactory: ContentCategoryFactory;
@@ -32,7 +32,7 @@ describe('ContentWageListQuery (e2e)', () => {
 
     prisma = app.get<PrismaService>(PrismaService);
     contentFactory = new ContentFactory(prisma);
-    contentRewardItemFactory = new ContentRewardItemFactory(prisma);
+    itemFactory = new ItemFactory(prisma);
     contentRewardFactory = new ContentRewardFactory(prisma);
     contentDurationFactory = new ContentDurationFactory(prisma);
     contentCategoryFactory = new ContentCategoryFactory(prisma);
@@ -59,21 +59,21 @@ describe('ContentWageListQuery (e2e)', () => {
     await prisma.userContentDuration.deleteMany({});
     await prisma.contentDuration.deleteMany({});
     await prisma.content.deleteMany({});
-    await prisma.contentRewardItem.deleteMany({});
+    await prisma.item.deleteMany({});
   });
 
   it('기본 쿼리', async () => {
     const content = await contentFactory.create();
-    const rewardItem = await contentRewardItemFactory.create({
+    const item = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 100,
       },
     });
     await contentRewardFactory.create({
       data: {
         contentId: content.id,
-        contentRewardItemId: rewardItem.id,
+        itemId: item.id,
         defaultAverageQuantity: 5,
         isSellable: true,
       },
@@ -139,9 +139,9 @@ describe('ContentWageListQuery (e2e)', () => {
     });
 
     // 동일한 리워드 아이템 생성
-    const rewardItem = await contentRewardItemFactory.create({
+    const item = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 100,
       },
     });
@@ -151,7 +151,7 @@ describe('ContentWageListQuery (e2e)', () => {
       await contentRewardFactory.create({
         data: {
           contentId,
-          contentRewardItemId: rewardItem.id,
+          itemId: item.id,
           defaultAverageQuantity: 5,
           isSellable: true,
         },
@@ -205,9 +205,9 @@ describe('ContentWageListQuery (e2e)', () => {
     });
 
     // 리워드 아이템 생성
-    const rewardItem = await contentRewardItemFactory.create({
+    const item = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 100,
       },
     });
@@ -217,7 +217,7 @@ describe('ContentWageListQuery (e2e)', () => {
       await contentRewardFactory.create({
         data: {
           contentId,
-          contentRewardItemId: rewardItem.id,
+          itemId: item.id,
           defaultAverageQuantity: 5,
           isSellable: true,
         },
@@ -252,21 +252,21 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(response.body.data.contentWageList[0].contentId).toBe(content1.id);
   });
 
-  it('includeContentRewardItemIds 필터', async () => {
+  it('includeItemIds 필터', async () => {
     // 콘텐츠 생성
     const content = await contentFactory.create();
 
     // 서로 다른 두 개의 리워드 아이템 생성
-    const rewardItem1 = await contentRewardItemFactory.create({
+    const item1 = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 100,
       },
     });
 
-    const rewardItem2 = await contentRewardItemFactory.create({
+    const item2 = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 200,
       },
     });
@@ -275,7 +275,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content.id,
-        contentRewardItemId: rewardItem1.id,
+        itemId: item1.id,
         defaultAverageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
@@ -284,7 +284,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content.id,
-        contentRewardItemId: rewardItem2.id,
+        itemId: item2.id,
         defaultAverageQuantity: 3, // 200 * 3 = 600
         isSellable: true,
       },
@@ -298,14 +298,14 @@ describe('ContentWageListQuery (e2e)', () => {
       },
     });
 
-    // rewardItem1만 포함하도록 필터링
+    // item1만 포함하도록 필터링
     const response = await request(app.getHttpServer())
       .post('/graphql')
       .set('Content-Type', 'application/json')
       .send({
         query: `
           query {
-            contentWageList(filter: { includeContentRewardItemIds: [${rewardItem1.id}] }) {
+            contentWageList(filter: { includeItemIds: [${item1.id}] }) {
               contentId
               goldAmountPerClear
             }
@@ -316,7 +316,7 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(response.status).toBe(200);
     expect(response.body.errors).toBeUndefined();
     expect(response.body.data.contentWageList).toHaveLength(1);
-    expect(response.body.data.contentWageList[0].goldAmountPerClear).toBe(500); // rewardItem1만 계산 (100 * 5)
+    expect(response.body.data.contentWageList[0].goldAmountPerClear).toBe(500); // item1만 계산 (100 * 5)
   });
 
   it('includeIsSeeMore 필터', async () => {
@@ -324,9 +324,9 @@ describe('ContentWageListQuery (e2e)', () => {
     const content = await contentFactory.create();
 
     // 리워드 아이템 생성
-    const rewardItem = await contentRewardItemFactory.create({
+    const item = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 100,
       },
     });
@@ -335,7 +335,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content.id,
-        contentRewardItemId: rewardItem.id,
+        itemId: item.id,
         defaultAverageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
@@ -345,7 +345,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentSeeMoreRewardFactory.create({
       data: {
         contentId: content.id,
-        contentRewardItemId: rewardItem.id,
+        itemId: item.id,
         quantity: 10, // 100 * 10 = 1000
       },
     });
@@ -407,16 +407,16 @@ describe('ContentWageListQuery (e2e)', () => {
     const content = await contentFactory.create();
 
     // 리워드 아이템 생성
-    const rewardItem1 = await contentRewardItemFactory.create({
+    const item1 = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 100,
       },
     });
 
-    const rewardItem2 = await contentRewardItemFactory.create({
+    const item2 = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 200,
       },
     });
@@ -425,7 +425,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content.id,
-        contentRewardItemId: rewardItem1.id,
+        itemId: item1.id,
         defaultAverageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
@@ -435,7 +435,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content.id,
-        contentRewardItemId: rewardItem2.id,
+        itemId: item2.id,
         defaultAverageQuantity: 3, // 200 * 3 = 600
         isSellable: false,
       },
@@ -487,9 +487,9 @@ describe('ContentWageListQuery (e2e)', () => {
       });
       contents.push(content);
 
-      const rewardItem = await contentRewardItemFactory.create({
+      const item = await itemFactory.create({
         data: {
-          kind: ContentRewardItemKind.MARKET_ITEM,
+          kind: ItemKind.MARKET,
           price: 100,
         },
       });
@@ -498,7 +498,7 @@ describe('ContentWageListQuery (e2e)', () => {
       await contentRewardFactory.create({
         data: {
           contentId: content.id,
-          contentRewardItemId: rewardItem.id,
+          itemId: item.id,
           defaultAverageQuantity: goldValues[i] / 100, // 100 * (수량) = goldValues[i]
           isSellable: true,
         },
@@ -586,16 +586,16 @@ describe('ContentWageListQuery (e2e)', () => {
     });
 
     // 리워드 아이템 생성
-    const rewardItem1 = await contentRewardItemFactory.create({
+    const item1 = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 100,
       },
     });
 
-    const rewardItem2 = await contentRewardItemFactory.create({
+    const item2 = await itemFactory.create({
       data: {
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         price: 200,
       },
     });
@@ -604,7 +604,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content1.id,
-        contentRewardItemId: rewardItem1.id,
+        itemId: item1.id,
         defaultAverageQuantity: 5, // 100 * 5 = 500
         isSellable: true,
       },
@@ -613,7 +613,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content1.id,
-        contentRewardItemId: rewardItem2.id,
+        itemId: item2.id,
         defaultAverageQuantity: 3, // 200 * 3 = 600
         isSellable: false,
       },
@@ -623,7 +623,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await contentRewardFactory.create({
       data: {
         contentId: content2.id,
-        contentRewardItemId: rewardItem1.id,
+        itemId: item1.id,
         defaultAverageQuantity: 2, // 100 * 2 = 200
         isSellable: true,
       },
@@ -639,7 +639,7 @@ describe('ContentWageListQuery (e2e)', () => {
       });
     }
 
-    // 복합 필터: 카테고리1 + 키워드 "특수" + 거래 가능 아이템만 + rewardItem1만
+    // 복합 필터: 카테고리1 + 키워드 "특수" + 거래 가능 아이템만 + item1만
     const response = await request(app.getHttpServer())
       .post('/graphql')
       .set('Content-Type', 'application/json')
@@ -651,7 +651,7 @@ describe('ContentWageListQuery (e2e)', () => {
                 contentCategoryId: ${category1.id},
                 keyword: "특수",
                 includeIsBound: false,
-                includeContentRewardItemIds: [${rewardItem1.id}]
+                includeItemIds: [${item1.id}]
               }
             ) {
               contentId
@@ -665,6 +665,6 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(response.body.errors).toBeUndefined();
     expect(response.body.data.contentWageList).toHaveLength(1);
     expect(response.body.data.contentWageList[0].contentId).toBe(content1.id);
-    expect(response.body.data.contentWageList[0].goldAmountPerClear).toBe(500); // rewardItem1만 계산 (100 * 5)
+    expect(response.body.data.contentWageList[0].goldAmountPerClear).toBe(500); // item1만 계산 (100 * 5)
   });
 });

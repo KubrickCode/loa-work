@@ -27,10 +27,10 @@ export const ContentRewardListPieChart = () => {
     () =>
       data.contentList.map((content) => {
         const rewards = content.contentRewards.map((reward) => ({
-          name: reward.contentRewardItem.name,
-          value: reward.averageQuantity * reward.contentRewardItem.price,
-          rawGold: reward.averageQuantity * reward.contentRewardItem.price,
-          color: reward.contentRewardItem.pieColor,
+          name: reward.item.name,
+          value: reward.averageQuantity * reward.item.price,
+          rawGold: reward.averageQuantity * reward.item.price,
+          color: reward.item.pieColor,
         }));
 
         rewards.sort((a, b) => b.value - a.value);

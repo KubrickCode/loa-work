@@ -2,9 +2,9 @@ import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { BaseObject } from 'src/common/object/base.object';
 
 @ObjectType()
-export class UserContentRewardItem extends BaseObject {
+export class UserItem extends BaseObject {
   @Field()
-  contentRewardItemId: number;
+  itemId: number;
 
   @Field(() => Float)
   price: number;

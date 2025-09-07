@@ -2,19 +2,15 @@ import _ from 'lodash';
 import DataLoader from 'dataloader';
 import { Injectable, Scope } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
-import {
-  ContentCategory,
-  ContentDuration,
-  ContentRewardItem,
-} from '@prisma/client';
-import { ContentRewardItemSortOrder } from 'src/content/constants';
+import { ContentCategory, ContentDuration, Item } from '@prisma/client';
+import { ItemSortOrder } from 'src/content/constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class DataLoaderService {
   readonly contentCategory = this.createContentCategoryLoader();
   readonly contentDuration = this.createContentDurationLoader();
   readonly contentRewards = this.createContentRewardsLoader();
-  readonly contentRewardItem = this.createContentRewardItemLoader();
+  readonly item = this.createItemLoader();
   readonly contentSeeMoreRewards = this.createContentSeeMoreRewardsLoader();
 
   constructor(private prisma: PrismaService) {}
@@ -81,15 +77,13 @@ export class DataLoaderService {
             contentId: { in: contentIds as number[] },
           },
           include: {
-            contentRewardItem: true,
+            item: true,
           },
         });
 
         const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
-          const aOrder =
-            ContentRewardItemSortOrder[a.contentRewardItem.name] || 999;
-          const bOrder =
-            ContentRewardItemSortOrder[b.contentRewardItem.name] || 999;
+          const aOrder = ItemSortOrder[a.item.name] || 999;
+          const bOrder = ItemSortOrder[b.item.name] || 999;
           return aOrder - bOrder;
         });
 
@@ -106,26 +100,24 @@ export class DataLoaderService {
     };
   }
 
-  private createContentRewardItemLoader() {
-    const contentRewardItemLoader = new DataLoader<number, ContentRewardItem>(
-      async (itemIds) => {
-        const items = await this.prisma.contentRewardItem.findMany({
-          where: {
-            id: { in: itemIds as number[] },
-          },
-        });
+  private createItemLoader() {
+    const itemLoader = new DataLoader<number, Item>(async (itemIds) => {
+      const items = await this.prisma.item.findMany({
+        where: {
+          id: { in: itemIds as number[] },
+        },
+      });
 
-        const itemsMap = _.keyBy(items, 'id');
+      const itemsMap = _.keyBy(items, 'id');
 
-        return itemIds.map((id) => itemsMap[id]);
-      },
-    );
+      return itemIds.map((id) => itemsMap[id]);
+    });
 
     return {
       findUniqueOrThrowById: async (itemId: number) => {
-        const result = await contentRewardItemLoader.load(itemId);
+        const result = await itemLoader.load(itemId);
         if (!result) {
-          throw new Error(`ContentRewardItem with id ${itemId} not found`);
+          throw new Error(`Item with id ${itemId} not found`);
         }
         return result;
       },
@@ -140,15 +132,13 @@ export class DataLoaderService {
             contentId: { in: contentIds as number[] },
           },
           include: {
-            contentRewardItem: true,
+            item: true,
           },
         });
 
         const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
-          const aOrder =
-            ContentRewardItemSortOrder[a.contentRewardItem.name] || 999;
-          const bOrder =
-            ContentRewardItemSortOrder[b.contentRewardItem.name] || 999;
+          const aOrder = ItemSortOrder[a.item.name] || 999;
+          const bOrder = ItemSortOrder[b.item.name] || 999;
           return aOrder - bOrder;
         });
 

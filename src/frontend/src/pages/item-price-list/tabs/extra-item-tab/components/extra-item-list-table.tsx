@@ -7,7 +7,7 @@ import { Dialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  ContentRewardItemKind,
+  ItemKind,
   ExtraItemListTableDocument,
   ExtraItemListTableQuery,
 } from "~/core/graphql/generated";
@@ -23,7 +23,7 @@ export const ExtraItemListTable = () => {
     variables: {
       filter: {
         excludeItemName: "골드",
-        kind: ContentRewardItemKind.EXTRA_ITEM,
+        kind: ItemKind.EXTRA,
       },
     },
   });
@@ -34,16 +34,12 @@ export const ExtraItemListTable = () => {
         {
           align: "center" as const,
           header: "관리",
-          render({
-            data,
-          }: {
-            data: ExtraItemListTableQuery["contentRewardItems"][number];
-          }) {
+          render({ data }: { data: ExtraItemListTableQuery["items"][number] }) {
             return (
               <Dialog.Trigger
                 dialog={UserExtraItemPriceEditDialog}
                 dialogProps={{
-                  contentRewardItemId: data.id,
+                  itemId: data.id,
                   onComplete: refetch,
                 }}
                 disabled={!isAuthenticated}
@@ -81,7 +77,7 @@ export const ExtraItemListTable = () => {
           },
         },
       ]}
-      rows={data.contentRewardItems.map((data) => ({
+      rows={data.items.map((data) => ({
         data,
       }))}
     />

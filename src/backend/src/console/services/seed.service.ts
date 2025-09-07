@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
-import { ContentRewardItemKind, Prisma } from '@prisma/client';
+import { ItemKind, Prisma } from '@prisma/client';
 import { getContentsWithRewards } from './data/content-reward-data';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class SeedService {
     await this.auctionItemCategories();
     await this.auctionItems();
     await this.contentCategories();
-    await this.contentRewardItems();
+    await this.items();
     await this.contents();
     await this.goldExchangeRate();
   }
@@ -241,46 +241,38 @@ export class SeedService {
         where: { name: '카제로스 레이드' },
       });
 
-    const { id: goldId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '골드' },
-      });
-    const { id: sillingId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '실링' },
-      });
-    const { id: destinyFragmentId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '운명의 파편' },
-      });
+    const { id: goldId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '골드' },
+    });
+    const { id: sillingId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '실링' },
+    });
+    const { id: destinyFragmentId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '운명의 파편' },
+    });
     const { id: destinyBreakstoneId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
+      await this.prisma.item.findUniqueOrThrow({
         where: { name: '운명의 돌파석' },
       });
     const { id: destinyDestructionId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
+      await this.prisma.item.findUniqueOrThrow({
         where: { name: '운명의 파괴석' },
       });
-    const { id: destinyGuardianId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '운명의 수호석' },
-      });
-    const { id: level1GemId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '1레벨 보석' },
-      });
-    const { id: lavaBreathId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '용암의 숨결' },
-      });
-    const { id: iceBreathId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '빙하의 숨결' },
-      });
-    const { id: cardExpId } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: { name: '카드 경험치' },
-      });
+    const { id: destinyGuardianId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '운명의 수호석' },
+    });
+    const { id: level1GemId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '1레벨 보석' },
+    });
+    const { id: lavaBreathId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '용암의 숨결' },
+    });
+    const { id: iceBreathId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '빙하의 숨결' },
+    });
+    const { id: cardExpId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: '카드 경험치' },
+    });
 
     for (const contentData of getContentsWithRewards({
       kurzanId,
@@ -291,7 +283,7 @@ export class SeedService {
       fieldBossId,
       epicRaidId,
       kazerosRaidId,
-      rewardItemIds: {
+      itemIds: {
         goldId,
         sillingId,
         destinyFragmentId,
@@ -323,11 +315,11 @@ export class SeedService {
     }
   }
 
-  async contentRewardItems() {
-    await this.prisma.contentRewardItem.create({
+  async items() {
+    await this.prisma.item.create({
       data: {
         name: '실링',
-        kind: ContentRewardItemKind.EXTRA_ITEM,
+        kind: ItemKind.EXTRA,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png',
         isEditable: true,
@@ -335,10 +327,10 @@ export class SeedService {
       },
     });
 
-    await this.prisma.contentRewardItem.create({
+    await this.prisma.item.create({
       data: {
         name: '카드 경험치',
-        kind: ContentRewardItemKind.EXTRA_ITEM,
+        kind: ItemKind.EXTRA,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
         isEditable: true,
@@ -346,10 +338,10 @@ export class SeedService {
       },
     });
 
-    await this.prisma.contentRewardItem.create({
+    await this.prisma.item.create({
       data: {
         name: '골드',
-        kind: ContentRewardItemKind.EXTRA_ITEM,
+        kind: ItemKind.EXTRA,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1735996903/hdamkxuzmvbwyopjhmcb.png',
         isEditable: false,
@@ -362,49 +354,49 @@ export class SeedService {
     const items = [
       {
         name: '운명의 파편',
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428078/xug2bon7qtiflcqbezza.png',
         basePrice: 0.17,
       },
       {
         name: '운명의 돌파석',
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/qn5msm2gc0qtmtc0irlh.png',
         basePrice: 25,
       },
       {
         name: '운명의 파괴석',
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xy9a4qf2on63drftnkub.png',
         basePrice: 4,
       },
       {
         name: '운명의 수호석',
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/azkviadmag8inzq65ajf.png',
         basePrice: 0.5,
       },
       {
         name: '1레벨 보석',
-        kind: ContentRewardItemKind.AUCTION_ITEM,
+        kind: ItemKind.AUCTION,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/dpqtjeqsuqmvfwzapjj8.png',
         basePrice: 160,
       },
       {
         name: '용암의 숨결',
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xpnlsgxaatshujnzpett.png',
         basePrice: 580,
       },
       {
         name: '빙하의 숨결',
-        kind: ContentRewardItemKind.MARKET_ITEM,
+        kind: ItemKind.MARKET,
         imageUrl:
           'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/k8xcldjkq33qf9l69uim.png',
         basePrice: 160,
@@ -433,7 +425,7 @@ export class SeedService {
       }
 
       const { basePrice: _basePrice, ...itemWithoutBasePrice } = item;
-      await this.prisma.contentRewardItem.create({
+      await this.prisma.item.create({
         data: {
           ...itemWithoutBasePrice,
           price: priceData[0].value,

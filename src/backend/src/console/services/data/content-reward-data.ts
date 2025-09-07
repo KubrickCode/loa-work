@@ -9,7 +9,7 @@ export const getContentsWithRewards = ({
   fieldBossId,
   epicRaidId,
   kazerosRaidId,
-  rewardItemIds,
+  itemIds,
 }: {
   kurzanId: number;
   guardianRaidId: number;
@@ -19,7 +19,7 @@ export const getContentsWithRewards = ({
   fieldBossId: number;
   epicRaidId: number;
   kazerosRaidId: number;
-  rewardItemIds: {
+  itemIds: {
     goldId: number;
     sillingId: number;
     destinyFragmentId: number;
@@ -45,32 +45,32 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.sillingId,
+            itemId: itemIds.sillingId,
             defaultAverageQuantity: 173415,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 21900,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 10.8,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 166.6,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 450.9,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 2.7,
             isSellable: true,
           },
@@ -91,32 +91,32 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.sillingId,
+            itemId: itemIds.sillingId,
             defaultAverageQuantity: 188312,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 28907,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 14.3,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 178,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 515,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 4.3,
             isSellable: true,
           },
@@ -137,32 +137,32 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.sillingId,
+            itemId: itemIds.sillingId,
             defaultAverageQuantity: 195058,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 32476,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 17.5,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 220.6,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 626.6,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 4.4,
             isSellable: true,
           },
@@ -183,22 +183,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.sillingId,
+            itemId: itemIds.sillingId,
             defaultAverageQuantity: 35120,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 12.4,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 96.2,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 286.7,
             isSellable: true,
           },
@@ -219,22 +219,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.sillingId,
+            itemId: itemIds.sillingId,
             defaultAverageQuantity: 39046,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 17.6,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 148.4,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 450,
             isSellable: true,
           },
@@ -255,32 +255,32 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.sillingId,
+            itemId: itemIds.sillingId,
             defaultAverageQuantity: 139591,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 14,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 9,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.lavaBreathId,
+            itemId: itemIds.lavaBreathId,
             defaultAverageQuantity: 4,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.iceBreathId,
+            itemId: itemIds.iceBreathId,
             defaultAverageQuantity: 4,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.cardExpId,
+            itemId: itemIds.cardExpId,
             defaultAverageQuantity: 14000,
             isSellable: false,
           },
@@ -301,32 +301,32 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.sillingId,
+            itemId: itemIds.sillingId,
             defaultAverageQuantity: 150322,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 25,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 18,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.lavaBreathId,
+            itemId: itemIds.lavaBreathId,
             defaultAverageQuantity: 5,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.iceBreathId,
+            itemId: itemIds.iceBreathId,
             defaultAverageQuantity: 5,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.cardExpId,
+            itemId: itemIds.cardExpId,
             defaultAverageQuantity: 14500,
             isSellable: false,
           },
@@ -347,27 +347,27 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 750,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 1380,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyBreakstoneId,
+            itemId: itemIds.destinyBreakstoneId,
             defaultAverageQuantity: 5,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.lavaBreathId,
+            itemId: itemIds.lavaBreathId,
             defaultAverageQuantity: 1,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.iceBreathId,
+            itemId: itemIds.iceBreathId,
             defaultAverageQuantity: 1,
             isSellable: false,
           },
@@ -388,27 +388,27 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4000,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.lavaBreathId,
+            itemId: itemIds.lavaBreathId,
             defaultAverageQuantity: 2,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.iceBreathId,
+            itemId: itemIds.iceBreathId,
             defaultAverageQuantity: 2,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 2,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.cardExpId,
+            itemId: itemIds.cardExpId,
             defaultAverageQuantity: 2500,
             isSellable: false,
           },
@@ -429,27 +429,27 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.lavaBreathId,
+            itemId: itemIds.lavaBreathId,
             defaultAverageQuantity: 3,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.iceBreathId,
+            itemId: itemIds.iceBreathId,
             defaultAverageQuantity: 3,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 3,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.cardExpId,
+            itemId: itemIds.cardExpId,
             defaultAverageQuantity: 6000,
             isSellable: false,
           },
@@ -470,22 +470,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 40,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 120,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 12,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.cardExpId,
+            itemId: itemIds.cardExpId,
             defaultAverageQuantity: 2500,
             isSellable: false,
           },
@@ -506,22 +506,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 60,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 180,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.level1GemId,
+            itemId: itemIds.level1GemId,
             defaultAverageQuantity: 16,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.cardExpId,
+            itemId: itemIds.cardExpId,
             defaultAverageQuantity: 2500,
             isSellable: false,
           },
@@ -543,22 +543,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 7000,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 3000,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 210,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 420,
             isSellable: false,
           },
@@ -569,19 +569,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -3100,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 4000,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 600,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 800,
           },
         ],
@@ -602,22 +602,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 14500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4000,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 270,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 540,
             isSellable: false,
           },
@@ -628,19 +628,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -4900,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 6000,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 900,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 1800,
           },
         ],
@@ -661,22 +661,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 6000,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 2700,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 200,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 400,
             isSellable: false,
           },
@@ -687,19 +687,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -2800,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 3800,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 550,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 1100,
           },
         ],
@@ -720,22 +720,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 12500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 3800,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 260,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 520,
             isSellable: false,
           },
@@ -746,19 +746,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -4100,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 5800,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 850,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 1700,
           },
         ],
@@ -779,22 +779,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 7500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 3600,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 480,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 960,
             isSellable: false,
           },
@@ -805,19 +805,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -3200,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 6500,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 700,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 1400,
           },
         ],
@@ -838,22 +838,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 15500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4400,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 580,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 1160,
             isSellable: false,
           },
@@ -864,19 +864,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -5300,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 9500,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 1000,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 2000,
           },
         ],
@@ -897,22 +897,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 8500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4000,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 540,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 1080,
             isSellable: false,
           },
@@ -923,19 +923,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -3800,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 7000,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 800,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 1600,
           },
         ],
@@ -956,22 +956,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 16500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4600,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 640,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 1280,
             isSellable: false,
           },
@@ -982,19 +982,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -5200,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 10500,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 1050,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 2100,
           },
         ],
@@ -1015,22 +1015,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 9000,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4200,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 680,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 1320,
             isSellable: false,
           },
@@ -1041,19 +1041,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -4100,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 7500,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 850,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 1700,
           },
         ],
@@ -1074,22 +1074,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 18500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 5400,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 660,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 1320,
             isSellable: false,
           },
@@ -1100,19 +1100,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -6600,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 11000,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 1150,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 2300,
           },
         ],
@@ -1133,22 +1133,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 10000,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 4600,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 640,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 1280,
             isSellable: false,
           },
@@ -1159,19 +1159,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -4500,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 8000,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 950,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 1900,
           },
         ],
@@ -1192,22 +1192,22 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             defaultAverageQuantity: 20500,
             isSellable: true,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             defaultAverageQuantity: 6000,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             defaultAverageQuantity: 700,
             isSellable: false,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             defaultAverageQuantity: 1400,
             isSellable: false,
           },
@@ -1218,19 +1218,19 @@ export const getContentsWithRewards = ({
       createMany: {
         data: [
           {
-            contentRewardItemId: rewardItemIds.goldId,
+            itemId: itemIds.goldId,
             quantity: -7200,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyFragmentId,
+            itemId: itemIds.destinyFragmentId,
             quantity: 14000,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyDestructionId,
+            itemId: itemIds.destinyDestructionId,
             quantity: 1400,
           },
           {
-            contentRewardItemId: rewardItemIds.destinyGuardianId,
+            itemId: itemIds.destinyGuardianId,
             quantity: 2800,
           },
         ],

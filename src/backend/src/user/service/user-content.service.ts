@@ -17,31 +17,29 @@ export class UserContentService {
   }
 
   //  Test 작성
-  async getContentRewardItemPrice(contentRewardItemId: number) {
+  async getItemPrice(itemId: number) {
     const userId = this.getUserId();
 
-    const { price: defaultPrice } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: {
-          id: contentRewardItemId,
-        },
-      });
+    const { price: defaultPrice } = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        id: itemId,
+      },
+    });
 
-    const { isEditable } =
-      await this.prisma.contentRewardItem.findUniqueOrThrow({
-        where: {
-          id: contentRewardItemId,
-        },
-      });
+    const { isEditable } = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        id: itemId,
+      },
+    });
 
     const price =
       userId && isEditable
         ? (
-            await this.prisma.userContentRewardItem.findUniqueOrThrow({
+            await this.prisma.userItem.findUniqueOrThrow({
               where: {
-                userId_contentRewardItemId: {
+                userId_itemId: {
                   userId,
-                  contentRewardItemId,
+                  itemId,
                 },
               },
             })
@@ -138,7 +136,7 @@ export class UserContentService {
     contentId: number,
     filter?: {
       includeIsBound?: boolean;
-      includeContentRewardItemIds?: number[];
+      includeItemIds?: number[];
     },
   ) {
     const userId = this.getUserId();
@@ -149,8 +147,8 @@ export class UserContentService {
           ...(filter?.includeIsBound === false && { isSellable: true }),
           contentReward: {
             contentId,
-            ...(filter?.includeContentRewardItemIds && {
-              contentRewardItemId: { in: filter.includeContentRewardItemIds },
+            ...(filter?.includeItemIds && {
+              itemId: { in: filter.includeItemIds },
             }),
           },
         },
@@ -161,15 +159,15 @@ export class UserContentService {
 
       return userRewards.map(({ averageQuantity, contentReward }) => ({
         averageQuantity: averageQuantity.toNumber(),
-        contentRewardItemId: contentReward.contentRewardItemId,
+        itemId: contentReward.itemId,
       }));
     }
 
     const where = {
       contentId,
       ...(filter?.includeIsBound === false && { isSellable: true }),
-      ...(filter?.includeContentRewardItemIds && {
-        contentRewardItemId: { in: filter.includeContentRewardItemIds },
+      ...(filter?.includeItemIds && {
+        itemId: { in: filter.includeItemIds },
       }),
     };
 
@@ -177,26 +175,24 @@ export class UserContentService {
       where,
     });
 
-    return defaultRewards.map(
-      ({ defaultAverageQuantity, contentRewardItemId }) => ({
-        averageQuantity: defaultAverageQuantity.toNumber(),
-        contentRewardItemId,
-      }),
-    );
+    return defaultRewards.map(({ defaultAverageQuantity, itemId }) => ({
+      averageQuantity: defaultAverageQuantity.toNumber(),
+      itemId,
+    }));
   }
 
   async getContentSeeMoreRewards(
     contentId: number,
     filter?: {
-      includeContentRewardItemIds?: number[];
+      includeItemIds?: number[];
     },
   ) {
     const userId = this.getUserId();
 
     const where = {
       contentId,
-      ...(filter?.includeContentRewardItemIds && {
-        contentRewardItemId: { in: filter.includeContentRewardItemIds },
+      ...(filter?.includeItemIds && {
+        itemId: { in: filter.includeItemIds },
       }),
     };
 
@@ -213,7 +209,7 @@ export class UserContentService {
 
       return userRewards.map(({ quantity, contentSeeMoreReward }) => ({
         quantity: quantity.toNumber(),
-        contentRewardItemId: contentSeeMoreReward.contentRewardItemId,
+        itemId: contentSeeMoreReward.itemId,
       }));
     }
 
@@ -221,9 +217,9 @@ export class UserContentService {
       where,
     });
 
-    return defaultRewards.map(({ quantity, contentRewardItemId }) => ({
+    return defaultRewards.map(({ quantity, itemId }) => ({
       quantity: quantity.toNumber(),
-      contentRewardItemId,
+      itemId,
     }));
   }
 
@@ -259,16 +255,15 @@ export class UserContentService {
     return true;
   }
 
-  async validateUserContentRewardItem(rewardItemId: number) {
+  async validateUserItem(itemId: number) {
     const userId = this.getUserId();
 
-    const userContentRewardItem =
-      await this.prisma.userContentRewardItem.findUnique({
-        where: { id: rewardItemId, userId },
-      });
+    const userItem = await this.prisma.userItem.findUnique({
+      where: { id: itemId, userId },
+    });
 
-    if (!userContentRewardItem) {
-      throw new Error('리워드 아이템에 대한 수정 권한이 없습니다');
+    if (!userItem) {
+      throw new Error('아이템에 대한 수정 권한이 없습니다');
     }
 
     return true;

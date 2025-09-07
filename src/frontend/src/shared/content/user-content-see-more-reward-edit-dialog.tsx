@@ -68,7 +68,7 @@ export const UserContentSeeMoreRewardEditDialog = ({
               {data.content.contentSeeMoreRewards.map((reward, index) => (
                 <Form.Field
                   key={reward.userContentSeeMoreReward.id}
-                  label={reward.contentRewardItem.name}
+                  label={reward.item.name}
                   name={`userContentSeeMoreRewards.${index}.quantity`}
                 >
                   <Form.NumberInput />

@@ -33,7 +33,7 @@ export const ContentWageListTable = () => {
     keyword,
     includeIsSeeMore,
     includeIsBound,
-    includeContentRewardItemIds,
+    includeItemIds,
     shouldMergeGate,
   } = useContentWageListPage();
 
@@ -52,7 +52,7 @@ export const ContentWageListTable = () => {
         keyword,
         includeIsSeeMore,
         includeIsBound,
-        includeContentRewardItemIds,
+        includeItemIds,
         status: ContentStatus.ACTIVE,
       },
     },

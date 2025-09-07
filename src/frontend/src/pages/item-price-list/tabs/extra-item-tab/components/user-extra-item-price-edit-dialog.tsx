@@ -3,9 +3,9 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  UserContentRewardItemEditDocument,
-  UserContentRewardItemEditInput,
-  UserContentRewardItemEditMutation,
+  UserItemEditDocument,
+  UserItemEditInput,
+  UserItemEditMutation,
   UserExtraItemPriceEditDialogDocument,
 } from "~/core/graphql/generated";
 
@@ -15,36 +15,33 @@ const schema = z.object({
 });
 
 type UserExtraItemPriceEditDialogProps = {
-  contentRewardItemId: number;
+  itemId: number;
   onComplete: () => void;
 };
 
 export const UserExtraItemPriceEditDialog = ({
-  contentRewardItemId,
+  itemId,
   onComplete,
   ...dialogProps
 }: UserExtraItemPriceEditDialogProps & DialogProps) => {
   const { data } = useSafeQuery(UserExtraItemPriceEditDialogDocument, {
     variables: {
-      id: contentRewardItemId,
+      id: itemId,
     },
   });
 
   const {
-    contentRewardItem: { userContentRewardItem },
+    item: { userItem },
   } = data;
 
   return (
     <Dialog {...dialogProps}>
-      <Form.Mutation<
-        UserContentRewardItemEditInput,
-        UserContentRewardItemEditMutation
-      >
+      <Form.Mutation<UserItemEditInput, UserItemEditMutation>
         defaultValues={{
-          id: userContentRewardItem.id,
-          price: userContentRewardItem.price,
+          id: userItem.id,
+          price: userItem.price,
         }}
-        mutation={UserContentRewardItemEditDocument}
+        mutation={UserItemEditDocument}
         onComplete={() => {
           dialogProps.onClose();
           onComplete();
@@ -56,9 +53,7 @@ export const UserExtraItemPriceEditDialog = ({
         schema={schema}
       >
         <Dialog.Content>
-          <Dialog.Header>
-            {data.contentRewardItem.name} - 골드 가치 수정
-          </Dialog.Header>
+          <Dialog.Header>{data.item.name} - 골드 가치 수정</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               <Form.Field label="개당 골드" name="price">
