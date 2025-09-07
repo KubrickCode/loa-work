@@ -12,7 +12,7 @@ import { UserContentService } from '../user/service/user-content.service';
 import { ContentWageListQuery } from './query/content-wage-list.query';
 import { ContentWageResolver } from './object/content-wage.resolver';
 import { ContentSeeMoreRewardResolver } from './object/content-see-more-reward.resolver';
-import { UserContentDurationEditMutation } from './mutation/user-content-duration-edit.mutation';
+import { ContentDurationEditMutation } from './mutation/content-duration-edit.mutation';
 import { ContentDurationResolver } from './object/content-duration.resolver';
 import { ContentDurationQuery } from './query/content-duration.query';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
@@ -28,7 +28,7 @@ import { UserContentSeeMoreRewardsEditMutation } from './mutation/user-content-s
 import { ContentDurationService } from './service/content-duration.service';
 import { ContentGroupResolver } from './object/content-group.resolver';
 import { ContentGroupWageListQuery } from './query/content-group-wage-list.query';
-import { UserContentDurationsEditMutation } from './mutation/user-content-durations-edit.mutation';
+import { ContentDurationsEditMutation } from './mutation/content-durations-edit.mutation';
 import { ContentsQuery } from './query/contents.query';
 import { ContentGroupQuery } from './query/content-group.query';
 
@@ -48,7 +48,7 @@ import { ContentGroupQuery } from './query/content-group.query';
     ContentWageListQuery,
     ContentWageResolver,
     ContentSeeMoreRewardResolver,
-    UserContentDurationEditMutation,
+    ContentDurationEditMutation,
     ContentDurationResolver,
     ContentDurationQuery,
     UserGoldExchangeRateService,
@@ -63,7 +63,7 @@ import { ContentGroupQuery } from './query/content-group.query';
     ContentDurationService,
     ContentGroupWageListQuery,
     ContentGroupResolver,
-    UserContentDurationsEditMutation,
+    ContentDurationsEditMutation,
     ContentsQuery,
     ContentGroupQuery,
   ],

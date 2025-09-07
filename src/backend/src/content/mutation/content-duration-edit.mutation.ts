@@ -16,7 +16,7 @@ import { UserRole } from '@prisma/client';
 import { ContentDurationService } from '../service/content-duration.service';
 
 @InputType()
-class UserContentDurationEditInput {
+class ContentDurationEditInput {
   @Field()
   contentId: number;
 
@@ -28,22 +28,22 @@ class UserContentDurationEditInput {
 }
 
 @ObjectType()
-class UserContentDurationEditResult {
+class ContentDurationEditResult {
   @Field(() => Boolean)
   ok: boolean;
 }
 
 @Resolver()
-export class UserContentDurationEditMutation {
+export class ContentDurationEditMutation {
   constructor(
     private prisma: PrismaService,
     private contentDurationService: ContentDurationService,
   ) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => UserContentDurationEditResult)
-  async userContentDurationEdit(
-    @Args('input') input: UserContentDurationEditInput,
+  @Mutation(() => ContentDurationEditResult)
+  async contentDurationEdit(
+    @Args('input') input: ContentDurationEditInput,
     @CurrentUser() user: User,
   ) {
     const { contentId, minutes, seconds } = input;

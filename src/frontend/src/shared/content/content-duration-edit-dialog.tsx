@@ -5,10 +5,10 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  UserContentDurationEditDialogDocument,
-  UserContentDurationEditDocument,
-  UserContentDurationEditInput,
-  UserContentDurationEditMutation,
+  ContentDurationEditDialogDocument,
+  ContentDurationEditDocument,
+  ContentDurationEditInput,
+  ContentDurationEditMutation,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
@@ -17,17 +17,17 @@ const schema = z.object({
   seconds: z.number().int32().min(0).max(59),
 });
 
-type UserContentDurationEditDialogProps = {
+type ContentDurationEditDialogProps = {
   contentId: number;
   onComplete: () => void;
 };
 
-export const UserContentDurationEditDialog = ({
+export const ContentDurationEditDialog = ({
   contentId,
   onComplete,
   ...dialogProps
-}: DialogProps & UserContentDurationEditDialogProps) => {
-  const { data } = useSafeQuery(UserContentDurationEditDialogDocument, {
+}: DialogProps & ContentDurationEditDialogProps) => {
+  const { data } = useSafeQuery(ContentDurationEditDialogDocument, {
     variables: {
       id: contentId,
     },
@@ -39,16 +39,13 @@ export const UserContentDurationEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <Form.Mutation<
-        UserContentDurationEditInput,
-        UserContentDurationEditMutation
-      >
+      <Form.Mutation<ContentDurationEditInput, ContentDurationEditMutation>
         defaultValues={{
           contentId: contentId,
           minutes: minutes,
           seconds: seconds,
         }}
-        mutation={UserContentDurationEditDocument}
+        mutation={ContentDurationEditDocument}
         onComplete={() => {
           dialogProps.onClose();
           onComplete();
