@@ -301,7 +301,7 @@ const ContentWageSectionDataGrid = ({
           <Dialog.Trigger
             dialog={UserContentDurationEditDialog}
             dialogProps={{
-              contentDurationId: data.content.contentDuration.id,
+              contentId,
               onComplete: refetch,
             }}
             disabled={!isAuthenticated}

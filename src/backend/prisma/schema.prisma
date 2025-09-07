@@ -76,6 +76,7 @@ model Content {
   contentCategoryId     Int                    @map("content_category_id")
   contentDuration       ContentDuration?
   contentSeeMoreRewards ContentSeeMoreReward[]
+  userContentDurations  UserContentDuration[]
 
   @@unique([name, gate])
   @@map("content")
@@ -100,12 +101,11 @@ model ContentDuration {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  defaultValue Int @map("default_value") // 소요시간(초)
+  value Int // 소요시간(초)
 
   // Relations
-  contentId            Int                   @unique @map("content_id")
-  content              Content               @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  userContentDurations UserContentDuration[]
+  contentId Int     @unique @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 
   @@map("content_duration")
 }
@@ -286,16 +286,15 @@ model UserContentDuration {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  isEdited Boolean @default(false) @map("is_edited")
-  value    Int // 소요시간(초)
+  value Int // 소요시간(초)
 
   // Relations
-  contentDurationId Int             @map("content_duration_id")
-  contentDuration   ContentDuration @relation(fields: [contentDurationId], references: [id], onDelete: Cascade)
-  userId            Int             @map("user_id")
-  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId Int     @map("content_id")
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  userId    Int     @map("user_id")
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([contentDurationId, userId])
+  @@unique([contentId, userId])
   @@map("user_content_duration")
 }
 

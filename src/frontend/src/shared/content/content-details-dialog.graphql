@@ -33,9 +33,6 @@ query ContentDetailsDialogWageSection(
   $filter: ContentWageFilter
 ) {
   content(id: $contentId) {
-    contentDuration {
-      id
-    }
     durationText
     id
     wage(filter: $filter) {

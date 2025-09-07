@@ -38,7 +38,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 180,
+        value: 180,
       },
     },
     contentRewards: {
@@ -84,7 +84,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDuration: {
       create: {
-        defaultValue: 180,
+        value: 180,
       },
     },
     contentRewards: {
@@ -130,7 +130,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDuration: {
       create: {
-        defaultValue: 180,
+        value: 180,
       },
     },
     contentRewards: {
@@ -176,7 +176,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 180,
+        value: 180,
       },
     },
     contentRewards: {
@@ -212,7 +212,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDuration: {
       create: {
-        defaultValue: 180,
+        value: 180,
       },
     },
     contentRewards: {
@@ -248,7 +248,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 300,
+        value: 300,
       },
     },
     contentRewards: {
@@ -294,7 +294,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDuration: {
       create: {
-        defaultValue: 300,
+        value: 300,
       },
     },
     contentRewards: {
@@ -340,7 +340,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 60,
+        value: 60,
       },
     },
     contentRewards: {
@@ -381,7 +381,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 180,
+        value: 180,
       },
     },
     contentRewards: {
@@ -422,7 +422,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDuration: {
       create: {
-        defaultValue: 180,
+        value: 180,
       },
     },
     contentRewards: {
@@ -463,7 +463,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 300,
+        value: 300,
       },
     },
     contentRewards: {
@@ -499,7 +499,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDuration: {
       create: {
-        defaultValue: 120,
+        value: 120,
       },
     },
     contentRewards: {
@@ -536,7 +536,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -595,7 +595,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -654,7 +654,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -713,7 +713,7 @@ export const getContentsWithRewards = ({
     level: 1640,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -772,7 +772,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -831,7 +831,7 @@ export const getContentsWithRewards = ({
     level: 1660,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -890,7 +890,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -949,7 +949,7 @@ export const getContentsWithRewards = ({
     level: 1670,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -1008,7 +1008,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -1067,7 +1067,7 @@ export const getContentsWithRewards = ({
     level: 1680,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -1126,7 +1126,7 @@ export const getContentsWithRewards = ({
     level: 1690,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {
@@ -1185,7 +1185,7 @@ export const getContentsWithRewards = ({
     level: 1690,
     contentDuration: {
       create: {
-        defaultValue: 600,
+        value: 600,
       },
     },
     contentRewards: {

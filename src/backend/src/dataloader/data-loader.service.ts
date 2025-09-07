@@ -2,13 +2,12 @@ import _ from 'lodash';
 import DataLoader from 'dataloader';
 import { Injectable, Scope } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
-import { ContentCategory, ContentDuration, Item } from '@prisma/client';
+import { ContentCategory, Item } from '@prisma/client';
 import { ItemSortOrder } from 'src/content/constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class DataLoaderService {
   readonly contentCategory = this.createContentCategoryLoader();
-  readonly contentDuration = this.createContentDurationLoader();
   readonly contentRewards = this.createContentRewardsLoader();
   readonly item = this.createItemLoader();
   readonly contentSeeMoreRewards = this.createContentSeeMoreRewardsLoader();
@@ -35,34 +34,6 @@ export class DataLoaderService {
         const result = await contentCategoryLoader.load(categoryId);
         if (!result) {
           throw new Error(`ContentCategory with id ${categoryId} not found`);
-        }
-        return result;
-      },
-    };
-  }
-
-  private createContentDurationLoader() {
-    const contentDurationLoader = new DataLoader<number, ContentDuration>(
-      async (contentIds) => {
-        const durations = await this.prisma.contentDuration.findMany({
-          where: {
-            contentId: { in: contentIds as number[] },
-          },
-        });
-
-        const durationsMap = _.keyBy(durations, 'contentId');
-
-        return contentIds.map((id) => durationsMap[id]);
-      },
-    );
-
-    return {
-      findUniqueOrThrowByContentId: async (contentId: number) => {
-        const result = await contentDurationLoader.load(contentId);
-        if (!result) {
-          throw new Error(
-            `ContentDuration for contentId ${contentId} not found`,
-          );
         }
         return result;
       },
