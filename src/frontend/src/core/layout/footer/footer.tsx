@@ -1,5 +1,6 @@
 import { Flex, Link, List } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { useState } from "react";
 
 import {
   PopoverArrow,
@@ -13,36 +14,26 @@ import { ItemStatUpdateToggleTip } from "~/shared/item";
 const SCROLL_BOTTOM_THRESHOLD = 10;
 
 export const Footer = () => {
+  const { scrollY } = useScroll();
   const [isAtBottom, setIsAtBottom] = useState(false);
 
-  useEffect(() => {
-    let ticking = false;
+  const scrollState = useTransform(scrollY, (latest) => {
+    const documentHeight = document.documentElement.scrollHeight;
+    const windowHeight = window.innerHeight;
+    const scrollableHeight = documentHeight - windowHeight;
 
-    const checkScroll = () => {
-      const scrollY = window.scrollY;
-      const documentHeight = document.documentElement.scrollHeight;
-      const windowHeight = window.innerHeight;
-      const atBottom =
-        scrollY + windowHeight >= documentHeight - SCROLL_BOTTOM_THRESHOLD;
+    const hasEnoughContent = scrollableHeight > 50;
 
-      setIsAtBottom(atBottom);
-    };
+    const result = hasEnoughContent
+      ? latest >= scrollableHeight - SCROLL_BOTTOM_THRESHOLD
+      : false;
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          checkScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
+    return result;
+  });
 
-    window.addEventListener("scroll", handleScroll);
-    checkScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  useMotionValueEvent(scrollState, "change", (latest) => {
+    setIsAtBottom(latest);
+  });
 
   return (
     <Flex
