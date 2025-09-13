@@ -198,58 +198,60 @@ export const DataTable = <T,>({
   );
 
   return (
-    <Table.ScrollArea maxHeight="4xl" {...rest}>
-      <Table.Root interactive={isInteractive} showColumnBorder stickyHeader>
-        <Table.Header>
-          <Table.Row>
-            {hasData &&
-              columns.map((column, index) => (
-                <Table.ColumnHeader
-                  key={index}
-                  {...(column.align && { textAlign: column.align })}
-                  {...(column.width && { width: column.width })}
-                >
-                  <Box
-                    alignItems="center"
-                    display="flex"
-                    gap={1}
-                    justifyContent={column.align}
-                    whiteSpace="nowrap"
-                  >
-                    {column.header}
-                    {column.sortKey && (
-                      <SortControl
-                        currentState={
-                          currentSortKey === column.sortKey ? sortOrder : null
-                        }
-                        onClick={() => handleSort(column)}
-                      />
-                    )}
-                  </Box>
-                </Table.ColumnHeader>
-              ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {!hasData ? (
+    <>
+      <Table.ScrollArea maxHeight="4xl" {...rest}>
+        <Table.Root interactive={isInteractive} showColumnBorder stickyHeader>
+          <Table.Header>
             <Table.Row>
-              <Table.Cell colSpan={columns.length}>
-                <EmptyState.Root size="lg">
-                  <EmptyState.Content py={24}>
-                    <EmptyState.Description>
-                      조회된 데이터가 없습니다
-                    </EmptyState.Description>
-                  </EmptyState.Content>
-                </EmptyState.Root>
-              </Table.Cell>
+              {hasData &&
+                columns.map((column, index) => (
+                  <Table.ColumnHeader
+                    key={index}
+                    {...(column.align && { textAlign: column.align })}
+                    {...(column.width && { width: column.width })}
+                  >
+                    <Box
+                      alignItems="center"
+                      display="flex"
+                      gap={1}
+                      justifyContent={column.align}
+                      whiteSpace="nowrap"
+                    >
+                      {column.header}
+                      {column.sortKey && (
+                        <SortControl
+                          currentState={
+                            currentSortKey === column.sortKey ? sortOrder : null
+                          }
+                          onClick={() => handleSort(column)}
+                        />
+                      )}
+                    </Box>
+                  </Table.ColumnHeader>
+                ))}
             </Table.Row>
-          ) : pagination ? (
-            currentData.map((row, index) => renderRow(row, index))
-          ) : (
-            displayRows.map((row, index) => renderRow(row, index))
-          )}
-        </Table.Body>
-      </Table.Root>
+          </Table.Header>
+          <Table.Body>
+            {!hasData ? (
+              <Table.Row>
+                <Table.Cell colSpan={columns.length}>
+                  <EmptyState.Root size="lg">
+                    <EmptyState.Content py={24}>
+                      <EmptyState.Description>
+                        조회된 데이터가 없습니다
+                      </EmptyState.Description>
+                    </EmptyState.Content>
+                  </EmptyState.Root>
+                </Table.Cell>
+              </Table.Row>
+            ) : pagination ? (
+              currentData.map((row, index) => renderRow(row, index))
+            ) : (
+              displayRows.map((row, index) => renderRow(row, index))
+            )}
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
       {pagination && hasData && (
         <PaginationRoot
           count={totalItems}
@@ -264,6 +266,6 @@ export const DataTable = <T,>({
           </HStack>
         </PaginationRoot>
       )}
-    </Table.ScrollArea>
+    </>
   );
 };
