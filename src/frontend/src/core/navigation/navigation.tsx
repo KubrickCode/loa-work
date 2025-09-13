@@ -46,7 +46,7 @@ export const Navigation = () => {
           <Button
             key={label + url}
             onClick={() => navigate(url)}
-            variant={location.pathname === url ? "solid" : "ghost"}
+            variant={location.pathname === url ? "surface" : "ghost"}
           >
             {label}
           </Button>
@@ -76,7 +76,7 @@ export const Navigation = () => {
                     key={label + url}
                     onClick={() => handleNavigate(url)}
                     size="lg"
-                    variant={location.pathname === url ? "solid" : "ghost"}
+                    variant={location.pathname === url ? "surface" : "ghost"}
                   >
                     {label}
                   </Button>
