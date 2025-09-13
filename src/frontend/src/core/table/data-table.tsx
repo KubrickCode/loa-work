@@ -200,7 +200,12 @@ export const DataTable = <T,>({
   return (
     <>
       <Table.ScrollArea maxHeight="4xl" {...rest}>
-        <Table.Root interactive={isInteractive} showColumnBorder stickyHeader>
+        <Table.Root
+          interactive={isInteractive}
+          showColumnBorder
+          stickyHeader
+          width="max-content"
+        >
           <Table.Header>
             <Table.Row>
               {hasData &&
