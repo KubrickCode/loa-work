@@ -1,4 +1,5 @@
 import { Flex, Link, List } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 import {
   PopoverArrow,
@@ -9,16 +10,49 @@ import {
 } from "~/core/chakra-components/ui/popover";
 import { ItemStatUpdateToggleTip } from "~/shared/item";
 
+const SCROLL_BOTTOM_THRESHOLD = 10;
+
 export const Footer = () => {
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const checkScroll = () => {
+      const scrollY = window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      const atBottom =
+        scrollY + windowHeight >= documentHeight - SCROLL_BOTTOM_THRESHOLD;
+
+      setIsAtBottom(atBottom);
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          checkScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    checkScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <Flex
       _dark={{
-        bg: "gray.900",
+        bg: isAtBottom ? "transparent" : "gray.900",
       }}
       as="footer"
-      bg="gray.100"
+      bg={isAtBottom ? "transparent" : "gray.100"}
       bottom={0}
-      boxShadow="lg"
+      boxShadow={isAtBottom ? "none" : "lg"}
       fontSize="sm"
       gap={4}
       justifyContent="center"
@@ -26,6 +60,9 @@ export const Footer = () => {
       p={2}
       position="fixed"
       right={0}
+      style={{
+        transition: "all 0.3s ease",
+      }}
       width="100%"
       zIndex={1000}
     >
