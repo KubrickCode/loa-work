@@ -54,15 +54,15 @@ export class ContentDurationsEditMutation {
   ) {
     const { contentDurations } = input;
 
-    const promises = contentDurations.map(
-      async ({ contentId, minutes, seconds }) => {
-        const totalSeconds =
-          this.contentDurationService.getValidatedTotalSeconds({
-            minutes,
-            seconds,
-          });
+    await this.prisma.$transaction(async (tx) => {
+      const promises = contentDurations.map(
+        async ({ contentId, minutes, seconds }) => {
+          const totalSeconds =
+            this.contentDurationService.getValidatedTotalSeconds({
+              minutes,
+              seconds,
+            });
 
-        return await this.prisma.$transaction(async (tx) => {
           if (user.role === UserRole.OWNER) {
             await tx.contentDuration.update({
               where: {
@@ -79,11 +79,11 @@ export class ContentDurationsEditMutation {
             update: { value: totalSeconds },
             create: { contentId, userId: user.id, value: totalSeconds },
           });
-        });
-      },
-    );
+        },
+      );
 
-    await Promise.all(promises);
+      await Promise.all(promises);
+    });
 
     return { ok: true };
   }
