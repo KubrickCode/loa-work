@@ -48,16 +48,19 @@ export const Footer = () => {
     <Flex
       _dark={{
         bg: isAtBottom ? "transparent" : "gray.900",
+        borderTopColor: isAtBottom ? "transparent" : "gray.700",
       }}
       as="footer"
-      bg={isAtBottom ? "transparent" : "gray.100"}
+      bg={isAtBottom ? "transparent" : "white"}
+      borderTop={isAtBottom ? "none" : "1px solid"}
+      borderTopColor={isAtBottom ? "transparent" : "gray.200"}
       bottom={0}
       boxShadow={isAtBottom ? "none" : "lg"}
       fontSize="sm"
       gap={4}
       justifyContent="center"
       left={0}
-      p={2}
+      p={3}
       position="fixed"
       right={0}
       style={{
