@@ -1,5 +1,4 @@
 import { Flex, Link, List } from "@chakra-ui/react";
-import { motion, useScroll, useTransform } from "framer-motion";
 
 import {
   PopoverArrow,
@@ -11,41 +10,31 @@ import {
 import { ItemStatUpdateToggleTip } from "~/shared/item";
 
 export const Footer = () => {
-  const { scrollY } = useScroll();
-
-  const y = useTransform(scrollY, [0, 100], ["100%", "0%"]);
-
   return (
-    <motion.div
-      style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        y,
-        zIndex: 1000,
+    <Flex
+      _dark={{
+        bg: "gray.900",
       }}
+      as="footer"
+      bg="gray.100"
+      bottom={0}
+      boxShadow="lg"
+      fontSize="sm"
+      gap={4}
+      justifyContent="center"
+      left={0}
+      p={2}
+      position="fixed"
+      right={0}
+      width="100%"
+      zIndex={1000}
     >
-      <Flex
-        _dark={{
-          bg: "gray.900",
-        }}
-        as="footer"
-        bg="gray.100"
-        boxShadow="lg"
-        fontSize="sm"
-        gap={4}
-        justifyContent="center"
-        p={2}
-        width="100%"
-      >
-        <Link href={import.meta.env.VITE_DISCORD_SERVER_LINK} target="_blank">
-          디스코드
-        </Link>
-        <ItemStatUpdateToggleTip />
-        <DonationPopover />
-      </Flex>
-    </motion.div>
+      <Link href={import.meta.env.VITE_DISCORD_SERVER_LINK} target="_blank">
+        디스코드
+      </Link>
+      <ItemStatUpdateToggleTip />
+      <DonationPopover />
+    </Flex>
   );
 };
 
