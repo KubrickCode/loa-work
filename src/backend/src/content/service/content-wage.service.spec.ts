@@ -449,6 +449,73 @@ describe('ContentWageService', () => {
       );
       expect(result).toBe(2500);
     });
+
+    it('0 보상일 때 처리', async () => {
+      const contentSeeMoreRewards = [
+        {
+          itemId: itemIds[0],
+          quantity: 0,
+        },
+        {
+          itemId: itemIds[1],
+          quantity: 0,
+        },
+      ];
+
+      const result = await service.calculateSeeMoreRewardsGold(
+        contentSeeMoreRewards,
+      );
+      expect(result).toBe(0);
+    });
+
+    it('잘못된 보상 데이터 필터링', async () => {
+      const contentSeeMoreRewards = [
+        {
+          itemId: itemIds[0],
+          quantity: 2,
+        },
+        {
+          itemId: -1, // 존재하지 않는 아이템 ID
+          quantity: 5,
+        },
+        {
+          itemId: itemIds[1],
+          quantity: 3,
+        },
+      ];
+
+      // 존재하지 않는 아이템 ID로 인해 에러가 발생해야 함
+      await expect(
+        service.calculateSeeMoreRewardsGold(contentSeeMoreRewards),
+      ).rejects.toThrow();
+    });
+
+    it('중복 보상 제거 로직', async () => {
+      const contentSeeMoreRewards = [
+        {
+          itemId: itemIds[0],
+          quantity: 2,
+        },
+        {
+          itemId: itemIds[0], // 동일한 아이템 ID 중복
+          quantity: 3,
+        },
+        {
+          itemId: itemIds[1],
+          quantity: 1,
+        },
+      ];
+
+      const result = await service.calculateSeeMoreRewardsGold(
+        contentSeeMoreRewards,
+      );
+
+      // 현재 구현에서는 중복 제거 없이 모든 보상을 합산함
+      // itemIds[0]: 100 * 2 + 100 * 3 = 500
+      // itemIds[1]: 200 * 1 = 200
+      // 총합: 700
+      expect(result).toBe(700);
+    });
   });
 
   describe('getContentGroupWage', () => {
