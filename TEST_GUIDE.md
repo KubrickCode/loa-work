@@ -18,7 +18,7 @@
 - [x] 환율 변환 적용 검증 (KRW ↔ USD)
 - [x] 사용자별 커스텀 설정 적용 검증
 - [x] 빈 배열 입력 시 처리
-- [ ] null/undefined 컨텐츠 필터링
+- [x] null/undefined 컨텐츠 필터링
 - [x] 서로 다른 통화 혼재 시 처리
 - [x] 환율 데이터 없을 때 fallback 처리
 

@@ -709,5 +709,23 @@ describe('ContentWageService', () => {
         },
       });
     });
+
+    it('null/undefined 컨텐츠 필터링', async () => {
+      const validContentId = testContents[0].id;
+      const invalidContentIds = [null, undefined, validContentId, null];
+      const filter = { includeIsBound: false };
+
+      // null/undefined가 포함된 배열은 에러를 발생시켜야 함
+      await expect(
+        service.getContentGroupWage(invalidContentIds as any, filter),
+      ).rejects.toThrow();
+
+      // 유효한 contentId만 포함된 배열은 정상 작동해야 함
+      const result = await service.getContentGroupWage(
+        [validContentId],
+        filter,
+      );
+      expect(result.goldAmountPerClear).toBe(200);
+    });
   });
 });
