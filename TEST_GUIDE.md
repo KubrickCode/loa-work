@@ -8,7 +8,7 @@
 
 ## 📋 커밋별 작업 체크리스트
 
-### Commit 1: ContentWageService.getContentGroupWage() 테스트
+### Commit 1: ContentWageService.getContentGroupWage() 테스트 ✅ **완료**
 
 **파일**: `src/backend/src/content/service/content-wage.service.spec.ts`
 
@@ -23,10 +23,11 @@
 - [x] 환율 데이터 없을 때 fallback 처리
 
 **커밋 메시지**: `test: add ContentWageService.getContentGroupWage() tests`
+**실제 구현 위치**: 521-797줄
 
 ---
 
-### Commit 2: ContentWageService.calculateSeeMoreRewardsGold() 테스트
+### Commit 2: ContentWageService.calculateSeeMoreRewardsGold() 테스트 ✅ **완료**
 
 **파일**: `src/backend/src/content/service/content-wage.service.spec.ts`
 
@@ -40,22 +41,23 @@
 - [x] 중복 보상 제거 로직
 
 **커밋 메시지**: `test: add ContentWageService.calculateSeeMoreRewardsGold() tests`
+**실제 구현 위치**: 322-519줄
 
 ---
 
-### Commit 3: ContentDurationService.getValidatedTotalSeconds() 테스트
+### Commit 3: ContentDurationService.getValidatedTotalSeconds() 테스트 ✅ **완료**
 
 **파일**: `src/backend/src/content/service/content-duration.service.spec.ts` (신규 생성)
 
 **테스트 케이스 체크리스트**:
 
-- [ ] 분→초 변환 정확성 (1분 = 60초)
-- [ ] 경계값 처리 (0분, 최대값)
-- [ ] 에러 케이스: 60초 이상 입력
-- [ ] 에러 케이스: 음수 입력
-- [ ] 에러 케이스: 비정상적으로 큰 값 (365일 초과)
-- [ ] 소수점 포함 시간 처리
-- [ ] null/undefined 입력 시 에러 처리
+- [x] 분→초 변환 정확성 (1분 = 60초)
+- [x] 경계값 처리 (0분, 최대값)
+- [x] 에러 케이스: 60초 이상 입력
+- [x] 에러 케이스: 음수 입력
+- [x] 에러 케이스: 비정상적으로 큰 값 (365일 초과)
+- [x] 소수점 포함 시간 처리
+- [x] null/undefined 입력 시 처리
 
 **커밋 메시지**: `test: add ContentDurationService.getValidatedTotalSeconds() tests`
 
