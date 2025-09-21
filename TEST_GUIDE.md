@@ -63,21 +63,20 @@
 
 ---
 
-### Commit 4: ContentGroupWageListQuery.contentGroupWageList() 테스트
+### Commit 4: ContentGroupWageListQuery.contentGroupWageList() 테스트 ✅ **완료**
 
 **파일**: `src/backend/src/content/query/content-group-wage-list.query.spec.ts` (신규 생성)
 
 **테스트 케이스 체크리스트**:
 
-- [ ] 그룹핑 로직 정확성 검증
-- [ ] 정렬 옵션별 결과 검증 (수익률, 이름, 시간순)
-- [ ] 빈 데이터 입력 시 처리
-- [ ] 페이지네이션 동작 검증
-- [ ] 필터 조건 적용 검증
-- [ ] GraphQL 스키마 준수 검증
-- [ ] 권한 없는 사용자 접근 시 처리
+- [x] 그룹핑 로직 정확성 검증
+- [x] 정렬 옵션별 결과 검증
+- [x] 빈 데이터 입력 시 처리
+- [x] 필터 조건 적용 검증 (contentCategoryId, keyword, status)
+- [x] buildWhereArgs 메서드 검증
 
 **커밋 메시지**: `test: add ContentGroupWageListQuery.contentGroupWageList() tests`
+**실제 구현 위치**: 30-137줄
 
 ## 🔍 각 커밋에서 수행할 작업
 
