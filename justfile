@@ -105,9 +105,11 @@ mockgen:
   fi
 
   cd ./src/go/libs/loa-db
-  rm -rf *mock.go
-  grep -rl --include='*.go' --exclude='*_mock.go' "interface" . | while read -r file; do
-    mockgen -source="$file" -package=loadb -self_package=github.com/KubrickCode/loa-work/src/go/libs/loadb > "${file%.*}_mock.go"
+  rm -rf *_mock.go
+  for file in *.go; do
+    if [[ "$file" != *_mock.go ]]; then
+      mockgen -source="$file" -package=loadb -self_package=github.com/KubrickCode/loa-work/src/go/libs/loadb > "${file%.*}_mock.go"
+    fi
   done
 
 migrate:
@@ -150,6 +152,13 @@ install-psql:
       echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list && \
       apt-get update && \
       apt-get -y install postgresql-client-16
+  fi
+
+install-sqlboiler:
+  #!/usr/bin/env bash
+  if ! command -v sqlboiler &> /dev/null; then
+    go install github.com/aarondl/sqlboiler/v4@latest
+    go install github.com/aarondl/sqlboiler/v4/drivers/sqlboiler-psql@latest
   fi
 
 reset *args:
@@ -231,3 +240,9 @@ test-e2e *args:
 
 run-backend-prod:
   ./scripts/run-backend-prod.sh
+
+sync-go-schema:
+  #!/usr/bin/env bash
+  set -euox pipefail
+  cd "{{ root_dir }}/src/go/libs/loa-db"
+  sqlboiler psql

@@ -1,77 +1,75 @@
 package loadb
 
 import (
+	"database/sql"
+
 	"github.com/KubrickCode/loa-work/src/go/libs/env"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-	"gorm.io/gorm/schema"
+	"github.com/aarondl/sqlboiler/v4/boil"
+	_ "github.com/lib/pq"
 )
 
 type DB interface {
-	Gorm() *gorm.DB
+	DB() *sql.DB
 	WithTransaction(action func(tx DB) error) error
 
-	AuctionItem() AuctionItemDB
-	AuctionItemCategory() AuctionItemCategoryDB
-	AuctionItemStat() AuctionItemStatDB
-	Item() ItemDB
-	MarketItem() MarketItemDB
-	MarketItemCategory() MarketItemCategoryDB
-	MarketItemStat() MarketItemStatDB
+	Item() ItemRepository
+	AuctionItem() AuctionItemRepository
+	AuctionItemCategory() AuctionItemCategoryRepository
+	AuctionItemStat() AuctionItemStatRepository
+	MarketItem() MarketItemRepository
+	MarketItemCategory() MarketItemCategoryRepository
+	MarketItemStat() MarketItemStatRepository
 }
 
 type database struct {
-	gdb *gorm.DB
+	db       boil.ContextExecutor
+	originalDB *sql.DB // Keep reference to original DB for Begin() calls
 
-	auctionItem         AuctionItemDB
-	auctionItemCategory AuctionItemCategoryDB
-	auctionItemStat     AuctionItemStatDB
-	item                ItemDB
-	marketItem          MarketItemDB
-	marketItemCategory  MarketItemCategoryDB
-	marketItemStat      MarketItemStatDB
+	item                ItemRepository
+	auctionItem         AuctionItemRepository
+	auctionItemCategory AuctionItemCategoryRepository
+	auctionItemStat     AuctionItemStatRepository
+	marketItem          MarketItemRepository
+	marketItemCategory  MarketItemCategoryRepository
+	marketItemStat      MarketItemStatRepository
 }
 
 func New() (DB, error) {
-	dsn := env.GetEnvFallback("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/postgres")
+	dsn := env.GetEnvFallback("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable")
 	return Open(dsn)
 }
 
 func Open(dsn string) (DB, error) {
-	pg := postgres.Open(dsn)
-
-	cfg := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,
-		},
-		Logger: logger.Default.LogMode(logger.Silent),
-	}
-
-	gdb, err := gorm.Open(pg, cfg)
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
 	}
 
-	db := &database{gdb: gdb}
-	db.initRepos()
+	if err := db.Ping(); err != nil {
+		return nil, err
+	}
 
-	return db, nil
+	boil.SetDB(db)
+
+	database := &database{db: db, originalDB: db}
+	database.initRepositories()
+
+	return database, nil
 }
 
-func (db *database) initRepos() {
-	gdb := db.gdb
-	db.auctionItem = NewAuctionItemDB(gdb)
-	db.auctionItemCategory = NewAuctionItemCategoryDB(gdb)
-	db.auctionItemStat = NewAuctionItemStatDB(gdb)
-	db.item = NewItemDB(gdb)
-	db.marketItem = NewMarketItemDB(gdb)
-	db.marketItemCategory = NewMarketItemCategoryDB(gdb)
-	db.marketItemStat = NewMarketItemStatDB(gdb)
+func (d *database) DB() *sql.DB {
+	if sqlDB, ok := d.db.(*sql.DB); ok {
+		return sqlDB
+	}
+	return d.originalDB
 }
 
-func (db *database) WithTransaction(action func(tx DB) error) error {
-	tx := db.gdb.Begin()
+func (d *database) WithTransaction(action func(tx DB) error) error {
+	tx, err := d.originalDB.Begin()
+	if err != nil {
+		return err
+	}
+
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
@@ -79,29 +77,51 @@ func (db *database) WithTransaction(action func(tx DB) error) error {
 		}
 	}()
 
-	txDB := &database{gdb: tx}
-	txDB.initRepos()
+	txDB := &database{db: tx, originalDB: d.originalDB}
+	txDB.initRepositories()
 
 	if err := action(txDB); err != nil {
 		tx.Rollback()
 		return err
 	}
 
-	return tx.Commit().Error
+	return tx.Commit()
 }
 
-func (db database) Gorm() *gorm.DB { return db.gdb }
+func (d *database) initRepositories() {
+	d.item = NewItemRepository(d)
+	d.auctionItem = NewAuctionItemRepository(d)
+	d.auctionItemCategory = NewAuctionItemCategoryRepository(d)
+	d.auctionItemStat = NewAuctionItemStatRepository(d)
+	d.marketItem = NewMarketItemRepository(d)
+	d.marketItemCategory = NewMarketItemCategoryRepository(d)
+	d.marketItemStat = NewMarketItemStatRepository(d)
+}
 
-func (db database) AuctionItem() AuctionItemDB { return db.auctionItem }
+func (d *database) Item() ItemRepository {
+	return d.item
+}
 
-func (db database) AuctionItemCategory() AuctionItemCategoryDB { return db.auctionItemCategory }
+func (d *database) AuctionItem() AuctionItemRepository {
+	return d.auctionItem
+}
 
-func (db database) AuctionItemStat() AuctionItemStatDB { return db.auctionItemStat }
+func (d *database) AuctionItemCategory() AuctionItemCategoryRepository {
+	return d.auctionItemCategory
+}
 
-func (db database) Item() ItemDB { return db.item }
+func (d *database) AuctionItemStat() AuctionItemStatRepository {
+	return d.auctionItemStat
+}
 
-func (db database) MarketItem() MarketItemDB { return db.marketItem }
+func (d *database) MarketItem() MarketItemRepository {
+	return d.marketItem
+}
 
-func (db database) MarketItemCategory() MarketItemCategoryDB { return db.marketItemCategory }
+func (d *database) MarketItemCategory() MarketItemCategoryRepository {
+	return d.marketItemCategory
+}
 
-func (db database) MarketItemStat() MarketItemStatDB { return db.marketItemStat }
+func (d *database) MarketItemStat() MarketItemStatRepository {
+	return d.marketItemStat
+}
