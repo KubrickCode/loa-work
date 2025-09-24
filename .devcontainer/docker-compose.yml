@@ -16,7 +16,7 @@ services:
   workspace:
     image: mcr.microsoft.com/devcontainers/base:debian
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable
     privileged: true
     volumes:
       - ..:/workspaces/loa-work:delegated

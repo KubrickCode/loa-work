@@ -5,7 +5,8 @@ import (
 	"testing"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
-	"github.com/shopspring/decimal"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
+	"github.com/ericlagergren/decimal"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 )
@@ -16,25 +17,26 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		itemName := "테스트 아이템"
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            itemName,
 			CurrentMinPrice: 1000,
 			BundleCount:     10,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(itemName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(itemName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
 		result, err := converter.getMarketItemCurrentMinPrice(itemName, mockDB)
 
 		assert.NoError(t, err)
-		expectedPrice := decimal.NewFromInt(100) // 1000 / 10 = 100
-		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+		expected := new(decimal.Big).SetUint64(100) // 1000 / 10 = 100
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedDecimal.Big().String(), result.Big().String())
 	})
 
 	t.Run("번들 수량이 1인 경우", func(t *testing.T) {
@@ -42,17 +44,17 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		itemName := "단일 아이템"
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            itemName,
 			CurrentMinPrice: 500,
 			BundleCount:     1,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(itemName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(itemName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
@@ -60,8 +62,9 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 
 		// 검증
 		assert.NoError(t, err)
-		expectedPrice := decimal.NewFromInt(500) // 500 / 1 = 500
-		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+		expected := new(decimal.Big).SetUint64(500) // 500 / 1 = 500
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedDecimal.Big().String(), result.Big().String())
 	})
 
 	t.Run("아이템을 찾을 수 없는 경우", func(t *testing.T) {
@@ -70,13 +73,13 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		itemName := "존재하지 않는 아이템"
 		expectedError := errors.New("item not found")
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(itemName).Return(loadb.MarketItem{}, expectedError)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(itemName).Return(nil, expectedError)
 
 		converter := NewConverter(mockDB)
 
@@ -84,7 +87,8 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.Equal(t, expectedError, err)
-		assert.True(t, decimal.Zero.Equal(result), "에러 발생 시 0을 반환해야 합니다")
+		emptyDecimal := loadb.ZeroDecimal()
+		assert.True(t, emptyDecimal.Big().Cmp(result.Big()) == 0, "에러 발생 시 0을 반환해야 합니다")
 	})
 
 	t.Run("가격이 0인 경우", func(t *testing.T) {
@@ -92,25 +96,26 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		itemName := "가격 없는 아이템"
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            itemName,
 			CurrentMinPrice: 0,
 			BundleCount:     10,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(itemName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(itemName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
 		result, err := converter.getMarketItemCurrentMinPrice(itemName, mockDB)
 
 		assert.NoError(t, err)
-		expectedPrice := decimal.Zero
-		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+		expected := new(decimal.Big).SetUint64(0)
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedDecimal.Big().String(), result.Big().String())
 	})
 
 	t.Run("번들 수량이 큰 경우 소수점 계산", func(t *testing.T) {
@@ -118,25 +123,28 @@ func TestGetMarketItemCurrentMinPrice(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		itemName := "대량 번들 아이템"
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            itemName,
 			CurrentMinPrice: 333,
 			BundleCount:     10,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(itemName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(itemName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
 		result, err := converter.getMarketItemCurrentMinPrice(itemName, mockDB)
 
 		assert.NoError(t, err)
-		expected := decimal.NewFromInt(333).Div(decimal.NewFromInt(10))
-		assert.True(t, expected.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expected, result)
+		price := new(decimal.Big).SetUint64(333)
+		bundleCount := new(decimal.Big).SetUint64(10)
+		expected := new(decimal.Big).Quo(price, bundleCount)
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedDecimal.Big().String(), result.Big().String())
 	})
 }
 
@@ -146,24 +154,27 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            SmallFateFragmentName,
 			CurrentMinPrice: 1000,
 			BundleCount:     SmallFateFragmentBundleCount,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
 		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
 
 		assert.NoError(t, err)
-		expectedPrice := decimal.NewFromInt(1000).Div(decimal.NewFromInt(int64(SmallFateFragmentBundleCount)))
-		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+		price := new(decimal.Big).SetUint64(1000)
+		bundleCount := new(decimal.Big).SetUint64(uint64(SmallFateFragmentBundleCount))
+		expected := new(decimal.Big).Quo(price, bundleCount)
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedDecimal.Big().String(), result.Big().String())
 	})
 
 	t.Run("운명의 파편을 찾을 수 없는 경우", func(t *testing.T) {
@@ -171,11 +182,11 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		expectedError := errors.New("item not found")
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(loadb.MarketItem{}, expectedError)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(SmallFateFragmentName).Return(nil, expectedError)
 
 		converter := NewConverter(mockDB)
 
@@ -183,7 +194,8 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.Equal(t, expectedError, err)
-		assert.True(t, decimal.Zero.Equal(result), "에러 발생 시 0을 반환해야 합니다")
+		emptyDecimal := loadb.ZeroDecimal()
+		assert.True(t, emptyDecimal.Big().Cmp(result.Big()) == 0, "에러 발생 시 0을 반환해야 합니다")
 	})
 
 	t.Run("운명의 파편 가격이 0인 경우", func(t *testing.T) {
@@ -191,23 +203,25 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            SmallFateFragmentName,
 			CurrentMinPrice: 0,
 			BundleCount:     SmallFateFragmentBundleCount,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
 		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
 
 		assert.NoError(t, err)
-		assert.True(t, decimal.Zero.Equal(result), "가격이 0인 경우 0을 반환해야 합니다")
+		expected := new(decimal.Big).SetUint64(0)
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "가격이 0인 경우 0을 반환해야 합니다")
 	})
 
 	t.Run("기본 번들 개수가 변경된 경우", func(t *testing.T) {
@@ -215,18 +229,18 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		customBundleCount := 100
 
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            SmallFateFragmentName,
 			CurrentMinPrice: 10000,
 			BundleCount:     customBundleCount,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
@@ -234,11 +248,16 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 
 		assert.NoError(t, err)
 
-		expectedPrice := decimal.NewFromInt(10000).Div(decimal.NewFromInt(int64(SmallFateFragmentBundleCount)))
-		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+		price := new(decimal.Big).SetUint64(10000)
+		bundleCount := new(decimal.Big).SetUint64(uint64(SmallFateFragmentBundleCount))
+		expected := new(decimal.Big).Quo(price, bundleCount)
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedDecimal.Big().String(), result.Big().String())
 
-		differentExpectedPrice := decimal.NewFromInt(10000).Div(decimal.NewFromInt(int64(customBundleCount)))
-		assert.False(t, differentExpectedPrice.Equal(result), "DB의 번들 개수를 사용한 결과(%s)와 하드코딩된 상수를 사용한 결과(%s)는 달라야 합니다", differentExpectedPrice, result)
+		differentBundleCount := new(decimal.Big).SetUint64(uint64(customBundleCount))
+		differentExpected := new(decimal.Big).Quo(price, differentBundleCount)
+		differentExpectedDecimal := loadb.NewDecimal(differentExpected)
+		assert.False(t, differentExpectedDecimal.Big().Cmp(result.Big()) == 0, "DB의 번들 개수를 사용한 결과(%s)와 하드코딩된 상수를 사용한 결과(%s)는 달라야 합니다", differentExpectedDecimal.Big().String(), result.Big().String())
 	})
 
 	t.Run("큰 가격에 대한 계산", func(t *testing.T) {
@@ -246,93 +265,64 @@ func TestGetSmallFateFragmentBuyPricePerOne(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		largePrice := 9999999
-		marketItem := loadb.MarketItem{
+		marketItem := &models.MarketItem{
 			Name:            SmallFateFragmentName,
 			CurrentMinPrice: largePrice,
 			BundleCount:     SmallFateFragmentBundleCount,
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindByName(SmallFateFragmentName).Return(marketItem, nil)
 
 		converter := NewConverter(mockDB)
 
 		result, err := converter.getSmallFateFragmentBuyPricePerOne(mockDB)
 
 		assert.NoError(t, err)
-		expectedPrice := decimal.NewFromInt(int64(largePrice)).Div(decimal.NewFromInt(int64(SmallFateFragmentBundleCount)))
-		assert.True(t, expectedPrice.Equal(result), "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedPrice, result)
+		price := new(decimal.Big).SetUint64(uint64(largePrice))
+		bundleCount := new(decimal.Big).SetUint64(uint64(SmallFateFragmentBundleCount))
+		expected := new(decimal.Big).Quo(price, bundleCount)
+		expectedDecimal := loadb.NewDecimal(expected)
+		assert.True(t, expectedDecimal.Big().Cmp(result.Big()) == 0, "예상 가격은 %s이지만, 실제 가격은 %s입니다", expectedDecimal.Big().String(), result.Big().String())
 	})
 }
 
 func TestUpdateMarketItems(t *testing.T) {
-	t.Run("여러 아이템의 통계 업데이트", func(t *testing.T) {
+	t.Run("아이템 통계 업데이트", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
+		mockMarketItemStatRepo := loadb.NewMockMarketItemStatRepository(ctrl)
 
-		marketItems := []loadb.MarketItem{
+		marketItems := []*models.MarketItem{
 			{
 				ID:              1,
 				Name:            "아이템1",
 				CurrentMinPrice: 100,
 				RecentPrice:     100,
-				YDayAvgPrice:    decimal.NewFromInt(100),
-				MarketItemStats: []loadb.MarketItemStat{
-					{
-						ID:              11,
-						MarketItemID:    1,
-						CurrentMinPrice: 200,
-						RecentPrice:     250,
-						YDayAvgPrice:    decimal.NewFromInt(220),
-					},
-				},
-			},
-			{
-				ID:              2,
-				Name:            "아이템2",
-				CurrentMinPrice: 300,
-				RecentPrice:     300,
-				YDayAvgPrice:    decimal.NewFromInt(300),
-				MarketItemStats: []loadb.MarketItemStat{
-					{
-						ID:              22,
-						MarketItemID:    2,
-						CurrentMinPrice: 350,
-						RecentPrice:     370,
-						YDayAvgPrice:    decimal.NewFromInt(360),
-					},
-				},
-			},
-			{
-				ID:              3,
-				Name:            "통계없음",
-				CurrentMinPrice: 500,
-				RecentPrice:     500,
-				YDayAvgPrice:    decimal.NewFromInt(500),
-				MarketItemStats: []loadb.MarketItemStat{},
 			},
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(marketItems, nil)
+		stats := []*models.MarketItemStat{
+			{
+				ID:              11,
+				MarketItemID:    1,
+				CurrentMinPrice: 200,
+				RecentPrice:     250,
+				YDayAvgPrice:    loadb.NewDecimal(new(decimal.Big).SetUint64(220)).ToSQLBoilerDecimal(),
+			},
+		}
 
-		mockMarketItemDB.EXPECT().UpdateStat(gomock.Any()).Do(func(item loadb.MarketItem) {
-			if item.ID == 1 {
-				assert.Equal(t, 200, item.CurrentMinPrice)
-				assert.Equal(t, 250, item.RecentPrice)
-				assert.True(t, decimal.NewFromInt(220).Equal(item.YDayAvgPrice))
-			} else if item.ID == 2 {
-				assert.Equal(t, 350, item.CurrentMinPrice)
-				assert.Equal(t, 370, item.RecentPrice)
-				assert.True(t, decimal.NewFromInt(360).Equal(item.YDayAvgPrice))
-			}
-		}).Return(nil).Times(2)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockDB.EXPECT().MarketItemStat().Return(mockMarketItemStatRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindAll().Return(marketItems, nil)
+		mockMarketItemStatRepo.EXPECT().GetLatestStatsByItemID(1, 1).Return(stats, nil)
+		mockMarketItemRepo.EXPECT().UpdateStat(gomock.Any()).Return(nil)
 
 		converter := NewConverter(mockDB)
 		err := converter.updateMarketItems(mockDB)
@@ -344,11 +334,11 @@ func TestUpdateMarketItems(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
 		expectedError := errors.New("데이터베이스 조회 오류")
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(nil, expectedError)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindAll().Return(nil, expectedError)
 
 		converter := NewConverter(mockDB)
 		err := converter.updateMarketItems(mockDB)
@@ -361,31 +351,34 @@ func TestUpdateMarketItems(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
+		mockMarketItemStatRepo := loadb.NewMockMarketItemStatRepository(ctrl)
 
-		marketItems := []loadb.MarketItem{
+		marketItems := []*models.MarketItem{
 			{
 				ID:              1,
 				Name:            "아이템1",
 				CurrentMinPrice: 100,
 				RecentPrice:     100,
-				YDayAvgPrice:    decimal.NewFromInt(100),
-				MarketItemStats: []loadb.MarketItemStat{
-					{
-						ID:              11,
-						MarketItemID:    1,
-						CurrentMinPrice: 200,
-						RecentPrice:     200,
-						YDayAvgPrice:    decimal.NewFromInt(200),
-					},
-				},
+			},
+		}
+
+		stats := []*models.MarketItemStat{
+			{
+				ID:              11,
+				MarketItemID:    1,
+				CurrentMinPrice: 200,
+				RecentPrice:     200,
+				YDayAvgPrice:    loadb.NewDecimal(new(decimal.Big).SetUint64(200)).ToSQLBoilerDecimal(),
 			},
 		}
 
 		updateError := errors.New("업데이트 중 오류 발생")
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(marketItems, nil)
-		mockMarketItemDB.EXPECT().UpdateStat(gomock.Any()).Return(updateError)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockDB.EXPECT().MarketItemStat().Return(mockMarketItemStatRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindAll().Return(marketItems, nil)
+		mockMarketItemStatRepo.EXPECT().GetLatestStatsByItemID(1, 1).Return(stats, nil)
+		mockMarketItemRepo.EXPECT().UpdateStat(gomock.Any()).Return(updateError)
 
 		converter := NewConverter(mockDB)
 		err := converter.updateMarketItems(mockDB)
@@ -398,11 +391,11 @@ func TestUpdateMarketItems(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
 
-		emptyItems := []loadb.MarketItem{}
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(emptyItems, nil)
+		emptyItems := []*models.MarketItem{}
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindAll().Return(emptyItems, nil)
 
 		converter := NewConverter(mockDB)
 		err := converter.updateMarketItems(mockDB)
@@ -414,29 +407,29 @@ func TestUpdateMarketItems(t *testing.T) {
 		defer ctrl.Finish()
 
 		mockDB := loadb.NewMockDB(ctrl)
-		mockMarketItemDB := loadb.NewMockMarketItemDB(ctrl)
+		mockMarketItemRepo := loadb.NewMockMarketItemRepository(ctrl)
+		mockMarketItemStatRepo := loadb.NewMockMarketItemStatRepository(ctrl)
 
-		marketItems := []loadb.MarketItem{
+		marketItems := []*models.MarketItem{
 			{
 				ID:              1,
 				Name:            "통계없음1",
 				CurrentMinPrice: 100,
 				RecentPrice:     100,
-				YDayAvgPrice:    decimal.NewFromInt(100),
-				MarketItemStats: []loadb.MarketItemStat{},
 			},
 			{
 				ID:              2,
 				Name:            "통계없음2",
 				CurrentMinPrice: 200,
 				RecentPrice:     200,
-				YDayAvgPrice:    decimal.NewFromInt(200),
-				MarketItemStats: []loadb.MarketItemStat{},
 			},
 		}
 
-		mockDB.EXPECT().MarketItem().Return(mockMarketItemDB).AnyTimes()
-		mockMarketItemDB.EXPECT().FindAllWithLatestStats().Return(marketItems, nil)
+		mockDB.EXPECT().MarketItem().Return(mockMarketItemRepo).AnyTimes()
+		mockDB.EXPECT().MarketItemStat().Return(mockMarketItemStatRepo).AnyTimes()
+		mockMarketItemRepo.EXPECT().FindAll().Return(marketItems, nil)
+		mockMarketItemStatRepo.EXPECT().GetLatestStatsByItemID(1, 1).Return([]*models.MarketItemStat{}, nil)
+		mockMarketItemStatRepo.EXPECT().GetLatestStatsByItemID(2, 1).Return([]*models.MarketItemStat{}, nil)
 
 		converter := NewConverter(mockDB)
 		err := converter.updateMarketItems(mockDB)

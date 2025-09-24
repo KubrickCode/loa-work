@@ -5,14 +5,14 @@ import (
 	"time"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
-	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 )
 
 type apiFunc func(*loaApi.GetAuctionItemListParams) (*loaApi.GetAuctionItemListResponse, error)
 
-func testGetItemStatsToCreate(t *testing.T, item loadb.AuctionItem, category *loadb.AuctionItemCategory, apiFunc apiFunc) ([]loadb.AuctionItemStat, error) {
+func testGetItemStatsToCreate(t *testing.T, item *models.AuctionItem, category *models.AuctionItemCategory, apiFunc apiFunc) ([]*models.AuctionItemStat, error) {
 	resp, err := apiFunc(&loaApi.GetAuctionItemListParams{
 		CategoryCode:  category.Code,
 		ItemName:      item.Name,
@@ -24,7 +24,7 @@ func testGetItemStatsToCreate(t *testing.T, item loadb.AuctionItem, category *lo
 		return nil, err
 	}
 
-	stats := []loadb.AuctionItemStat{}
+	stats := []*models.AuctionItemStat{}
 	for _, auctionItem := range resp.Items {
 		endDate, err := time.Parse("2006-01-02T15:04:05.000", auctionItem.AuctionInfo.EndDate)
 		if err != nil {
@@ -34,7 +34,7 @@ func testGetItemStatsToCreate(t *testing.T, item loadb.AuctionItem, category *lo
 			}
 		}
 
-		stat := loadb.AuctionItemStat{
+		stat := &models.AuctionItemStat{
 			AuctionItemID: item.ID,
 			BuyPrice:      auctionItem.AuctionInfo.BuyPrice,
 			BidPrice:      auctionItem.AuctionInfo.BidPrice,
@@ -55,11 +55,11 @@ func TestGetItemStatsToCreate(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		item := loadb.AuctionItem{
+		item := &models.AuctionItem{
 			ID:   123,
 			Name: "테스트 아이템",
 		}
-		category := &loadb.AuctionItemCategory{
+		category := &models.AuctionItemCategory{
 			ID:   1,
 			Code: 10000,
 			Name: "테스트 카테고리",
@@ -102,11 +102,11 @@ func TestGetItemStatsToCreate(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		item := loadb.AuctionItem{
+		item := &models.AuctionItem{
 			ID:   123,
 			Name: "테스트 아이템",
 		}
-		category := &loadb.AuctionItemCategory{
+		category := &models.AuctionItemCategory{
 			ID:   1,
 			Code: 10000,
 			Name: "테스트 카테고리",
@@ -138,11 +138,11 @@ func TestGetItemStatsToCreate(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		item := loadb.AuctionItem{
+		item := &models.AuctionItem{
 			ID:   123,
 			Name: "테스트 아이템",
 		}
-		category := &loadb.AuctionItemCategory{
+		category := &models.AuctionItemCategory{
 			ID:   1,
 			Code: 10000,
 			Name: "테스트 카테고리",
@@ -171,11 +171,11 @@ func TestGetItemStatsToCreate(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		item := loadb.AuctionItem{
+		item := &models.AuctionItem{
 			ID:   123,
 			Name: "테스트 아이템",
 		}
-		category := &loadb.AuctionItemCategory{
+		category := &models.AuctionItemCategory{
 			ID:   1,
 			Code: 10000,
 			Name: "테스트 카테고리",
@@ -217,11 +217,11 @@ func TestGetItemStatsToCreate(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		item := loadb.AuctionItem{
+		item := &models.AuctionItem{
 			ID:   123,
 			Name: "테스트 아이템",
 		}
-		category := &loadb.AuctionItemCategory{
+		category := &models.AuctionItemCategory{
 			ID:   1,
 			Code: 10000,
 			Name: "테스트 카테고리",

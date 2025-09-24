@@ -1,0 +1,18 @@
+output = "models"
+wipe = true
+no-tests = true
+add-enum-types = true
+add-soft-deletes = true
+add-global-variants = true
+add-panic-variants = false
+
+[psql]
+dbname = "postgres"
+host = "localhost"
+port = 5432
+user = "postgres"
+pass = "postgres"
+schema = "public"
+sslmode = "disable"
+blacklist = ["session"]
+

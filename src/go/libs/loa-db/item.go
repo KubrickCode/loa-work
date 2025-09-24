@@ -1,42 +1,42 @@
 package loadb
 
 import (
-	"gorm.io/gorm"
+	"context"
+
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
+	"github.com/aarondl/sqlboiler/v4/boil"
+	"github.com/aarondl/sqlboiler/v4/queries/qm"
 )
 
-type ItemDB interface {
-	FindManyByKind(kind string) ([]Item, error)
-	UpdateMany(items []Item) error
+type ItemRepository interface {
+	FindManyByKind(kind models.ItemKind) ([]*models.Item, error)
+	UpdateMany(items []*models.Item) error
+	UpdateItemPrice(item *models.Item, price Decimal) error
 }
 
-type itemDB struct {
-	gdb *gorm.DB
+type itemRepository struct {
+	db *database
 }
 
-func NewItemDB(gdb *gorm.DB) *itemDB {
-	return &itemDB{
-		gdb: gdb,
-	}
+func NewItemRepository(db *database) ItemRepository {
+	return &itemRepository{db: db}
 }
 
-func (db *itemDB) FindManyByKind(kind string) ([]Item, error) {
-	var items []Item
-	err := db.gdb.Where("kind = ?", kind).Find(&items).Error
-
-	return items, err
+func (r *itemRepository) FindManyByKind(kind models.ItemKind) ([]*models.Item, error) {
+	return models.Items(qm.Where("kind = ?", kind)).All(context.Background(), r.db.db)
 }
 
-func (db *itemDB) UpdateMany(items []Item) error {
+func (r *itemRepository) UpdateMany(items []*models.Item) error {
 	for _, item := range items {
-		fieldsToUpdate := GetColumnNames(item, "id", "created_at", "kind", "name")
-
-		err := db.gdb.Model(&Item{}).
-			Where("id = ?", item.ID).
-			Select(fieldsToUpdate).
-			Updates(item).Error
-		if err != nil {
+		if _, err := item.Update(context.Background(), r.db.db, boil.Infer()); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func (r *itemRepository) UpdateItemPrice(item *models.Item, price Decimal) error {
+	item.Price = price.ToSQLBoilerDecimal()
+	_, err := item.Update(context.Background(), r.db.db, boil.Infer())
+	return err
 }

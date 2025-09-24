@@ -1,25 +1,26 @@
 module github.com/KubrickCode/loa-work/src/go/libs/loadb
 
-go 1.23
+go 1.23.0
+
+toolchain go1.23.12
 
 require (
 	github.com/KubrickCode/loa-work/src/go/libs/env v0.0.0-00010101000000-000000000000
+	github.com/aarondl/null/v8 v8.1.3
+	github.com/aarondl/sqlboiler/v4 v4.19.5
+	github.com/aarondl/strmangle v0.0.9
+	github.com/ericlagergren/decimal v0.0.0-20190420051523-6335edbaa640
+	github.com/friendsofgo/errors v0.9.2
+	github.com/lib/pq v1.10.9
 	github.com/shopspring/decimal v1.4.0
-	go.uber.org/mock v0.5.0
-	gorm.io/driver/postgres v1.5.9
-	gorm.io/gorm v1.25.12
 )
 
 replace github.com/KubrickCode/loa-work/src/go/libs/env => ../env
 
 require (
-	github.com/jackc/pgpassfile v1.0.0 // indirect
-	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/pgx/v5 v5.7.1 // indirect
-	github.com/jackc/puddle/v2 v2.2.2 // indirect
-	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.5 // indirect
-	golang.org/x/crypto v0.29.0 // indirect
-	golang.org/x/sync v0.9.0 // indirect
-	golang.org/x/text v0.20.0 // indirect
+	github.com/aarondl/inflect v0.0.2 // indirect
+	github.com/aarondl/randomize v0.0.2 // indirect
+	github.com/gofrs/uuid v4.2.0+incompatible // indirect
+	github.com/spf13/cast v1.5.0 // indirect
+	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 )

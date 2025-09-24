@@ -7,6 +7,7 @@ import (
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
 )
 
 type Scraper struct {
@@ -36,7 +37,7 @@ func (s *Scraper) Start() error {
 	return nil
 }
 
-func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
+func (s *Scraper) getCategoriesToScrape() ([]*models.MarketItemCategory, error) {
 	categories, err := s.db.MarketItemCategory().FindItemScraperEnabledAll()
 	if err != nil {
 		return nil, err
@@ -49,8 +50,8 @@ func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
 	return categories, nil
 }
 
-func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb.MarketItem, error) {
-	var itemsToUpsert []loadb.MarketItem
+func (s *Scraper) getItemsToSave(categories []*models.MarketItemCategory) ([]*models.MarketItem, error) {
+	var itemsToUpsert []*models.MarketItem
 	seenItems := make(map[string]bool)
 
 	for _, category := range categories {
@@ -78,12 +79,12 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 					}
 
 					seenItems[uniqueKey] = true
-					itemsToUpsert = append(itemsToUpsert, loadb.MarketItem{
+					itemsToUpsert = append(itemsToUpsert, &models.MarketItem{
 						BundleCount:          item.BundleCount,
 						Grade:                item.Grade,
 						MarketItemCategoryID: category.ID,
 						Name:                 item.Name,
-						ImageUrl:             item.Icon,
+						ImageURL:             item.Icon,
 						RefID:                item.ID,
 					})
 				}
@@ -104,7 +105,7 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 	return itemsToUpsert, nil
 }
 
-func (s *Scraper) saveItems(items []loadb.MarketItem) error {
+func (s *Scraper) saveItems(items []*models.MarketItem) error {
 	log.Println("Market items saved successfully")
 
 	return s.db.MarketItem().UpsertMany(items)

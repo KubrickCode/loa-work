@@ -9,6 +9,7 @@ import (
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
 	"golang.org/x/time/rate"
 )
 
@@ -35,7 +36,7 @@ func (s *Scraper) Start() error {
 	return nil
 }
 
-func (s *Scraper) getItemsToScrape() ([]loadb.AuctionItem, error) {
+func (s *Scraper) getItemsToScrape() ([]*models.AuctionItem, error) {
 	items, err := s.db.AuctionItem().FindStatScraperEnabledAll()
 	if err != nil {
 		return nil, err
@@ -48,7 +49,7 @@ func (s *Scraper) getItemsToScrape() ([]loadb.AuctionItem, error) {
 	return items, nil
 }
 
-func (s *Scraper) getCategoryByItem(item loadb.AuctionItem) (*loadb.AuctionItemCategory, error) {
+func (s *Scraper) getCategoryByItem(item *models.AuctionItem) (*models.AuctionItemCategory, error) {
 	category, err := s.db.AuctionItemCategory().FindByID(item.AuctionItemCategoryID)
 	if err != nil {
 		return nil, err
@@ -61,7 +62,7 @@ func (s *Scraper) getCategoryByItem(item loadb.AuctionItem) (*loadb.AuctionItemC
 	return category, nil
 }
 
-func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item loadb.AuctionItem) ([]loadb.AuctionItemStat, error) {
+func (s *Scraper) getItemStatsToCreate(category *models.AuctionItemCategory, item *models.AuctionItem) ([]*models.AuctionItemStat, error) {
 	if err := s.rateLimiter.Wait(context.Background()); err != nil {
 		return nil, fmt.Errorf("rate limiter error: %w", err)
 	}
@@ -77,7 +78,7 @@ func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item
 		return nil, err
 	}
 
-	stats := []loadb.AuctionItemStat{}
+	stats := []*models.AuctionItemStat{}
 
 	for _, auctionItem := range auctionItemListResp.Items {
 		endDate, err := time.Parse("2006-01-02T15:04:05.000", auctionItem.AuctionInfo.EndDate)
@@ -88,7 +89,7 @@ func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item
 			}
 		}
 
-		stat := loadb.AuctionItemStat{
+		stat := &models.AuctionItemStat{
 			AuctionItemID: item.ID,
 			BuyPrice:      auctionItem.AuctionInfo.BuyPrice,
 			BidPrice:      auctionItem.AuctionInfo.BidPrice,
@@ -104,7 +105,7 @@ func (s *Scraper) getItemStatsToCreate(category *loadb.AuctionItemCategory, item
 	return stats, nil
 }
 
-func (s *Scraper) saveItemStats(items []loadb.AuctionItem) error {
+func (s *Scraper) saveItemStats(items []*models.AuctionItem) error {
 	return s.db.WithTransaction(func(tx loadb.DB) error {
 		for _, item := range items {
 			category, err := s.getCategoryByItem(item)

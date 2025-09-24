@@ -2,20 +2,20 @@ package scraper
 
 import (
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
-	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
 )
 
-func GetFlattenCategories(categories []loaApi.Category) []loadb.MarketItemCategory {
-	var output []loadb.MarketItemCategory
+func GetFlattenCategories(categories []loaApi.Category) []*models.MarketItemCategory {
+	var output []*models.MarketItemCategory
 
 	for _, category := range categories {
-		output = append(output, loadb.MarketItemCategory{
+		output = append(output, &models.MarketItemCategory{
 			Code: category.Code,
 			Name: category.CodeName,
 		})
 
 		for _, sub := range category.Subs {
-			output = append(output, loadb.MarketItemCategory{
+			output = append(output, &models.MarketItemCategory{
 				Code: sub.Code,
 				Name: sub.CodeName,
 			})

@@ -6,6 +6,7 @@ import (
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
 )
 
 type Scraper struct {
@@ -32,7 +33,7 @@ func (s *Scraper) Start() error {
 	return nil
 }
 
-func (s *Scraper) getCategories() ([]loadb.MarketItemCategory, error) {
+func (s *Scraper) getCategories() ([]*models.MarketItemCategory, error) {
 	resp, err := request.GetCategoryList()
 	if err != nil {
 		return nil, err
@@ -47,6 +48,6 @@ func (s *Scraper) getCategories() ([]loadb.MarketItemCategory, error) {
 	return categories, nil
 }
 
-func (s *Scraper) saveCategories(categories []loadb.MarketItemCategory) error {
+func (s *Scraper) saveCategories(categories []*models.MarketItemCategory) error {
 	return s.db.MarketItemCategory().UpsertMany(categories)
 }

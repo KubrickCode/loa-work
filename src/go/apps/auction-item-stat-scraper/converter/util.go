@@ -1,18 +1,21 @@
 package converter
 
 import (
-	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
-	"github.com/shopspring/decimal"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
+	"github.com/ericlagergren/decimal"
 )
 
-func calculateAveragePrice(stats []loadb.AuctionItemStat) decimal.Decimal {
+func calculateAveragePrice(stats []*models.AuctionItemStat) *decimal.Big {
 	if len(stats) == 0 {
-		return decimal.NewFromInt(0)
+		return new(decimal.Big).SetUint64(0)
 	}
 
-	totalPrice := decimal.NewFromInt(0)
+	totalPrice := new(decimal.Big).SetUint64(0)
 	for _, stat := range stats {
-		totalPrice = totalPrice.Add(decimal.NewFromInt(int64(stat.BuyPrice)))
+		price := new(decimal.Big).SetUint64(uint64(stat.BuyPrice))
+		totalPrice = new(decimal.Big).Add(totalPrice, price)
 	}
-	return totalPrice.Div(decimal.NewFromInt(int64(len(stats))))
+
+	count := new(decimal.Big).SetUint64(uint64(len(stats)))
+	return new(decimal.Big).Quo(totalPrice, count)
 }

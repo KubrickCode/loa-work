@@ -9,7 +9,8 @@ import (
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
-	"github.com/shopspring/decimal"
+	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
+	"github.com/ericlagergren/decimal"
 	"golang.org/x/time/rate"
 )
 
@@ -55,8 +56,8 @@ func (s *Scraper) ScrapeStat() error {
 	return nil
 }
 
-func (s *Scraper) saveItemStats(items []loadb.MarketItem) error {
-	var statsToCreate []loadb.MarketItemStat
+func (s *Scraper) saveItemStats(items []*models.MarketItem) error {
+	var statsToCreate []*models.MarketItemStat
 
 	for _, item := range items {
 		category, err := s.getCategoryByItem(item)
@@ -69,7 +70,7 @@ func (s *Scraper) saveItemStats(items []loadb.MarketItem) error {
 			return fmt.Errorf("failed to get market item stat: %w", err)
 		}
 
-		statsToCreate = append(statsToCreate, *stat)
+		statsToCreate = append(statsToCreate, stat)
 	}
 
 	if len(statsToCreate) > 0 {
@@ -84,7 +85,7 @@ func (s *Scraper) saveItemStats(items []loadb.MarketItem) error {
 	return nil
 }
 
-func (s *Scraper) getItemsToScrape() ([]loadb.MarketItem, error) {
+func (s *Scraper) getItemsToScrape() ([]*models.MarketItem, error) {
 	items, err := s.db.MarketItem().FindStatScraperEnabledAll()
 	if err != nil {
 		return nil, err
@@ -97,7 +98,7 @@ func (s *Scraper) getItemsToScrape() ([]loadb.MarketItem, error) {
 	return items, nil
 }
 
-func (s *Scraper) getCategoryByItem(item loadb.MarketItem) (*loadb.MarketItemCategory, error) {
+func (s *Scraper) getCategoryByItem(item *models.MarketItem) (*models.MarketItemCategory, error) {
 	category, err := s.db.MarketItemCategory().FindByID(item.MarketItemCategoryID)
 	if err != nil {
 		return nil, err
@@ -110,7 +111,7 @@ func (s *Scraper) getCategoryByItem(item loadb.MarketItem) (*loadb.MarketItemCat
 	return category, nil
 }
 
-func (s *Scraper) getItemStatToCreate(category *loadb.MarketItemCategory, item loadb.MarketItem) (*loadb.MarketItemStat, error) {
+func (s *Scraper) getItemStatToCreate(category *models.MarketItemCategory, item *models.MarketItem) (*models.MarketItemStat, error) {
 	if err := s.rateLimiter.Wait(context.Background()); err != nil {
 		return nil, fmt.Errorf("rate limiter error: %w", err)
 	}
@@ -124,17 +125,20 @@ func (s *Scraper) getItemStatToCreate(category *loadb.MarketItemCategory, item l
 		return nil, err
 	}
 
-	stat := loadb.MarketItemStat{
+	ydayAvgDecimal := new(decimal.Big).SetFloat64(marketItem.YDayAvgPrice)
+
+	stat := &models.MarketItemStat{
 		CurrentMinPrice: marketItem.CurrentMinPrice,
 		RecentPrice:     marketItem.RecentPrice,
-		YDayAvgPrice:    decimal.NewFromFloat(marketItem.YDayAvgPrice),
+		YDayAvgPrice:    loadb.NewDecimal(ydayAvgDecimal).ToSQLBoilerDecimal(),
 		MarketItemID:    item.ID,
 	}
 
-	return &stat, nil
+	return stat, nil
+
 }
 
-func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
+func (s *Scraper) getCategoriesToScrape() ([]*models.MarketItemCategory, error) {
 	categories, err := s.db.MarketItemCategory().FindItemScraperEnabledAll()
 	if err != nil {
 		return nil, err
@@ -147,8 +151,8 @@ func (s *Scraper) getCategoriesToScrape() ([]loadb.MarketItemCategory, error) {
 	return categories, nil
 }
 
-func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb.MarketItem, error) {
-	var itemsToUpsert []loadb.MarketItem
+func (s *Scraper) getItemsToSave(categories []*models.MarketItemCategory) ([]*models.MarketItem, error) {
+	var itemsToUpsert []*models.MarketItem
 	seenItems := make(map[string]bool)
 
 	for _, category := range categories {
@@ -176,12 +180,12 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 					}
 
 					seenItems[uniqueKey] = true
-					itemsToUpsert = append(itemsToUpsert, loadb.MarketItem{
+					itemsToUpsert = append(itemsToUpsert, &models.MarketItem{
 						BundleCount:          item.BundleCount,
 						Grade:                item.Grade,
 						MarketItemCategoryID: category.ID,
 						Name:                 item.Name,
-						ImageUrl:             item.Icon,
+						ImageURL:             item.Icon,
 						RefID:                item.ID,
 					})
 				}
@@ -202,7 +206,7 @@ func (s *Scraper) getItemsToSave(categories []loadb.MarketItemCategory) ([]loadb
 	return itemsToUpsert, nil
 }
 
-func (s *Scraper) saveItems(items []loadb.MarketItem) error {
+func (s *Scraper) saveItems(items []*models.MarketItem) error {
 	log.Println("Market items saved successfully")
 
 	return s.db.MarketItem().UpsertMany(items)
