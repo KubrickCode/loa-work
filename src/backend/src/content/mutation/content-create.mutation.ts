@@ -44,7 +44,7 @@ export class ContentCreateItemsInput {
   averageQuantity: number;
 
   @Field()
-  isSellable: boolean;
+  isBound: boolean;
 }
 
 @InputType()
@@ -103,10 +103,10 @@ export class ContentCreateMutation {
         contentRewards: {
           createMany: {
             data: contentRewards.map(
-              ({ itemId, averageQuantity, isSellable }) => ({
+              ({ itemId, averageQuantity, isBound }) => ({
                 itemId,
                 averageQuantity,
-                isSellable,
+                isSellable: !isBound,
               }),
             ),
           },

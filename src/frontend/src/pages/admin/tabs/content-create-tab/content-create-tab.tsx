@@ -18,7 +18,7 @@ const schema = z.object({
     z.object({
       itemId: z.number(),
       averageQuantity: z.number(),
-      isSellable: z.boolean(),
+      isBound: z.boolean(),
     })
   ),
   contentSeeMoreRewards: z
@@ -45,7 +45,7 @@ export const ContentCreateTab = () => {
           contentRewards: data.items.map(({ id }) => ({
             itemId: id,
             averageQuantity: 0,
-            isSellable: true,
+            isBound: false,
           })),
           contentSeeMoreRewards: data.items.map(({ id }) => ({
             itemId: id,
@@ -140,10 +140,10 @@ export const ContentCreateTab = () => {
                         <Form.Input step="0.01" type="number" />
                       </Form.Field>
                       <Form.Field
-                        name={`contentRewards.${index}.isSellable`}
+                        name={`contentRewards.${index}.isBound`}
                         optional
                       >
-                        <Form.Checkbox size="xs">판매 가능 여부</Form.Checkbox>
+                        <Form.Checkbox size="xs">귀속 여부</Form.Checkbox>
                       </Form.Field>
                     </Flex>
                   ))}
@@ -179,7 +179,7 @@ export const ContentCreateTab = () => {
                           <Form.Input step="0.01" type="number" />
                         </Form.Field>
                         <ChakraCheckbox disabled size="xs">
-                          판매 가능 여부
+                          귀속 여부
                         </ChakraCheckbox>
                       </Flex>
                     ))}

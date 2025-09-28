@@ -84,7 +84,7 @@ export type ContentCreateInput = {
 
 export type ContentCreateItemsInput = {
   averageQuantity: Scalars['Float']['input'];
-  isSellable: Scalars['Boolean']['input'];
+  isBound: Scalars['Boolean']['input'];
   itemId: Scalars['Int']['input'];
 };
 

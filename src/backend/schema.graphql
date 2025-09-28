@@ -61,7 +61,7 @@ input ContentCreateInput {
 
 input ContentCreateItemsInput {
   averageQuantity: Float!
-  isSellable: Boolean!
+  isBound: Boolean!
   itemId: Int!
 }
 
