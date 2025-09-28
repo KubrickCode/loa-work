@@ -45,7 +45,7 @@ export const Footer = () => {
       bg={isAtBottom ? "transparent" : "white"}
       borderTop={isAtBottom ? "none" : "1px solid"}
       borderTopColor={isAtBottom ? "transparent" : "gray.200"}
-      bottom={0}
+      bottom="env(safe-area-inset-bottom, 0)"
       boxShadow={isAtBottom ? "none" : "lg"}
       fontSize="sm"
       gap={4}

@@ -33,7 +33,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       }}
       bg="bg.canvas"
       direction="column"
-      minH="100vh"
+      minH="100dvh"
     >
       <Header />
       <AnimatePresence initial={false} mode="wait">
