@@ -85,6 +85,8 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
     (e: React.MouseEvent) => {
       e.stopPropagation();
 
+      (e.currentTarget as HTMLElement).blur();
+
       const wasNotFavorite = !favorites.includes(id);
       const newFavorites = toggleFavorite(id, favorites, storageKey);
 
