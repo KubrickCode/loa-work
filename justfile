@@ -33,6 +33,9 @@ codegen:
   cd "{{ frontend_dir }}"
   yarn codegen
 
+degit source_dir target_dir:
+  degit https://github.com/KubrickCode/general/{{ source_dir }} {{ target_dir }}
+
 deps: deps-frontend deps-backend
 
 deps-frontend:
@@ -142,6 +145,12 @@ prisma *args:
   set -euox pipefail
   cd "{{ backend_dir }}"
   yarn prisma {{ args }}
+
+install-degit:
+  #!/usr/bin/env bash
+  if ! command -v degit &> /dev/null; then
+    npm install -g degit
+  fi
 
 install-psql:
   #!/usr/bin/env bash
