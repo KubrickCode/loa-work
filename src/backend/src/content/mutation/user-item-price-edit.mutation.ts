@@ -13,7 +13,7 @@ import { PrismaService } from 'src/prisma';
 import { UserContentService } from '../../user/service/user-content.service';
 
 @InputType()
-class UserItemEditInput {
+class UserItemPriceEditInput {
   @Field()
   id: number;
 
@@ -22,21 +22,21 @@ class UserItemEditInput {
 }
 
 @ObjectType()
-class UserItemEditResult {
+class UserItemPriceEditResult {
   @Field(() => Boolean)
   ok: boolean;
 }
 
 @Resolver()
-export class UserItemEditMutation {
+export class UserItemPriceEditMutation {
   constructor(
     private prisma: PrismaService,
     private userContentService: UserContentService,
   ) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => UserItemEditResult)
-  async userItemEdit(@Args('input') input: UserItemEditInput) {
+  @Mutation(() => UserItemPriceEditResult)
+  async userItemPriceEdit(@Args('input') input: UserItemPriceEditInput) {
     const { id, price } = input;
 
     await this.userContentService.validateUserItem(id);

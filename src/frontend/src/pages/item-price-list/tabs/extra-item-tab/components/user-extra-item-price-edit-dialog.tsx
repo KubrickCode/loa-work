@@ -3,9 +3,9 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  UserItemEditDocument,
-  UserItemEditInput,
-  UserItemEditMutation,
+  UserItemPriceEditDocument,
+  UserItemPriceEditInput,
+  UserItemPriceEditMutation,
   UserExtraItemPriceEditDialogDocument,
 } from "~/core/graphql/generated";
 
@@ -36,12 +36,12 @@ export const UserExtraItemPriceEditDialog = ({
 
   return (
     <Dialog {...dialogProps}>
-      <Form.Mutation<UserItemEditInput, UserItemEditMutation>
+      <Form.Mutation<UserItemPriceEditInput, UserItemPriceEditMutation>
         defaultValues={{
           id: userItem.id,
           price: userItem.price,
         }}
-        mutation={UserItemEditDocument}
+        mutation={UserItemPriceEditDocument}
         onComplete={() => {
           dialogProps.onClose();
           onComplete();

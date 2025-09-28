@@ -17,7 +17,7 @@ import { ContentDurationResolver } from './object/content-duration.resolver';
 import { ContentDurationQuery } from './query/content-duration.query';
 import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
 import { ItemResolver } from './object/item.resolver';
-import { UserItemEditMutation } from './mutation/user-item-edit.mutation';
+import { UserItemPriceEditMutation } from './mutation/user-item-price-edit.mutation';
 import { ItemQuery } from './query/item.query';
 import { CustomContentWageCalculateMutation } from './mutation/custom-content-wage-calculate.mutation';
 import { ContentRewardsReportMutation } from './mutation/content-rewards-report.mutation';
@@ -53,7 +53,7 @@ import { ContentGroupQuery } from './query/content-group.query';
     ContentDurationQuery,
     UserGoldExchangeRateService,
     ItemResolver,
-    UserItemEditMutation,
+    UserItemPriceEditMutation,
     ItemQuery,
     CustomContentWageCalculateMutation,
     ContentRewardsReportMutation,

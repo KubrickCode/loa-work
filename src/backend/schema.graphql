@@ -338,7 +338,7 @@ type Mutation {
   contentSeeMoreRewardsEdit(input: ContentSeeMoreRewardsEditInput!): ContentSeeMoreRewardsEditResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   goldExchangeRateEdit(input: GoldExchangeRateEditInput!): GoldExchangeRateEditResult!
-  userItemEdit(input: UserItemEditInput!): UserItemEditResult!
+  userItemPriceEdit(input: UserItemPriceEditInput!): UserItemPriceEditResult!
 }
 
 input OrderByArg {
@@ -386,12 +386,12 @@ type UserItem {
   userId: Int!
 }
 
-input UserItemEditInput {
+input UserItemPriceEditInput {
   id: Int!
   price: Float!
 }
 
-type UserItemEditResult {
+type UserItemPriceEditResult {
   ok: Boolean!
 }
 
