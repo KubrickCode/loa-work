@@ -12,7 +12,7 @@ export const FormatGold = ({
   return (
     <Flex alignItems="center" display="inline-flex" gap={1}>
       <Text color={color} fontWeight={fontWeight} lineHeight="tight">
-        {value?.toLocaleString() || "0"}
+        {value ? Math.round(value).toLocaleString() : "0"}
       </Text>
       <Text
         color={color}
