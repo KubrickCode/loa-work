@@ -58,6 +58,7 @@ export const ContentCreateTab = () => {
             title: "컨텐츠가 추가되었습니다.",
             type: "success",
           });
+          window.location.reload();
         }}
         schema={schema}
       >
