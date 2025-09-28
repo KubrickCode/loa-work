@@ -1,23 +1,68 @@
 import { Box, Flex } from "@chakra-ui/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { PropsWithChildren } from "react";
+import { useLocation } from "react-router-dom";
 
 import { Toaster } from "~/core/chakra-components/ui/toaster";
 
 import { Footer } from "./footer";
 import { Header } from "./header";
 
+const MotionBox = motion.create(Box);
+
 export const Layout = ({ children }: PropsWithChildren) => {
+  const location = useLocation();
+
   return (
     <Flex
+      _before={{
+        content: '""',
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: "40vh",
+        bg: {
+          _light:
+            "linear-gradient(180deg, var(--chakra-colors-bg-canvas) 0%, var(--chakra-colors-bg-surface) 100%)",
+          _dark:
+            "linear-gradient(180deg, var(--chakra-colors-neutral-950) 0%, rgba(26, 26, 28, 0.8) 100%)",
+        },
+        zIndex: -1,
+        pointerEvents: "none",
+      }}
+      bg="bg.canvas"
       direction="column"
       minH="100vh"
-      px={{ base: 0, md: 8 }}
-      py={{ base: 0, md: 4 }}
     >
       <Header />
-      <Box as="main" flex="1" p={3} pb={16}>
-        {children}
-      </Box>
+      <AnimatePresence initial={false} mode="wait">
+        <MotionBox
+          animate={{
+            opacity: 1,
+          }}
+          aria-label="메인 콘텐츠"
+          as="main"
+          exit={{
+            opacity: 0,
+          }}
+          flex="1"
+          initial={{
+            opacity: 0,
+          }}
+          key={location.pathname}
+          pb={{ base: 20, md: 24 }}
+          pt={{ base: 4, md: 6 }}
+          px={{ base: 4, md: 8 }}
+          role="main"
+          transition={{
+            duration: 0.2,
+            ease: "easeInOut",
+          }}
+        >
+          {children}
+        </MotionBox>
+      </AnimatePresence>
       <Footer />
       <Toaster />
     </Flex>

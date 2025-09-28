@@ -28,7 +28,7 @@ export const HeaderMenu = () => {
         {user?.displayName}
         <IoIosArrowDown />
       </Button>
-      <MenuContent>
+      <MenuContent zIndex={1200}>
         <MenuItem onClick={toggleColorMode} value="dark-mode">
           <ColorModeIcon />
           다크모드

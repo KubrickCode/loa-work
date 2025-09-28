@@ -1,4 +1,4 @@
-import { Input, InputProps, IconButton } from "@chakra-ui/react";
+import { IconButton, Input, InputProps } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuSearch } from "react-icons/lu";
@@ -45,7 +45,9 @@ export const SearchInput = ({
     <InputGroup
       endElement={
         <IconButton
-          _hover={{ bg: "rgba(148, 137, 137, 0.13)" }}
+          _hover={{
+            bg: "bg.hover",
+          }}
           h="fit-content"
           minW={0}
           onClick={() => reset(true)}
@@ -64,6 +66,14 @@ export const SearchInput = ({
       {...otherProps}
     >
       <Input
+        bg={{
+          _light: "bg.surface",
+          _dark: "bg.elevated",
+        }}
+        borderColor={{
+          _light: "border.default",
+          _dark: "border.muted",
+        }}
         enterKeyHint="search"
         onBlur={() => reset(false)}
         onChange={(e) => setInput(e.target.value)}
@@ -75,6 +85,7 @@ export const SearchInput = ({
         }}
         placeholder="검색..."
         size="xs"
+        transition="all 0.2s ease-in-out"
         value={input}
       />
     </InputGroup>

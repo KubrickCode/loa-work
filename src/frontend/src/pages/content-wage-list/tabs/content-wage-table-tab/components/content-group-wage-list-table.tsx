@@ -176,7 +176,7 @@ export const ContentGroupWageListTable = () => {
               onComplete: refetch,
             }),
           style: favorites.includes(data.contentGroup.name)
-            ? { backgroundColor: "rgba(255, 215, 0, 0.075)" }
+            ? { backgroundColor: "var(--chakra-colors-bg-favorite)" }
             : undefined,
         })}
         rows={data.contentGroupWageList.map((data) => ({

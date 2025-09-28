@@ -9,8 +9,17 @@ export type SectionProps = Omit<BoxProps, "title"> & {
 
 export const Section = ({ children, title, ...props }: SectionProps) => {
   return (
-    <Box borderRadius="md" boxShadow="md" p={4} w="100%" {...props}>
-      <Flex direction="column" gap={4}>
+    <Box
+      bg="bg.container"
+      border="1px solid"
+      borderColor="border.subtle"
+      borderRadius="md"
+      boxShadow="md"
+      p={{ base: 2, md: 4 }}
+      w="100%"
+      {...props}
+    >
+      <Flex direction="column" gap={{ base: 2, md: 4 }}>
         {title && (
           <Box fontSize="lg" fontWeight="semibold">
             {title}

@@ -160,8 +160,19 @@ export const DataTable = <T,>({
       return (
         <Table.Cell
           alignItems="center"
+          bg={{
+            _light: "transparent",
+            _dark: "transparent",
+          }}
+          borderBottom="1px solid"
+          borderColor="border.subtle"
+          color="text.primary"
+          fontSize="sm"
           justifyContent="center"
           key={columnIndex}
+          px={4}
+          py={4}
+          transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
           whiteSpace="nowrap"
           {...(column.align && { textAlign: column.align })}
         >
@@ -186,6 +197,7 @@ export const DataTable = <T,>({
         <Table.Row
           cursor={isInteractive ? "pointer" : "default"}
           key={rowIndex}
+          transition="all 0.3s ease-in-out"
           {...(getRowProps && getRowProps({ data: row.data, index: rowIndex }))}
         >
           {columns.map((column, index) =>
@@ -199,21 +211,44 @@ export const DataTable = <T,>({
 
   return (
     <>
-      <Table.ScrollArea maxHeight="4xl">
-        <Table.Root
-          interactive={isInteractive}
-          minWidth="100%"
-          showColumnBorder
-          stickyHeader
-          width="max-content"
-          {...rest}
-        >
+      <Box
+        border="1px solid"
+        borderColor="border.default"
+        borderRadius="xl"
+        boxShadow="lg"
+        overflow="hidden"
+        width="100%"
+      >
+        <Table.ScrollArea maxHeight="4xl">
+          <Table.Root
+            bg="bg.elevated"
+            interactive={isInteractive}
+            minWidth="100%"
+            showColumnBorder={false}
+            stickyHeader
+            width="100%"
+            {...rest}
+          >
           <Table.Header>
-            <Table.Row>
+            <Table.Row
+              bg={{
+                _light: "bg.muted",
+                _dark: "bg.surface",
+              }}
+              borderBottom="1px solid"
+              borderColor="border.default"
+            >
               {hasData &&
                 columns.map((column, index) => (
                   <Table.ColumnHeader
+                    color="text.secondary"
+                    fontSize="xs"
+                    fontWeight="semibold"
                     key={index}
+                    letterSpacing="wider"
+                    px={4}
+                    py={4}
+                    textTransform="uppercase"
                     {...(column.align && { textAlign: column.align })}
                     {...(column.width && { width: column.width })}
                   >
@@ -258,7 +293,8 @@ export const DataTable = <T,>({
             )}
           </Table.Body>
         </Table.Root>
-      </Table.ScrollArea>
+        </Table.ScrollArea>
+      </Box>
       {pagination && hasData && (
         <PaginationRoot
           count={totalItems}
