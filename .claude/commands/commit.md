@@ -2,7 +2,6 @@
 allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*)
 argument-hint: [message]
 description: Generate clear and descriptive commit messages without conventional prefixes
-model: sonnet
 ---
 
 # Smart Git Commit Message Generator
