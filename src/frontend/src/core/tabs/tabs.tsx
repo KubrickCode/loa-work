@@ -38,13 +38,18 @@ export const Tabs = ({ panels, queryKey = "tab" }: TabsProps) => {
         const panel = panels.find((p) => p.label === details.value);
         if (panel) setQuery({ [queryKey]: panel.id });
       }}
+      size="sm"
       unmountOnExit
       value={currentPanel.label}
       variant="enclosed"
     >
       <ChakraTabs.List>
         {panels.map((panel) => (
-          <ChakraTabs.Trigger key={panel.id} value={panel.label}>
+          <ChakraTabs.Trigger
+            fontSize={{ base: "xs", md: "sm" }}
+            key={panel.id}
+            value={panel.label}
+          >
             {panel.label}
           </ChakraTabs.Trigger>
         ))}
