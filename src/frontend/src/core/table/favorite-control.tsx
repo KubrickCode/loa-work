@@ -1,4 +1,4 @@
-import { IconButton } from "@chakra-ui/react";
+import { IconButton, useToken } from "@chakra-ui/react";
 import { motion, useReducedMotion } from "framer-motion";
 import React, { useCallback, useEffect, useState } from "react";
 import { IoIosStarOutline } from "react-icons/io";
@@ -70,6 +70,7 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
   );
   const [isAnimating, setIsAnimating] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const [gold500] = useToken("colors", "gold.500");
 
   const favorites =
     externalFavorites !== undefined ? externalFavorites : internalFavorites;
@@ -112,7 +113,7 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
     <MotionIconButton
       _focusVisible={{
         outline: "2px solid",
-        outlineColor: "gold.500",
+        outlineColor: gold500,
         outlineOffset: "2px",
       }}
       _hover={{
@@ -179,7 +180,7 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
             ease: EASING.spring,
           }}
         >
-          <IoStar color="gold.500" size={20} />
+          <IoStar color={gold500} size={20} />
         </motion.div>
       ) : (
         <motion.div
