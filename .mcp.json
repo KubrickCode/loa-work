@@ -12,9 +12,19 @@
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
     },
-    "chakra-ui": {
+    "notion": {
       "command": "npx",
-      "args": ["-y", "@chakra-ui/react-mcp"]
+      "args": ["-y", "@suekou/mcp-notion-server"],
+      "env": {
+        "NOTION_API_TOKEN": "${NOTION_PAT}"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PAT}"
+      }
     }
   }
 }
