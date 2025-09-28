@@ -11,7 +11,7 @@ import {
   ContentWageTableTabDocument,
   ContentGroupWageListTableDocument,
 } from "~/core/graphql/generated";
-import { TableSkeleton } from "~/core/loader";
+import { EnhancedTableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 import { LoginTooltip } from "~/core/tooltip";
 
@@ -63,10 +63,14 @@ export const ContentWageTableTab = () => {
             </Button>
           </Dialog.Trigger>
         </Flex>
-        <Suspense fallback={<TableSkeleton line={30} />}>
+        <Suspense
+          fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}
+        >
           <ContentWageListTable />
         </Suspense>
-        <Suspense fallback={<TableSkeleton line={30} />}>
+        <Suspense
+          fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}
+        >
           <ContentGroupWageListTable />
         </Suspense>
       </ContentWageListPageProvider>

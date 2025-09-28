@@ -1,4 +1,5 @@
 import { Flex, IconButton } from "@chakra-ui/react";
+import { Suspense } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 import { useAuth } from "~/core/auth";
@@ -11,13 +12,14 @@ import {
   ExtraItemListTableDocument,
   ExtraItemListTableQuery,
 } from "~/core/graphql/generated";
+import { EnhancedTableSkeleton } from "~/core/loader";
 import { DataTable } from "~/core/table";
 import { LoginTooltip } from "~/core/tooltip";
 import { ItemNameWithImage } from "~/shared/item";
 
 import { UserExtraItemPriceEditDialog } from "./user-extra-item-price-edit-dialog";
 
-export const ExtraItemListTable = () => {
+const ExtraItemListTableContent = () => {
   const { isAuthenticated } = useAuth();
   const { data, refetch } = useSafeQuery(ExtraItemListTableDocument, {
     variables: {
@@ -46,8 +48,9 @@ export const ExtraItemListTable = () => {
               >
                 <LoginTooltip content="로그인 후 골드 가치를 수정할 수 있습니다">
                   <IconButton
+                    _active={{ transform: "scale(0.95)" }}
                     disabled={!isAuthenticated}
-                    size="xs"
+                    size={{ base: "sm", md: "xs" }}
                     variant="surface"
                   >
                     <IoIosSettings />
@@ -56,7 +59,7 @@ export const ExtraItemListTable = () => {
               </Dialog.Trigger>
             );
           },
-          width: "32px",
+          width: { base: "44px", md: "32px" },
         },
         {
           header: "아이템",
@@ -73,7 +76,7 @@ export const ExtraItemListTable = () => {
             </Flex>
           ),
           render({ data }) {
-            return <FormatGold value={data.price} />;
+            return <FormatGold fontWeight="semibold" value={data.price} />;
           },
         },
       ]}
@@ -81,5 +84,13 @@ export const ExtraItemListTable = () => {
         data,
       }))}
     />
+  );
+};
+
+export const ExtraItemListTable = () => {
+  return (
+    <Suspense fallback={<EnhancedTableSkeleton columnCount={3} rowCount={6} />}>
+      <ExtraItemListTableContent />
+    </Suspense>
   );
 };

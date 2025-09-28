@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Suspense } from "react";
 
-import { TableSkeleton } from "~/core/loader";
+import { ChartSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 
 import { ContentWageListBarChart } from "./components/content-wage-list-bar-chart";
@@ -14,14 +14,20 @@ export const ContentWageChartTab = () => {
       title={
         <Flex alignItems="center" gap={2}>
           <Text>시급 비교</Text>
-          <Text fontSize="xs">큰 화면에서 보는 것을 권장합니다</Text>
+          <Text
+            color="text.muted"
+            display={{ base: "none", md: "block" }}
+            fontSize="xs"
+          >
+            큰 화면에서 보는 것을 권장합니다
+          </Text>
         </Flex>
       }
     >
       <ContentWageListPageProvider>
         <Flex direction="column" gap={2}>
           <ContentWageListFilters />
-          <Suspense fallback={<TableSkeleton line={30} />}>
+          <Suspense fallback={<ChartSkeleton height="400px" />}>
             <ContentWageListBarChart />
           </Suspense>
         </Flex>

@@ -12,7 +12,7 @@ export const ContentRewardListTableTab = () => {
     <Section>
       <ContentRewardListPageProvider>
         <ContentRewardListTableFilters />
-        <Suspense fallback={<TableSkeleton line={30} />}>
+        <Suspense fallback={<TableSkeleton columnCount={8} rowCount={10} />}>
           <ContentRewardListTable />
         </Suspense>
       </ContentRewardListPageProvider>

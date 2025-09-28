@@ -14,12 +14,22 @@ export type AccordionProps = PropsWithChildren & {
 export const AccordionCard = ({ children, title }: AccordionProps) => {
   return (
     <AccordionRoot
+      _hover={{
+        shadow: "md",
+      }}
+      bg="bg.surface"
+      borderColor="border.default"
+      borderRadius="lg"
+      borderWidth="1px"
       collapsible
       defaultValue={["all-contents"]}
+      overflow="hidden"
+      shadow="sm"
+      transition="all 0.2s ease-in-out"
       variant="enclosed"
     >
       <AccordionItem value="all-contents">
-        <AccordionItemTrigger cursor="pointer">{title}</AccordionItemTrigger>
+        <AccordionItemTrigger>{title}</AccordionItemTrigger>
         <AccordionItemContent>{children}</AccordionItemContent>
       </AccordionItem>
     </AccordionRoot>

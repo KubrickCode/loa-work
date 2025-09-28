@@ -17,9 +17,11 @@ export const SubmitButton = ({
 
   return (
     <Button
+      colorPalette="blue"
       disabled={isSubmitting}
       loading={isSubmitting}
       type="submit"
+      variant="solid"
       {...otherProps}
     >
       {children || "저장"}

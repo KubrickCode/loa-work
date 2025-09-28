@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Suspense } from "react";
 
-import { BlockLoader } from "~/core/loader";
+import { ChartSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
 
 import { ContentRewardListPieChart } from "./components/content-reward-list-pie-chart";
@@ -14,13 +14,19 @@ export const ContentRewardListChartTab = () => {
       title={
         <Flex alignItems="center" gap={2}>
           <Text>보상 비율</Text>
-          <Text fontSize="xs">큰 화면에서 보는 것을 권장합니다</Text>
+          <Text
+            color="text.muted"
+            display={{ base: "none", md: "block" }}
+            fontSize="xs"
+          >
+            큰 화면에서 보는 것을 권장합니다
+          </Text>
         </Flex>
       }
     >
       <ContentRewardListPageProvider>
         <ContentRewardListTableFilters />
-        <Suspense fallback={<BlockLoader />}>
+        <Suspense fallback={<ChartSkeleton height="400px" />}>
           <ContentRewardListPieChart />
         </Suspense>
       </ContentRewardListPageProvider>

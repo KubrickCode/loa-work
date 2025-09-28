@@ -1,10 +1,11 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 import { Form } from "~/core/form";
 import { formatDateTime, FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { MarketItemListTableDocument } from "~/core/graphql/generated";
+import { EnhancedTableSkeleton } from "~/core/loader";
 import { DataTable, DataTableProps } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
 
@@ -15,7 +16,7 @@ type MarketItemListTableProps = {
   pagination?: boolean;
 };
 
-export const MarketItemListTable = ({
+const MarketItemListTableContent = ({
   categoryName,
   defaultSorting,
   grade,
@@ -37,8 +38,8 @@ export const MarketItemListTable = ({
   });
 
   return (
-    <Flex direction="column" gap={2}>
-      <Text fontSize="xs">
+    <Flex direction="column" gap={4}>
+      <Text color="text.secondary" fontSize="xs">
         마지막 업데이트 일시: {formatDateTime(data.marketItems[0]?.updatedAt)}
       </Text>
       <Form.SearchInput onSearch={setKeyword} value={keyword} />
@@ -54,14 +55,24 @@ export const MarketItemListTable = ({
             align: "right",
             header: "판매 단위",
             render({ data }) {
-              return <>{data.bundleCount} 개</>;
+              return (
+                <Text color="text.primary" fontSize="md" fontWeight="medium">
+                  {data.bundleCount} 개
+                </Text>
+              );
             },
           },
           {
             align: "right",
             header: "전일 평균 거래가",
             render({ data }) {
-              return <FormatGold value={data.yDayAvgPrice} />;
+              return (
+                <FormatGold
+                  color="text.secondary"
+                  fontWeight="medium"
+                  value={data.yDayAvgPrice}
+                />
+              );
             },
             sortKey: "yDayAvgPrice",
           },
@@ -77,7 +88,9 @@ export const MarketItemListTable = ({
             align: "right",
             header: "최저가",
             render({ data }) {
-              return <FormatGold value={data.currentMinPrice} />;
+              return (
+                <FormatGold fontWeight="bold" value={data.currentMinPrice} />
+              );
             },
             sortKey: "currentMinPrice",
           },
@@ -89,5 +102,13 @@ export const MarketItemListTable = ({
         }))}
       />
     </Flex>
+  );
+};
+
+export const MarketItemListTable = (props: MarketItemListTableProps) => {
+  return (
+    <Suspense fallback={<EnhancedTableSkeleton columnCount={5} rowCount={8} />}>
+      <MarketItemListTableContent {...props} />
+    </Suspense>
   );
 };

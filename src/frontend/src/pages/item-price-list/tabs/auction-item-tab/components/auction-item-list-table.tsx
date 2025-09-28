@@ -1,9 +1,11 @@
 import { Flex, Text } from "@chakra-ui/react";
+import { Suspense } from "react";
 
 import { InfoTip } from "~/core/chakra-components/ui/toggle-tip";
 import { formatDateTime, FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { AuctionItemListTableDocument } from "~/core/graphql/generated";
+import { EnhancedTableSkeleton } from "~/core/loader";
 import { DataTable } from "~/core/table";
 import { ItemNameWithImage } from "~/shared/item";
 
@@ -11,7 +13,7 @@ type AuctionItemListTableProps = {
   nameKeyword: string;
 };
 
-export const AuctionItemListTable = ({
+const AuctionItemListTableContent = ({
   nameKeyword,
 }: AuctionItemListTableProps) => {
   const { data } = useSafeQuery(AuctionItemListTableDocument, {
@@ -27,8 +29,8 @@ export const AuctionItemListTable = ({
   });
 
   return (
-    <Flex direction="column" gap={2}>
-      <Text fontSize="xs">
+    <Flex direction="column" gap={4}>
+      <Text color="text.secondary" fontSize="xs">
         마지막 업데이트 일시: {formatDateTime(data.auctionItems[0]?.updatedAt)}
       </Text>
       <DataTable
@@ -48,7 +50,9 @@ export const AuctionItemListTable = ({
               </Flex>
             ),
             render({ data }) {
-              return <FormatGold value={data.avgBuyPrice} />;
+              return (
+                <FormatGold fontWeight="medium" value={data.avgBuyPrice} />
+              );
             },
             sortKey: "avgBuyPrice",
           },
@@ -62,5 +66,13 @@ export const AuctionItemListTable = ({
         }))}
       />
     </Flex>
+  );
+};
+
+export const AuctionItemListTable = (props: AuctionItemListTableProps) => {
+  return (
+    <Suspense fallback={<EnhancedTableSkeleton columnCount={2} rowCount={8} />}>
+      <AuctionItemListTableContent {...props} />
+    </Suspense>
   );
 };
