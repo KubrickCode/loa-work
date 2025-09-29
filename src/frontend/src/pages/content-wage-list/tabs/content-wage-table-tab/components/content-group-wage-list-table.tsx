@@ -75,7 +75,7 @@ export const ContentGroupWageListTable = () => {
               return (
                 <FavoriteIcon
                   externalFavorites={favorites}
-                  id={data.contentGroup.name}
+                  id={data.contentGroup.contentIds.join("-")}
                   onChange={handleFavoriteChange}
                   storageKey={FAVORITE_STORAGE_KEY}
                 />
@@ -167,7 +167,7 @@ export const ContentGroupWageListTable = () => {
             sortKey: "goldAmountPerClear",
           },
         ]}
-        favoriteKeyPath="contentGroup.name"
+        favoriteKeyPath="contentGroup.contentIds"
         favorites={favorites}
         getRowProps={({ data }) => ({
           onClick: () =>
@@ -175,7 +175,7 @@ export const ContentGroupWageListTable = () => {
               contentIds: data.contentGroup.contentIds,
               onComplete: refetch,
             }),
-          style: favorites.includes(data.contentGroup.name)
+          style: favorites.includes(data.contentGroup.contentIds.join("-"))
             ? { backgroundColor: "var(--chakra-colors-bg-favorite)" }
             : undefined,
         })}
