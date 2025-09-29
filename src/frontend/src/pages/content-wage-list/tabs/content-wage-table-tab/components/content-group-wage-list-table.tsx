@@ -75,7 +75,11 @@ export const ContentGroupWageListTable = () => {
               return (
                 <FavoriteIcon
                   externalFavorites={favorites}
-                  id={data.contentGroup.contentIds.join("-")}
+                  id={
+                    data.contentGroup.contentCategory.id +
+                    "_" +
+                    data.contentGroup.name
+                  }
                   onChange={handleFavoriteChange}
                   storageKey={FAVORITE_STORAGE_KEY}
                 />
@@ -167,20 +171,29 @@ export const ContentGroupWageListTable = () => {
             sortKey: "goldAmountPerClear",
           },
         ]}
-        favoriteKeyPath="contentGroup.contentIds"
+        favoriteKeyPath="contentGroup.uniqueKey"
         favorites={favorites}
-        getRowProps={({ data }) => ({
-          onClick: () =>
-            onOpen({
-              contentIds: data.contentGroup.contentIds,
-              onComplete: refetch,
-            }),
-          style: favorites.includes(data.contentGroup.contentIds.join("-"))
-            ? { backgroundColor: "var(--chakra-colors-bg-favorite)" }
-            : undefined,
-        })}
+        getRowProps={({ data }) => {
+          const uniqueKey = data.contentGroup.contentCategory.id + "_" + data.contentGroup.name;
+          return {
+            onClick: () =>
+              onOpen({
+                contentIds: data.contentGroup.contentIds,
+                onComplete: refetch,
+              }),
+            style: favorites.includes(uniqueKey)
+              ? { backgroundColor: "var(--chakra-colors-bg-favorite)" }
+              : undefined,
+          };
+        }}
         rows={data.contentGroupWageList.map((data) => ({
-          data,
+          data: {
+            ...data,
+            contentGroup: {
+              ...data.contentGroup,
+              uniqueKey: data.contentGroup.contentCategory.id + "_" + data.contentGroup.name,
+            },
+          },
         }))}
       />
       {renderModal()}

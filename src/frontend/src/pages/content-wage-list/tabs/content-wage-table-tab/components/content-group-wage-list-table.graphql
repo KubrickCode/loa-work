@@ -2,6 +2,7 @@ query ContentGroupWageListTable($filter: ContentGroupWageListFilter) {
   contentGroupWageList(filter: $filter) {
     contentGroup {
       contentCategory {
+        id
         imageUrl
         name
       }
