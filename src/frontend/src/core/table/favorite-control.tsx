@@ -69,6 +69,7 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
     () => getFavoritesFromStorage(storageKey)
   );
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const [gold500] = useToken("colors", "gold.500");
 
@@ -85,17 +86,26 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
     (e: React.MouseEvent) => {
       e.stopPropagation();
 
-      (e.currentTarget as HTMLElement).blur();
+      setIsHovered(false);
+      const element = e.currentTarget as HTMLElement;
+      element.blur();
+
+      const mouseLeaveEvent = new MouseEvent("mouseleave", {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      element.dispatchEvent(mouseLeaveEvent);
 
       const wasNotFavorite = !favorites.includes(id);
       const newFavorites = toggleFavorite(id, favorites, storageKey);
 
       if (wasNotFavorite && !shouldReduceMotion) {
         setIsAnimating(true);
-        setTimeout(
-          () => setIsAnimating(false),
-          ANIMATION_DURATIONS.slow * 1000
-        );
+        setTimeout(() => {
+          setIsAnimating(false);
+          setIsHovered(false);
+        }, ANIMATION_DURATIONS.slow * 1000);
       }
 
       if (externalFavorites === undefined) {
@@ -113,12 +123,6 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
 
   return (
     <MotionIconButton
-      _hover={{
-        bg: {
-          _light: "gray.100",
-          _dark: "whiteAlpha.100",
-        },
-      }}
       animate={
         isAnimating && !shouldReduceMotion
           ? {
@@ -127,39 +131,42 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
                 "0 0 0px rgba(255, 215, 0, 0)",
                 "0 0 25px rgba(255, 215, 0, 0.8)",
                 "0 0 10px rgba(255, 215, 0, 0.3)",
+                "0 0 0px rgba(255, 215, 0, 0)",
               ],
               rotate: [0, 10, -10, 0],
             }
-          : {}
+          : isHovered && !shouldReduceMotion && !isAnimating
+            ? {
+                scale: 1.05,
+                boxShadow: isFavorite
+                  ? "0 0 15px rgba(255, 215, 0, 0.5)"
+                  : "0 0 10px rgba(128, 128, 128, 0.3)",
+              }
+            : {
+                scale: 1,
+                boxShadow: "0 0 0px rgba(255, 215, 0, 0)",
+              }
       }
       aria-label={isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
       aria-pressed={isFavorite}
       minH={{ base: "44px", md: "32px" }}
       minW={{ base: "44px", md: "32px" }}
       onClick={handleToggle}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       size={{ base: "md", md: "sm" }}
+      style={{
+        backgroundColor: isHovered
+          ? process.env.NODE_ENV === "dark"
+            ? "rgba(255, 255, 255, 0.1)"
+            : "rgba(0, 0, 0, 0.1)"
+          : undefined,
+      }}
       transition={{
         duration: ANIMATION_DURATIONS.normal,
         ease: EASING.easeOut,
       }}
       variant="ghost"
-      whileHover={
-        !shouldReduceMotion
-          ? {
-              scale: 1.05,
-              boxShadow: isFavorite
-                ? "0 0 15px rgba(255, 215, 0, 0.5)"
-                : "0 0 10px rgba(128, 128, 128, 0.3)",
-            }
-          : undefined
-      }
-      whileTap={
-        !shouldReduceMotion
-          ? {
-              scale: 0.9,
-            }
-          : undefined
-      }
     >
       {isFavorite ? (
         <motion.div
