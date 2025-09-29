@@ -1,5 +1,6 @@
 import { Image } from "@chakra-ui/react";
 
+import { formatDateTime } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
 import { UserListTabQueryDocument } from "~/core/graphql/generated";
 import { Section } from "~/core/section";
@@ -47,6 +48,13 @@ export const UserListTab = () => {
             render({ data }) {
               return <>{data.refId}</>;
             },
+          },
+          {
+            header: "생성일시",
+            render({ data }) {
+              return <>{formatDateTime(data.createdAt)}</>;
+            },
+            sortKey: "createdAt",
           },
         ]}
         rows={data.userList.map((user) => ({ data: user }))}
