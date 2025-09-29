@@ -113,11 +113,6 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
 
   return (
     <MotionIconButton
-      _focusVisible={{
-        outline: "2px solid",
-        outlineColor: gold500,
-        outlineOffset: "2px",
-      }}
       _hover={{
         bg: {
           _light: "gray.100",
