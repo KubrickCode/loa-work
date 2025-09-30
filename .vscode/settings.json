@@ -19,6 +19,7 @@
     {
       "name": "Web App",
       "color": "skyblue",
+      "shortcut": "w",
       "group": [
         {
           "name": "Run App",
@@ -41,19 +42,20 @@
           "name": "Backend",
           "command": "just run backend",
           "terminalName": "Backend",
-          "shortcut": "w"
+          "shortcut": "b"
         },
         {
           "name": "Frontend",
           "command": "just run frontend",
           "terminalName": "Frontend",
-          "shortcut": "e"
+          "shortcut": "f"
         }
       ]
     },
     {
       "name": "Scraper",
       "color": "hotpink",
+      "shortcut": "s",
       "group": [
         {
           "name": "Stat Scraper",
