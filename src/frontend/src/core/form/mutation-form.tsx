@@ -9,29 +9,28 @@ import {
   UseFormWatch,
 } from "react-hook-form";
 
-import { Form, FormProps } from "./form";
+import { Form } from "./form";
 import { UseMutationFormOptions, useMutationForm } from "./use-mutation-form";
 
 export type MutationFormProps<
   FormValues extends FieldValues = FieldValues,
   MutationResult = any,
-> = Omit<FormProps, "children" | "onSubmit"> &
-  Pick<
-    UseMutationFormOptions<FormValues, MutationResult>,
-    "defaultValues" | "mutation" | "onComplete" | "schema"
-  > & {
-    children:
-      | ReactNode
-      | ((form: {
-          control: Control<FormValues>;
-          formState: FormState<FormValues>;
-          register: UseFormRegister<FormValues>;
-          setValue: UseFormSetValue<FormValues>;
-          submit: (e?: React.BaseSyntheticEvent) => Promise<void>;
-          watch: UseFormWatch<FormValues>;
-        }) => JSX.Element);
-    preventEnterSubmit?: boolean;
-  };
+> = Pick<
+  UseMutationFormOptions<FormValues, MutationResult>,
+  "defaultValues" | "mutation" | "onComplete" | "schema"
+> & {
+  children:
+    | ReactNode
+    | ((form: {
+        control: Control<FormValues>;
+        formState: FormState<FormValues>;
+        register: UseFormRegister<FormValues>;
+        setValue: UseFormSetValue<FormValues>;
+        submit: (e?: React.BaseSyntheticEvent) => Promise<void>;
+        watch: UseFormWatch<FormValues>;
+      }) => JSX.Element);
+  preventEnterSubmit?: boolean;
+};
 
 export const MutationForm = <
   FormValues extends FieldValues = FieldValues,
@@ -43,7 +42,6 @@ export const MutationForm = <
   onComplete,
   preventEnterSubmit,
   schema,
-  ...otherProps
 }: MutationFormProps<FormValues, MutationResult>) => {
   const { onSubmit, ...useFormReturn } = useMutationForm<
     FormValues,
@@ -70,7 +68,6 @@ export const MutationForm = <
 
           return onSubmit(e);
         }}
-        {...otherProps}
       >
         {typeof children === "function"
           ? children({ ...useFormReturn, submit: onSubmit })

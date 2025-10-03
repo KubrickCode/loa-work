@@ -1,4 +1,3 @@
-import { Flex, FlexProps } from "@chakra-ui/react";
 import * as RHF from "react-hook-form";
 
 import { Checkbox } from "./checkbox";
@@ -13,16 +12,17 @@ import { Select } from "./select";
 import { SubmitButton } from "./submit-button";
 
 export type FormProps<FormValues extends RHF.FieldValues = RHF.FieldValues> =
-  FlexProps & {
+  React.DetailedHTMLProps<
+    React.FormHTMLAttributes<HTMLFormElement>,
+    HTMLFormElement
+  > & {
     onSubmit: ReturnType<RHF.UseFormReturn<FormValues>["handleSubmit"]>;
   };
 
 const Form = <FormValues extends RHF.FieldValues>({
   onSubmit,
   ...otherProps
-}: FormProps<FormValues>) => (
-  <Flex as="form" direction="column" onSubmit={onSubmit} {...otherProps} />
-);
+}: FormProps<FormValues>) => <form onSubmit={onSubmit} {...otherProps} />;
 
 Form.Checkbox = Checkbox;
 Form.Field = Field;
