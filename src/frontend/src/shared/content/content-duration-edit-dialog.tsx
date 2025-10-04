@@ -3,12 +3,13 @@ import { Flex } from "@chakra-ui/react";
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
-import { useSafeQuery } from "~/core/graphql";
 import {
   ContentDurationEditDialogDocument,
   ContentDurationEditDocument,
   ContentDurationEditInput,
   ContentDurationEditMutation,
+  ContentDurationEditDialogQuery,
+  ContentDurationEditDialogQueryVariables,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
@@ -26,39 +27,45 @@ export const ContentDurationEditDialog = ({
   contentId,
   onComplete,
   ...dialogProps
-}: DialogProps & ContentDurationEditDialogProps) => {
-  const { data } = useSafeQuery(ContentDurationEditDialogDocument, {
-    variables: {
-      id: contentId,
-    },
-  });
-
-  const totalSeconds = data.content.duration;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-
+}: ContentDurationEditDialogProps & DialogProps) => {
   return (
-    <Dialog {...dialogProps}>
-      <Form.Mutation<ContentDurationEditInput, ContentDurationEditMutation>
-        defaultValues={{
-          contentId: contentId,
-          minutes: minutes,
-          seconds: seconds,
-        }}
-        mutation={ContentDurationEditDocument}
-        onComplete={() => {
+    <Dialog<
+      ContentDurationEditInput,
+      ContentDurationEditMutation,
+      ContentDurationEditDialogQuery,
+      ContentDurationEditDialogQueryVariables
+    >
+      defaultValues={(data) => {
+        const totalSeconds = data.content.duration;
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+
+        return {
+          contentId,
+          minutes,
+          seconds,
+        };
+      }}
+      form={{
+        mutation: ContentDurationEditDocument,
+        onComplete: () => {
           dialogProps.onClose();
           onComplete();
           toaster.create({
             title: "컨텐츠 소요시간이 수정되었습니다.",
             type: "success",
           });
-        }}
-        schema={schema}
-      >
-        <Dialog.Content>
+        },
+        schema,
+      }}
+      query={ContentDurationEditDialogDocument}
+      queryVariables={{ id: contentId }}
+      {...dialogProps}
+    >
+      {({ queryData }) => (
+        <>
           <Dialog.Header>
-            {data.content.displayName} - 소요시간 수정
+            {queryData.content.displayName} - 소요시간 수정
           </Dialog.Header>
           <Dialog.Body>
             <Form.Body>
@@ -78,8 +85,8 @@ export const ContentDurationEditDialog = ({
               <Form.SubmitButton />
             </Form.Footer>
           </Dialog.Footer>
-        </Dialog.Content>
-      </Form.Mutation>
+        </>
+      )}
     </Dialog>
   );
 };

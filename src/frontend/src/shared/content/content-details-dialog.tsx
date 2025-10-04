@@ -21,6 +21,8 @@ import { DialogCloseButton } from "~/core/dialog/dialog-close-button";
 import { useSafeQuery } from "~/core/graphql";
 import {
   ContentDetailsDialogDocument,
+  ContentDetailsDialogQuery,
+  ContentDetailsDialogQueryVariables,
   ContentDetailsDialogWageSectionDocument,
 } from "~/core/graphql/generated";
 import { TableSkeleton } from "~/core/loader";
@@ -44,132 +46,132 @@ export const ContentDetailsDialog = ({
   onComplete,
   open,
 }: ContentDetailsDialogProps) => {
-  const { data, refetch } = useSafeQuery(ContentDetailsDialogDocument, {
-    variables: {
-      contentId,
-    },
-  });
   const { isAuthenticated } = useAuth();
 
-  const basicInfoItems = [
-    {
-      label: "종류",
-      value: (
-        <ItemNameWithImage
-          name={data.content.contentCategory.name}
-          src={data.content.contentCategory.imageUrl}
-        />
-      ),
-    },
-    { label: "레벨", value: data.content.level },
-    { label: "이름", value: data.content.displayName },
-  ];
-
-  const contentRewardsItems = data.content.contentRewards.map(
-    (contentReward) => ({
-      label: (
-        <ItemNameWithImage
-          name={contentReward.item.name}
-          reverse
-          src={contentReward.item.imageUrl}
-        />
-      ),
-      value: contentReward.averageQuantity || "-",
-    })
-  );
-
-  const contentSeeMoreRewardsItems = data.content.contentSeeMoreRewards.map(
-    (contentSeeMoreReward) => ({
-      label: (
-        <ItemNameWithImage
-          name={contentSeeMoreReward.item.name}
-          reverse
-          src={contentSeeMoreReward.item.imageUrl}
-        />
-      ),
-      value: contentSeeMoreReward.quantity,
-    })
-  );
-
   return (
-    <Dialog
+    <Dialog<ContentDetailsDialogQuery, ContentDetailsDialogQueryVariables>
       onClose={() => {
         onClose();
         onComplete();
       }}
       open={open}
+      query={ContentDetailsDialogDocument}
+      queryVariables={{ contentId }}
       size="xl"
     >
-      <Dialog.Content>
-        <Dialog.Header>컨텐츠 상세 정보</Dialog.Header>
-        <Dialog.Body>
-          <Flex direction="column" gap={4}>
-            <Section title="기본 정보">
-              <DataGrid items={basicInfoItems} />
-            </Section>
-            <ContentWageSection contentId={contentId} items={data.items} />
-            <Section
-              title={
-                <Flex alignItems="center" gap={2}>
-                  <Text>보상 정보</Text>
-                  <Dialog.Trigger
-                    dialog={ContentRewardEditDialog}
-                    dialogProps={{
-                      contentId,
-                      onComplete: refetch,
-                    }}
-                    disabled={!isAuthenticated}
-                  >
-                    <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
-                      <IconButton
+      {({ queryData: data, refetch }) => {
+        const basicInfoItems = [
+          {
+            label: "종류",
+            value: (
+              <ItemNameWithImage
+                name={data.content.contentCategory.name}
+                src={data.content.contentCategory.imageUrl}
+              />
+            ),
+          },
+          { label: "레벨", value: data.content.level },
+          { label: "이름", value: data.content.displayName },
+        ];
+
+        const contentRewardsItems = data.content.contentRewards.map(
+          (contentReward) => ({
+            label: (
+              <ItemNameWithImage
+                name={contentReward.item.name}
+                reverse
+                src={contentReward.item.imageUrl}
+              />
+            ),
+            value: contentReward.averageQuantity || "-",
+          })
+        );
+
+        const contentSeeMoreRewardsItems =
+          data.content.contentSeeMoreRewards.map((contentSeeMoreReward) => ({
+            label: (
+              <ItemNameWithImage
+                name={contentSeeMoreReward.item.name}
+                reverse
+                src={contentSeeMoreReward.item.imageUrl}
+              />
+            ),
+            value: contentSeeMoreReward.quantity,
+          }));
+
+        return (
+          <>
+            <Dialog.Header>컨텐츠 상세 정보</Dialog.Header>
+            <Dialog.Body>
+              <Flex direction="column" gap={4}>
+                <Section title="기본 정보">
+                  <DataGrid items={basicInfoItems} />
+                </Section>
+                <ContentWageSection contentId={contentId} items={data.items} />
+                <Section
+                  title={
+                    <Flex alignItems="center" gap={2}>
+                      <Text>보상 정보</Text>
+                      <Dialog.Trigger
+                        dialog={ContentRewardEditDialog}
+                        dialogProps={{
+                          contentId,
+                          onComplete: refetch,
+                        }}
                         disabled={!isAuthenticated}
-                        size="2xs"
-                        variant="surface"
                       >
-                        <IoIosSettings />
-                      </IconButton>
-                    </LoginTooltip>
-                  </Dialog.Trigger>
-                </Flex>
-              }
-            >
-              <DataGrid items={contentRewardsItems} />
-            </Section>
-            {contentSeeMoreRewardsItems.length > 0 && (
-              <Section
-                title={
-                  <Flex alignItems="center" gap={2}>
-                    <Text>더보기 보상 정보</Text>
-                    <Dialog.Trigger
-                      dialog={ContentSeeMoreRewardEditDialog}
-                      dialogProps={{
-                        contentId,
-                        onComplete: refetch,
-                      }}
-                      disabled={!isAuthenticated}
-                    >
-                      <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
-                        <IconButton
+                        <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
+                          <IconButton
+                            disabled={!isAuthenticated}
+                            size="2xs"
+                            variant="surface"
+                          >
+                            <IoIosSettings />
+                          </IconButton>
+                        </LoginTooltip>
+                      </Dialog.Trigger>
+                    </Flex>
+                  }
+                >
+                  <DataGrid items={contentRewardsItems} />
+                </Section>
+                {contentSeeMoreRewardsItems.length > 0 && (
+                  <Section
+                    title={
+                      <Flex alignItems="center" gap={2}>
+                        <Text>더보기 보상 정보</Text>
+                        <Dialog.Trigger
+                          dialog={ContentSeeMoreRewardEditDialog}
+                          dialogProps={{
+                            contentId,
+                            onComplete: refetch,
+                          }}
                           disabled={!isAuthenticated}
-                          size="2xs"
-                          variant="surface"
                         >
-                          <IoIosSettings />
-                        </IconButton>
-                      </LoginTooltip>
-                    </Dialog.Trigger>
-                  </Flex>
-                }
-              >
-                <DataGrid items={contentSeeMoreRewardsItems} />
-              </Section>
-            )}
-          </Flex>
-        </Dialog.Body>
-        <Dialog.Footer>
-          <DialogCloseButton />
-        </Dialog.Footer>
-      </Dialog.Content>
+                          <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
+                            <IconButton
+                              disabled={!isAuthenticated}
+                              size="2xs"
+                              variant="surface"
+                            >
+                              <IoIosSettings />
+                            </IconButton>
+                          </LoginTooltip>
+                        </Dialog.Trigger>
+                      </Flex>
+                    }
+                  >
+                    <DataGrid items={contentSeeMoreRewardsItems} />
+                  </Section>
+                )}
+              </Flex>
+            </Dialog.Body>
+            <Dialog.Footer>
+              <DialogCloseButton />
+            </Dialog.Footer>
+          </>
+        );
+      }}
     </Dialog>
   );
 };

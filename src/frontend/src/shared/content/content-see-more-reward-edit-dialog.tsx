@@ -1,12 +1,13 @@
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
-import { useSafeQuery } from "~/core/graphql";
 import {
   ContentSeeMoreRewardEditDialogDocument,
   ContentSeeMoreRewardsEditDocument,
   ContentSeeMoreRewardsEditInput,
   ContentSeeMoreRewardsEditMutation,
+  ContentSeeMoreRewardEditDialogQuery,
+  ContentSeeMoreRewardEditDialogQueryVariables,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
@@ -29,45 +30,46 @@ export const ContentSeeMoreRewardEditDialog = ({
   onComplete,
   ...dialogProps
 }: ContentSeeMoreRewardEditDialogProps & DialogProps) => {
-  const { data } = useSafeQuery(ContentSeeMoreRewardEditDialogDocument, {
-    variables: {
-      id: contentId,
-    },
-  });
-
   return (
-    <Dialog {...dialogProps}>
-      <Form.Mutation<
-        ContentSeeMoreRewardsEditInput,
-        ContentSeeMoreRewardsEditMutation
-      >
-        defaultValues={{
-          contentSeeMoreRewards: data.content.contentSeeMoreRewards.map(
-            (reward) => ({
-              contentId,
-              itemId: reward.item.id,
-              quantity: reward.quantity,
-            })
-          ),
-        }}
-        mutation={ContentSeeMoreRewardsEditDocument}
-        onComplete={() => {
+    <Dialog<
+      ContentSeeMoreRewardsEditInput,
+      ContentSeeMoreRewardsEditMutation,
+      ContentSeeMoreRewardEditDialogQuery,
+      ContentSeeMoreRewardEditDialogQueryVariables
+    >
+      defaultValues={(data) => ({
+        contentSeeMoreRewards: data.content.contentSeeMoreRewards.map(
+          (reward) => ({
+            contentId,
+            itemId: reward.item.id,
+            quantity: reward.quantity,
+          })
+        ),
+      })}
+      form={{
+        mutation: ContentSeeMoreRewardsEditDocument,
+        onComplete: () => {
           dialogProps.onClose();
           onComplete();
           toaster.create({
             title: "더보기 보상이 수정되었습니다.",
             type: "success",
           });
-        }}
-        schema={schema}
-      >
-        <Dialog.Content>
+        },
+        schema,
+      }}
+      query={ContentSeeMoreRewardEditDialogDocument}
+      queryVariables={{ id: contentId }}
+      {...dialogProps}
+    >
+      {({ queryData }) => (
+        <>
           <Dialog.Header>
-            {data.content.displayName} - 더보기 보상 수정
+            {queryData.content.displayName} - 더보기 보상 수정
           </Dialog.Header>
           <Dialog.Body>
             <Form.Body>
-              {data.content.contentSeeMoreRewards.map((reward, index) => (
+              {queryData.content.contentSeeMoreRewards.map((reward, index) => (
                 <Form.Field
                   key={reward.id}
                   label={reward.item.name}
@@ -84,8 +86,8 @@ export const ContentSeeMoreRewardEditDialog = ({
               <Form.SubmitButton />
             </Form.Footer>
           </Dialog.Footer>
-        </Dialog.Content>
-      </Form.Mutation>
+        </>
+      )}
     </Dialog>
   );
 };
