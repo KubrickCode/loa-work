@@ -23,6 +23,8 @@ import {
   ContentDetailsDialogDocument,
   ContentDetailsDialogWageSectionDocument,
   ContentGroupDetailsDialogDocument,
+  ContentGroupDetailsDialogQuery,
+  ContentGroupDetailsDialogQueryVariables,
 } from "~/core/graphql/generated";
 import { TableSkeleton } from "~/core/loader";
 import { Section } from "~/core/section";
@@ -34,10 +36,10 @@ import { ContentDurationEditDialog } from "./content-duration-edit-dialog";
 import { ContentRewardEditDialog } from "./content-reward-edit-dialog";
 import { ContentSeeMoreRewardEditDialog } from "./content-see-more-reward-edit-dialog";
 
-type ContentGroupDetailsDialogProps = DialogProps & {
+type ContentGroupDetailsDialogProps = {
   contentIds: number[];
   onComplete: () => void;
-};
+} & DialogProps;
 
 export const ContentGroupDetailsDialog = ({
   contentIds,
@@ -45,42 +47,53 @@ export const ContentGroupDetailsDialog = ({
   onComplete,
   open,
 }: ContentGroupDetailsDialogProps) => {
-  const { data } = useSafeQuery(ContentGroupDetailsDialogDocument, {
-    variables: {
-      contentIds,
-    },
-  });
-
   return (
-    <Dialog
+    <Dialog<
+      ContentGroupDetailsDialogQuery,
+      ContentGroupDetailsDialogQueryVariables
+    >
       onClose={() => {
         onClose();
         onComplete();
       }}
       open={open}
+      query={ContentGroupDetailsDialogDocument}
+      queryVariables={{ contentIds }}
       size="xl"
     >
-      <Dialog.Content>
-        <Dialog.Header>컨텐츠 상세 정보</Dialog.Header>
-        <Dialog.Body>
-          <Flex direction="column" gap={4}>
-            {data.contentGroup.contents.length > 1 ? (
-              data.contentGroup.contents.map((content) => (
-                <Section key={content.id} title={`${content.gate}관문`}>
-                  <ContentGroupSection contentId={content.id} />
-                </Section>
-              ))
-            ) : (
-              <ContentGroupSection
-                contentId={data.contentGroup.contents[0].id}
-              />
-            )}
-          </Flex>
-        </Dialog.Body>
-        <Dialog.Footer>
-          <DialogCloseButton />
-        </Dialog.Footer>
-      </Dialog.Content>
+      {({ queryData: data }) => (
+        <>
+          <Dialog.Header>컨텐츠 상세 정보</Dialog.Header>
+          <Dialog.Body>
+            <Flex direction="column" gap={4}>
+              <Suspense
+                fallback={
+                  <Flex direction="column" gap={4}>
+                    <TableSkeleton line={3} />
+                    <TableSkeleton line={3} />
+                    <TableSkeleton line={3} />
+                  </Flex>
+                }
+              >
+                {data.contentGroup.contents.length > 1 ? (
+                  data.contentGroup.contents.map((content) => (
+                    <Section key={content.id} title={`${content.gate}관문`}>
+                      <ContentGroupSection contentId={content.id} />
+                    </Section>
+                  ))
+                ) : (
+                  <ContentGroupSection
+                    contentId={data.contentGroup.contents[0].id}
+                  />
+                )}
+              </Suspense>
+            </Flex>
+          </Dialog.Body>
+          <Dialog.Footer>
+            <DialogCloseButton />
+          </Dialog.Footer>
+        </>
+      )}
     </Dialog>
   );
 };

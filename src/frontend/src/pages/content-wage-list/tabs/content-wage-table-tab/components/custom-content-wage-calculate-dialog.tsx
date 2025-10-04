@@ -6,13 +6,13 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import { FormatGold } from "~/core/format";
-import { useSafeQuery } from "~/core/graphql";
 import {
   CustomContentWageCalculateDialogMutationDocument,
   CustomContentWageCalculateDialogMutationMutation,
   CustomContentWageCalculateDialogQueryDocument,
   CustomContentWageCalculateInput,
   CustomContentWageCalculateResult,
+  CustomContentWageCalculateDialogQueryQuery,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
@@ -27,25 +27,25 @@ const schema = z.object({
 });
 
 export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
-  const { data } = useSafeQuery(CustomContentWageCalculateDialogQueryDocument);
   const [result, setResult] = useState<CustomContentWageCalculateResult>();
 
   return (
-    <Dialog {...dialogProps}>
-      <Form.Mutation<
-        CustomContentWageCalculateInput,
-        CustomContentWageCalculateDialogMutationMutation
-      >
-        defaultValues={{
-          minutes: 0,
-          seconds: 0,
-          items: data.items.map((item) => ({
-            id: item.id,
-            quantity: 0,
-          })),
-        }}
-        mutation={CustomContentWageCalculateDialogMutationDocument}
-        onComplete={({ data }) => {
+    <Dialog<
+      CustomContentWageCalculateInput,
+      CustomContentWageCalculateDialogMutationMutation,
+      CustomContentWageCalculateDialogQueryQuery
+    >
+      defaultValues={(data) => ({
+        minutes: 0,
+        seconds: 0,
+        items: data.items.map((item) => ({
+          id: item.id,
+          quantity: 0,
+        })),
+      })}
+      form={{
+        mutation: CustomContentWageCalculateDialogMutationDocument,
+        onComplete: ({ data }) => {
           toaster.create({
             title: "계산이 완료되었습니다.",
             type: "success",
@@ -53,10 +53,14 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
           if (data?.customContentWageCalculate.ok) {
             setResult(data.customContentWageCalculate);
           }
-        }}
-        schema={schema}
-      >
-        <Dialog.Content>
+        },
+        schema,
+      }}
+      query={CustomContentWageCalculateDialogQueryDocument}
+      {...dialogProps}
+    >
+      {({ queryData }) => (
+        <>
           <Dialog.Header>컨텐츠 시급 계산기</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
@@ -77,7 +81,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
                 </Flex>
               </Flex>
 
-              {data.items.map((item, index) => (
+              {queryData.items.map((item, index) => (
                 <Form.Field
                   key={item.id}
                   label={`${item.name}`}
@@ -116,8 +120,8 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
               <Form.SubmitButton>계산</Form.SubmitButton>
             </Form.Footer>
           </Dialog.Footer>
-        </Dialog.Content>
-      </Form.Mutation>
+        </>
+      )}
     </Dialog>
   );
 };

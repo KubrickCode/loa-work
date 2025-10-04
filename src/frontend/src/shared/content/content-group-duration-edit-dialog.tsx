@@ -3,12 +3,13 @@ import { Flex, Text } from "@chakra-ui/react";
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
-import { useSafeQuery } from "~/core/graphql";
 import {
   ContentDurationsEditDocument,
   ContentDurationsEditInput,
   ContentDurationsEditMutation,
   ContentGroupDurationEditDialogDocument,
+  ContentGroupDurationEditDialogQuery,
+  ContentGroupDurationEditDialogQueryVariables,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
@@ -30,50 +31,54 @@ export const ContentGroupDurationEditDialog = ({
   contentIds,
   onComplete,
   ...dialogProps
-}: DialogProps & ContentGroupDurationEditDialogProps) => {
-  const { data } = useSafeQuery(ContentGroupDurationEditDialogDocument, {
-    variables: {
-      ids: contentIds,
-    },
-  });
-
+}: ContentGroupDurationEditDialogProps & DialogProps) => {
   return (
-    <Dialog {...dialogProps}>
-      <Form.Mutation<ContentDurationsEditInput, ContentDurationsEditMutation>
-        defaultValues={{
-          contentDurations: data.contents.map(({ duration, id }) => {
-            const totalSeconds = duration;
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
+    <Dialog<
+      ContentDurationsEditInput,
+      ContentDurationsEditMutation,
+      ContentGroupDurationEditDialogQuery,
+      ContentGroupDurationEditDialogQueryVariables
+    >
+      defaultValues={(data) => ({
+        contentDurations: data.contents.map(({ duration, id }) => {
+          const totalSeconds = duration;
+          const minutes = Math.floor(totalSeconds / 60);
+          const seconds = totalSeconds % 60;
 
-            return {
-              contentId: id,
-              minutes: minutes,
-              seconds: seconds,
-            };
-          }),
-        }}
-        mutation={ContentDurationsEditDocument}
-        onComplete={() => {
+          return {
+            contentId: id,
+            minutes,
+            seconds,
+          };
+        }),
+      })}
+      form={{
+        mutation: ContentDurationsEditDocument,
+        onComplete: () => {
           dialogProps.onClose();
           onComplete();
           toaster.create({
             title: "컨텐츠 소요시간이 수정되었습니다.",
             type: "success",
           });
-        }}
-        schema={schema}
-      >
-        <Dialog.Content>
+        },
+        schema,
+      }}
+      query={ContentGroupDurationEditDialogDocument}
+      queryVariables={{ ids: contentIds }}
+      {...dialogProps}
+    >
+      {({ queryData }) => (
+        <>
           <Dialog.Header>
-            {data.contentGroup.name} - 소요시간 수정
+            {queryData.contentGroup.name} - 소요시간 수정
           </Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               <Flex direction="column" gap={4}>
-                {data.contents.map(({ gate }, index) => (
-                  <Flex direction="column" gap={1}>
-                    {data.contents.length > 1 && (
+                {queryData.contents.map(({ gate }, index) => (
+                  <Flex direction="column" gap={1} key={index}>
+                    {queryData.contents.length > 1 && (
                       <Text fontSize="xs">{gate}관문</Text>
                     )}
                     <Flex gap={4} paddingLeft={1}>
@@ -101,8 +106,8 @@ export const ContentGroupDurationEditDialog = ({
               <Form.SubmitButton />
             </Form.Footer>
           </Dialog.Footer>
-        </Dialog.Content>
-      </Form.Mutation>
+        </>
+      )}
     </Dialog>
   );
 };

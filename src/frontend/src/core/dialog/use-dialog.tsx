@@ -1,13 +1,10 @@
-import { Center, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import {
   ComponentPropsWithoutRef,
   createElement,
   ElementType,
-  Suspense,
   useState,
 } from "react";
-
-import { BlockLoader } from "../loader";
 
 export type UseDialogProps<T extends ElementType> = {
   dialog: T;
@@ -40,15 +37,11 @@ export const useDialog = <T extends ElementType>({
   const renderModal = () => {
     if (!open || disabled) return null;
 
-    return (
-      <Suspense fallback={<BackdropLoader />}>
-        {createElement(dialog, {
-          ...currentDialogProps,
-          onClose,
-          open,
-        })}
-      </Suspense>
-    );
+    return createElement(dialog, {
+      ...currentDialogProps,
+      onClose,
+      open,
+    });
   };
 
   return {
@@ -58,20 +51,4 @@ export const useDialog = <T extends ElementType>({
     open,
     renderModal,
   };
-};
-
-const BackdropLoader = () => {
-  return (
-    <Center
-      bg="blackAlpha.600"
-      bottom={0}
-      left={0}
-      position="fixed"
-      right={0}
-      top={0}
-      zIndex="modal"
-    >
-      <BlockLoader />
-    </Center>
-  );
 };

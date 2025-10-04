@@ -1,19 +1,20 @@
 import { toaster } from "~/core/chakra-components/ui/toaster";
 import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
-import { useSafeQuery } from "~/core/graphql";
 import {
   ContentRewardReportDialogDocument,
   ContentRewardsReportDocument,
   ContentRewardsReportInput,
   ContentRewardsReportMutation,
+  ContentRewardReportDialogQuery,
+  ContentRewardReportDialogQueryVariables,
 } from "~/core/graphql/generated";
 
 const schema = z.object({
   contentRewards: z.array(
     z.object({
-      id: z.number(),
       averageQuantity: z.number(),
+      id: z.number(),
     })
   ),
 });
@@ -26,36 +27,40 @@ export const ContentRewardReportDialog = ({
   contentId,
   ...dialogProps
 }: ContentRewardReportDialogProps & DialogProps) => {
-  const { data } = useSafeQuery(ContentRewardReportDialogDocument, {
-    variables: {
-      id: contentId,
-    },
-  });
-
   return (
-    <Dialog {...dialogProps}>
-      <Form.Mutation<ContentRewardsReportInput, ContentRewardsReportMutation>
-        defaultValues={{
-          contentRewards: data.content.contentRewards.map((reward) => ({
-            id: reward.id,
-            averageQuantity: reward.averageQuantity,
-          })),
-        }}
-        mutation={ContentRewardsReportDocument}
-        onComplete={() => {
+    <Dialog<
+      ContentRewardsReportInput,
+      ContentRewardsReportMutation,
+      ContentRewardReportDialogQuery,
+      ContentRewardReportDialogQueryVariables
+    >
+      defaultValues={(data) => ({
+        contentRewards: data.content.contentRewards.map((reward) => ({
+          averageQuantity: reward.averageQuantity,
+          id: reward.id,
+        })),
+      })}
+      form={{
+        mutation: ContentRewardsReportDocument,
+        onComplete: () => {
           dialogProps.onClose();
           toaster.create({
             title: "컨텐츠 보상이 제보되었습니다.",
             type: "success",
           });
-        }}
-        schema={schema}
-      >
-        <Dialog.Content>
+        },
+        schema,
+      }}
+      query={ContentRewardReportDialogDocument}
+      queryVariables={{ id: contentId }}
+      {...dialogProps}
+    >
+      {({ queryData }) => (
+        <>
           <Dialog.Header>보상 제보</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
-              {data.content.contentRewards.map((reward, index) => (
+              {queryData.content.contentRewards.map((reward, index) => (
                 <Form.Field
                   key={reward.id}
                   label={reward.item.name}
@@ -72,8 +77,8 @@ export const ContentRewardReportDialog = ({
               <Form.SubmitButton />
             </Form.Footer>
           </Dialog.Footer>
-        </Dialog.Content>
-      </Form.Mutation>
+        </>
+      )}
     </Dialog>
   );
 };
