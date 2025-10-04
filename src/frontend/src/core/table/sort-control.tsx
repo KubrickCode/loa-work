@@ -31,20 +31,11 @@ export const SortControl = ({
 
   return (
     <Flex
-      _active={{ transform: "scale(0.95)" }}
-      _focusVisible={{
-        outline: "2px solid",
-        outlineColor: "gold.500",
-        outlineOffset: "2px",
-      }}
-      _hover={{ bg: "gray.100" }}
       alignItems="center"
       cursor="pointer"
       direction="column"
       gap="1px"
       justifyContent="center"
-      minH={{ base: "44px", md: "auto" }}
-      minW={{ base: "44px", md: "auto" }}
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -52,11 +43,9 @@ export const SortControl = ({
           onClick();
         }
       }}
-      paddingX={{ base: 2, md: 1 }}
-      paddingY={{ base: 2, md: 0 }}
+      paddingX={1}
       role="button"
       tabIndex={0}
-      transition="all 0.2s"
     >
       <ArrowIcon
         color={currentState === "asc" ? activeColor : inactiveColor}
