@@ -134,13 +134,6 @@
       ]
     },
     {
-      "name": "Release",
-      "shortcut": "r",
-      "color": "orange",
-      "command": "git push -f origin main:release",
-      "terminalName": "Release"
-    },
-    {
       "name": "Utils",
       "shortcut": "u",
       "color": "purple",
@@ -165,6 +158,13 @@
       "shortcut": "c",
       "command": "export IS_SANDBOX=1 && claude --dangerously-skip-permissions",
       "useVsCodeApi": false
+    },
+    {
+      "name": "Release",
+      "color": "orange",
+      "shortcut": "r",
+      "command": "just release",
+      "terminalName": "Release"
     }
   ],
   "quickCommandButtons.refreshButton": {

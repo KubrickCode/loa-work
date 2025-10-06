@@ -1,9 +1,13 @@
-name: Deploy Services
+name: Deploy and Release Services
+
 on:
   push:
     branches: [release]
-    paths: ["src/backend/**", "src/go/**", "src/frontend/**"]
+    paths: ["src/backend/**", "src/go/**", "src/frontend/**", "package.json"]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   deploy-web-service:
@@ -147,15 +151,15 @@ jobs:
           DB_USER=$(echo $DB_URL | sed -n 's/.*:\/\/\([^:]*\):.*/\1/p')
           DB_PASS=$(echo $DB_URL | sed -n 's/.*:\/\/[^:]*:\([^@]*\)@.*/\1/p')
           DB_NAME=$(echo $DB_URL | sed -n 's/.*\/\([^?]*\).*/\1/p')
-          
+
           # Create servers.json with actual DB details
           sed "s/HOST_PLACEHOLDER/$DB_HOST/g; s/USER_PLACEHOLDER/$DB_USER/g; s/DB_NAME_PLACEHOLDER/$DB_NAME/g" \
             infra/pgadmin/servers.json > servers.json
-          
+
           # Create pgpass with actual credentials  
           sed "s/HOST_PLACEHOLDER/$DB_HOST/g; s/USER_PLACEHOLDER/$DB_USER/g; s/PASSWORD_PLACEHOLDER/$DB_PASS/g" \
             infra/pgadmin/pgpass > pgpass
-          
+
           chmod 600 pgpass
 
       - name: Copy pgAdmin config to EC2
@@ -338,3 +342,70 @@ jobs:
               -e LOA_API_TOKEN="${{ secrets.LOA_API_TOKEN }}" \
               --restart always \
               ${{ secrets.ECR_REGISTRY }}/loa-work/${{ matrix.name }}:latest
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [deploy-web-service, deploy-go-services]
+    if: success()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Version: v$VERSION"
+
+      - name: Check if release exists
+        id: check
+        run: |
+          if gh release view "v$(node -p "require('./package.json').version")" &>/dev/null; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "⚠️ Release already exists, skipping"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Generate changelog
+        id: changelog
+        if: steps.check.outputs.exists == 'false'
+        run: |
+          CURRENT="v$(node -p "require('./package.json').version")"
+          PREVIOUS=$(git tag --sort=-v:refname | grep -v "$CURRENT" | head -1 || echo "")
+
+          if [ -z "$PREVIOUS" ]; then
+            echo "changelog=Initial release" >> $GITHUB_OUTPUT
+          else
+            CHANGELOG=$(git log $PREVIOUS..HEAD --pretty=format:"- %s" --no-merges)
+            echo "changelog<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGELOG" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Release
+        if: steps.check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: ${{ steps.version.outputs.version }}
+          body: |
+            ## 🚀 What's New in ${{ steps.version.outputs.version }}
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ---
+
+            ✅ **Successfully deployed to AWS**
+
+            - Website: https://loa-work.info
+            - All services are running
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
