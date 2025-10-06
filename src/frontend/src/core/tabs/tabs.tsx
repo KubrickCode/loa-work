@@ -57,7 +57,12 @@ export const Tabs = ({ panels, queryKey = "tab" }: TabsProps) => {
       </ChakraTabs.List>
       <AnimatePresence mode="wait">
         {panels.map((panel) => (
-          <ChakraTabs.Content key={panel.id} pt={6} value={panel.label}>
+          <ChakraTabs.Content
+            key={panel.id}
+            outline="none"
+            pt={6}
+            value={panel.label}
+          >
             <motion.div
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -10 }}
