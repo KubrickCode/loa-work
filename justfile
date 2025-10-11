@@ -81,6 +81,7 @@ lint target="all":
     all)
       just lint backend
       just lint frontend
+      just lint go
       ;;
     backend)
       prettier --write "{{ backend_dir }}/src/**/*.ts"
@@ -91,6 +92,9 @@ lint target="all":
       prettier --write "{{ frontend_dir }}/src/**/*.{ts,tsx}"
       cd "{{ frontend_dir }}"
       yarn eslint --ignore-pattern "generated.tsx" --max-warnings=0 "src/**/*.tsx"
+      ;;
+    go)
+      gofmt -w "{{ root_dir }}/src/go"
       ;;
     *)
       echo "Unknown target: {{ target }}"

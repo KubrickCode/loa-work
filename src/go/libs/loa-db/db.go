@@ -22,7 +22,7 @@ type DB interface {
 }
 
 type database struct {
-	db       boil.ContextExecutor
+	db         boil.ContextExecutor
 	originalDB *sql.DB // Keep reference to original DB for Begin() calls
 
 	item                ItemRepository
