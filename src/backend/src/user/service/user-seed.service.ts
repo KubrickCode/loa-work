@@ -5,10 +5,10 @@ import { Prisma } from "@prisma/client";
 export class UserSeedService {
   async makeAllSeedData(userId: number, tx: Prisma.TransactionClient) {
     const user = await tx.user.findUniqueOrThrow({
-      where: { id: userId },
       include: {
         userItems: true,
       },
+      where: { id: userId },
     });
 
     if (!user.userItems.length) {
@@ -25,10 +25,10 @@ export class UserSeedService {
 
     await tx.userItem.createMany({
       data: defaultItems.map(({ id, price }) => ({
+        createdAt,
         itemId: id,
         price,
         userId,
-        createdAt,
       })),
     });
   }

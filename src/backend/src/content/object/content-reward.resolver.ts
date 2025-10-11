@@ -11,11 +11,6 @@ export class ContentRewardResolver {
     private dataLoaderService: DataLoaderService
   ) {}
 
-  @ResolveField(() => Item)
-  async item(@Parent() contentReward: ContentReward) {
-    return await this.dataLoaderService.item.findUniqueOrThrowById(contentReward.itemId);
-  }
-
   @ResolveField(() => Float)
   async averageQuantity(@Parent() contentReward: ContentReward) {
     return await this.userContentService.getContentRewardAverageQuantity(contentReward.id);
@@ -24,5 +19,10 @@ export class ContentRewardResolver {
   @ResolveField(() => Boolean)
   async isSellable(@Parent() contentReward: ContentReward) {
     return await this.userContentService.getContentRewardIsSellable(contentReward.id);
+  }
+
+  @ResolveField(() => Item)
+  async item(@Parent() contentReward: ContentReward) {
+    return await this.dataLoaderService.item.findUniqueOrThrowById(contentReward.itemId);
   }
 }

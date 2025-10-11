@@ -24,10 +24,10 @@ export const ContentRewardListPieChart = () => {
     () =>
       data.contentList.map((content) => {
         const rewards = content.contentRewards.map((reward) => ({
-          name: reward.item.name,
-          value: reward.averageQuantity * reward.item.price,
-          rawGold: reward.averageQuantity * reward.item.price,
           color: reward.item.pieColor,
+          name: reward.item.name,
+          rawGold: reward.averageQuantity * reward.item.price,
+          value: reward.averageQuantity * reward.item.price,
         }));
 
         rewards.sort((a, b) => b.value - a.value);
@@ -37,10 +37,10 @@ export const ContentRewardListPieChart = () => {
           const topRewards = rewards.slice(0, 4);
           if (othersValue > 0) {
             topRewards.push({
-              name: "기타",
-              value: othersValue,
-              rawGold: othersValue,
               color: "#808080",
+              name: "기타",
+              rawGold: othersValue,
+              value: othersValue,
             });
           }
           return {
@@ -92,10 +92,10 @@ export const ContentRewardListPieChart = () => {
                 <Tooltip
                   contentStyle={{
                     backgroundColor: tooltipBgColor,
-                    color: tooltipTextColor,
                     border: "none",
                     borderRadius: "4px",
                     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                    color: tooltipTextColor,
                   }}
                   formatter={(_, name, props) => [
                     <Flex alignItems="center" color={tooltipTextColor} fontSize="sm" gap={1}>

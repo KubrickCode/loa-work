@@ -90,15 +90,20 @@ function Dialog(props: DialogImplementationProps): JSX.Element {
     queryVariables,
     size = "md",
   } = props;
+  // Note: query and form props are determined by the component's overload signature
+  // and do not change during the component's lifetime, making conditional Hook calls safe here.
+
   const queryResult = query
-    ? useQuery(query, {
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useQuery(query, {
         skip: !open,
         variables: queryVariables,
       })
     : null;
 
   const formReturn = form
-    ? useMutationForm({
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useMutationForm({
         defaultValues: undefined,
         mutation: form.mutation,
         onComplete: form.onComplete,
@@ -110,6 +115,7 @@ function Dialog(props: DialogImplementationProps): JSX.Element {
     if (formReturn && defaultValues && queryResult?.data && !queryResult.loading) {
       formReturn.reset(defaultValues(queryResult.data));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryResult?.data, queryResult?.loading]);
 
   const isLoading = queryResult?.loading || false;
@@ -147,7 +153,7 @@ function Dialog(props: DialogImplementationProps): JSX.Element {
       } as any);
     }
     return children;
-  }, [isLoading, error, query, queryData, children, formReturn, queryResult]);
+  }, [children, error, formReturn, isLoading, query, queryData, queryResult]);
 
   const content = useMemo(() => {
     if (formReturn) {

@@ -19,15 +19,15 @@ export class ItemResolver {
   @ResolveField(() => String)
   async pieColor(@Parent() item: Item) {
     const colorMap: Record<string, string> = {
+      "1레벨 보석": "#E60073", // 핑크색
       골드: "#FFD700", // 금색
       "골드(귀속)": "#FFD700", // 금색
-      "운명의 파편": "#8A2BE2", // 보라색
-      "운명의 돌파석": "#9370DB", // 연한 보라색
-      "운명의 파괴석": "#DC143C", // 진한 빨간색 (Crimson)
-      "운명의 수호석": "#4169E1", // 로얄 블루
-      "1레벨 보석": "#E60073", // 핑크색
-      "용암의 숨결": "#FF4500", // 붉은 오렌지색
       "빙하의 숨결": "#1E90FF", // 밝은 파란색
+      "용암의 숨결": "#FF4500", // 붉은 오렌지색
+      "운명의 돌파석": "#9370DB", // 연한 보라색
+      "운명의 수호석": "#4169E1", // 로얄 블루
+      "운명의 파괴석": "#DC143C", // 진한 빨간색 (Crimson)
+      "운명의 파편": "#8A2BE2", // 보라색
     };
 
     return colorMap[item.name] || "#8884d8";
@@ -44,8 +44,8 @@ export class ItemResolver {
     return await this.prisma.userItem.findUniqueOrThrow({
       where: {
         userId_itemId: {
-          userId: user.id,
           itemId: item.id,
+          userId: user.id,
         },
       },
     });

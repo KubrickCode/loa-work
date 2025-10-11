@@ -15,15 +15,15 @@ type AuctionItemListTableProps = {
 
 const AuctionItemListTableContent = ({ nameKeyword }: AuctionItemListTableProps) => {
   const { data } = useSafeQuery(AuctionItemListTableDocument, {
+    fetchPolicy: "cache-and-network",
     variables: {
       filter: {
         isStatScraperEnabled: true,
         nameKeyword,
       },
-      take: 1,
       orderBy: [{ field: "updatedAt", order: "desc" }],
+      take: 1,
     },
-    fetchPolicy: "cache-and-network",
   });
 
   return (

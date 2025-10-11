@@ -10,8 +10,8 @@ export const Header = () => {
       as="header"
       backdropFilter="blur(12px)"
       bg={{
-        _light: "bg.surface",
         _dark: "neutral.850",
+        _light: "bg.surface",
       }}
       borderBottomWidth="1px"
       borderColor="border.default"

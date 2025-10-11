@@ -26,78 +26,6 @@ export class ContentGroupWageListQuery {
     private contentWageService: ContentWageService
   ) {}
 
-  @Query(() => [ContentGroupWage])
-  async contentGroupWageList(
-    @Args("filter", { nullable: true }) filter?: ContentGroupWageListFilter,
-    @Args("orderBy", {
-      type: () => [OrderByArg],
-      nullable: true,
-    })
-    orderBy?: OrderByArg[]
-  ) {
-    const contents = await this.prisma.content.findMany({
-      where: this.buildWhereArgs(filter),
-      orderBy: [
-        {
-          contentCategory: {
-            id: "asc",
-          },
-        },
-        {
-          level: "asc",
-        },
-        {
-          id: "asc",
-        },
-      ],
-      include: {
-        contentCategory: true,
-        contentSeeMoreRewards: {
-          include: {
-            item: true,
-          },
-        },
-      },
-    });
-
-    const contentGroups = _.groupBy(
-      contents,
-      (content) => `${content.name}_${content.contentCategoryId}`
-    );
-
-    const promises = Object.entries(contentGroups).map(async ([_, groupContents]) => {
-      const contentIds = groupContents.map((content) => content.id);
-
-      const representative = groupContents[0];
-
-      const wage = await this.contentWageService.getContentGroupWage(contentIds, {
-        includeIsBound: filter?.includeIsBound,
-        includeItemIds: filter?.includeItemIds,
-        includeIsSeeMore: filter?.includeIsSeeMore,
-      });
-
-      return {
-        contentGroup: {
-          contentIds,
-          name: representative.name,
-          level: representative.level,
-          contentCategoryId: representative.contentCategoryId,
-        },
-        ...wage,
-      };
-    });
-
-    const result = orderBy
-      ? _.orderBy(
-          await Promise.all(promises),
-          orderBy.map((order) => order.field),
-          orderBy.map((order) => order.order)
-        )
-      : await Promise.all(promises);
-
-    return result;
-  }
-
   buildWhereArgs(filter?: ContentGroupWageListFilter) {
     const where: Prisma.ContentWhereInput = {};
 
@@ -129,5 +57,77 @@ export class ContentGroupWageListQuery {
     }
 
     return where;
+  }
+
+  @Query(() => [ContentGroupWage])
+  async contentGroupWageList(
+    @Args("filter", { nullable: true }) filter?: ContentGroupWageListFilter,
+    @Args("orderBy", {
+      nullable: true,
+      type: () => [OrderByArg],
+    })
+    orderBy?: OrderByArg[]
+  ) {
+    const contents = await this.prisma.content.findMany({
+      include: {
+        contentCategory: true,
+        contentSeeMoreRewards: {
+          include: {
+            item: true,
+          },
+        },
+      },
+      orderBy: [
+        {
+          contentCategory: {
+            id: "asc",
+          },
+        },
+        {
+          level: "asc",
+        },
+        {
+          id: "asc",
+        },
+      ],
+      where: this.buildWhereArgs(filter),
+    });
+
+    const contentGroups = _.groupBy(
+      contents,
+      (content) => `${content.name}_${content.contentCategoryId}`
+    );
+
+    const promises = Object.entries(contentGroups).map(async ([_, groupContents]) => {
+      const contentIds = groupContents.map((content) => content.id);
+
+      const representative = groupContents[0];
+
+      const wage = await this.contentWageService.getContentGroupWage(contentIds, {
+        includeIsBound: filter?.includeIsBound,
+        includeIsSeeMore: filter?.includeIsSeeMore,
+        includeItemIds: filter?.includeItemIds,
+      });
+
+      return {
+        contentGroup: {
+          contentCategoryId: representative.contentCategoryId,
+          contentIds,
+          level: representative.level,
+          name: representative.name,
+        },
+        ...wage,
+      };
+    });
+
+    const result = orderBy
+      ? _.orderBy(
+          await Promise.all(promises),
+          orderBy.map((order) => order.field),
+          orderBy.map((order) => order.order)
+        )
+      : await Promise.all(promises);
+
+    return result;
   }
 }

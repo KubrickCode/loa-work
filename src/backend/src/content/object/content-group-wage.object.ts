@@ -7,11 +7,11 @@ export class ContentGroupWage {
   contentGroup: ContentGroup;
 
   @Field(() => Float)
-  krwAmountPerHour: number;
+  goldAmountPerClear: number;
 
   @Field(() => Float)
   goldAmountPerHour: number;
 
   @Field(() => Float)
-  goldAmountPerClear: number;
+  krwAmountPerHour: number;
 }

@@ -18,13 +18,13 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
     sortKey: string;
     value: "asc" | "desc";
   };
+  favoriteKeyPath?: string;
+  favorites?: FavoriteValue[];
   getRowProps?: (row: { data: T; index: number }) => { [key: string]: any };
+  pagination?: boolean;
   rows: {
     data: T;
   }[];
-  pagination?: boolean;
-  favoriteKeyPath?: string;
-  favorites?: FavoriteValue[];
 };
 
 export type Column<T> = {
@@ -42,11 +42,11 @@ export type Column<T> = {
 export const DataTable = <T,>({
   columns,
   defaultSorting,
-  getRowProps,
-  rows,
-  pagination = false,
   favoriteKeyPath,
   favorites = [],
+  getRowProps,
+  pagination = false,
+  rows,
   ...rest
 }: DataTableProps<T>) => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(defaultSorting?.value || null);
@@ -142,8 +142,8 @@ export const DataTable = <T,>({
         <Table.Cell
           alignItems="center"
           bg={{
-            _light: "transparent",
             _dark: "transparent",
+            _light: "transparent",
           }}
           borderBottom="1px solid"
           borderColor="border.subtle"
@@ -210,8 +210,8 @@ export const DataTable = <T,>({
             <Table.Header>
               <Table.Row
                 bg={{
-                  _light: "bg.muted",
                   _dark: "bg.surface",
+                  _light: "bg.muted",
                 }}
                 borderBottom="1px solid"
                 borderColor="border.default"

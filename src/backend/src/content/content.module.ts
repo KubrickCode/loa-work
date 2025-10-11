@@ -33,8 +33,8 @@ import { ContentsQuery } from "./query/contents.query";
 import { ContentGroupQuery } from "./query/content-group.query";
 
 @Module({
-  imports: [PrismaModule],
   controllers: [ContentController],
+  imports: [PrismaModule],
   providers: [
     ContentListQuery,
     ItemsQuery,

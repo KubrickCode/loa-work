@@ -14,6 +14,13 @@ export class ContentGroupResolver {
     private prisma: PrismaService
   ) {}
 
+  @ResolveField(() => ContentCategory)
+  async contentCategory(@Parent() contentGroup: ContentGroup) {
+    return await this.dataLoaderService.contentCategory.findUniqueOrThrowById(
+      contentGroup.contentCategoryId
+    );
+  }
+
   @ResolveField(() => [Content])
   async contents(@Parent() contentGroup: ContentGroup) {
     return await this.prisma.content.findMany({
@@ -21,13 +28,6 @@ export class ContentGroupResolver {
         id: { in: contentGroup.contentIds },
       },
     });
-  }
-
-  @ResolveField(() => ContentCategory)
-  async contentCategory(@Parent() contentGroup: ContentGroup) {
-    return await this.dataLoaderService.contentCategory.findUniqueOrThrowById(
-      contentGroup.contentCategoryId
-    );
   }
 
   @ResolveField(() => Number)

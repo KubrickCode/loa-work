@@ -6,14 +6,14 @@ import { ContentRewardListChartTab, ContentRewardListTableTab } from "./tabs";
 export const ContentRewardListPage = () => {
   const tabPanels = [
     {
+      component: <ContentRewardListTableTab />,
       id: "table",
       label: "표",
-      component: <ContentRewardListTableTab />,
     },
     {
+      component: <ContentRewardListChartTab />,
       id: "chart",
       label: "차트",
-      component: <ContentRewardListChartTab />,
     },
   ];
 

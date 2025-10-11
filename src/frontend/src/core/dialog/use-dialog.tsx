@@ -12,7 +12,7 @@ export const useDialog = <T extends ElementType>({
   dialogProps: initialDialogProps,
   disabled,
 }: UseDialogProps<T>) => {
-  const { onOpen, onClose, open, onToggle } = useDisclosure();
+  const { onClose, onOpen, onToggle, open } = useDisclosure();
   const [currentDialogProps, setCurrentDialogProps] = useState(initialDialogProps);
 
   const handleOpen = (newDialogProps?: UseDialogProps<T>["dialogProps"]) => {

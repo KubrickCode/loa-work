@@ -3,15 +3,15 @@ import * as React from "react";
 
 import { CloseButton } from "./close-button";
 
-interface DialogContentProps extends ChakraDialog.ContentProps {
+type DialogContentProps = {
+  backdrop?: boolean;
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement>;
-  backdrop?: boolean;
-}
+} & ChakraDialog.ContentProps;
 
 export const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
   function DialogContent(props, ref) {
-    const { children, portalled = true, portalRef, backdrop = true, ...rest } = props;
+    const { backdrop = true, children, portalled = true, portalRef, ...rest } = props;
 
     return (
       <Portal container={portalRef} disabled={!portalled}>

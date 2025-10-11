@@ -14,10 +14,21 @@ export class ContentsFilter {
 export class ContentsQuery {
   constructor(private prisma: PrismaService) {}
 
+  buildWhereArgs(filter?: ContentsFilter) {
+    const where: Prisma.ContentWhereInput = {};
+
+    if (filter?.ids) {
+      where.id = {
+        in: filter.ids,
+      };
+    }
+
+    return where;
+  }
+
   @Query(() => [Content])
   async contents(@Args("filter", { nullable: true }) filter?: ContentsFilter) {
     return await this.prisma.content.findMany({
-      where: this.buildWhereArgs(filter),
       orderBy: [
         {
           contentCategory: {
@@ -31,18 +42,7 @@ export class ContentsQuery {
           id: "asc",
         },
       ],
+      where: this.buildWhereArgs(filter),
     });
-  }
-
-  buildWhereArgs(filter?: ContentsFilter) {
-    const where: Prisma.ContentWhereInput = {};
-
-    if (filter?.ids) {
-      where.id = {
-        in: filter.ids,
-      };
-    }
-
-    return where;
   }
 }

@@ -11,25 +11,25 @@ import { useSafeQuery } from "~/core/graphql";
 import { ItemsFilterDocument, ItemsFilterQuery } from "~/core/graphql/generated";
 
 type ContentWageListPageContextType = {
-  items: ItemsFilterQuery["items"];
-
   contentCategoryId: number | null;
-  setContentCategoryId: (id: number | null) => void;
-
-  keyword: string;
-  setKeyword: (value: string) => void;
-
-  includeIsSeeMore?: boolean;
-  setIncludeIsSeeMore: (value: boolean) => void;
 
   includeIsBound?: boolean;
-  setIncludeIsBound: (value: boolean) => void;
+  includeIsSeeMore?: boolean;
 
   includeItemIds: number[];
-  setIncludeItemIds: Dispatch<SetStateAction<number[]>>;
+  items: ItemsFilterQuery["items"];
 
-  shouldMergeGate?: boolean;
+  keyword: string;
+  setContentCategoryId: (id: number | null) => void;
+
+  setIncludeIsBound: (value: boolean) => void;
+  setIncludeIsSeeMore: (value: boolean) => void;
+
+  setIncludeItemIds: Dispatch<SetStateAction<number[]>>;
+  setKeyword: (value: string) => void;
+
   setShouldMergeGate: (value: boolean) => void;
+  shouldMergeGate?: boolean;
 };
 
 const ContentWageListPageContext = createContext<ContentWageListPageContextType | undefined>(
@@ -50,19 +50,19 @@ export const ContentWageListPageProvider = ({ children }: PropsWithChildren) => 
   return (
     <ContentWageListPageContext.Provider
       value={{
-        items,
         contentCategoryId,
-        keyword,
-        setKeyword,
-        includeIsSeeMore,
         includeIsBound,
-        setContentCategoryId,
-        setIncludeIsSeeMore,
-        setIncludeIsBound,
+        includeIsSeeMore,
         includeItemIds,
+        items,
+        keyword,
+        setContentCategoryId,
+        setIncludeIsBound,
+        setIncludeIsSeeMore,
         setIncludeItemIds,
-        shouldMergeGate,
+        setKeyword,
         setShouldMergeGate,
+        shouldMergeGate,
       }}
     >
       {children}

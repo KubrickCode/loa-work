@@ -12,10 +12,6 @@ export class UserGoldExchangeRateService {
     @Inject(CONTEXT) private context: ContextType
   ) {}
 
-  private getUserId() {
-    return this.context.req?.user?.id;
-  }
-
   async getGoldExchangeRate() {
     const userId = this.getUserId();
 
@@ -32,5 +28,9 @@ export class UserGoldExchangeRateService {
     }
 
     return goldExchangeRate;
+  }
+
+  private getUserId() {
+    return this.context.req?.user?.id;
   }
 }

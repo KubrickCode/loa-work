@@ -3,15 +3,15 @@ import * as React from "react";
 
 import { CloseButton } from "./close-button";
 
-interface DrawerContentProps extends ChakraDrawer.ContentProps {
+type DrawerContentProps = {
+  offset?: ChakraDrawer.ContentProps["padding"];
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement>;
-  offset?: ChakraDrawer.ContentProps["padding"];
-}
+} & ChakraDrawer.ContentProps;
 
 export const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(
   function DrawerContent(props, ref) {
-    const { children, portalled = true, portalRef, offset, ...rest } = props;
+    const { children, offset, portalled = true, portalRef, ...rest } = props;
     return (
       <Portal container={portalRef} disabled={!portalled}>
         <ChakraDrawer.Positioner padding={offset}>

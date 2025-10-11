@@ -62,8 +62,8 @@ export const useMutationForm = <
         switch (error.extensions?.code) {
           case "BAD_USER_INPUT":
             setError((error.extensions.field || FORM_ERROR_FIELD) as FieldPath<FormValues>, {
-              type: "manual",
               message: error.message,
+              type: "manual",
             });
             if (error.extensions.field) {
               setFocus(error.extensions.field as FieldPath<FormValues>);
@@ -72,8 +72,8 @@ export const useMutationForm = <
 
           default:
             setError(FORM_ERROR_FIELD as any, {
-              type: "manual",
               message: error.message,
+              type: "manual",
             });
             break;
         }

@@ -23,8 +23,8 @@ export const ContentWageListFilters = () => {
     keyword,
     setContentCategoryId,
     setKeyword,
-    shouldMergeGate,
     setShouldMergeGate,
+    shouldMergeGate,
   } = useContentWageListPage();
 
   const handleCategoryChange = (value: number | null) => {
@@ -107,7 +107,7 @@ const ContentIsBoundFilter = () => {
 };
 
 const ItemsFilter = () => {
-  const { items: rewardItems, includeItemIds, setIncludeItemIds } = useContentWageListPage();
+  const { includeItemIds, items: rewardItems, setIncludeItemIds } = useContentWageListPage();
 
   const items = rewardItems.map(({ id, name }) => ({
     label: name,

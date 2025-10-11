@@ -14,9 +14,9 @@ import { UserSeedService } from "src/user/service/user-seed.service";
 import { KakaoStrategy } from "./strategy/kakao.strategy";
 
 @Module({
+  controllers: [AuthController],
   imports: [CommonModule, PassportModule.register({ session: true })],
   providers: [GoogleStrategy, DiscordStrategy, KakaoStrategy, Serializer, UserSeedService],
-  controllers: [AuthController],
 })
 export class AuthModule implements NestModule {
   constructor(
@@ -29,17 +29,17 @@ export class AuthModule implements NestModule {
       .apply(
         session({
           cookie: {
-            sameSite: true,
             httpOnly: false,
             maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+            sameSite: true,
           },
           resave: false,
           saveUninitialized: false,
           secret: this.configService.get<string>("SESSION_SECRET", "__UNSAFE__SECRET__"),
           store: new PrismaSessionStore(this.prisma, {
             checkPeriod: 2 * 60 * 1000, //ms
-            dbRecordIdIsSessionId: true,
             dbRecordIdFunction: undefined,
+            dbRecordIdIsSessionId: true,
           }),
         }),
         passport.initialize(),

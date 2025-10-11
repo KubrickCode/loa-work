@@ -13,10 +13,21 @@ export class ContentGroupFilter {
 export class ContentGroupQuery {
   constructor(private prisma: PrismaService) {}
 
+  buildWhereArgs(filter?: ContentGroupFilter) {
+    const where: Prisma.ContentWhereInput = {};
+
+    if (filter?.contentIds) {
+      where.id = {
+        in: filter.contentIds,
+      };
+    }
+
+    return where;
+  }
+
   @Query(() => ContentGroup)
   async contentGroup(@Args("filter", { nullable: true }) filter?: ContentGroupFilter) {
     const contents = await this.prisma.content.findMany({
-      where: this.buildWhereArgs(filter),
       orderBy: [
         {
           contentCategory: {
@@ -30,6 +41,7 @@ export class ContentGroupQuery {
           id: "asc",
         },
       ],
+      where: this.buildWhereArgs(filter),
     });
 
     for (const content of contents) {
@@ -47,17 +59,5 @@ export class ContentGroupQuery {
       level: contents[0].level,
       name: contents[0].name,
     };
-  }
-
-  buildWhereArgs(filter?: ContentGroupFilter) {
-    const where: Prisma.ContentWhereInput = {};
-
-    if (filter?.contentIds) {
-      where.id = {
-        in: filter.contentIds,
-      };
-    }
-
-    return where;
   }
 }

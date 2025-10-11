@@ -6,14 +6,14 @@ import { ContentWageChartTab, ContentWageTableTab } from "./tabs";
 export const ContentWageListPage = () => {
   const tabPanels = [
     {
+      component: <ContentWageTableTab />,
       id: "table",
       label: "표",
-      component: <ContentWageTableTab />,
     },
     {
+      component: <ContentWageChartTab />,
       id: "chart",
       label: "차트",
-      component: <ContentWageChartTab />,
     },
   ];
 

@@ -5,9 +5,9 @@ type FormatGoldProps = {
 } & Pick<TextProps, "color" | "fontWeight">;
 
 export const FormatGold = ({
-  value,
   color = "gold.500",
   fontWeight = "medium",
+  value,
 }: FormatGoldProps) => {
   return (
     <Flex alignItems="center" display="inline-flex" gap={1}>

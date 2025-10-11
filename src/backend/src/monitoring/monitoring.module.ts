@@ -4,7 +4,7 @@ import { MonitoringController } from "./monitoring.controller";
 
 @Module({
   controllers: [MonitoringController],
-  providers: [MonitoringService],
   exports: [MonitoringService],
+  providers: [MonitoringService],
 })
 export class MonitoringModule {}

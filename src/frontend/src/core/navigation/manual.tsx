@@ -20,7 +20,7 @@ import {
 
 export const Manual = () => {
   return (
-    <DrawerRoot modal={false} size={{ base: "xl", sm: "md", md: "lg" }}>
+    <DrawerRoot modal={false} size={{ base: "xl", md: "lg", sm: "md" }}>
       <DrawerBackdrop />
       <DrawerTrigger asChild>
         <Button justifyContent="flex-start" variant="outline">
@@ -57,7 +57,6 @@ export const Manual = () => {
 
 const accordionItems = [
   {
-    title: "각종 문의 사항",
     paragraph: (
       <Flex flexWrap="wrap" gap={1}>
         <Link color="blue.500" href={import.meta.env.VITE_DISCORD_SERVER_LINK} target="_blank">
@@ -66,9 +65,9 @@ const accordionItems = [
         <Text>에서 문의해주세요.</Text>
       </Flex>
     ),
+    title: "각종 문의 사항",
   },
   {
-    title: "데이터 수집 방식",
     paragraph: (
       <List.Root gap={1}>
         <List.Item>
@@ -81,9 +80,9 @@ const accordionItems = [
         </List.Item>
       </List.Root>
     ),
+    title: "데이터 수집 방식",
   },
   {
-    title: "아이템 가격 계산 방식",
     paragraph: (
       <List.Root gap={1}>
         <List.Item>
@@ -102,9 +101,9 @@ const accordionItems = [
         </List.Item>
       </List.Root>
     ),
+    title: "아이템 가격 계산 방식",
   },
   {
-    title: "컨텐츠별 보상 책정 방식",
     paragraph: (
       <List.Root gap={1}>
         <List.Item>
@@ -136,9 +135,9 @@ const accordionItems = [
         </List.Item>
       </List.Root>
     ),
+    title: "컨텐츠별 보상 책정 방식",
   },
   {
-    title: "시급 책정 방식",
     paragraph: (
       <List.Root gap={1}>
         <List.Item>
@@ -163,5 +162,6 @@ const accordionItems = [
         </List.Item>
       </List.Root>
     ),
+    title: "시급 책정 방식",
   },
 ];

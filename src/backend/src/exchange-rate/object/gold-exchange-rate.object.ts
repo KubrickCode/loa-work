@@ -4,8 +4,8 @@ import { BaseObject } from "src/common/object/base.object";
 @ObjectType()
 export class GoldExchangeRate extends BaseObject {
   @Field(() => Float)
-  krwAmount: number;
+  goldAmount: number;
 
   @Field(() => Float)
-  goldAmount: number;
+  krwAmount: number;
 }

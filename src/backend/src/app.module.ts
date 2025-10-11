@@ -22,15 +22,15 @@ import { MonitoringModule } from "./monitoring/monitoring.module";
         buildSchemaOptions: {
           numberScalarMode: "integer",
         },
+        cache: "bounded",
         context: ({ req, res }) => ({
           req,
           res,
         }),
         debug: true,
+        introspection: true,
         playground: true,
         sortSchema: true,
-        introspection: true,
-        cache: "bounded",
       }),
     }),
     ContentModule,

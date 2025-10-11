@@ -24,8 +24,8 @@ import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-l
 export const ContentWageListBarChart = () => {
   const {
     contentCategoryId,
-    includeIsSeeMore,
     includeIsBound,
+    includeIsSeeMore,
     includeItemIds,
     keyword,
     shouldMergeGate,
@@ -35,8 +35,8 @@ export const ContentWageListBarChart = () => {
     variables: {
       filter: {
         contentCategoryId,
-        includeIsSeeMore,
         includeIsBound,
+        includeIsSeeMore,
         includeItemIds,
         keyword,
         status: ContentStatus.ACTIVE,
@@ -54,8 +54,8 @@ export const ContentWageListBarChart = () => {
     variables: {
       filter: {
         contentCategoryId,
-        includeIsSeeMore,
         includeIsBound,
+        includeIsSeeMore,
         includeItemIds,
         keyword,
         status: ContentStatus.ACTIVE,
@@ -71,16 +71,16 @@ export const ContentWageListBarChart = () => {
 
   const chartData = shouldMergeGate
     ? groupWageListData.contentGroupWageList.map((item) => ({
-        name: item.contentGroup.name,
         category: item.contentGroup.contentCategory.name,
-        시급: item.krwAmountPerHour,
         goldAmountPerHour: item.goldAmountPerHour,
+        name: item.contentGroup.name,
+        시급: item.krwAmountPerHour,
       }))
     : wageListData.contentWageList.map((item) => ({
-        name: item.content.displayName,
         category: item.content.contentCategory.name,
-        시급: item.krwAmountPerHour,
         goldAmountPerHour: item.goldAmountPerHour,
+        name: item.content.displayName,
+        시급: item.krwAmountPerHour,
       }));
 
   const chartHeight = Math.max(chartData.length * 40, 400);
@@ -121,7 +121,7 @@ export const ContentWageListBarChart = () => {
       <BarChart
         data={chartData}
         layout="vertical"
-        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        margin={{ bottom: 5, left: 20, right: 30, top: 20 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis tick={{ fill: tooltipTextColor }} type="number" />
@@ -134,10 +134,10 @@ export const ContentWageListBarChart = () => {
         <Tooltip
           contentStyle={{
             backgroundColor: tooltipBgColor,
-            color: tooltipTextColor,
             border: "none",
             borderRadius: "4px",
             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+            color: tooltipTextColor,
           }}
           formatter={(value, _, props) => {
             const gold = props.payload.goldAmountPerHour;

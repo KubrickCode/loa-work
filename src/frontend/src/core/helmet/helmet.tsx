@@ -1,13 +1,13 @@
 import { Helmet as ReactHelmet } from "react-helmet-async";
 
 export type HelmetProps = {
-  title: string;
   description: string;
+  title: string;
 };
 
 export const Helmet = ({
-  title,
   description = "로스트아크 컨텐츠별 시급 정보를 제공하는 사이트입니다.",
+  title,
 }: HelmetProps) => {
   const fullTitle = `${title} | 로직장`;
   const keywords = "로스트아크, Lost Ark, 시급, 로아, 쌀먹, 로직장, 보상, 게임, MMORPG";

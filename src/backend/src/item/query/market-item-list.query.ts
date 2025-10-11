@@ -9,13 +9,13 @@ export class MarketItemListFilter {
   categoryName?: string;
 
   @Field({ nullable: true })
-  keyword?: string;
-
-  @Field({ nullable: true })
   grade?: string;
 
   @Field(() => Boolean, { nullable: true })
   isStatScraperEnabled?: boolean;
+
+  @Field({ nullable: true })
+  keyword?: string;
 }
 
 @Resolver()

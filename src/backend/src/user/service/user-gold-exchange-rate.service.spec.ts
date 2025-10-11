@@ -51,9 +51,9 @@ describe("UserGoldExchangeRateService", () => {
 
       await prisma.userGoldExchangeRate.create({
         data: {
-          userId: user.id,
           goldAmount: userGoldAmount,
           krwAmount: userKrwAmount,
+          userId: user.id,
         },
       });
     });

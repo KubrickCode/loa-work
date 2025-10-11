@@ -30,7 +30,7 @@ export class ContentSeeMoreRewardFactory {
       data: {
         contentId,
         itemId,
-        quantity: faker.number.float({ min: 1, max: 10000 }),
+        quantity: faker.number.float({ max: 10000, min: 1 }),
         ...options?.data,
       },
     });

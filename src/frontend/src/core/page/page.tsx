@@ -6,11 +6,11 @@ import { Helmet } from "../helmet";
 import { PageLoader } from "../loader";
 
 export type PageProps = StackProps & {
-  title: string;
   description: string;
+  title: string;
 };
 
-export const Page = ({ children, title, description, ...otherProps }: PageProps) => {
+export const Page = ({ children, description, title, ...otherProps }: PageProps) => {
   return (
     <>
       <Helmet description={description} title={title} />

@@ -48,17 +48,17 @@ export const toggleFavorite = <T extends FavoriteValue>(
 };
 
 type FavoriteIconProps = {
-  id: FavoriteValue;
-  storageKey: string;
-  onChange?: (favorites: FavoriteValue[]) => void;
   externalFavorites?: FavoriteValue[];
+  id: FavoriteValue;
+  onChange?: (favorites: FavoriteValue[]) => void;
+  storageKey: string;
 };
 
 export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
-  id,
-  storageKey,
-  onChange,
   externalFavorites,
+  id,
+  onChange,
+  storageKey,
 }) => {
   const [internalFavorites, setInternalFavorites] = useState<FavoriteValue[]>(() =>
     getFavoritesFromStorage(storageKey)
@@ -85,9 +85,9 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
       element.blur();
 
       const mouseLeaveEvent = new MouseEvent("mouseleave", {
-        view: window,
         bubbles: true,
         cancelable: true,
+        view: window,
       });
       element.dispatchEvent(mouseLeaveEvent);
 
@@ -120,7 +120,6 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
       animate={
         isAnimating && !shouldReduceMotion
           ? {
-              scale: [1, 1.2, 1],
               boxShadow: [
                 "0 0 0px rgba(255, 215, 0, 0)",
                 "0 0 25px rgba(255, 215, 0, 0.8)",
@@ -128,17 +127,18 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
                 "0 0 0px rgba(255, 215, 0, 0)",
               ],
               rotate: [0, 10, -10, 0],
+              scale: [1, 1.2, 1],
             }
           : isHovered && !shouldReduceMotion && !isAnimating
             ? {
-                scale: 1.05,
                 boxShadow: isFavorite
                   ? "0 0 15px rgba(255, 215, 0, 0.5)"
                   : "0 0 10px rgba(128, 128, 128, 0.3)",
+                scale: 1.05,
               }
             : {
-                scale: 1,
                 boxShadow: "0 0 0px rgba(255, 215, 0, 0)",
+                scale: 1,
               }
       }
       aria-label={isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
@@ -167,8 +167,8 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
           animate={
             !shouldReduceMotion
               ? {
-                  scale: isAnimating ? [1, 1.3, 1] : 1,
                   rotate: isAnimating ? [0, 360] : 0,
+                  scale: isAnimating ? [1, 1.3, 1] : 1,
                 }
               : {}
           }

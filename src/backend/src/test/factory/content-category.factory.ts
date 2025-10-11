@@ -15,8 +15,8 @@ export class ContentCategoryFactory {
 
     return await this.prisma.contentCategory.create({
       data: {
-        name,
         imageUrl: faker.image.url(),
+        name,
         ...options?.data,
       },
     });

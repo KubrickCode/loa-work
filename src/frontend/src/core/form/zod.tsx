@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 declare module "zod" {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface ZodNumber {
     int32(): this;
   }

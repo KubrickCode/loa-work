@@ -22,14 +22,6 @@ export class ContentController {
     });
 
     const previousContents = await this.prisma.content.findMany({
-      where: {
-        contentCategory: {
-          id: categoryId,
-        },
-        level: {
-          lt: level,
-        },
-      },
       include: {
         contentRewards: {
           include: {
@@ -40,12 +32,20 @@ export class ContentController {
       orderBy: {
         level: "desc",
       },
+      where: {
+        contentCategory: {
+          id: categoryId,
+        },
+        level: {
+          lt: level,
+        },
+      },
     });
 
     if (previousContents.length < 2) {
       return {
-        success: false,
         message: "예측을 위한 충분한 데이터가 없습니다.",
+        success: false,
       };
     }
 
@@ -85,21 +85,21 @@ export class ContentController {
         const predictedQuantity = Number(latestReward.averageQuantity) * averageIncreaseFactor;
 
         predictions.push({
+          averageIncreaseFactor: averageIncreaseFactor,
+          historyLevels: rewardHistory.map((h) => h.level),
           itemName: latestReward.item.name,
           predictedQuantity: predictedQuantity,
           previousQuantity: Number(latestReward.averageQuantity),
-          averageIncreaseFactor: averageIncreaseFactor,
-          historyLevels: rewardHistory.map((h) => h.level),
         });
       }
     }
 
     return {
-      success: true,
-      categoryName: category.name,
-      targetLevel: level,
       basedOnLevels: previousContents.map((c) => c.level),
+      categoryName: category.name,
       predictions,
+      success: true,
+      targetLevel: level,
     };
   }
 
@@ -108,9 +108,6 @@ export class ContentController {
     const contentId = parseInt(contentIdString, 10);
 
     const content = await this.prisma.content.findUnique({
-      where: {
-        id: contentId,
-      },
       include: {
         contentCategory: true,
         contentRewards: {
@@ -120,12 +117,15 @@ export class ContentController {
           },
         },
       },
+      where: {
+        id: contentId,
+      },
     });
 
     if (!content) {
       return {
-        success: false,
         message: "해당하는 컨텐츠를 찾을 수 없습니다.",
+        success: false,
       };
     }
 
@@ -136,11 +136,11 @@ export class ContentController {
 
       if (reports.length < 3) {
         validations.push({
-          itemName: reward.item.name,
           currentQuantity: Number(reward.averageQuantity),
-          status: "insufficient_data",
+          itemName: reward.item.name,
           message: "충분한 제보 데이터가 없습니다.",
           reportCount: reports.length,
+          status: "insufficient_data",
         });
         continue;
       }
@@ -176,22 +176,22 @@ export class ContentController {
       }
 
       validations.push({
-        itemName: reward.item.name,
         currentQuantity,
-        reportedQuantity: validMean,
         difference,
+        excludedReports: reports.length - validReports.length,
+        itemName: reward.item.name,
+        reportedQuantity: validMean,
         status,
         totalReports: reports.length,
         validReports: validReports.length,
-        excludedReports: reports.length - validReports.length,
       });
     }
 
     return {
-      success: true,
-      contentId,
       categoryName: content.contentCategory.name,
+      contentId,
       level: content.level,
+      success: true,
       validations,
     };
   }

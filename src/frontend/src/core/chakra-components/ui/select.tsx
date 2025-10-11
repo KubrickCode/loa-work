@@ -6,10 +6,10 @@ import * as React from "react";
 
 import { CloseButton } from "./close-button";
 
-interface SelectTriggerProps extends ChakraSelect.ControlProps {
+type SelectTriggerProps = {
   clearable?: boolean;
   loading?: boolean;
-}
+} & ChakraSelect.ControlProps;
 
 export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   function SelectTrigger(props, ref) {
@@ -42,10 +42,10 @@ const SelectClearTrigger = React.forwardRef<HTMLButtonElement, ChakraSelect.Clea
   }
 );
 
-interface SelectContentProps extends ChakraSelect.ContentProps {
+type SelectContentProps = {
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement>;
-}
+} & ChakraSelect.ContentProps;
 
 export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
   function SelectContent(props, ref) {
@@ -62,7 +62,7 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
 
 export const SelectItem = React.forwardRef<HTMLDivElement, ChakraSelect.ItemProps>(
   function SelectItem(props, ref) {
-    const { item, children, ...rest } = props;
+    const { children, item, ...rest } = props;
     return (
       <ChakraSelect.Item item={item} key={item.value} {...rest} ref={ref}>
         {children}
@@ -72,9 +72,9 @@ export const SelectItem = React.forwardRef<HTMLDivElement, ChakraSelect.ItemProp
   }
 );
 
-interface SelectValueTextProps extends Omit<ChakraSelect.ValueTextProps, "children"> {
+type SelectValueTextProps = {
   children?(items: CollectionItem[]): React.ReactNode;
-}
+} & Omit<ChakraSelect.ValueTextProps, "children">;
 
 export const SelectValueText = React.forwardRef<HTMLSpanElement, SelectValueTextProps>(
   function SelectValueText(props, ref) {
@@ -116,9 +116,9 @@ export const SelectRoot = React.forwardRef<HTMLDivElement, ChakraSelect.RootProp
   }
 ) as ChakraSelect.RootComponent;
 
-interface SelectItemGroupProps extends ChakraSelect.ItemGroupProps {
+type SelectItemGroupProps = {
   label: React.ReactNode;
-}
+} & ChakraSelect.ItemGroupProps;
 
 export const SelectItemGroup = React.forwardRef<HTMLDivElement, SelectItemGroupProps>(
   function SelectItemGroup(props, ref) {

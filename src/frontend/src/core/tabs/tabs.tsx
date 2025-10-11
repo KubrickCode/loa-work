@@ -8,9 +8,9 @@ import { ANIMATION_DURATIONS, EASING } from "~/core/animations/micro-interaction
 import { BlockLoader } from "../loader";
 
 export type TabPanel = {
+  component: React.ReactNode;
   id: string; // URL에 사용될 id
   label: string; // 화면에 표시될 라벨
-  component: React.ReactNode;
 };
 
 export type TabsProps = {

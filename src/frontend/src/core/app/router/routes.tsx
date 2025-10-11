@@ -11,35 +11,35 @@ import { PrivacyPolicyPage } from "~/pages/privacy-policy";
 
 const routes = [
   {
-    path: "/",
     component: ContentWageListPage,
+    path: "/",
   },
   {
-    path: "/content-reward-list",
     component: ContentRewardListPage,
+    path: "/content-reward-list",
   },
   {
-    path: "/item-price-list",
     component: ItemPriceListPage,
+    path: "/item-price-list",
   },
   {
-    path: "/privacy-policy",
     component: PrivacyPolicyPage,
+    path: "/privacy-policy",
   },
   {
-    path: "/admin",
     component: AdminPage,
+    path: "/admin",
   },
   {
-    path: "*",
     component: NotFoundPage,
+    path: "*",
   },
 ] as const;
 
 export const Routes = () => {
   return (
     <ReactRouter.Routes>
-      {_.map(routes, ({ path, component }) => (
+      {_.map(routes, ({ component, path }) => (
         <ReactRouter.Route element={createElement(component)} key={path} path={path} />
       ))}
     </ReactRouter.Routes>
