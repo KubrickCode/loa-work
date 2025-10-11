@@ -1,5 +1,5 @@
-import { Field, Float, ObjectType } from '@nestjs/graphql';
-import { ContentGroup } from './content-group.object';
+import { Field, Float, ObjectType } from "@nestjs/graphql";
+import { ContentGroup } from "./content-group.object";
 
 @ObjectType()
 export class ContentGroupWage {

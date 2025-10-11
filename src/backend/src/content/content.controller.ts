@@ -1,16 +1,16 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { Controller, Get, Query } from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
 
 // TODO: 생각보다 본격적으로 사용되는 기능이라 유지보수 가능한 형태(테스트가 쉬운 형태)로 리팩토링 필요
-@Controller('api/content')
+@Controller("api/content")
 export class ContentController {
   constructor(private prisma: PrismaService) {}
 
   // NOTE: 거의 사용되지 않는 기능이라 특별히 코드 정리 및 보수하지 않음.
-  @Get('predict-rewards')
+  @Get("predict-rewards")
   async predictRewards(
-    @Query('categoryId') categoryIdString: string,
-    @Query('level') levelString: string,
+    @Query("categoryId") categoryIdString: string,
+    @Query("level") levelString: string
   ) {
     const level = parseInt(levelString, 10);
     const categoryId = parseInt(categoryIdString, 10);
@@ -38,14 +38,14 @@ export class ContentController {
         },
       },
       orderBy: {
-        level: 'desc',
+        level: "desc",
       },
     });
 
     if (previousContents.length < 2) {
       return {
         success: false,
-        message: '예측을 위한 충분한 데이터가 없습니다.',
+        message: "예측을 위한 충분한 데이터가 없습니다.",
       };
     }
 
@@ -55,9 +55,7 @@ export class ContentController {
     for (const latestReward of latestContent.contentRewards) {
       const rewardHistory = previousContents
         .map((content) => {
-          const reward = content.contentRewards.find(
-            (r) => r.itemId === latestReward.itemId,
-          );
+          const reward = content.contentRewards.find((r) => r.itemId === latestReward.itemId);
           return {
             level: content.level,
             quantity: reward ? Number(reward.averageQuantity) : null,
@@ -83,10 +81,8 @@ export class ContentController {
           increaseCount++;
         }
 
-        const averageIncreaseFactor =
-          increaseCount > 0 ? totalIncreaseFactor / increaseCount : 1;
-        const predictedQuantity =
-          Number(latestReward.averageQuantity) * averageIncreaseFactor;
+        const averageIncreaseFactor = increaseCount > 0 ? totalIncreaseFactor / increaseCount : 1;
+        const predictedQuantity = Number(latestReward.averageQuantity) * averageIncreaseFactor;
 
         predictions.push({
           itemName: latestReward.item.name,
@@ -107,8 +103,8 @@ export class ContentController {
     };
   }
 
-  @Get('validate-rewards-by-reports')
-  async validateRewardsByReports(@Query('contentId') contentIdString: string) {
+  @Get("validate-rewards-by-reports")
+  async validateRewardsByReports(@Query("contentId") contentIdString: string) {
     const contentId = parseInt(contentIdString, 10);
 
     const content = await this.prisma.content.findUnique({
@@ -129,23 +125,21 @@ export class ContentController {
     if (!content) {
       return {
         success: false,
-        message: '해당하는 컨텐츠를 찾을 수 없습니다.',
+        message: "해당하는 컨텐츠를 찾을 수 없습니다.",
       };
     }
 
     const validations = [];
 
     for (const reward of content.contentRewards) {
-      const reports = reward.reportedContentRewards.map((r) =>
-        Number(r.averageQuantity),
-      );
+      const reports = reward.reportedContentRewards.map((r) => Number(r.averageQuantity));
 
       if (reports.length < 3) {
         validations.push({
           itemName: reward.item.name,
           currentQuantity: Number(reward.averageQuantity),
-          status: 'insufficient_data',
-          message: '충분한 제보 데이터가 없습니다.',
+          status: "insufficient_data",
+          message: "충분한 제보 데이터가 없습니다.",
           reportCount: reports.length,
         });
         continue;
@@ -154,17 +148,13 @@ export class ContentController {
       // 평균과 표준편차 계산
       const mean = reports.reduce((a, b) => a + b) / reports.length;
       const stdDev = Math.sqrt(
-        reports.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) /
-          reports.length,
+        reports.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) / reports.length
       );
 
       // 이상치 제거 (평균에서 ±2 표준편차 벗어나는 값)
-      const validReports = reports.filter(
-        (r) => Math.abs(r - mean) <= 2 * stdDev,
-      );
+      const validReports = reports.filter((r) => Math.abs(r - mean) <= 2 * stdDev);
 
-      const validMean =
-        validReports.reduce((a, b) => a + b) / validReports.length;
+      const validMean = validReports.reduce((a, b) => a + b) / validReports.length;
       const currentQuantity = Number(reward.averageQuantity);
 
       // currentQuantity가 0인 경우 특별 처리
@@ -173,18 +163,16 @@ export class ContentController {
 
       if (currentQuantity === 0) {
         if (validMean === 0) {
-          difference = '0.0%';
-          status = 'acceptable';
+          difference = "0.0%";
+          status = "acceptable";
         } else {
-          difference = 'N/A (기준값 0)';
-          status = 'base_value_zero';
+          difference = "N/A (기준값 0)";
+          status = "base_value_zero";
         }
       } else {
-        const diffValue =
-          ((validMean - currentQuantity) / currentQuantity) * 100;
+        const diffValue = ((validMean - currentQuantity) / currentQuantity) * 100;
         difference = `${diffValue.toFixed(1)}%`;
-        status =
-          Math.abs(diffValue) > 10 ? 'significant_difference' : 'acceptable';
+        status = Math.abs(diffValue) > 10 ? "significant_difference" : "acceptable";
       }
 
       validations.push({

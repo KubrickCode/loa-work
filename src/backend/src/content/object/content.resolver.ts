@@ -1,13 +1,13 @@
-import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { Content } from './content.object';
-import { ContentReward } from './content-reward.object';
-import { ContentCategory } from './content-category.object';
-import { UserContentService } from '../../user/service/user-content.service';
-import { ContentSeeMoreReward } from './content-see-more-reward.object';
-import { DataLoaderService } from 'src/dataloader/data-loader.service';
-import { ContentWage, ContentWageFilter } from './content-wage.object';
-import { ContentWageService } from '../service/content-wage.service';
+import { Args, Parent, ResolveField, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { Content } from "./content.object";
+import { ContentReward } from "./content-reward.object";
+import { ContentCategory } from "./content-category.object";
+import { UserContentService } from "../../user/service/user-content.service";
+import { ContentSeeMoreReward } from "./content-see-more-reward.object";
+import { DataLoaderService } from "src/dataloader/data-loader.service";
+import { ContentWage, ContentWageFilter } from "./content-wage.object";
+import { ContentWageService } from "../service/content-wage.service";
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -15,34 +15,30 @@ export class ContentResolver {
     private prisma: PrismaService,
     private userContentService: UserContentService,
     private dataLoaderService: DataLoaderService,
-    private contentWageService: ContentWageService,
+    private contentWageService: ContentWageService
   ) {}
 
   @ResolveField(() => ContentCategory)
   async contentCategory(@Parent() content: Content) {
     return await this.dataLoaderService.contentCategory.findUniqueOrThrowById(
-      content.contentCategoryId,
+      content.contentCategoryId
     );
   }
 
   @ResolveField(() => [ContentReward])
   async contentRewards(@Parent() content: Content) {
-    return await this.dataLoaderService.contentRewards.findManyByContentId(
-      content.id,
-    );
+    return await this.dataLoaderService.contentRewards.findManyByContentId(content.id);
   }
 
   @ResolveField(() => [ContentSeeMoreReward])
   async contentSeeMoreRewards(@Parent() content: Content) {
-    return await this.dataLoaderService.contentSeeMoreRewards.findManyByContentId(
-      content.id,
-    );
+    return await this.dataLoaderService.contentSeeMoreRewards.findManyByContentId(content.id);
   }
 
   @ResolveField(() => String)
   async displayName(@Parent() content: Content) {
     const { gate, name } = content;
-    return `${name}${gate ? ` ${gate}관문` : ''}`;
+    return `${name}${gate ? ` ${gate}관문` : ""}`;
   }
 
   @ResolveField(() => Number)
@@ -62,7 +58,7 @@ export class ContentResolver {
   @ResolveField(() => ContentWage)
   async wage(
     @Parent() content: Content,
-    @Args('filter', { nullable: true }) filter?: ContentWageFilter,
+    @Args("filter", { nullable: true }) filter?: ContentWageFilter
   ) {
     return await this.contentWageService.getContentWage(content.id, filter);
   }

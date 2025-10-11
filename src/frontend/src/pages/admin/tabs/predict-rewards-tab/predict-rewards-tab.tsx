@@ -53,9 +53,7 @@ export const PredictRewardsTab = () => {
       <Flex direction="column" gap={4} w="400px">
         <SelectRoot
           collection={frameworks}
-          onValueChange={(e) =>
-            setForm({ ...form, categoryId: Number(e.value[0]) })
-          }
+          onValueChange={(e) => setForm({ ...form, categoryId: Number(e.value[0]) })}
           size="xs"
         >
           <SelectLabel>카테고리</SelectLabel>
@@ -73,9 +71,7 @@ export const PredictRewardsTab = () => {
         <Flex direction="column" gap={2}>
           <Text fontSize="sm">레벨</Text>
           <Input
-            onChange={(e) =>
-              setForm({ ...form, level: Number(e.target.value) })
-            }
+            onChange={(e) => setForm({ ...form, level: Number(e.target.value) })}
             placeholder="레벨"
             size="xs"
             value={form.level}
@@ -104,9 +100,7 @@ export const PredictRewardsTab = () => {
                 <Text fontWeight="bold">
                   {result.categoryName} (목표 레벨: {result.targetLevel})
                 </Text>
-                <Text fontSize="sm">
-                  기반 레벨: {result.basedOnLevels?.join(", ")}
-                </Text>
+                <Text fontSize="sm">기반 레벨: {result.basedOnLevels?.join(", ")}</Text>
                 {result.predictions?.map((prediction, index) => (
                   <Flex
                     bg="whiteAlpha.200"
@@ -119,18 +113,10 @@ export const PredictRewardsTab = () => {
                     p={4}
                   >
                     <Text fontWeight="bold">{prediction.itemName}</Text>
+                    <Text fontSize="sm">예측 수량: {prediction.predictedQuantity.toFixed(2)}</Text>
+                    <Text fontSize="sm">이전 수량: {prediction.previousQuantity}</Text>
                     <Text fontSize="sm">
-                      예측 수량: {prediction.predictedQuantity.toFixed(2)}
-                    </Text>
-                    <Text fontSize="sm">
-                      이전 수량: {prediction.previousQuantity}
-                    </Text>
-                    <Text fontSize="sm">
-                      증가율:{" "}
-                      {((prediction.averageIncreaseFactor - 1) * 100).toFixed(
-                        1
-                      )}
-                      %
+                      증가율: {((prediction.averageIncreaseFactor - 1) * 100).toFixed(1)}%
                     </Text>
                     <Text fontSize="xs" opacity={0.7}>
                       히스토리 레벨: {prediction.historyLevels.join(", ")}

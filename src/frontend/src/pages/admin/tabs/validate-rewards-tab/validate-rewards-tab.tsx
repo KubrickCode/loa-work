@@ -115,31 +115,22 @@ export const ValidateRewardsTab = () => {
                     <Text fontWeight="bold">{validation.itemName}</Text>
                     {validation.status === "insufficient_data" ? (
                       <>
-                        <Text fontSize="sm">
-                          현재 수량: {validation.currentQuantity}
-                        </Text>
+                        <Text fontSize="sm">현재 수량: {validation.currentQuantity}</Text>
                         <Text color="yellow.500" fontSize="sm">
-                          {validation.message} (제보 수:{" "}
-                          {validation.reportCount})
+                          {validation.message} (제보 수: {validation.reportCount})
                         </Text>
                       </>
                     ) : (
                       <>
-                        <Text fontSize="sm">
-                          현재 수량: {validation.currentQuantity}
-                        </Text>
+                        <Text fontSize="sm">현재 수량: {validation.currentQuantity}</Text>
                         <Text fontSize="sm">
                           제보 평균: {validation.reportedQuantity?.toFixed(2)}
                         </Text>
-                        <Text
-                          color={getStatusColor(validation.status)}
-                          fontSize="sm"
-                        >
+                        <Text color={getStatusColor(validation.status)} fontSize="sm">
                           차이: {validation.difference}
                         </Text>
                         <Text fontSize="xs" opacity={0.7}>
-                          총 제보: {validation.totalReports} (유효:{" "}
-                          {validation.validReports}, 제외:{" "}
+                          총 제보: {validation.totalReports} (유효: {validation.validReports}, 제외:{" "}
                           {validation.excludedReports})
                         </Text>
                       </>

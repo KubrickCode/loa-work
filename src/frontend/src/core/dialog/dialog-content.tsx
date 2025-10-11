@@ -5,10 +5,7 @@ import {
   DialogCloseTrigger,
 } from "../chakra-components/ui/dialog";
 
-export const DialogContent = ({
-  children,
-  ...otherProps
-}: DialogContentProps) => (
+export const DialogContent = ({ children, ...otherProps }: DialogContentProps) => (
   <ChakraDialogContent
     onClick={(e) => e.stopPropagation()}
     onKeyDown={(e) => e.stopPropagation()}

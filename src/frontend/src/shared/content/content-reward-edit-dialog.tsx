@@ -71,9 +71,7 @@ export const ContentRewardEditDialog = ({
     >
       {({ queryData, setValue, watch }) => (
         <>
-          <Dialog.Header>
-            {queryData.content.displayName} - 보상 수정
-          </Dialog.Header>
+          <Dialog.Header>{queryData.content.displayName} - 보상 수정</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               {queryData.content.contentRewards.map((reward, index) => (
@@ -84,12 +82,7 @@ export const ContentRewardEditDialog = ({
                 >
                   <InputGroup
                     endElement={
-                      <NativeSelect.Root
-                        me="-1"
-                        size="xs"
-                        variant="plain"
-                        width="auto"
-                      >
+                      <NativeSelect.Root me="-1" size="xs" variant="plain" width="auto">
                         <NativeSelect.Field
                           fontSize="sm"
                           onChange={(e) => {
@@ -98,11 +91,7 @@ export const ContentRewardEditDialog = ({
                               e.target.value === "true"
                             );
                           }}
-                          value={
-                            watch(`contentRewards.${index}.isSellable`)
-                              ? "true"
-                              : "false"
-                          }
+                          value={watch(`contentRewards.${index}.isSellable`) ? "true" : "false"}
                         >
                           <option style={{ color: "black" }} value="true">
                             거래 가능
@@ -118,11 +107,10 @@ export const ContentRewardEditDialog = ({
                   >
                     <Form.Input
                       css={{
-                        "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button":
-                          {
-                            "-webkit-appearance": "none",
-                            margin: 0,
-                          },
+                        "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+                          "-webkit-appearance": "none",
+                          margin: 0,
+                        },
                         "&[type=number]": {
                           "-moz-appearance": "textfield",
                         },

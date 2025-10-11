@@ -46,10 +46,7 @@ export const ContentWageListFilters = () => {
           <PopoverBody>
             <Flex direction="column" gap={4}>
               <Field label="컨텐츠 종류">
-                <ContentCategoryFilter
-                  onChange={handleCategoryChange}
-                  value={contentCategoryId}
-                />
+                <ContentCategoryFilter onChange={handleCategoryChange} value={contentCategoryId} />
               </Field>
               <Field label="컨텐츠 보상 종류">
                 <ItemsFilter />
@@ -110,11 +107,7 @@ const ContentIsBoundFilter = () => {
 };
 
 const ItemsFilter = () => {
-  const {
-    items: rewardItems,
-    includeItemIds,
-    setIncludeItemIds,
-  } = useContentWageListPage();
+  const { items: rewardItems, includeItemIds, setIncludeItemIds } = useContentWageListPage();
 
   const items = rewardItems.map(({ id, name }) => ({
     label: name,

@@ -10,12 +10,7 @@ export type PageProps = StackProps & {
   description: string;
 };
 
-export const Page = ({
-  children,
-  title,
-  description,
-  ...otherProps
-}: PageProps) => {
+export const Page = ({ children, title, description, ...otherProps }: PageProps) => {
   return (
     <>
       <Helmet description={description} title={title} />
@@ -31,8 +26,7 @@ export const Page = ({
         p={{ base: 4, md: 8 }}
         position="relative"
         shadow={{
-          _dark:
-            "0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)",
+          _dark: "0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)",
           _light: "md",
         }}
         transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"

@@ -1,9 +1,6 @@
 import { Controller } from "react-hook-form";
 
-import {
-  Select as BaseSelect,
-  SelectProps as BaseSelectProps,
-} from "~/core/select";
+import { Select as BaseSelect, SelectProps as BaseSelectProps } from "~/core/select";
 
 export type SelectProps<T extends string | number> = Omit<
   BaseSelectProps<T>,

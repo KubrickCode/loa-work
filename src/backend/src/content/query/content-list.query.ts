@@ -1,8 +1,8 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { Content } from '../object/content.object';
-import { ContentStatus, Prisma } from '@prisma/client';
-import _ from 'lodash';
+import { Args, Field, InputType, Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { Content } from "../object/content.object";
+import { ContentStatus, Prisma } from "@prisma/client";
+import _ from "lodash";
 
 @InputType()
 export class ContentListFilter {
@@ -24,22 +24,20 @@ export class ContentListQuery {
   constructor(private prisma: PrismaService) {}
 
   @Query(() => [Content])
-  async contentList(
-    @Args('filter', { nullable: true }) filter?: ContentListFilter,
-  ) {
+  async contentList(@Args("filter", { nullable: true }) filter?: ContentListFilter) {
     return await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
       orderBy: [
         {
           contentCategory: {
-            id: 'asc',
+            id: "asc",
           },
         },
         {
-          level: 'asc',
+          level: "asc",
         },
         {
-          id: 'asc',
+          id: "asc",
         },
       ],
     });
@@ -57,14 +55,14 @@ export class ContentListQuery {
         {
           name: {
             contains: filter.keyword,
-            mode: 'insensitive',
+            mode: "insensitive",
           },
         },
         {
           contentCategory: {
             name: {
               contains: filter.keyword,
-              mode: 'insensitive',
+              mode: "insensitive",
             },
           },
         },

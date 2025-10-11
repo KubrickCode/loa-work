@@ -4,18 +4,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { IoIosStarOutline } from "react-icons/io";
 import { IoStar } from "react-icons/io5";
 
-import {
-  ANIMATION_DURATIONS,
-  EASING,
-} from "~/core/animations/micro-interactions";
+import { ANIMATION_DURATIONS, EASING } from "~/core/animations/micro-interactions";
 
 const MotionIconButton = motion.create(IconButton);
 
 export type FavoriteValue = string | number;
 
-export const getFavoritesFromStorage = <T extends FavoriteValue>(
-  key: string
-): T[] => {
+export const getFavoritesFromStorage = <T extends FavoriteValue>(key: string): T[] => {
   try {
     const storedItems = localStorage.getItem(key);
     return storedItems ? JSON.parse(storedItems) : [];
@@ -65,16 +60,15 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
   onChange,
   externalFavorites,
 }) => {
-  const [internalFavorites, setInternalFavorites] = useState<FavoriteValue[]>(
-    () => getFavoritesFromStorage(storageKey)
+  const [internalFavorites, setInternalFavorites] = useState<FavoriteValue[]>(() =>
+    getFavoritesFromStorage(storageKey)
   );
   const [isAnimating, setIsAnimating] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const [gold500] = useToken("colors", "gold.500");
 
-  const favorites =
-    externalFavorites !== undefined ? externalFavorites : internalFavorites;
+  const favorites = externalFavorites !== undefined ? externalFavorites : internalFavorites;
 
   useEffect(() => {
     if (onChange && externalFavorites === undefined) {
@@ -208,12 +202,8 @@ export const sortWithFavoritesAtTop = <T,>(
 ): T[] => {
   if (!items.length || !favorites.length) return items;
 
-  const favoriteItems = items.filter((item) =>
-    favorites.includes(getFavoriteId(item))
-  );
-  const regularItems = items.filter(
-    (item) => !favorites.includes(getFavoriteId(item))
-  );
+  const favoriteItems = items.filter((item) => favorites.includes(getFavoriteId(item)));
+  const regularItems = items.filter((item) => !favorites.includes(getFavoriteId(item)));
 
   return [...favoriteItems, ...regularItems];
 };

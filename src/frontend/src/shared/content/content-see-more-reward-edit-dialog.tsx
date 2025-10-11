@@ -38,13 +38,11 @@ export const ContentSeeMoreRewardEditDialog = ({
       ContentSeeMoreRewardEditDialogQueryVariables
     >
       defaultValues={(data) => ({
-        contentSeeMoreRewards: data.content.contentSeeMoreRewards.map(
-          (reward) => ({
-            contentId,
-            itemId: reward.item.id,
-            quantity: reward.quantity,
-          })
-        ),
+        contentSeeMoreRewards: data.content.contentSeeMoreRewards.map((reward) => ({
+          contentId,
+          itemId: reward.item.id,
+          quantity: reward.quantity,
+        })),
       })}
       form={{
         mutation: ContentSeeMoreRewardsEditDocument,
@@ -64,9 +62,7 @@ export const ContentSeeMoreRewardEditDialog = ({
     >
       {({ queryData }) => (
         <>
-          <Dialog.Header>
-            {queryData.content.displayName} - 더보기 보상 수정
-          </Dialog.Header>
+          <Dialog.Header>{queryData.content.displayName} - 더보기 보상 수정</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               {queryData.content.contentSeeMoreRewards.map((reward, index) => (

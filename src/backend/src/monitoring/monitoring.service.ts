@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import * as promClient from 'prom-client';
+import { Injectable } from "@nestjs/common";
+import * as promClient from "prom-client";
 
 @Injectable()
 export class MonitoringService {
@@ -8,9 +8,9 @@ export class MonitoringService {
   constructor() {
     promClient.collectDefaultMetrics();
     this.httpRequestsTotal = new promClient.Counter({
-      name: 'http_requests_total',
-      help: 'Total number of HTTP requests',
-      labelNames: ['method', 'path', 'status'],
+      name: "http_requests_total",
+      help: "Total number of HTTP requests",
+      labelNames: ["method", "path", "status"],
     });
   }
 

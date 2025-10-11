@@ -1,16 +1,8 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Field,
-  Float,
-  InputType,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from '@nestjs/graphql';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { PrismaService } from 'src/prisma';
-import { UserContentService } from '../../user/service/user-content.service';
+import { UseGuards } from "@nestjs/common";
+import { Args, Field, Float, InputType, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { AuthGuard } from "src/auth/auth.guard";
+import { PrismaService } from "src/prisma";
+import { UserContentService } from "../../user/service/user-content.service";
 
 @InputType()
 class UserItemPriceEditInput {
@@ -31,12 +23,12 @@ class UserItemPriceEditResult {
 export class UserItemPriceEditMutation {
   constructor(
     private prisma: PrismaService,
-    private userContentService: UserContentService,
+    private userContentService: UserContentService
   ) {}
 
   @UseGuards(AuthGuard)
   @Mutation(() => UserItemPriceEditResult)
-  async userItemPriceEdit(@Args('input') input: UserItemPriceEditInput) {
+  async userItemPriceEdit(@Args("input") input: UserItemPriceEditInput) {
     const { id, price } = input;
 
     await this.userContentService.validateUserItem(id);

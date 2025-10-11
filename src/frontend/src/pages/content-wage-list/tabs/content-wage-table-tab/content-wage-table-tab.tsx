@@ -38,10 +38,7 @@ export const ContentWageTableTab = () => {
               onComplete: () => {
                 refetch();
                 client.refetchQueries({
-                  include: [
-                    ContentWageListTableDocument,
-                    ContentGroupWageListTableDocument,
-                  ],
+                  include: [ContentWageListTableDocument, ContentGroupWageListTableDocument],
                 });
               },
             }}
@@ -63,14 +60,10 @@ export const ContentWageTableTab = () => {
             </Button>
           </Dialog.Trigger>
         </Flex>
-        <Suspense
-          fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}
-        >
+        <Suspense fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}>
           <ContentWageListTable />
         </Suspense>
-        <Suspense
-          fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}
-        >
+        <Suspense fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}>
           <ContentGroupWageListTable />
         </Suspense>
       </ContentWageListPageProvider>

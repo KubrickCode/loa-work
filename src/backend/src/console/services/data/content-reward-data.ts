@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from "@prisma/client";
 
 export const getContentsWithRewards = ({
   kurzanId,
@@ -33,7 +33,7 @@ export const getContentsWithRewards = ({
   };
 }): Prisma.ContentUncheckedCreateInput[] => [
   {
-    name: '아비도스 1 작전',
+    name: "아비도스 1 작전",
     contentCategoryId: kurzanId,
     level: 1640,
     contentDuration: {
@@ -79,7 +79,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '아비도스 2 작전',
+    name: "아비도스 2 작전",
     contentCategoryId: kurzanId,
     level: 1660,
     contentDuration: {
@@ -125,7 +125,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '아비도스 3 작전',
+    name: "아비도스 3 작전",
     contentCategoryId: kurzanId,
     level: 1680,
     contentDuration: {
@@ -171,7 +171,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '아게오로스',
+    name: "아게오로스",
     contentCategoryId: guardianRaidId,
     level: 1640,
     contentDuration: {
@@ -207,7 +207,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '스콜라키아',
+    name: "스콜라키아",
     contentCategoryId: guardianRaidId,
     level: 1680,
     contentDuration: {
@@ -243,7 +243,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '제 1 해금',
+    name: "제 1 해금",
     contentCategoryId: cubeId,
     level: 1640,
     contentDuration: {
@@ -289,7 +289,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '제 2 해금',
+    name: "제 2 해금",
     contentCategoryId: cubeId,
     level: 1680,
     contentDuration: {
@@ -335,7 +335,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '1640 에포나 의뢰(x3)',
+    name: "1640 에포나 의뢰(x3)",
     contentCategoryId: eponaQuestId,
     level: 1640,
     contentDuration: {
@@ -376,7 +376,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '1640 카오스게이트',
+    name: "1640 카오스게이트",
     contentCategoryId: chaosGateId,
     level: 1640,
     contentDuration: {
@@ -417,7 +417,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '1680 카오스게이트',
+    name: "1680 카오스게이트",
     contentCategoryId: chaosGateId,
     level: 1680,
     contentDuration: {
@@ -458,7 +458,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '1640 세베크 아툰',
+    name: "1640 세베크 아툰",
     contentCategoryId: fieldBossId,
     level: 1640,
     contentDuration: {
@@ -494,7 +494,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '1680 세베크 아툰',
+    name: "1680 세베크 아툰",
     contentCategoryId: fieldBossId,
     level: 1680,
     contentDuration: {
@@ -530,7 +530,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[노말]폭풍의 지휘관, 베히모스',
+    name: "[노말]폭풍의 지휘관, 베히모스",
     gate: 1,
     contentCategoryId: epicRaidId,
     level: 1640,
@@ -589,7 +589,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[노말]폭풍의 지휘관, 베히모스',
+    name: "[노말]폭풍의 지휘관, 베히모스",
     gate: 2,
     contentCategoryId: epicRaidId,
     level: 1640,
@@ -648,7 +648,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[하드]붉어진 백야의 나선',
+    name: "[하드]붉어진 백야의 나선",
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1640,
@@ -707,7 +707,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[하드]붉어진 백야의 나선',
+    name: "[하드]붉어진 백야의 나선",
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1640,
@@ -766,7 +766,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[노말]대지를 부수는 업화의 궤적',
+    name: "[노말]대지를 부수는 업화의 궤적",
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1660,
@@ -825,7 +825,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[노말]대지를 부수는 업화의 궤적',
+    name: "[노말]대지를 부수는 업화의 궤적",
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1660,
@@ -884,7 +884,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[노말]부유하는 악몽의 진혼곡',
+    name: "[노말]부유하는 악몽의 진혼곡",
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1670,
@@ -943,7 +943,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[노말]부유하는 악몽의 진혼곡',
+    name: "[노말]부유하는 악몽의 진혼곡",
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1670,
@@ -1002,7 +1002,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[하드]대지를 부수는 업화의 궤적',
+    name: "[하드]대지를 부수는 업화의 궤적",
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1680,
@@ -1061,7 +1061,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[하드]대지를 부수는 업화의 궤적',
+    name: "[하드]대지를 부수는 업화의 궤적",
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1680,
@@ -1120,7 +1120,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[하드]부유하는 악몽의 진혼곡',
+    name: "[하드]부유하는 악몽의 진혼곡",
     gate: 1,
     contentCategoryId: kazerosRaidId,
     level: 1690,
@@ -1179,7 +1179,7 @@ export const getContentsWithRewards = ({
     },
   },
   {
-    name: '[하드]부유하는 악몽의 진혼곡',
+    name: "[하드]부유하는 악몽의 진혼곡",
     gate: 2,
     contentCategoryId: kazerosRaidId,
     level: 1690,

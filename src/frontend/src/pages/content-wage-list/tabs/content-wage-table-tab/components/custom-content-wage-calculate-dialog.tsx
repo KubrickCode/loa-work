@@ -82,11 +82,7 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
               </Flex>
 
               {queryData.items.map((item, index) => (
-                <Form.Field
-                  key={item.id}
-                  label={`${item.name}`}
-                  name={`items.${index}.quantity`}
-                >
+                <Form.Field key={item.id} label={`${item.name}`} name={`items.${index}.quantity`}>
                   <Form.NumberInput />
                 </Form.Field>
               ))}

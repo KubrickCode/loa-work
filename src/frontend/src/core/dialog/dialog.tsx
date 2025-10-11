@@ -35,19 +35,13 @@ type DialogComponentPropsWithQuery<
         }
       ) => ReactNode);
   defaultValues?: (data: TQuery) => TInput;
-  form?: Pick<
-    UseMutationFormOptions<TInput, TMutation>,
-    "mutation" | "onComplete" | "schema"
-  >;
+  form?: Pick<UseMutationFormOptions<TInput, TMutation>, "mutation" | "onComplete" | "schema">;
   query: TypedDocumentNode<TQuery, TVariables>;
   queryVariables?: NoInfer<TVariables>;
   size?: DialogRootProps["size"];
 };
 
-type DialogComponentPropsWithoutQuery<
-  TInput extends FieldValues,
-  TMutation,
-> = DialogProps & {
+type DialogComponentPropsWithoutQuery<TInput extends FieldValues, TMutation> = DialogProps & {
   children:
     | ReactNode
     | ((
@@ -56,19 +50,14 @@ type DialogComponentPropsWithoutQuery<
         }
       ) => ReactNode);
   defaultValues?: never;
-  form?: Pick<
-    UseMutationFormOptions<TInput, TMutation>,
-    "mutation" | "onComplete" | "schema"
-  >;
+  form?: Pick<UseMutationFormOptions<TInput, TMutation>, "mutation" | "onComplete" | "schema">;
   query?: never;
   queryVariables?: never;
   size?: DialogRootProps["size"];
 };
 
 type DialogComponentPropsQueryOnly<TQuery, TVariables> = DialogProps & {
-  children:
-    | ReactNode
-    | ((props: { queryData: TQuery; refetch: () => void }) => ReactNode);
+  children: ReactNode | ((props: { queryData: TQuery; refetch: () => void }) => ReactNode);
   defaultValues?: never;
   form?: never;
   query: TypedDocumentNode<TQuery, TVariables>;
@@ -118,12 +107,7 @@ function Dialog(props: DialogImplementationProps): JSX.Element {
     : null;
 
   useEffect(() => {
-    if (
-      formReturn &&
-      defaultValues &&
-      queryResult?.data &&
-      !queryResult.loading
-    ) {
+    if (formReturn && defaultValues && queryResult?.data && !queryResult.loading) {
       formReturn.reset(defaultValues(queryResult.data));
     }
   }, [queryResult?.data, queryResult?.loading]);
@@ -194,11 +178,7 @@ function Dialog(props: DialogImplementationProps): JSX.Element {
     >
       <Portal>
         <DialogBackdrop />
-        {formReturn ? (
-          <FormProvider {...formReturn}>{content}</FormProvider>
-        ) : (
-          content
-        )}
+        {formReturn ? <FormProvider {...formReturn}>{content}</FormProvider> : content}
       </Portal>
     </DialogRoot>
   );

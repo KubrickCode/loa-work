@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
-import { AppModule } from 'src/app.module';
-import { PrismaService } from 'src/prisma';
-import { ItemKind } from '@prisma/client';
-import 'src/enums';
-import { ContentFactory } from 'src/test/factory/content.factory';
-import { ContentRewardFactory } from 'src/test/factory/content-reward.factory';
-import { ItemFactory } from 'src/test/factory/item.factory';
-import { ContentDurationFactory } from 'src/test/factory/content-duration.factory';
-import { ContentCategoryFactory } from 'src/test/factory/content-category.factory';
-import { ContentSeeMoreRewardFactory } from 'src/test/factory/content-see-more-reward.factory';
+import { Test, TestingModule } from "@nestjs/testing";
+import { INestApplication } from "@nestjs/common";
+import request from "supertest";
+import { AppModule } from "src/app.module";
+import { PrismaService } from "src/prisma";
+import { ItemKind } from "@prisma/client";
+import "src/enums";
+import { ContentFactory } from "src/test/factory/content.factory";
+import { ContentRewardFactory } from "src/test/factory/content-reward.factory";
+import { ItemFactory } from "src/test/factory/item.factory";
+import { ContentDurationFactory } from "src/test/factory/content-duration.factory";
+import { ContentCategoryFactory } from "src/test/factory/content-category.factory";
+import { ContentSeeMoreRewardFactory } from "src/test/factory/content-see-more-reward.factory";
 
-describe('ContentWageListQuery (e2e)', () => {
+describe("ContentWageListQuery (e2e)", () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let contentFactory: ContentFactory;
@@ -62,7 +62,7 @@ describe('ContentWageListQuery (e2e)', () => {
     await prisma.item.deleteMany({});
   });
 
-  it('기본 쿼리', async () => {
+  it("기본 쿼리", async () => {
     const content = await contentFactory.create();
     const item = await itemFactory.create({
       data: {
@@ -86,9 +86,9 @@ describe('ContentWageListQuery (e2e)', () => {
     });
 
     const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
+      .set("Accept", "application/json")
       .send({
         query: `
           query {
@@ -113,27 +113,27 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(wage.krwAmountPerHour).toBe(750); // 3000 골드/시간 * (25 KRW / 100 골드) = 750 원/시간
   });
 
-  it('카테고리 필터', async () => {
+  it("카테고리 필터", async () => {
     // 서로 다른 두 카테고리 생성
     const category1 = await contentCategoryFactory.create({
-      data: { name: 'CategoryA' },
+      data: { name: "CategoryA" },
     });
 
     const category2 = await contentCategoryFactory.create({
-      data: { name: 'CategoryB' },
+      data: { name: "CategoryB" },
     });
 
     // 각 카테고리에 콘텐츠 생성
     const content1 = await contentFactory.create({
       data: {
-        name: 'Content in CategoryA',
+        name: "Content in CategoryA",
         contentCategoryId: category1.id,
       },
     });
 
     const content2 = await contentFactory.create({
       data: {
-        name: 'Content in CategoryB',
+        name: "Content in CategoryB",
         contentCategoryId: category2.id,
       },
     });
@@ -167,8 +167,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // 카테고리 필터로 쿼리 실행
     const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -186,20 +186,20 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(response.body.data.contentWageList[0].contentId).toBe(content1.id);
   });
 
-  it('키워드 필터', async () => {
+  it("키워드 필터", async () => {
     // 서로 다른 이름의 콘텐츠 생성
     const category = await contentCategoryFactory.create();
 
     const content1 = await contentFactory.create({
       data: {
-        name: '특별한이름의콘텐츠',
+        name: "특별한이름의콘텐츠",
         contentCategoryId: category.id,
       },
     });
 
     const content2 = await contentFactory.create({
       data: {
-        name: '일반콘텐츠',
+        name: "일반콘텐츠",
         contentCategoryId: category.id,
       },
     });
@@ -233,8 +233,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // 키워드 필터로 쿼리 실행
     const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -252,7 +252,7 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(response.body.data.contentWageList[0].contentId).toBe(content1.id);
   });
 
-  it('includeItemIds 필터', async () => {
+  it("includeItemIds 필터", async () => {
     // 콘텐츠 생성
     const content = await contentFactory.create();
 
@@ -300,8 +300,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // item1만 포함하도록 필터링
     const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -319,7 +319,7 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(response.body.data.contentWageList[0].goldAmountPerClear).toBe(500); // item1만 계산 (100 * 5)
   });
 
-  it('includeIsSeeMore 필터', async () => {
+  it("includeIsSeeMore 필터", async () => {
     // 콘텐츠 생성
     const content = await contentFactory.create();
 
@@ -360,8 +360,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // includeIsSeeMore = true로 쿼리
     const responseWithSeeMore = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -375,8 +375,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // includeIsSeeMore = false로 쿼리
     const responseWithoutSeeMore = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -393,8 +393,7 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(responseWithoutSeeMore.status).toBe(200);
     expect(responseWithoutSeeMore.body.errors).toBeUndefined();
 
-    const goldWithSeeMore =
-      responseWithSeeMore.body.data.contentWageList[0].goldAmountPerClear;
+    const goldWithSeeMore = responseWithSeeMore.body.data.contentWageList[0].goldAmountPerClear;
     const goldWithoutSeeMore =
       responseWithoutSeeMore.body.data.contentWageList[0].goldAmountPerClear;
 
@@ -402,7 +401,7 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(goldWithoutSeeMore).toBe(500); // 일반 500만
   });
 
-  it('includeIsBound 필터', async () => {
+  it("includeIsBound 필터", async () => {
     // 콘텐츠 생성
     const content = await contentFactory.create();
 
@@ -451,8 +450,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // includeIsBound = false로 쿼리 (거래 가능 아이템만)
     const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -470,7 +469,7 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(response.body.data.contentWageList[0].goldAmountPerClear).toBe(500); // 거래 가능 아이템만 계산
   });
 
-  it('정렬(orderBy)', async () => {
+  it("정렬(orderBy)", async () => {
     // 여러 콘텐츠 생성
     const category = await contentCategoryFactory.create();
 
@@ -515,8 +514,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // goldAmountPerClear 기준 오름차순 정렬
     const responseAsc = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -530,8 +529,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // goldAmountPerClear 기준 내림차순 정렬
     const responseDesc = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {
@@ -560,27 +559,27 @@ describe('ContentWageListQuery (e2e)', () => {
     expect(resultsDesc[2].goldAmountPerClear).toBe(300);
   });
 
-  it('복합 필터', async () => {
+  it("복합 필터", async () => {
     // 여러 카테고리 생성
     const category1 = await contentCategoryFactory.create({
-      data: { name: '카테고리1' },
+      data: { name: "카테고리1" },
     });
 
     const category2 = await contentCategoryFactory.create({
-      data: { name: '카테고리2' },
+      data: { name: "카테고리2" },
     });
 
     // 서로 다른 카테고리에 콘텐츠 생성
     const content1 = await contentFactory.create({
       data: {
-        name: '특수콘텐츠',
+        name: "특수콘텐츠",
         contentCategoryId: category1.id,
       },
     });
 
     const content2 = await contentFactory.create({
       data: {
-        name: '일반콘텐츠',
+        name: "일반콘텐츠",
         contentCategoryId: category2.id,
       },
     });
@@ -641,8 +640,8 @@ describe('ContentWageListQuery (e2e)', () => {
 
     // 복합 필터: 카테고리1 + 키워드 "특수" + 거래 가능 아이템만 + item1만
     const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .set('Content-Type', 'application/json')
+      .post("/graphql")
+      .set("Content-Type", "application/json")
       .send({
         query: `
           query {

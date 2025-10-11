@@ -12,9 +12,7 @@ const ArrowIcon = ({
 }) => {
   return (
     <Box color={color} height="6px" overflow="hidden" width="8px">
-      <Box margin="-3px">
-        {direction === "up" ? <TiArrowSortedUp /> : <TiArrowSortedDown />}
-      </Box>
+      <Box margin="-3px">{direction === "up" ? <TiArrowSortedUp /> : <TiArrowSortedDown />}</Box>
     </Box>
   );
 };
@@ -47,14 +45,8 @@ export const SortControl = ({
       role="button"
       tabIndex={0}
     >
-      <ArrowIcon
-        color={currentState === "asc" ? activeColor : inactiveColor}
-        direction="up"
-      />
-      <ArrowIcon
-        color={currentState === "desc" ? activeColor : inactiveColor}
-        direction="down"
-      />
+      <ArrowIcon color={currentState === "asc" ? activeColor : inactiveColor} direction="up" />
+      <ArrowIcon color={currentState === "desc" ? activeColor : inactiveColor} direction="down" />
     </Flex>
   );
 };

@@ -6,10 +6,7 @@ import { useAuth } from "~/core/auth";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import {
-  ContentGroupWageListTableDocument,
-  ContentStatus,
-} from "~/core/graphql/generated";
+import { ContentGroupWageListTableDocument, ContentStatus } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import {
   FavoriteIcon,
@@ -18,10 +15,7 @@ import {
 } from "~/core/table/favorite-control";
 import { LoginTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
-import {
-  ContentGroupDetailsDialog,
-  ContentGroupDurationEditDialog,
-} from "~/shared/content";
+import { ContentGroupDetailsDialog, ContentGroupDurationEditDialog } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
 const FAVORITE_STORAGE_KEY = "content-group-wage-list-favorites";
@@ -75,11 +69,7 @@ export const ContentGroupWageListTable = () => {
               return (
                 <FavoriteIcon
                   externalFavorites={favorites}
-                  id={
-                    data.contentGroup.contentCategory.id +
-                    "_" +
-                    data.contentGroup.name
-                  }
+                  id={data.contentGroup.contentCategory.id + "_" + data.contentGroup.name}
                   onChange={handleFavoriteChange}
                   storageKey={FAVORITE_STORAGE_KEY}
                 />
@@ -127,11 +117,7 @@ export const ContentGroupWageListTable = () => {
                     disabled={!isAuthenticated}
                   >
                     <LoginTooltip>
-                      <IconButton
-                        disabled={!isAuthenticated}
-                        size="2xs"
-                        variant="surface"
-                      >
+                      <IconButton disabled={!isAuthenticated} size="2xs" variant="surface">
                         <IoIosSettings />
                       </IconButton>
                     </LoginTooltip>
@@ -144,13 +130,7 @@ export const ContentGroupWageListTable = () => {
             align: "right",
             header: "시급(원)",
             render({ data }) {
-              return (
-                <FormatNumber
-                  currency="KRW"
-                  style="currency"
-                  value={data.krwAmountPerHour}
-                />
-              );
+              return <FormatNumber currency="KRW" style="currency" value={data.krwAmountPerHour} />;
             },
             sortKey: "krwAmountPerHour",
           },

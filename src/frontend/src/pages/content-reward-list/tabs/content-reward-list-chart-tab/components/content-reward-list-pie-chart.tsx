@@ -6,10 +6,7 @@ import { ResponsiveContainer } from "recharts";
 import { useColorModeValue } from "~/core/chakra-components/ui/color-mode";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import {
-  ContentRewardListPieChartDocument,
-  ContentStatus,
-} from "~/core/graphql/generated";
+import { ContentRewardListPieChartDocument, ContentStatus } from "~/core/graphql/generated";
 import { useContentRewardListPage } from "~/pages/content-reward-list/content-reward-list-page-context";
 
 export const ContentRewardListPieChart = () => {
@@ -36,9 +33,7 @@ export const ContentRewardListPieChart = () => {
         rewards.sort((a, b) => b.value - a.value);
 
         if (rewards.length > 4) {
-          const othersValue = rewards
-            .slice(4)
-            .reduce((sum, item) => sum + item.value, 0);
+          const othersValue = rewards.slice(4).reduce((sum, item) => sum + item.value, 0);
           const topRewards = rewards.slice(0, 4);
           if (othersValue > 0) {
             topRewards.push({
@@ -66,11 +61,7 @@ export const ContentRewardListPieChart = () => {
   const tooltipTextColor = useColorModeValue("#1A202C", "#fff");
 
   return (
-    <SimpleGrid
-      columns={{ base: 1, lg: 2, xl: 3 }}
-      gap={6}
-      mx={{ base: 2, md: 0 }}
-    >
+    <SimpleGrid columns={{ base: 1, lg: 2, xl: 3 }} gap={6} mx={{ base: 2, md: 0 }}>
       {chartData.map((content) => (
         <Box
           border="1px solid"
@@ -90,9 +81,7 @@ export const ContentRewardListPieChart = () => {
                 <Pie
                   data={content.rewards}
                   dataKey="value"
-                  label={({ name, percent }) =>
-                    `${name} (${(percent * 100).toFixed(0)}%)`
-                  }
+                  label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                   nameKey="name"
                   style={{ fontSize: "12px" }}
                 >
@@ -109,12 +98,7 @@ export const ContentRewardListPieChart = () => {
                     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                   }}
                   formatter={(_, name, props) => [
-                    <Flex
-                      alignItems="center"
-                      color={tooltipTextColor}
-                      fontSize="sm"
-                      gap={1}
-                    >
+                    <Flex alignItems="center" color={tooltipTextColor} fontSize="sm" gap={1}>
                       {name} : <FormatGold value={props.payload.rawGold} />
                     </Flex>,
                   ]}

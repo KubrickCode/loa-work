@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma';
-import { ItemKind, Prisma } from '@prisma/client';
-import { getContentsWithRewards } from './data/content-reward-data';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "src/prisma";
+import { ItemKind, Prisma } from "@prisma/client";
+import { getContentsWithRewards } from "./data/content-reward-data";
 
 @Injectable()
 export class SeedService {
@@ -23,10 +23,10 @@ export class SeedService {
     await this.prisma.user.create({
       data: {
         refId: process.env.OWNER_USER_REF_ID,
-        displayName: 'Owner',
-        email: 'owner@lostark.com',
-        provider: 'GOOGLE',
-        role: 'OWNER',
+        displayName: "Owner",
+        email: "owner@lostark.com",
+        provider: "GOOGLE",
+        role: "OWNER",
       },
     });
   }
@@ -34,33 +34,30 @@ export class SeedService {
   async marketItemCategories() {
     await this.prisma.marketItemCategory.createMany({
       data: [
-        { code: 40000, name: '각인서', isItemScraperEnabled: true },
-        { code: 50010, name: '재련 재료', isItemScraperEnabled: true },
-        { code: 50020, name: '재련 추가 재료', isItemScraperEnabled: true },
-        { code: 51000, name: '기타 재료', isItemScraperEnabled: true },
-        { code: 51100, name: '무기 진화 재료', isItemScraperEnabled: true },
+        { code: 40000, name: "각인서", isItemScraperEnabled: true },
+        { code: 50010, name: "재련 재료", isItemScraperEnabled: true },
+        { code: 50020, name: "재련 추가 재료", isItemScraperEnabled: true },
+        { code: 51000, name: "기타 재료", isItemScraperEnabled: true },
+        { code: 51100, name: "무기 진화 재료", isItemScraperEnabled: true },
       ],
     });
   }
 
   async marketItems() {
     // 재련 재료 카테고리
-    const materialsCategory =
-      await this.prisma.marketItemCategory.findUniqueOrThrow({
-        where: { code: 50010 },
-      });
+    const materialsCategory = await this.prisma.marketItemCategory.findUniqueOrThrow({
+      where: { code: 50010 },
+    });
 
     // 재련 추가 재료 카테고리
-    const materialsExtraCategory =
-      await this.prisma.marketItemCategory.findUniqueOrThrow({
-        where: { code: 50020 },
-      });
+    const materialsExtraCategory = await this.prisma.marketItemCategory.findUniqueOrThrow({
+      where: { code: 50020 },
+    });
 
     // 각인서 카테고리
-    const engravingRecipeCategory =
-      await this.prisma.marketItemCategory.findUniqueOrThrow({
-        where: { code: 40000 },
-      });
+    const engravingRecipeCategory = await this.prisma.marketItemCategory.findUniqueOrThrow({
+      where: { code: 40000 },
+    });
 
     // 운명의 파편 주머니(소), 운명의 돌파석, 운명의 파괴석, 운명의 수호석
     const materialsRefIds = [66130141, 66110225, 66102006, 66102106];
@@ -68,13 +65,11 @@ export class SeedService {
     const materialsExtraRefIds = [66111131, 66111132];
     // 유물 각인서
     const relicEngravingRecipesRefIds = [
-      65202305, 65201405, 65202005, 65200905, 65200705, 65201705, 65201605,
-      65202405, 65202605, 65202705, 65200105, 65204205, 65201805, 65202905,
-      65203805, 65203605, 65202205, 65202505, 65200205, 65201205, 65201905,
-      65200305, 65201105, 65204305, 65202105, 65203205, 65200405, 65203405,
-      65204005, 65201305, 65200805, 65204105, 65200605, 65201505, 65203105,
-      65203505, 65203705, 65203005, 65202805, 65203305, 65201005, 65200505,
-      65203905,
+      65202305, 65201405, 65202005, 65200905, 65200705, 65201705, 65201605, 65202405, 65202605,
+      65202705, 65200105, 65204205, 65201805, 65202905, 65203805, 65203605, 65202205, 65202505,
+      65200205, 65201205, 65201905, 65200305, 65201105, 65204305, 65202105, 65203205, 65200405,
+      65203405, 65204005, 65201305, 65200805, 65204105, 65200605, 65201505, 65203105, 65203505,
+      65203705, 65203005, 65202805, 65203305, 65201005, 65200505, 65203905,
     ];
 
     await this.prisma.marketItem.createMany({
@@ -83,28 +78,28 @@ export class SeedService {
           refId,
           name: refId.toString(),
           bundleCount: 0,
-          imageUrl: '',
+          imageUrl: "",
           isStatScraperEnabled: true,
           marketItemCategoryId: materialsCategory.id,
-          grade: '',
+          grade: "",
         })),
         ...materialsExtraRefIds.map((refId) => ({
           refId,
           name: refId.toString(),
           bundleCount: 0,
-          imageUrl: '',
+          imageUrl: "",
           isStatScraperEnabled: true,
           marketItemCategoryId: materialsExtraCategory.id,
-          grade: '',
+          grade: "",
         })),
         ...relicEngravingRecipesRefIds.map((refId) => ({
           refId,
           name: refId.toString(),
           bundleCount: 0,
-          imageUrl: '',
+          imageUrl: "",
           isStatScraperEnabled: true,
           marketItemCategoryId: engravingRecipeCategory.id,
-          grade: '',
+          grade: "",
         })),
       ],
     });
@@ -112,39 +107,34 @@ export class SeedService {
 
   async auctionItemCategories() {
     await this.prisma.auctionItemCategory.createMany({
-      data: [{ code: 210000, name: '보석' }],
+      data: [{ code: 210000, name: "보석" }],
     });
   }
 
   async auctionItems() {
     type Option = Pick<
       Prisma.AuctionItemUncheckedCreateInput,
-      'auctionItemCategoryId' | 'name' | 'imageUrl' | 'isStatScraperEnabled'
+      "auctionItemCategoryId" | "name" | "imageUrl" | "isStatScraperEnabled"
     >;
     const damageGems: Option[] = [];
     const coolDownGems: Option[] = [];
 
-    const auctionItemCategory =
-      await this.prisma.auctionItemCategory.findFirstOrThrow({
-        where: { name: '보석' },
-      });
+    const auctionItemCategory = await this.prisma.auctionItemCategory.findFirstOrThrow({
+      where: { name: "보석" },
+    });
 
     for (let i = 1; i < 11; i++) {
       damageGems.push({
         auctionItemCategoryId: auctionItemCategory.id,
         name: `${i}레벨 겁화의 보석`,
-        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
-          95 + i
-        }.png`,
+        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${95 + i}.png`,
         isStatScraperEnabled: true,
       });
 
       coolDownGems.push({
         auctionItemCategoryId: auctionItemCategory.id,
         name: `${i}레벨 작열의 보석`,
-        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${
-          105 + i
-        }.png`,
+        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${105 + i}.png`,
         isStatScraperEnabled: true,
       });
     }
@@ -158,120 +148,111 @@ export class SeedService {
     await this.prisma.contentCategory.createMany({
       data: [
         {
-          name: '쿠르잔 전선',
+          name: "쿠르잔 전선",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/ripkqgpxfye68kmwqubc.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/ripkqgpxfye68kmwqubc.png",
         },
         {
-          name: '가디언 토벌',
+          name: "가디언 토벌",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/gjzcmvr5adsfq14aijxo.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/gjzcmvr5adsfq14aijxo.png",
         },
         {
-          name: '에포나 의뢰',
+          name: "에포나 의뢰",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/jgul02aesc3bu56cslya.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/jgul02aesc3bu56cslya.png",
         },
         {
-          name: '큐브',
+          name: "큐브",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/kdywiiwqluqbir4px6es.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/kdywiiwqluqbir4px6es.png",
         },
         {
-          name: '카오스게이트',
+          name: "카오스게이트",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429565/b5nlz8pru2y6ubnz5ucq.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429565/b5nlz8pru2y6ubnz5ucq.png",
         },
         {
-          name: '필드보스',
+          name: "필드보스",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/sl4etdgkwejmttukaoth.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/sl4etdgkwejmttukaoth.png",
         },
         {
-          name: '에픽 레이드',
+          name: "에픽 레이드",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/yvlcbzxtiffii2ehgsw7.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/yvlcbzxtiffii2ehgsw7.png",
         },
         {
-          name: '카제로스 레이드',
+          name: "카제로스 레이드",
           imageUrl:
-            'https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/z4divlldywzqrvi6pjwg.png',
+            "https://res.cloudinary.com/dn74c0eep/image/upload/v1734429566/z4divlldywzqrvi6pjwg.png",
         },
       ],
     });
   }
 
   async contents() {
-    const { id: kurzanId } =
-      await this.prisma.contentCategory.findUniqueOrThrow({
-        where: { name: '쿠르잔 전선' },
-      });
+    const { id: kurzanId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: "쿠르잔 전선" },
+    });
 
-    const { id: guardianRaidId } =
-      await this.prisma.contentCategory.findUniqueOrThrow({
-        where: { name: '가디언 토벌' },
-      });
+    const { id: guardianRaidId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: "가디언 토벌" },
+    });
 
-    const { id: eponaQuestId } =
-      await this.prisma.contentCategory.findUniqueOrThrow({
-        where: { name: '에포나 의뢰' },
-      });
+    const { id: eponaQuestId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: "에포나 의뢰" },
+    });
 
     const { id: cubeId } = await this.prisma.contentCategory.findUniqueOrThrow({
-      where: { name: '큐브' },
+      where: { name: "큐브" },
     });
 
-    const { id: chaosGateId } =
-      await this.prisma.contentCategory.findUniqueOrThrow({
-        where: { name: '카오스게이트' },
-      });
+    const { id: chaosGateId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: "카오스게이트" },
+    });
 
-    const { id: fieldBossId } =
-      await this.prisma.contentCategory.findUniqueOrThrow({
-        where: { name: '필드보스' },
-      });
+    const { id: fieldBossId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: "필드보스" },
+    });
 
-    const { id: epicRaidId } =
-      await this.prisma.contentCategory.findUniqueOrThrow({
-        where: { name: '에픽 레이드' },
-      });
+    const { id: epicRaidId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: "에픽 레이드" },
+    });
 
-    const { id: kazerosRaidId } =
-      await this.prisma.contentCategory.findUniqueOrThrow({
-        where: { name: '카제로스 레이드' },
-      });
+    const { id: kazerosRaidId } = await this.prisma.contentCategory.findUniqueOrThrow({
+      where: { name: "카제로스 레이드" },
+    });
 
     const { id: goldId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '골드' },
+      where: { name: "골드" },
     });
     const { id: sillingId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '실링' },
+      where: { name: "실링" },
     });
     const { id: destinyFragmentId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '운명의 파편' },
+      where: { name: "운명의 파편" },
     });
-    const { id: destinyBreakstoneId } =
-      await this.prisma.item.findUniqueOrThrow({
-        where: { name: '운명의 돌파석' },
-      });
-    const { id: destinyDestructionId } =
-      await this.prisma.item.findUniqueOrThrow({
-        where: { name: '운명의 파괴석' },
-      });
+    const { id: destinyBreakstoneId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: "운명의 돌파석" },
+    });
+    const { id: destinyDestructionId } = await this.prisma.item.findUniqueOrThrow({
+      where: { name: "운명의 파괴석" },
+    });
     const { id: destinyGuardianId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '운명의 수호석' },
+      where: { name: "운명의 수호석" },
     });
     const { id: level1GemId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '1레벨 보석' },
+      where: { name: "1레벨 보석" },
     });
     const { id: lavaBreathId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '용암의 숨결' },
+      where: { name: "용암의 숨결" },
     });
     const { id: iceBreathId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '빙하의 숨결' },
+      where: { name: "빙하의 숨결" },
     });
     const { id: cardExpId } = await this.prisma.item.findUniqueOrThrow({
-      where: { name: '카드 경험치' },
+      where: { name: "카드 경험치" },
     });
 
     for (const contentData of getContentsWithRewards({
@@ -318,10 +299,10 @@ export class SeedService {
   async items() {
     await this.prisma.item.create({
       data: {
-        name: '실링',
+        name: "실링",
         kind: ItemKind.EXTRA,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/r2xk6egyoygwsftrvtyw.png",
         isEditable: true,
         price: 0,
       },
@@ -329,10 +310,10 @@ export class SeedService {
 
     await this.prisma.item.create({
       data: {
-        name: '카드 경험치',
+        name: "카드 경험치",
         kind: ItemKind.EXTRA,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734427388/pkx5erlffxtsrj1kurqt.png",
         isEditable: true,
         price: 0,
       },
@@ -340,10 +321,10 @@ export class SeedService {
 
     await this.prisma.item.create({
       data: {
-        name: '골드',
+        name: "골드",
         kind: ItemKind.EXTRA,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1735996903/hdamkxuzmvbwyopjhmcb.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1735996903/hdamkxuzmvbwyopjhmcb.png",
         isEditable: false,
         price: 1,
       },
@@ -353,52 +334,52 @@ export class SeedService {
 
     const items = [
       {
-        name: '운명의 파편',
+        name: "운명의 파편",
         kind: ItemKind.MARKET,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428078/xug2bon7qtiflcqbezza.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428078/xug2bon7qtiflcqbezza.png",
         basePrice: 0.17,
       },
       {
-        name: '운명의 돌파석',
+        name: "운명의 돌파석",
         kind: ItemKind.MARKET,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/qn5msm2gc0qtmtc0irlh.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/qn5msm2gc0qtmtc0irlh.png",
         basePrice: 25,
       },
       {
-        name: '운명의 파괴석',
+        name: "운명의 파괴석",
         kind: ItemKind.MARKET,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xy9a4qf2on63drftnkub.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xy9a4qf2on63drftnkub.png",
         basePrice: 4,
       },
       {
-        name: '운명의 수호석',
+        name: "운명의 수호석",
         kind: ItemKind.MARKET,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/azkviadmag8inzq65ajf.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/azkviadmag8inzq65ajf.png",
         basePrice: 0.5,
       },
       {
-        name: '1레벨 보석',
+        name: "1레벨 보석",
         kind: ItemKind.AUCTION,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/dpqtjeqsuqmvfwzapjj8.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/dpqtjeqsuqmvfwzapjj8.png",
         basePrice: 160,
       },
       {
-        name: '용암의 숨결',
+        name: "용암의 숨결",
         kind: ItemKind.MARKET,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xpnlsgxaatshujnzpett.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xpnlsgxaatshujnzpett.png",
         basePrice: 580,
       },
       {
-        name: '빙하의 숨결',
+        name: "빙하의 숨결",
         kind: ItemKind.MARKET,
         imageUrl:
-          'https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/k8xcldjkq33qf9l69uim.png',
+          "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/k8xcldjkq33qf9l69uim.png",
         basePrice: 160,
       },
     ];

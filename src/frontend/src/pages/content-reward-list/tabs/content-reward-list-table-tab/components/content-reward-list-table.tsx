@@ -7,10 +7,7 @@ import { Tooltip } from "~/core/chakra-components/ui/tooltip";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import {
-  ContentRewardListTableDocument,
-  ContentStatus,
-} from "~/core/graphql/generated";
+import { ContentRewardListTableDocument, ContentStatus } from "~/core/graphql/generated";
 import { Column, DataTable } from "~/core/table";
 import { LoginTooltip } from "~/core/tooltip";
 import {
@@ -73,11 +70,7 @@ export const ContentRewardListTable = () => {
             render({ data }: { data: (typeof rows)[number]["data"] }) {
               return (
                 <Dialog.Trigger
-                  dialog={
-                    data.isSeeMore
-                      ? ContentSeeMoreRewardEditDialog
-                      : ContentRewardEditDialog
-                  }
+                  dialog={data.isSeeMore ? ContentSeeMoreRewardEditDialog : ContentRewardEditDialog}
                   dialogProps={{
                     contentId: data.id,
                     onComplete: refetch,
@@ -85,11 +78,7 @@ export const ContentRewardListTable = () => {
                   disabled={!isAuthenticated}
                 >
                   <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
-                    <IconButton
-                      disabled={!isAuthenticated}
-                      size="xs"
-                      variant="surface"
-                    >
+                    <IconButton disabled={!isAuthenticated} size="xs" variant="surface">
                       <IoIosSettings />
                     </IconButton>
                   </LoginTooltip>
@@ -127,9 +116,7 @@ export const ContentRewardListTable = () => {
               align: "right",
               header: <ItemNameWithImage name={name} src={imageUrl} />,
               render({ data }) {
-                const reward = data.contentRewards.find(
-                  (reward) => reward.item.name === name
-                );
+                const reward = data.contentRewards.find((reward) => reward.item.name === name);
 
                 if (!reward || reward.averageQuantity === 0) return <>-</>;
 
@@ -152,9 +139,7 @@ export const ContentRewardListTable = () => {
               },
               sortKey: name,
               sortValue: (data) => {
-                const reward = data.contentRewards.find(
-                  (reward) => reward.item.name === name
-                );
+                const reward = data.contentRewards.find((reward) => reward.item.name === name);
                 return reward?.averageQuantity ?? 0;
               },
             })

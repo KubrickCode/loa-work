@@ -24,9 +24,7 @@ export const Footer = () => {
 
     const hasEnoughContent = scrollableHeight > 50;
 
-    const result = hasEnoughContent
-      ? latest >= scrollableHeight - SCROLL_BOTTOM_THRESHOLD
-      : false;
+    const result = hasEnoughContent ? latest >= scrollableHeight - SCROLL_BOTTOM_THRESHOLD : false;
 
     return result;
   });
@@ -80,18 +78,10 @@ const DonationPopover = () => {
         <PopoverBody>
           <List.Root>
             <List.Item>후원 계좌: 농협 / 1199-02-020307 / 이승현</List.Item>
-            <List.Item>
-              개발자의 개인 시간과 사비로 운영되고 있습니다.
-            </List.Item>
-            <List.Item>
-              사이트 퀄리티를 위해 광고를 가능한 추가하지 않습니다.
-            </List.Item>
-            <List.Item>
-              프로젝트 유지를 위해 어느 정도 비용이 발생합니다.
-            </List.Item>
-            <List.Item>
-              위와 같은 이유로 후원을 받고자 합니다. 감사합니다.
-            </List.Item>
+            <List.Item>개발자의 개인 시간과 사비로 운영되고 있습니다.</List.Item>
+            <List.Item>사이트 퀄리티를 위해 광고를 가능한 추가하지 않습니다.</List.Item>
+            <List.Item>프로젝트 유지를 위해 어느 정도 비용이 발생합니다.</List.Item>
+            <List.Item>위와 같은 이유로 후원을 받고자 합니다. 감사합니다.</List.Item>
           </List.Root>
         </PopoverBody>
       </PopoverContent>

@@ -6,10 +6,7 @@ import { useAuth } from "~/core/auth";
 import { Dialog, useDialog } from "~/core/dialog";
 import { FormatGold } from "~/core/format";
 import { useSafeQuery } from "~/core/graphql";
-import {
-  ContentStatus,
-  ContentWageListTableDocument,
-} from "~/core/graphql/generated";
+import { ContentStatus, ContentWageListTableDocument } from "~/core/graphql/generated";
 import { DataTable } from "~/core/table";
 import {
   FavoriteIcon,
@@ -18,10 +15,7 @@ import {
 } from "~/core/table/favorite-control";
 import { LoginTooltip } from "~/core/tooltip";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
-import {
-  ContentDetailsDialog,
-  ContentDurationEditDialog,
-} from "~/shared/content";
+import { ContentDetailsDialog, ContentDurationEditDialog } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
 const FAVORITE_STORAGE_KEY = "content-wage-list-favorites";
@@ -124,11 +118,7 @@ export const ContentWageListTable = () => {
                     disabled={!isAuthenticated}
                   >
                     <LoginTooltip>
-                      <IconButton
-                        disabled={!isAuthenticated}
-                        size="2xs"
-                        variant="surface"
-                      >
+                      <IconButton disabled={!isAuthenticated} size="2xs" variant="surface">
                         <IoIosSettings />
                       </IconButton>
                     </LoginTooltip>
@@ -141,13 +131,7 @@ export const ContentWageListTable = () => {
             align: "right",
             header: "시급(원)",
             render({ data }) {
-              return (
-                <FormatNumber
-                  currency="KRW"
-                  style="currency"
-                  value={data.krwAmountPerHour}
-                />
-              );
+              return <FormatNumber currency="KRW" style="currency" value={data.krwAmountPerHour} />;
             },
             sortKey: "krwAmountPerHour",
           },

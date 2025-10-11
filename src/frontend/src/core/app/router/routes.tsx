@@ -40,11 +40,7 @@ export const Routes = () => {
   return (
     <ReactRouter.Routes>
       {_.map(routes, ({ path, component }) => (
-        <ReactRouter.Route
-          element={createElement(component)}
-          key={path}
-          path={path}
-        />
+        <ReactRouter.Route element={createElement(component)} key={path} path={path} />
       ))}
     </ReactRouter.Routes>
   );

@@ -50,27 +50,24 @@ export const ContentWageListBarChart = () => {
     },
   });
 
-  const { data: groupWageListData } = useSafeQuery(
-    ContentGroupWageListBarChartDocument,
-    {
-      variables: {
-        filter: {
-          contentCategoryId,
-          includeIsSeeMore,
-          includeIsBound,
-          includeItemIds,
-          keyword,
-          status: ContentStatus.ACTIVE,
-        },
-        orderBy: [
-          {
-            field: "goldAmountPerHour",
-            order: "desc",
-          },
-        ],
+  const { data: groupWageListData } = useSafeQuery(ContentGroupWageListBarChartDocument, {
+    variables: {
+      filter: {
+        contentCategoryId,
+        includeIsSeeMore,
+        includeIsBound,
+        includeItemIds,
+        keyword,
+        status: ContentStatus.ACTIVE,
       },
-    }
-  );
+      orderBy: [
+        {
+          field: "goldAmountPerHour",
+          order: "desc",
+        },
+      ],
+    },
+  });
 
   const chartData = shouldMergeGate
     ? groupWageListData.contentGroupWageList.map((item) => ({
@@ -146,10 +143,7 @@ export const ContentWageListBarChart = () => {
             const gold = props.payload.goldAmountPerHour;
             const category = props.payload.category;
             const contentName = props.payload.name;
-            return [
-              `${value.toLocaleString()}원 (${gold}G)`,
-              `${category} - ${contentName}`,
-            ];
+            return [`${value.toLocaleString()}원 (${gold}G)`, `${category} - ${contentName}`];
           }}
         />
         <Legend

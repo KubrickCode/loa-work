@@ -1,17 +1,17 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { ContentCategory } from './content-category.object';
-import { UserContentService } from '../../user/service/user-content.service';
-import { DataLoaderService } from 'src/dataloader/data-loader.service';
-import { ContentGroup } from './content-group.object';
-import { Content } from './content.object';
-import { PrismaService } from 'src/prisma';
+import { Parent, ResolveField, Resolver } from "@nestjs/graphql";
+import { ContentCategory } from "./content-category.object";
+import { UserContentService } from "../../user/service/user-content.service";
+import { DataLoaderService } from "src/dataloader/data-loader.service";
+import { ContentGroup } from "./content-group.object";
+import { Content } from "./content.object";
+import { PrismaService } from "src/prisma";
 
 @Resolver(() => ContentGroup)
 export class ContentGroupResolver {
   constructor(
     private userContentService: UserContentService,
     private dataLoaderService: DataLoaderService,
-    private prisma: PrismaService,
+    private prisma: PrismaService
   ) {}
 
   @ResolveField(() => [Content])
@@ -26,7 +26,7 @@ export class ContentGroupResolver {
   @ResolveField(() => ContentCategory)
   async contentCategory(@Parent() contentGroup: ContentGroup) {
     return await this.dataLoaderService.contentCategory.findUniqueOrThrowById(
-      contentGroup.contentCategoryId,
+      contentGroup.contentCategoryId
     );
   }
 
@@ -35,9 +35,7 @@ export class ContentGroupResolver {
     let duration = 0;
 
     for (const contentId of contentGroup.contentIds) {
-      const contentDuration = await this.userContentService.getContentDuration(
-        contentId,
-      );
+      const contentDuration = await this.userContentService.getContentDuration(contentId);
       duration += contentDuration;
     }
 

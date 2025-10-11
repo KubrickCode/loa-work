@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Injectable } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class UserSeedService {
@@ -16,11 +16,7 @@ export class UserSeedService {
     }
   }
 
-  async makeItems(
-    userId: number,
-    tx: Prisma.TransactionClient,
-    createdAt: Date,
-  ) {
+  async makeItems(userId: number, tx: Prisma.TransactionClient, createdAt: Date) {
     const defaultItems = await tx.item.findMany({
       where: {
         isEditable: true,

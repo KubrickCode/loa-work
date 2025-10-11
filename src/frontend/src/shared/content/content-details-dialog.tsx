@@ -74,21 +74,19 @@ export const ContentDetailsDialog = ({
           { label: "이름", value: data.content.displayName },
         ];
 
-        const contentRewardsItems = data.content.contentRewards.map(
-          (contentReward) => ({
-            label: (
-              <ItemNameWithImage
-                name={contentReward.item.name}
-                reverse
-                src={contentReward.item.imageUrl}
-              />
-            ),
-            value: contentReward.averageQuantity || "-",
-          })
-        );
+        const contentRewardsItems = data.content.contentRewards.map((contentReward) => ({
+          label: (
+            <ItemNameWithImage
+              name={contentReward.item.name}
+              reverse
+              src={contentReward.item.imageUrl}
+            />
+          ),
+          value: contentReward.averageQuantity || "-",
+        }));
 
-        const contentSeeMoreRewardsItems =
-          data.content.contentSeeMoreRewards.map((contentSeeMoreReward) => ({
+        const contentSeeMoreRewardsItems = data.content.contentSeeMoreRewards.map(
+          (contentSeeMoreReward) => ({
             label: (
               <ItemNameWithImage
                 name={contentSeeMoreReward.item.name}
@@ -97,7 +95,8 @@ export const ContentDetailsDialog = ({
               />
             ),
             value: contentSeeMoreReward.quantity,
-          }));
+          })
+        );
 
         return (
           <>
@@ -121,11 +120,7 @@ export const ContentDetailsDialog = ({
                         disabled={!isAuthenticated}
                       >
                         <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
-                          <IconButton
-                            disabled={!isAuthenticated}
-                            size="2xs"
-                            variant="surface"
-                          >
+                          <IconButton disabled={!isAuthenticated} size="2xs" variant="surface">
                             <IoIosSettings />
                           </IconButton>
                         </LoginTooltip>
@@ -149,11 +144,7 @@ export const ContentDetailsDialog = ({
                           disabled={!isAuthenticated}
                         >
                           <LoginTooltip content="로그인 후 보상을 수정할 수 있습니다">
-                            <IconButton
-                              disabled={!isAuthenticated}
-                              size="2xs"
-                              variant="surface"
-                            >
+                            <IconButton disabled={!isAuthenticated} size="2xs" variant="surface">
                               <IoIosSettings />
                             </IconButton>
                           </LoginTooltip>
@@ -185,9 +176,7 @@ const ContentWageSection = ({
 }) => {
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState(false);
   const [includeIsBound, setIncludeIsBound] = useState(false);
-  const [includeItemIds, setIncludeItemIds] = useState<number[]>(
-    items.map(({ id }) => id)
-  );
+  const [includeItemIds, setIncludeItemIds] = useState<number[]>(items.map(({ id }) => id));
 
   return (
     <Section
@@ -255,19 +244,16 @@ const ContentWageSectionDataGrid = ({
   includeItemIds: number[];
 }) => {
   const { isAuthenticated } = useAuth();
-  const { data, refetch } = useSafeQuery(
-    ContentDetailsDialogWageSectionDocument,
-    {
-      variables: {
-        contentId,
-        filter: {
-          includeIsSeeMore,
-          includeIsBound,
-          includeItemIds,
-        },
+  const { data, refetch } = useSafeQuery(ContentDetailsDialogWageSectionDocument, {
+    variables: {
+      contentId,
+      filter: {
+        includeIsSeeMore,
+        includeIsBound,
+        includeItemIds,
       },
-    }
-  );
+    },
+  });
 
   const wageItems = [
     {

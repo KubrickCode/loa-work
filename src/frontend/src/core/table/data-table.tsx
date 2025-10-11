@@ -1,12 +1,6 @@
 import { Box, EmptyState, HStack, Table } from "@chakra-ui/react";
 import _ from "lodash";
-import {
-  ReactNode,
-  TableHTMLAttributes,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import { ReactNode, TableHTMLAttributes, useCallback, useMemo, useState } from "react";
 
 import {
   PaginationItems,
@@ -55,9 +49,7 @@ export const DataTable = <T,>({
   favorites = [],
   ...rest
 }: DataTableProps<T>) => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(
-    defaultSorting?.value || null
-  );
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(defaultSorting?.value || null);
   const [currentSortKey, setCurrentSortKey] = useState<string | null>(
     defaultSorting?.sortKey || null
   );
@@ -74,20 +66,14 @@ export const DataTable = <T,>({
       favoriteRows = rows.filter((row) => {
         const value = favoriteKeyPath
           .split(".")
-          .reduce(
-            (obj, key) => obj && obj[key as keyof typeof obj],
-            row.data as any
-          );
+          .reduce((obj, key) => obj && obj[key as keyof typeof obj], row.data as any);
         return value !== undefined && favorites.includes(value);
       });
 
       normalRows = rows.filter((row) => {
         const value = favoriteKeyPath
           .split(".")
-          .reduce(
-            (obj, key) => obj && obj[key as keyof typeof obj],
-            row.data as any
-          );
+          .reduce((obj, key) => obj && obj[key as keyof typeof obj], row.data as any);
         return value === undefined || !favorites.includes(value);
       });
     } else {
@@ -101,9 +87,7 @@ export const DataTable = <T,>({
         rowsToSort,
         [
           (row) => {
-            const column = columns.find(
-              (col) => col.sortKey === currentSortKey
-            );
+            const column = columns.find((col) => col.sortKey === currentSortKey);
             if (column?.sortValue) {
               return column.sortValue(row.data);
             }
@@ -145,10 +129,7 @@ export const DataTable = <T,>({
   const pageSize = 10;
   const totalItems = displayRows.length;
 
-  const currentData = displayRows.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+  const currentData = displayRows.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const renderColumn = useCallback(
     (
@@ -188,8 +169,7 @@ export const DataTable = <T,>({
 
   const hasData = rows.length > 0;
   const isInteractive =
-    hasData &&
-    getRowProps?.({ data: rows[0].data, index: 0 })?.onClick !== undefined;
+    hasData && getRowProps?.({ data: rows[0].data, index: 0 })?.onClick !== undefined;
 
   const renderRow = useCallback(
     (row: DataTableProps<T>["rows"][number], rowIndex: number) => {
@@ -200,9 +180,7 @@ export const DataTable = <T,>({
           transition="all 0.3s ease-in-out"
           {...(getRowProps && getRowProps({ data: row.data, index: rowIndex }))}
         >
-          {columns.map((column, index) =>
-            renderColumn(row, rowIndex, column, index)
-          )}
+          {columns.map((column, index) => renderColumn(row, rowIndex, column, index))}
         </Table.Row>
       );
     },
@@ -229,70 +207,66 @@ export const DataTable = <T,>({
             width="100%"
             {...rest}
           >
-          <Table.Header>
-            <Table.Row
-              bg={{
-                _light: "bg.muted",
-                _dark: "bg.surface",
-              }}
-              borderBottom="1px solid"
-              borderColor="border.default"
-            >
-              {hasData &&
-                columns.map((column, index) => (
-                  <Table.ColumnHeader
-                    color="text.secondary"
-                    fontSize="xs"
-                    fontWeight="semibold"
-                    key={index}
-                    letterSpacing="wider"
-                    px={4}
-                    py={4}
-                    textTransform="uppercase"
-                    {...(column.align && { textAlign: column.align })}
-                    {...(column.width && { width: column.width })}
-                  >
-                    <Box
-                      alignItems="center"
-                      display="flex"
-                      gap={1}
-                      justifyContent={column.align}
-                      whiteSpace="nowrap"
+            <Table.Header>
+              <Table.Row
+                bg={{
+                  _light: "bg.muted",
+                  _dark: "bg.surface",
+                }}
+                borderBottom="1px solid"
+                borderColor="border.default"
+              >
+                {hasData &&
+                  columns.map((column, index) => (
+                    <Table.ColumnHeader
+                      color="text.secondary"
+                      fontSize="xs"
+                      fontWeight="semibold"
+                      key={index}
+                      letterSpacing="wider"
+                      px={4}
+                      py={4}
+                      textTransform="uppercase"
+                      {...(column.align && { textAlign: column.align })}
+                      {...(column.width && { width: column.width })}
                     >
-                      {column.header}
-                      {column.sortKey && (
-                        <SortControl
-                          currentState={
-                            currentSortKey === column.sortKey ? sortOrder : null
-                          }
-                          onClick={() => handleSort(column)}
-                        />
-                      )}
-                    </Box>
-                  </Table.ColumnHeader>
-                ))}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {!hasData ? (
-              <Table.Row>
-                <Table.Cell colSpan={columns.length}>
-                  <EmptyState.Root size="lg">
-                    <EmptyState.Content py={24}>
-                      <EmptyState.Description>
-                        조회된 데이터가 없습니다
-                      </EmptyState.Description>
-                    </EmptyState.Content>
-                  </EmptyState.Root>
-                </Table.Cell>
+                      <Box
+                        alignItems="center"
+                        display="flex"
+                        gap={1}
+                        justifyContent={column.align}
+                        whiteSpace="nowrap"
+                      >
+                        {column.header}
+                        {column.sortKey && (
+                          <SortControl
+                            currentState={currentSortKey === column.sortKey ? sortOrder : null}
+                            onClick={() => handleSort(column)}
+                          />
+                        )}
+                      </Box>
+                    </Table.ColumnHeader>
+                  ))}
               </Table.Row>
-            ) : pagination ? (
-              currentData.map((row, index) => renderRow(row, index))
-            ) : (
-              displayRows.map((row, index) => renderRow(row, index))
-            )}
-          </Table.Body>
-        </Table.Root>
+            </Table.Header>
+            <Table.Body>
+              {!hasData ? (
+                <Table.Row>
+                  <Table.Cell colSpan={columns.length}>
+                    <EmptyState.Root size="lg">
+                      <EmptyState.Content py={24}>
+                        <EmptyState.Description>조회된 데이터가 없습니다</EmptyState.Description>
+                      </EmptyState.Content>
+                    </EmptyState.Root>
+                  </Table.Cell>
+                </Table.Row>
+              ) : pagination ? (
+                currentData.map((row, index) => renderRow(row, index))
+              ) : (
+                displayRows.map((row, index) => renderRow(row, index))
+              )}
+            </Table.Body>
+          </Table.Root>
         </Table.ScrollArea>
       </Box>
       {pagination && hasData && (

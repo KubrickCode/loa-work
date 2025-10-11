@@ -18,9 +18,7 @@ export const GRAPHQL_ENDPOINT = "/graphql";
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
-      console.error(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      );
+      console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
     });
   }
   if (networkError) console.error(`[Network error]: ${networkError}`);
@@ -54,8 +52,8 @@ export const client = new ApolloClient({
   },
 });
 
-export const GraphQLProvider = (
-  props: Omit<ApolloProviderProps<any>, "client">
-) => <ApolloProvider client={client} {...props} />;
+export const GraphQLProvider = (props: Omit<ApolloProviderProps<any>, "client">) => (
+  <ApolloProvider client={client} {...props} />
+);
 
 export { gql, useLazyQuery, useMutation, useQuery, type FetchResult };

@@ -1,10 +1,10 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { ContentStatus, Prisma } from '@prisma/client';
-import { ContentWageService } from '../service/content-wage.service';
-import { ContentWage, ContentWageFilter } from '../object/content-wage.object';
-import { OrderByArg } from 'src/common/object/order-by-arg.object';
-import _ from 'lodash';
+import { Args, Field, InputType, Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { ContentStatus, Prisma } from "@prisma/client";
+import { ContentWageService } from "../service/content-wage.service";
+import { ContentWage, ContentWageFilter } from "../object/content-wage.object";
+import { OrderByArg } from "src/common/object/order-by-arg.object";
+import _ from "lodash";
 
 @InputType()
 export class ContentWageListFilter extends ContentWageFilter {
@@ -22,31 +22,31 @@ export class ContentWageListFilter extends ContentWageFilter {
 export class ContentWageListQuery {
   constructor(
     private prisma: PrismaService,
-    private contentWageService: ContentWageService,
+    private contentWageService: ContentWageService
   ) {}
 
   @Query(() => [ContentWage])
   async contentWageList(
-    @Args('filter', { nullable: true }) filter?: ContentWageListFilter,
-    @Args('orderBy', {
+    @Args("filter", { nullable: true }) filter?: ContentWageListFilter,
+    @Args("orderBy", {
       type: () => [OrderByArg],
       nullable: true,
     })
-    orderBy?: OrderByArg[],
+    orderBy?: OrderByArg[]
   ) {
     const contents = await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
       orderBy: [
         {
           contentCategory: {
-            id: 'asc',
+            id: "asc",
           },
         },
         {
-          level: 'asc',
+          level: "asc",
         },
         {
-          id: 'asc',
+          id: "asc",
         },
       ],
       include: {
@@ -70,7 +70,7 @@ export class ContentWageListQuery {
       ? _.orderBy(
           await Promise.all(promises),
           orderBy.map((order) => order.field),
-          orderBy.map((order) => order.order),
+          orderBy.map((order) => order.order)
         )
       : await Promise.all(promises);
 
@@ -89,14 +89,14 @@ export class ContentWageListQuery {
         {
           name: {
             contains: filter.keyword,
-            mode: 'insensitive',
+            mode: "insensitive",
           },
         },
         {
           contentCategory: {
             name: {
               contains: filter.keyword,
-              mode: 'insensitive',
+              mode: "insensitive",
             },
           },
         },

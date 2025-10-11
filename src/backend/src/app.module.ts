@@ -1,16 +1,16 @@
-import { Module } from '@nestjs/common';
-import { PrismaModule } from './prisma';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'node:path';
-import { ContentModule } from './content/content.module';
-import { ItemModule } from './item/item.module';
-import { CommonModule } from './common/common.module';
-import { AuthModule } from './auth/auth.module';
-import { ExchangeRateModule } from './exchange-rate/exchange-rate.module';
-import { UserModule } from './user/user.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { MonitoringModule } from './monitoring/monitoring.module';
+import { Module } from "@nestjs/common";
+import { PrismaModule } from "./prisma";
+import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { join } from "node:path";
+import { ContentModule } from "./content/content.module";
+import { ItemModule } from "./item/item.module";
+import { CommonModule } from "./common/common.module";
+import { AuthModule } from "./auth/auth.module";
+import { ExchangeRateModule } from "./exchange-rate/exchange-rate.module";
+import { UserModule } from "./user/user.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { MonitoringModule } from "./monitoring/monitoring.module";
 
 @Module({
   imports: [
@@ -18,9 +18,9 @@ import { MonitoringModule } from './monitoring/monitoring.module';
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useFactory: () => ({
-        autoSchemaFile: join(process.cwd(), 'schema.graphql'),
+        autoSchemaFile: join(process.cwd(), "schema.graphql"),
         buildSchemaOptions: {
-          numberScalarMode: 'integer',
+          numberScalarMode: "integer",
         },
         context: ({ req, res }) => ({
           req,
@@ -30,7 +30,7 @@ import { MonitoringModule } from './monitoring/monitoring.module';
         playground: true,
         sortSchema: true,
         introspection: true,
-        cache: 'bounded',
+        cache: "bounded",
       }),
     }),
     ContentModule,
@@ -40,7 +40,7 @@ import { MonitoringModule } from './monitoring/monitoring.module';
     ExchangeRateModule,
     UserModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'frontend'),
+      rootPath: join(__dirname, "..", "frontend"),
     }),
     MonitoringModule,
   ],

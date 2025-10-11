@@ -7,16 +7,12 @@ type ContentRewardListPageContextType = {
   setKeyword: (keyword: string) => void;
 };
 
-const ContentRewardListPageContext = createContext<
-  ContentRewardListPageContextType | undefined
->(undefined);
+const ContentRewardListPageContext = createContext<ContentRewardListPageContextType | undefined>(
+  undefined
+);
 
-export const ContentRewardListPageProvider = ({
-  children,
-}: PropsWithChildren) => {
-  const [contentCategoryId, setContentCategoryId] = useState<number | null>(
-    null
-  );
+export const ContentRewardListPageProvider = ({ children }: PropsWithChildren) => {
+  const [contentCategoryId, setContentCategoryId] = useState<number | null>(null);
   const [keyword, setKeyword] = useState("");
 
   return (

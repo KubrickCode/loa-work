@@ -11,11 +11,7 @@ import {
 import { keyframes } from "@emotion/react";
 import React from "react";
 
-import {
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from "~/core/chakra-components/ui/select";
+import { SelectRoot, SelectTrigger, SelectValueText } from "~/core/chakra-components/ui/select";
 import { Skeleton, SkeletonText } from "~/core/chakra-components/ui/skeleton";
 
 const modernShimmer = keyframes`
@@ -102,13 +98,7 @@ export const EnhancedTableSkeleton = ({
                     backgroundSize: "1000px 100%",
                   }}
                   height="16px"
-                  width={
-                    colIndex === 0
-                      ? "60%"
-                      : colIndex === columnCount - 1
-                        ? "80%"
-                        : "90%"
-                  }
+                  width={colIndex === 0 ? "60%" : colIndex === columnCount - 1 ? "80%" : "90%"}
                 />
               </Table.Cell>
             ))}
@@ -172,13 +162,7 @@ export const TableSkeleton = ({
                 <Skeleton
                   borderRadius="sm"
                   height="16px"
-                  width={
-                    colIndex === 0
-                      ? "60%"
-                      : colIndex === columnCount - 1
-                        ? "80%"
-                        : "90%"
-                  }
+                  width={colIndex === 0 ? "60%" : colIndex === columnCount - 1 ? "80%" : "90%"}
                 />
               </Table.Cell>
             ))}
@@ -191,12 +175,7 @@ export const TableSkeleton = ({
 
 export const PageLoader = () => {
   return (
-    <Flex
-      alignItems="center"
-      justifyContent="center"
-      minHeight="70vh"
-      width="100%"
-    >
+    <Flex alignItems="center" justifyContent="center" minHeight="70vh" width="100%">
       <Spinner />
     </Flex>
   );
@@ -231,32 +210,19 @@ export const ChartSkeleton = ({ height = "300px" }: { height?: string }) => {
           <Skeleton height="24px" width="200px" />
           <Skeleton height="32px" width="100px" />
         </HStack>
-        <Box
-          bg="bg.muted"
-          borderRadius="md"
-          height={height}
-          overflow="hidden"
-          position="relative"
-        >
+        <Box bg="bg.muted" borderRadius="md" height={height} overflow="hidden" position="relative">
           <Box
             bottom={0}
             css={{
               animation: `${modernShimmer} 3s infinite linear`,
-              background:
-                "linear-gradient(180deg, transparent, var(--colors-neutral-100))",
+              background: "linear-gradient(180deg, transparent, var(--colors-neutral-100))",
             }}
             height="60%"
             left="10%"
             position="absolute"
             right="10%"
           />
-          <HStack
-            bottom={4}
-            justify="space-between"
-            left={4}
-            position="absolute"
-            right={4}
-          >
+          <HStack bottom={4} justify="space-between" left={4} position="absolute" right={4}>
             {Array.from({ length: 6 }).map((_, index) => (
               <Skeleton height="12px" key={index} width="40px" />
             ))}

@@ -1,72 +1,66 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AuthGuard } from '@nestjs/passport';
-import { Request, Response } from 'express';
+import { Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { AuthGuard } from "@nestjs/passport";
+import { Request, Response } from "express";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
   constructor(private configService: ConfigService) {}
 
-  @Get('check')
+  @Get("check")
   async check(@Req() req: Request) {
-    return req.user ?? 'null';
+    return req.user ?? "null";
   }
 
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
+  @Get("google/callback")
+  @UseGuards(AuthGuard("google"))
   async googleCallback(@Req() req: Request, @Res() res: Response) {
-    req.session['passport'] = {
+    req.session["passport"] = {
       user: req.user,
     };
 
-    return res.redirect(
-      this.configService.get<string>('CLIENT_HOST', 'http://localhost:3000/'),
-    );
+    return res.redirect(this.configService.get<string>("CLIENT_HOST", "http://localhost:3000/"));
   }
 
-  @Get('google')
-  @UseGuards(AuthGuard('google'))
+  @Get("google")
+  @UseGuards(AuthGuard("google"))
   async googleLogin(@Req() req: Request) {
     return req.user;
   }
 
-  @Get('discord/callback')
-  @UseGuards(AuthGuard('discord'))
+  @Get("discord/callback")
+  @UseGuards(AuthGuard("discord"))
   async discordCallback(@Req() req: Request, @Res() res: Response) {
-    req.session['passport'] = {
+    req.session["passport"] = {
       user: req.user,
     };
 
-    return res.redirect(
-      this.configService.get<string>('CLIENT_HOST', 'http://localhost:3000/'),
-    );
+    return res.redirect(this.configService.get<string>("CLIENT_HOST", "http://localhost:3000/"));
   }
 
-  @Get('discord')
-  @UseGuards(AuthGuard('discord'))
+  @Get("discord")
+  @UseGuards(AuthGuard("discord"))
   async discordLogin(@Req() req: Request) {
     return req.user;
   }
 
-  @Get('kakao/callback')
-  @UseGuards(AuthGuard('kakao'))
+  @Get("kakao/callback")
+  @UseGuards(AuthGuard("kakao"))
   async kakaoCallback(@Req() req: Request, @Res() res: Response) {
-    req.session['passport'] = {
+    req.session["passport"] = {
       user: req.user,
     };
 
-    return res.redirect(
-      this.configService.get<string>('CLIENT_HOST', 'http://localhost:3000/'),
-    );
+    return res.redirect(this.configService.get<string>("CLIENT_HOST", "http://localhost:3000/"));
   }
 
-  @Get('kakao')
-  @UseGuards(AuthGuard('kakao'))
+  @Get("kakao")
+  @UseGuards(AuthGuard("kakao"))
   async kakaoLogin(@Req() req: Request) {
     return req.user;
   }
 
-  @Post('logout')
+  @Post("logout")
   async logout(@Req() req: Request) {
     return req.logout((error) => {
       if (error) {

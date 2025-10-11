@@ -139,10 +139,7 @@ export const ContentCreateTab = () => {
                       >
                         <Form.Input step="0.01" type="number" />
                       </Form.Field>
-                      <Form.Field
-                        name={`contentRewards.${index}.isBound`}
-                        optional
-                      >
+                      <Form.Field name={`contentRewards.${index}.isBound`} optional>
                         <Form.Checkbox size="xs">귀속 여부</Form.Checkbox>
                       </Form.Field>
                     </Flex>

@@ -64,9 +64,7 @@ export const ContentDurationEditDialog = ({
     >
       {({ queryData }) => (
         <>
-          <Dialog.Header>
-            {queryData.content.displayName} - 소요시간 수정
-          </Dialog.Header>
+          <Dialog.Header>{queryData.content.displayName} - 소요시간 수정</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               <Flex gap={4}>

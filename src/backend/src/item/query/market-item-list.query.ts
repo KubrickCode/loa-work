@@ -1,7 +1,7 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { MarketItem } from '../object/market-item.object';
-import { Prisma } from '@prisma/client';
+import { Args, Field, InputType, Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { MarketItem } from "../object/market-item.object";
+import { Prisma } from "@prisma/client";
 
 @InputType()
 export class MarketItemListFilter {
@@ -23,9 +23,7 @@ export class MarketItemListQuery {
   constructor(private prisma: PrismaService) {}
 
   @Query(() => [MarketItem])
-  async marketItemList(
-    @Args('filter', { nullable: true }) filter?: MarketItemListFilter,
-  ) {
+  async marketItemList(@Args("filter", { nullable: true }) filter?: MarketItemListFilter) {
     return await this.prisma.marketItem.findMany({
       where: this.buildWhereArgs(filter),
     });
@@ -53,7 +51,7 @@ export class MarketItemListQuery {
         {
           name: {
             contains: filter.keyword,
-            mode: 'insensitive',
+            mode: "insensitive",
           },
         },
       ];

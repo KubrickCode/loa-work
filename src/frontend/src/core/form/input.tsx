@@ -1,8 +1,4 @@
-import {
-  Input as ChakraInput,
-  InputProps as ChakraInputProps,
-  Flex,
-} from "@chakra-ui/react";
+import { Input as ChakraInput, InputProps as ChakraInputProps, Flex } from "@chakra-ui/react";
 import { HTMLInputTypeAttribute } from "react";
 import { Controller } from "react-hook-form";
 

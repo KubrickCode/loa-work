@@ -4,7 +4,7 @@
       "version": "22.11.0"
     }
   },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && npm install -g prettier",
   "customizations": {
     "vscode": {
       "extensions": ["esbenp.prettier-vscode"],

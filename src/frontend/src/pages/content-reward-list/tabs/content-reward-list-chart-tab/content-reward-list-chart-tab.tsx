@@ -14,11 +14,7 @@ export const ContentRewardListChartTab = () => {
       title={
         <Flex alignItems="center" gap={2}>
           <Text>보상 비율</Text>
-          <Text
-            color="text.muted"
-            display={{ base: "none", md: "block" }}
-            fontSize="xs"
-          >
+          <Text color="text.muted" display={{ base: "none", md: "block" }} fontSize="xs">
             큰 화면에서 보는 것을 권장합니다
           </Text>
         </Flex>

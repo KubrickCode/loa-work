@@ -3,10 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Suspense } from "react";
 import { useQueryParams, StringParam } from "use-query-params";
 
-import {
-  ANIMATION_DURATIONS,
-  EASING,
-} from "~/core/animations/micro-interactions";
+import { ANIMATION_DURATIONS, EASING } from "~/core/animations/micro-interactions";
 
 import { BlockLoader } from "../loader";
 
@@ -28,8 +25,7 @@ export const Tabs = ({ panels, queryKey = "tab" }: TabsProps) => {
   const shouldReduceMotion = useReducedMotion();
 
   const currentTabId = query[queryKey] || panels[0].id;
-  const currentPanel =
-    panels.find((panel) => panel.id === currentTabId) || panels[0];
+  const currentPanel = panels.find((panel) => panel.id === currentTabId) || panels[0];
 
   return (
     <ChakraTabs.Root
@@ -57,12 +53,7 @@ export const Tabs = ({ panels, queryKey = "tab" }: TabsProps) => {
       </ChakraTabs.List>
       <AnimatePresence mode="wait">
         {panels.map((panel) => (
-          <ChakraTabs.Content
-            key={panel.id}
-            outline="none"
-            pt={6}
-            value={panel.label}
-          >
+          <ChakraTabs.Content key={panel.id} outline="none" pt={6} value={panel.label}>
             <motion.div
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -10 }}

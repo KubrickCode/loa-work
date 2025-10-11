@@ -1,6 +1,6 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { User } from 'src/common/object/user.object';
+import { Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { User } from "src/common/object/user.object";
 
 @Resolver()
 export class UserListQuery {

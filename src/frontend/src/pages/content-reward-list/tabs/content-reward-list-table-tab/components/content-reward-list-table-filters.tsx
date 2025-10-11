@@ -12,10 +12,7 @@ export const ContentRewardListTableFilters = () => {
   return (
     <Flex alignItems="center" gap={2}>
       <Form.SearchInput onSearch={setKeyword} value={keyword} />
-      <ContentCategoryFilter
-        onChange={setContentCategoryId}
-        value={contentCategoryId}
-      />
+      <ContentCategoryFilter onChange={setContentCategoryId} value={contentCategoryId} />
     </Flex>
   );
 };

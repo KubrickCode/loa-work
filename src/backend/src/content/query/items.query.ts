@@ -1,8 +1,8 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { Item } from '../object/item.object';
-import { ItemKind, Prisma } from '@prisma/client';
-import { ItemSortOrder } from '../constants';
+import { Args, Field, InputType, Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { Item } from "../object/item.object";
+import { ItemKind, Prisma } from "@prisma/client";
+import { ItemSortOrder } from "../constants";
 
 @InputType()
 class ItemsFilter {
@@ -18,7 +18,7 @@ export class ItemsQuery {
   constructor(private prisma: PrismaService) {}
 
   @Query(() => [Item])
-  async items(@Args('filter', { nullable: true }) filter?: ItemsFilter) {
+  async items(@Args("filter", { nullable: true }) filter?: ItemsFilter) {
     const items = await this.prisma.item.findMany({
       where: this.buildWhereArgs(filter),
     });

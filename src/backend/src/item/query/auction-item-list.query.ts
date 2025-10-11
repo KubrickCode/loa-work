@@ -1,7 +1,7 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { Prisma } from '@prisma/client';
-import { AuctionItem } from '../object/auction-item.object';
+import { Args, Field, InputType, Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { Prisma } from "@prisma/client";
+import { AuctionItem } from "../object/auction-item.object";
 
 @InputType()
 export class AuctionItemListFilter {
@@ -17,9 +17,7 @@ export class AuctionItemListQuery {
   constructor(private prisma: PrismaService) {}
 
   @Query(() => [AuctionItem])
-  async auctionItemList(
-    @Args('filter', { nullable: true }) filter?: AuctionItemListFilter,
-  ) {
+  async auctionItemList(@Args("filter", { nullable: true }) filter?: AuctionItemListFilter) {
     return await this.prisma.auctionItem.findMany({
       where: this.buildWhereArgs(filter),
     });

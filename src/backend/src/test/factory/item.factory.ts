@@ -1,8 +1,8 @@
-import { faker } from '@faker-js/faker';
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma';
-import { ItemKind, Prisma } from '@prisma/client';
-import { UniqueEnforcer } from 'enforce-unique';
+import { faker } from "@faker-js/faker";
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "src/prisma";
+import { ItemKind, Prisma } from "@prisma/client";
+import { UniqueEnforcer } from "enforce-unique";
 
 @Injectable()
 export class ItemFactory {

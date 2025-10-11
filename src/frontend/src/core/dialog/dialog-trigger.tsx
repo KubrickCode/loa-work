@@ -3,8 +3,7 @@ import { ElementType } from "react";
 
 import { useDialog, UseDialogProps } from "./use-dialog";
 
-export type DialogTriggerProps<T extends ElementType> = FlexProps &
-  UseDialogProps<T>;
+export type DialogTriggerProps<T extends ElementType> = FlexProps & UseDialogProps<T>;
 
 export const DialogTrigger = <T extends ElementType>({
   children,

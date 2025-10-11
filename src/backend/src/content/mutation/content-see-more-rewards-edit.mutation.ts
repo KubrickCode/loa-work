@@ -1,18 +1,10 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Field,
-  Float,
-  InputType,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from '@nestjs/graphql';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { PrismaService } from 'src/prisma';
-import { CurrentUser } from 'src/common/decorator/current-user.decorator';
-import { User } from 'src/common/object/user.object';
-import { UserRole } from '@prisma/client';
+import { UseGuards } from "@nestjs/common";
+import { Args, Field, Float, InputType, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { AuthGuard } from "src/auth/auth.guard";
+import { PrismaService } from "src/prisma";
+import { CurrentUser } from "src/common/decorator/current-user.decorator";
+import { User } from "src/common/object/user.object";
+import { UserRole } from "@prisma/client";
 
 @InputType()
 class ContentSeeMoreRewardEditInput {
@@ -45,24 +37,22 @@ export class ContentSeeMoreRewardsEditMutation {
   @UseGuards(AuthGuard)
   @Mutation(() => ContentSeeMoreRewardsEditResult)
   async contentSeeMoreRewardsEdit(
-    @Args('input') input: ContentSeeMoreRewardsEditInput,
-    @CurrentUser() user: User,
+    @Args("input") input: ContentSeeMoreRewardsEditInput,
+    @CurrentUser() user: User
   ) {
     return await this.prisma.$transaction(async (tx) => {
       if (user.role === UserRole.OWNER) {
         await Promise.all(
-          input.contentSeeMoreRewards.map(
-            async ({ contentId, itemId, quantity }) => {
-              await tx.contentSeeMoreReward.update({
-                where: {
-                  contentId_itemId: { contentId, itemId },
-                },
-                data: {
-                  quantity,
-                },
-              });
-            },
-          ),
+          input.contentSeeMoreRewards.map(async ({ contentId, itemId, quantity }) => {
+            await tx.contentSeeMoreReward.update({
+              where: {
+                contentId_itemId: { contentId, itemId },
+              },
+              data: {
+                quantity,
+              },
+            });
+          })
         );
       }
 
@@ -74,8 +64,8 @@ export class ContentSeeMoreRewardsEditMutation {
             },
             create: { quantity, userId: user.id, contentId, itemId },
             update: { quantity },
-          }),
-        ),
+          })
+        )
       );
 
       return { ok: true };

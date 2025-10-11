@@ -1,6 +1,6 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseObject } from './base.object';
-import { AuthProvider, UserRole } from '@prisma/client';
+import { Field, ObjectType } from "@nestjs/graphql";
+import { BaseObject } from "./base.object";
+import { AuthProvider, UserRole } from "@prisma/client";
 
 @ObjectType()
 export class User extends BaseObject {

@@ -67,11 +67,7 @@ const MarketItemListTableContent = ({
             header: "전일 평균 거래가",
             render({ data }) {
               return (
-                <FormatGold
-                  color="text.secondary"
-                  fontWeight="medium"
-                  value={data.yDayAvgPrice}
-                />
+                <FormatGold color="text.secondary" fontWeight="medium" value={data.yDayAvgPrice} />
               );
             },
             sortKey: "yDayAvgPrice",
@@ -88,9 +84,7 @@ const MarketItemListTableContent = ({
             align: "right",
             header: "최저가",
             render({ data }) {
-              return (
-                <FormatGold fontWeight="bold" value={data.currentMinPrice} />
-              );
+              return <FormatGold fontWeight="bold" value={data.currentMinPrice} />;
             },
             sortKey: "currentMinPrice",
           },

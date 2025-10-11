@@ -16,10 +16,7 @@ export const AdminPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      (!user || ![UserRole.OWNER, UserRole.ADMIN].includes(user.role))
-    ) {
+    if (!isLoading && (!user || ![UserRole.OWNER, UserRole.ADMIN].includes(user.role))) {
       navigate("/");
     }
   }, [user, isLoading, navigate]);

@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { UserContentService } from '../../user/service/user-content.service';
-import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
-import { PrismaService } from 'src/prisma';
+import { Injectable } from "@nestjs/common";
+import { UserContentService } from "../../user/service/user-content.service";
+import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
+import { PrismaService } from "src/prisma";
 
 type Reward = {
   averageQuantity: number;
@@ -13,7 +13,7 @@ export class ContentWageService {
   constructor(
     private userContentService: UserContentService,
     private userGoldExchangeRateService: UserGoldExchangeRateService,
-    private prisma: PrismaService,
+    private prisma: PrismaService
   ) {}
 
   async calculateGold(rewards: Reward[]) {
@@ -34,7 +34,7 @@ export class ContentWageService {
       itemId: number;
       quantity: number;
     }[],
-    includeItemIds?: number[],
+    includeItemIds?: number[]
   ) {
     const seeMoreRewards = contentSeeMoreRewards
       .filter((reward) => {
@@ -52,11 +52,9 @@ export class ContentWageService {
   }
 
   async calculateWage({ gold, duration }: { gold: number; duration: number }) {
-    const goldExchangeRate =
-      await this.userGoldExchangeRateService.getGoldExchangeRate();
+    const goldExchangeRate = await this.userGoldExchangeRateService.getGoldExchangeRate();
 
-    const totalKRW =
-      (gold * goldExchangeRate.krwAmount) / goldExchangeRate.goldAmount;
+    const totalKRW = (gold * goldExchangeRate.krwAmount) / goldExchangeRate.goldAmount;
 
     const hours = duration / 3600;
     const hourlyWage = totalKRW / hours;
@@ -75,44 +73,33 @@ export class ContentWageService {
       includeIsBound?: boolean;
       includeItemIds?: number[];
       includeIsSeeMore?: boolean;
-    },
+    }
   ) {
     const content = await this.prisma.content.findUniqueOrThrow({
       where: { id: contentId },
     });
 
-    const rewards = await this.userContentService.getContentRewards(
-      content.id,
-      {
-        includeIsBound: filter?.includeIsBound,
-        includeItemIds: filter?.includeItemIds,
-      },
-    );
+    const rewards = await this.userContentService.getContentRewards(content.id, {
+      includeIsBound: filter?.includeIsBound,
+      includeItemIds: filter?.includeItemIds,
+    });
 
-    const seeMoreRewards =
-      await this.userContentService.getContentSeeMoreRewards(content.id, {
-        includeItemIds: filter?.includeItemIds,
-      });
+    const seeMoreRewards = await this.userContentService.getContentSeeMoreRewards(content.id, {
+      includeItemIds: filter?.includeItemIds,
+    });
 
     const rewardsGold = await this.calculateGold(rewards);
 
     const shouldIncludeSeeMoreRewards =
-      filter?.includeIsSeeMore &&
-      filter?.includeIsBound !== false &&
-      seeMoreRewards.length > 0;
+      filter?.includeIsSeeMore && filter?.includeIsBound !== false && seeMoreRewards.length > 0;
 
     const seeMoreGold = shouldIncludeSeeMoreRewards
-      ? await this.calculateSeeMoreRewardsGold(
-          seeMoreRewards,
-          filter.includeItemIds,
-        )
+      ? await this.calculateSeeMoreRewardsGold(seeMoreRewards, filter.includeItemIds)
       : 0;
 
     const gold = rewardsGold + seeMoreGold;
 
-    const duration = await this.userContentService.getContentDuration(
-      content.id,
-    );
+    const duration = await this.userContentService.getContentDuration(content.id);
 
     const { krwAmountPerHour, goldAmountPerHour } = await this.calculateWage({
       gold,
@@ -133,7 +120,7 @@ export class ContentWageService {
       includeIsBound?: boolean;
       includeItemIds?: number[];
       includeIsSeeMore?: boolean;
-    },
+    }
   ) {
     let totalGold = 0;
     let totalDuration = 0;
@@ -143,39 +130,28 @@ export class ContentWageService {
         where: { id: contentId },
       });
 
-      const rewards = await this.userContentService.getContentRewards(
-        content.id,
-        {
-          includeIsBound: filter?.includeIsBound,
-          includeItemIds: filter?.includeItemIds,
-        },
-      );
+      const rewards = await this.userContentService.getContentRewards(content.id, {
+        includeIsBound: filter?.includeIsBound,
+        includeItemIds: filter?.includeItemIds,
+      });
 
-      const seeMoreRewards =
-        await this.userContentService.getContentSeeMoreRewards(content.id, {
-          includeItemIds: filter?.includeItemIds,
-        });
+      const seeMoreRewards = await this.userContentService.getContentSeeMoreRewards(content.id, {
+        includeItemIds: filter?.includeItemIds,
+      });
 
       const rewardsGold = await this.calculateGold(rewards);
 
       const shouldIncludeSeeMoreRewards =
-        filter?.includeIsSeeMore &&
-        filter?.includeIsBound !== false &&
-        seeMoreRewards.length > 0;
+        filter?.includeIsSeeMore && filter?.includeIsBound !== false && seeMoreRewards.length > 0;
 
       const seeMoreGold = shouldIncludeSeeMoreRewards
-        ? await this.calculateSeeMoreRewardsGold(
-            seeMoreRewards,
-            filter.includeItemIds,
-          )
+        ? await this.calculateSeeMoreRewardsGold(seeMoreRewards, filter.includeItemIds)
         : 0;
 
       const gold = rewardsGold + seeMoreGold;
       totalGold += gold;
 
-      const duration = await this.userContentService.getContentDuration(
-        content.id,
-      );
+      const duration = await this.userContentService.getContentDuration(content.id);
       totalDuration += duration;
     }
 

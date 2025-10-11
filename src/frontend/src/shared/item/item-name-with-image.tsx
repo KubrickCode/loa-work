@@ -6,11 +6,7 @@ export type ItemNameWithImageProps = {
   src: string;
 };
 
-export const ItemNameWithImage = ({
-  name,
-  reverse = false,
-  src,
-}: ItemNameWithImageProps) => {
+export const ItemNameWithImage = ({ name, reverse = false, src }: ItemNameWithImageProps) => {
   return (
     <Flex alignItems="center" gap={2}>
       {reverse ? (

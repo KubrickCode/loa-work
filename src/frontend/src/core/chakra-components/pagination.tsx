@@ -10,11 +10,7 @@ import {
   usePaginationContext,
 } from "@chakra-ui/react";
 import * as React from "react";
-import {
-  HiChevronLeft,
-  HiChevronRight,
-  HiMiniEllipsisHorizontal,
-} from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight, HiMiniEllipsisHorizontal } from "react-icons/hi2";
 
 import { LinkButton } from "./link-button";
 
@@ -36,8 +32,7 @@ const [RootPropsProvider, useRootProps] = createContext<ButtonVariantContext>({
   name: "RootPropsProvider",
 });
 
-export interface PaginationRootProps
-  extends Omit<ChakraPagination.RootProps, "type"> {
+export interface PaginationRootProps extends Omit<ChakraPagination.RootProps, "type"> {
   size?: ButtonProps["size"];
   variant?: PaginationVariant;
   getHref?: (page: number) => string;
@@ -49,64 +44,55 @@ const variantMap: Record<PaginationVariant, ButtonVariantMap> = {
   subtle: { default: "ghost", ellipsis: "plain", current: "subtle" },
 };
 
-export const PaginationRoot = React.forwardRef<
-  HTMLDivElement,
-  PaginationRootProps
->(function PaginationRoot(props, ref) {
-  const { size = "sm", variant = "outline", getHref, ...rest } = props;
-  return (
-    <RootPropsProvider
-      value={{ size, variantMap: variantMap[variant], getHref }}
-    >
-      <ChakraPagination.Root
-        ref={ref}
-        type={getHref ? "link" : "button"}
-        {...rest}
-      />
-    </RootPropsProvider>
-  );
-});
-
-export const PaginationEllipsis = React.forwardRef<
-  HTMLDivElement,
-  ChakraPagination.EllipsisProps
->(function PaginationEllipsis(props, ref) {
-  const { size, variantMap } = useRootProps();
-  return (
-    <ChakraPagination.Ellipsis ref={ref} {...props} asChild>
-      <Button as="span" size={size} variant={variantMap.ellipsis}>
-        <HiMiniEllipsisHorizontal />
-      </Button>
-    </ChakraPagination.Ellipsis>
-  );
-});
-
-export const PaginationItem = React.forwardRef<
-  HTMLButtonElement,
-  ChakraPagination.ItemProps
->(function PaginationItem(props, ref) {
-  const { page } = usePaginationContext();
-  const { size, variantMap, getHref } = useRootProps();
-
-  const current = page === props.value;
-  const variant = current ? variantMap.current : variantMap.default;
-
-  if (getHref) {
+export const PaginationRoot = React.forwardRef<HTMLDivElement, PaginationRootProps>(
+  function PaginationRoot(props, ref) {
+    const { size = "sm", variant = "outline", getHref, ...rest } = props;
     return (
-      <LinkButton href={getHref(props.value)} size={size} variant={variant}>
-        {props.value}
-      </LinkButton>
+      <RootPropsProvider value={{ size, variantMap: variantMap[variant], getHref }}>
+        <ChakraPagination.Root ref={ref} type={getHref ? "link" : "button"} {...rest} />
+      </RootPropsProvider>
     );
   }
+);
 
-  return (
-    <ChakraPagination.Item ref={ref} {...props} asChild>
-      <Button size={size} variant={variant}>
-        {props.value}
-      </Button>
-    </ChakraPagination.Item>
-  );
-});
+export const PaginationEllipsis = React.forwardRef<HTMLDivElement, ChakraPagination.EllipsisProps>(
+  function PaginationEllipsis(props, ref) {
+    const { size, variantMap } = useRootProps();
+    return (
+      <ChakraPagination.Ellipsis ref={ref} {...props} asChild>
+        <Button as="span" size={size} variant={variantMap.ellipsis}>
+          <HiMiniEllipsisHorizontal />
+        </Button>
+      </ChakraPagination.Ellipsis>
+    );
+  }
+);
+
+export const PaginationItem = React.forwardRef<HTMLButtonElement, ChakraPagination.ItemProps>(
+  function PaginationItem(props, ref) {
+    const { page } = usePaginationContext();
+    const { size, variantMap, getHref } = useRootProps();
+
+    const current = page === props.value;
+    const variant = current ? variantMap.current : variantMap.default;
+
+    if (getHref) {
+      return (
+        <LinkButton href={getHref(props.value)} size={size} variant={variant}>
+          {props.value}
+        </LinkButton>
+      );
+    }
+
+    return (
+      <ChakraPagination.Item ref={ref} {...props} asChild>
+        <Button size={size} variant={variant}>
+          {props.value}
+        </Button>
+      </ChakraPagination.Item>
+    );
+  }
+);
 
 export const PaginationPrevTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -172,12 +158,7 @@ export const PaginationItems = (props: React.HTMLAttributes<HTMLElement>) => {
           return page.type === "ellipsis" ? (
             <PaginationEllipsis index={index} key={index} {...props} />
           ) : (
-            <PaginationItem
-              key={index}
-              type="page"
-              value={page.value}
-              {...props}
-            />
+            <PaginationItem key={index} type="page" value={page.value} {...props} />
           );
         })
       }
@@ -189,21 +170,20 @@ interface PageTextProps extends TextProps {
   format?: "short" | "compact" | "long";
 }
 
-export const PaginationPageText = React.forwardRef<
-  HTMLParagraphElement,
-  PageTextProps
->(function PaginationPageText(props, ref) {
-  const { format = "compact", ...rest } = props;
-  const { page, totalPages, pageRange, count } = usePaginationContext();
-  const content = React.useMemo(() => {
-    if (format === "short") return `${page} / ${totalPages}`;
-    if (format === "compact") return `${page} of ${totalPages}`;
-    return `${pageRange.start + 1} - ${Math.min(pageRange.end, count)} of ${count}`;
-  }, [format, page, totalPages, pageRange, count]);
+export const PaginationPageText = React.forwardRef<HTMLParagraphElement, PageTextProps>(
+  function PaginationPageText(props, ref) {
+    const { format = "compact", ...rest } = props;
+    const { page, totalPages, pageRange, count } = usePaginationContext();
+    const content = React.useMemo(() => {
+      if (format === "short") return `${page} / ${totalPages}`;
+      if (format === "compact") return `${page} of ${totalPages}`;
+      return `${pageRange.start + 1} - ${Math.min(pageRange.end, count)} of ${count}`;
+    }, [format, page, totalPages, pageRange, count]);
 
-  return (
-    <Text fontWeight="medium" ref={ref} {...rest}>
-      {content}
-    </Text>
-  );
-});
+    return (
+      <Text fontWeight="medium" ref={ref} {...rest}>
+        {content}
+      </Text>
+    );
+  }
+);

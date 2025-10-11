@@ -18,11 +18,7 @@ export type FieldProps = ChakraFieldProps & {
   optional?: boolean;
 };
 
-export const Field = ({
-  name,
-  optional = false,
-  ...otherProps
-}: FieldProps) => {
+export const Field = ({ name, optional = false, ...otherProps }: FieldProps) => {
   const {
     formState: { errors },
   } = useFormContext();

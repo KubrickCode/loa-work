@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from 'src/prisma';
-import { UserContentService } from '../../user/service/user-content.service';
-import { CONTEXT } from '@nestjs/graphql';
-import { UserGoldExchangeRateService } from 'src/user/service/user-gold-exchange-rate.service';
-import { User } from '@prisma/client';
-import { ContentWageService } from 'src/content/service/content-wage.service';
-import { UserFactory } from 'src/test/factory/user.factory';
-import { ItemFactory } from 'src/test/factory/item.factory';
-import { ContentFactory } from 'src/test/factory/content.factory';
-import { faker } from '@faker-js/faker/.';
-import { ContentDurationFactory } from 'src/test/factory/content-duration.factory';
-import { ContentRewardFactory } from 'src/test/factory/content-reward.factory';
+import { Test, TestingModule } from "@nestjs/testing";
+import { PrismaService } from "src/prisma";
+import { UserContentService } from "../../user/service/user-content.service";
+import { CONTEXT } from "@nestjs/graphql";
+import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
+import { User } from "@prisma/client";
+import { ContentWageService } from "src/content/service/content-wage.service";
+import { UserFactory } from "src/test/factory/user.factory";
+import { ItemFactory } from "src/test/factory/item.factory";
+import { ContentFactory } from "src/test/factory/content.factory";
+import { faker } from "@faker-js/faker/.";
+import { ContentDurationFactory } from "src/test/factory/content-duration.factory";
+import { ContentRewardFactory } from "src/test/factory/content-reward.factory";
 
-describe('UserContentService', () => {
+describe("UserContentService", () => {
   let module: TestingModule;
   let prisma: PrismaService;
   let service: UserContentService;
@@ -54,8 +54,8 @@ describe('UserContentService', () => {
     await module.close();
   });
 
-  describe('not logged in', () => {
-    it('getItemPrice', async () => {
+  describe("not logged in", () => {
+    it("getItemPrice", async () => {
       const price = 100;
 
       const item = await itemFactory.create({
@@ -69,7 +69,7 @@ describe('UserContentService', () => {
       expect(result).toBe(price);
     });
 
-    it('getContentDuration', async () => {
+    it("getContentDuration", async () => {
       const content = await contentFactory.create();
       const duration = faker.number.int({ min: 1000, max: 10000 });
 
@@ -84,7 +84,7 @@ describe('UserContentService', () => {
       expect(result).toBe(duration);
     });
 
-    it('getContentRewardAverageQuantity', async () => {
+    it("getContentRewardAverageQuantity", async () => {
       const content = await contentFactory.create();
       const item = await itemFactory.create();
 
@@ -98,13 +98,11 @@ describe('UserContentService', () => {
         },
       });
 
-      const result = await service.getContentRewardAverageQuantity(
-        contentReward.id,
-      );
+      const result = await service.getContentRewardAverageQuantity(contentReward.id);
       expect(result.toNumber()).toBe(averageQuantity);
     });
 
-    it('getContentRewards - 기본 동작', async () => {
+    it("getContentRewards - 기본 동작", async () => {
       const content = await contentFactory.create();
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
@@ -144,7 +142,7 @@ describe('UserContentService', () => {
       expect(resultItem2.averageQuantity).toBeCloseTo(averageQuantity2, 5);
     });
 
-    it('getContentRewards - isSellable 필터', async () => {
+    it("getContentRewards - isSellable 필터", async () => {
       const content = await contentFactory.create();
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
@@ -178,11 +176,11 @@ describe('UserContentService', () => {
         expect.objectContaining({
           averageQuantity: averageQuantity1,
           itemId: item1.id,
-        }),
+        })
       );
     });
 
-    it('getContentRewards - itemIds 필터', async () => {
+    it("getContentRewards - itemIds 필터", async () => {
       const content = await contentFactory.create();
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
@@ -233,7 +231,7 @@ describe('UserContentService', () => {
       expect(resultItem3.averageQuantity).toBeCloseTo(averageQuantity3, 5);
     });
 
-    it('getContentRewards - 여러 필터 조합', async () => {
+    it("getContentRewards - 여러 필터 조합", async () => {
       const content = await contentFactory.create();
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
@@ -276,11 +274,11 @@ describe('UserContentService', () => {
         expect.objectContaining({
           averageQuantity: averageQuantity1,
           itemId: item1.id,
-        }),
+        })
       );
     });
 
-    it('getContentRewards - 빈 결과 반환', async () => {
+    it("getContentRewards - 빈 결과 반환", async () => {
       const content = await contentFactory.create();
 
       const results = await service.getContentRewards(content.id);
@@ -290,15 +288,15 @@ describe('UserContentService', () => {
     });
   });
 
-  describe('logged in', () => {
+  describe("logged in", () => {
     let user: User;
 
     beforeAll(async () => {
       user = await userFactory.create();
-      service['context'].req.user = { id: user.id };
+      service["context"].req.user = { id: user.id };
     });
 
-    it('getItemPrice', async () => {
+    it("getItemPrice", async () => {
       const item = await itemFactory.create({
         data: {
           isEditable: true,
@@ -320,7 +318,7 @@ describe('UserContentService', () => {
       expect(result).toBe(userPrice);
     });
 
-    it('getItemPrice - not editable', async () => {
+    it("getItemPrice - not editable", async () => {
       const price = 100;
       const item = await itemFactory.create({
         data: {
@@ -334,7 +332,7 @@ describe('UserContentService', () => {
       expect(result).toBe(price);
     });
 
-    it('getContentDuration', async () => {
+    it("getContentDuration", async () => {
       const content = await contentFactory.create();
       await contentDurationFactory.create({
         data: {
@@ -355,7 +353,7 @@ describe('UserContentService', () => {
       expect(result).toBe(duration);
     });
 
-    it('getContentRewardAverageQuantity', async () => {
+    it("getContentRewardAverageQuantity", async () => {
       const averageQuantity = faker.number.float({ min: 1, max: 10000 });
 
       const contentReward = await contentRewardFactory.create();
@@ -368,14 +366,12 @@ describe('UserContentService', () => {
         },
       });
 
-      const result = await service.getContentRewardAverageQuantity(
-        contentReward.id,
-      );
+      const result = await service.getContentRewardAverageQuantity(contentReward.id);
 
       expect(result.toNumber()).toBeCloseTo(averageQuantity, 5);
     });
 
-    it('getContentRewards - 기본 동작', async () => {
+    it("getContentRewards - 기본 동작", async () => {
       const content = await contentFactory.create();
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
@@ -445,7 +441,7 @@ describe('UserContentService', () => {
       expect(resultItem2.averageQuantity).not.toBeCloseTo(averageQuantity2, 5);
     });
 
-    it('getContentRewards - isSellable 필터', async () => {
+    it("getContentRewards - isSellable 필터", async () => {
       const content = await contentFactory.create();
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
@@ -499,7 +495,7 @@ describe('UserContentService', () => {
       expect(results[0].averageQuantity).toBeCloseTo(userAverageQuantity1, 5);
     });
 
-    it('getContentRewards - itemIds 필터', async () => {
+    it("getContentRewards - itemIds 필터", async () => {
       const content = await contentFactory.create();
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
@@ -577,7 +573,7 @@ describe('UserContentService', () => {
       expect(resultItem3.averageQuantity).toBeCloseTo(userAverageQuantity3, 5);
     });
 
-    it('getContentRewards - 다른 사용자의 리워드는 반환되지 않음', async () => {
+    it("getContentRewards - 다른 사용자의 리워드는 반환되지 않음", async () => {
       const otherUser = await userFactory.create();
 
       const content = await contentFactory.create();
@@ -623,14 +619,11 @@ describe('UserContentService', () => {
       expect(results[0].itemId).toBe(item.id);
 
       expect(results[0].averageQuantity).toBeCloseTo(userAverageQuantity, 5);
-      expect(results[0].averageQuantity).not.toBeCloseTo(
-        otherUserAverageQuantity,
-        5,
-      );
+      expect(results[0].averageQuantity).not.toBeCloseTo(otherUserAverageQuantity, 5);
       expect(results[0].averageQuantity).not.toBeCloseTo(averageQuantity, 5);
     });
 
-    it('getContentRewards - 존재하지 않는 사용자 리워드는 빈 배열 반환', async () => {
+    it("getContentRewards - 존재하지 않는 사용자 리워드는 빈 배열 반환", async () => {
       const content = await contentFactory.create();
 
       const results = await service.getContentRewards(content.id);

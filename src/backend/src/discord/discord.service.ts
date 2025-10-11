@@ -1,6 +1,6 @@
-import { Webhook } from 'discord-webhook-node';
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Webhook } from "discord-webhook-node";
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class DiscordService {
@@ -8,9 +8,7 @@ export class DiscordService {
 
   constructor(private configService: ConfigService) {
     this.webhook = new Webhook(
-      this.configService.getOrThrow<string>(
-        'DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL',
-      ),
+      this.configService.getOrThrow<string>("DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL")
     );
   }
 

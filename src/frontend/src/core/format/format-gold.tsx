@@ -14,12 +14,7 @@ export const FormatGold = ({
       <Text color={color} fontWeight={fontWeight} lineHeight="tight">
         {value ? Math.round(value).toLocaleString() : "0"}
       </Text>
-      <Text
-        color={color}
-        fontWeight={fontWeight}
-        lineHeight="tight"
-        opacity={0.8}
-      >
+      <Text color={color} fontWeight={fontWeight} lineHeight="tight" opacity={0.8}>
         G
       </Text>
     </Flex>

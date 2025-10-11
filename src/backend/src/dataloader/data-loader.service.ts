@@ -1,9 +1,9 @@
-import _ from 'lodash';
-import DataLoader from 'dataloader';
-import { Injectable, Scope } from '@nestjs/common';
-import { PrismaService } from 'src/prisma';
-import { ContentCategory, Item } from '@prisma/client';
-import { ItemSortOrder } from 'src/content/constants';
+import _ from "lodash";
+import DataLoader from "dataloader";
+import { Injectable, Scope } from "@nestjs/common";
+import { PrismaService } from "src/prisma";
+import { ContentCategory, Item } from "@prisma/client";
+import { ItemSortOrder } from "src/content/constants";
 
 @Injectable({ scope: Scope.REQUEST })
 export class DataLoaderService {
@@ -15,19 +15,17 @@ export class DataLoaderService {
   constructor(private prisma: PrismaService) {}
 
   private createContentCategoryLoader() {
-    const contentCategoryLoader = new DataLoader<number, ContentCategory>(
-      async (categoryIds) => {
-        const categories = await this.prisma.contentCategory.findMany({
-          where: {
-            id: { in: categoryIds as number[] },
-          },
-        });
+    const contentCategoryLoader = new DataLoader<number, ContentCategory>(async (categoryIds) => {
+      const categories = await this.prisma.contentCategory.findMany({
+        where: {
+          id: { in: categoryIds as number[] },
+        },
+      });
 
-        const categoriesMap = _.keyBy(categories, 'id');
+      const categoriesMap = _.keyBy(categories, "id");
 
-        return categoryIds.map((id) => categoriesMap[id]);
-      },
-    );
+      return categoryIds.map((id) => categoriesMap[id]);
+    });
 
     return {
       findUniqueOrThrowById: async (categoryId: number) => {
@@ -41,28 +39,26 @@ export class DataLoaderService {
   }
 
   private createContentRewardsLoader() {
-    const contentRewardsLoader = new DataLoader<number, any[]>(
-      async (contentIds) => {
-        const rewards = await this.prisma.contentReward.findMany({
-          where: {
-            contentId: { in: contentIds as number[] },
-          },
-          include: {
-            item: true,
-          },
-        });
+    const contentRewardsLoader = new DataLoader<number, any[]>(async (contentIds) => {
+      const rewards = await this.prisma.contentReward.findMany({
+        where: {
+          contentId: { in: contentIds as number[] },
+        },
+        include: {
+          item: true,
+        },
+      });
 
-        const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
-          const aOrder = ItemSortOrder[a.item.name] || 999;
-          const bOrder = ItemSortOrder[b.item.name] || 999;
-          return aOrder - bOrder;
-        });
+      const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
+        const aOrder = ItemSortOrder[a.item.name] || 999;
+        const bOrder = ItemSortOrder[b.item.name] || 999;
+        return aOrder - bOrder;
+      });
 
-        const rewardsGrouped = _.groupBy(sortedRewards, 'contentId');
+      const rewardsGrouped = _.groupBy(sortedRewards, "contentId");
 
-        return contentIds.map((id) => rewardsGrouped[id] || []);
-      },
-    );
+      return contentIds.map((id) => rewardsGrouped[id] || []);
+    });
 
     return {
       findManyByContentId: async (contentId: number) => {
@@ -79,7 +75,7 @@ export class DataLoaderService {
         },
       });
 
-      const itemsMap = _.keyBy(items, 'id');
+      const itemsMap = _.keyBy(items, "id");
 
       return itemIds.map((id) => itemsMap[id]);
     });
@@ -96,28 +92,26 @@ export class DataLoaderService {
   }
 
   private createContentSeeMoreRewardsLoader() {
-    const contentSeeMoreRewardsLoader = new DataLoader<number, any[]>(
-      async (contentIds) => {
-        const rewards = await this.prisma.contentSeeMoreReward.findMany({
-          where: {
-            contentId: { in: contentIds as number[] },
-          },
-          include: {
-            item: true,
-          },
-        });
+    const contentSeeMoreRewardsLoader = new DataLoader<number, any[]>(async (contentIds) => {
+      const rewards = await this.prisma.contentSeeMoreReward.findMany({
+        where: {
+          contentId: { in: contentIds as number[] },
+        },
+        include: {
+          item: true,
+        },
+      });
 
-        const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
-          const aOrder = ItemSortOrder[a.item.name] || 999;
-          const bOrder = ItemSortOrder[b.item.name] || 999;
-          return aOrder - bOrder;
-        });
+      const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
+        const aOrder = ItemSortOrder[a.item.name] || 999;
+        const bOrder = ItemSortOrder[b.item.name] || 999;
+        return aOrder - bOrder;
+      });
 
-        const rewardsGrouped = _.groupBy(sortedRewards, 'contentId');
+      const rewardsGrouped = _.groupBy(sortedRewards, "contentId");
 
-        return contentIds.map((id) => rewardsGrouped[id] || []);
-      },
-    );
+      return contentIds.map((id) => rewardsGrouped[id] || []);
+    });
 
     return {
       findManyByContentId: async (contentId: number) => {

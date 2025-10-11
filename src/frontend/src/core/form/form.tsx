@@ -12,10 +12,7 @@ import { Select } from "./select";
 import { SubmitButton } from "./submit-button";
 
 export type FormProps<FormValues extends RHF.FieldValues = RHF.FieldValues> =
-  React.DetailedHTMLProps<
-    React.FormHTMLAttributes<HTMLFormElement>,
-    HTMLFormElement
-  > & {
+  React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> & {
     onSubmit: ReturnType<RHF.UseFormReturn<FormValues>["handleSubmit"]>;
   };
 

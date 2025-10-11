@@ -1,25 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { PassportStrategy } from '@nestjs/passport';
-import { AuthProvider } from '@prisma/client';
-import { Strategy } from 'passport-google-oauth20';
-import { PrismaService } from 'src/prisma';
-import { UserSeedService } from 'src/user/service/user-seed.service';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { PassportStrategy } from "@nestjs/passport";
+import { AuthProvider } from "@prisma/client";
+import { Strategy } from "passport-google-oauth20";
+import { PrismaService } from "src/prisma";
+import { UserSeedService } from "src/user/service/user-seed.service";
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
+export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
   constructor(
     configService: ConfigService,
     private prisma: PrismaService,
-    private userSeedService: UserSeedService,
+    private userSeedService: UserSeedService
   ) {
     super({
-      clientID: configService.getOrThrow<string>('GOOGLE_CLIENT_ID'),
-      clientSecret: configService.getOrThrow<string>('GOOGLE_CLIENT_SECRET'),
+      clientID: configService.getOrThrow<string>("GOOGLE_CLIENT_ID"),
+      clientSecret: configService.getOrThrow<string>("GOOGLE_CLIENT_SECRET"),
       callbackURL:
-        configService.get<string>('CLIENT_HOST', 'http://localhost:3000') +
-        '/auth/google/callback',
-      scope: ['email', 'profile'],
+        configService.get<string>("CLIENT_HOST", "http://localhost:3000") + "/auth/google/callback",
+      scope: ["email", "profile"],
     });
   }
 

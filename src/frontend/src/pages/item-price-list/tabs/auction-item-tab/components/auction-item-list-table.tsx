@@ -13,9 +13,7 @@ type AuctionItemListTableProps = {
   nameKeyword: string;
 };
 
-const AuctionItemListTableContent = ({
-  nameKeyword,
-}: AuctionItemListTableProps) => {
+const AuctionItemListTableContent = ({ nameKeyword }: AuctionItemListTableProps) => {
   const { data } = useSafeQuery(AuctionItemListTableDocument, {
     variables: {
       filter: {
@@ -50,9 +48,7 @@ const AuctionItemListTableContent = ({
               </Flex>
             ),
             render({ data }) {
-              return (
-                <FormatGold fontWeight="medium" value={data.avgBuyPrice} />
-              );
+              return <FormatGold fontWeight="medium" value={data.avgBuyPrice} />;
             },
             sortKey: "avgBuyPrice",
           },

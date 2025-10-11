@@ -12,41 +12,30 @@ export interface AlertProps extends Omit<ChakraAlert.RootProps, "title"> {
   onClose?: () => void;
 }
 
-export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  function Alert(props, ref) {
-    const {
-      title,
-      children,
-      icon,
-      closable,
-      onClose,
-      startElement,
-      endElement,
-      ...rest
-    } = props;
-    return (
-      <ChakraAlert.Root ref={ref} {...rest}>
-        {startElement || <ChakraAlert.Indicator>{icon}</ChakraAlert.Indicator>}
-        {children ? (
-          <ChakraAlert.Content>
-            <ChakraAlert.Title>{title}</ChakraAlert.Title>
-            <ChakraAlert.Description>{children}</ChakraAlert.Description>
-          </ChakraAlert.Content>
-        ) : (
-          <ChakraAlert.Title flex="1">{title}</ChakraAlert.Title>
-        )}
-        {endElement}
-        {closable && (
-          <CloseButton
-            alignSelf="flex-start"
-            insetEnd="-2"
-            onClick={onClose}
-            pos="relative"
-            size="sm"
-            top="-2"
-          />
-        )}
-      </ChakraAlert.Root>
-    );
-  }
-);
+export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+  const { title, children, icon, closable, onClose, startElement, endElement, ...rest } = props;
+  return (
+    <ChakraAlert.Root ref={ref} {...rest}>
+      {startElement || <ChakraAlert.Indicator>{icon}</ChakraAlert.Indicator>}
+      {children ? (
+        <ChakraAlert.Content>
+          <ChakraAlert.Title>{title}</ChakraAlert.Title>
+          <ChakraAlert.Description>{children}</ChakraAlert.Description>
+        </ChakraAlert.Content>
+      ) : (
+        <ChakraAlert.Title flex="1">{title}</ChakraAlert.Title>
+      )}
+      {endElement}
+      {closable && (
+        <CloseButton
+          alignSelf="flex-start"
+          insetEnd="-2"
+          onClick={onClose}
+          pos="relative"
+          size="sm"
+          top="-2"
+        />
+      )}
+    </ChakraAlert.Root>
+  );
+});

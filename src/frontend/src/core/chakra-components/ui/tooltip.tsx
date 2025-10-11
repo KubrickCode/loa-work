@@ -10,37 +10,27 @@ export interface TooltipProps extends ChakraTooltip.RootProps {
   disabled?: boolean;
 }
 
-export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
-  function Tooltip(props, ref) {
-    const {
-      showArrow,
-      children,
-      disabled,
-      portalled,
-      content,
-      contentProps,
-      portalRef,
-      ...rest
-    } = props;
+export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function Tooltip(props, ref) {
+  const { showArrow, children, disabled, portalled, content, contentProps, portalRef, ...rest } =
+    props;
 
-    if (disabled) return children;
+  if (disabled) return children;
 
-    return (
-      <ChakraTooltip.Root closeDelay={100} openDelay={100} {...rest}>
-        <ChakraTooltip.Trigger asChild>{children}</ChakraTooltip.Trigger>
-        <Portal container={portalRef} disabled={!portalled}>
-          <ChakraTooltip.Positioner>
-            <ChakraTooltip.Content ref={ref} {...contentProps}>
-              {showArrow && (
-                <ChakraTooltip.Arrow>
-                  <ChakraTooltip.ArrowTip />
-                </ChakraTooltip.Arrow>
-              )}
-              {content}
-            </ChakraTooltip.Content>
-          </ChakraTooltip.Positioner>
-        </Portal>
-      </ChakraTooltip.Root>
-    );
-  }
-);
+  return (
+    <ChakraTooltip.Root closeDelay={100} openDelay={100} {...rest}>
+      <ChakraTooltip.Trigger asChild>{children}</ChakraTooltip.Trigger>
+      <Portal container={portalRef} disabled={!portalled}>
+        <ChakraTooltip.Positioner>
+          <ChakraTooltip.Content ref={ref} {...contentProps}>
+            {showArrow && (
+              <ChakraTooltip.Arrow>
+                <ChakraTooltip.ArrowTip />
+              </ChakraTooltip.Arrow>
+            )}
+            {content}
+          </ChakraTooltip.Content>
+        </ChakraTooltip.Positioner>
+      </Portal>
+    </ChakraTooltip.Root>
+  );
+});

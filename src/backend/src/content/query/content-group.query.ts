@@ -1,7 +1,7 @@
-import { Args, Field, InputType, Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { Prisma } from '@prisma/client';
-import { ContentGroup } from '../object/content-group.object';
+import { Args, Field, InputType, Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { Prisma } from "@prisma/client";
+import { ContentGroup } from "../object/content-group.object";
 
 @InputType()
 export class ContentGroupFilter {
@@ -14,33 +14,31 @@ export class ContentGroupQuery {
   constructor(private prisma: PrismaService) {}
 
   @Query(() => ContentGroup)
-  async contentGroup(
-    @Args('filter', { nullable: true }) filter?: ContentGroupFilter,
-  ) {
+  async contentGroup(@Args("filter", { nullable: true }) filter?: ContentGroupFilter) {
     const contents = await this.prisma.content.findMany({
       where: this.buildWhereArgs(filter),
       orderBy: [
         {
           contentCategory: {
-            id: 'asc',
+            id: "asc",
           },
         },
         {
-          level: 'asc',
+          level: "asc",
         },
         {
-          id: 'asc',
+          id: "asc",
         },
       ],
     });
 
     for (const content of contents) {
       if (content.level !== contents[0].level) {
-        throw new Error('Content level is not the same');
+        throw new Error("Content level is not the same");
       }
 
       if (content.contentCategoryId !== contents[0].contentCategoryId) {
-        throw new Error('Content category is not the same');
+        throw new Error("Content category is not the same");
       }
     }
 

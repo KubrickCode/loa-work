@@ -1,5 +1,5 @@
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Injectable, OnModuleDestroy } from "@nestjs/common";
+import { PrismaClient } from "@prisma/client";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleDestroy {
@@ -14,9 +14,9 @@ export class PrismaService extends PrismaClient implements OnModuleDestroy {
 
     const tables = tablenames
       .map(({ tablename }) => tablename)
-      .filter((name) => name !== '_prisma_migrations')
+      .filter((name) => name !== "_prisma_migrations")
       .map((name) => `"public"."${name}"`)
-      .join(', ');
+      .join(", ");
 
     try {
       await this.$executeRawUnsafe(`TRUNCATE TABLE ${tables} CASCADE;`);

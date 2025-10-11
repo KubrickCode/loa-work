@@ -70,28 +70,18 @@ export const ContentGroupDurationEditDialog = ({
     >
       {({ queryData }) => (
         <>
-          <Dialog.Header>
-            {queryData.contentGroup.name} - 소요시간 수정
-          </Dialog.Header>
+          <Dialog.Header>{queryData.contentGroup.name} - 소요시간 수정</Dialog.Header>
           <Dialog.Body>
             <Form.Body>
               <Flex direction="column" gap={4}>
                 {queryData.contents.map(({ gate }, index) => (
                   <Flex direction="column" gap={1} key={index}>
-                    {queryData.contents.length > 1 && (
-                      <Text fontSize="xs">{gate}관문</Text>
-                    )}
+                    {queryData.contents.length > 1 && <Text fontSize="xs">{gate}관문</Text>}
                     <Flex gap={4} paddingLeft={1}>
-                      <Form.Field
-                        label="분"
-                        name={`contentDurations.${index}.minutes`}
-                      >
+                      <Form.Field label="분" name={`contentDurations.${index}.minutes`}>
                         <Form.NumberInput min={0} />
                       </Form.Field>
-                      <Form.Field
-                        label="초"
-                        name={`contentDurations.${index}.seconds`}
-                      >
+                      <Form.Field label="초" name={`contentDurations.${index}.seconds`}>
                         <Form.NumberInput max={59} min={0} />
                       </Form.Field>
                     </Flex>

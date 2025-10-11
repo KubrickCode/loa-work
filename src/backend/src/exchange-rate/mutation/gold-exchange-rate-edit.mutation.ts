@@ -1,19 +1,11 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from '@nestjs/graphql';
-import { Prisma, UserRole } from '@prisma/client';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { CurrentUser } from 'src/common/decorator/current-user.decorator';
-import { User } from 'src/common/object/user.object';
-import { DiscordService } from 'src/discord/discord.service';
-import { PrismaService } from 'src/prisma';
+import { UseGuards } from "@nestjs/common";
+import { Args, Field, InputType, Int, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { Prisma, UserRole } from "@prisma/client";
+import { AuthGuard } from "src/auth/auth.guard";
+import { CurrentUser } from "src/common/decorator/current-user.decorator";
+import { User } from "src/common/object/user.object";
+import { DiscordService } from "src/discord/discord.service";
+import { PrismaService } from "src/prisma";
 
 @InputType()
 class GoldExchangeRateEditInput {
@@ -31,14 +23,14 @@ class GoldExchangeRateEditResult {
 export class GoldExchangeRateEditMutation {
   constructor(
     private prisma: PrismaService,
-    private discordService: DiscordService,
+    private discordService: DiscordService
   ) {}
 
   @UseGuards(AuthGuard)
   @Mutation(() => GoldExchangeRateEditResult)
   async goldExchangeRateEdit(
-    @Args('input') input: GoldExchangeRateEditInput,
-    @CurrentUser() user: User,
+    @Args("input") input: GoldExchangeRateEditInput,
+    @CurrentUser() user: User
   ) {
     const { krwAmount } = input;
 
@@ -63,10 +55,7 @@ export class GoldExchangeRateEditMutation {
     });
   }
 
-  async editDefaultGoldExchangeRate(
-    krwAmount: number,
-    tx: Prisma.TransactionClient,
-  ) {
+  async editDefaultGoldExchangeRate(krwAmount: number, tx: Prisma.TransactionClient) {
     const goldExchangeRate = await tx.goldExchangeRate.findFirstOrThrow();
 
     const updatedGoldExchangeRate = await tx.goldExchangeRate.update({
@@ -78,7 +67,7 @@ export class GoldExchangeRateEditMutation {
       },
     });
 
-    if (process.env.NODE_ENV !== 'production') return;
+    if (process.env.NODE_ENV !== "production") return;
 
     const before = `${goldExchangeRate.goldAmount}:${goldExchangeRate.krwAmount}`;
     const after = `${updatedGoldExchangeRate.goldAmount}:${updatedGoldExchangeRate.krwAmount}`;

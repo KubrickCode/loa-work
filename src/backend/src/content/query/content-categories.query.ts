@@ -1,6 +1,6 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { ContentCategory } from '../object/content-category.object';
+import { Query, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { ContentCategory } from "../object/content-category.object";
 
 @Resolver()
 export class ContentCategoriesQuery {

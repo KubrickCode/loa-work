@@ -7,9 +7,9 @@ import {
   Mutation,
   ObjectType,
   Resolver,
-} from '@nestjs/graphql';
-import { ContentWageService } from '../service/content-wage.service';
-import { ContentDurationService } from '../service/content-duration.service';
+} from "@nestjs/graphql";
+import { ContentWageService } from "../service/content-wage.service";
+import { ContentDurationService } from "../service/content-duration.service";
 
 @InputType()
 class CustomContentWageCalculateInput {
@@ -51,13 +51,11 @@ class CustomContentWageCalculateResult {
 export class CustomContentWageCalculateMutation {
   constructor(
     private contentWageService: ContentWageService,
-    private contentDurationService: ContentDurationService,
+    private contentDurationService: ContentDurationService
   ) {}
 
   @Mutation(() => CustomContentWageCalculateResult)
-  async customContentWageCalculate(
-    @Args('input') input: CustomContentWageCalculateInput,
-  ) {
+  async customContentWageCalculate(@Args("input") input: CustomContentWageCalculateInput) {
     const { minutes, seconds, items } = input;
 
     const totalSeconds = this.contentDurationService.getValidatedTotalSeconds({
@@ -69,14 +67,13 @@ export class CustomContentWageCalculateMutation {
       items.map((item) => ({
         itemId: item.id,
         averageQuantity: item.quantity,
-      })),
+      }))
     );
 
-    const { krwAmountPerHour, goldAmountPerHour } =
-      await this.contentWageService.calculateWage({
-        gold: rewardsGold,
-        duration: totalSeconds,
-      });
+    const { krwAmountPerHour, goldAmountPerHour } = await this.contentWageService.calculateWage({
+      gold: rewardsGold,
+      duration: totalSeconds,
+    });
 
     return {
       ok: true,

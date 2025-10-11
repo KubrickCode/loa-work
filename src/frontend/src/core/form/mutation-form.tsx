@@ -32,10 +32,7 @@ export type MutationFormProps<
   preventEnterSubmit?: boolean;
 };
 
-export const MutationForm = <
-  FormValues extends FieldValues = FieldValues,
-  MutationResult = any,
->({
+export const MutationForm = <FormValues extends FieldValues = FieldValues, MutationResult = any>({
   children,
   defaultValues,
   mutation,
@@ -43,10 +40,7 @@ export const MutationForm = <
   preventEnterSubmit,
   schema,
 }: MutationFormProps<FormValues, MutationResult>) => {
-  const { onSubmit, ...useFormReturn } = useMutationForm<
-    FormValues,
-    MutationResult
-  >({
+  const { onSubmit, ...useFormReturn } = useMutationForm<FormValues, MutationResult>({
     defaultValues,
     mutation,
     onComplete,

@@ -8,10 +8,7 @@ import {
 } from "react";
 
 import { useSafeQuery } from "~/core/graphql";
-import {
-  ItemsFilterDocument,
-  ItemsFilterQuery,
-} from "~/core/graphql/generated";
+import { ItemsFilterDocument, ItemsFilterQuery } from "~/core/graphql/generated";
 
 type ContentWageListPageContextType = {
   items: ItemsFilterQuery["items"];
@@ -35,25 +32,19 @@ type ContentWageListPageContextType = {
   setShouldMergeGate: (value: boolean) => void;
 };
 
-const ContentWageListPageContext = createContext<
-  ContentWageListPageContextType | undefined
->(undefined);
+const ContentWageListPageContext = createContext<ContentWageListPageContextType | undefined>(
+  undefined
+);
 
-export const ContentWageListPageProvider = ({
-  children,
-}: PropsWithChildren) => {
+export const ContentWageListPageProvider = ({ children }: PropsWithChildren) => {
   const {
     data: { items },
   } = useSafeQuery(ItemsFilterDocument);
-  const [contentCategoryId, setContentCategoryId] = useState<number | null>(
-    null
-  );
+  const [contentCategoryId, setContentCategoryId] = useState<number | null>(null);
   const [keyword, setKeyword] = useState<string>("");
   const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
   const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
-  const [includeItemIds, setIncludeItemIds] = useState<number[]>(
-    items.map((item) => item.id)
-  );
+  const [includeItemIds, setIncludeItemIds] = useState<number[]>(items.map((item) => item.id));
   const [shouldMergeGate, setShouldMergeGate] = useState<boolean>(true);
 
   return (

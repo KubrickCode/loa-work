@@ -18,10 +18,7 @@ export const ContentCategoryFilter = (props: ContentCategoryFilterProps) => {
   );
 };
 
-const WrappedContentCategoryFilter = ({
-  onChange,
-  value,
-}: ContentCategoryFilterProps) => {
+const WrappedContentCategoryFilter = ({ onChange, value }: ContentCategoryFilterProps) => {
   const { data } = useSafeQuery(ContentCategoriesDocument);
 
   const items = [
@@ -32,12 +29,5 @@ const WrappedContentCategoryFilter = ({
     })),
   ];
 
-  return (
-    <Select
-      items={items}
-      onChange={onChange}
-      placeholder="컨텐츠 종류"
-      value={value}
-    />
-  );
+  return <Select items={items} onChange={onChange} placeholder="컨텐츠 종류" value={value} />;
 };

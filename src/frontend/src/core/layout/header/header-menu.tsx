@@ -4,15 +4,8 @@ import { MdLogin, MdLogout } from "react-icons/md";
 import { LoginDialog, useAuth } from "~/core/auth";
 import { Avatar } from "~/core/chakra-components/ui/avatar";
 import { Button } from "~/core/chakra-components/ui/button";
-import {
-  ColorModeIcon,
-  useColorMode,
-} from "~/core/chakra-components/ui/color-mode";
-import {
-  MenuContent,
-  MenuRoot,
-  MenuTrigger,
-} from "~/core/chakra-components/ui/menu";
+import { ColorModeIcon, useColorMode } from "~/core/chakra-components/ui/color-mode";
+import { MenuContent, MenuRoot, MenuTrigger } from "~/core/chakra-components/ui/menu";
 import { Dialog } from "~/core/dialog";
 import { MenuItem } from "~/core/menu";
 

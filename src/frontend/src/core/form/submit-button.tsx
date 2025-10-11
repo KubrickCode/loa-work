@@ -7,10 +7,7 @@ export type SubmitButtonProps = Omit<ButtonProps, "children"> & {
   children?: ReactNode;
 };
 
-export const SubmitButton = ({
-  children,
-  ...otherProps
-}: SubmitButtonProps) => {
+export const SubmitButton = ({ children, ...otherProps }: SubmitButtonProps) => {
   const {
     formState: { isSubmitting },
   } = useFormContext();

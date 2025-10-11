@@ -1,17 +1,9 @@
 import { useDisclosure } from "@chakra-ui/react";
-import {
-  ComponentPropsWithoutRef,
-  createElement,
-  ElementType,
-  useState,
-} from "react";
+import { ComponentPropsWithoutRef, createElement, ElementType, useState } from "react";
 
 export type UseDialogProps<T extends ElementType> = {
   dialog: T;
-  dialogProps?: Omit<
-    ComponentPropsWithoutRef<T>,
-    "children" | "open" | "onClose"
-  >;
+  dialogProps?: Omit<ComponentPropsWithoutRef<T>, "children" | "open" | "onClose">;
   disabled?: boolean;
 };
 
@@ -21,8 +13,7 @@ export const useDialog = <T extends ElementType>({
   disabled,
 }: UseDialogProps<T>) => {
   const { onOpen, onClose, open, onToggle } = useDisclosure();
-  const [currentDialogProps, setCurrentDialogProps] =
-    useState(initialDialogProps);
+  const [currentDialogProps, setCurrentDialogProps] = useState(initialDialogProps);
 
   const handleOpen = (newDialogProps?: UseDialogProps<T>["dialogProps"]) => {
     if (disabled) return;

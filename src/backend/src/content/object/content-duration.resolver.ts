@@ -1,9 +1,9 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma';
-import { ContentDuration } from './content-duration.object';
-import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { Content } from './content.object';
+import { Parent, ResolveField, Resolver } from "@nestjs/graphql";
+import { PrismaService } from "src/prisma";
+import { ContentDuration } from "./content-duration.object";
+import { UseGuards } from "@nestjs/common";
+import { AuthGuard } from "src/auth/auth.guard";
+import { Content } from "./content.object";
 
 @Resolver(() => ContentDuration)
 export class ContentDurationResolver {

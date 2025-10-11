@@ -10,25 +10,19 @@ export const ItemStatUpdateToggleTip = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <ToggleTip
-      content={<Content isOpen={isOpen} />}
-      onOpenChange={({ open }) => setIsOpen(open)}
-    >
+    <ToggleTip content={<Content isOpen={isOpen} />} onOpenChange={({ open }) => setIsOpen(open)}>
       <Link>수집 현황</Link>
     </ToggleTip>
   );
 };
 
 const Content = ({ isOpen }: { isOpen: boolean }) => {
-  const [fetch, { data, loading, error }] = useLazyQuery(
-    ItemStatUpdateToggleTipDocument,
-    {
-      variables: {
-        take: 1,
-        orderBy: [{ field: "updatedAt", order: "desc" }],
-      },
-    }
-  );
+  const [fetch, { data, loading, error }] = useLazyQuery(ItemStatUpdateToggleTipDocument, {
+    variables: {
+      take: 1,
+      orderBy: [{ field: "updatedAt", order: "desc" }],
+    },
+  });
 
   useEffect(() => {
     if (isOpen) fetch();
@@ -44,12 +38,8 @@ const Content = ({ isOpen }: { isOpen: boolean }) => {
         <Text>{error.message}</Text>
       ) : (
         <>
-          <Text>
-            거래소 아이템: {formatDateTime(data.marketItems[0]?.updatedAt)}
-          </Text>
-          <Text>
-            경매장 아이템: {formatDateTime(data.auctionItems[0]?.updatedAt)}
-          </Text>
+          <Text>거래소 아이템: {formatDateTime(data.marketItems[0]?.updatedAt)}</Text>
+          <Text>경매장 아이템: {formatDateTime(data.auctionItems[0]?.updatedAt)}</Text>
         </>
       )}
     </Flex>

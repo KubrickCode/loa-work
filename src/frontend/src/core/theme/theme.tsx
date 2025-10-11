@@ -1,9 +1,4 @@
-import {
-  createSystem,
-  defaultConfig,
-  defineConfig,
-  ChakraProvider,
-} from "@chakra-ui/react";
+import { createSystem, defaultConfig, defineConfig, ChakraProvider } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import "pretendard/dist/web/static/pretendard.css";
 
@@ -117,16 +112,13 @@ const config = defineConfig({
           value: "0 8px 16px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1)",
         },
         lg: {
-          value:
-            "0 12px 24px rgba(0, 0, 0, 0.18), 0 6px 12px rgba(0, 0, 0, 0.12)",
+          value: "0 12px 24px rgba(0, 0, 0, 0.18), 0 6px 12px rgba(0, 0, 0, 0.12)",
         },
         xl: {
-          value:
-            "0 20px 40px rgba(0, 0, 0, 0.22), 0 8px 16px rgba(0, 0, 0, 0.15)",
+          value: "0 20px 40px rgba(0, 0, 0, 0.22), 0 8px 16px rgba(0, 0, 0, 0.15)",
         },
         "2xl": {
-          value:
-            "0 32px 64px rgba(0, 0, 0, 0.25), 0 12px 24px rgba(0, 0, 0, 0.18)",
+          value: "0 32px 64px rgba(0, 0, 0, 0.25), 0 12px 24px rgba(0, 0, 0, 0.18)",
         },
       },
     },

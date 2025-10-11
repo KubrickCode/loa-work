@@ -1,15 +1,7 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Field,
-  Float,
-  InputType,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from '@nestjs/graphql';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { PrismaService } from 'src/prisma';
+import { UseGuards } from "@nestjs/common";
+import { Args, Field, Float, InputType, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { AuthGuard } from "src/auth/auth.guard";
+import { PrismaService } from "src/prisma";
 
 @InputType()
 export class ContentCreateInput {
@@ -68,16 +60,9 @@ export class ContentCreateMutation {
 
   @UseGuards(AuthGuard)
   @Mutation(() => ContentCreateResult)
-  async contentCreate(@Args('input') input: ContentCreateInput) {
-    const {
-      categoryId,
-      contentRewards,
-      contentSeeMoreRewards,
-      duration,
-      gate,
-      level,
-      name,
-    } = input;
+  async contentCreate(@Args("input") input: ContentCreateInput) {
+    const { categoryId, contentRewards, contentSeeMoreRewards, duration, gate, level, name } =
+      input;
 
     // 카테고리 정보 조회하여 레이드 여부 확인
     const category = await this.prisma.contentCategory.findUniqueOrThrow({
@@ -85,12 +70,9 @@ export class ContentCreateMutation {
     });
 
     // TODO: 레이드 유형인지 판단하여 더보기 보상 생성 여부를 판단하는데, 구조적으로 더 나은 방법 검토 필요.
-    const isRaid = [
-      '에픽 레이드',
-      '카제로스 레이드',
-      '강습 레이드',
-      '군단장 레이드',
-    ].includes(category.name);
+    const isRaid = ["에픽 레이드", "카제로스 레이드", "강습 레이드", "군단장 레이드"].includes(
+      category.name
+    );
 
     await this.prisma.content.create({
       data: {
@@ -102,13 +84,11 @@ export class ContentCreateMutation {
         },
         contentRewards: {
           createMany: {
-            data: contentRewards.map(
-              ({ itemId, averageQuantity, isBound }) => ({
-                itemId,
-                averageQuantity,
-                isSellable: !isBound,
-              }),
-            ),
+            data: contentRewards.map(({ itemId, averageQuantity, isBound }) => ({
+              itemId,
+              averageQuantity,
+              isSellable: !isBound,
+            })),
           },
         },
         ...(isRaid &&

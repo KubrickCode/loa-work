@@ -1,24 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { PassportStrategy } from '@nestjs/passport';
-import { AuthProvider } from '@prisma/client';
-import { Strategy } from 'passport-kakao';
-import { PrismaService } from 'src/prisma';
-import { UserSeedService } from 'src/user/service/user-seed.service';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { PassportStrategy } from "@nestjs/passport";
+import { AuthProvider } from "@prisma/client";
+import { Strategy } from "passport-kakao";
+import { PrismaService } from "src/prisma";
+import { UserSeedService } from "src/user/service/user-seed.service";
 
 @Injectable()
-export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
+export class KakaoStrategy extends PassportStrategy(Strategy, "kakao") {
   constructor(
     configService: ConfigService,
     private prisma: PrismaService,
-    private userSeedService: UserSeedService,
+    private userSeedService: UserSeedService
   ) {
     super({
-      clientID: configService.getOrThrow<string>('KAKAO_CLIENT_ID'),
-      clientSecret: configService.getOrThrow<string>('KAKAO_CLIENT_SECRET'),
+      clientID: configService.getOrThrow<string>("KAKAO_CLIENT_ID"),
+      clientSecret: configService.getOrThrow<string>("KAKAO_CLIENT_SECRET"),
       callbackURL:
-        configService.get<string>('CLIENT_HOST', 'http://localhost:3000') +
-        '/auth/kakao/callback',
+        configService.get<string>("CLIENT_HOST", "http://localhost:3000") + "/auth/kakao/callback",
     });
   }
 
@@ -26,7 +25,7 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     _accessToken: string,
     _refreshToken: string,
     profile: any,
-    done: (error: any, user?: any) => void,
+    done: (error: any, user?: any) => void
   ) {
     await this.prisma.$transaction(async (tx) => {
       const user = await tx.user.upsert({

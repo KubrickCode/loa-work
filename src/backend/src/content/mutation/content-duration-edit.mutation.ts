@@ -1,19 +1,11 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from '@nestjs/graphql';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { PrismaService } from 'src/prisma';
-import { CurrentUser } from 'src/common/decorator/current-user.decorator';
-import { User } from 'src/common/object/user.object';
-import { UserRole } from '@prisma/client';
-import { ContentDurationService } from '../service/content-duration.service';
+import { UseGuards } from "@nestjs/common";
+import { Args, Field, InputType, Int, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { AuthGuard } from "src/auth/auth.guard";
+import { PrismaService } from "src/prisma";
+import { CurrentUser } from "src/common/decorator/current-user.decorator";
+import { User } from "src/common/object/user.object";
+import { UserRole } from "@prisma/client";
+import { ContentDurationService } from "../service/content-duration.service";
 
 @InputType()
 class ContentDurationEditInput {
@@ -37,14 +29,14 @@ class ContentDurationEditResult {
 export class ContentDurationEditMutation {
   constructor(
     private prisma: PrismaService,
-    private contentDurationService: ContentDurationService,
+    private contentDurationService: ContentDurationService
   ) {}
 
   @UseGuards(AuthGuard)
   @Mutation(() => ContentDurationEditResult)
   async contentDurationEdit(
-    @Args('input') input: ContentDurationEditInput,
-    @CurrentUser() user: User,
+    @Args("input") input: ContentDurationEditInput,
+    @CurrentUser() user: User
   ) {
     const { contentId, minutes, seconds } = input;
 
