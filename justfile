@@ -82,6 +82,7 @@ lint target="all":
       just lint backend
       just lint frontend
       just lint go
+      just lint config
       ;;
     backend)
       prettier --write "{{ backend_dir }}/src/**/*.ts"
@@ -95,6 +96,9 @@ lint target="all":
       ;;
     go)
       gofmt -w "{{ root_dir }}/src/go"
+      ;;
+    config)
+      prettier --write "**/*.{json,yml,yaml,md}"
       ;;
     *)
       echo "Unknown target: {{ target }}"

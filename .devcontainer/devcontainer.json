@@ -10,5 +10,14 @@
     "./local-features/node": {},
     "./local-features/doppler": {}
   },
+  "postCreateCommand": "npm install -g prettier",
+  "customizations": {
+    "vscode": {
+      "extensions": ["esbenp.prettier-vscode"],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  },
   "remoteUser": "root"
 }
