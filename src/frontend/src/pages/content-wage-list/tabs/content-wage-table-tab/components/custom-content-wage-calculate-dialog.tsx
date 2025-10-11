@@ -16,14 +16,14 @@ import {
 } from "~/core/graphql/generated";
 
 const schema = z.object({
-  minutes: z.number().int32().min(0),
-  seconds: z.number().int32().min(0).max(59),
   items: z.array(
     z.object({
       id: z.number(),
       quantity: z.number(),
     })
   ),
+  minutes: z.number().int32().min(0),
+  seconds: z.number().int32().min(0).max(59),
 });
 
 export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
@@ -36,12 +36,12 @@ export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
       CustomContentWageCalculateDialogQueryQuery
     >
       defaultValues={(data) => ({
-        minutes: 0,
-        seconds: 0,
         items: data.items.map((item) => ({
           id: item.id,
           quantity: 0,
         })),
+        minutes: 0,
+        seconds: 0,
       })}
       form={{
         mutation: CustomContentWageCalculateDialogMutationDocument,

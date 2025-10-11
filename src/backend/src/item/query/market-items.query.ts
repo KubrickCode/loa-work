@@ -10,15 +10,15 @@ export class MarketItemsQuery {
   @Query(() => [MarketItem])
   async marketItems(
     @Args("orderBy", {
-      type: () => [OrderByArg],
       nullable: true,
+      type: () => [OrderByArg],
     })
     orderBy?: OrderByArg[],
     @Args("take", { nullable: true }) take: number | null = 10
   ) {
     return await this.prisma.marketItem.findMany({
-      take,
       orderBy: orderBy ? orderBy.map((o) => ({ [o.field]: o.order })) : undefined,
+      take,
     });
   }
 }

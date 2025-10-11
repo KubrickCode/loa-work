@@ -17,10 +17,10 @@ export const ItemStatUpdateToggleTip = () => {
 };
 
 const Content = ({ isOpen }: { isOpen: boolean }) => {
-  const [fetch, { data, loading, error }] = useLazyQuery(ItemStatUpdateToggleTipDocument, {
+  const [fetch, { data, error, loading }] = useLazyQuery(ItemStatUpdateToggleTipDocument, {
     variables: {
-      take: 1,
       orderBy: [{ field: "updatedAt", order: "desc" }],
+      take: 1,
     },
   });
 

@@ -15,9 +15,9 @@ export class ItemFactory {
 
     return await this.prisma.item.create({
       data: {
-        name,
-        kind: ItemKind.MARKET,
         imageUrl: faker.image.url(),
+        kind: ItemKind.MARKET,
+        name,
         ...options?.data,
       },
     });

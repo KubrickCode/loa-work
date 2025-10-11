@@ -34,8 +34,8 @@ export class UserItemPriceEditMutation {
     await this.userContentService.validateUserItem(id);
 
     await this.prisma.userItem.update({
-      where: { id },
       data: { price },
+      where: { id },
     });
 
     return { ok: true };

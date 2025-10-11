@@ -10,15 +10,15 @@ export class AuctionItemsQuery {
   @Query(() => [AuctionItem])
   async auctionItems(
     @Args("orderBy", {
-      type: () => [OrderByArg],
       nullable: true,
+      type: () => [OrderByArg],
     })
     orderBy?: OrderByArg[],
     @Args("take", { nullable: true }) take: number | null = 10
   ) {
     return await this.prisma.auctionItem.findMany({
-      take,
       orderBy: orderBy ? orderBy.map((o) => ({ [o.field]: o.order })) : undefined,
+      take,
     });
   }
 }

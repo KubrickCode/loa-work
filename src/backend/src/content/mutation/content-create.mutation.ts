@@ -29,14 +29,14 @@ export class ContentCreateInput {
 
 @InputType()
 export class ContentCreateItemsInput {
-  @Field()
-  itemId: number;
-
   @Field(() => Float)
   averageQuantity: number;
 
   @Field()
   isBound: boolean;
+
+  @Field()
+  itemId: number;
 }
 
 @InputType()
@@ -84,10 +84,10 @@ export class ContentCreateMutation {
         },
         contentRewards: {
           createMany: {
-            data: contentRewards.map(({ itemId, averageQuantity, isBound }) => ({
-              itemId,
+            data: contentRewards.map(({ averageQuantity, isBound, itemId }) => ({
               averageQuantity,
               isSellable: !isBound,
+              itemId,
             })),
           },
         },

@@ -1,8 +1,6 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
-  overwrite: true,
-  schema: "../backend/schema.graphql",
   config: {
     namingConvention: {
       enumValues: "keep",
@@ -17,6 +15,8 @@ const config: CodegenConfig = {
       plugins: ["typescript", "typescript-operations", "typed-document-node"],
     },
   },
+  overwrite: true,
+  schema: "../backend/schema.graphql",
 };
 
 export default config;

@@ -3,17 +3,17 @@ import * as React from "react";
 
 import { CloseButton } from "./close-button";
 
-export interface AlertProps extends Omit<ChakraAlert.RootProps, "title"> {
-  startElement?: React.ReactNode;
-  endElement?: React.ReactNode;
-  title?: React.ReactNode;
-  icon?: React.ReactElement;
+export type AlertProps = {
   closable?: boolean;
+  endElement?: React.ReactNode;
+  icon?: React.ReactElement;
   onClose?: () => void;
-}
+  startElement?: React.ReactNode;
+  title?: React.ReactNode;
+} & Omit<ChakraAlert.RootProps, "title">;
 
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
-  const { title, children, icon, closable, onClose, startElement, endElement, ...rest } = props;
+  const { children, closable, endElement, icon, onClose, startElement, title, ...rest } = props;
   return (
     <ChakraAlert.Root ref={ref} {...rest}>
       {startElement || <ChakraAlert.Indicator>{icon}</ChakraAlert.Indicator>}

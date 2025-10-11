@@ -7,8 +7,8 @@ import { ContentCategoryFactory } from "./content-category.factory";
 
 @Injectable()
 export class ContentFactory {
-  private readonly uniqueEnforcer = new UniqueEnforcer();
   private readonly contentCategoryFactory = new ContentCategoryFactory(this.prisma);
+  private readonly uniqueEnforcer = new UniqueEnforcer();
 
   constructor(private prisma: PrismaService) {}
 
@@ -23,9 +23,9 @@ export class ContentFactory {
 
     return await this.prisma.content.create({
       data: {
-        name,
         contentCategoryId,
-        level: faker.number.int({ min: 1640, max: 1740 }),
+        level: faker.number.int({ max: 1740, min: 1640 }),
+        name,
         ...options?.data,
       },
     });

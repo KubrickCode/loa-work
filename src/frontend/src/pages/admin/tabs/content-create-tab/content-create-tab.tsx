@@ -16,9 +16,9 @@ const schema = z.object({
   categoryId: z.number(),
   contentRewards: z.array(
     z.object({
-      itemId: z.number(),
       averageQuantity: z.number(),
       isBound: z.boolean(),
+      itemId: z.number(),
     })
   ),
   contentSeeMoreRewards: z
@@ -43,9 +43,9 @@ export const ContentCreateTab = () => {
       <Form.Mutation<ContentCreateInput, ContentCreateTabMutation>
         defaultValues={{
           contentRewards: data.items.map(({ id }) => ({
-            itemId: id,
             averageQuantity: 0,
             isBound: false,
+            itemId: id,
           })),
           contentSeeMoreRewards: data.items.map(({ id }) => ({
             itemId: id,

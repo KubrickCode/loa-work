@@ -6,19 +6,19 @@ import { AuctionItemTab, ExtraItemTab, MarketItemTab } from "./tabs";
 export const ItemPriceListPage = () => {
   const tabPanels = [
     {
+      component: <MarketItemTab />,
       id: "market-item",
       label: "거래소 아이템",
-      component: <MarketItemTab />,
     },
     {
+      component: <AuctionItemTab />,
       id: "auction-item",
       label: "경매장 아이템",
-      component: <AuctionItemTab />,
     },
     {
+      component: <ExtraItemTab />,
       id: "extra-item",
       label: "기타 아이템",
-      component: <ExtraItemTab />,
     },
   ];
 

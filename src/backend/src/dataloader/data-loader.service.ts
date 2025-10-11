@@ -9,8 +9,8 @@ import { ItemSortOrder } from "src/content/constants";
 export class DataLoaderService {
   readonly contentCategory = this.createContentCategoryLoader();
   readonly contentRewards = this.createContentRewardsLoader();
-  readonly item = this.createItemLoader();
   readonly contentSeeMoreRewards = this.createContentSeeMoreRewardsLoader();
+  readonly item = this.createItemLoader();
 
   constructor(private prisma: PrismaService) {}
 
@@ -41,11 +41,11 @@ export class DataLoaderService {
   private createContentRewardsLoader() {
     const contentRewardsLoader = new DataLoader<number, any[]>(async (contentIds) => {
       const rewards = await this.prisma.contentReward.findMany({
-        where: {
-          contentId: { in: contentIds as number[] },
-        },
         include: {
           item: true,
+        },
+        where: {
+          contentId: { in: contentIds as number[] },
         },
       });
 
@@ -63,6 +63,35 @@ export class DataLoaderService {
     return {
       findManyByContentId: async (contentId: number) => {
         return await contentRewardsLoader.load(contentId);
+      },
+    };
+  }
+
+  private createContentSeeMoreRewardsLoader() {
+    const contentSeeMoreRewardsLoader = new DataLoader<number, any[]>(async (contentIds) => {
+      const rewards = await this.prisma.contentSeeMoreReward.findMany({
+        include: {
+          item: true,
+        },
+        where: {
+          contentId: { in: contentIds as number[] },
+        },
+      });
+
+      const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
+        const aOrder = ItemSortOrder[a.item.name] || 999;
+        const bOrder = ItemSortOrder[b.item.name] || 999;
+        return aOrder - bOrder;
+      });
+
+      const rewardsGrouped = _.groupBy(sortedRewards, "contentId");
+
+      return contentIds.map((id) => rewardsGrouped[id] || []);
+    });
+
+    return {
+      findManyByContentId: async (contentId: number) => {
+        return await contentSeeMoreRewardsLoader.load(contentId);
       },
     };
   }
@@ -87,35 +116,6 @@ export class DataLoaderService {
           throw new Error(`Item with id ${itemId} not found`);
         }
         return result;
-      },
-    };
-  }
-
-  private createContentSeeMoreRewardsLoader() {
-    const contentSeeMoreRewardsLoader = new DataLoader<number, any[]>(async (contentIds) => {
-      const rewards = await this.prisma.contentSeeMoreReward.findMany({
-        where: {
-          contentId: { in: contentIds as number[] },
-        },
-        include: {
-          item: true,
-        },
-      });
-
-      const sortedRewards = _.cloneDeep(rewards).sort((a, b) => {
-        const aOrder = ItemSortOrder[a.item.name] || 999;
-        const bOrder = ItemSortOrder[b.item.name] || 999;
-        return aOrder - bOrder;
-      });
-
-      const rewardsGrouped = _.groupBy(sortedRewards, "contentId");
-
-      return contentIds.map((id) => rewardsGrouped[id] || []);
-    });
-
-    return {
-      findManyByContentId: async (contentId: number) => {
-        return await contentSeeMoreRewardsLoader.load(contentId);
       },
     };
   }

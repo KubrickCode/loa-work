@@ -8,17 +8,17 @@ export class MonitoringService {
   constructor() {
     promClient.collectDefaultMetrics();
     this.httpRequestsTotal = new promClient.Counter({
-      name: "http_requests_total",
       help: "Total number of HTTP requests",
       labelNames: ["method", "path", "status"],
+      name: "http_requests_total",
     });
-  }
-
-  incrementRequest(method: string, path: string, status: string) {
-    this.httpRequestsTotal.inc({ method, path, status });
   }
 
   async getMetrics(): Promise<string> {
     return promClient.register.metrics();
+  }
+
+  incrementRequest(method: string, path: string, status: string) {
+    this.httpRequestsTotal.inc({ method, path, status });
   }
 }

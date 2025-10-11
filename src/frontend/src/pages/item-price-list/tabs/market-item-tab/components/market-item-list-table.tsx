@@ -24,17 +24,17 @@ const MarketItemListTableContent = ({
 }: MarketItemListTableProps) => {
   const [keyword, setKeyword] = useState("");
   const { data } = useSafeQuery(MarketItemListTableDocument, {
+    fetchPolicy: "cache-and-network",
     variables: {
       filter: {
-        isStatScraperEnabled: true,
         categoryName,
-        keyword,
         grade,
+        isStatScraperEnabled: true,
+        keyword,
       },
-      take: 1,
       orderBy: [{ field: "updatedAt", order: "desc" }],
+      take: 1,
     },
-    fetchPolicy: "cache-and-network",
   });
 
   return (

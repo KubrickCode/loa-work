@@ -25,58 +25,6 @@ export class ContentWageListQuery {
     private contentWageService: ContentWageService
   ) {}
 
-  @Query(() => [ContentWage])
-  async contentWageList(
-    @Args("filter", { nullable: true }) filter?: ContentWageListFilter,
-    @Args("orderBy", {
-      type: () => [OrderByArg],
-      nullable: true,
-    })
-    orderBy?: OrderByArg[]
-  ) {
-    const contents = await this.prisma.content.findMany({
-      where: this.buildWhereArgs(filter),
-      orderBy: [
-        {
-          contentCategory: {
-            id: "asc",
-          },
-        },
-        {
-          level: "asc",
-        },
-        {
-          id: "asc",
-        },
-      ],
-      include: {
-        contentSeeMoreRewards: {
-          include: {
-            item: true,
-          },
-        },
-      },
-    });
-
-    const promises = contents.map(async (content) => {
-      return await this.contentWageService.getContentWage(content.id, {
-        includeIsBound: filter?.includeIsBound,
-        includeItemIds: filter?.includeItemIds,
-        includeIsSeeMore: filter?.includeIsSeeMore,
-      });
-    });
-
-    const result = orderBy
-      ? _.orderBy(
-          await Promise.all(promises),
-          orderBy.map((order) => order.field),
-          orderBy.map((order) => order.order)
-        )
-      : await Promise.all(promises);
-
-    return result;
-  }
-
   buildWhereArgs(filter?: ContentWageListFilter) {
     const where: Prisma.ContentWhereInput = {};
 
@@ -108,5 +56,57 @@ export class ContentWageListQuery {
     }
 
     return where;
+  }
+
+  @Query(() => [ContentWage])
+  async contentWageList(
+    @Args("filter", { nullable: true }) filter?: ContentWageListFilter,
+    @Args("orderBy", {
+      nullable: true,
+      type: () => [OrderByArg],
+    })
+    orderBy?: OrderByArg[]
+  ) {
+    const contents = await this.prisma.content.findMany({
+      include: {
+        contentSeeMoreRewards: {
+          include: {
+            item: true,
+          },
+        },
+      },
+      orderBy: [
+        {
+          contentCategory: {
+            id: "asc",
+          },
+        },
+        {
+          level: "asc",
+        },
+        {
+          id: "asc",
+        },
+      ],
+      where: this.buildWhereArgs(filter),
+    });
+
+    const promises = contents.map(async (content) => {
+      return await this.contentWageService.getContentWage(content.id, {
+        includeIsBound: filter?.includeIsBound,
+        includeIsSeeMore: filter?.includeIsSeeMore,
+        includeItemIds: filter?.includeItemIds,
+      });
+    });
+
+    const result = orderBy
+      ? _.orderBy(
+          await Promise.all(promises),
+          orderBy.map((order) => order.field),
+          orderBy.map((order) => order.order)
+        )
+      : await Promise.all(promises);
+
+    return result;
   }
 }

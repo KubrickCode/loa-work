@@ -6,23 +6,23 @@ export class ContentWage {
   contentId: number;
 
   @Field(() => Float)
-  krwAmountPerHour: number;
+  goldAmountPerClear: number;
 
   @Field(() => Float)
   goldAmountPerHour: number;
 
   @Field(() => Float)
-  goldAmountPerClear: number;
+  krwAmountPerHour: number;
 }
 
 @InputType()
 export class ContentWageFilter {
-  @Field(() => [Number], { nullable: true })
-  includeItemIds?: number[];
+  @Field(() => Boolean, { nullable: true })
+  includeIsBound?: boolean;
 
   @Field(() => Boolean, { nullable: true })
   includeIsSeeMore?: boolean;
 
-  @Field(() => Boolean, { nullable: true })
-  includeIsBound?: boolean;
+  @Field(() => [Number], { nullable: true })
+  includeItemIds?: number[];
 }

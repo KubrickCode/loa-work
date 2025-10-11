@@ -1,18 +1,18 @@
 import { Slider as ChakraSlider, HStack } from "@chakra-ui/react";
 import * as React from "react";
 
-export interface SliderProps extends ChakraSlider.RootProps {
-  marks?: Array<number | { value: number; label: React.ReactNode }>;
+export type SliderProps = {
   label?: React.ReactNode;
+  marks?: Array<number | { label: React.ReactNode; value: number }>;
   showValue?: boolean;
-}
+} & ChakraSlider.RootProps;
 
 export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(function Slider(props, ref) {
-  const { marks: marksProp, label, showValue, ...rest } = props;
+  const { label, marks: marksProp, showValue, ...rest } = props;
   const value = props.defaultValue ?? props.value;
 
   const marks = marksProp?.map((mark) => {
-    if (typeof mark === "number") return { value: mark, label: undefined };
+    if (typeof mark === "number") return { label: undefined, value: mark };
     return mark;
   });
 

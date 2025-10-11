@@ -26,6 +26,27 @@ export class GoldExchangeRateEditMutation {
     private discordService: DiscordService
   ) {}
 
+  async editDefaultGoldExchangeRate(krwAmount: number, tx: Prisma.TransactionClient) {
+    const goldExchangeRate = await tx.goldExchangeRate.findFirstOrThrow();
+
+    const updatedGoldExchangeRate = await tx.goldExchangeRate.update({
+      data: {
+        krwAmount,
+      },
+      where: {
+        id: goldExchangeRate.id,
+      },
+    });
+
+    if (process.env.NODE_ENV !== "production") return;
+
+    const before = `${goldExchangeRate.goldAmount}:${goldExchangeRate.krwAmount}`;
+    const after = `${updatedGoldExchangeRate.goldAmount}:${updatedGoldExchangeRate.krwAmount}`;
+    const message = `서버 골드 환율 변경\n**${before}** -> **${after}**`;
+
+    await this.discordService.sendMessage(message);
+  }
+
   @UseGuards(AuthGuard)
   @Mutation(() => GoldExchangeRateEditResult)
   async goldExchangeRateEdit(
@@ -42,37 +63,16 @@ export class GoldExchangeRateEditMutation {
       const { goldAmount } = await tx.goldExchangeRate.findFirstOrThrow();
 
       await tx.userGoldExchangeRate.upsert({
-        where: { userId: user.id },
-        update: { krwAmount },
         create: {
-          userId: user.id,
-          krwAmount,
           goldAmount,
+          krwAmount,
+          userId: user.id,
         },
+        update: { krwAmount },
+        where: { userId: user.id },
       });
 
       return { ok: true };
     });
-  }
-
-  async editDefaultGoldExchangeRate(krwAmount: number, tx: Prisma.TransactionClient) {
-    const goldExchangeRate = await tx.goldExchangeRate.findFirstOrThrow();
-
-    const updatedGoldExchangeRate = await tx.goldExchangeRate.update({
-      where: {
-        id: goldExchangeRate.id,
-      },
-      data: {
-        krwAmount,
-      },
-    });
-
-    if (process.env.NODE_ENV !== "production") return;
-
-    const before = `${goldExchangeRate.goldAmount}:${goldExchangeRate.krwAmount}`;
-    const after = `${updatedGoldExchangeRate.goldAmount}:${updatedGoldExchangeRate.krwAmount}`;
-    const message = `서버 골드 환율 변경\n**${before}** -> **${after}**`;
-
-    await this.discordService.sendMessage(message);
   }
 }

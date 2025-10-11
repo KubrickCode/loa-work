@@ -3,19 +3,19 @@
 import { For, SegmentGroup } from "@chakra-ui/react";
 import * as React from "react";
 
-interface Item {
-  value: string;
-  label: React.ReactNode;
+type Item = {
   disabled?: boolean;
-}
+  label: React.ReactNode;
+  value: string;
+};
 
-export interface SegmentedControlProps extends SegmentGroup.RootProps {
+export type SegmentedControlProps = {
   items: Array<string | Item>;
-}
+} & SegmentGroup.RootProps;
 
 function normalize(items: Array<string | Item>): Item[] {
   return items.map((item) => {
-    if (typeof item === "string") return { value: item, label: item };
+    if (typeof item === "string") return { label: item, value: item };
     return item;
   });
 }

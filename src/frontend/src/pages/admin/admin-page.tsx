@@ -12,7 +12,7 @@ import { UserListTab } from "./tabs/user-list-tab";
 import { ValidateRewardsTab } from "./tabs/validate-rewards-tab";
 
 export const AdminPage = () => {
-  const { user, isLoading } = useAuth();
+  const { isLoading, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,24 +25,24 @@ export const AdminPage = () => {
 
   const tabPanels = [
     {
+      component: <PredictRewardsTab />,
       id: "predict-rewards",
       label: "컨텐츠 보상 예측",
-      component: <PredictRewardsTab />,
     },
     {
+      component: <ValidateRewardsTab />,
       id: "validate-rewards",
       label: "컨텐츠 보상 검증",
-      component: <ValidateRewardsTab />,
     },
     {
+      component: <ContentCreateTab />,
       id: "content-create",
       label: "컨텐츠 생성",
-      component: <ContentCreateTab />,
     },
     {
+      component: <UserListTab />,
       id: "user-list",
       label: "유저 관리",
-      component: <UserListTab />,
     },
   ];
 

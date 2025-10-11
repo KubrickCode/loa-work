@@ -71,7 +71,7 @@ describe("UserContentService", () => {
 
     it("getContentDuration", async () => {
       const content = await contentFactory.create();
-      const duration = faker.number.int({ min: 1000, max: 10000 });
+      const duration = faker.number.int({ max: 10000, min: 1000 });
 
       await prisma.contentDuration.create({
         data: {
@@ -88,13 +88,13 @@ describe("UserContentService", () => {
       const content = await contentFactory.create();
       const item = await itemFactory.create();
 
-      const averageQuantity = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity = faker.number.float({ max: 10000, min: 1 });
 
       const contentReward = await prisma.contentReward.create({
         data: {
+          averageQuantity: averageQuantity,
           contentId: content.id,
           itemId: item.id,
-          averageQuantity: averageQuantity,
         },
       });
 
@@ -107,22 +107,22 @@ describe("UserContentService", () => {
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
 
-      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
-      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity1 = faker.number.float({ max: 10000, min: 1 });
+      const averageQuantity2 = faker.number.float({ max: 10000, min: 1 });
 
       await prisma.contentReward.createMany({
         data: [
           {
-            contentId: content.id,
-            itemId: item1.id,
             averageQuantity: averageQuantity1,
+            contentId: content.id,
             isSellable: true,
+            itemId: item1.id,
           },
           {
-            contentId: content.id,
-            itemId: item2.id,
             averageQuantity: averageQuantity2,
+            contentId: content.id,
             isSellable: true,
+            itemId: item2.id,
           },
         ],
       });
@@ -147,22 +147,22 @@ describe("UserContentService", () => {
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
 
-      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
-      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity1 = faker.number.float({ max: 10000, min: 1 });
+      const averageQuantity2 = faker.number.float({ max: 10000, min: 1 });
 
       await prisma.contentReward.createMany({
         data: [
           {
-            contentId: content.id,
-            itemId: item1.id,
             averageQuantity: averageQuantity1,
+            contentId: content.id,
             isSellable: true,
+            itemId: item1.id,
           },
           {
-            contentId: content.id,
-            itemId: item2.id,
             averageQuantity: averageQuantity2,
+            contentId: content.id,
             isSellable: false,
+            itemId: item2.id,
           },
         ],
       });
@@ -186,29 +186,29 @@ describe("UserContentService", () => {
       const item2 = await itemFactory.create();
       const item3 = await itemFactory.create();
 
-      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
-      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
-      const averageQuantity3 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity1 = faker.number.float({ max: 10000, min: 1 });
+      const averageQuantity2 = faker.number.float({ max: 10000, min: 1 });
+      const averageQuantity3 = faker.number.float({ max: 10000, min: 1 });
 
       await prisma.contentReward.createMany({
         data: [
           {
-            contentId: content.id,
-            itemId: item1.id,
             averageQuantity: averageQuantity1,
+            contentId: content.id,
             isSellable: true,
+            itemId: item1.id,
           },
           {
-            contentId: content.id,
-            itemId: item2.id,
             averageQuantity: averageQuantity2,
+            contentId: content.id,
             isSellable: true,
+            itemId: item2.id,
           },
           {
-            contentId: content.id,
-            itemId: item3.id,
             averageQuantity: averageQuantity3,
+            contentId: content.id,
             isSellable: true,
+            itemId: item3.id,
           },
         ],
       });
@@ -237,29 +237,29 @@ describe("UserContentService", () => {
       const item2 = await itemFactory.create();
       const item3 = await itemFactory.create();
 
-      const averageQuantity1 = faker.number.float({ min: 1, max: 10000 });
-      const averageQuantity2 = faker.number.float({ min: 1, max: 10000 });
-      const averageQuantity3 = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity1 = faker.number.float({ max: 10000, min: 1 });
+      const averageQuantity2 = faker.number.float({ max: 10000, min: 1 });
+      const averageQuantity3 = faker.number.float({ max: 10000, min: 1 });
 
       await prisma.contentReward.createMany({
         data: [
           {
-            contentId: content.id,
-            itemId: item1.id,
             averageQuantity: averageQuantity1,
+            contentId: content.id,
             isSellable: true,
+            itemId: item1.id,
           },
           {
-            contentId: content.id,
-            itemId: item2.id,
             averageQuantity: averageQuantity2,
+            contentId: content.id,
             isSellable: false,
+            itemId: item2.id,
           },
           {
-            contentId: content.id,
-            itemId: item3.id,
             averageQuantity: averageQuantity3,
+            contentId: content.id,
             isSellable: true,
+            itemId: item3.id,
           },
         ],
       });
@@ -307,9 +307,9 @@ describe("UserContentService", () => {
       const userPrice = 250;
       await prisma.userItem.create({
         data: {
-          userId: user.id,
           itemId: item.id,
           price: userPrice,
+          userId: user.id,
         },
       });
 
@@ -339,12 +339,12 @@ describe("UserContentService", () => {
           contentId: content.id,
         },
       });
-      const duration = faker.number.int({ min: 1000, max: 10000 });
+      const duration = faker.number.int({ max: 10000, min: 1000 });
 
       await prisma.userContentDuration.create({
         data: {
-          userId: user.id,
           contentId: content.id,
+          userId: user.id,
           value: duration,
         },
       });
@@ -354,15 +354,15 @@ describe("UserContentService", () => {
     });
 
     it("getContentRewardAverageQuantity", async () => {
-      const averageQuantity = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity = faker.number.float({ max: 10000, min: 1 });
 
       const contentReward = await contentRewardFactory.create();
       await prisma.userContentReward.create({
         data: {
-          userId: user.id,
+          averageQuantity,
           contentId: contentReward.contentId,
           itemId: contentReward.itemId,
-          averageQuantity,
+          userId: user.id,
         },
       });
 
@@ -377,48 +377,48 @@ describe("UserContentService", () => {
       const item2 = await itemFactory.create();
 
       const averageQuantity1 = faker.number.float({
-        min: 1,
         max: 10000,
+        min: 1,
       });
       const averageQuantity2 = faker.number.float({
-        min: 1,
         max: 10000,
+        min: 1,
       });
 
-      const userAverageQuantity1 = faker.number.float({ min: 1, max: 10000 });
-      const userAverageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity1 = faker.number.float({ max: 10000, min: 1 });
+      const userAverageQuantity2 = faker.number.float({ max: 10000, min: 1 });
 
       const contentReward1 = await prisma.contentReward.create({
         data: {
-          contentId: content.id,
-          itemId: item1.id,
           averageQuantity: averageQuantity1,
+          contentId: content.id,
           isSellable: true,
+          itemId: item1.id,
         },
       });
 
       const contentReward2 = await prisma.contentReward.create({
         data: {
-          contentId: content.id,
-          itemId: item2.id,
           averageQuantity: averageQuantity2,
+          contentId: content.id,
           isSellable: true,
+          itemId: item2.id,
         },
       });
 
       await prisma.userContentReward.createMany({
         data: [
           {
-            userId: user.id,
+            averageQuantity: userAverageQuantity1,
             contentId: contentReward1.contentId,
             itemId: contentReward1.itemId,
-            averageQuantity: userAverageQuantity1,
+            userId: user.id,
           },
           {
-            userId: user.id,
+            averageQuantity: userAverageQuantity2,
             contentId: contentReward2.contentId,
             itemId: contentReward2.itemId,
-            averageQuantity: userAverageQuantity2,
+            userId: user.id,
           },
         ],
       });
@@ -446,42 +446,42 @@ describe("UserContentService", () => {
       const item1 = await itemFactory.create();
       const item2 = await itemFactory.create();
 
-      const userAverageQuantity1 = faker.number.float({ min: 1, max: 10000 });
-      const userAverageQuantity2 = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity1 = faker.number.float({ max: 10000, min: 1 });
+      const userAverageQuantity2 = faker.number.float({ max: 10000, min: 1 });
 
       const contentReward1 = await prisma.contentReward.create({
         data: {
+          averageQuantity: faker.number.float({ max: 10000, min: 1 }),
           contentId: content.id,
-          itemId: item1.id,
-          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
+          itemId: item1.id,
         },
       });
 
       const contentReward2 = await prisma.contentReward.create({
         data: {
+          averageQuantity: faker.number.float({ max: 10000, min: 1 }),
           contentId: content.id,
-          itemId: item2.id,
-          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: false,
+          itemId: item2.id,
         },
       });
 
       await prisma.userContentReward.createMany({
         data: [
           {
-            userId: user.id,
-            contentId: contentReward1.contentId,
-            itemId: contentReward1.itemId,
             averageQuantity: userAverageQuantity1,
+            contentId: contentReward1.contentId,
             isSellable: true,
+            itemId: contentReward1.itemId,
+            userId: user.id,
           },
           {
-            userId: user.id,
-            contentId: contentReward2.contentId,
-            itemId: contentReward2.itemId,
             averageQuantity: userAverageQuantity2,
+            contentId: contentReward2.contentId,
             isSellable: false,
+            itemId: contentReward2.itemId,
+            userId: user.id,
           },
         ],
       });
@@ -501,56 +501,56 @@ describe("UserContentService", () => {
       const item2 = await itemFactory.create();
       const item3 = await itemFactory.create();
 
-      const userAverageQuantity1 = faker.number.float({ min: 1, max: 10000 });
-      const userAverageQuantity2 = faker.number.float({ min: 1, max: 10000 });
-      const userAverageQuantity3 = faker.number.float({ min: 1, max: 10000 });
+      const userAverageQuantity1 = faker.number.float({ max: 10000, min: 1 });
+      const userAverageQuantity2 = faker.number.float({ max: 10000, min: 1 });
+      const userAverageQuantity3 = faker.number.float({ max: 10000, min: 1 });
 
       const contentReward1 = await prisma.contentReward.create({
         data: {
+          averageQuantity: faker.number.float({ max: 10000, min: 1 }),
           contentId: content.id,
-          itemId: item1.id,
-          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
+          itemId: item1.id,
         },
       });
 
       const contentReward2 = await prisma.contentReward.create({
         data: {
+          averageQuantity: faker.number.float({ max: 10000, min: 1 }),
           contentId: content.id,
-          itemId: item2.id,
-          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
+          itemId: item2.id,
         },
       });
 
       const contentReward3 = await prisma.contentReward.create({
         data: {
+          averageQuantity: faker.number.float({ max: 10000, min: 1 }),
           contentId: content.id,
-          itemId: item3.id,
-          averageQuantity: faker.number.float({ min: 1, max: 10000 }),
           isSellable: true,
+          itemId: item3.id,
         },
       });
 
       await prisma.userContentReward.createMany({
         data: [
           {
-            userId: user.id,
+            averageQuantity: userAverageQuantity1,
             contentId: contentReward1.contentId,
             itemId: contentReward1.itemId,
-            averageQuantity: userAverageQuantity1,
+            userId: user.id,
           },
           {
-            userId: user.id,
+            averageQuantity: userAverageQuantity2,
             contentId: contentReward2.contentId,
             itemId: contentReward2.itemId,
-            averageQuantity: userAverageQuantity2,
+            userId: user.id,
           },
           {
-            userId: user.id,
+            averageQuantity: userAverageQuantity3,
             contentId: contentReward3.contentId,
             itemId: contentReward3.itemId,
-            averageQuantity: userAverageQuantity3,
+            userId: user.id,
           },
         ],
       });
@@ -579,37 +579,37 @@ describe("UserContentService", () => {
       const content = await contentFactory.create();
       const item = await itemFactory.create();
 
-      const averageQuantity = faker.number.float({ min: 1, max: 10000 });
-      const userAverageQuantity = faker.number.float({ min: 1, max: 10000 });
+      const averageQuantity = faker.number.float({ max: 10000, min: 1 });
+      const userAverageQuantity = faker.number.float({ max: 10000, min: 1 });
       const otherUserAverageQuantity = faker.number.float({
-        min: 1,
         max: 10000,
+        min: 1,
       });
 
       const contentReward = await prisma.contentReward.create({
         data: {
-          contentId: content.id,
-          itemId: item.id,
           averageQuantity: averageQuantity,
+          contentId: content.id,
           isSellable: true,
+          itemId: item.id,
         },
       });
 
       await prisma.userContentReward.create({
         data: {
-          userId: user.id,
-          contentId: contentReward.contentId,
-          itemId: contentReward.itemId,
           averageQuantity: userAverageQuantity,
+          contentId: contentReward.contentId,
+          itemId: contentReward.itemId,
+          userId: user.id,
         },
       });
 
       await prisma.userContentReward.create({
         data: {
-          userId: otherUser.id,
+          averageQuantity: otherUserAverageQuantity,
           contentId: contentReward.contentId,
           itemId: contentReward.itemId,
-          averageQuantity: otherUserAverageQuantity,
+          userId: otherUser.id,
         },
       });
 

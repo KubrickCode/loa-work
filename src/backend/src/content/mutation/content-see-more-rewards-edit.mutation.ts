@@ -45,11 +45,11 @@ export class ContentSeeMoreRewardsEditMutation {
         await Promise.all(
           input.contentSeeMoreRewards.map(async ({ contentId, itemId, quantity }) => {
             await tx.contentSeeMoreReward.update({
-              where: {
-                contentId_itemId: { contentId, itemId },
-              },
               data: {
                 quantity,
+              },
+              where: {
+                contentId_itemId: { contentId, itemId },
               },
             });
           })
@@ -59,11 +59,11 @@ export class ContentSeeMoreRewardsEditMutation {
       await Promise.all(
         input.contentSeeMoreRewards.map(({ contentId, itemId, quantity }) =>
           tx.userContentSeeMoreReward.upsert({
-            where: {
-              userId_contentId_itemId: { userId: user.id, contentId, itemId },
-            },
-            create: { quantity, userId: user.id, contentId, itemId },
+            create: { contentId, itemId, quantity, userId: user.id },
             update: { quantity },
+            where: {
+              userId_contentId_itemId: { contentId, itemId, userId: user.id },
+            },
           })
         )
       );

@@ -28,9 +28,9 @@ export class ContentRewardFactory {
 
     return await this.prisma.contentReward.create({
       data: {
+        averageQuantity: faker.number.float({ max: 10000, min: 1 }),
         contentId,
         itemId,
-        averageQuantity: faker.number.float({ min: 1, max: 10000 }),
         ...options?.data,
       },
     });

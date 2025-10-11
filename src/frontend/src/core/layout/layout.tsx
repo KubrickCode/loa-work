@@ -16,20 +16,20 @@ export const Layout = ({ children }: PropsWithChildren) => {
   return (
     <Flex
       _before={{
-        content: '""',
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: "40vh",
         bg: {
-          _light:
-            "linear-gradient(180deg, var(--chakra-colors-bg-canvas) 0%, var(--chakra-colors-bg-surface) 100%)",
           _dark:
             "linear-gradient(180deg, var(--chakra-colors-neutral-950) 0%, rgba(26, 26, 28, 0.8) 100%)",
+          _light:
+            "linear-gradient(180deg, var(--chakra-colors-bg-canvas) 0%, var(--chakra-colors-bg-surface) 100%)",
         },
-        zIndex: -1,
+        content: '""',
+        height: "40vh",
+        left: 0,
         pointerEvents: "none",
+        position: "fixed",
+        right: 0,
+        top: 0,
+        zIndex: -1,
       }}
       bg="bg.canvas"
       direction="column"

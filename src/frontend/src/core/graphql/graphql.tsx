@@ -17,7 +17,7 @@ export const GRAPHQL_ENDPOINT = "/graphql";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
+    graphQLErrors.forEach(({ locations, message, path }) => {
       console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
     });
   }
@@ -25,31 +25,31 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: GRAPHQL_ENDPOINT,
   credentials: "include",
   headers: {
     "Apollo-Require-Preflight": "true",
   },
+  uri: GRAPHQL_ENDPOINT,
 });
 
 export const client = new ApolloClient({
-  link: from([errorLink, httpLink]),
   cache: new InMemoryCache({
     addTypename: true,
   }),
   defaultOptions: {
-    watchQuery: {
-      fetchPolicy: "network-only",
-      errorPolicy: "all",
-    },
-    query: {
-      fetchPolicy: "network-only",
-      errorPolicy: "all",
-    },
     mutate: {
       errorPolicy: "all",
     },
+    query: {
+      errorPolicy: "all",
+      fetchPolicy: "network-only",
+    },
+    watchQuery: {
+      errorPolicy: "all",
+      fetchPolicy: "network-only",
+    },
   },
+  link: from([errorLink, httpLink]),
 });
 
 export const GraphQLProvider = (props: Omit<ApolloProviderProps<any>, "client">) => (

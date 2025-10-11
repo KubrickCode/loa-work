@@ -13,14 +13,14 @@ import { ContentDurationService } from "../service/content-duration.service";
 
 @InputType()
 class CustomContentWageCalculateInput {
+  @Field(() => [CustomContentWageCalculateItemsInput])
+  items: CustomContentWageCalculateItemsInput[];
+
   @Field(() => Int)
   minutes: number;
 
   @Field(() => Int)
   seconds: number;
-
-  @Field(() => [CustomContentWageCalculateItemsInput])
-  items: CustomContentWageCalculateItemsInput[];
 }
 
 @InputType()
@@ -34,17 +34,17 @@ class CustomContentWageCalculateItemsInput {
 
 @ObjectType()
 class CustomContentWageCalculateResult {
-  @Field(() => Boolean)
-  ok: boolean;
-
   @Field()
-  krwAmountPerHour: number;
+  goldAmountPerClear: number;
 
   @Field()
   goldAmountPerHour: number;
 
   @Field()
-  goldAmountPerClear: number;
+  krwAmountPerHour: number;
+
+  @Field(() => Boolean)
+  ok: boolean;
 }
 
 @Resolver()
@@ -56,7 +56,7 @@ export class CustomContentWageCalculateMutation {
 
   @Mutation(() => CustomContentWageCalculateResult)
   async customContentWageCalculate(@Args("input") input: CustomContentWageCalculateInput) {
-    const { minutes, seconds, items } = input;
+    const { items, minutes, seconds } = input;
 
     const totalSeconds = this.contentDurationService.getValidatedTotalSeconds({
       minutes,
@@ -65,21 +65,21 @@ export class CustomContentWageCalculateMutation {
 
     const rewardsGold = await this.contentWageService.calculateGold(
       items.map((item) => ({
-        itemId: item.id,
         averageQuantity: item.quantity,
+        itemId: item.id,
       }))
     );
 
-    const { krwAmountPerHour, goldAmountPerHour } = await this.contentWageService.calculateWage({
-      gold: rewardsGold,
+    const { goldAmountPerHour, krwAmountPerHour } = await this.contentWageService.calculateWage({
       duration: totalSeconds,
+      gold: rewardsGold,
     });
 
     return {
-      ok: true,
-      krwAmountPerHour,
-      goldAmountPerHour,
       goldAmountPerClear: Math.round(rewardsGold),
+      goldAmountPerHour,
+      krwAmountPerHour,
+      ok: true,
     };
   }
 }

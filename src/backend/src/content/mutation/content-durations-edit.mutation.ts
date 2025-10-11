@@ -55,19 +55,19 @@ export class ContentDurationsEditMutation {
 
         if (user.role === UserRole.OWNER) {
           await tx.contentDuration.update({
-            where: {
-              contentId,
-            },
             data: {
               value: totalSeconds,
+            },
+            where: {
+              contentId,
             },
           });
         }
 
         await tx.userContentDuration.upsert({
-          where: { contentId_userId: { contentId, userId: user.id } },
-          update: { value: totalSeconds },
           create: { contentId, userId: user.id, value: totalSeconds },
+          update: { value: totalSeconds },
+          where: { contentId_userId: { contentId, userId: user.id } },
         });
       });
 

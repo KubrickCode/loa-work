@@ -234,13 +234,13 @@ const ContentWageSection = ({
 
 const ContentWageSectionDataGrid = ({
   contentId,
-  includeIsSeeMore,
   includeIsBound,
+  includeIsSeeMore,
   includeItemIds,
 }: {
   contentId: number;
-  includeIsSeeMore: boolean;
   includeIsBound: boolean;
+  includeIsSeeMore: boolean;
   includeItemIds: number[];
 }) => {
   const { isAuthenticated } = useAuth();
@@ -248,8 +248,8 @@ const ContentWageSectionDataGrid = ({
     variables: {
       contentId,
       filter: {
-        includeIsSeeMore,
         includeIsBound,
+        includeIsSeeMore,
         includeItemIds,
       },
     },
@@ -332,12 +332,12 @@ const ContentIsBoundFilter = ({
 };
 
 const ItemsFilter = ({
-  items: rewardItems,
   includeItemIds,
+  items: rewardItems,
   setIncludeItemIds,
 }: {
-  items: { id: number; name: string }[];
   includeItemIds: number[];
+  items: { id: number; name: string }[];
   setIncludeItemIds: (value: number[]) => void;
 }) => {
   const items = rewardItems.map(({ id, name }) => ({

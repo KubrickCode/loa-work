@@ -2,9 +2,9 @@ import { Accordion, HStack } from "@chakra-ui/react";
 import * as React from "react";
 import { LuChevronDown } from "react-icons/lu";
 
-interface AccordionItemTriggerProps extends Accordion.ItemTriggerProps {
+type AccordionItemTriggerProps = {
   indicatorPlacement?: "start" | "end";
-}
+} & Accordion.ItemTriggerProps;
 
 export const AccordionItemTrigger = React.forwardRef<HTMLButtonElement, AccordionItemTriggerProps>(
   function AccordionItemTrigger(props, ref) {
@@ -12,7 +12,7 @@ export const AccordionItemTrigger = React.forwardRef<HTMLButtonElement, Accordio
     return (
       <Accordion.ItemTrigger {...rest} ref={ref}>
         {indicatorPlacement === "start" && (
-          <Accordion.ItemIndicator rotate={{ base: "-90deg", _open: "0deg" }}>
+          <Accordion.ItemIndicator rotate={{ _open: "0deg", base: "-90deg" }}>
             <LuChevronDown />
           </Accordion.ItemIndicator>
         )}
@@ -29,7 +29,7 @@ export const AccordionItemTrigger = React.forwardRef<HTMLButtonElement, Accordio
   }
 );
 
-interface AccordionItemContentProps extends Accordion.ItemContentProps {}
+type AccordionItemContentProps = {} & Accordion.ItemContentProps;
 
 export const AccordionItemContent = React.forwardRef<HTMLDivElement, AccordionItemContentProps>(
   function AccordionItemContent(props, ref) {

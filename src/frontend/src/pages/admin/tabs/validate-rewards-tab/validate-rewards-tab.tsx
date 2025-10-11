@@ -14,25 +14,25 @@ import { useSafeQuery } from "~/core/graphql";
 import { ValidateRewardsTabDocument } from "~/core/graphql/generated";
 import { Section } from "~/core/section";
 
-interface ValidateRewardsResult {
-  success: boolean;
-  message?: string;
-  contentId: number;
+type ValidateRewardsResult = {
   categoryName: string;
+  contentId: number;
   level: number;
+  message?: string;
+  success: boolean;
   validations: Array<{
-    itemName: string;
     currentQuantity: number;
-    reportedQuantity?: number;
     difference?: string;
-    status: "insufficient_data" | "significant_difference" | "acceptable";
+    excludedReports?: number;
+    itemName: string;
     message?: string;
     reportCount?: number;
+    reportedQuantity?: number;
+    status: "insufficient_data" | "significant_difference" | "acceptable";
     totalReports?: number;
     validReports?: number;
-    excludedReports?: number;
   }>;
-}
+};
 
 export const ValidateRewardsTab = () => {
   const { data } = useSafeQuery(ValidateRewardsTabDocument);

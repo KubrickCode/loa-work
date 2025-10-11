@@ -12,22 +12,6 @@ export class AuthController {
     return req.user ?? "null";
   }
 
-  @Get("google/callback")
-  @UseGuards(AuthGuard("google"))
-  async googleCallback(@Req() req: Request, @Res() res: Response) {
-    req.session["passport"] = {
-      user: req.user,
-    };
-
-    return res.redirect(this.configService.get<string>("CLIENT_HOST", "http://localhost:3000/"));
-  }
-
-  @Get("google")
-  @UseGuards(AuthGuard("google"))
-  async googleLogin(@Req() req: Request) {
-    return req.user;
-  }
-
   @Get("discord/callback")
   @UseGuards(AuthGuard("discord"))
   async discordCallback(@Req() req: Request, @Res() res: Response) {
@@ -41,6 +25,22 @@ export class AuthController {
   @Get("discord")
   @UseGuards(AuthGuard("discord"))
   async discordLogin(@Req() req: Request) {
+    return req.user;
+  }
+
+  @Get("google/callback")
+  @UseGuards(AuthGuard("google"))
+  async googleCallback(@Req() req: Request, @Res() res: Response) {
+    req.session["passport"] = {
+      user: req.user,
+    };
+
+    return res.redirect(this.configService.get<string>("CLIENT_HOST", "http://localhost:3000/"));
+  }
+
+  @Get("google")
+  @UseGuards(AuthGuard("google"))
+  async googleLogin(@Req() req: Request) {
     return req.user;
   }
 

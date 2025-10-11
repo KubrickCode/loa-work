@@ -40,8 +40,8 @@ describe("ContentWageListQuery (e2e)", () => {
 
     await prisma.goldExchangeRate.create({
       data: {
-        krwAmount: 25,
         goldAmount: 100,
+        krwAmount: 25,
       },
     });
   });
@@ -72,10 +72,10 @@ describe("ContentWageListQuery (e2e)", () => {
     });
     await contentRewardFactory.create({
       data: {
-        contentId: content.id,
-        itemId: item.id,
         averageQuantity: 5,
+        contentId: content.id,
         isSellable: true,
+        itemId: item.id,
       },
     });
     await contentDurationFactory.create({
@@ -126,15 +126,15 @@ describe("ContentWageListQuery (e2e)", () => {
     // 각 카테고리에 콘텐츠 생성
     const content1 = await contentFactory.create({
       data: {
-        name: "Content in CategoryA",
         contentCategoryId: category1.id,
+        name: "Content in CategoryA",
       },
     });
 
     const content2 = await contentFactory.create({
       data: {
-        name: "Content in CategoryB",
         contentCategoryId: category2.id,
+        name: "Content in CategoryB",
       },
     });
 
@@ -150,10 +150,10 @@ describe("ContentWageListQuery (e2e)", () => {
     for (const contentId of [content1.id, content2.id]) {
       await contentRewardFactory.create({
         data: {
-          contentId,
-          itemId: item.id,
           averageQuantity: 5,
+          contentId,
           isSellable: true,
+          itemId: item.id,
         },
       });
 
@@ -192,15 +192,15 @@ describe("ContentWageListQuery (e2e)", () => {
 
     const content1 = await contentFactory.create({
       data: {
-        name: "특별한이름의콘텐츠",
         contentCategoryId: category.id,
+        name: "특별한이름의콘텐츠",
       },
     });
 
     const content2 = await contentFactory.create({
       data: {
-        name: "일반콘텐츠",
         contentCategoryId: category.id,
+        name: "일반콘텐츠",
       },
     });
 
@@ -216,10 +216,10 @@ describe("ContentWageListQuery (e2e)", () => {
     for (const contentId of [content1.id, content2.id]) {
       await contentRewardFactory.create({
         data: {
-          contentId,
-          itemId: item.id,
           averageQuantity: 5,
+          contentId,
           isSellable: true,
+          itemId: item.id,
         },
       });
 
@@ -274,19 +274,19 @@ describe("ContentWageListQuery (e2e)", () => {
     // 두 리워드 아이템을 콘텐츠에 설정
     await contentRewardFactory.create({
       data: {
-        contentId: content.id,
-        itemId: item1.id,
         averageQuantity: 5, // 100 * 5 = 500
+        contentId: content.id,
         isSellable: true,
+        itemId: item1.id,
       },
     });
 
     await contentRewardFactory.create({
       data: {
-        contentId: content.id,
-        itemId: item2.id,
         averageQuantity: 3, // 200 * 3 = 600
+        contentId: content.id,
         isSellable: true,
+        itemId: item2.id,
       },
     });
 
@@ -334,10 +334,10 @@ describe("ContentWageListQuery (e2e)", () => {
     // 일반 리워드 설정
     await contentRewardFactory.create({
       data: {
-        contentId: content.id,
-        itemId: item.id,
         averageQuantity: 5, // 100 * 5 = 500
+        contentId: content.id,
         isSellable: true,
+        itemId: item.id,
       },
     });
 
@@ -423,20 +423,20 @@ describe("ContentWageListQuery (e2e)", () => {
     // 거래 가능한 리워드 (isSellable: true)
     await contentRewardFactory.create({
       data: {
-        contentId: content.id,
-        itemId: item1.id,
         averageQuantity: 5, // 100 * 5 = 500
+        contentId: content.id,
         isSellable: true,
+        itemId: item1.id,
       },
     });
 
     // 귀속 아이템 (isSellable: false)
     await contentRewardFactory.create({
       data: {
-        contentId: content.id,
-        itemId: item2.id,
         averageQuantity: 3, // 200 * 3 = 600
+        contentId: content.id,
         isSellable: false,
+        itemId: item2.id,
       },
     });
 
@@ -480,8 +480,8 @@ describe("ContentWageListQuery (e2e)", () => {
     for (let i = 0; i < goldValues.length; i++) {
       const content = await contentFactory.create({
         data: {
-          name: `콘텐츠${i + 1}`,
           contentCategoryId: category.id,
+          name: `콘텐츠${i + 1}`,
         },
       });
       contents.push(content);
@@ -496,10 +496,10 @@ describe("ContentWageListQuery (e2e)", () => {
       // 각 콘텐츠마다 다른 수량의 리워드 설정
       await contentRewardFactory.create({
         data: {
-          contentId: content.id,
-          itemId: item.id,
           averageQuantity: goldValues[i] / 100, // 100 * (수량) = goldValues[i]
+          contentId: content.id,
           isSellable: true,
+          itemId: item.id,
         },
       });
 
@@ -572,15 +572,15 @@ describe("ContentWageListQuery (e2e)", () => {
     // 서로 다른 카테고리에 콘텐츠 생성
     const content1 = await contentFactory.create({
       data: {
-        name: "특수콘텐츠",
         contentCategoryId: category1.id,
+        name: "특수콘텐츠",
       },
     });
 
     const content2 = await contentFactory.create({
       data: {
-        name: "일반콘텐츠",
         contentCategoryId: category2.id,
+        name: "일반콘텐츠",
       },
     });
 
@@ -602,29 +602,29 @@ describe("ContentWageListQuery (e2e)", () => {
     // content1의 리워드 설정
     await contentRewardFactory.create({
       data: {
-        contentId: content1.id,
-        itemId: item1.id,
         averageQuantity: 5, // 100 * 5 = 500
+        contentId: content1.id,
         isSellable: true,
+        itemId: item1.id,
       },
     });
 
     await contentRewardFactory.create({
       data: {
-        contentId: content1.id,
-        itemId: item2.id,
         averageQuantity: 3, // 200 * 3 = 600
+        contentId: content1.id,
         isSellable: false,
+        itemId: item2.id,
       },
     });
 
     // content2의 리워드 설정
     await contentRewardFactory.create({
       data: {
-        contentId: content2.id,
-        itemId: item1.id,
         averageQuantity: 2, // 100 * 2 = 200
+        contentId: content2.id,
         isSellable: true,
+        itemId: item1.id,
       },
     });
 

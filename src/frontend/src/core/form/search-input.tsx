@@ -23,7 +23,7 @@ export const SearchInput = ({
       onSearch(value);
       setInput(value);
     },
-    [input, onSearch]
+    [onSearch]
   );
 
   const reset = useCallback(
@@ -34,7 +34,7 @@ export const SearchInput = ({
         setInput(value);
       }
     },
-    [onSearch, value]
+    [onSubmit, value]
   );
 
   useEffect(() => {
@@ -67,12 +67,12 @@ export const SearchInput = ({
     >
       <Input
         bg={{
-          _light: "bg.surface",
           _dark: "bg.elevated",
+          _light: "bg.surface",
         }}
         borderColor={{
-          _light: "border.default",
           _dark: "border.muted",
+          _light: "border.default",
         }}
         enterKeyHint="search"
         onBlur={() => reset(false)}

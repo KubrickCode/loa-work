@@ -15,18 +15,18 @@ import { PredictRewardsTabDocument } from "~/core/graphql/generated";
 import { Section } from "~/core/section";
 
 type PredictRewardsResult = {
-  success: boolean;
-  message?: string;
-  categoryName?: string;
-  targetLevel?: number;
   basedOnLevels?: number[];
+  categoryName?: string;
+  message?: string;
   predictions?: Array<{
+    averageIncreaseFactor: number;
+    historyLevels: number[];
     itemName: string;
     predictedQuantity: number;
     previousQuantity: number;
-    averageIncreaseFactor: number;
-    historyLevels: number[];
   }>;
+  success: boolean;
+  targetLevel?: number;
 };
 
 export const PredictRewardsTab = () => {

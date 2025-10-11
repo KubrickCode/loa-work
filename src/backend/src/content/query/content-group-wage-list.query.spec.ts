@@ -8,24 +8,24 @@ import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange
 import { ContentStatus } from "@prisma/client";
 
 type MockContent = {
-  id: number;
-  name: string;
-  contentCategoryId: number;
-  level: number;
-  gate: number;
-  status: ContentStatus;
-  createdAt: Date;
-  updatedAt: Date;
   contentCategory: {
     id: number;
     name: string;
   };
+  contentCategoryId: number;
   contentSeeMoreRewards: Array<{
     item: {
       id: number;
       name: string;
     };
   }>;
+  createdAt: Date;
+  gate: number;
+  id: number;
+  level: number;
+  name: string;
+  status: ContentStatus;
+  updatedAt: Date;
 };
 
 describe("ContentGroupWageListQuery", () => {
@@ -64,47 +64,47 @@ describe("ContentGroupWageListQuery", () => {
         // Given
         const mockContents: MockContent[] = [
           {
+            contentCategory: { id: 1, name: "군단장" },
+            contentCategoryId: 1,
+            contentSeeMoreRewards: [],
+            createdAt: new Date(),
+            gate: 1,
             id: 1,
-            name: "아브렐슈드",
-            contentCategoryId: 1,
             level: 1490,
-            gate: 1,
-            status: ContentStatus.ACTIVE,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            contentCategory: { id: 1, name: "군단장" },
-            contentSeeMoreRewards: [],
-          },
-          {
-            id: 2,
             name: "아브렐슈드",
-            contentCategoryId: 1,
-            level: 1500,
-            gate: 1,
             status: ContentStatus.ACTIVE,
-            createdAt: new Date(),
             updatedAt: new Date(),
-            contentCategory: { id: 1, name: "군단장" },
-            contentSeeMoreRewards: [],
           },
           {
-            id: 3,
-            name: "쿠크세이튼",
-            contentCategoryId: 1,
-            level: 1415,
-            gate: 1,
-            status: ContentStatus.ACTIVE,
-            createdAt: new Date(),
-            updatedAt: new Date(),
             contentCategory: { id: 1, name: "군단장" },
+            contentCategoryId: 1,
             contentSeeMoreRewards: [],
+            createdAt: new Date(),
+            gate: 1,
+            id: 2,
+            level: 1500,
+            name: "아브렐슈드",
+            status: ContentStatus.ACTIVE,
+            updatedAt: new Date(),
+          },
+          {
+            contentCategory: { id: 1, name: "군단장" },
+            contentCategoryId: 1,
+            contentSeeMoreRewards: [],
+            createdAt: new Date(),
+            gate: 1,
+            id: 3,
+            level: 1415,
+            name: "쿠크세이튼",
+            status: ContentStatus.ACTIVE,
+            updatedAt: new Date(),
           },
         ];
 
         const mockWage = {
-          krwAmountPerHour: 10000,
-          goldAmountPerHour: 100,
           goldAmountPerClear: 50,
+          goldAmountPerHour: 100,
+          krwAmountPerHour: 10000,
         };
 
         const mockFindMany = jest.fn().mockResolvedValue(mockContents);
@@ -201,35 +201,35 @@ describe("ContentGroupWageListQuery", () => {
         // Given
         const mockContents: MockContent[] = [
           {
-            id: 1,
-            name: "B컨텐츠",
-            contentCategoryId: 1,
-            level: 1490,
-            gate: 1,
-            status: ContentStatus.ACTIVE,
-            createdAt: new Date(),
-            updatedAt: new Date(),
             contentCategory: { id: 1, name: "군단장" },
+            contentCategoryId: 1,
             contentSeeMoreRewards: [],
+            createdAt: new Date(),
+            gate: 1,
+            id: 1,
+            level: 1490,
+            name: "B컨텐츠",
+            status: ContentStatus.ACTIVE,
+            updatedAt: new Date(),
           },
           {
-            id: 2,
-            name: "A컨텐츠",
-            contentCategoryId: 1,
-            level: 1500,
-            gate: 1,
-            status: ContentStatus.ACTIVE,
-            createdAt: new Date(),
-            updatedAt: new Date(),
             contentCategory: { id: 1, name: "군단장" },
+            contentCategoryId: 1,
             contentSeeMoreRewards: [],
+            createdAt: new Date(),
+            gate: 1,
+            id: 2,
+            level: 1500,
+            name: "A컨텐츠",
+            status: ContentStatus.ACTIVE,
+            updatedAt: new Date(),
           },
         ];
 
         const mockWage = {
-          krwAmountPerHour: 10000,
-          goldAmountPerHour: 100,
           goldAmountPerClear: 50,
+          goldAmountPerHour: 100,
+          krwAmountPerHour: 10000,
         };
 
         const mockFindMany = jest.fn().mockResolvedValue(mockContents);
@@ -249,28 +249,28 @@ describe("ContentGroupWageListQuery", () => {
         // Given
         const mockContents: MockContent[] = [
           {
-            id: 1,
-            name: "B컨텐츠",
-            contentCategoryId: 1,
-            level: 1490,
-            gate: 1,
-            status: ContentStatus.ACTIVE,
-            createdAt: new Date(),
-            updatedAt: new Date(),
             contentCategory: { id: 1, name: "군단장" },
+            contentCategoryId: 1,
             contentSeeMoreRewards: [],
+            createdAt: new Date(),
+            gate: 1,
+            id: 1,
+            level: 1490,
+            name: "B컨텐츠",
+            status: ContentStatus.ACTIVE,
+            updatedAt: new Date(),
           },
           {
-            id: 2,
-            name: "A컨텐츠",
-            contentCategoryId: 1,
-            level: 1500,
-            gate: 1,
-            status: ContentStatus.ACTIVE,
-            createdAt: new Date(),
-            updatedAt: new Date(),
             contentCategory: { id: 1, name: "군단장" },
+            contentCategoryId: 1,
             contentSeeMoreRewards: [],
+            createdAt: new Date(),
+            gate: 1,
+            id: 2,
+            level: 1500,
+            name: "A컨텐츠",
+            status: ContentStatus.ACTIVE,
+            updatedAt: new Date(),
           },
         ];
 
@@ -279,14 +279,14 @@ describe("ContentGroupWageListQuery", () => {
         jest
           .spyOn(contentWageService, "getContentGroupWage")
           .mockResolvedValueOnce({
-            krwAmountPerHour: 5000,
-            goldAmountPerHour: 50,
             goldAmountPerClear: 25,
+            goldAmountPerHour: 50,
+            krwAmountPerHour: 5000,
           })
           .mockResolvedValueOnce({
-            krwAmountPerHour: 10000,
-            goldAmountPerHour: 100,
             goldAmountPerClear: 50,
+            goldAmountPerHour: 100,
+            krwAmountPerHour: 10000,
           });
 
         const orderBy = [{ field: "krwAmountPerHour", order: "desc" as const }];

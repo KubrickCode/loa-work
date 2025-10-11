@@ -41,17 +41,17 @@ describe("ContentListQuery (e2e)", () => {
 
     const content1 = await contentFactory.create({
       data: {
-        name: faker.lorem.word(),
-        level: 1,
         contentCategoryId: category.id,
+        level: 1,
+        name: faker.lorem.word(),
       },
     });
 
     const content2 = await contentFactory.create({
       data: {
-        name: faker.lorem.word(),
-        level: 2,
         contentCategoryId: category.id,
+        level: 2,
+        name: faker.lorem.word(),
       },
     });
 
@@ -92,15 +92,15 @@ describe("ContentListQuery (e2e)", () => {
 
     await contentFactory.create({
       data: {
-        name: contentName1,
         contentCategoryId: category1.id,
+        name: contentName1,
       },
     });
 
     await contentFactory.create({
       data: {
-        name: contentName2,
         contentCategoryId: category2.id,
+        name: contentName2,
       },
     });
 
@@ -137,15 +137,15 @@ describe("ContentListQuery (e2e)", () => {
 
     await contentFactory.create({
       data: {
-        name: contentName1,
         contentCategoryId: category.id,
+        name: contentName1,
       },
     });
 
     await contentFactory.create({
       data: {
-        name: contentName2,
         contentCategoryId: category.id,
+        name: contentName2,
       },
     });
 
@@ -180,25 +180,25 @@ describe("ContentListQuery (e2e)", () => {
 
     await contentFactory.create({
       data: {
-        name: faker.lorem.word(),
         contentCategoryId: category1.id,
         level: 2,
+        name: faker.lorem.word(),
       },
     });
 
     await contentFactory.create({
       data: {
-        name: faker.lorem.word(),
         contentCategoryId: category1.id,
         level: 1,
+        name: faker.lorem.word(),
       },
     });
 
     await contentFactory.create({
       data: {
-        name: faker.lorem.word(),
         contentCategoryId: category2.id,
         level: 1,
+        name: faker.lorem.word(),
       },
     });
 

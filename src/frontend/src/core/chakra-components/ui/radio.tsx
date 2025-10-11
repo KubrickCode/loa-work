@@ -1,10 +1,10 @@
 import { RadioGroup as ChakraRadioGroup } from "@chakra-ui/react";
 import * as React from "react";
 
-export interface RadioProps extends ChakraRadioGroup.ItemProps {
-  rootRef?: React.Ref<HTMLDivElement>;
+export type RadioProps = {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-}
+  rootRef?: React.Ref<HTMLDivElement>;
+} & ChakraRadioGroup.ItemProps;
 
 export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(function Radio(props, ref) {
   const { children, inputProps, rootRef, ...rest } = props;

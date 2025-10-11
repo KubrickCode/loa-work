@@ -7,11 +7,11 @@ import { User } from "src/common/object/user.object";
 
 @InputType()
 class ContentRewardReportInput {
-  @Field()
-  id: number;
-
   @Field(() => Float)
   averageQuantity: number;
+
+  @Field()
+  id: number;
 }
 
 @InputType()
@@ -38,7 +38,7 @@ export class ContentRewardsReportMutation {
   ) {
     return await this.prisma.$transaction(async (tx) => {
       await Promise.all(
-        input.contentRewards.map(async ({ id, averageQuantity }) => {
+        input.contentRewards.map(async ({ averageQuantity, id }) => {
           return tx.reportedContentReward.create({
             data: {
               averageQuantity,

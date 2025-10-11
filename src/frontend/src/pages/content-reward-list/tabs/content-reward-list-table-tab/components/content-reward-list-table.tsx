@@ -47,13 +47,13 @@ export const ContentRewardListTable = () => {
           {
             data: {
               ...content,
-              isSeeMore: true,
-              displayName: `${content.displayName} (더보기)`,
               contentRewards: content.contentSeeMoreRewards.map((reward) => ({
                 averageQuantity: reward.quantity,
-                item: reward.item,
                 isSellable: false,
+                item: reward.item,
               })),
+              displayName: `${content.displayName} (더보기)`,
+              isSeeMore: true,
             },
           },
         ]

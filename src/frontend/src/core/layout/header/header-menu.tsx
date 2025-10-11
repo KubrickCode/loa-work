@@ -11,7 +11,7 @@ import { MenuItem } from "~/core/menu";
 
 export const HeaderMenu = () => {
   const { toggleColorMode } = useColorMode();
-  const { user, logout } = useAuth();
+  const { logout, user } = useAuth();
 
   return (
     <MenuRoot closeOnSelect={false} positioning={{ placement: "bottom-end" }}>

@@ -18,9 +18,6 @@ export class Content extends BaseObject {
   @Field()
   contentCategoryId: number;
 
-  @Field(() => ContentObjectWageFilter, { nullable: true })
-  wageFilter?: ContentObjectWageFilter;
-
   @Field({ nullable: true })
   gate?: number;
 
@@ -29,4 +26,7 @@ export class Content extends BaseObject {
 
   @Field()
   name: string;
+
+  @Field(() => ContentObjectWageFilter, { nullable: true })
+  wageFilter?: ContentObjectWageFilter;
 }

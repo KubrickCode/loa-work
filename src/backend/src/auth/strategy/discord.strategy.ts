@@ -14,11 +14,11 @@ export class DiscordStrategy extends PassportStrategy(Strategy, "discord") {
     private userSeedService: UserSeedService
   ) {
     super({
-      clientID: configService.getOrThrow<string>("DISCORD_CLIENT_ID"),
-      clientSecret: configService.getOrThrow<string>("DISCORD_CLIENT_SECRET"),
       callbackURL:
         configService.get<string>("CLIENT_HOST", "http://localhost:3000") +
         "/auth/discord/callback",
+      clientID: configService.getOrThrow<string>("DISCORD_CLIENT_ID"),
+      clientSecret: configService.getOrThrow<string>("DISCORD_CLIENT_SECRET"),
       scope: ["identify", "email"],
     });
   }

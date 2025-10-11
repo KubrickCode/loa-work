@@ -14,10 +14,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
     private userSeedService: UserSeedService
   ) {
     super({
-      clientID: configService.getOrThrow<string>("GOOGLE_CLIENT_ID"),
-      clientSecret: configService.getOrThrow<string>("GOOGLE_CLIENT_SECRET"),
       callbackURL:
         configService.get<string>("CLIENT_HOST", "http://localhost:3000") + "/auth/google/callback",
+      clientID: configService.getOrThrow<string>("GOOGLE_CLIENT_ID"),
+      clientSecret: configService.getOrThrow<string>("GOOGLE_CLIENT_SECRET"),
       scope: ["email", "profile"],
     });
   }

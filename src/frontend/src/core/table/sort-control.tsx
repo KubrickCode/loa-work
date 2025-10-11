@@ -4,11 +4,11 @@ import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { useColorModeValue } from "~/core/chakra-components/ui/color-mode";
 
 const ArrowIcon = ({
-  direction,
   color,
+  direction,
 }: {
-  direction: "down" | "up";
   color: BoxProps["color"];
+  direction: "down" | "up";
 }) => {
   return (
     <Box color={color} height="6px" overflow="hidden" width="8px">

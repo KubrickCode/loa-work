@@ -12,43 +12,6 @@ export class UserContentService {
     @Inject(CONTEXT) private context: ContextType
   ) {}
 
-  getUserId() {
-    return this.context.req?.user?.id;
-  }
-
-  //  Test 작성
-  async getItemPrice(itemId: number) {
-    const userId = this.getUserId();
-
-    const { price: defaultPrice } = await this.prisma.item.findUniqueOrThrow({
-      where: {
-        id: itemId,
-      },
-    });
-
-    const { isEditable } = await this.prisma.item.findUniqueOrThrow({
-      where: {
-        id: itemId,
-      },
-    });
-
-    const price =
-      userId && isEditable
-        ? (
-            await this.prisma.userItem.findUniqueOrThrow({
-              where: {
-                userId_itemId: {
-                  userId,
-                  itemId,
-                },
-              },
-            })
-          ).price
-        : defaultPrice;
-
-    return price.toNumber();
-  }
-
   async getContentDuration(contentId: number) {
     const userId = this.getUserId();
 
@@ -87,9 +50,9 @@ export class UserContentService {
       const userContentReward = await this.prisma.userContentReward.findUnique({
         where: {
           userId_contentId_itemId: {
-            userId,
             contentId: contentReward.contentId,
             itemId: contentReward.itemId,
+            userId,
           },
         },
       });
@@ -111,9 +74,9 @@ export class UserContentService {
       const userContentReward = await this.prisma.userContentReward.findUnique({
         where: {
           userId_contentId_itemId: {
-            userId,
             contentId: contentReward.contentId,
             itemId: contentReward.itemId,
+            userId,
           },
         },
       });
@@ -122,32 +85,6 @@ export class UserContentService {
     }
 
     return contentReward.isSellable;
-  }
-
-  async getContentSeeMoreRewardQuantity(contentSeeMoreRewardId: number) {
-    const userId = this.getUserId();
-
-    const contentSeeMoreReward = await this.prisma.contentSeeMoreReward.findUniqueOrThrow({
-      where: { id: contentSeeMoreRewardId },
-    });
-
-    if (userId) {
-      const userContentSeeMoreReward = await this.prisma.userContentSeeMoreReward.findUnique({
-        where: {
-          userId_contentId_itemId: {
-            userId,
-            contentId: contentSeeMoreReward.contentId,
-            itemId: contentSeeMoreReward.itemId,
-          },
-        },
-      });
-
-      return userContentSeeMoreReward
-        ? userContentSeeMoreReward.quantity
-        : contentSeeMoreReward.quantity;
-    }
-
-    return contentSeeMoreReward.quantity;
   }
 
   async getContentRewards(
@@ -189,7 +126,7 @@ export class UserContentService {
 
       const userRewardMap = new Map(userRewards.map((reward) => [reward.itemId, reward]));
 
-      result = defaultRewards.map(({ averageQuantity, itemId, isSellable }) => {
+      result = defaultRewards.map(({ averageQuantity, isSellable, itemId }) => {
         const userReward = userRewardMap.get(itemId);
 
         if (userReward) {
@@ -207,7 +144,7 @@ export class UserContentService {
         }
       });
     } else {
-      result = defaultRewards.map(({ averageQuantity, itemId, isSellable }) => ({
+      result = defaultRewards.map(({ averageQuantity, isSellable, itemId }) => ({
         averageQuantity: averageQuantity.toNumber(),
         isSellable,
         itemId,
@@ -220,6 +157,32 @@ export class UserContentService {
       }
       return true;
     });
+  }
+
+  async getContentSeeMoreRewardQuantity(contentSeeMoreRewardId: number) {
+    const userId = this.getUserId();
+
+    const contentSeeMoreReward = await this.prisma.contentSeeMoreReward.findUniqueOrThrow({
+      where: { id: contentSeeMoreRewardId },
+    });
+
+    if (userId) {
+      const userContentSeeMoreReward = await this.prisma.userContentSeeMoreReward.findUnique({
+        where: {
+          userId_contentId_itemId: {
+            contentId: contentSeeMoreReward.contentId,
+            itemId: contentSeeMoreReward.itemId,
+            userId,
+          },
+        },
+      });
+
+      return userContentSeeMoreReward
+        ? userContentSeeMoreReward.quantity
+        : contentSeeMoreReward.quantity;
+    }
+
+    return contentSeeMoreReward.quantity;
   }
 
   async getContentSeeMoreRewards(
@@ -244,8 +207,8 @@ export class UserContentService {
     if (userId) {
       const userRewards = await this.prisma.userContentSeeMoreReward.findMany({
         where: {
-          userId,
           contentId,
+          userId,
           ...(filter?.includeItemIds && {
             itemId: { in: filter.includeItemIds },
           }),
@@ -254,19 +217,56 @@ export class UserContentService {
 
       const userRewardMap = new Map(userRewards.map((reward) => [reward.itemId, reward]));
 
-      return defaultRewards.map(({ quantity, itemId }) => {
+      return defaultRewards.map(({ itemId, quantity }) => {
         const userReward = userRewardMap.get(itemId);
         return {
-          quantity: userReward ? userReward.quantity.toNumber() : quantity.toNumber(),
           itemId,
+          quantity: userReward ? userReward.quantity.toNumber() : quantity.toNumber(),
         };
       });
     }
 
-    return defaultRewards.map(({ quantity, itemId }) => ({
-      quantity: quantity.toNumber(),
+    return defaultRewards.map(({ itemId, quantity }) => ({
       itemId,
+      quantity: quantity.toNumber(),
     }));
+  }
+
+  //  Test 작성
+  async getItemPrice(itemId: number) {
+    const userId = this.getUserId();
+
+    const { price: defaultPrice } = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        id: itemId,
+      },
+    });
+
+    const { isEditable } = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        id: itemId,
+      },
+    });
+
+    const price =
+      userId && isEditable
+        ? (
+            await this.prisma.userItem.findUniqueOrThrow({
+              where: {
+                userId_itemId: {
+                  itemId,
+                  userId,
+                },
+              },
+            })
+          ).price
+        : defaultPrice;
+
+    return price.toNumber();
+  }
+
+  getUserId() {
+    return this.context.req?.user?.id;
   }
 
   async validateUserItem(itemId: number) {

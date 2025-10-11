@@ -3,10 +3,6 @@ import { PrismaClient } from "@prisma/client";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleDestroy {
-  async onModuleDestroy() {
-    await this.$disconnect();
-  }
-
   async clearDatabase() {
     const tablenames = await this.$queryRaw<
       Array<{ tablename: string }>
@@ -23,5 +19,9 @@ export class PrismaService extends PrismaClient implements OnModuleDestroy {
     } catch (error) {
       console.log({ error });
     }
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
   }
 }

@@ -54,18 +54,18 @@ describe("ContentWageService", () => {
     beforeAll(async () => {
       await prisma.goldExchangeRate.create({
         data: {
-          krwAmount: 25,
           goldAmount: 100,
+          krwAmount: 25,
         },
       });
     });
 
     it("기본 계산(실제 환율 사용)", async () => {
-      const result = await service.calculateWage({ gold, duration });
+      const result = await service.calculateWage({ duration, gold });
 
       expect(result).toEqual({
-        krwAmountPerHour: 1500,
         goldAmountPerHour: 6000,
+        krwAmountPerHour: 1500,
       });
     });
 
@@ -74,19 +74,19 @@ describe("ContentWageService", () => {
 
       await prisma.userGoldExchangeRate.create({
         data: {
-          userId: user.id,
-          krwAmount: 30,
           goldAmount: 100,
+          krwAmount: 30,
+          userId: user.id,
         },
       });
 
       userGoldExchangeRateService["context"].req.user = { id: user.id };
 
-      const result = await service.calculateWage({ gold, duration });
+      const result = await service.calculateWage({ duration, gold });
 
       expect(result).toEqual({
-        krwAmountPerHour: 1800,
         goldAmountPerHour: 6000,
+        krwAmountPerHour: 1800,
       });
     });
   });
@@ -109,12 +109,12 @@ describe("ContentWageService", () => {
 
       const rewards = [
         {
-          itemId: items[0].id,
           averageQuantity: 2, // 100 * 2 = 200
+          itemId: items[0].id,
         },
         {
-          itemId: items[1].id,
           averageQuantity: 3, // 200 * 3 = 600
+          itemId: items[1].id,
         },
       ];
 
@@ -129,14 +129,14 @@ describe("ContentWageService", () => {
       const items = await Promise.all([
         itemFactory.create({
           data: {
-            price: 100,
             isEditable: true,
+            price: 100,
           },
         }),
         itemFactory.create({
           data: {
-            price: 200,
             isEditable: true,
+            price: 200,
           },
         }),
       ]);
@@ -145,28 +145,28 @@ describe("ContentWageService", () => {
       await Promise.all([
         prisma.userItem.create({
           data: {
-            userId: user.id,
             itemId: items[0].id,
             price: userPrice,
+            userId: user.id,
           },
         }),
         prisma.userItem.create({
           data: {
-            userId: user.id,
             itemId: items[1].id,
             price: userPrice,
+            userId: user.id,
           },
         }),
       ]);
 
       const rewards = [
         {
-          itemId: items[0].id,
           averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
+          itemId: items[0].id,
         },
         {
-          itemId: items[1].id,
           averageQuantity: 3, // 500 * 3 = 1500 (사용자 가격 사용)
+          itemId: items[1].id,
         },
       ];
 
@@ -181,14 +181,14 @@ describe("ContentWageService", () => {
       const items = await Promise.all([
         itemFactory.create({
           data: {
-            price: 100,
             isEditable: true,
+            price: 100,
           },
         }),
         itemFactory.create({
           data: {
-            price: 200,
             isEditable: false,
+            price: 200,
           },
         }),
       ]);
@@ -196,20 +196,20 @@ describe("ContentWageService", () => {
       const userPrice = 500;
       await prisma.userItem.create({
         data: {
-          userId: user.id,
           itemId: items[0].id,
           price: userPrice,
+          userId: user.id,
         },
       });
 
       const rewards = [
         {
-          itemId: items[0].id,
           averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
+          itemId: items[0].id,
         },
         {
-          itemId: items[1].id,
           averageQuantity: 3, // 200 * 3 = 600 (기본 가격 사용, isEditable이 false)
+          itemId: items[1].id,
         },
       ];
 
@@ -224,14 +224,14 @@ describe("ContentWageService", () => {
       const items = await Promise.all([
         itemFactory.create({
           data: {
-            price: 100,
             isEditable: true,
+            price: 100,
           },
         }),
         itemFactory.create({
           data: {
-            price: 200,
             isEditable: true,
+            price: 200,
           },
         }),
       ]);
@@ -239,20 +239,20 @@ describe("ContentWageService", () => {
       const userPrice = 500;
       await prisma.userItem.create({
         data: {
-          userId: user.id,
           itemId: items[0].id,
           price: userPrice,
+          userId: user.id,
         },
       });
 
       const rewards = [
         {
-          itemId: items[0].id,
           averageQuantity: 2, // 500 * 2 = 1000 (사용자 가격 사용)
+          itemId: items[0].id,
         },
         {
-          itemId: items[1].id,
           averageQuantity: 3, // 200 * 3 = 600 (기본 가격 사용, 사용자 가격이 없음)
+          itemId: items[1].id,
         },
       ];
 
@@ -276,26 +276,26 @@ describe("ContentWageService", () => {
 
       const item = await itemFactory.create({
         data: {
-          price: 100,
           isEditable: true,
+          price: 100,
         },
       });
 
       const userPrice1 = 500;
       await prisma.userItem.create({
         data: {
-          userId: user1.id,
           itemId: item.id,
           price: userPrice1,
+          userId: user1.id,
         },
       });
 
       const userPrice2 = 800;
       await prisma.userItem.create({
         data: {
-          userId: user2.id,
           itemId: item.id,
           price: userPrice2,
+          userId: user2.id,
         },
       });
 
@@ -303,8 +303,8 @@ describe("ContentWageService", () => {
 
       const rewards = [
         {
-          itemId: item.id,
           averageQuantity: 2, // 500 * 2 = 1000 (user1의 가격 사용)
+          itemId: item.id,
         },
       ];
 
@@ -333,10 +333,10 @@ describe("ContentWageService", () => {
 
         const item = await prisma.item.create({
           data: {
-            name: `테스트 아이템 ${i + 1}`,
-            price,
             imageUrl: faker.image.url(),
             kind: ItemKind.MARKET,
+            name: `테스트 아이템 ${i + 1}`,
+            price,
           },
         });
 
@@ -401,14 +401,14 @@ describe("ContentWageService", () => {
       const items = await Promise.all([
         itemFactory.create({
           data: {
-            price: 100,
             isEditable: true,
+            price: 100,
           },
         }),
         itemFactory.create({
           data: {
-            price: 200,
             isEditable: true,
+            price: 200,
           },
         }),
       ]);
@@ -416,16 +416,16 @@ describe("ContentWageService", () => {
       const userPrice = 500;
       await prisma.userItem.create({
         data: {
-          userId: user.id,
           itemId: items[0].id,
           price: userPrice,
+          userId: user.id,
         },
       });
       await prisma.userItem.create({
         data: {
-          userId: user.id,
           itemId: items[1].id,
           price: userPrice,
+          userId: user.id,
         },
       });
 
@@ -521,38 +521,38 @@ describe("ContentWageService", () => {
       if (!existingExchangeRate) {
         await prisma.goldExchangeRate.create({
           data: {
-            krwAmount: 25,
             goldAmount: 100,
+            krwAmount: 25,
           },
         });
       }
 
       testCategory = await prisma.contentCategory.create({
         data: {
-          name: "테스트 카테고리",
           imageUrl: "https://example.com/image.png",
+          name: "테스트 카테고리",
         },
       });
 
       testItems = await Promise.all([
-        itemFactory.create({ data: { price: 100, isEditable: true } }),
-        itemFactory.create({ data: { price: 200, isEditable: true } }),
-        itemFactory.create({ data: { price: 300, isEditable: true } }),
+        itemFactory.create({ data: { isEditable: true, price: 100 } }),
+        itemFactory.create({ data: { isEditable: true, price: 200 } }),
+        itemFactory.create({ data: { isEditable: true, price: 300 } }),
       ]);
 
       testContents = await Promise.all([
         prisma.content.create({
           data: {
-            name: "테스트 컨텐츠 1",
-            level: 1,
             contentCategoryId: testCategory.id,
+            level: 1,
+            name: "테스트 컨텐츠 1",
           },
         }),
         prisma.content.create({
           data: {
-            name: "테스트 컨텐츠 2",
-            level: 2,
             contentCategoryId: testCategory.id,
+            level: 2,
+            name: "테스트 컨텐츠 2",
           },
         }),
       ]);
@@ -575,18 +575,18 @@ describe("ContentWageService", () => {
       await Promise.all([
         prisma.contentReward.create({
           data: {
-            contentId: testContents[0].id,
-            itemId: testItems[0].id,
             averageQuantity: 2,
+            contentId: testContents[0].id,
             isSellable: true,
+            itemId: testItems[0].id,
           },
         }),
         prisma.contentReward.create({
           data: {
-            contentId: testContents[1].id,
-            itemId: testItems[1].id,
             averageQuantity: 3,
+            contentId: testContents[1].id,
             isSellable: true,
+            itemId: testItems[1].id,
           },
         }),
       ]);
@@ -619,9 +619,9 @@ describe("ContentWageService", () => {
       // 사용자별 환율 설정
       await prisma.userGoldExchangeRate.create({
         data: {
-          userId: exchangeRateUser.id,
-          krwAmount: 30,
           goldAmount: 100,
+          krwAmount: 30,
+          userId: exchangeRateUser.id,
         },
       });
 
@@ -629,9 +629,9 @@ describe("ContentWageService", () => {
       await Promise.all([
         prisma.userItem.create({
           data: {
-            userId: exchangeRateUser.id,
             itemId: testItems[0].id,
             price: 100, // 기본 가격과 동일
+            userId: exchangeRateUser.id,
           },
         }),
       ]);
@@ -665,9 +665,9 @@ describe("ContentWageService", () => {
       // 사용자별 아이템 가격 설정
       await prisma.userItem.create({
         data: {
-          userId: testUser.id,
           itemId: testItems[0].id,
           price: 500, // 기본 100에서 500으로 변경
+          userId: testUser.id,
         },
       });
 
@@ -699,9 +699,9 @@ describe("ContentWageService", () => {
       // 다양한 아이템 타입의 보상 추가
       const mixedContent = await prisma.content.create({
         data: {
-          name: "혼합 보상 컨텐츠",
-          level: 1,
           contentCategoryId: testCategory.id,
+          level: 1,
+          name: "혼합 보상 컨텐츠",
         },
       });
 
@@ -716,18 +716,18 @@ describe("ContentWageService", () => {
       await Promise.all([
         prisma.contentReward.create({
           data: {
-            contentId: mixedContent.id,
-            itemId: testItems[0].id,
             averageQuantity: 1,
+            contentId: mixedContent.id,
             isSellable: true,
+            itemId: testItems[0].id,
           },
         }),
         prisma.contentReward.create({
           data: {
-            contentId: mixedContent.id,
-            itemId: testItems[2].id,
             averageQuantity: 2,
+            contentId: mixedContent.id,
             isSellable: true,
+            itemId: testItems[2].id,
           },
         }),
       ]);
@@ -757,8 +757,8 @@ describe("ContentWageService", () => {
       // 환율 데이터 복구
       await prisma.goldExchangeRate.create({
         data: {
-          krwAmount: 25,
           goldAmount: 100,
+          krwAmount: 25,
         },
       });
     });

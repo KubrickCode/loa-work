@@ -25,12 +25,12 @@ const modernShimmer = keyframes`
 
 export const EnhancedTableSkeleton = ({
   columnCount = 4,
-  rowCount = 5,
   enableStaggered = true,
+  rowCount = 5,
 }: {
   columnCount?: number;
-  rowCount?: number;
   enableStaggered?: boolean;
+  rowCount?: number;
 }) => {
   return (
     <Table.Root
@@ -65,7 +65,6 @@ export const EnhancedTableSkeleton = ({
             css={
               enableStaggered
                 ? {
-                    animation: `fadeInUp 0.6s ease-out ${rowIndex * 0.05}s both`,
                     "@keyframes fadeInUp": {
                       "0%": {
                         opacity: 0,
@@ -76,6 +75,7 @@ export const EnhancedTableSkeleton = ({
                         transform: "translateY(0)",
                       },
                     },
+                    animation: `fadeInUp 0.6s ease-out ${rowIndex * 0.05}s both`,
                   }
                 : undefined
             }
@@ -110,12 +110,12 @@ export const EnhancedTableSkeleton = ({
 };
 
 export const TableSkeleton = ({
-  line,
   columnCount = 4,
+  line,
   rowCount = 5,
 }: {
-  line?: number;
   columnCount?: number;
+  line?: number;
   rowCount?: number;
 }) => {
   if (line !== undefined) {
@@ -235,16 +235,16 @@ export const ChartSkeleton = ({ height = "300px" }: { height?: string }) => {
 
 export const ProgressiveLoader = ({
   children,
-  isLoading,
-  skeleton,
   delay = 250,
   fadeTransition = true,
+  isLoading,
+  skeleton,
 }: {
   children: React.ReactNode;
-  isLoading: boolean;
-  skeleton: React.ReactNode;
   delay?: number;
   fadeTransition?: boolean;
+  isLoading: boolean;
+  skeleton: React.ReactNode;
 }) => {
   const [showSkeleton, setShowSkeleton] = React.useState(true);
   const [isTransitioning, setIsTransitioning] = React.useState(false);
@@ -291,7 +291,6 @@ export const ProgressiveLoader = ({
       css={
         fadeTransition
           ? {
-              animation: "fadeInContent 0.3s ease-out",
               "@keyframes fadeInContent": {
                 "0%": {
                   opacity: 0,
@@ -302,6 +301,7 @@ export const ProgressiveLoader = ({
                   transform: "translateY(0)",
                 },
               },
+              animation: "fadeInContent 0.3s ease-out",
             }
           : undefined
       }

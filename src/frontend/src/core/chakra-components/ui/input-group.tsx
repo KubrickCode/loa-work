@@ -2,26 +2,26 @@ import type { BoxProps, InputElementProps } from "@chakra-ui/react";
 import { Group, InputElement } from "@chakra-ui/react";
 import * as React from "react";
 
-export interface InputGroupProps extends BoxProps {
-  startElementProps?: InputElementProps;
-  endElementProps?: InputElementProps;
-  startElement?: React.ReactNode;
-  endElement?: React.ReactNode;
+export type InputGroupProps = {
   children: React.ReactElement;
-  startOffset?: InputElementProps["paddingStart"];
+  endElement?: React.ReactNode;
+  endElementProps?: InputElementProps;
   endOffset?: InputElementProps["paddingEnd"];
-}
+  startElement?: React.ReactNode;
+  startElementProps?: InputElementProps;
+  startOffset?: InputElementProps["paddingStart"];
+} & BoxProps;
 
 export const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
   function InputGroup(props, ref) {
     const {
-      startElement,
-      startElementProps,
+      children,
       endElement,
       endElementProps,
-      children,
-      startOffset = "6px",
       endOffset = "6px",
+      startElement,
+      startElementProps,
+      startOffset = "6px",
       ...rest
     } = props;
 

@@ -14,11 +14,11 @@ class ContentRewardEditInput {
   @Field()
   contentId: number;
 
-  @Field()
-  itemId: number;
-
   @Field(() => Boolean)
   isSellable: boolean;
+
+  @Field()
+  itemId: number;
 }
 
 @InputType()
@@ -49,17 +49,17 @@ export class ContentRewardsEditMutation {
     return await this.prisma.$transaction(async (tx) => {
       if (user.role === UserRole.OWNER) {
         await Promise.all(
-          input.contentRewards.map(async ({ contentId, itemId, averageQuantity, isSellable }) => {
+          input.contentRewards.map(async ({ averageQuantity, contentId, isSellable, itemId }) => {
             await tx.contentReward.update({
+              data: {
+                averageQuantity,
+                isSellable,
+              },
               where: {
                 contentId_itemId: {
                   contentId,
                   itemId,
                 },
-              },
-              data: {
-                averageQuantity,
-                isSellable,
               },
             });
           })
@@ -67,26 +67,26 @@ export class ContentRewardsEditMutation {
       }
 
       await Promise.all(
-        input.contentRewards.map(({ contentId, itemId, averageQuantity, isSellable }) =>
+        input.contentRewards.map(({ averageQuantity, contentId, isSellable, itemId }) =>
           tx.userContentReward.upsert({
-            where: {
-              userId_contentId_itemId: { userId: user.id, contentId, itemId },
-            },
             create: {
               averageQuantity,
-              isSellable,
-              userId: user.id,
               contentId,
+              isSellable,
               itemId,
+              userId: user.id,
             },
             update: { averageQuantity, isSellable },
+            where: {
+              userId_contentId_itemId: { contentId, itemId, userId: user.id },
+            },
           })
         )
       );
 
       if (input.isReportable) {
         await Promise.all(
-          input.contentRewards.map(async ({ contentId, itemId, averageQuantity }) => {
+          input.contentRewards.map(async ({ averageQuantity, contentId, itemId }) => {
             const contentReward = await tx.contentReward.findUniqueOrThrow({
               where: { contentId_itemId: { contentId, itemId } },
             });
