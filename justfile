@@ -83,6 +83,7 @@ lint target="all":
       just lint frontend
       just lint go
       just lint config
+      just lint justfile
       ;;
     backend)
       prettier --write "{{ backend_dir }}/src/**/*.ts"
@@ -99,6 +100,9 @@ lint target="all":
       ;;
     config)
       prettier --write "**/*.{json,yml,yaml,md}"
+      ;;
+    justfile)
+      just --fmt --unstable
       ;;
     *)
       echo "Unknown target: {{ target }}"
