@@ -132,6 +132,3 @@ tmp
 *.pem
 
 .doppler.env
-
-# CLAUDE.md
-CLAUDE.md
