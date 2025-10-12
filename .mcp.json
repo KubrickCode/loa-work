@@ -10,14 +10,7 @@
     },
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"]
-    },
-    "notion": {
-      "command": "npx",
-      "args": ["-y", "@suekou/mcp-notion-server"],
-      "env": {
-        "NOTION_API_TOKEN": "${NOTION_PAT}"
-      }
+      "args": ["@playwright/mcp@latest", "--no-sandbox"]
     },
     "github": {
       "command": "npx",

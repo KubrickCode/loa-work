@@ -17,7 +17,6 @@ Output Format
 The command generates a markdown file with the following structure:
 markdown# Project Handoff Summary
 Generated: [timestamp]
-
 ---
 
 ## 📋 Overview
