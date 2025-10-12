@@ -10,11 +10,12 @@
     "./local-features/node": {},
     "./local-features/doppler": {}
   },
-  "postCreateCommand": "npm install -g prettier",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && npm install -g prettier && npm install -g baedal",
   "customizations": {
     "vscode": {
       "extensions": ["esbenp.prettier-vscode"],
       "settings": {
+        "prettier.resolveGlobalModules": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
       }
     }

@@ -1,8 +1,7 @@
 {
   "dependsOn": {
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "22.11.0"
+      "version": "22.18.0"
     }
-  },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code"
+  }
 }
