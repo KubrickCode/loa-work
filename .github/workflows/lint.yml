@@ -39,7 +39,7 @@ jobs:
       - name: Setup Node 22
         uses: actions/setup-node@v5
         with:
-          node-version: "22.11.0"
+          node-version: "22.18.0"
 
       - name: Install Prettier globally
         run: npm install -g prettier
@@ -62,7 +62,7 @@ jobs:
       - name: Setup Node 22
         uses: actions/setup-node@v5
         with:
-          node-version: "22.11.0"
+          node-version: "22.18.0"
 
       - name: Install Prettier globally
         run: npm install -g prettier
@@ -102,7 +102,7 @@ jobs:
       - name: Setup Node 22
         uses: actions/setup-node@v5
         with:
-          node-version: "22.11.0"
+          node-version: "22.18.0"
 
       - name: Install Prettier globally
         run: npm install -g prettier

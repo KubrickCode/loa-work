@@ -1,11 +1,11 @@
-FROM node:22.11.0-alpine AS build
+FROM node:22.18.0-alpine AS build
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install
 COPY . .
 RUN yarn prisma generate
 RUN yarn build
-FROM node:22.11.0-alpine
+FROM node:22.18.0-alpine
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
