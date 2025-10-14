@@ -195,6 +195,7 @@ export const DataTable = <T,>({
         borderRadius="xl"
         boxShadow="lg"
         overflow="hidden"
+        overflowX="auto"
         width="100%"
       >
         <Table.ScrollArea maxHeight="4xl">
