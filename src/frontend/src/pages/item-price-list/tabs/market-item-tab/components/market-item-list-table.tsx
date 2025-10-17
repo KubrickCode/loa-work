@@ -56,7 +56,7 @@ const MarketItemListTableContent = ({
             header: "판매 단위",
             render({ data }) {
               return (
-                <Text color="text.primary" fontSize="md" fontWeight="medium">
+                <Text color="text.primary" fontWeight="medium">
                   {data.bundleCount} 개
                 </Text>
               );
