@@ -60,10 +60,14 @@ export const ContentWageTableTab = () => {
             </Button>
           </Dialog.Trigger>
         </Flex>
-        <Suspense fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}>
+        <Suspense
+          fallback={<EnhancedTableSkeleton columnCount={{ base: 3, lg: 8, md: 6 }} rowCount={8} />}
+        >
           <ContentWageListTable />
         </Suspense>
-        <Suspense fallback={<EnhancedTableSkeleton columnCount={8} rowCount={8} />}>
+        <Suspense
+          fallback={<EnhancedTableSkeleton columnCount={{ base: 3, lg: 8, md: 6 }} rowCount={8} />}
+        >
           <ContentGroupWageListTable />
         </Suspense>
       </ContentWageListPageProvider>

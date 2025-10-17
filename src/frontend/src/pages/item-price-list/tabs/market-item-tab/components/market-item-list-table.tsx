@@ -101,7 +101,9 @@ const MarketItemListTableContent = ({
 
 export const MarketItemListTable = (props: MarketItemListTableProps) => {
   return (
-    <Suspense fallback={<EnhancedTableSkeleton columnCount={5} rowCount={8} />}>
+    <Suspense
+      fallback={<EnhancedTableSkeleton columnCount={{ base: 2, lg: 5, md: 3 }} rowCount={8} />}
+    >
       <MarketItemListTableContent {...props} />
     </Suspense>
   );

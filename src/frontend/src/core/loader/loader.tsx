@@ -6,6 +6,7 @@ import {
   Spinner,
   Stack,
   Table,
+  useBreakpointValue,
   VStack,
 } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
@@ -28,10 +29,18 @@ export const EnhancedTableSkeleton = ({
   enableStaggered = true,
   rowCount = 5,
 }: {
-  columnCount?: number;
+  columnCount?: number | { base?: number; lg?: number; md?: number };
   enableStaggered?: boolean;
   rowCount?: number;
 }) => {
+  const resolvedColumnCount = useBreakpointValue(
+    typeof columnCount === "number"
+      ? { base: columnCount, lg: columnCount, md: columnCount }
+      : { base: columnCount.base ?? 3, lg: columnCount.lg ?? 8, md: columnCount.md ?? 6 }
+  );
+
+  const finalColumnCount = resolvedColumnCount ?? 4;
+
   return (
     <Table.Root
       bg="bg.surface"
@@ -43,7 +52,7 @@ export const EnhancedTableSkeleton = ({
     >
       <Table.Header>
         <Table.Row bg="bg.muted">
-          {Array.from({ length: columnCount }).map((_, index) => (
+          {Array.from({ length: finalColumnCount }).map((_, index) => (
             <Table.ColumnHeader key={index} px={{ base: 2, md: 3 }} py={3}>
               <Skeleton
                 borderRadius="sm"
@@ -82,7 +91,7 @@ export const EnhancedTableSkeleton = ({
             key={rowIndex}
             minH={{ base: "52px", md: "auto" }}
           >
-            {Array.from({ length: columnCount }).map((_, colIndex) => (
+            {Array.from({ length: finalColumnCount }).map((_, colIndex) => (
               <Table.Cell
                 key={colIndex}
                 minH={{ base: "44px", md: "auto" }}
@@ -98,7 +107,7 @@ export const EnhancedTableSkeleton = ({
                     backgroundSize: "1000px 100%",
                   }}
                   height="16px"
-                  width={colIndex === 0 ? "60%" : colIndex === columnCount - 1 ? "80%" : "90%"}
+                  width={colIndex === 0 ? "60%" : colIndex === finalColumnCount - 1 ? "80%" : "90%"}
                 />
               </Table.Cell>
             ))}
