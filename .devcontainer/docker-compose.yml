@@ -14,7 +14,7 @@ services:
     network_mode: "service:workspace"
 
   workspace:
-    image: mcr.microsoft.com/devcontainers/base:debian
+    image: mcr.microsoft.com/devcontainers/base:bookworm
     environment:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable
     privileged: true
