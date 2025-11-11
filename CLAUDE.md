@@ -4,8 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **CRITICAL**
 
-- Always follow the .claude/WORK_RULES.md document when working.
-- Always update CLAUDE.md and README.md when completing large-scale tasks. Ignore minor changes.
+- Always update CLAUDE.md and README.md When changing a feature that requires major work or essential changes to the content of the document. Ignore minor changes.
 
 ## Project Overview
 
@@ -31,6 +30,7 @@ The backend uses NestJS with a modular structure:
 - **Console Commands**: CLI commands for database seeding via `nestjs-console`
 
 Key modules:
+
 - `auth/` - OAuth authentication with multiple providers
 - `content/` - Game content data and calculations
 - `item/` - Item pricing (auction/market items)
@@ -49,6 +49,7 @@ The frontend uses React with a component-based structure:
 - **Core Components**: Reusable components in `src/core/` (dialog, table, form, navigation, etc.)
 
 Component organization:
+
 - `core/` - Reusable UI components and utilities
 - `pages/` - Page-level components with their own context
 - Each major feature uses context providers for state management
@@ -102,6 +103,7 @@ just sync-go-schema         # Generate Go database models with SQLBoiler
 ```
 
 Notes:
+
 - When connecting to PostgreSQL via pgAdmin, use `host.docker.internal` as the hostname
 - Database seeding is configured in `backend/package.json` and runs via `nestjs-console`
 
@@ -205,12 +207,14 @@ just generate-env         # Download secrets from Doppler to .env files
 Go services use workspace mode (`go.work`) with 4 scraper apps and 6 shared libraries. The workspace enables local development with shared dependencies.
 
 Scraper apps:
+
 - `auction-item-stat-scraper` - Tracks auction house price statistics
 - `market-item-category-scraper` - Discovers market item categories
 - `market-item-scraper` - Collects market item data
 - `market-item-stat-scraper` - Tracks market price statistics
 
 Shared libraries:
+
 - `env` - Environment variable management
 - `http-client` - HTTP utilities
 - `loa-api` - Lost Ark API client
