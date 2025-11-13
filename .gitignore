@@ -132,3 +132,5 @@ tmp
 *.pem
 
 .doppler.env
+
+.claude/settings.local.json
