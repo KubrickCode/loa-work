@@ -22,6 +22,7 @@ services:
       - ..:/workspaces/loa-work:delegated
       - /var/run/docker.sock:/var/run/docker.sock
       - ${HOME}/.env.secrets:/root/.env.secrets:ro
+      - claude-sessions:/root/.claude
     env_file:
       - ${HOME}/.env.secrets
     command: sleep infinity
@@ -44,3 +45,4 @@ services:
 volumes:
   postgres-data:
   grafana-data:
+  claude-sessions:
