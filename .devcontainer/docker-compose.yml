@@ -21,6 +21,9 @@ services:
     volumes:
       - ..:/workspaces/loa-work:delegated
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.env.secrets:/root/.env.secrets:ro
+    env_file:
+      - ${HOME}/.env.secrets
     command: sleep infinity
 
   prometheus:
