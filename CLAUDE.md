@@ -28,7 +28,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Apply to both implementation and documentation
   - Verbose documentation causes review burden for humans
 
-
 ## Project Overview
 
 로직장 (LOA Work) is a Lost Ark game content analysis platform that provides insights on the real-world value of in-game labor. The project calculates hourly wages based on gold exchange rates, content duration, and reward data.
