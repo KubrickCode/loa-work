@@ -6,5 +6,17 @@
     "type": "git",
     "url": "https://github.com/KubrickCode/loa-work.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "src/frontend",
+    "src/backend"
+  ],
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "9.1.7",
+    "lint-staged": "15.2.11"
+  }
 }
