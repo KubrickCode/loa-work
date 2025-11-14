@@ -34,7 +34,10 @@ codegen:
 degit source_dir target_dir:
     degit https://github.com/KubrickCode/general/{{ source_dir }} {{ target_dir }}
 
-deps: deps-frontend deps-backend
+deps: deps-root deps-frontend deps-backend
+
+deps-root:
+    yarn install
 
 deps-frontend:
     cd "{{ frontend_dir }}" && yarn install
