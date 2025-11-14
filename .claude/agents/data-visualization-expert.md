@@ -1,6 +1,6 @@
 ---
 name: data-visualization-expert
-description: Expert in data visualization component implementation
+description: Expert in data visualization component implementation. Use PROACTIVELY when creating charts, graphs, dashboards, or implementing visualization libraries (D3.js, Chart.js, Recharts).
 model: sonnet
 ---
 

@@ -1,8 +1,8 @@
 ---
 name: nestjs
 description: |
-  Best practices and coding standards for NestJS framework development. Domain-centric architecture, dependency injection, decorator pattern utilization.
-  TRIGGER: NestJS project, @Module/@Controller/@Injectable decorator, REST/GraphQL API development, dependency injection pattern
+  Provides NestJS framework development standards and architectural patterns. Ensures domain-centric architecture, proper dependency injection, and decorator pattern utilization. Specializes in modular design, providers and services, middleware and guards, interceptors and pipes, custom decorators, and microservices architecture.
+  Use when: developing NestJS applications, designing module structure (@Module), creating controllers (@Controller) and services (@Injectable), implementing REST or GraphQL APIs, configuring dependency injection, building middleware and guards, creating custom decorators, implementing authentication/authorization, designing microservices with NestJS, or integrating with TypeORM/Prisma for database access.
 ---
 
 # NestJS Development Standards

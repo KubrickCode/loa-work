@@ -1,6 +1,6 @@
 ---
 name: monitoring-observability-expert
-description: Monitoring and observability infrastructure specialist. Handles Prometheus, Grafana, ELK Stack, distributed tracing, dashboard design, alerting strategies, and SLO/SLI definitions.
+description: Monitoring and observability infrastructure specialist. Use PROACTIVELY when setting up Prometheus/Grafana, implementing distributed tracing, designing dashboards, or defining SLO/SLI metrics.
 model: sonnet
 ---
 
