@@ -1,6 +1,6 @@
 ---
 name: data-collection-specialist
-description: Data collection and extraction specialist. Handles REST/GraphQL APIs, web scraping, reverse engineering, ETL pipelines, and data transformation workflows.
+description: Data collection and extraction specialist. Use PROACTIVELY when integrating APIs, implementing web scraping, reverse engineering data sources, or building ETL pipelines.
 model: sonnet
 ---
 

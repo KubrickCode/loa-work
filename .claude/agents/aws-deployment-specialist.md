@@ -1,6 +1,6 @@
 ---
 name: aws-deployment-specialist
-description: AWS cloud deployment, infrastructure management, and optimization specialist. Handles AWS services deployment, Infrastructure as Code, IAM configuration, cost optimization, and CI/CD pipelines.
+description: AWS cloud deployment and infrastructure specialist. Use PROACTIVELY when deploying AWS services, writing Infrastructure as Code (CDK/CloudFormation), configuring IAM policies, or optimizing cloud costs.
 model: sonnet
 ---
 

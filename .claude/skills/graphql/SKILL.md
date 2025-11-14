@@ -1,8 +1,8 @@
 ---
 name: graphql
 description: |
-  GraphQL API schema design and implementation guide. Type definitions, query/mutation design, pagination, error handling standards.
-  TRIGGER: GraphQL schema writing, type definition, Resolver implementation, Connection design, N+1 problem solving
+  Provides GraphQL API schema design and implementation expertise. Ensures proper type definitions, query/mutation patterns, pagination strategies, and error handling standards. Specializes in schema-first design, resolver implementation, DataLoader for N+1 prevention, subscription patterns, and federation architecture. Implements Relay cursor connections and Apollo best practices.
+  Use when: designing GraphQL schemas, defining types and interfaces, implementing queries and mutations, creating resolvers, designing pagination with connections and edges, solving N+1 query problems with DataLoader, implementing subscriptions for real-time updates, handling errors and nullability, setting up GraphQL federation, or integrating with Apollo Server/Client or other GraphQL libraries.
 ---
 
 # GraphQL API Standards
