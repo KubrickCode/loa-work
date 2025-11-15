@@ -22,6 +22,11 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
       - name: Build Frontend
         env:
           VITE_DISCORD_LOGIN_URL: ${{ secrets.VITE_DISCORD_LOGIN_URL }}
@@ -30,8 +35,8 @@ jobs:
           VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
         run: |
           cd src/frontend
-          yarn install
-          yarn build
+          pnpm install --frozen-lockfile
+          pnpm build
           mkdir -p ../backend/frontend-build
           cp -r build/* ../backend/frontend-build/
           ls -la ../backend/frontend-build
