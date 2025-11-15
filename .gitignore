@@ -134,3 +134,4 @@ tmp
 .doppler.env
 
 .claude/settings.local.json
+.pnpm-store/

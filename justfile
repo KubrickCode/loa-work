@@ -13,11 +13,11 @@ add-package svc *args:
     case {{ svc }} in
       backend)
         cd "{{ backend_dir }}"
-        yarn add -E {{ args }}
+        pnpm add -E {{ args }}
         ;;
       frontend)
         cd "{{ frontend_dir }}"
-        yarn add -E {{ args }}
+        pnpm add -E {{ args }}
         ;;
       *)
         echo "Unknown service: {{ svc }}"
@@ -29,7 +29,7 @@ codegen:
     #!/usr/bin/env bash
     set -euox pipefail
     cd "{{ frontend_dir }}"
-    yarn codegen
+    pnpm codegen
 
 degit source_dir target_dir:
     degit https://github.com/KubrickCode/general/{{ source_dir }} {{ target_dir }}
@@ -37,13 +37,13 @@ degit source_dir target_dir:
 deps: deps-root deps-frontend deps-backend
 
 deps-root:
-    yarn install
+    pnpm install
 
 deps-frontend:
-    cd "{{ frontend_dir }}" && yarn install
+    cd "{{ frontend_dir }}" && pnpm install
 
 deps-backend:
-    cd "{{ backend_dir }}" && yarn install
+    cd "{{ backend_dir }}" && pnpm install
 
 generate-env:
     #!/usr/bin/env bash
@@ -89,12 +89,12 @@ lint target="all":
       backend)
         npx prettier --write "{{ backend_dir }}/src/**/*.ts"
         cd "{{ backend_dir }}"
-        yarn lint
+        pnpm lint
         ;;
       frontend)
         npx prettier --write "{{ frontend_dir }}/src/**/*.{ts,tsx}"
         cd "{{ frontend_dir }}"
-        yarn eslint --fix --ignore-pattern "generated.tsx" --max-warnings=0 "src/**/*.tsx"
+        pnpm eslint --fix --ignore-pattern "generated.tsx" --max-warnings=0 "src/**/*.tsx"
         ;;
       go)
         gofmt -w "{{ root_dir }}/src/go"
@@ -159,7 +159,7 @@ prisma *args:
     #!/usr/bin/env bash
     set -euox pipefail
     cd "{{ backend_dir }}"
-    yarn prisma {{ args }}
+    pnpm prisma {{ args }}
 
 install-degit:
     #!/usr/bin/env bash
@@ -204,12 +204,12 @@ run svc *args:
     case {{ svc }} in
       frontend)
         cd "{{ frontend_dir }}"
-        GENERATE_SOURCEMAP=false PORT=3000 yarn dev
+        GENERATE_SOURCEMAP=false PORT=3000 pnpm dev
         ;;
 
       backend)
         cd "{{ backend_dir }}"
-        PORT=3001 yarn start:dev
+        PORT=3001 pnpm start:dev
         ;;
 
       *)
@@ -246,7 +246,7 @@ setup-testdb:
     psql "{{ devdb_url }}" -c "DROP DATABASE IF EXISTS test"
     psql "{{ devdb_url }}" -c "CREATE DATABASE test OWNER postgres"
     cd "{{ backend_dir }}"
-    DATABASE_URL="{{ testdb_url }}" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} yarn prisma migrate dev
+    DATABASE_URL="{{ testdb_url }}" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm prisma migrate dev
 
 test target *args:
     #!/usr/bin/env bash
@@ -258,7 +258,7 @@ test target *args:
 
         just setup-testdb
         cd "{{ backend_dir }}"
-        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --no-compilation-cache --silent=false {{ args }}
+        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec jest --runInBand --logHeapUsage --no-compilation-cache --silent=false {{ args }}
         ;;
     esac
 
@@ -270,7 +270,7 @@ test-e2e *args:
 
     just setup-testdb
     cd "{{ backend_dir }}"
-    DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} node --expose-gc ./node_modules/.bin/jest --config ./jest-e2e.json --runInBand --no-compilation-cache --forceExit {{ args }}
+    DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec jest --config ./jest-e2e.json --runInBand --no-compilation-cache --forceExit {{ args }}
 
 run-backend-prod:
     ./scripts/run-backend-prod.sh
