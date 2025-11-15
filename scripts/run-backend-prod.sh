@@ -54,7 +54,7 @@ done
 
 echo "🔄 Prisma 클라이언트 생성 중..."
 cd "$BACKEND_DIR"
-DATABASE_URL="${PROD_DATABASE_URL}" yarn prisma generate
+DATABASE_URL="${PROD_DATABASE_URL}" pnpm prisma generate
 
 cleanup() {
   echo ""
@@ -73,4 +73,4 @@ trap cleanup SIGINT SIGTERM
 
 echo "🚀 운영 DB로 백엔드 서버 시작..."
 echo "종료하려면 Ctrl+C를 누르세요 (SSH 터널도 자동으로 종료됩니다)"
-DATABASE_URL="${PROD_DATABASE_URL}" PORT=3001 yarn start:dev
+DATABASE_URL="${PROD_DATABASE_URL}" PORT=3001 pnpm start:dev

@@ -1,0 +1,25 @@
+# Dependencies
+**/node_modules
+**/.pnpm-store
+
+# Build artifacts (backend builds its own)
+**/dist
+**/build
+
+# Environment & Secrets
+.env
+.env.*
+.doppler.env
+**/*.pem
+
+# Git
+.git
+.gitignore
+
+# CI/CD
+.github
+
+# IDE & OS
+**/.DS_Store
+**/.vscode
+**/.idea
