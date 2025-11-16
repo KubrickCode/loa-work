@@ -291,7 +291,6 @@ type Item {
   imageUrl: String!
   kind: ItemKind!
   name: String!
-  pieColor: String!
   price: Float!
   updatedAt: DateTime!
   userItem: UserItem!

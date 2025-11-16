@@ -2,9 +2,7 @@ import {
   Box,
   createListCollection,
   Flex,
-  HStack,
   Spinner,
-  Stack,
   Table,
   useBreakpointValue,
   VStack,
@@ -201,44 +199,6 @@ export const SelectLoader = () => {
         <SelectValueText placeholder="loading..." />
       </SelectTrigger>
     </SelectRoot>
-  );
-};
-
-export const ChartSkeleton = ({ height = "300px" }: { height?: string }) => {
-  return (
-    <Box
-      bg="bg.surface"
-      borderColor="border.default"
-      borderRadius="lg"
-      borderWidth="1px"
-      p={6}
-      shadow="sm"
-    >
-      <Stack gap={4}>
-        <HStack justify="space-between">
-          <Skeleton height="24px" width="200px" />
-          <Skeleton height="32px" width="100px" />
-        </HStack>
-        <Box bg="bg.muted" borderRadius="md" height={height} overflow="hidden" position="relative">
-          <Box
-            bottom={0}
-            css={{
-              animation: `${modernShimmer} 3s infinite linear`,
-              background: "linear-gradient(180deg, transparent, var(--colors-neutral-100))",
-            }}
-            height="60%"
-            left="10%"
-            position="absolute"
-            right="10%"
-          />
-          <HStack bottom={4} justify="space-between" left={4} position="absolute" right={4}>
-            {Array.from({ length: 6 }).map((_, index) => (
-              <Skeleton height="12px" key={index} width="40px" />
-            ))}
-          </HStack>
-        </Box>
-      </Stack>
-    </Box>
   );
 };
 

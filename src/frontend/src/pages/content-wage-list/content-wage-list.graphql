@@ -1,4 +1,4 @@
-query ContentWageTableTab {
+query ContentWageList {
   goldExchangeRate {
     goldAmount
     krwAmount
