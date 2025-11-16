@@ -17,7 +17,7 @@ import {
 } from "~/shared/content";
 import { ItemNameWithImage } from "~/shared/item";
 
-import { useContentRewardListPage } from "../../../content-reward-list-page-context";
+import { useContentRewardListPage } from "../content-reward-list-page-context";
 
 export const ContentRewardListTable = () => {
   const { isAuthenticated } = useAuth();
