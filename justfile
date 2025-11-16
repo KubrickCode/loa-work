@@ -185,15 +185,19 @@ install-sqlboiler:
       go install github.com/aarondl/sqlboiler/v4/drivers/sqlboiler-psql@latest
     fi
 
-release version="patch":
-    @echo "🚀 Creating {{ version }} release..."
-    npm version {{ version }}
-    git push origin main --tags
+release:
+    @echo "🚀 Creating automated release via semantic-release..."
+    @echo "📋 Merging main → release and pushing..."
     git checkout release
     git merge main
     git push origin release
     git checkout main
-    @echo "✅ Release complete! Check GitHub Actions."
+    @echo "✅ Release triggered! semantic-release will:"
+    @echo "   - Analyze commits and determine version"
+    @echo "   - Generate release notes with 2-tier structure"
+    @echo "   - Create GitHub Release and git tag"
+    @echo "   - Update CHANGELOG.md and package.json"
+    @echo "🔍 Check GitHub Actions: https://github.com/KubrickCode/loa-work/actions"
 
 reset *args:
     just prisma migrate reset {{ args }}
