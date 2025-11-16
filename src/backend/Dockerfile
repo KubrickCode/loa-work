@@ -19,5 +19,8 @@ RUN pnpm install --prod --frozen-lockfile
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma ./prisma
 COPY frontend-build ./dist/frontend
+
+RUN pnpm prisma generate
+
 EXPOSE 3000
 CMD ["pnpm", "start:prod"]
