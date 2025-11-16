@@ -1,3 +1,9 @@
+## [0.4.1](https://github.com/KubrickCode/loa-work/compare/v0.4.0...v0.4.1) (2025-11-16)
+
+### 🔨 Chore
+
+- semantic-release 완전 자동화 설정 ([144e513](https://github.com/KubrickCode/loa-work/commit/144e5130d61d19b3b7969d474b4f8ad8312caac5))
+
 ## [0.4.0](https://github.com/KubrickCode/loa-work/compare/v0.3.4...v0.4.0) (2025-11-16)
 
 ### ✨ Features
