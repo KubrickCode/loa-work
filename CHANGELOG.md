@@ -1,3 +1,15 @@
+## [0.4.2](https://github.com/KubrickCode/loa-work/compare/v0.4.1...v0.4.2) (2025-11-16)
+
+### 📚 Documentation
+
+- CLAUDE.md 불필요한 내용 제거 ([172d8e2](https://github.com/KubrickCode/loa-work/commit/172d8e247c234c93cf2f5d437f2eafdb573c9d90))
+- 커밋 메시지 생성기에 ifix 타입 추가 및 구분 가이드 개선 ([169170a](https://github.com/KubrickCode/loa-work/commit/169170a228fe1289dfcfd268dee728feb9814e8b))
+
+### 🔨 Chore
+
+- lint 실행 시 generated.tsx 파일 자동 변경 문제 해결 ([272c1d7](https://github.com/KubrickCode/loa-work/commit/272c1d76a612dfd7968758355c326f2bbf9b34fd))
+- 개발자 관점 수정 커밋용 ifix 규칙 release 워크플로우에 적용 ([4689ca1](https://github.com/KubrickCode/loa-work/commit/4689ca18629a87e2db1d4f8ade7feb6039a14953))
+
 ## [0.4.1](https://github.com/KubrickCode/loa-work/compare/v0.4.0...v0.4.1) (2025-11-16)
 
 ### 🔨 Chore
