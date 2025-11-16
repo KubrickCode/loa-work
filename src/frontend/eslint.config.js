@@ -9,7 +9,7 @@ export default [
   ...tseslint.configs.recommended,
   {
     files: ["src/**/*.{js,jsx,ts,tsx}"],
-    ignores: ["dist", ".eslintrc.cjs", "**/*.generated.tsx"],
+    ignores: ["dist", ".eslintrc.cjs", "**/*.generated.tsx", "**/generated.tsx"],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
