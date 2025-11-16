@@ -168,7 +168,6 @@ just release                  # Create automated release via semantic-release
 The release process is fully automated via semantic-release:
 
 - **Version determination**: Automatically calculated from commit types (feat → minor, fix → patch, BREAKING CHANGE → major)
-- **Release notes**: Generated with 2-tier structure (Highlights for feat/fix/perf, Maintenance for chore/docs/refactor)
 - **Workflow**: Push to `release` branch triggers GitHub Actions → semantic-release creates tag, GitHub Release, and updates CHANGELOG.md
 - **Commit format**: Must follow Conventional Commits (enforced by commitlint)
 
