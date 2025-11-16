@@ -135,3 +135,5 @@ tmp
 
 .claude/settings.local.json
 .pnpm-store/
+
+docs/work/
