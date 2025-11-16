@@ -13,12 +13,18 @@ importers:
       "@semantic-release/commit-analyzer":
         specifier: 13.0.0
         version: 13.0.0(semantic-release@24.2.0)
+      "@semantic-release/exec":
+        specifier: 7.1.0
+        version: 7.1.0(semantic-release@24.2.0)
       "@semantic-release/git":
         specifier: 10.0.1
         version: 10.0.1(semantic-release@24.2.0)
       "@semantic-release/github":
         specifier: 11.0.1
         version: 11.0.1(semantic-release@24.2.0)
+      "@semantic-release/npm":
+        specifier: 13.1.2
+        version: 13.1.2(semantic-release@24.2.0)
       "@semantic-release/release-notes-generator":
         specifier: 14.0.1
         version: 14.0.1(semantic-release@24.2.0)
@@ -39,6 +45,30 @@ importers:
         version: 24.2.0
 
 packages:
+  "@actions/core@1.11.1":
+    resolution:
+      {
+        integrity: sha512-hXJCSrkwfA46Vd9Z3q4cpEpHB1rL5NG04+/rbqW9d3+CSvtB1tYe8UTpAlixa1vj0m/ULglfEK2UKxMGxCxv5A==,
+      }
+
+  "@actions/exec@1.1.1":
+    resolution:
+      {
+        integrity: sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==,
+      }
+
+  "@actions/http-client@2.2.3":
+    resolution:
+      {
+        integrity: sha512-mx8hyJi/hjFvbPokCg4uRd4ZX78t+YyRPtnKWwIl+RzNaVuFpQHfmlGVfsKEJN8LwTCvL+DfVgAM04XaHkm6bA==,
+      }
+
+  "@actions/io@1.1.3":
+    resolution:
+      {
+        integrity: sha512-wi9JjgKLYS7U/z8PPbco+PvTb/nRWjeoFlJ1Qer83k/3C5PHQi28hiVdeE2kHXmIL99mQFawx8qt/JPjZilJ8Q==,
+      }
+
   "@babel/code-frame@7.27.1":
     resolution:
       {
@@ -59,6 +89,13 @@ packages:
         integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==,
       }
     engines: { node: ">=0.1.90" }
+
+  "@fastify/busboy@2.1.1":
+    resolution:
+      {
+        integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==,
+      }
+    engines: { node: ">=14" }
 
   "@nodelib/fs.scandir@2.1.5":
     resolution:
@@ -233,6 +270,15 @@ packages:
       }
     engines: { node: ">=18" }
 
+  "@semantic-release/exec@7.1.0":
+    resolution:
+      {
+        integrity: sha512-4ycZ2atgEUutspPZ2hxO6z8JoQt4+y/kkHvfZ1cZxgl9WKJId1xPj+UadwInj+gMn2Gsv+fLnbrZ4s+6tK2TFQ==,
+      }
+    engines: { node: ">=20.8.1" }
+    peerDependencies:
+      semantic-release: ">=24.1.0"
+
   "@semantic-release/git@10.0.1":
     resolution:
       {
@@ -257,6 +303,15 @@ packages:
         integrity: sha512-+M9/Lb35IgnlUO6OSJ40Ie+hUsZLuph2fqXC/qrKn0fMvUU/jiCjpoL6zEm69vzcmaZJ8yNKtMBEKHWN49WBbQ==,
       }
     engines: { node: ">=20.8.1" }
+    peerDependencies:
+      semantic-release: ">=20.1.0"
+
+  "@semantic-release/npm@13.1.2":
+    resolution:
+      {
+        integrity: sha512-9rtshDTNlzYrC7uSBtB1vHqFzFZaNHigqkkCH5Ls4N/BSlVOenN5vtwHYxjAR4jf1hNvWSVwL4eIFTHONYckkw==,
+      }
+    engines: { node: ^22.14.0 || >= 24.10.0 }
     peerDependencies:
       semantic-release: ">=20.1.0"
 
@@ -962,6 +1017,13 @@ packages:
       }
     engines: { node: ^18.17.0 || >=20.5.0 }
 
+  hosted-git-info@9.0.2:
+    resolution:
+      {
+        integrity: sha512-M422h7o/BR3rmCQ8UHi7cyyMqKltdP9Uo+J2fXK+RSAY+wTcKOIRyhTuKv4qn+DJf3g+PL890AzId5KZpX+CBg==,
+      }
+    engines: { node: ^20.17.0 || >=22.9.0 }
+
   http-proxy-agent@7.0.2:
     resolution:
       {
@@ -1316,6 +1378,13 @@ packages:
         integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==,
       }
 
+  lru-cache@11.2.2:
+    resolution:
+      {
+        integrity: sha512-F9ODfyqML2coTIsQpSkRHnLSZMtkU8Q+mSfcaIyKwy58u+8k5nvAYeiNhsyMARvzNcXJ9QfWVrcPsC9e9rAxtg==,
+      }
+    engines: { node: 20 || >=22 }
+
   make-asynchronous@1.0.1:
     resolution:
       {
@@ -1440,6 +1509,13 @@ packages:
       }
     engines: { node: ^16.14.0 || >=18.0.0 }
 
+  normalize-package-data@8.0.0:
+    resolution:
+      {
+        integrity: sha512-RWk+PI433eESQ7ounYxIp67CYuVsS1uYSonX3kA6ps/3LWfjVQa/ptEg6Y3T6uAMq1mWpX9PQ+qx+QaHpsc7gQ==,
+      }
+    engines: { node: ^20.17.0 || >=22.9.0 }
+
   normalize-url@8.1.0:
     resolution:
       {
@@ -1544,6 +1620,80 @@ packages:
       - validate-npm-package-name
       - which
       - write-file-atomic
+
+  npm@11.6.2:
+    resolution:
+      {
+        integrity: sha512-7iKzNfy8lWYs3zq4oFPa8EXZz5xt9gQNKJZau3B1ErLBb6bF7sBJ00x09485DOvRT2l5Gerbl3VlZNT57MxJVA==,
+      }
+    engines: { node: ^20.17.0 || >=22.9.0 }
+    hasBin: true
+    bundledDependencies:
+      - "@isaacs/string-locale-compare"
+      - "@npmcli/arborist"
+      - "@npmcli/config"
+      - "@npmcli/fs"
+      - "@npmcli/map-workspaces"
+      - "@npmcli/package-json"
+      - "@npmcli/promise-spawn"
+      - "@npmcli/redact"
+      - "@npmcli/run-script"
+      - "@sigstore/tuf"
+      - abbrev
+      - archy
+      - cacache
+      - chalk
+      - ci-info
+      - cli-columns
+      - fastest-levenshtein
+      - fs-minipass
+      - glob
+      - graceful-fs
+      - hosted-git-info
+      - ini
+      - init-package-json
+      - is-cidr
+      - json-parse-even-better-errors
+      - libnpmaccess
+      - libnpmdiff
+      - libnpmexec
+      - libnpmfund
+      - libnpmorg
+      - libnpmpack
+      - libnpmpublish
+      - libnpmsearch
+      - libnpmteam
+      - libnpmversion
+      - make-fetch-happen
+      - minimatch
+      - minipass
+      - minipass-pipeline
+      - ms
+      - node-gyp
+      - nopt
+      - npm-audit-report
+      - npm-install-checks
+      - npm-package-arg
+      - npm-pick-manifest
+      - npm-profile
+      - npm-registry-fetch
+      - npm-user-validate
+      - p-map
+      - pacote
+      - parse-conflict-json
+      - proc-log
+      - qrcode-terminal
+      - read
+      - semver
+      - spdx-expression-parse
+      - ssri
+      - supports-color
+      - tar
+      - text-table
+      - tiny-relative-date
+      - treeverse
+      - validate-npm-package-name
+      - which
 
   object-assign@4.1.1:
     resolution:
@@ -1819,6 +1969,13 @@ packages:
         integrity: sha512-MbgfoNPANMdb4oRBNg5eqLbB2t2r+o5Ua1pNt8BqGp4I0FJZhuVSOj3PaBPni4azWuSzEdNn2evevzVmEk1ohQ==,
       }
     engines: { node: ">=18" }
+
+  read-pkg@10.0.0:
+    resolution:
+      {
+        integrity: sha512-A70UlgfNdKI5NSvTTfHzLQj7NJRpJ4mT5tGafkllJ4wh71oYuGm/pzphHcmW4s35iox56KSK721AihodoXSc/A==,
+      }
+    engines: { node: ">=20" }
 
   read-pkg@9.0.1:
     resolution:
@@ -2138,6 +2295,13 @@ packages:
       }
     engines: { node: ">=14.18" }
 
+  tagged-tag@1.0.0:
+    resolution:
+      {
+        integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==,
+      }
+    engines: { node: ">=20" }
+
   temp-dir@3.0.0:
     resolution:
       {
@@ -2192,6 +2356,13 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  tunnel@0.0.6:
+    resolution:
+      {
+        integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==,
+      }
+    engines: { node: ">=0.6.11 <=0.7.0 || >=0.7.3" }
+
   type-fest@1.4.0:
     resolution:
       {
@@ -2213,6 +2384,13 @@ packages:
       }
     engines: { node: ">=16" }
 
+  type-fest@5.2.0:
+    resolution:
+      {
+        integrity: sha512-xxCJm+Bckc6kQBknN7i9fnP/xobQRsRQxR01CztFkp/h++yfVxUUcmMgfR2HttJx/dpWjS9ubVuyspJv24Q9DA==,
+      }
+    engines: { node: ">=20" }
+
   uglify-js@3.19.3:
     resolution:
       {
@@ -2220,6 +2398,13 @@ packages:
       }
     engines: { node: ">=0.8.0" }
     hasBin: true
+
+  undici@5.29.0:
+    resolution:
+      {
+        integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==,
+      }
+    engines: { node: ">=14.0" }
 
   unicode-emoji-modifier-base@1.0.0:
     resolution:
@@ -2373,6 +2558,22 @@ packages:
     engines: { node: ">=18" }
 
 snapshots:
+  "@actions/core@1.11.1":
+    dependencies:
+      "@actions/exec": 1.1.1
+      "@actions/http-client": 2.2.3
+
+  "@actions/exec@1.1.1":
+    dependencies:
+      "@actions/io": 1.1.3
+
+  "@actions/http-client@2.2.3":
+    dependencies:
+      tunnel: 0.0.6
+      undici: 5.29.0
+
+  "@actions/io@1.1.3": {}
+
   "@babel/code-frame@7.27.1":
     dependencies:
       "@babel/helper-validator-identifier": 7.28.5
@@ -2383,6 +2584,8 @@ snapshots:
 
   "@colors/colors@1.5.0":
     optional: true
+
+  "@fastify/busboy@2.1.1": {}
 
   "@nodelib/fs.scandir@2.1.5":
     dependencies:
@@ -2501,6 +2704,18 @@ snapshots:
 
   "@semantic-release/error@4.0.0": {}
 
+  "@semantic-release/exec@7.1.0(semantic-release@24.2.0)":
+    dependencies:
+      "@semantic-release/error": 4.0.0
+      aggregate-error: 3.1.0
+      debug: 4.4.3
+      execa: 9.6.0
+      lodash-es: 4.17.21
+      parse-json: 8.3.0
+      semantic-release: 24.2.0
+    transitivePeerDependencies:
+      - supports-color
+
   "@semantic-release/git@10.0.1(semantic-release@24.2.0)":
     dependencies:
       "@semantic-release/error": 3.0.0
@@ -2549,6 +2764,25 @@ snapshots:
       npm: 10.9.4
       rc: 1.2.8
       read-pkg: 9.0.1
+      registry-auth-token: 5.1.0
+      semantic-release: 24.2.0
+      semver: 7.7.3
+      tempy: 3.1.0
+
+  "@semantic-release/npm@13.1.2(semantic-release@24.2.0)":
+    dependencies:
+      "@actions/core": 1.11.1
+      "@semantic-release/error": 4.0.0
+      aggregate-error: 5.0.0
+      env-ci: 11.2.0
+      execa: 9.6.0
+      fs-extra: 11.3.2
+      lodash-es: 4.17.21
+      nerf-dart: 1.0.0
+      normalize-url: 8.1.0
+      npm: 11.6.2
+      rc: 1.2.8
+      read-pkg: 10.0.0
       registry-auth-token: 5.1.0
       semantic-release: 24.2.0
       semver: 7.7.3
@@ -2953,6 +3187,10 @@ snapshots:
     dependencies:
       lru-cache: 10.4.3
 
+  hosted-git-info@9.0.2:
+    dependencies:
+      lru-cache: 11.2.2
+
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.4
@@ -3130,6 +3368,8 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
+  lru-cache@11.2.2: {}
+
   make-asynchronous@1.0.1:
     dependencies:
       p-event: 6.0.1
@@ -3195,6 +3435,12 @@ snapshots:
       semver: 7.7.3
       validate-npm-package-license: 3.0.4
 
+  normalize-package-data@8.0.0:
+    dependencies:
+      hosted-git-info: 9.0.2
+      semver: 7.7.3
+      validate-npm-package-license: 3.0.4
+
   normalize-url@8.1.0: {}
 
   npm-run-path@4.0.1:
@@ -3211,6 +3457,8 @@ snapshots:
       unicorn-magic: 0.3.0
 
   npm@10.9.4: {}
+
+  npm@11.6.2: {}
 
   object-assign@4.1.1: {}
 
@@ -3335,6 +3583,14 @@ snapshots:
       find-up-simple: 1.0.1
       read-pkg: 9.0.1
       type-fest: 4.41.0
+
+  read-pkg@10.0.0:
+    dependencies:
+      "@types/normalize-package-data": 2.4.4
+      normalize-package-data: 8.0.0
+      parse-json: 8.3.0
+      type-fest: 5.2.0
+      unicorn-magic: 0.3.0
 
   read-pkg@9.0.1:
     dependencies:
@@ -3536,6 +3792,8 @@ snapshots:
       has-flag: 4.0.0
       supports-color: 7.2.0
 
+  tagged-tag@1.0.0: {}
+
   temp-dir@3.0.0: {}
 
   tempy@3.1.0:
@@ -3568,14 +3826,24 @@ snapshots:
 
   traverse@0.6.8: {}
 
+  tunnel@0.0.6: {}
+
   type-fest@1.4.0: {}
 
   type-fest@2.19.0: {}
 
   type-fest@4.41.0: {}
 
+  type-fest@5.2.0:
+    dependencies:
+      tagged-tag: 1.0.0
+
   uglify-js@3.19.3:
     optional: true
+
+  undici@5.29.0:
+    dependencies:
+      "@fastify/busboy": 2.1.1
 
   unicode-emoji-modifier-base@1.0.0: {}
 

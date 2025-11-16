@@ -1,6 +1,6 @@
 {
   "name": "loa-work",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "Lost Ark Content Hourly Wage Insight Platform",
   "repository": {
     "type": "git",
@@ -14,8 +14,10 @@
   "devDependencies": {
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "13.0.0",
+    "@semantic-release/exec": "7.1.0",
     "@semantic-release/git": "10.0.1",
     "@semantic-release/github": "11.0.1",
+    "@semantic-release/npm": "13.1.2",
     "@semantic-release/release-notes-generator": "14.0.1",
     "conventional-changelog-conventionalcommits": "8.0.0",
     "husky": "9.1.7",
