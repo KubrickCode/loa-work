@@ -1,3 +1,58 @@
+## [0.4.0](https://github.com/KubrickCode/loa-work/compare/v0.3.4...v0.4.0) (2025-11-16)
+
+### ✨ Features
+
+* 차트 기능 제거 ([ae4cb63](https://github.com/KubrickCode/loa-work/commit/ae4cb636d9735cd109b46e9ced59f553f94e8704)), closes [#170](https://github.com/KubrickCode/loa-work/issues/170)
+
+### 📚 Documentation
+
+* AI 관련 문서 및 설정 교체 ([4354b73](https://github.com/KubrickCode/loa-work/commit/4354b73ffbe1a1e693dfd41ea3897052e6bc592b))
+* ai-config-toolkit 리포지토리로부터 코드 동기화 ([ef1e6e0](https://github.com/KubrickCode/loa-work/commit/ef1e6e0f263b435242eecc85135e1070811e27cd))
+* ai-config-toolkit 리포지토리로부터 프롬프트 동기화 ([28d6ef9](https://github.com/KubrickCode/loa-work/commit/28d6ef98ba78faeca435a1b4ee989eecbc952cbf))
+* CLAUDE.md 업데이트 ([aab1d7f](https://github.com/KubrickCode/loa-work/commit/aab1d7f5382a8ea6ddc0fccac474197ff115bd7f))
+* 명령어 실행 원칙 CLAUDE.md에 추가 ([25ca6f0](https://github.com/KubrickCode/loa-work/commit/25ca6f05aae32a7da30c899adf93b6aa6f888ce8))
+* 의존성 버전 고정 및 관련 원칙 CLAUDE 스킬 추가 ([7148add](https://github.com/KubrickCode/loa-work/commit/7148addec8473c1b1e7e39114ff793f1920ab472))
+* 커밋 명령어에 Conventional Commits 규격 추가 ([4bc294a](https://github.com/KubrickCode/loa-work/commit/4bc294a3e51e5cf210450ed91b3b7cdc50d82878))
+
+### 💄 Styles
+
+* format code ([338ad5b](https://github.com/KubrickCode/loa-work/commit/338ad5bcfcbdada9e98352c540fdeeb0ad50fde6))
+* 깨진 문서 포맷 수정 ([748bf33](https://github.com/KubrickCode/loa-work/commit/748bf33e495fad45295f53dd9107e411666bbe29))
+
+### 🔧 CI/CD
+
+* GitHub Actions 워크플로우를 semantic-release 자동화로 전환 ([ce2867c](https://github.com/KubrickCode/loa-work/commit/ce2867c64531a9bddadbdaecaa55b388252cff37))
+
+### 🔨 Chore
+
+* Claude Code 터미널명 업데이트 ([c8e446f](https://github.com/KubrickCode/loa-work/commit/c8e446f1cb54c468f8fe2c02cf88c9da135400fc))
+* Debian trixie의 moby-cli 미지원으로 인한 docker-in-docker 빌드 실패 문제 수정 ([c1c39a7](https://github.com/KubrickCode/loa-work/commit/c1c39a755420fc69ad0c1890efd1e410b540b0a0))
+* dependabot 커밋 메시지 규칙 변경 ([6003625](https://github.com/KubrickCode/loa-work/commit/6003625288666de3a162cfc01b133c4ba9c1f894))
+* **deps:** Bump vite in /src/backend ([d9370f2](https://github.com/KubrickCode/loa-work/commit/d9370f2036e3ddd94cbcce0ca902d3236a32e2e0))
+* DevContainer rebuild 시 Claude Code 재로그인 문제 해결 ([1379437](https://github.com/KubrickCode/loa-work/commit/13794376d560dc3293016667c72e6c7396df7bcc))
+* Docker 빌드 컨텍스트 경로 오류로 인한 배포 실패 ([f95902e](https://github.com/KubrickCode/loa-work/commit/f95902e7442ca93ca2628eaeb314933e89fa78e7))
+* frontend lint 명령어 fix 추가 ([8624c23](https://github.com/KubrickCode/loa-work/commit/8624c23cd5de102ed18c7145207a5a5fbcbf0b6e))
+* generated.tsx 파일이 husky lint-staged 스킵하도록 수정 ([7a19a8d](https://github.com/KubrickCode/loa-work/commit/7a19a8d3e26241ed669ed6a7a7f67e5bad2fcce3))
+* git 액션 버튼 터미널명 설정 ([84e83b1](https://github.com/KubrickCode/loa-work/commit/84e83b133fc33a4198f5a16978684303a2906157))
+* GitHub Actions에서 semantic-release 커밋 시 husky 비활성화 ([f524083](https://github.com/KubrickCode/loa-work/commit/f524083dca50cb013878728c928ca9dedd249bd3))
+* gitignore 업데이트 ([de2127b](https://github.com/KubrickCode/loa-work/commit/de2127b7c624d92826d66a50e879a943cffc8a00))
+* PR 작성자가 자신을 검토자로 추가하려고 할 때 발생하는 오류 수정 ([122edbe](https://github.com/KubrickCode/loa-work/commit/122edbe30c80c4b29e17a04ae4b4485b9f45c615))
+* runtime 이미지에서 Prisma 클라이언트 생성 누락 문제 해결 ([10575d9](https://github.com/KubrickCode/loa-work/commit/10575d9a8903fc507f08e0ff7d8bcdf96cbed304))
+* semantic-release 의존성 및 설정 추가 ([61769ba](https://github.com/KubrickCode/loa-work/commit/61769ba9a243095aa0e093cd76f1025693e866ac)), closes [#177](https://github.com/KubrickCode/loa-work/issues/177)
+* semantic-release 자동화를 위한 릴리즈 프로세스 변경 ([0b8c773](https://github.com/KubrickCode/loa-work/commit/0b8c77357138b3e670b1c74766b2cf9cbafbd2d7)), closes [#177](https://github.com/KubrickCode/loa-work/issues/177)
+* 글로벌 환경변수 설정 ([9282297](https://github.com/KubrickCode/loa-work/commit/92822979d06bf5ea17950371bd302c44e7f3d194))
+* 기존 릴리즈 히스토리를 CHANGELOG.md에 추가 ([7cb4900](https://github.com/KubrickCode/loa-work/commit/7cb49004132d071a122d850ee3a6020b2931447f)), closes [#177](https://github.com/KubrickCode/loa-work/issues/177)
+* 누락된 codegen 적용 ([7bfb370](https://github.com/KubrickCode/loa-work/commit/7bfb37067c85864b2d510f7b458c3e06025cbe15))
+* 누락된 의존성 추가 ([bf85562](https://github.com/KubrickCode/loa-work/commit/bf8556278c54da5d8d52091d46f5bc51e0e68833))
+* 디스코드 웹훅 URL 환경변수명 변경 ([9afd41d](https://github.com/KubrickCode/loa-work/commit/9afd41d9ed44da2cf278ba8e7d904c17ad4ff520))
+* 워크플로우 전용 문서는 git에 업로드되지 않도록 수정 ([334607b](https://github.com/KubrickCode/loa-work/commit/334607b338f5b64fbbfadfa8352f10201bfca3e6))
+* 워크플로우 커맨드 이중 언어 문서 생성 기능 추가 ([10f20db](https://github.com/KubrickCode/loa-work/commit/10f20db054be81136f7d56bf8b4373f7818f70ef))
+* 자주 사용하는 MCP 서버 추가 ([e8382c0](https://github.com/KubrickCode/loa-work/commit/e8382c00c97f72714878d8354ac9ea4f021632f5))
+* 잘못된 형식의 문서 제거 ([c59429b](https://github.com/KubrickCode/loa-work/commit/c59429bbebd4f3d64882531fba8747c73cf02259))
+* 저장 시와 lint 실행 시 포맷팅이 달라지는 문제 해결 ([563316e](https://github.com/KubrickCode/loa-work/commit/563316e9bb5435a4a7b6ed7925066c63cc2e2d57))
+* 커밋 전 린트 오류 발견이 늦어 재작업이 발생하는 문제 개선 ([8b626bf](https://github.com/KubrickCode/loa-work/commit/8b626bfeb6530d53a25863f3114518b5eaab1e78))
+* 패키지 매니저를 yarn에서 pnpm으로 마이그레이션 ([c596e11](https://github.com/KubrickCode/loa-work/commit/c596e11daf1b7f4e70d8d89a93a5415140c86011))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
