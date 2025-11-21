@@ -68,11 +68,51 @@ The backend uses NestJS with a modular structure:
 Key modules:
 
 - `auth/` - OAuth authentication with multiple providers
+- `common/` - Shared utilities, exception handling, filters
 - `content/` - Game content data and calculations
 - `item/` - Item pricing (auction/market items)
 - `exchange-rate/` - Gold-to-KRW conversion rates
 - `user/` - User management and customization
 - `monitoring/` - Prometheus metrics endpoint
+
+### Exception Handling (Backend)
+
+Custom GraphQL exceptions in `common/exception/`:
+
+```typescript
+// Usage: throw from any resolver
+throw new NotFoundException("Content", id);
+throw new ForbiddenException("권한이 없습니다.");
+throw new UnauthorizedException();
+throw new ValidationException("잘못된 입력", "fieldName");
+```
+
+Available exception types:
+
+| Exception               | Code               | Usage              |
+| ----------------------- | ------------------ | ------------------ |
+| `NotFoundException`     | `NOT_FOUND`        | Resource not found |
+| `ForbiddenException`    | `FORBIDDEN`        | Access denied      |
+| `UnauthorizedException` | `UNAUTHORIZED`     | Auth required      |
+| `ValidationException`   | `VALIDATION_ERROR` | Input validation   |
+
+Creating custom exceptions:
+
+```typescript
+import { BaseGraphQLException, ERROR_CODES } from "./base.exception";
+
+export class CustomException extends BaseGraphQLException {
+  constructor(message: string) {
+    super(message, ERROR_CODES.BAD_REQUEST);
+  }
+}
+```
+
+Architecture:
+
+- GraphQL: `formatGraphQLError` handles all GraphQL errors with correlationId
+- HTTP: `AllExceptionsFilter` handles REST endpoints (auto-skips GraphQL context)
+- All responses include `correlationId` for request tracing via `nestjs-cls`
 
 ### Frontend Architecture
 
