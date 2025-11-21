@@ -5,6 +5,7 @@
   "workspaceFolder": "/workspaces/loa-work",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
     "./local-features/just": {},
     "./local-features/go": {},
     "./local-features/node": {},
