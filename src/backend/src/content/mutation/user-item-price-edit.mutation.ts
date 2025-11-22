@@ -1,23 +1,9 @@
 import { UseGuards } from "@nestjs/common";
-import { Args, Field, Float, InputType, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { AuthGuard } from "src/auth/auth.guard";
 import { PrismaService } from "src/prisma";
 import { UserContentService } from "../../user/service/user-content.service";
-
-@InputType()
-class UserItemPriceEditInput {
-  @Field()
-  id: number;
-
-  @Field(() => Float)
-  price: number;
-}
-
-@ObjectType()
-class UserItemPriceEditResult {
-  @Field(() => Boolean)
-  ok: boolean;
-}
+import { UserItemPriceEditInput, UserItemPriceEditResult } from "../dto";
 
 @Resolver()
 export class UserItemPriceEditMutation {
