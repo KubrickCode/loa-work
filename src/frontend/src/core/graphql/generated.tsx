@@ -17,19 +17,26 @@ export type Scalars = {
   DateTime: { input: Date; output: Date; }
 };
 
+/** 경매장 아이템 */
 export type AuctionItem = {
   __typename?: 'AuctionItem';
+  /** 평균 낙찰가 */
   avgBuyPrice: Scalars['Float']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
+  /** 아이템 이미지 URL */
   imageUrl: Scalars['String']['output'];
+  /** 통계 수집 활성화 여부 */
   isStatScraperEnabled: Scalars['Boolean']['output'];
+  /** 아이템명 */
   name: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
 export type AuctionItemListFilter = {
+  /** 통계 수집 활성화 여부 */
   isStatScraperEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  /** 아이템명 검색 키워드 */
   nameKeyword?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -73,28 +80,41 @@ export type ContentCategory = {
 };
 
 export type ContentCreateInput = {
+  /** 컨텐츠 카테고리 ID */
   categoryId: Scalars['Int']['input'];
+  /** 컨텐츠 보상 목록 */
   contentRewards: Array<ContentCreateItemInput>;
+  /** 더보기 컨텐츠 보상 목록 */
   contentSeeMoreRewards?: InputMaybe<Array<ContentCreateSeeMoreRewardInput>>;
+  /** 소요 시간 (초 단위) */
   duration: Scalars['Int']['input'];
+  /** 관문 */
   gate?: InputMaybe<Scalars['Int']['input']>;
+  /** 레벨 */
   level: Scalars['Int']['input'];
+  /** 이름 */
   name: Scalars['String']['input'];
 };
 
 export type ContentCreateItemInput = {
+  /** 평균 획득 수량 */
   averageQuantity: Scalars['Float']['input'];
+  /** 귀속 여부 */
   isBound: Scalars['Boolean']['input'];
+  /** 아이템 ID */
   itemId: Scalars['Int']['input'];
 };
 
 export type ContentCreateResult = {
   __typename?: 'ContentCreateResult';
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 
 export type ContentCreateSeeMoreRewardInput = {
+  /** 아이템 ID */
   itemId: Scalars['Int']['input'];
+  /** 수량 */
   quantity: Scalars['Float']['input'];
 };
 
@@ -109,28 +129,28 @@ export type ContentDuration = {
 };
 
 export type ContentDurationEditInput = {
+  /** 컨텐츠 ID */
   contentId: Scalars['Int']['input'];
+  /** 분 */
   minutes: Scalars['Int']['input'];
+  /** 초 */
   seconds: Scalars['Int']['input'];
 };
 
 export type ContentDurationEditResult = {
   __typename?: 'ContentDurationEditResult';
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 
 export type ContentDurationsEditInput = {
-  contentDurations: Array<ContentDurationsEditInputItem>;
-};
-
-export type ContentDurationsEditInputItem = {
-  contentId: Scalars['Int']['input'];
-  minutes: Scalars['Int']['input'];
-  seconds: Scalars['Int']['input'];
+  /** 컨텐츠 소요 시간 목록 */
+  contentDurations: Array<ContentDurationEditInput>;
 };
 
 export type ContentDurationsEditResult = {
   __typename?: 'ContentDurationsEditResult';
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 
@@ -193,9 +213,13 @@ export type ContentReward = {
 };
 
 export type ContentRewardEditInput = {
+  /** 평균 획득 수량 */
   averageQuantity: Scalars['Float']['input'];
+  /** 컨텐츠 ID */
   contentId: Scalars['Int']['input'];
+  /** 거래 가능 여부 */
   isSellable: Scalars['Boolean']['input'];
+  /** 아이템 ID */
   itemId: Scalars['Int']['input'];
 };
 
@@ -205,12 +229,15 @@ export type ContentRewardReportInput = {
 };
 
 export type ContentRewardsEditInput = {
+  /** 컨텐츠 보상 목록 */
   contentRewards: Array<ContentRewardEditInput>;
+  /** 제보 가능 여부 */
   isReportable: Scalars['Boolean']['input'];
 };
 
 export type ContentRewardsEditResult = {
   __typename?: 'ContentRewardsEditResult';
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 
@@ -235,17 +262,22 @@ export type ContentSeeMoreReward = {
 };
 
 export type ContentSeeMoreRewardEditInput = {
+  /** 컨텐츠 ID */
   contentId: Scalars['Int']['input'];
+  /** 아이템 ID */
   itemId: Scalars['Int']['input'];
+  /** 수량 */
   quantity: Scalars['Float']['input'];
 };
 
 export type ContentSeeMoreRewardsEditInput = {
+  /** 더보기 컨텐츠 보상 목록 */
   contentSeeMoreRewards: Array<ContentSeeMoreRewardEditInput>;
 };
 
 export type ContentSeeMoreRewardsEditResult = {
   __typename?: 'ContentSeeMoreRewardsEditResult';
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 
@@ -283,21 +315,30 @@ export type ContentsFilter = {
 };
 
 export type CustomContentWageCalculateInput = {
+  /** 아이템 목록 */
   items: Array<CustomContentWageCalculateItemInput>;
+  /** 분 */
   minutes: Scalars['Int']['input'];
+  /** 초 */
   seconds: Scalars['Int']['input'];
 };
 
 export type CustomContentWageCalculateItemInput = {
+  /** 아이템 ID */
   id: Scalars['Int']['input'];
+  /** 수량 */
   quantity: Scalars['Float']['input'];
 };
 
 export type CustomContentWageCalculateResult = {
   __typename?: 'CustomContentWageCalculateResult';
+  /** 클리어당 골드 획득량 */
   goldAmountPerClear: Scalars['Int']['output'];
+  /** 시간당 골드 획득량 */
   goldAmountPerHour: Scalars['Int']['output'];
+  /** 시간당 원화 환산 금액 */
   krwAmountPerHour: Scalars['Int']['output'];
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 
@@ -342,25 +383,38 @@ export type ItemsFilter = {
   kind?: InputMaybe<ItemKind>;
 };
 
+/** 거래소 아이템 */
 export type MarketItem = {
   __typename?: 'MarketItem';
+  /** 묶음 개수 */
   bundleCount: Scalars['Int']['output'];
   createdAt: Scalars['DateTime']['output'];
-  currentMinPrice: Scalars['Int']['output'];
+  /** 현재 최저가 */
+  currentMinPrice: Scalars['Float']['output'];
   id: Scalars['Int']['output'];
+  /** 아이템 이미지 URL */
   imageUrl: Scalars['String']['output'];
+  /** 통계 수집 활성화 여부 */
   isStatScraperEnabled: Scalars['Boolean']['output'];
+  /** 아이템명 */
   name: Scalars['String']['output'];
-  recentPrice: Scalars['Int']['output'];
+  /** 최근 거래가 */
+  recentPrice: Scalars['Float']['output'];
+  /** Lost Ark API Reference ID */
   refId: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  /** 전일 평균 거래가 */
   yDayAvgPrice: Scalars['Float']['output'];
 };
 
 export type MarketItemListFilter = {
+  /** 카테고리명 필터 */
   categoryName?: InputMaybe<Scalars['String']['input']>;
+  /** 등급 필터 */
   grade?: InputMaybe<Scalars['String']['input']>;
+  /** 통계 수집 활성화 여부 */
   isStatScraperEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  /** 아이템명 검색 키워드 */
   keyword?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -429,7 +483,9 @@ export type OrderByArg = {
 
 export type Query = {
   __typename?: 'Query';
+  /** 경매장 아이템 목록 조회 */
   auctionItemList: Array<AuctionItem>;
+  /** 경매장 아이템 정렬 조회 */
   auctionItems: Array<AuctionItem>;
   content: Content;
   contentCategories: Array<ContentCategory>;
@@ -442,7 +498,9 @@ export type Query = {
   goldExchangeRate: GoldExchangeRate;
   item: Item;
   items: Array<Item>;
+  /** 거래소 아이템 목록 조회 */
   marketItemList: Array<MarketItem>;
+  /** 거래소 아이템 정렬 조회 */
   marketItems: Array<MarketItem>;
   userList: Array<User>;
 };
@@ -540,12 +598,15 @@ export type UserItem = {
 };
 
 export type UserItemPriceEditInput = {
+  /** 아이템 ID */
   id: Scalars['Int']['input'];
+  /** 가격 */
   price: Scalars['Float']['input'];
 };
 
 export type UserItemPriceEditResult = {
   __typename?: 'UserItemPriceEditResult';
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 

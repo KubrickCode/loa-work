@@ -2,18 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""경매장 아이템"""
 type AuctionItem {
+  """평균 낙찰가"""
   avgBuyPrice: Float!
   createdAt: DateTime!
   id: Int!
+
+  """아이템 이미지 URL"""
   imageUrl: String!
+
+  """통계 수집 활성화 여부"""
   isStatScraperEnabled: Boolean!
+
+  """아이템명"""
   name: String!
   updatedAt: DateTime!
 }
 
 input AuctionItemListFilter {
+  """통계 수집 활성화 여부"""
   isStatScraperEnabled: Boolean
+
+  """아이템명 검색 키워드"""
   nameKeyword: String
 }
 
@@ -364,24 +375,47 @@ input ItemsFilter {
   kind: ItemKind
 }
 
+"""거래소 아이템"""
 type MarketItem {
+  """묶음 개수"""
   bundleCount: Int!
   createdAt: DateTime!
-  currentMinPrice: Int!
+
+  """현재 최저가"""
+  currentMinPrice: Float!
   id: Int!
+
+  """아이템 이미지 URL"""
   imageUrl: String!
+
+  """통계 수집 활성화 여부"""
   isStatScraperEnabled: Boolean!
+
+  """아이템명"""
   name: String!
-  recentPrice: Int!
+
+  """최근 거래가"""
+  recentPrice: Float!
+
+  """Lost Ark API Reference ID"""
   refId: Int!
   updatedAt: DateTime!
+
+  """전일 평균 거래가"""
   yDayAvgPrice: Float!
 }
 
 input MarketItemListFilter {
+  """카테고리명 필터"""
   categoryName: String
+
+  """등급 필터"""
   grade: String
+
+  """통계 수집 활성화 여부"""
   isStatScraperEnabled: Boolean
+
+  """아이템명 검색 키워드"""
   keyword: String
 }
 
@@ -403,7 +437,10 @@ input OrderByArg {
 }
 
 type Query {
+  """경매장 아이템 목록 조회"""
   auctionItemList(filter: AuctionItemListFilter): [AuctionItem!]!
+
+  """경매장 아이템 정렬 조회"""
   auctionItems(orderBy: [OrderByArg!], take: Int): [AuctionItem!]!
   content(id: Int!): Content!
   contentCategories: [ContentCategory!]!
@@ -416,7 +453,11 @@ type Query {
   goldExchangeRate: GoldExchangeRate!
   item(id: Int!): Item!
   items(filter: ItemsFilter): [Item!]!
+
+  """거래소 아이템 목록 조회"""
   marketItemList(filter: MarketItemListFilter): [MarketItem!]!
+
+  """거래소 아이템 정렬 조회"""
   marketItems(orderBy: [OrderByArg!], take: Int): [MarketItem!]!
   userList: [User!]!
 }
