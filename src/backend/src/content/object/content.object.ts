@@ -1,32 +1,21 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, Int, ObjectType } from "@nestjs/graphql";
+import { ContentStatus } from "@prisma/client";
 import { BaseObject } from "src/common/object/base.object";
 
 @ObjectType()
-export class ContentObjectWageFilter {
-  @Field(() => Boolean, { nullable: true })
-  includeIsBound?: boolean;
-
-  @Field(() => Boolean, { nullable: true })
-  includeIsSeeMore?: boolean;
-
-  @Field(() => [String], { nullable: true })
-  includeItemIds?: string[];
-}
-
-@ObjectType()
 export class Content extends BaseObject {
-  @Field()
+  @Field(() => Int, { description: "컨텐츠 카테고리 ID" })
   contentCategoryId: number;
 
-  @Field({ nullable: true })
+  @Field(() => Int, { description: "관문", nullable: true })
   gate?: number;
 
-  @Field()
+  @Field(() => Int, { description: "레벨" })
   level: number;
 
-  @Field()
+  @Field(() => String, { description: "이름" })
   name: string;
 
-  @Field(() => ContentObjectWageFilter, { nullable: true })
-  wageFilter?: ContentObjectWageFilter;
+  @Field(() => ContentStatus, { description: "상태" })
+  status: ContentStatus;
 }

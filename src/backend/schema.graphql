@@ -36,6 +36,8 @@ enum AuthProvider {
 
 type Content {
   contentCategory: ContentCategory!
+
+  """컨텐츠 카테고리 ID"""
   contentCategoryId: Int!
   contentRewards: [ContentReward!]!
   contentSeeMoreRewards: [ContentSeeMoreReward!]!
@@ -43,19 +45,31 @@ type Content {
   displayName: String!
   duration: Int!
   durationText: String!
+
+  """관문"""
   gate: Int
   id: Int!
+
+  """레벨"""
   level: Int!
+
+  """이름"""
   name: String!
+
+  """상태"""
+  status: ContentStatus!
   updatedAt: DateTime!
   wage(filter: ContentWageFilter): ContentWage!
-  wageFilter: ContentObjectWageFilter
 }
 
 type ContentCategory {
   createdAt: DateTime!
   id: Int!
+
+  """이미지 URL"""
   imageUrl: String!
+
+  """이름"""
   name: String!
   updatedAt: DateTime!
 }
@@ -144,12 +158,20 @@ type ContentDurationsEditResult {
 
 type ContentGroup {
   contentCategory: ContentCategory!
+
+  """컨텐츠 카테고리 ID"""
   contentCategoryId: Int!
+
+  """컨텐츠 ID 목록"""
   contentIds: [Int!]!
   contents: [Content!]!
   duration: Int!
   durationText: String!
+
+  """레벨"""
   level: Int!
+
+  """이름"""
   name: String!
 }
 
@@ -178,12 +200,6 @@ input ContentListFilter {
   includeIsSeeMore: Boolean
   keyword: String
   status: ContentStatus
-}
-
-type ContentObjectWageFilter {
-  includeIsBound: Boolean
-  includeIsSeeMore: Boolean
-  includeItemIds: [String!]
 }
 
 type ContentReward {

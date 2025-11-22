@@ -3,9 +3,9 @@ import { BaseObject } from "src/common/object/base.object";
 
 @ObjectType()
 export class ContentCategory extends BaseObject {
-  @Field()
+  @Field(() => String, { description: "이미지 URL" })
   imageUrl: string;
 
-  @Field()
+  @Field(() => String, { description: "이름" })
   name: string;
 }
