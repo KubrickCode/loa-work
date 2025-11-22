@@ -23,6 +23,8 @@ import { CustomContentWageCalculateMutation } from "./mutation/custom-content-wa
 import { ContentRewardsReportMutation } from "./mutation/content-rewards-report.mutation";
 import { ContentController } from "./content.controller";
 import { ContentCreateMutation } from "./mutation/content-create.mutation";
+import { ContentDeleteMutation } from "./mutation/content-delete.mutation";
+import { ContentUpdateMutation } from "./mutation/content-update.mutation";
 import { DataLoaderService } from "src/dataloader/data-loader.service";
 import { ContentSeeMoreRewardsEditMutation } from "./mutation/content-see-more-rewards-edit.mutation";
 import { ContentDurationService } from "./service/content-duration.service";
@@ -30,42 +32,60 @@ import { ContentGroupResolver } from "./object/content-group.resolver";
 import { ContentGroupWageListQuery } from "./query/content-group-wage-list.query";
 import { ContentDurationsEditMutation } from "./mutation/content-durations-edit.mutation";
 import { ContentsQuery } from "./query/contents.query";
+import { ContentsConnectionQuery } from "./query/contents-connection.query";
 import { ContentGroupQuery } from "./query/content-group.query";
+import { ContentService } from "./service/content.service";
+import { ContentCategoryService } from "./service/content-category.service";
+import { ContentGroupService } from "./service/content-group.service";
 
 @Module({
   controllers: [ContentController],
+  exports: [ContentCategoryService, ContentGroupService, ContentService],
   imports: [PrismaModule],
   providers: [
-    ContentListQuery,
-    ItemsQuery,
-    ContentResolver,
-    ContentCategoriesQuery,
-    ContentWageService,
-    ContentQuery,
-    ContentRewardsEditMutation,
-    ContentRewardResolver,
-    UserContentService,
-    ContentWageListQuery,
-    ContentWageResolver,
-    ContentSeeMoreRewardResolver,
-    ContentDurationEditMutation,
-    ContentDurationResolver,
-    ContentDurationQuery,
-    UserGoldExchangeRateService,
-    ItemResolver,
-    UserItemPriceEditMutation,
-    ItemQuery,
-    CustomContentWageCalculateMutation,
-    ContentRewardsReportMutation,
-    ContentCreateMutation,
-    DataLoaderService,
-    ContentSeeMoreRewardsEditMutation,
+    // Services
+    ContentCategoryService,
     ContentDurationService,
-    ContentGroupWageListQuery,
-    ContentGroupResolver,
-    ContentDurationsEditMutation,
-    ContentsQuery,
+    ContentGroupService,
+    ContentService,
+    ContentWageService,
+    DataLoaderService,
+    UserContentService,
+    UserGoldExchangeRateService,
+
+    // Queries
+    ContentCategoriesQuery,
+    ContentDurationQuery,
     ContentGroupQuery,
+    ContentGroupWageListQuery,
+    ContentListQuery,
+    ContentQuery,
+    ContentsConnectionQuery,
+    ContentsQuery,
+    ContentWageListQuery,
+    ItemQuery,
+    ItemsQuery,
+
+    // Mutations
+    ContentCreateMutation,
+    ContentDeleteMutation,
+    ContentDurationEditMutation,
+    ContentDurationsEditMutation,
+    ContentRewardsEditMutation,
+    ContentRewardsReportMutation,
+    ContentSeeMoreRewardsEditMutation,
+    ContentUpdateMutation,
+    CustomContentWageCalculateMutation,
+    UserItemPriceEditMutation,
+
+    // Resolvers
+    ContentDurationResolver,
+    ContentGroupResolver,
+    ContentResolver,
+    ContentRewardResolver,
+    ContentSeeMoreRewardResolver,
+    ContentWageResolver,
+    ItemResolver,
   ],
 })
 export class ContentModule {}

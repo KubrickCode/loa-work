@@ -1,17 +1,13 @@
-import { Args, Query, Resolver } from "@nestjs/graphql";
-import { PrismaService } from "src/prisma";
+import { Args, Int, Query, Resolver } from "@nestjs/graphql";
 import { Content } from "../object/content.object";
+import { ContentService } from "../service/content.service";
 
 @Resolver()
 export class ContentQuery {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly contentService: ContentService) {}
 
   @Query(() => Content)
-  async content(@Args("id") id: number) {
-    return await this.prisma.content.findUniqueOrThrow({
-      where: {
-        id,
-      },
-    });
+  async content(@Args("id", { type: () => Int }) id: number): Promise<Content> {
+    return this.contentService.findUniqueOrThrow(id);
   }
 }

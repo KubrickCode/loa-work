@@ -25,7 +25,7 @@ export const ContentRewardListTable = () => {
   const { data, refetch } = useSafeQuery(ContentRewardListTableDocument, {
     variables: {
       filter: {
-        contentCategoryId: Number(contentCategoryId),
+        ...(contentCategoryId !== null && { contentCategoryId: Number(contentCategoryId) }),
         keyword,
         status: ContentStatus.ACTIVE,
       },
