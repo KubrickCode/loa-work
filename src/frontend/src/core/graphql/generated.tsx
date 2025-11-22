@@ -74,15 +74,15 @@ export type ContentCategory = {
 
 export type ContentCreateInput = {
   categoryId: Scalars['Int']['input'];
-  contentRewards: Array<ContentCreateItemsInput>;
-  contentSeeMoreRewards?: InputMaybe<Array<ContentCreateSeeMoreRewardsInput>>;
+  contentRewards: Array<ContentCreateItemInput>;
+  contentSeeMoreRewards?: InputMaybe<Array<ContentCreateSeeMoreRewardInput>>;
   duration: Scalars['Int']['input'];
   gate?: InputMaybe<Scalars['Int']['input']>;
   level: Scalars['Int']['input'];
   name: Scalars['String']['input'];
 };
 
-export type ContentCreateItemsInput = {
+export type ContentCreateItemInput = {
   averageQuantity: Scalars['Float']['input'];
   isBound: Scalars['Boolean']['input'];
   itemId: Scalars['Int']['input'];
@@ -93,7 +93,7 @@ export type ContentCreateResult = {
   ok: Scalars['Boolean']['output'];
 };
 
-export type ContentCreateSeeMoreRewardsInput = {
+export type ContentCreateSeeMoreRewardInput = {
   itemId: Scalars['Int']['input'];
   quantity: Scalars['Float']['input'];
 };
@@ -120,10 +120,10 @@ export type ContentDurationEditResult = {
 };
 
 export type ContentDurationsEditInput = {
-  contentDurations: Array<ContentDurationsEditInputDuration>;
+  contentDurations: Array<ContentDurationsEditInputItem>;
 };
 
-export type ContentDurationsEditInputDuration = {
+export type ContentDurationsEditInputItem = {
   contentId: Scalars['Int']['input'];
   minutes: Scalars['Int']['input'];
   seconds: Scalars['Int']['input'];
@@ -283,12 +283,12 @@ export type ContentsFilter = {
 };
 
 export type CustomContentWageCalculateInput = {
-  items: Array<CustomContentWageCalculateItemsInput>;
+  items: Array<CustomContentWageCalculateItemInput>;
   minutes: Scalars['Int']['input'];
   seconds: Scalars['Int']['input'];
 };
 
-export type CustomContentWageCalculateItemsInput = {
+export type CustomContentWageCalculateItemInput = {
   id: Scalars['Int']['input'];
   quantity: Scalars['Float']['input'];
 };

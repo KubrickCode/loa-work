@@ -1,35 +1,12 @@
 import { UseGuards } from "@nestjs/common";
-import { Args, Field, InputType, Int, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { UserRole } from "@prisma/client";
 import { AuthGuard } from "src/auth/auth.guard";
-import { PrismaService } from "src/prisma";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
-import { UserRole } from "@prisma/client";
+import { PrismaService } from "src/prisma";
+import { ContentDurationsEditInput, ContentDurationsEditResult } from "../dto";
 import { ContentDurationService } from "../service/content-duration.service";
-
-@InputType()
-class ContentDurationsEditInputDuration {
-  @Field()
-  contentId: number;
-
-  @Field(() => Int)
-  minutes: number;
-
-  @Field(() => Int)
-  seconds: number;
-}
-
-@InputType()
-class ContentDurationsEditInput {
-  @Field(() => [ContentDurationsEditInputDuration])
-  contentDurations: ContentDurationsEditInputDuration[];
-}
-
-@ObjectType()
-class ContentDurationsEditResult {
-  @Field(() => Boolean)
-  ok: boolean;
-}
 
 @Resolver()
 export class ContentDurationsEditMutation {

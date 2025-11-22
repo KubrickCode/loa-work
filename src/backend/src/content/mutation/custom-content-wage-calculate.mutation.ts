@@ -1,51 +1,7 @@
-import {
-  Args,
-  Field,
-  Float,
-  InputType,
-  Int,
-  Mutation,
-  ObjectType,
-  Resolver,
-} from "@nestjs/graphql";
-import { ContentWageService } from "../service/content-wage.service";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { CustomContentWageCalculateInput, CustomContentWageCalculateResult } from "../dto";
 import { ContentDurationService } from "../service/content-duration.service";
-
-@InputType()
-class CustomContentWageCalculateInput {
-  @Field(() => [CustomContentWageCalculateItemsInput])
-  items: CustomContentWageCalculateItemsInput[];
-
-  @Field(() => Int)
-  minutes: number;
-
-  @Field(() => Int)
-  seconds: number;
-}
-
-@InputType()
-class CustomContentWageCalculateItemsInput {
-  @Field()
-  id: number;
-
-  @Field(() => Float)
-  quantity: number;
-}
-
-@ObjectType()
-class CustomContentWageCalculateResult {
-  @Field()
-  goldAmountPerClear: number;
-
-  @Field()
-  goldAmountPerHour: number;
-
-  @Field()
-  krwAmountPerHour: number;
-
-  @Field(() => Boolean)
-  ok: boolean;
-}
+import { ContentWageService } from "../service/content-wage.service";
 
 @Resolver()
 export class CustomContentWageCalculateMutation {

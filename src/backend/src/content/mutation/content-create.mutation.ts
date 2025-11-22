@@ -1,58 +1,8 @@
 import { UseGuards } from "@nestjs/common";
-import { Args, Field, Float, InputType, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { AuthGuard } from "src/auth/auth.guard";
 import { PrismaService } from "src/prisma";
-
-@InputType()
-export class ContentCreateInput {
-  @Field()
-  categoryId: number;
-
-  @Field(() => [ContentCreateItemsInput])
-  contentRewards: ContentCreateItemsInput[];
-
-  @Field(() => [ContentCreateSeeMoreRewardsInput], { nullable: true })
-  contentSeeMoreRewards?: ContentCreateSeeMoreRewardsInput[];
-
-  @Field()
-  duration: number;
-
-  @Field({ nullable: true })
-  gate?: number | null;
-
-  @Field()
-  level: number;
-
-  @Field()
-  name: string;
-}
-
-@InputType()
-export class ContentCreateItemsInput {
-  @Field(() => Float)
-  averageQuantity: number;
-
-  @Field()
-  isBound: boolean;
-
-  @Field()
-  itemId: number;
-}
-
-@InputType()
-export class ContentCreateSeeMoreRewardsInput {
-  @Field()
-  itemId: number;
-
-  @Field(() => Float)
-  quantity: number;
-}
-
-@ObjectType()
-class ContentCreateResult {
-  @Field(() => Boolean)
-  ok: boolean;
-}
+import { ContentCreateInput, ContentCreateResult } from "../dto";
 
 @Resolver()
 export class ContentCreateMutation {

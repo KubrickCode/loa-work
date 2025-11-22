@@ -1,40 +1,11 @@
 import { UseGuards } from "@nestjs/common";
-import { Args, Field, Float, InputType, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { UserRole } from "@prisma/client";
 import { AuthGuard } from "src/auth/auth.guard";
-import { PrismaService } from "src/prisma";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
-import { UserRole } from "@prisma/client";
-
-@InputType()
-class ContentRewardEditInput {
-  @Field(() => Float)
-  averageQuantity: number;
-
-  @Field()
-  contentId: number;
-
-  @Field(() => Boolean)
-  isSellable: boolean;
-
-  @Field()
-  itemId: number;
-}
-
-@InputType()
-export class ContentRewardsEditInput {
-  @Field(() => [ContentRewardEditInput])
-  contentRewards: ContentRewardEditInput[];
-
-  @Field()
-  isReportable: boolean;
-}
-
-@ObjectType()
-class ContentRewardsEditResult {
-  @Field(() => Boolean)
-  ok: boolean;
-}
+import { PrismaService } from "src/prisma";
+import { ContentRewardsEditInput, ContentRewardsEditResult } from "../dto";
 
 @Resolver()
 export class ContentRewardsEditMutation {
