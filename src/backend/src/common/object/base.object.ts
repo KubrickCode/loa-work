@@ -1,7 +1,7 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 
-@ObjectType()
-export class BaseObject {
+@ObjectType({ isAbstract: true })
+export abstract class BaseObject {
   @Field()
   createdAt: Date;
 
