@@ -1,55 +1,142 @@
-import { Field, Float, InputType, ObjectType } from "@nestjs/graphql";
+import { Field, Float, InputType, Int, ObjectType } from "@nestjs/graphql";
+import {
+  IsBoolean,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from "class-validator";
+import { ContentStatus } from "@prisma/client";
 
 @InputType()
-export class ContentCreateInput {
-  @Field({ description: "컨텐츠 카테고리 ID" })
+export class ContentFilterArgs {
+  @Field(() => Int, { description: "컨텐츠 카테고리 ID", nullable: true })
+  @IsInt()
+  @IsOptional()
+  categoryId?: number;
+
+  @Field(() => Int, { description: "관문", nullable: true })
+  @IsInt()
+  @IsOptional()
+  gate?: number;
+
+  @Field(() => Int, { description: "레벨", nullable: true })
+  @IsInt()
+  @IsOptional()
+  level?: number;
+
+  @Field(() => String, { description: "이름", nullable: true })
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @Field(() => ContentStatus, { description: "상태", nullable: true })
+  @IsEnum(ContentStatus)
+  @IsOptional()
+  status?: ContentStatus;
+}
+
+@InputType("ContentCreateInput")
+export class CreateContentInput {
+  @Field(() => Int, { description: "컨텐츠 카테고리 ID" })
+  @IsInt()
+  @IsNotEmpty()
   categoryId: number;
 
-  @Field(() => [ContentCreateItemInput], { description: "컨텐츠 보상 목록" })
-  contentRewards: ContentCreateItemInput[];
+  @Field(() => [ContentRewardInput], { description: "컨텐츠 보상 목록" })
+  contentRewards: ContentRewardInput[];
 
-  @Field(() => [ContentCreateSeeMoreRewardInput], {
+  @Field(() => [ContentSeeMoreRewardInput], {
     description: "더보기 컨텐츠 보상 목록",
     nullable: true,
   })
-  contentSeeMoreRewards?: ContentCreateSeeMoreRewardInput[];
+  @IsOptional()
+  contentSeeMoreRewards?: ContentSeeMoreRewardInput[];
 
-  @Field({ description: "소요 시간 (초 단위)" })
+  @Field(() => Int, { description: "소요 시간 (초 단위)" })
+  @IsInt()
+  @Min(1)
   duration: number;
 
-  @Field({ description: "관문", nullable: true })
-  gate?: number | null;
+  @Field(() => Int, { description: "관문", nullable: true })
+  @IsInt()
+  @IsOptional()
+  gate?: number;
 
-  @Field({ description: "레벨" })
+  @Field(() => Int, { description: "레벨" })
+  @IsInt()
+  @Min(1)
   level: number;
 
-  @Field({ description: "이름" })
+  @Field(() => String, { description: "이름" })
+  @IsString()
+  @IsNotEmpty()
   name: string;
 }
 
 @InputType()
-export class ContentCreateItemInput {
+export class UpdateContentInput {
+  @Field(() => Int, { description: "관문", nullable: true })
+  @IsInt()
+  @IsOptional()
+  gate?: number;
+
+  @Field(() => Int, { description: "레벨", nullable: true })
+  @IsInt()
+  @Min(1)
+  @IsOptional()
+  level?: number;
+
+  @Field(() => String, { description: "이름", nullable: true })
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @Field(() => ContentStatus, { description: "상태", nullable: true })
+  @IsEnum(ContentStatus)
+  @IsOptional()
+  status?: ContentStatus;
+}
+
+@InputType("ContentCreateItemInput")
+export class ContentRewardInput {
   @Field(() => Float, { description: "평균 획득 수량" })
+  @IsNumber()
+  @Min(0)
   averageQuantity: number;
 
-  @Field({ description: "귀속 여부" })
+  @Field(() => Boolean, { description: "귀속 여부" })
+  @IsBoolean()
   isBound: boolean;
 
-  @Field({ description: "아이템 ID" })
+  @Field(() => Int, { description: "아이템 ID" })
+  @IsInt()
   itemId: number;
 }
 
-@ObjectType()
-export class ContentCreateResult {
+@InputType("ContentCreateSeeMoreRewardInput")
+export class ContentSeeMoreRewardInput {
+  @Field(() => Int, { description: "아이템 ID" })
+  @IsInt()
+  itemId: number;
+
+  @Field(() => Float, { description: "수량" })
+  @IsNumber()
+  @Min(0)
+  quantity: number;
+}
+
+@ObjectType("ContentCreateResult")
+export class ContentMutationResult {
   @Field(() => Boolean, { description: "성공 여부" })
   ok: boolean;
 }
 
-@InputType()
-export class ContentCreateSeeMoreRewardInput {
-  @Field({ description: "아이템 ID" })
-  itemId: number;
-
-  @Field(() => Float, { description: "수량" })
-  quantity: number;
-}
+// Legacy alias for backward compatibility
+export { CreateContentInput as ContentCreateInput };
+export { ContentRewardInput as ContentCreateItemInput };
+export { ContentSeeMoreRewardInput as ContentCreateSeeMoreRewardInput };
+export { ContentMutationResult as ContentCreateResult };

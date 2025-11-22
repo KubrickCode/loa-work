@@ -49,6 +49,7 @@ export enum AuthProvider {
 export type Content = {
   __typename?: 'Content';
   contentCategory: ContentCategory;
+  /** 컨텐츠 카테고리 ID */
   contentCategoryId: Scalars['Int']['output'];
   contentRewards: Array<ContentReward>;
   contentSeeMoreRewards: Array<ContentSeeMoreReward>;
@@ -56,13 +57,17 @@ export type Content = {
   displayName: Scalars['String']['output'];
   duration: Scalars['Int']['output'];
   durationText: Scalars['String']['output'];
+  /** 관문 */
   gate?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
+  /** 레벨 */
   level: Scalars['Int']['output'];
+  /** 이름 */
   name: Scalars['String']['output'];
+  /** 상태 */
+  status: ContentStatus;
   updatedAt: Scalars['DateTime']['output'];
   wage: ContentWage;
-  wageFilter?: Maybe<ContentObjectWageFilter>;
 };
 
 
@@ -74,7 +79,9 @@ export type ContentCategory = {
   __typename?: 'ContentCategory';
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
+  /** 이미지 URL */
   imageUrl: Scalars['String']['output'];
+  /** 이름 */
   name: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -157,12 +164,16 @@ export type ContentDurationsEditResult = {
 export type ContentGroup = {
   __typename?: 'ContentGroup';
   contentCategory: ContentCategory;
+  /** 컨텐츠 카테고리 ID */
   contentCategoryId: Scalars['Int']['output'];
+  /** 컨텐츠 ID 목록 */
   contentIds: Array<Scalars['Int']['output']>;
   contents: Array<Content>;
   duration: Scalars['Int']['output'];
   durationText: Scalars['String']['output'];
+  /** 레벨 */
   level: Scalars['Int']['output'];
+  /** 이름 */
   name: Scalars['String']['output'];
 };
 
@@ -192,13 +203,6 @@ export type ContentListFilter = {
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
   keyword?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ContentStatus>;
-};
-
-export type ContentObjectWageFilter = {
-  __typename?: 'ContentObjectWageFilter';
-  includeIsBound?: Maybe<Scalars['Boolean']['output']>;
-  includeIsSeeMore?: Maybe<Scalars['Boolean']['output']>;
-  includeItemIds?: Maybe<Array<Scalars['String']['output']>>;
 };
 
 export type ContentReward = {
