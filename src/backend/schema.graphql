@@ -74,6 +74,17 @@ type ContentCategory {
   updatedAt: DateTime!
 }
 
+type ContentConnection {
+  """엣지 목록"""
+  edges: [ContentEdge!]!
+
+  """페이지 정보"""
+  pageInfo: ContentPageInfo!
+
+  """전체 개수"""
+  totalCount: Int!
+}
+
 input ContentCreateInput {
   """컨텐츠 카테고리 ID"""
   categoryId: Int!
@@ -156,6 +167,34 @@ type ContentDurationsEditResult {
   ok: Boolean!
 }
 
+type ContentEdge {
+  """커서"""
+  cursor: String!
+
+  """노드"""
+  node: Content!
+}
+
+input ContentFilterArgs {
+  """컨텐츠 카테고리 ID"""
+  categoryId: Int
+
+  """관문"""
+  gate: Int
+
+  """컨텐츠 ID 목록"""
+  ids: [Int!]
+
+  """레벨"""
+  level: Int
+
+  """이름"""
+  name: String
+
+  """상태"""
+  status: ContentStatus
+}
+
 type ContentGroup {
   contentCategory: ContentCategory!
 
@@ -200,6 +239,20 @@ input ContentListFilter {
   includeIsSeeMore: Boolean
   keyword: String
   status: ContentStatus
+}
+
+type ContentPageInfo {
+  """끝 커서"""
+  endCursor: String
+
+  """다음 페이지 존재 여부"""
+  hasNextPage: Boolean!
+
+  """이전 페이지 존재 여부"""
+  hasPreviousPage: Boolean!
+
+  """시작 커서"""
+  startCursor: String
 }
 
 type ContentReward {
@@ -437,11 +490,13 @@ input MarketItemListFilter {
 
 type Mutation {
   contentCreate(input: ContentCreateInput!): ContentCreateResult!
+  contentDelete(id: Int!): ContentCreateResult!
   contentDurationEdit(input: ContentDurationEditInput!): ContentDurationEditResult!
   contentDurationsEdit(input: ContentDurationsEditInput!): ContentDurationsEditResult!
   contentRewardsEdit(input: ContentRewardsEditInput!): ContentRewardsEditResult!
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
   contentSeeMoreRewardsEdit(input: ContentSeeMoreRewardsEditInput!): ContentSeeMoreRewardsEditResult!
+  contentUpdate(id: Int!, input: UpdateContentInput!): ContentCreateResult!
   customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
   goldExchangeRateEdit(input: GoldExchangeRateEditInput!): GoldExchangeRateEditResult!
   userItemPriceEdit(input: UserItemPriceEditInput!): UserItemPriceEditResult!
@@ -466,6 +521,14 @@ type Query {
   contentList(filter: ContentListFilter): [Content!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
   contents(filter: ContentsFilter): [Content!]!
+  contentsConnection(
+    """커서 이후"""
+    after: String
+    filter: ContentFilterArgs
+
+    """처음 N개 항목"""
+    first: Int = 10
+  ): ContentConnection!
   goldExchangeRate: GoldExchangeRate!
   item(id: Int!): Item!
   items(filter: ItemsFilter): [Item!]!
@@ -476,6 +539,20 @@ type Query {
   """거래소 아이템 정렬 조회"""
   marketItems(orderBy: [OrderByArg!], take: Int): [MarketItem!]!
   userList: [User!]!
+}
+
+input UpdateContentInput {
+  """관문"""
+  gate: Int
+
+  """레벨"""
+  level: Int
+
+  """이름"""
+  name: String
+
+  """상태"""
+  status: ContentStatus
 }
 
 type User {

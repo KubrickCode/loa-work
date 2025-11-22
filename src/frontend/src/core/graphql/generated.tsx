@@ -86,6 +86,16 @@ export type ContentCategory = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type ContentConnection = {
+  __typename?: 'ContentConnection';
+  /** 엣지 목록 */
+  edges: Array<ContentEdge>;
+  /** 페이지 정보 */
+  pageInfo: ContentPageInfo;
+  /** 전체 개수 */
+  totalCount: Scalars['Int']['output'];
+};
+
 export type ContentCreateInput = {
   /** 컨텐츠 카테고리 ID */
   categoryId: Scalars['Int']['input'];
@@ -161,6 +171,29 @@ export type ContentDurationsEditResult = {
   ok: Scalars['Boolean']['output'];
 };
 
+export type ContentEdge = {
+  __typename?: 'ContentEdge';
+  /** 커서 */
+  cursor: Scalars['String']['output'];
+  /** 노드 */
+  node: Content;
+};
+
+export type ContentFilterArgs = {
+  /** 컨텐츠 카테고리 ID */
+  categoryId?: InputMaybe<Scalars['Int']['input']>;
+  /** 관문 */
+  gate?: InputMaybe<Scalars['Int']['input']>;
+  /** 컨텐츠 ID 목록 */
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
+  /** 레벨 */
+  level?: InputMaybe<Scalars['Int']['input']>;
+  /** 이름 */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** 상태 */
+  status?: InputMaybe<ContentStatus>;
+};
+
 export type ContentGroup = {
   __typename?: 'ContentGroup';
   contentCategory: ContentCategory;
@@ -203,6 +236,18 @@ export type ContentListFilter = {
   includeIsSeeMore?: InputMaybe<Scalars['Boolean']['input']>;
   keyword?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ContentStatus>;
+};
+
+export type ContentPageInfo = {
+  __typename?: 'ContentPageInfo';
+  /** 끝 커서 */
+  endCursor?: Maybe<Scalars['String']['output']>;
+  /** 다음 페이지 존재 여부 */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** 이전 페이지 존재 여부 */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** 시작 커서 */
+  startCursor?: Maybe<Scalars['String']['output']>;
 };
 
 export type ContentReward = {
@@ -425,11 +470,13 @@ export type MarketItemListFilter = {
 export type Mutation = {
   __typename?: 'Mutation';
   contentCreate: ContentCreateResult;
+  contentDelete: ContentCreateResult;
   contentDurationEdit: ContentDurationEditResult;
   contentDurationsEdit: ContentDurationsEditResult;
   contentRewardsEdit: ContentRewardsEditResult;
   contentRewardsReport: ContentRewardsReportResult;
   contentSeeMoreRewardsEdit: ContentSeeMoreRewardsEditResult;
+  contentUpdate: ContentCreateResult;
   customContentWageCalculate: CustomContentWageCalculateResult;
   goldExchangeRateEdit: GoldExchangeRateEditResult;
   userItemPriceEdit: UserItemPriceEditResult;
@@ -438,6 +485,11 @@ export type Mutation = {
 
 export type MutationContentCreateArgs = {
   input: ContentCreateInput;
+};
+
+
+export type MutationContentDeleteArgs = {
+  id: Scalars['Int']['input'];
 };
 
 
@@ -463,6 +515,12 @@ export type MutationContentRewardsReportArgs = {
 
 export type MutationContentSeeMoreRewardsEditArgs = {
   input: ContentSeeMoreRewardsEditInput;
+};
+
+
+export type MutationContentUpdateArgs = {
+  id: Scalars['Int']['input'];
+  input: UpdateContentInput;
 };
 
 
@@ -499,6 +557,7 @@ export type Query = {
   contentList: Array<Content>;
   contentWageList: Array<ContentWage>;
   contents: Array<Content>;
+  contentsConnection: ContentConnection;
   goldExchangeRate: GoldExchangeRate;
   item: Item;
   items: Array<Item>;
@@ -558,6 +617,13 @@ export type QueryContentsArgs = {
 };
 
 
+export type QueryContentsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ContentFilterArgs>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryItemArgs = {
   id: Scalars['Int']['input'];
 };
@@ -576,6 +642,17 @@ export type QueryMarketItemListArgs = {
 export type QueryMarketItemsArgs = {
   orderBy?: InputMaybe<Array<OrderByArg>>;
   take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type UpdateContentInput = {
+  /** 관문 */
+  gate?: InputMaybe<Scalars['Int']['input']>;
+  /** 레벨 */
+  level?: InputMaybe<Scalars['Int']['input']>;
+  /** 이름 */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** 상태 */
+  status?: InputMaybe<ContentStatus>;
 };
 
 export type User = {

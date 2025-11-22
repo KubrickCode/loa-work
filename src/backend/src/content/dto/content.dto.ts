@@ -1,5 +1,6 @@
 import { Field, Float, InputType, Int, ObjectType } from "@nestjs/graphql";
 import {
+  IsArray,
   IsBoolean,
   IsEnum,
   IsInt,
@@ -22,6 +23,12 @@ export class ContentFilterArgs {
   @IsInt()
   @IsOptional()
   gate?: number;
+
+  @Field(() => [Int], { description: "컨텐츠 ID 목록", nullable: true })
+  @IsArray()
+  @IsInt({ each: true })
+  @IsOptional()
+  ids?: number[];
 
   @Field(() => Int, { description: "레벨", nullable: true })
   @IsInt()
@@ -133,6 +140,15 @@ export class ContentSeeMoreRewardInput {
 export class ContentMutationResult {
   @Field(() => Boolean, { description: "성공 여부" })
   ok: boolean;
+}
+
+@InputType()
+export class ContentsFilter {
+  @Field(() => [Int], { nullable: true })
+  @IsArray()
+  @IsInt({ each: true })
+  @IsOptional()
+  ids?: number[];
 }
 
 // Legacy alias for backward compatibility

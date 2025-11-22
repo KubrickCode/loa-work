@@ -1,12 +1,12 @@
-import { Args, Field, InputType, Query, Resolver } from "@nestjs/graphql";
-import { PrismaService } from "src/prisma";
+import { Args, Field, InputType, Int, Query, Resolver } from "@nestjs/graphql";
 import { Content } from "../object/content.object";
-import { ContentStatus, Prisma } from "@prisma/client";
-import _ from "lodash";
+import { ContentStatus } from "@prisma/client";
+import { ContentService } from "../service/content.service";
+import { ContentFilterArgs } from "../dto";
 
 @InputType()
 export class ContentListFilter {
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   contentCategoryId?: number;
 
   @Field(() => Boolean, { nullable: true })
@@ -21,58 +21,20 @@ export class ContentListFilter {
 
 @Resolver()
 export class ContentListQuery {
-  constructor(private prisma: PrismaService) {}
-
-  buildWhereArgs(filter?: ContentListFilter) {
-    const where: Prisma.ContentWhereInput = {};
-
-    if (filter?.contentCategoryId) {
-      where.contentCategoryId = filter.contentCategoryId;
-    }
-
-    if (filter?.keyword) {
-      where.OR = [
-        {
-          name: {
-            contains: filter.keyword,
-            mode: "insensitive",
-          },
-        },
-        {
-          contentCategory: {
-            name: {
-              contains: filter.keyword,
-              mode: "insensitive",
-            },
-          },
-        },
-      ];
-    }
-
-    if (filter?.status) {
-      where.status = filter.status;
-    }
-
-    return where;
-  }
+  constructor(private readonly contentService: ContentService) {}
 
   @Query(() => [Content])
-  async contentList(@Args("filter", { nullable: true }) filter?: ContentListFilter) {
-    return await this.prisma.content.findMany({
-      orderBy: [
-        {
-          contentCategory: {
-            id: "asc",
-          },
-        },
-        {
-          level: "asc",
-        },
-        {
-          id: "asc",
-        },
-      ],
-      where: this.buildWhereArgs(filter),
-    });
+  async contentList(
+    @Args("filter", { nullable: true }) filter?: ContentListFilter
+  ): Promise<Content[]> {
+    const filterArgs: ContentFilterArgs | undefined = filter
+      ? {
+          categoryId: filter.contentCategoryId,
+          name: filter.keyword,
+          status: filter.status,
+        }
+      : undefined;
+
+    return this.contentService.findAll(filterArgs);
   }
 }
