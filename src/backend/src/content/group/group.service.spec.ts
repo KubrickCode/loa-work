@@ -1,0 +1,390 @@
+import { Test, TestingModule } from "@nestjs/testing";
+import { ContentStatus } from "@prisma/client";
+import { ValidationException } from "src/common/exception";
+import { PrismaService } from "src/prisma";
+import { UserContentService } from "src/user/service/user-content.service";
+import { ContentWageService } from "../wage/wage.service";
+import { GroupService } from "./group.service";
+
+describe("GroupService", () => {
+  let module: TestingModule;
+  let service: GroupService;
+  let prisma: PrismaService;
+  let userContentService: UserContentService;
+  let contentWageService: ContentWageService;
+
+  beforeAll(async () => {
+    const mockPrismaService = {
+      content: {
+        findMany: jest.fn(),
+      },
+    };
+
+    const mockUserContentService = {
+      getContentDuration: jest.fn(),
+    };
+
+    const mockContentWageService = {
+      getContentGroupWage: jest.fn(),
+    };
+
+    module = await Test.createTestingModule({
+      providers: [
+        GroupService,
+        {
+          provide: PrismaService,
+          useValue: mockPrismaService,
+        },
+        {
+          provide: UserContentService,
+          useValue: mockUserContentService,
+        },
+        {
+          provide: ContentWageService,
+          useValue: mockContentWageService,
+        },
+      ],
+    }).compile();
+
+    service = module.get(GroupService);
+    prisma = module.get(PrismaService);
+    userContentService = module.get(UserContentService);
+    contentWageService = module.get(ContentWageService);
+  });
+
+  afterAll(async () => {
+    await module.close();
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe("buildContentGroupWageListWhere", () => {
+    it("should return empty object when no filter provided", () => {
+      const result = service.buildContentGroupWageListWhere();
+      expect(result).toEqual({});
+    });
+
+    it("should apply contentCategoryId filter", () => {
+      const result = service.buildContentGroupWageListWhere({ contentCategoryId: 1 });
+      expect(result.contentCategoryId).toBe(1);
+    });
+
+    it("should apply keyword filter with OR condition", () => {
+      const result = service.buildContentGroupWageListWhere({ keyword: "아브렐" });
+      expect(result.OR).toEqual([
+        {
+          name: {
+            contains: "아브렐",
+            mode: "insensitive",
+          },
+        },
+        {
+          contentCategory: {
+            name: {
+              contains: "아브렐",
+              mode: "insensitive",
+            },
+          },
+        },
+      ]);
+    });
+
+    it("should apply status filter", () => {
+      const result = service.buildContentGroupWageListWhere({ status: ContentStatus.ACTIVE });
+      expect(result.status).toBe(ContentStatus.ACTIVE);
+    });
+
+    it("should apply multiple filters", () => {
+      const result = service.buildContentGroupWageListWhere({
+        contentCategoryId: 1,
+        keyword: "test",
+        status: ContentStatus.ACTIVE,
+      });
+      expect(result.contentCategoryId).toBe(1);
+      expect(result.status).toBe(ContentStatus.ACTIVE);
+      expect(result.OR).toBeDefined();
+    });
+  });
+
+  describe("buildContentGroupWhere", () => {
+    it("should return empty object when no filter provided", () => {
+      const result = service.buildContentGroupWhere();
+      expect(result).toEqual({});
+    });
+
+    it("should apply contentIds filter", () => {
+      const result = service.buildContentGroupWhere({ contentIds: [1, 2, 3] });
+      expect(result.id).toEqual({ in: [1, 2, 3] });
+    });
+  });
+
+  describe("findContentsByIds", () => {
+    it("should find contents by IDs", async () => {
+      const mockContents = [
+        { id: 1, name: "Content 1" },
+        { id: 2, name: "Content 2" },
+      ];
+
+      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+
+      const result = await service.findContentsByIds([1, 2]);
+
+      expect(prisma.content.findMany).toHaveBeenCalledWith({
+        where: { id: { in: [1, 2] } },
+      });
+      expect(result).toEqual(mockContents);
+    });
+  });
+
+  describe("validateContentGroup", () => {
+    it("should not throw error for empty array", () => {
+      expect(() => service.validateContentGroup([])).not.toThrow();
+    });
+
+    it("should not throw error for valid content group", () => {
+      const contents = [
+        { contentCategoryId: 1, level: 1490 },
+        { contentCategoryId: 1, level: 1490 },
+      ];
+
+      expect(() => service.validateContentGroup(contents)).not.toThrow();
+    });
+
+    it("should throw ValidationException when levels differ", () => {
+      const contents = [
+        { contentCategoryId: 1, level: 1490 },
+        { contentCategoryId: 1, level: 1500 },
+      ];
+
+      expect(() => service.validateContentGroup(contents)).toThrow(ValidationException);
+      expect(() => service.validateContentGroup(contents)).toThrow("Content level is not the same");
+    });
+
+    it("should throw ValidationException when categories differ", () => {
+      const contents = [
+        { contentCategoryId: 1, level: 1490 },
+        { contentCategoryId: 2, level: 1490 },
+      ];
+
+      expect(() => service.validateContentGroup(contents)).toThrow(ValidationException);
+      expect(() => service.validateContentGroup(contents)).toThrow(
+        "Content category is not the same"
+      );
+    });
+  });
+
+  describe("groupContentsByNameAndCategory", () => {
+    it("should group contents by name and category", () => {
+      const contents = [
+        { contentCategoryId: 1, id: 1, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 2, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 3, name: "쿠크세이튼" },
+      ];
+
+      const result = service.groupContentsByNameAndCategory(contents);
+
+      expect(result.size).toBe(2);
+      expect(result.get("아브렐슈드_1")).toHaveLength(2);
+      expect(result.get("쿠크세이튼_1")).toHaveLength(1);
+    });
+
+    it("should separate same name but different categories", () => {
+      const contents = [
+        { contentCategoryId: 1, id: 1, name: "컨텐츠" },
+        { contentCategoryId: 2, id: 2, name: "컨텐츠" },
+      ];
+
+      const result = service.groupContentsByNameAndCategory(contents);
+
+      expect(result.size).toBe(2);
+      expect(result.get("컨텐츠_1")).toHaveLength(1);
+      expect(result.get("컨텐츠_2")).toHaveLength(1);
+    });
+  });
+
+  describe("calculateGroupDuration", () => {
+    it("should calculate total duration for content group", async () => {
+      jest.spyOn(userContentService, "getContentDuration").mockResolvedValueOnce(300);
+      jest.spyOn(userContentService, "getContentDuration").mockResolvedValueOnce(600);
+
+      const result = await service.calculateGroupDuration([1, 2]);
+
+      expect(userContentService.getContentDuration).toHaveBeenCalledTimes(2);
+      expect(userContentService.getContentDuration).toHaveBeenCalledWith(1);
+      expect(userContentService.getContentDuration).toHaveBeenCalledWith(2);
+      expect(result).toBe(900);
+    });
+
+    it("should return 0 for empty content IDs", async () => {
+      const result = await service.calculateGroupDuration([]);
+      expect(result).toBe(0);
+      expect(userContentService.getContentDuration).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("findContentGroup", () => {
+    it("should find and validate content group", async () => {
+      const mockContents = [
+        { contentCategoryId: 1, id: 1, level: 1490, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 2, level: 1490, name: "아브렐슈드" },
+      ];
+
+      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+
+      const result = await service.findContentGroup({ contentIds: [1, 2] });
+
+      expect(result).toEqual({
+        contentCategoryId: 1,
+        contentIds: [1, 2],
+        level: 1490,
+        name: "아브렐슈드",
+      });
+    });
+
+    it("should throw ValidationException for invalid content group", async () => {
+      const mockContents = [
+        { contentCategoryId: 1, id: 1, level: 1490, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 2, level: 1500, name: "아브렐슈드" },
+      ];
+
+      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+
+      await expect(service.findContentGroup({ contentIds: [1, 2] })).rejects.toThrow(
+        ValidationException
+      );
+    });
+  });
+
+  describe("findContentGroupWageList", () => {
+    it("should return content group wage list without orderBy", async () => {
+      const mockContents = [
+        {
+          contentCategory: { id: 1, name: "군단장" },
+          contentCategoryId: 1,
+          contentSeeMoreRewards: [],
+          id: 1,
+          level: 1490,
+          name: "아브렐슈드",
+        },
+        {
+          contentCategory: { id: 1, name: "군단장" },
+          contentCategoryId: 1,
+          contentSeeMoreRewards: [],
+          id: 2,
+          level: 1500,
+          name: "아브렐슈드",
+        },
+      ];
+
+      const mockWage = {
+        goldAmountPerClear: 5000,
+        goldAmountPerHour: 10000,
+        krwAmountPerHour: 15000,
+      };
+
+      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+      jest.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue(mockWage);
+
+      const result = await service.findContentGroupWageList();
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toEqual({
+        contentGroup: {
+          contentCategoryId: 1,
+          contentIds: [1, 2],
+          level: 1490,
+          name: "아브렐슈드",
+        },
+        goldAmountPerClear: 5000,
+        goldAmountPerHour: 10000,
+        krwAmountPerHour: 15000,
+      });
+    });
+
+    it("should return sorted content group wage list with orderBy", async () => {
+      const mockContents = [
+        {
+          contentCategory: { id: 1, name: "군단장" },
+          contentCategoryId: 1,
+          contentSeeMoreRewards: [],
+          id: 1,
+          level: 1490,
+          name: "A컨텐츠",
+        },
+        {
+          contentCategory: { id: 1, name: "군단장" },
+          contentCategoryId: 1,
+          contentSeeMoreRewards: [],
+          id: 2,
+          level: 1500,
+          name: "B컨텐츠",
+        },
+      ];
+
+      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+      jest
+        .spyOn(contentWageService, "getContentGroupWage")
+        .mockResolvedValueOnce({
+          goldAmountPerClear: 3000,
+          goldAmountPerHour: 6000,
+          krwAmountPerHour: 9000,
+        })
+        .mockResolvedValueOnce({
+          goldAmountPerClear: 5000,
+          goldAmountPerHour: 10000,
+          krwAmountPerHour: 15000,
+        });
+
+      const result = await service.findContentGroupWageList(undefined, [
+        { field: "krwAmountPerHour", order: "desc" },
+      ]);
+
+      expect(result).toHaveLength(2);
+      expect(result[0].krwAmountPerHour).toBe(15000);
+      expect(result[1].krwAmountPerHour).toBe(9000);
+    });
+
+    it("should return empty array when no contents found", async () => {
+      jest.spyOn(prisma.content, "findMany").mockResolvedValue([]);
+
+      const result = await service.findContentGroupWageList();
+
+      expect(result).toEqual([]);
+      expect(contentWageService.getContentGroupWage).not.toHaveBeenCalled();
+    });
+
+    it("should pass filter options to getContentGroupWage", async () => {
+      const mockContents = [
+        {
+          contentCategory: { id: 1, name: "군단장" },
+          contentCategoryId: 1,
+          contentSeeMoreRewards: [],
+          id: 1,
+          level: 1490,
+          name: "아브렐슈드",
+        },
+      ];
+
+      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+      jest.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue({
+        goldAmountPerClear: 5000,
+        goldAmountPerHour: 10000,
+        krwAmountPerHour: 15000,
+      });
+
+      await service.findContentGroupWageList({
+        includeIsBound: false,
+        includeIsSeeMore: true,
+        includeItemIds: [1, 2, 3],
+      });
+
+      expect(contentWageService.getContentGroupWage).toHaveBeenCalledWith([1], {
+        includeIsBound: false,
+        includeIsSeeMore: true,
+        includeItemIds: [1, 2, 3],
+      });
+    });
+  });
+});
