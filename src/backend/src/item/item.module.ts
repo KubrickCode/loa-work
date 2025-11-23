@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
 import { PrismaModule } from "src/prisma";
-import { MarketItemListQuery } from "./query/market-item-list.query";
-import { AuctionItemListQuery } from "./query/auction-item-list.query";
-import { MarketItemsQuery } from "./query/market-items.query";
-import { AuctionItemsQuery } from "./query/auction-items.query";
+import { AuctionItemResolver } from "./auction-item/auction-item.resolver";
+import { AuctionItemService } from "./auction-item/auction-item.service";
+import { MarketItemResolver } from "./market-item/market-item.resolver";
+import { MarketItemService } from "./market-item/market-item.service";
 
 @Module({
   imports: [PrismaModule],
-  providers: [MarketItemListQuery, AuctionItemListQuery, MarketItemsQuery, AuctionItemsQuery],
+  providers: [AuctionItemResolver, AuctionItemService, MarketItemResolver, MarketItemService],
 })
 export class ItemModule {}

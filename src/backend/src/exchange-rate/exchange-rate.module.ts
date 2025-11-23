@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
-import { PrismaModule } from "src/prisma";
-import { GoldExchangeRateQuery } from "./query/gold-exchange-rate.query";
-import { GoldExchangeRateEditMutation } from "./mutation/gold-exchange-rate-edit.mutation";
-import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
 import { DiscordModule } from "src/discord/discord.module";
+import { PrismaModule } from "src/prisma";
+import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
+import { GoldExchangeRateResolver } from "./gold-exchange-rate.resolver";
+import { GoldExchangeRateService } from "./gold-exchange-rate.service";
 
 @Module({
   imports: [PrismaModule, DiscordModule],
-  providers: [GoldExchangeRateQuery, GoldExchangeRateEditMutation, UserGoldExchangeRateService],
+  providers: [GoldExchangeRateResolver, GoldExchangeRateService, UserGoldExchangeRateService],
 })
 export class ExchangeRateModule {}
