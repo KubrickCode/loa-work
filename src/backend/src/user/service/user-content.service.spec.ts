@@ -4,7 +4,7 @@ import { UserContentService } from "../../user/service/user-content.service";
 import { CONTEXT } from "@nestjs/graphql";
 import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
 import { User } from "@prisma/client";
-import { ContentWageService } from "src/content/service/content-wage.service";
+import { ContentWageService } from "src/content/wage/wage.service";
 import { UserFactory } from "src/test/factory/user.factory";
 import { ItemFactory } from "src/test/factory/item.factory";
 import { ContentFactory } from "src/test/factory/content.factory";

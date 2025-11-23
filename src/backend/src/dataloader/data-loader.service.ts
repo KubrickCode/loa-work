@@ -3,7 +3,7 @@ import DataLoader from "dataloader";
 import { Injectable, Scope } from "@nestjs/common";
 import { PrismaService } from "src/prisma";
 import { ContentCategory, Item } from "@prisma/client";
-import { ItemSortOrder } from "src/content/constants";
+import { ItemSortOrder } from "src/content/shared/constants";
 
 @Injectable({ scope: Scope.REQUEST })
 export class DataLoaderService {
