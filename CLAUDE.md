@@ -320,3 +320,50 @@ Shared libraries:
 - You should always write your code in a way that makes it easy to unit test.
 - Comments shouldn't be used unless absolutely necessary. Write readable code that can be understood without comments, and only include comments for unavoidable business logic.
 - Variable values should be separated into constants whenever possible. Avoid creating magic numbers.
+
+### NestJS GraphQL Resolver Method Ordering
+
+In NestJS GraphQL resolvers, organize methods by decorator type (not alphabetically across all methods). Within each decorator group, sort methods alphabetically.
+
+**Order**:
+
+1. `constructor`
+2. `@Query` methods (alphabetically)
+3. `@Mutation` methods (alphabetically)
+4. `@ResolveField` methods (alphabetically)
+
+**Rationale**: GraphQL queries, mutations, and field resolvers are fundamentally different operations. Grouping by decorator type maintains logical cohesion while the decorator itself provides visual separation (no comments needed).
+
+**Example**:
+
+```typescript
+@Resolver(() => Content)
+export class ContentResolver {
+  constructor(private contentService: ContentService) {}
+
+  @Query(() => Content)
+  async content(@Args("id") id: number) {
+    return await this.contentService.findContentById(id);
+  }
+
+  @Query(() => [Content])
+  async contentList(@Args("filter") filter?: ContentListFilter) {
+    return await this.contentService.findContentList(filter);
+  }
+
+  @Mutation(() => ContentCreateResult)
+  async contentCreate(@Args("input") input: ContentCreateInput) {
+    return await this.contentService.createContent(input);
+  }
+
+  @ResolveField(() => ContentCategory)
+  async contentCategory(@Parent() content: Content) {
+    return await this.dataLoaderService.contentCategory.findById(content.contentCategoryId);
+  }
+
+  @ResolveField(() => String)
+  async displayName(@Parent() content: Content) {
+    return `${content.name}${content.gate ? ` ${content.gate}관문` : ""}`;
+  }
+}
+```

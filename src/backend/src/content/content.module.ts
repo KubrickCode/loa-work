@@ -1,71 +1,47 @@
 import { Module } from "@nestjs/common";
-import { PrismaModule } from "src/prisma";
-import { ContentListQuery } from "./query/content-list.query";
-import { ContentResolver } from "./object/content.resolver";
-import { ItemsQuery } from "./query/items.query";
-import { ContentCategoriesQuery } from "./query/content-categories.query";
-import { ContentWageService } from "./service/content-wage.service";
-import { ContentQuery } from "./query/content.query";
-import { ContentRewardsEditMutation } from "./mutation/content-rewards-edit.mutation";
-import { ContentRewardResolver } from "./object/content-reward.resolver";
-import { UserContentService } from "../user/service/user-content.service";
-import { ContentWageListQuery } from "./query/content-wage-list.query";
-import { ContentWageResolver } from "./object/content-wage.resolver";
-import { ContentSeeMoreRewardResolver } from "./object/content-see-more-reward.resolver";
-import { ContentDurationEditMutation } from "./mutation/content-duration-edit.mutation";
-import { ContentDurationResolver } from "./object/content-duration.resolver";
-import { ContentDurationQuery } from "./query/content-duration.query";
-import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
-import { ItemResolver } from "./object/item.resolver";
-import { UserItemPriceEditMutation } from "./mutation/user-item-price-edit.mutation";
-import { ItemQuery } from "./query/item.query";
-import { CustomContentWageCalculateMutation } from "./mutation/custom-content-wage-calculate.mutation";
-import { ContentRewardsReportMutation } from "./mutation/content-rewards-report.mutation";
-import { ContentController } from "./content.controller";
-import { ContentCreateMutation } from "./mutation/content-create.mutation";
 import { DataLoaderService } from "src/dataloader/data-loader.service";
-import { ContentSeeMoreRewardsEditMutation } from "./mutation/content-see-more-rewards-edit.mutation";
-import { ContentDurationService } from "./service/content-duration.service";
-import { ContentGroupResolver } from "./object/content-group.resolver";
-import { ContentGroupWageListQuery } from "./query/content-group-wage-list.query";
-import { ContentDurationsEditMutation } from "./mutation/content-durations-edit.mutation";
-import { ContentsQuery } from "./query/contents.query";
-import { ContentGroupQuery } from "./query/content-group.query";
+import { PrismaModule } from "src/prisma";
+import { UserContentService } from "../user/service/user-content.service";
+import { UserGoldExchangeRateService } from "../user/service/user-gold-exchange-rate.service";
+import { CategoryResolver } from "./category/category.resolver";
+import { ContentResolver } from "./content/content.resolver";
+import { ContentService } from "./content/content.service";
+import { ContentDurationService } from "./duration/duration.service";
+import { DurationResolver } from "./duration/duration.resolver";
+import { GroupResolver } from "./group/group.resolver";
+import { GroupService } from "./group/group.service";
+import { ItemResolver } from "./item/item.resolver";
+import { ItemService } from "./item/item.service";
+import { RewardResolver } from "./reward/reward.resolver";
+import { RewardService } from "./reward/reward.service";
+import { SeeMoreRewardResolver } from "./see-more-reward/see-more-reward.resolver";
+import { SeeMoreRewardService } from "./see-more-reward/see-more-reward.service";
+import { ContentController } from "./shared/content.controller";
+import { ContentWageService } from "./wage/wage.service";
+import { WageResolver } from "./wage/wage.resolver";
 
 @Module({
   controllers: [ContentController],
   imports: [PrismaModule],
   providers: [
-    ContentListQuery,
-    ItemsQuery,
-    ContentResolver,
-    ContentCategoriesQuery,
-    ContentWageService,
-    ContentQuery,
-    ContentRewardsEditMutation,
-    ContentRewardResolver,
-    UserContentService,
-    ContentWageListQuery,
-    ContentWageResolver,
-    ContentSeeMoreRewardResolver,
-    ContentDurationEditMutation,
-    ContentDurationResolver,
-    ContentDurationQuery,
-    UserGoldExchangeRateService,
-    ItemResolver,
-    UserItemPriceEditMutation,
-    ItemQuery,
-    CustomContentWageCalculateMutation,
-    ContentRewardsReportMutation,
-    ContentCreateMutation,
-    DataLoaderService,
-    ContentSeeMoreRewardsEditMutation,
+    CategoryResolver,
     ContentDurationService,
-    ContentGroupWageListQuery,
-    ContentGroupResolver,
-    ContentDurationsEditMutation,
-    ContentsQuery,
-    ContentGroupQuery,
+    ContentResolver,
+    ContentService,
+    ContentWageService,
+    DataLoaderService,
+    DurationResolver,
+    GroupResolver,
+    GroupService,
+    ItemResolver,
+    ItemService,
+    RewardResolver,
+    RewardService,
+    SeeMoreRewardResolver,
+    SeeMoreRewardService,
+    UserContentService,
+    UserGoldExchangeRateService,
+    WageResolver,
   ],
 })
 export class ContentModule {}
