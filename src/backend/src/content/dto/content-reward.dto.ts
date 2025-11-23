@@ -1,5 +1,22 @@
-import { Field, Float, InputType, ObjectType } from "@nestjs/graphql";
+import { Field, Float, InputType, Int, ObjectType } from "@nestjs/graphql";
+import { IsBoolean, IsInt, IsOptional } from "class-validator";
 
+@InputType()
+export class RewardFilterArgs {
+  @Field(() => Int, { description: "컨텐츠 ID" })
+  @IsInt()
+  contentId: number;
+
+  @Field(() => Boolean, {
+    description: "더보기 보상 포함 여부",
+    nullable: true,
+  })
+  @IsBoolean()
+  @IsOptional()
+  includeSeeMore?: boolean;
+}
+
+// Legacy DTOs for Mutation (will be updated)
 @InputType()
 export class ContentRewardEditInput {
   @Field(() => Float, { description: "평균 획득 수량" })

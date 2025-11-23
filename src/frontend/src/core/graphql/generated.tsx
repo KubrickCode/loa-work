@@ -252,11 +252,17 @@ export type ContentPageInfo = {
 
 export type ContentReward = {
   __typename?: 'ContentReward';
+  /** 사용자 커스텀 값이 반영된 평균 획득 수량 */
   averageQuantity: Scalars['Float']['output'];
+  /** 컨텐츠 ID */
+  contentId: Scalars['Int']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
+  /** 사용자 커스텀 값이 반영된 거래 가능 여부 */
   isSellable: Scalars['Boolean']['output'];
+  /** 연결된 아이템 정보 */
   item: Item;
+  /** 아이템 ID */
   itemId: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
