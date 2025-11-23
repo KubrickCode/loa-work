@@ -37,6 +37,7 @@ import { ContentGroupQuery } from "./query/content-group.query";
 import { ContentService } from "./service/content.service";
 import { ContentCategoryService } from "./service/content-category.service";
 import { ContentGroupService } from "./service/content-group.service";
+import { ContentRewardService } from "./service/content-reward.service";
 
 @Module({
   controllers: [ContentController],
@@ -47,6 +48,7 @@ import { ContentGroupService } from "./service/content-group.service";
     ContentCategoryService,
     ContentDurationService,
     ContentGroupService,
+    ContentRewardService,
     ContentService,
     ContentWageService,
     DataLoaderService,

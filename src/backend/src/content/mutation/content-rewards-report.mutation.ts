@@ -1,55 +1,25 @@
 import { UseGuards } from "@nestjs/common";
-import { Args, Field, Float, InputType, Mutation, ObjectType, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { AuthGuard } from "src/auth/auth.guard";
-import { PrismaService } from "src/prisma";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
-
-@InputType()
-class ContentRewardReportInput {
-  @Field(() => Float)
-  averageQuantity: number;
-
-  @Field()
-  id: number;
-}
-
-@InputType()
-export class ContentRewardsReportInput {
-  @Field(() => [ContentRewardReportInput])
-  contentRewards: ContentRewardReportInput[];
-}
-
-@ObjectType()
-class ContentRewardsReportResult {
-  @Field(() => Boolean)
-  ok: boolean;
-}
+import { ContentRewardsReportInput, ContentRewardsReportResult } from "../dto";
+import { ContentRewardService } from "../service/content-reward.service";
 
 @Resolver()
 export class ContentRewardsReportMutation {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly contentRewardService: ContentRewardService) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentRewardsReportResult)
+  @Mutation(() => ContentRewardsReportResult, {
+    description: "컨텐츠 보상 제보 (사용자가 실제 보상과 다름을 제보)",
+  })
   async contentRewardsReport(
     @Args("input") input: ContentRewardsReportInput,
     @CurrentUser() user: User
-  ) {
-    return await this.prisma.$transaction(async (tx) => {
-      await Promise.all(
-        input.contentRewards.map(async ({ averageQuantity, id }) => {
-          return tx.reportedContentReward.create({
-            data: {
-              averageQuantity,
-              contentRewardId: id,
-              userId: user.id,
-            },
-          });
-        })
-      );
+  ): Promise<ContentRewardsReportResult> {
+    await this.contentRewardService.reportContentRewards(user.id, input.contentRewards);
 
-      return { ok: true };
-    });
+    return { ok: true };
   }
 }

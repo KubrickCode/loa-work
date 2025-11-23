@@ -290,7 +290,10 @@ input ContentRewardEditInput {
 }
 
 input ContentRewardReportInput {
+  """제보할 평균 획득 수량"""
   averageQuantity: Float!
+
+  """컨텐츠 보상 ID"""
   id: Int!
 }
 
@@ -308,10 +311,12 @@ type ContentRewardsEditResult {
 }
 
 input ContentRewardsReportInput {
+  """제보할 보상 목록"""
   contentRewards: [ContentRewardReportInput!]!
 }
 
 type ContentRewardsReportResult {
+  """성공 여부"""
   ok: Boolean!
 }
 
@@ -503,7 +508,11 @@ type Mutation {
   contentDelete(id: Int!): ContentCreateResult!
   contentDurationEdit(input: ContentDurationEditInput!): ContentDurationEditResult!
   contentDurationsEdit(input: ContentDurationsEditInput!): ContentDurationsEditResult!
+
+  """컨텐츠 보상 수정 (OWNER는 기본값 수정, 일반 사용자는 개인 커스텀 값 저장)"""
   contentRewardsEdit(input: ContentRewardsEditInput!): ContentRewardsEditResult!
+
+  """컨텐츠 보상 제보 (사용자가 실제 보상과 다름을 제보)"""
   contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
   contentSeeMoreRewardsEdit(input: ContentSeeMoreRewardsEditInput!): ContentSeeMoreRewardsEditResult!
   contentUpdate(id: Int!, input: UpdateContentInput!): ContentCreateResult!

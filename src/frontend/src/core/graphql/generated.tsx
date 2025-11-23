@@ -279,7 +279,9 @@ export type ContentRewardEditInput = {
 };
 
 export type ContentRewardReportInput = {
+  /** 제보할 평균 획득 수량 */
   averageQuantity: Scalars['Float']['input'];
+  /** 컨텐츠 보상 ID */
   id: Scalars['Int']['input'];
 };
 
@@ -297,11 +299,13 @@ export type ContentRewardsEditResult = {
 };
 
 export type ContentRewardsReportInput = {
+  /** 제보할 보상 목록 */
   contentRewards: Array<ContentRewardReportInput>;
 };
 
 export type ContentRewardsReportResult = {
   __typename?: 'ContentRewardsReportResult';
+  /** 성공 여부 */
   ok: Scalars['Boolean']['output'];
 };
 
@@ -479,7 +483,9 @@ export type Mutation = {
   contentDelete: ContentCreateResult;
   contentDurationEdit: ContentDurationEditResult;
   contentDurationsEdit: ContentDurationsEditResult;
+  /** 컨텐츠 보상 수정 (OWNER는 기본값 수정, 일반 사용자는 개인 커스텀 값 저장) */
   contentRewardsEdit: ContentRewardsEditResult;
+  /** 컨텐츠 보상 제보 (사용자가 실제 보상과 다름을 제보) */
   contentRewardsReport: ContentRewardsReportResult;
   contentSeeMoreRewardsEdit: ContentSeeMoreRewardsEditResult;
   contentUpdate: ContentCreateResult;

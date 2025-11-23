@@ -1,79 +1,30 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Resolver } from "@nestjs/graphql";
-import { UserRole } from "@prisma/client";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
-import { PrismaService } from "src/prisma";
 import { ContentRewardsEditInput, ContentRewardsEditResult } from "../dto";
+import { ContentRewardService } from "../service/content-reward.service";
 
 @Resolver()
 export class ContentRewardsEditMutation {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly contentRewardService: ContentRewardService) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentRewardsEditResult)
+  @Mutation(() => ContentRewardsEditResult, {
+    description: "컨텐츠 보상 수정 (OWNER는 기본값 수정, 일반 사용자는 개인 커스텀 값 저장)",
+  })
   async contentRewardsEdit(
     @Args("input") input: ContentRewardsEditInput,
     @CurrentUser() user: User
-  ) {
-    return await this.prisma.$transaction(async (tx) => {
-      if (user.role === UserRole.OWNER) {
-        await Promise.all(
-          input.contentRewards.map(async ({ averageQuantity, contentId, isSellable, itemId }) => {
-            await tx.contentReward.update({
-              data: {
-                averageQuantity,
-                isSellable,
-              },
-              where: {
-                contentId_itemId: {
-                  contentId,
-                  itemId,
-                },
-              },
-            });
-          })
-        );
-      }
+  ): Promise<ContentRewardsEditResult> {
+    await this.contentRewardService.editContentRewards(
+      user.id,
+      user.role,
+      input.contentRewards,
+      input.isReportable
+    );
 
-      await Promise.all(
-        input.contentRewards.map(({ averageQuantity, contentId, isSellable, itemId }) =>
-          tx.userContentReward.upsert({
-            create: {
-              averageQuantity,
-              contentId,
-              isSellable,
-              itemId,
-              userId: user.id,
-            },
-            update: { averageQuantity, isSellable },
-            where: {
-              userId_contentId_itemId: { contentId, itemId, userId: user.id },
-            },
-          })
-        )
-      );
-
-      if (input.isReportable) {
-        await Promise.all(
-          input.contentRewards.map(async ({ averageQuantity, contentId, itemId }) => {
-            const contentReward = await tx.contentReward.findUniqueOrThrow({
-              where: { contentId_itemId: { contentId, itemId } },
-            });
-
-            return tx.reportedContentReward.create({
-              data: {
-                averageQuantity,
-                contentRewardId: contentReward.id,
-                userId: user.id,
-              },
-            });
-          })
-        );
-      }
-
-      return { ok: true };
-    });
+    return { ok: true };
   }
 }
