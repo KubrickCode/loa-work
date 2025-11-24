@@ -1,0 +1,3 @@
+export const ITEM_CATEGORY_NAME_MAX_LENGTH = 100;
+export const ITEM_GRADE_MAX_LENGTH = 50;
+export const ITEM_KEYWORD_MAX_LENGTH = 100;
