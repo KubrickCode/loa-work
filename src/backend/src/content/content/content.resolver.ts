@@ -1,6 +1,7 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { AuthGuard } from "src/auth/auth.guard";
+import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { DataLoaderService } from "src/dataloader/data-loader.service";
 import { UserContentService } from "src/user/service/user-content.service";
 import { ContentCategory } from "../category/category.object";
@@ -33,8 +34,11 @@ export class ContentResolver {
   }
 
   @Query(() => [Content])
-  async contentList(@Args("filter", { nullable: true }) filter?: ContentListFilter) {
-    return await this.contentService.findContentList(filter);
+  async contentList(
+    @Args("filter", { nullable: true }) filter?: ContentListFilter,
+    @Args("orderBy", { nullable: true, type: () => [OrderByArg] }) orderBy?: OrderByArg[]
+  ) {
+    return await this.contentService.findContentList(filter, orderBy);
   }
 
   @Query(() => [Content])

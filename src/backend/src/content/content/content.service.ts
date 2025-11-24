@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Content, Prisma } from "@prisma/client";
+import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { NotFoundException } from "src/common/exception/not-found.exception";
 import { PrismaService } from "src/prisma";
 import {
@@ -58,6 +59,26 @@ export class ContentService {
     }
 
     return where;
+  }
+
+  buildOrderBy(orderBy?: OrderByArg[]): Prisma.ContentOrderByWithRelationInput[] {
+    if (orderBy && orderBy.length > 0) {
+      return orderBy.map((order) => ({ [order.field]: order.order }));
+    }
+
+    return [
+      {
+        contentCategory: {
+          id: "asc",
+        },
+      },
+      {
+        level: "asc",
+      },
+      {
+        id: "asc",
+      },
+    ];
   }
 
   async createContent(input: CreateContentInput): Promise<CreateContentResult> {
@@ -123,21 +144,9 @@ export class ContentService {
     return content;
   }
 
-  async findContentList(filter?: ContentListFilter): Promise<Content[]> {
+  async findContentList(filter?: ContentListFilter, orderBy?: OrderByArg[]): Promise<Content[]> {
     return await this.prisma.content.findMany({
-      orderBy: [
-        {
-          contentCategory: {
-            id: "asc",
-          },
-        },
-        {
-          level: "asc",
-        },
-        {
-          id: "asc",
-        },
-      ],
+      orderBy: this.buildOrderBy(orderBy),
       where: this.buildContentListWhere(filter),
     });
   }
