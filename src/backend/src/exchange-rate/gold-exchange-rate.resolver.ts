@@ -1,5 +1,6 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { User as PrismaUser } from "@prisma/client";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
@@ -16,8 +17,8 @@ export class GoldExchangeRateResolver {
   ) {}
 
   @Query(() => GoldExchangeRate)
-  async goldExchangeRate() {
-    return await this.userGoldExchangeRateService.getGoldExchangeRate();
+  async goldExchangeRate(@CurrentUser() user?: PrismaUser) {
+    return await this.userGoldExchangeRateService.getGoldExchangeRate(user?.id);
   }
 
   @UseGuards(AuthGuard)

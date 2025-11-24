@@ -1,6 +1,8 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { User } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import _ from "lodash";
+import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { PrismaService } from "src/prisma";
 import { Content } from "../content/content.object";
@@ -28,7 +30,8 @@ export class WageResolver {
       nullable: true,
       type: () => [OrderByArg],
     })
-    orderBy?: OrderByArg[]
+    orderBy?: OrderByArg[],
+    @CurrentUser() user?: User
   ) {
     const contents = await this.prisma.content.findMany({
       include: {
@@ -55,7 +58,7 @@ export class WageResolver {
     });
 
     const promises = contents.map(async (content) => {
-      return await this.contentWageService.getContentWage(content.id, {
+      return await this.contentWageService.getContentWage(content.id, user?.id, {
         includeBound: filter?.includeBound,
         includeItemIds: filter?.includeItemIds,
         includeSeeMore: filter?.includeSeeMore,
@@ -74,7 +77,10 @@ export class WageResolver {
   }
 
   @Mutation(() => CalculateCustomContentWageResult)
-  async customContentWageCalculate(@Args("input") input: CalculateCustomContentWageInput) {
+  async customContentWageCalculate(
+    @Args("input") input: CalculateCustomContentWageInput,
+    @CurrentUser() user?: User
+  ) {
     const { items, minutes, seconds } = input;
 
     const totalSeconds = this.contentDurationService.getValidatedTotalSeconds({
@@ -86,13 +92,17 @@ export class WageResolver {
       items.map((item) => ({
         averageQuantity: item.quantity,
         itemId: item.id,
-      }))
+      })),
+      user?.id
     );
 
-    const { goldAmountPerHour, krwAmountPerHour } = await this.contentWageService.calculateWage({
-      duration: totalSeconds,
-      gold: rewardsGold,
-    });
+    const { goldAmountPerHour, krwAmountPerHour } = await this.contentWageService.calculateWage(
+      {
+        duration: totalSeconds,
+        gold: rewardsGold,
+      },
+      user?.id
+    );
 
     return {
       goldAmountPerClear: Math.round(rewardsGold),

@@ -91,7 +91,8 @@ export class GroupService {
 
   async findContentGroupWageList(
     filter?: ContentGroupWageListFilter,
-    orderBy?: OrderByArg[]
+    orderBy?: OrderByArg[],
+    userId?: number
   ): Promise<ContentGroupWage[]> {
     const contents = await this.prisma.content.findMany({
       include: {
@@ -112,7 +113,7 @@ export class GroupService {
       const contentIds = groupContents.map((content) => content.id);
       const representative = groupContents[0];
 
-      const wage = await this.contentWageService.getContentGroupWage(contentIds, {
+      const wage = await this.contentWageService.getContentGroupWage(contentIds, userId, {
         includeBound: filter?.includeBound,
         includeItemIds: filter?.includeItemIds,
         includeSeeMore: filter?.includeSeeMore,

@@ -1,7 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { PrismaService } from "src/prisma";
 import { UserContentService } from "../../user/service/user-content.service";
-import { CONTEXT } from "@nestjs/graphql";
 import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
 import { User } from "@prisma/client";
 import { ContentWageService } from "src/content/wage/wage.service";
@@ -34,10 +33,6 @@ describe("UserContentService", () => {
         ContentFactory,
         ContentDurationFactory,
         ContentRewardFactory,
-        {
-          provide: CONTEXT,
-          useValue: { req: { user: { id: undefined } } },
-        },
       ],
     }).compile();
 
@@ -167,7 +162,7 @@ describe("UserContentService", () => {
         ],
       });
 
-      const results = await service.getContentRewards(content.id, {
+      const results = await service.getContentRewards(content.id, undefined, {
         includeBound: false,
       });
 
@@ -213,7 +208,7 @@ describe("UserContentService", () => {
         ],
       });
 
-      const results = await service.getContentRewards(content.id, {
+      const results = await service.getContentRewards(content.id, undefined, {
         includeItemIds: [item1.id, item3.id],
       });
 
@@ -264,7 +259,7 @@ describe("UserContentService", () => {
         ],
       });
 
-      const results = await service.getContentRewards(content.id, {
+      const results = await service.getContentRewards(content.id, undefined, {
         includeBound: false,
         includeItemIds: [item1.id, item2.id],
       });
@@ -293,7 +288,6 @@ describe("UserContentService", () => {
 
     beforeAll(async () => {
       user = await userFactory.create();
-      service["context"].req.user = { id: user.id };
     });
 
     it("getItemPrice", async () => {
@@ -313,7 +307,7 @@ describe("UserContentService", () => {
         },
       });
 
-      const result = await service.getItemPrice(item.id);
+      const result = await service.getItemPrice(item.id, user.id);
 
       expect(result).toBe(userPrice);
     });
@@ -327,7 +321,7 @@ describe("UserContentService", () => {
         },
       });
 
-      const result = await service.getItemPrice(item.id);
+      const result = await service.getItemPrice(item.id, user.id);
 
       expect(result).toBe(price);
     });
@@ -349,7 +343,7 @@ describe("UserContentService", () => {
         },
       });
 
-      const result = await service.getContentDuration(content.id);
+      const result = await service.getContentDuration(content.id, user.id);
       expect(result).toBe(duration);
     });
 
@@ -366,7 +360,7 @@ describe("UserContentService", () => {
         },
       });
 
-      const result = await service.getContentRewardAverageQuantity(contentReward.id);
+      const result = await service.getContentRewardAverageQuantity(contentReward.id, user.id);
 
       expect(result.toNumber()).toBeCloseTo(averageQuantity, 5);
     });
@@ -423,7 +417,7 @@ describe("UserContentService", () => {
         ],
       });
 
-      const results = await service.getContentRewards(content.id);
+      const results = await service.getContentRewards(content.id, user.id);
 
       expect(results).toHaveLength(2);
 
@@ -486,7 +480,7 @@ describe("UserContentService", () => {
         ],
       });
 
-      const results = await service.getContentRewards(content.id, {
+      const results = await service.getContentRewards(content.id, user.id, {
         includeBound: false,
       });
 
@@ -555,7 +549,7 @@ describe("UserContentService", () => {
         ],
       });
 
-      const results = await service.getContentRewards(content.id, {
+      const results = await service.getContentRewards(content.id, user.id, {
         includeItemIds: [item1.id, item3.id],
       });
 
@@ -613,7 +607,7 @@ describe("UserContentService", () => {
         },
       });
 
-      const results = await service.getContentRewards(content.id);
+      const results = await service.getContentRewards(content.id, user.id);
 
       expect(results).toHaveLength(1);
       expect(results[0].itemId).toBe(item.id);
