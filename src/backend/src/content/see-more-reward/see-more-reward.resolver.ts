@@ -7,8 +7,8 @@ import { DataLoaderService } from "src/dataloader/data-loader.service";
 import { UserContentService } from "src/user/service/user-content.service";
 import { Item } from "../item/item.object";
 import {
-  ContentSeeMoreRewardsEditInput,
-  ContentSeeMoreRewardsEditResult,
+  EditContentSeeMoreRewardsInput,
+  EditContentSeeMoreRewardsResult,
 } from "./see-more-reward.dto";
 import { SeeMoreRewardService } from "./see-more-reward.service";
 import { ContentSeeMoreReward } from "./see-more-reward.object";
@@ -22,9 +22,9 @@ export class SeeMoreRewardResolver {
   ) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentSeeMoreRewardsEditResult)
+  @Mutation(() => EditContentSeeMoreRewardsResult)
   async contentSeeMoreRewardsEdit(
-    @Args("input") input: ContentSeeMoreRewardsEditInput,
+    @Args("input") input: EditContentSeeMoreRewardsInput,
     @CurrentUser() user: User
   ) {
     return await this.seeMoreRewardService.editContentSeeMoreRewards(input, user.id, user.role);

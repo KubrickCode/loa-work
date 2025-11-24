@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { Prisma, UserRole } from "@prisma/client";
 import { PrismaService } from "src/prisma";
 import {
-  ContentRewardsEditInput,
-  ContentRewardsEditResult,
-  ContentRewardsReportInput,
-  ContentRewardsReportResult,
+  EditContentRewardsInput,
+  EditContentRewardsResult,
+  ReportContentRewardsInput,
+  ReportContentRewardsResult,
 } from "./reward.dto";
 
 type TransactionClient = Prisma.TransactionClient;
@@ -15,10 +15,10 @@ export class RewardService {
   constructor(private prisma: PrismaService) {}
 
   async editContentRewards(
-    input: ContentRewardsEditInput,
+    input: EditContentRewardsInput,
     userId: number,
     userRole: UserRole
-  ): Promise<ContentRewardsEditResult> {
+  ): Promise<EditContentRewardsResult> {
     return await this.prisma.$transaction(async (tx) => {
       if (userRole === UserRole.OWNER) {
         await this.updateOwnerRewards(tx, input);
@@ -35,9 +35,9 @@ export class RewardService {
   }
 
   async reportContentRewards(
-    input: ContentRewardsReportInput,
+    input: ReportContentRewardsInput,
     userId: number
-  ): Promise<ContentRewardsReportResult> {
+  ): Promise<ReportContentRewardsResult> {
     return await this.prisma.$transaction(async (tx) => {
       await Promise.all(
         input.contentRewards.map(async ({ averageQuantity, id }) => {
@@ -57,7 +57,7 @@ export class RewardService {
 
   private async createRewardReports(
     tx: TransactionClient,
-    input: ContentRewardsEditInput,
+    input: EditContentRewardsInput,
     userId: number
   ): Promise<void> {
     await Promise.all(
@@ -79,7 +79,7 @@ export class RewardService {
 
   private async updateOwnerRewards(
     tx: TransactionClient,
-    input: ContentRewardsEditInput
+    input: EditContentRewardsInput
   ): Promise<void> {
     await Promise.all(
       input.contentRewards.map(async ({ averageQuantity, contentId, isSellable, itemId }) => {
@@ -101,7 +101,7 @@ export class RewardService {
 
   private async upsertUserRewards(
     tx: TransactionClient,
-    input: ContentRewardsEditInput,
+    input: EditContentRewardsInput,
     userId: number
   ): Promise<void> {
     await Promise.all(

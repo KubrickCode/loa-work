@@ -4,7 +4,7 @@ import { AuthGuard } from "src/auth/auth.guard";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
 import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
-import { GoldExchangeRateEditInput, GoldExchangeRateEditResult } from "./gold-exchange-rate.dto";
+import { EditGoldExchangeRateInput, EditGoldExchangeRateResult } from "./gold-exchange-rate.dto";
 import { GoldExchangeRate } from "./gold-exchange-rate.object";
 import { GoldExchangeRateService } from "./gold-exchange-rate.service";
 
@@ -21,9 +21,9 @@ export class GoldExchangeRateResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => GoldExchangeRateEditResult)
+  @Mutation(() => EditGoldExchangeRateResult)
   async goldExchangeRateEdit(
-    @Args("input") input: GoldExchangeRateEditInput,
+    @Args("input") input: EditGoldExchangeRateInput,
     @CurrentUser() user: User
   ) {
     return await this.goldExchangeRateService.editGoldExchangeRate(input.krwAmount, user);

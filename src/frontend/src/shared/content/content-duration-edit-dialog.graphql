@@ -5,7 +5,7 @@ query ContentDurationEditDialog($id: Int!) {
   }
 }
 
-mutation ContentDurationEdit($input: ContentDurationEditInput!) {
+mutation ContentDurationEdit($input: EditContentDurationInput!) {
   contentDurationEdit(input: $input) {
     ok
   }

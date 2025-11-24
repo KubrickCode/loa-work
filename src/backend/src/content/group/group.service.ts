@@ -113,9 +113,9 @@ export class GroupService {
       const representative = groupContents[0];
 
       const wage = await this.contentWageService.getContentGroupWage(contentIds, {
-        includeIsBound: filter?.includeIsBound,
-        includeIsSeeMore: filter?.includeIsSeeMore,
+        includeBound: filter?.includeBound,
         includeItemIds: filter?.includeItemIds,
+        includeSeeMore: filter?.includeSeeMore,
       });
 
       return {

@@ -12,7 +12,7 @@ query ContentSeeMoreRewardEditDialog($id: Int!) {
   }
 }
 
-mutation ContentSeeMoreRewardsEdit($input: ContentSeeMoreRewardsEditInput!) {
+mutation ContentSeeMoreRewardsEdit($input: EditContentSeeMoreRewardsInput!) {
   contentSeeMoreRewardsEdit(input: $input) {
     ok
   }

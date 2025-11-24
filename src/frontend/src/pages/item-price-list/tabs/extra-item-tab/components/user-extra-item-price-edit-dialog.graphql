@@ -8,7 +8,7 @@ query UserExtraItemPriceEditDialog($id: Int!) {
   }
 }
 
-mutation UserItemPriceEdit($input: UserItemPriceEditInput!) {
+mutation UserItemPriceEdit($input: EditUserItemPriceInput!) {
   userItemPriceEdit(input: $input) {
     ok
   }

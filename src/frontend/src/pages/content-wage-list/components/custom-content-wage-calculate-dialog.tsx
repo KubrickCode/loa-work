@@ -10,8 +10,8 @@ import {
   CustomContentWageCalculateDialogMutationDocument,
   CustomContentWageCalculateDialogMutationMutation,
   CustomContentWageCalculateDialogQueryDocument,
-  CustomContentWageCalculateInput,
-  CustomContentWageCalculateResult,
+  CalculateCustomContentWageInput,
+  CalculateCustomContentWageResult,
   CustomContentWageCalculateDialogQueryQuery,
 } from "~/core/graphql/generated";
 
@@ -27,11 +27,11 @@ const schema = z.object({
 });
 
 export const CustomContentWageCalculateDialog = (dialogProps: DialogProps) => {
-  const [result, setResult] = useState<CustomContentWageCalculateResult>();
+  const [result, setResult] = useState<CalculateCustomContentWageResult>();
 
   return (
     <Dialog<
-      CustomContentWageCalculateInput,
+      CalculateCustomContentWageInput,
       CustomContentWageCalculateDialogMutationMutation,
       CustomContentWageCalculateDialogQueryQuery
     >

@@ -3,10 +3,10 @@ import { Content, Prisma } from "@prisma/client";
 import { NotFoundException } from "src/common/exception/not-found.exception";
 import { PrismaService } from "src/prisma";
 import {
-  ContentCreateInput,
-  ContentCreateResult,
   ContentListFilter,
   ContentsFilter,
+  CreateContentInput,
+  CreateContentResult,
 } from "./content.dto";
 
 const RAID_CATEGORIES = ["에픽 레이드", "카제로스 레이드", "강습 레이드", "군단장 레이드"];
@@ -60,7 +60,7 @@ export class ContentService {
     return where;
   }
 
-  async createContent(input: ContentCreateInput): Promise<ContentCreateResult> {
+  async createContent(input: CreateContentInput): Promise<CreateContentResult> {
     const { categoryId, contentRewards, contentSeeMoreRewards, duration, gate, level, name } =
       input;
 

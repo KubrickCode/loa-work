@@ -6,7 +6,7 @@ import { Form, z } from "~/core/form";
 import {
   ContentDurationEditDialogDocument,
   ContentDurationEditDocument,
-  ContentDurationEditInput,
+  EditContentDurationInput,
   ContentDurationEditMutation,
   ContentDurationEditDialogQuery,
   ContentDurationEditDialogQueryVariables,
@@ -30,7 +30,7 @@ export const ContentDurationEditDialog = ({
 }: ContentDurationEditDialogProps & DialogProps) => {
   return (
     <Dialog<
-      ContentDurationEditInput,
+      EditContentDurationInput,
       ContentDurationEditMutation,
       ContentDurationEditDialogQuery,
       ContentDurationEditDialogQueryVariables

@@ -319,7 +319,7 @@ describe("ContentWageListQuery (e2e)", () => {
     expect(response.body.data.contentWageList[0].goldAmountPerClear).toBe(500); // item1만 계산 (100 * 5)
   });
 
-  it("includeIsSeeMore 필터", async () => {
+  it("includeSeeMore 필터", async () => {
     // 콘텐츠 생성
     const content = await contentFactory.create();
 
@@ -358,14 +358,14 @@ describe("ContentWageListQuery (e2e)", () => {
       },
     });
 
-    // includeIsSeeMore = true로 쿼리
+    // includeSeeMore = true로 쿼리
     const responseWithSeeMore = await request(app.getHttpServer())
       .post("/graphql")
       .set("Content-Type", "application/json")
       .send({
         query: `
           query {
-            contentWageList(filter: { includeIsSeeMore: true }) {
+            contentWageList(filter: { includeSeeMore: true }) {
               contentId
               goldAmountPerClear
             }
@@ -373,14 +373,14 @@ describe("ContentWageListQuery (e2e)", () => {
         `,
       });
 
-    // includeIsSeeMore = false로 쿼리
+    // includeSeeMore = false로 쿼리
     const responseWithoutSeeMore = await request(app.getHttpServer())
       .post("/graphql")
       .set("Content-Type", "application/json")
       .send({
         query: `
           query {
-            contentWageList(filter: { includeIsSeeMore: false }) {
+            contentWageList(filter: { includeSeeMore: false }) {
               contentId
               goldAmountPerClear
             }
@@ -401,7 +401,7 @@ describe("ContentWageListQuery (e2e)", () => {
     expect(goldWithoutSeeMore).toBe(500); // 일반 500만
   });
 
-  it("includeIsBound 필터", async () => {
+  it("includeBound 필터", async () => {
     // 콘텐츠 생성
     const content = await contentFactory.create();
 
@@ -448,14 +448,14 @@ describe("ContentWageListQuery (e2e)", () => {
       },
     });
 
-    // includeIsBound = false로 쿼리 (거래 가능 아이템만)
+    // includeBound = false로 쿼리 (거래 가능 아이템만)
     const response = await request(app.getHttpServer())
       .post("/graphql")
       .set("Content-Type", "application/json")
       .send({
         query: `
           query {
-            contentWageList(filter: { includeIsBound: false }) {
+            contentWageList(filter: { includeBound: false }) {
               contentId
               goldAmountPerClear
             }
@@ -649,7 +649,7 @@ describe("ContentWageListQuery (e2e)", () => {
               filter: { 
                 contentCategoryId: ${category1.id},
                 keyword: "특수",
-                includeIsBound: false,
+                includeBound: false,
                 includeItemIds: [${item1.id}]
               }
             ) {
