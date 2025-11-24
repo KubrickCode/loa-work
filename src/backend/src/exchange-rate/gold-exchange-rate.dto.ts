@@ -1,5 +1,6 @@
 import { Field, InputType, Int, ObjectType } from "@nestjs/graphql";
 import { IsNumber, Min } from "class-validator";
+import { MutationResult } from "src/common/dto/mutation-result.dto";
 
 @InputType()
 export class EditGoldExchangeRateInput {
@@ -10,7 +11,4 @@ export class EditGoldExchangeRateInput {
 }
 
 @ObjectType()
-export class EditGoldExchangeRateResult {
-  @Field(() => Boolean, { description: "성공 여부" })
-  ok: boolean;
-}
+export class EditGoldExchangeRateResult extends MutationResult {}

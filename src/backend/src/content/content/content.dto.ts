@@ -16,6 +16,7 @@ import {
 import { ContentStatus } from "@prisma/client";
 import { Type } from "class-transformer";
 import { CONTENT_LEVEL_MAX, CONTENT_NAME_MAX_LENGTH } from "src/common/constants/content.constants";
+import { MutationResult } from "src/common/dto/mutation-result.dto";
 
 @InputType()
 export class ContentListFilter {
@@ -147,7 +148,4 @@ export class CreateContentSeeMoreRewardInput {
 }
 
 @ObjectType()
-export class CreateContentResult {
-  @Field(() => Boolean, { description: "성공 여부" })
-  ok: boolean;
-}
+export class CreateContentResult extends MutationResult {}
