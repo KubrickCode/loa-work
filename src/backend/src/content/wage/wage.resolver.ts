@@ -7,9 +7,9 @@ import { Content } from "../content/content.object";
 import { ContentDurationService } from "../duration/duration.service";
 import { ContentWageService } from "./wage.service";
 import {
+  CalculateCustomContentWageInput,
+  CalculateCustomContentWageResult,
   ContentWageListFilter,
-  CustomContentWageCalculateInput,
-  CustomContentWageCalculateResult,
 } from "./wage.dto";
 import { ContentWage } from "./wage.object";
 
@@ -56,9 +56,9 @@ export class WageResolver {
 
     const promises = contents.map(async (content) => {
       return await this.contentWageService.getContentWage(content.id, {
-        includeIsBound: filter?.includeIsBound,
-        includeIsSeeMore: filter?.includeIsSeeMore,
+        includeBound: filter?.includeBound,
         includeItemIds: filter?.includeItemIds,
+        includeSeeMore: filter?.includeSeeMore,
       });
     });
 
@@ -73,8 +73,8 @@ export class WageResolver {
     return result;
   }
 
-  @Mutation(() => CustomContentWageCalculateResult)
-  async customContentWageCalculate(@Args("input") input: CustomContentWageCalculateInput) {
+  @Mutation(() => CalculateCustomContentWageResult)
+  async customContentWageCalculate(@Args("input") input: CalculateCustomContentWageInput) {
     const { items, minutes, seconds } = input;
 
     const totalSeconds = this.contentDurationService.getValidatedTotalSeconds({

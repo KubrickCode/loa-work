@@ -13,19 +13,19 @@ import { ItemsFilterDocument, ItemsFilterQuery } from "~/core/graphql/generated"
 type ContentWageListPageContextType = {
   contentCategoryId: number | null;
 
-  includeIsBound?: boolean;
-  includeIsSeeMore?: boolean;
-
+  includeBound?: boolean;
   includeItemIds: number[];
+
+  includeSeeMore?: boolean;
   items: ItemsFilterQuery["items"];
 
   keyword: string;
   setContentCategoryId: (id: number | null) => void;
 
-  setIncludeIsBound: (value: boolean) => void;
-  setIncludeIsSeeMore: (value: boolean) => void;
-
+  setIncludeBound: (value: boolean) => void;
   setIncludeItemIds: Dispatch<SetStateAction<number[]>>;
+
+  setIncludeSeeMore: (value: boolean) => void;
   setKeyword: (value: string) => void;
 
   setShouldMergeGate: (value: boolean) => void;
@@ -42,8 +42,8 @@ export const ContentWageListPageProvider = ({ children }: PropsWithChildren) => 
   } = useSafeQuery(ItemsFilterDocument);
   const [contentCategoryId, setContentCategoryId] = useState<number | null>(null);
   const [keyword, setKeyword] = useState<string>("");
-  const [includeIsSeeMore, setIncludeIsSeeMore] = useState<boolean>(false);
-  const [includeIsBound, setIncludeIsBound] = useState<boolean>(false);
+  const [includeSeeMore, setIncludeSeeMore] = useState<boolean>(false);
+  const [includeBound, setIncludeBound] = useState<boolean>(false);
   const [includeItemIds, setIncludeItemIds] = useState<number[]>(items.map((item) => item.id));
   const [shouldMergeGate, setShouldMergeGate] = useState<boolean>(true);
 
@@ -51,15 +51,15 @@ export const ContentWageListPageProvider = ({ children }: PropsWithChildren) => 
     <ContentWageListPageContext.Provider
       value={{
         contentCategoryId,
-        includeIsBound,
-        includeIsSeeMore,
+        includeBound,
         includeItemIds,
+        includeSeeMore,
         items,
         keyword,
         setContentCategoryId,
-        setIncludeIsBound,
-        setIncludeIsSeeMore,
+        setIncludeBound,
         setIncludeItemIds,
+        setIncludeSeeMore,
         setKeyword,
         setShouldMergeGate,
         shouldMergeGate,

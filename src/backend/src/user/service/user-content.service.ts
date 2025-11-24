@@ -90,7 +90,7 @@ export class UserContentService {
   async getContentRewards(
     contentId: number,
     filter?: {
-      includeIsBound?: boolean;
+      includeBound?: boolean;
       includeItemIds?: number[];
     }
   ) {
@@ -152,7 +152,7 @@ export class UserContentService {
     }
 
     return result.filter((item) => {
-      if (filter?.includeIsBound === false) {
+      if (filter?.includeBound === false) {
         return item.isSellable;
       }
       return true;

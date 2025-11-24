@@ -9,7 +9,7 @@ query ContentCreateTabData {
   }
 }
 
-mutation ContentCreateTab($input: ContentCreateInput!) {
+mutation ContentCreateTab($input: CreateContentInput!) {
   contentCreate(input: $input) {
     ok
   }

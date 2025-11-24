@@ -4,7 +4,7 @@ import { Form, z } from "~/core/form";
 import {
   ContentRewardReportDialogDocument,
   ContentRewardsReportDocument,
-  ContentRewardsReportInput,
+  ReportContentRewardsInput,
   ContentRewardsReportMutation,
   ContentRewardReportDialogQuery,
   ContentRewardReportDialogQueryVariables,
@@ -29,7 +29,7 @@ export const ContentRewardReportDialog = ({
 }: ContentRewardReportDialogProps & DialogProps) => {
   return (
     <Dialog<
-      ContentRewardsReportInput,
+      ReportContentRewardsInput,
       ContentRewardsReportMutation,
       ContentRewardReportDialogQuery,
       ContentRewardReportDialogQueryVariables

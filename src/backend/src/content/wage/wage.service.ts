@@ -69,9 +69,9 @@ export class ContentWageService {
   async getContentGroupWage(
     contentIds: number[],
     filter: {
-      includeIsBound?: boolean;
-      includeIsSeeMore?: boolean;
+      includeBound?: boolean;
       includeItemIds?: number[];
+      includeSeeMore?: boolean;
     }
   ) {
     let totalGold = 0;
@@ -83,7 +83,7 @@ export class ContentWageService {
       });
 
       const rewards = await this.userContentService.getContentRewards(content.id, {
-        includeIsBound: filter?.includeIsBound,
+        includeBound: filter?.includeBound,
         includeItemIds: filter?.includeItemIds,
       });
 
@@ -94,7 +94,7 @@ export class ContentWageService {
       const rewardsGold = await this.calculateGold(rewards);
 
       const shouldIncludeSeeMoreRewards =
-        filter?.includeIsSeeMore && filter?.includeIsBound !== false && seeMoreRewards.length > 0;
+        filter?.includeSeeMore && filter?.includeBound !== false && seeMoreRewards.length > 0;
 
       const seeMoreGold = shouldIncludeSeeMoreRewards
         ? await this.calculateSeeMoreRewardsGold(seeMoreRewards, filter.includeItemIds)
@@ -123,9 +123,9 @@ export class ContentWageService {
   async getContentWage(
     contentId: number,
     filter: {
-      includeIsBound?: boolean;
-      includeIsSeeMore?: boolean;
+      includeBound?: boolean;
       includeItemIds?: number[];
+      includeSeeMore?: boolean;
     }
   ) {
     const content = await this.prisma.content.findUniqueOrThrow({
@@ -133,7 +133,7 @@ export class ContentWageService {
     });
 
     const rewards = await this.userContentService.getContentRewards(content.id, {
-      includeIsBound: filter?.includeIsBound,
+      includeBound: filter?.includeBound,
       includeItemIds: filter?.includeItemIds,
     });
 
@@ -144,7 +144,7 @@ export class ContentWageService {
     const rewardsGold = await this.calculateGold(rewards);
 
     const shouldIncludeSeeMoreRewards =
-      filter?.includeIsSeeMore && filter?.includeIsBound !== false && seeMoreRewards.length > 0;
+      filter?.includeSeeMore && filter?.includeBound !== false && seeMoreRewards.length > 0;
 
     const seeMoreGold = shouldIncludeSeeMoreRewards
       ? await this.calculateSeeMoreRewardsGold(seeMoreRewards, filter.includeItemIds)
