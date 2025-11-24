@@ -596,7 +596,7 @@ describe("ContentWageService", () => {
 
     it("다중 컨텐츠 수익 합산 정확성 검증", async () => {
       const contentIds = [testContents[0].id, testContents[1].id];
-      const filter = { includeIsBound: false };
+      const filter = { includeBound: false };
 
       const result = await service.getContentGroupWage(contentIds, filter);
 
@@ -642,7 +642,7 @@ describe("ContentWageService", () => {
       };
 
       const contentIds = [testContents[0].id];
-      const filter = { includeIsBound: false };
+      const filter = { includeBound: false };
 
       const result = await service.getContentGroupWage(contentIds, filter);
 
@@ -672,7 +672,7 @@ describe("ContentWageService", () => {
       });
 
       const contentIds = [testContents[0].id];
-      const filter = { includeIsBound: false };
+      const filter = { includeBound: false };
 
       const result = await service.getContentGroupWage(contentIds, filter);
 
@@ -686,7 +686,7 @@ describe("ContentWageService", () => {
 
     it("빈 배열 입력 시 처리", async () => {
       const contentIds = [];
-      const filter = { includeIsBound: false };
+      const filter = { includeBound: false };
 
       const result = await service.getContentGroupWage(contentIds, filter);
 
@@ -733,7 +733,7 @@ describe("ContentWageService", () => {
       ]);
 
       const contentIds = [mixedContent.id];
-      const filter = { includeIsBound: false };
+      const filter = { includeBound: false };
 
       const result = await service.getContentGroupWage(contentIds, filter);
 
@@ -749,7 +749,7 @@ describe("ContentWageService", () => {
       userGoldExchangeRateService["context"].req.user = { id: undefined };
 
       const contentIds = [testContents[0].id];
-      const filter = { includeIsBound: false };
+      const filter = { includeBound: false };
 
       // 환율 데이터가 없으면 에러가 발생해야 함
       await expect(service.getContentGroupWage(contentIds, filter)).rejects.toThrow();
@@ -766,7 +766,7 @@ describe("ContentWageService", () => {
     it("null/undefined 컨텐츠 필터링", async () => {
       const validContentId = testContents[0].id;
       const invalidContentIds = [null, undefined, validContentId, null];
-      const filter = { includeIsBound: false };
+      const filter = { includeBound: false };
 
       // null/undefined가 포함된 배열은 에러를 발생시켜야 함
       await expect(service.getContentGroupWage(invalidContentIds as any, filter)).rejects.toThrow();

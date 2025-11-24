@@ -8,10 +8,10 @@ import { PrismaService } from "src/prisma";
 import { Content } from "../content/content.object";
 import { ContentDurationService } from "./duration.service";
 import {
-  ContentDurationEditInput,
-  ContentDurationEditResult,
-  ContentDurationsEditInput,
-  ContentDurationsEditResult,
+  EditContentDurationInput,
+  EditContentDurationResult,
+  EditContentDurationsInput,
+  EditContentDurationsResult,
 } from "./duration.dto";
 import { ContentDuration } from "./duration.object";
 
@@ -32,9 +32,9 @@ export class DurationResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentDurationEditResult)
+  @Mutation(() => EditContentDurationResult)
   async contentDurationEdit(
-    @Args("input") input: ContentDurationEditInput,
+    @Args("input") input: EditContentDurationInput,
     @CurrentUser() user: User
   ) {
     const { contentId, minutes, seconds } = input;
@@ -67,9 +67,9 @@ export class DurationResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentDurationsEditResult)
+  @Mutation(() => EditContentDurationsResult)
   async contentDurationsEdit(
-    @Args("input") input: ContentDurationsEditInput,
+    @Args("input") input: EditContentDurationsInput,
     @CurrentUser() user: User
   ) {
     const { contentDurations } = input;

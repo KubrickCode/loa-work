@@ -4,7 +4,7 @@ import { Form, z } from "~/core/form";
 import {
   ContentSeeMoreRewardEditDialogDocument,
   ContentSeeMoreRewardsEditDocument,
-  ContentSeeMoreRewardsEditInput,
+  EditContentSeeMoreRewardsInput,
   ContentSeeMoreRewardsEditMutation,
   ContentSeeMoreRewardEditDialogQuery,
   ContentSeeMoreRewardEditDialogQueryVariables,
@@ -32,7 +32,7 @@ export const ContentSeeMoreRewardEditDialog = ({
 }: ContentSeeMoreRewardEditDialogProps & DialogProps) => {
   return (
     <Dialog<
-      ContentSeeMoreRewardsEditInput,
+      EditContentSeeMoreRewardsInput,
       ContentSeeMoreRewardsEditMutation,
       ContentSeeMoreRewardEditDialogQuery,
       ContentSeeMoreRewardEditDialogQueryVariables

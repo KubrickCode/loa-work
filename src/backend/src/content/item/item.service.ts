@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { PrismaService } from "src/prisma";
 import { UserContentService } from "src/user/service/user-content.service";
 import { ItemSortOrder } from "../shared/constants";
-import { ItemsFilter, UserItemPriceEditInput, UserItemPriceEditResult } from "./item.dto";
+import { ItemsFilter, EditUserItemPriceInput, EditUserItemPriceResult } from "./item.dto";
 import { Item } from "./item.object";
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ItemService {
     return where;
   }
 
-  async editUserItemPrice(input: UserItemPriceEditInput): Promise<UserItemPriceEditResult> {
+  async editUserItemPrice(input: EditUserItemPriceInput): Promise<EditUserItemPriceResult> {
     const { id, price } = input;
 
     await this.userContentService.validateUserItem(id);

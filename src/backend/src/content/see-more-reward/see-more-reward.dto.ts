@@ -1,25 +1,27 @@
 import { Field, Float, InputType, ObjectType } from "@nestjs/graphql";
 
 @InputType()
-export class ContentSeeMoreRewardEditInput {
-  @Field()
+export class EditContentSeeMoreRewardInput {
+  @Field({ description: "컨텐츠 ID" })
   contentId: number;
 
-  @Field()
+  @Field({ description: "아이템 ID" })
   itemId: number;
 
-  @Field(() => Float)
+  @Field(() => Float, { description: "획득 수량" })
   quantity: number;
 }
 
 @InputType()
-export class ContentSeeMoreRewardsEditInput {
-  @Field(() => [ContentSeeMoreRewardEditInput])
-  contentSeeMoreRewards: ContentSeeMoreRewardEditInput[];
+export class EditContentSeeMoreRewardsInput {
+  @Field(() => [EditContentSeeMoreRewardInput], {
+    description: "수정할 추가 보상(더보기) 목록",
+  })
+  contentSeeMoreRewards: EditContentSeeMoreRewardInput[];
 }
 
 @ObjectType()
-export class ContentSeeMoreRewardsEditResult {
-  @Field(() => Boolean)
+export class EditContentSeeMoreRewardsResult {
+  @Field(() => Boolean, { description: "성공 여부" })
   ok: boolean;
 }

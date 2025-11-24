@@ -168,7 +168,7 @@ describe("UserContentService", () => {
       });
 
       const results = await service.getContentRewards(content.id, {
-        includeIsBound: false,
+        includeBound: false,
       });
 
       expect(results).toHaveLength(1);
@@ -265,7 +265,7 @@ describe("UserContentService", () => {
       });
 
       const results = await service.getContentRewards(content.id, {
-        includeIsBound: false,
+        includeBound: false,
         includeItemIds: [item1.id, item2.id],
       });
 
@@ -487,7 +487,7 @@ describe("UserContentService", () => {
       });
 
       const results = await service.getContentRewards(content.id, {
-        includeIsBound: false,
+        includeBound: false,
       });
 
       expect(results).toHaveLength(1);

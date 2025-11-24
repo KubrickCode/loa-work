@@ -10,10 +10,10 @@ import { ContentWageService } from "../wage/wage.service";
 import { ContentWageFilter } from "../wage/wage.dto";
 import { ContentWage } from "../wage/wage.object";
 import {
-  ContentCreateInput,
-  ContentCreateResult,
   ContentListFilter,
   ContentsFilter,
+  CreateContentInput,
+  CreateContentResult,
 } from "./content.dto";
 import { ContentService } from "./content.service";
 import { Content } from "./content.object";
@@ -43,8 +43,8 @@ export class ContentResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentCreateResult)
-  async contentCreate(@Args("input") input: ContentCreateInput) {
+  @Mutation(() => CreateContentResult)
+  async contentCreate(@Args("input") input: CreateContentInput) {
     return await this.contentService.createContent(input);
   }
 

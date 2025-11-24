@@ -5,7 +5,7 @@ import { toaster } from "~/core/chakra-components/ui/toaster";
 import { Form, z } from "~/core/form";
 import { useSafeQuery } from "~/core/graphql";
 import {
-  ContentCreateInput,
+  CreateContentInput,
   ContentCreateTabDataDocument,
   ContentCreateTabDocument,
   ContentCreateTabMutation,
@@ -40,7 +40,7 @@ export const ContentCreateTab = () => {
 
   return (
     <Section>
-      <Form.Mutation<ContentCreateInput, ContentCreateTabMutation>
+      <Form.Mutation<CreateContentInput, ContentCreateTabMutation>
         defaultValues={{
           contentRewards: data.items.map(({ id }) => ({
             averageQuantity: 0,

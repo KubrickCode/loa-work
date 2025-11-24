@@ -375,15 +375,15 @@ describe("GroupService", () => {
       });
 
       await service.findContentGroupWageList({
-        includeIsBound: false,
-        includeIsSeeMore: true,
+        includeBound: false,
         includeItemIds: [1, 2, 3],
+        includeSeeMore: true,
       });
 
       expect(contentWageService.getContentGroupWage).toHaveBeenCalledWith([1], {
-        includeIsBound: false,
-        includeIsSeeMore: true,
+        includeBound: false,
         includeItemIds: [1, 2, 3],
+        includeSeeMore: true,
       });
     });
   });

@@ -77,7 +77,7 @@ export const ContentWageListFilters = () => {
 };
 
 const ContentSeeMoreFilter = () => {
-  const { includeIsSeeMore, setIncludeIsSeeMore } = useContentWageListPage();
+  const { includeSeeMore, setIncludeSeeMore } = useContentWageListPage();
 
   return (
     <SegmentedControl
@@ -85,14 +85,14 @@ const ContentSeeMoreFilter = () => {
         { label: "미포함", value: "false" },
         { label: "포함", value: "true" },
       ]}
-      onValueChange={(e) => setIncludeIsSeeMore(e.value === "true")}
-      value={includeIsSeeMore ? "true" : "false"}
+      onValueChange={(e) => setIncludeSeeMore(e.value === "true")}
+      value={includeSeeMore ? "true" : "false"}
     />
   );
 };
 
 const ContentIsBoundFilter = () => {
-  const { includeIsBound, setIncludeIsBound } = useContentWageListPage();
+  const { includeBound, setIncludeBound } = useContentWageListPage();
 
   return (
     <SegmentedControl
@@ -100,8 +100,8 @@ const ContentIsBoundFilter = () => {
         { label: "미포함", value: "false" },
         { label: "포함", value: "true" },
       ]}
-      onValueChange={(e) => setIncludeIsBound(e.value === "true")}
-      value={includeIsBound ? "true" : "false"}
+      onValueChange={(e) => setIncludeBound(e.value === "true")}
+      value={includeBound ? "true" : "false"}
     />
   );
 };

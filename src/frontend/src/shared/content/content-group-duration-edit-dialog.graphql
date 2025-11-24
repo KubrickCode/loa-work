@@ -9,7 +9,7 @@ query ContentGroupDurationEditDialog($ids: [Int!]!) {
   }
 }
 
-mutation ContentDurationsEdit($input: ContentDurationsEditInput!) {
+mutation ContentDurationsEdit($input: EditContentDurationsInput!) {
   contentDurationsEdit(input: $input) {
     ok
   }
