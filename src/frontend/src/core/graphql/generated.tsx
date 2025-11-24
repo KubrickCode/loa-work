@@ -504,7 +504,9 @@ export type MutationUserItemPriceEditArgs = {
 };
 
 export type OrderByArg = {
+  /** 정렬 필드명 */
   field: Scalars['String']['input'];
+  /** 정렬 방향 (asc 또는 desc) */
   order: Scalars['String']['input'];
 };
 
@@ -563,6 +565,7 @@ export type QueryContentGroupWageListArgs = {
 
 export type QueryContentListArgs = {
   filter?: InputMaybe<ContentListFilter>;
+  orderBy?: InputMaybe<Array<OrderByArg>>;
 };
 
 
