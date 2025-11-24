@@ -15,6 +15,7 @@ import {
 import { ContentStatus } from "@prisma/client";
 import { Type } from "class-transformer";
 import { CONTENT_NAME_MAX_LENGTH } from "src/common/constants/content.constants";
+import { MutationResult } from "src/common/dto/mutation-result.dto";
 
 @InputType()
 export class ContentWageFilter {
@@ -105,7 +106,7 @@ export class CalculateCustomContentWageItemInput {
 }
 
 @ObjectType()
-export class CalculateCustomContentWageResult {
+export class CalculateCustomContentWageResult extends MutationResult {
   @Field({ description: "회당 골드 획득량" })
   goldAmountPerClear: number;
 
@@ -114,7 +115,4 @@ export class CalculateCustomContentWageResult {
 
   @Field({ description: "시급 (원화)" })
   krwAmountPerHour: number;
-
-  @Field(() => Boolean, { description: "성공 여부" })
-  ok: boolean;
 }

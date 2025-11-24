@@ -2,6 +2,7 @@ import { Field, Float, InputType, ObjectType } from "@nestjs/graphql";
 import { IsEnum, IsNumber, IsOptional, IsString, MaxLength, Min } from "class-validator";
 import { ItemKind } from "@prisma/client";
 import { ITEM_KEYWORD_MAX_LENGTH } from "src/common/constants/item.constants";
+import { MutationResult } from "src/common/dto/mutation-result.dto";
 
 @InputType()
 export class ItemsFilter {
@@ -31,7 +32,4 @@ export class EditUserItemPriceInput {
 }
 
 @ObjectType()
-export class EditUserItemPriceResult {
-  @Field(() => Boolean, { description: "성공 여부" })
-  ok: boolean;
-}
+export class EditUserItemPriceResult extends MutationResult {}
