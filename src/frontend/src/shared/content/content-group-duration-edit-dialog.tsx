@@ -5,7 +5,7 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import {
   ContentDurationsEditDocument,
-  ContentDurationsEditInput,
+  EditContentDurationsInput,
   ContentDurationsEditMutation,
   ContentGroupDurationEditDialogDocument,
   ContentGroupDurationEditDialogQuery,
@@ -34,7 +34,7 @@ export const ContentGroupDurationEditDialog = ({
 }: ContentGroupDurationEditDialogProps & DialogProps) => {
   return (
     <Dialog<
-      ContentDurationsEditInput,
+      EditContentDurationsInput,
       ContentDurationsEditMutation,
       ContentGroupDurationEditDialogQuery,
       ContentGroupDurationEditDialogQueryVariables

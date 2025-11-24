@@ -5,7 +5,7 @@ import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
 import { PrismaService } from "src/prisma";
 import { UserContentService } from "src/user/service/user-content.service";
-import { ItemsFilter, UserItemPriceEditInput, UserItemPriceEditResult } from "./item.dto";
+import { EditUserItemPriceInput, EditUserItemPriceResult, ItemsFilter } from "./item.dto";
 import { ItemService } from "./item.service";
 import { Item, UserItem } from "./item.object";
 
@@ -28,8 +28,8 @@ export class ItemResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => UserItemPriceEditResult)
-  async userItemPriceEdit(@Args("input") input: UserItemPriceEditInput) {
+  @Mutation(() => EditUserItemPriceResult)
+  async userItemPriceEdit(@Args("input") input: EditUserItemPriceInput) {
     return await this.itemService.editUserItemPrice(input);
   }
 

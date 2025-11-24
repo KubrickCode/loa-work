@@ -24,9 +24,9 @@ export const ContentWageListTable = () => {
   const { isAuthenticated } = useAuth();
   const {
     contentCategoryId,
-    includeIsBound,
-    includeIsSeeMore,
+    includeBound,
     includeItemIds,
+    includeSeeMore,
     keyword,
     shouldMergeGate,
   } = useContentWageListPage();
@@ -43,9 +43,9 @@ export const ContentWageListTable = () => {
     variables: {
       filter: {
         contentCategoryId,
-        includeIsBound,
-        includeIsSeeMore,
+        includeBound,
         includeItemIds,
+        includeSeeMore,
         keyword,
         status: ContentStatus.ACTIVE,
       },

@@ -3,7 +3,7 @@ import { Dialog, DialogProps } from "~/core/dialog";
 import { Form, z } from "~/core/form";
 import {
   GoldExchangeRateEditDocument,
-  GoldExchangeRateEditInput,
+  EditGoldExchangeRateInput,
   GoldExchangeRateEditMutation,
   GoldExchangeRateSettingDialogDocument,
   GoldExchangeRateSettingDialogQuery,
@@ -21,7 +21,7 @@ export const GoldExchangeRateSettingDialog = ({
 } & DialogProps) => {
   return (
     <Dialog<
-      GoldExchangeRateEditInput,
+      EditGoldExchangeRateInput,
       GoldExchangeRateEditMutation,
       GoldExchangeRateSettingDialogQuery
     >

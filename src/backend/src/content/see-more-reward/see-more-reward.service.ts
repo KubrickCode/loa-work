@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { Prisma, UserRole } from "@prisma/client";
 import { PrismaService } from "src/prisma";
 import {
-  ContentSeeMoreRewardsEditInput,
-  ContentSeeMoreRewardsEditResult,
+  EditContentSeeMoreRewardsInput,
+  EditContentSeeMoreRewardsResult,
 } from "./see-more-reward.dto";
 
 type TransactionClient = Prisma.TransactionClient;
@@ -13,10 +13,10 @@ export class SeeMoreRewardService {
   constructor(private prisma: PrismaService) {}
 
   async editContentSeeMoreRewards(
-    input: ContentSeeMoreRewardsEditInput,
+    input: EditContentSeeMoreRewardsInput,
     userId: number,
     userRole: UserRole
-  ): Promise<ContentSeeMoreRewardsEditResult> {
+  ): Promise<EditContentSeeMoreRewardsResult> {
     return await this.prisma.$transaction(async (tx) => {
       if (userRole === UserRole.OWNER) {
         await this.updateOwnerSeeMoreRewards(tx, input);
@@ -30,7 +30,7 @@ export class SeeMoreRewardService {
 
   private async updateOwnerSeeMoreRewards(
     tx: TransactionClient,
-    input: ContentSeeMoreRewardsEditInput
+    input: EditContentSeeMoreRewardsInput
   ): Promise<void> {
     await Promise.all(
       input.contentSeeMoreRewards.map(async ({ contentId, itemId, quantity }) => {
@@ -48,7 +48,7 @@ export class SeeMoreRewardService {
 
   private async upsertUserSeeMoreRewards(
     tx: TransactionClient,
-    input: ContentSeeMoreRewardsEditInput,
+    input: EditContentSeeMoreRewardsInput,
     userId: number
   ): Promise<void> {
     await Promise.all(

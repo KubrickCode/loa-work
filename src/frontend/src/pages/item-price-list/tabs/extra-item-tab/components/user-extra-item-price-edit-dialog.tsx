@@ -4,7 +4,7 @@ import { Form, z } from "~/core/form";
 import {
   UserExtraItemPriceEditDialogDocument,
   UserItemPriceEditDocument,
-  UserItemPriceEditInput,
+  EditUserItemPriceInput,
   UserItemPriceEditMutation,
   UserExtraItemPriceEditDialogQuery,
   UserExtraItemPriceEditDialogQueryVariables,
@@ -27,7 +27,7 @@ export const UserExtraItemPriceEditDialog = ({
 }: UserExtraItemPriceEditDialogProps & DialogProps) => {
   return (
     <Dialog<
-      UserItemPriceEditInput,
+      EditUserItemPriceInput,
       UserItemPriceEditMutation,
       UserExtraItemPriceEditDialogQuery,
       UserExtraItemPriceEditDialogQueryVariables

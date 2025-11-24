@@ -13,7 +13,10 @@ type AuctionItem {
 }
 
 input AuctionItemListFilter {
+  """가격 통계 수집 활성화 여부"""
   isStatScraperEnabled: Boolean
+
+  """아이템 이름 검색 키워드"""
   nameKeyword: String
 }
 
@@ -23,8 +26,43 @@ enum AuthProvider {
   KAKAO
 }
 
+input CalculateCustomContentWageInput {
+  """아이템 목록"""
+  items: [CalculateCustomContentWageItemInput!]!
+
+  """분"""
+  minutes: Int!
+
+  """초"""
+  seconds: Int!
+}
+
+input CalculateCustomContentWageItemInput {
+  """아이템 ID"""
+  id: Int!
+
+  """획득 수량"""
+  quantity: Float!
+}
+
+type CalculateCustomContentWageResult {
+  """회당 골드 획득량"""
+  goldAmountPerClear: Int!
+
+  """시급 (골드)"""
+  goldAmountPerHour: Int!
+
+  """시급 (원화)"""
+  krwAmountPerHour: Int!
+
+  """성공 여부"""
+  ok: Boolean!
+}
+
 type Content {
   contentCategory: ContentCategory!
+
+  """컨텐츠 카테고리 ID"""
   contentCategoryId: Int!
   contentRewards: [ContentReward!]!
   contentSeeMoreRewards: [ContentSeeMoreReward!]!
@@ -32,12 +70,20 @@ type Content {
   displayName: String!
   duration: Int!
   durationText: String!
+
+  """관문 번호"""
   gate: Int
   id: Int!
+
+  """레벨"""
   level: Int!
+
+  """컨텐츠 이름"""
   name: String!
   updatedAt: DateTime!
   wage(filter: ContentWageFilter): ContentWage!
+
+  """시급 계산 필터"""
   wageFilter: ContentObjectWageFilter
 }
 
@@ -49,31 +95,6 @@ type ContentCategory {
   updatedAt: DateTime!
 }
 
-input ContentCreateInput {
-  categoryId: Int!
-  contentRewards: [ContentCreateItemsInput!]!
-  contentSeeMoreRewards: [ContentCreateSeeMoreRewardsInput!]
-  duration: Int!
-  gate: Int
-  level: Int!
-  name: String!
-}
-
-input ContentCreateItemsInput {
-  averageQuantity: Float!
-  isBound: Boolean!
-  itemId: Int!
-}
-
-type ContentCreateResult {
-  ok: Boolean!
-}
-
-input ContentCreateSeeMoreRewardsInput {
-  itemId: Int!
-  quantity: Float!
-}
-
 type ContentDuration {
   content: Content!
   contentId: Int!
@@ -81,30 +102,6 @@ type ContentDuration {
   id: Int!
   updatedAt: DateTime!
   value: Int!
-}
-
-input ContentDurationEditInput {
-  contentId: Int!
-  minutes: Int!
-  seconds: Int!
-}
-
-type ContentDurationEditResult {
-  ok: Boolean!
-}
-
-input ContentDurationsEditInput {
-  contentDurations: [ContentDurationsEditInputDuration!]!
-}
-
-input ContentDurationsEditInputDuration {
-  contentId: Int!
-  minutes: Int!
-  seconds: Int!
-}
-
-type ContentDurationsEditResult {
-  ok: Boolean!
 }
 
 type ContentGroup {
@@ -119,6 +116,7 @@ type ContentGroup {
 }
 
 input ContentGroupFilter {
+  """그룹화할 컨텐츠 ID 목록"""
   contentIds: [Int!]
 }
 
@@ -130,25 +128,48 @@ type ContentGroupWage {
 }
 
 input ContentGroupWageListFilter {
+  """필터링할 컨텐츠 카테고리 ID"""
   contentCategoryId: Int
-  includeIsBound: Boolean
-  includeIsSeeMore: Boolean
+
+  """귀속 아이템 포함 여부"""
+  includeBound: Boolean
+
+  """포함할 아이템 ID 목록"""
   includeItemIds: [Int!]
+
+  """추가 보상(더보기) 포함 여부"""
+  includeSeeMore: Boolean
+
+  """검색 키워드"""
   keyword: String
+
+  """컨텐츠 상태"""
   status: ContentStatus
 }
 
 input ContentListFilter {
+  """필터링할 컨텐츠 카테고리 ID"""
   contentCategoryId: Int
-  includeIsSeeMore: Boolean
+
+  """추가 보상(더보기) 포함 여부"""
+  includeSeeMore: Boolean
+
+  """검색 키워드"""
   keyword: String
+
+  """컨텐츠 상태"""
   status: ContentStatus
 }
 
 type ContentObjectWageFilter {
-  includeIsBound: Boolean
-  includeIsSeeMore: Boolean
+  """귀속 아이템 포함 여부"""
+  includeBound: Boolean
+
+  """포함할 아이템 ID 목록"""
   includeItemIds: [String!]
+
+  """추가 보상(더보기) 포함 여부"""
+  includeSeeMore: Boolean
 }
 
 type ContentReward {
@@ -161,35 +182,6 @@ type ContentReward {
   updatedAt: DateTime!
 }
 
-input ContentRewardEditInput {
-  averageQuantity: Float!
-  contentId: Int!
-  isSellable: Boolean!
-  itemId: Int!
-}
-
-input ContentRewardReportInput {
-  averageQuantity: Float!
-  id: Int!
-}
-
-input ContentRewardsEditInput {
-  contentRewards: [ContentRewardEditInput!]!
-  isReportable: Boolean!
-}
-
-type ContentRewardsEditResult {
-  ok: Boolean!
-}
-
-input ContentRewardsReportInput {
-  contentRewards: [ContentRewardReportInput!]!
-}
-
-type ContentRewardsReportResult {
-  ok: Boolean!
-}
-
 type ContentSeeMoreReward {
   contentId: Int!
   createdAt: DateTime!
@@ -198,20 +190,6 @@ type ContentSeeMoreReward {
   itemId: Int!
   quantity: Float!
   updatedAt: DateTime!
-}
-
-input ContentSeeMoreRewardEditInput {
-  contentId: Int!
-  itemId: Int!
-  quantity: Float!
-}
-
-input ContentSeeMoreRewardsEditInput {
-  contentSeeMoreRewards: [ContentSeeMoreRewardEditInput!]!
-}
-
-type ContentSeeMoreRewardsEditResult {
-  ok: Boolean!
 }
 
 enum ContentStatus {
@@ -228,40 +206,86 @@ type ContentWage {
 }
 
 input ContentWageFilter {
-  includeIsBound: Boolean
-  includeIsSeeMore: Boolean
+  """귀속 아이템 포함 여부"""
+  includeBound: Boolean
+
+  """포함할 아이템 ID 목록"""
   includeItemIds: [Int!]
+
+  """추가 보상(더보기) 포함 여부"""
+  includeSeeMore: Boolean
 }
 
 input ContentWageListFilter {
+  """필터링할 컨텐츠 카테고리 ID"""
   contentCategoryId: Int
-  includeIsBound: Boolean
-  includeIsSeeMore: Boolean
+
+  """귀속 아이템 포함 여부"""
+  includeBound: Boolean
+
+  """포함할 아이템 ID 목록"""
   includeItemIds: [Int!]
+
+  """추가 보상(더보기) 포함 여부"""
+  includeSeeMore: Boolean
+
+  """검색 키워드"""
   keyword: String
+
+  """컨텐츠 상태"""
   status: ContentStatus
 }
 
 input ContentsFilter {
+  """필터링할 컨텐츠 ID 목록"""
   ids: [Int!]
 }
 
-input CustomContentWageCalculateInput {
-  items: [CustomContentWageCalculateItemsInput!]!
-  minutes: Int!
-  seconds: Int!
+input CreateContentInput {
+  """컨텐츠 카테고리 ID"""
+  categoryId: Int!
+
+  """컨텐츠 보상 아이템 목록"""
+  contentRewards: [CreateContentItemInput!]!
+
+  """추가 보상(더보기) 아이템 목록"""
+  contentSeeMoreRewards: [CreateContentSeeMoreRewardInput!]
+
+  """소요 시간 (초)"""
+  duration: Int!
+
+  """관문 번호"""
+  gate: Int
+
+  """레벨"""
+  level: Int!
+
+  """컨텐츠 이름"""
+  name: String!
 }
 
-input CustomContentWageCalculateItemsInput {
-  id: Int!
-  quantity: Float!
+input CreateContentItemInput {
+  """평균 획득 수량"""
+  averageQuantity: Float!
+
+  """귀속 여부"""
+  isBound: Boolean!
+
+  """아이템 ID"""
+  itemId: Int!
 }
 
-type CustomContentWageCalculateResult {
-  goldAmountPerClear: Int!
-  goldAmountPerHour: Int!
-  krwAmountPerHour: Int!
+type CreateContentResult {
+  """성공 여부"""
   ok: Boolean!
+}
+
+input CreateContentSeeMoreRewardInput {
+  """아이템 ID"""
+  itemId: Int!
+
+  """획득 수량"""
+  quantity: Float!
 }
 
 """
@@ -269,20 +293,120 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input EditContentDurationInput {
+  """컨텐츠 ID"""
+  contentId: Int!
+
+  """분"""
+  minutes: Int!
+
+  """초"""
+  seconds: Int!
+}
+
+type EditContentDurationResult {
+  """성공 여부"""
+  ok: Boolean!
+}
+
+input EditContentDurationsDurationInput {
+  """컨텐츠 ID"""
+  contentId: Int!
+
+  """분"""
+  minutes: Int!
+
+  """초"""
+  seconds: Int!
+}
+
+input EditContentDurationsInput {
+  """수정할 컨텐츠 소요 시간 목록"""
+  contentDurations: [EditContentDurationsDurationInput!]!
+}
+
+type EditContentDurationsResult {
+  """성공 여부"""
+  ok: Boolean!
+}
+
+input EditContentRewardInput {
+  """평균 획득 수량"""
+  averageQuantity: Float!
+
+  """컨텐츠 ID"""
+  contentId: Int!
+
+  """거래 가능 여부"""
+  isSellable: Boolean!
+
+  """아이템 ID"""
+  itemId: Int!
+}
+
+input EditContentRewardsInput {
+  """수정할 컨텐츠 보상 목록"""
+  contentRewards: [EditContentRewardInput!]!
+
+  """제보 가능 여부"""
+  isReportable: Boolean!
+}
+
+type EditContentRewardsResult {
+  """성공 여부"""
+  ok: Boolean!
+}
+
+input EditContentSeeMoreRewardInput {
+  """컨텐츠 ID"""
+  contentId: Int!
+
+  """아이템 ID"""
+  itemId: Int!
+
+  """획득 수량"""
+  quantity: Float!
+}
+
+input EditContentSeeMoreRewardsInput {
+  """수정할 추가 보상(더보기) 목록"""
+  contentSeeMoreRewards: [EditContentSeeMoreRewardInput!]!
+}
+
+type EditContentSeeMoreRewardsResult {
+  """성공 여부"""
+  ok: Boolean!
+}
+
+input EditGoldExchangeRateInput {
+  """100골드당 원화 금액"""
+  krwAmount: Int!
+}
+
+type EditGoldExchangeRateResult {
+  """성공 여부"""
+  ok: Boolean!
+}
+
+input EditUserItemPriceInput {
+  """아이템 ID"""
+  id: Int!
+
+  """사용자 지정 가격"""
+  price: Float!
+}
+
+type EditUserItemPriceResult {
+  """성공 여부"""
+  ok: Boolean!
+}
+
 type GoldExchangeRate {
   createdAt: DateTime!
   goldAmount: Float!
   id: Int!
   krwAmount: Float!
   updatedAt: DateTime!
-}
-
-input GoldExchangeRateEditInput {
-  krwAmount: Int!
-}
-
-type GoldExchangeRateEditResult {
-  ok: Boolean!
 }
 
 type Item {
@@ -303,7 +427,10 @@ enum ItemKind {
 }
 
 input ItemsFilter {
+  """제외할 아이템 이름"""
   excludeItemName: String
+
+  """아이템 종류"""
   kind: ItemKind
 }
 
@@ -322,22 +449,29 @@ type MarketItem {
 }
 
 input MarketItemListFilter {
+  """카테고리 이름"""
   categoryName: String
+
+  """등급"""
   grade: String
+
+  """가격 통계 수집 활성화 여부"""
   isStatScraperEnabled: Boolean
+
+  """검색 키워드"""
   keyword: String
 }
 
 type Mutation {
-  contentCreate(input: ContentCreateInput!): ContentCreateResult!
-  contentDurationEdit(input: ContentDurationEditInput!): ContentDurationEditResult!
-  contentDurationsEdit(input: ContentDurationsEditInput!): ContentDurationsEditResult!
-  contentRewardsEdit(input: ContentRewardsEditInput!): ContentRewardsEditResult!
-  contentRewardsReport(input: ContentRewardsReportInput!): ContentRewardsReportResult!
-  contentSeeMoreRewardsEdit(input: ContentSeeMoreRewardsEditInput!): ContentSeeMoreRewardsEditResult!
-  customContentWageCalculate(input: CustomContentWageCalculateInput!): CustomContentWageCalculateResult!
-  goldExchangeRateEdit(input: GoldExchangeRateEditInput!): GoldExchangeRateEditResult!
-  userItemPriceEdit(input: UserItemPriceEditInput!): UserItemPriceEditResult!
+  contentCreate(input: CreateContentInput!): CreateContentResult!
+  contentDurationEdit(input: EditContentDurationInput!): EditContentDurationResult!
+  contentDurationsEdit(input: EditContentDurationsInput!): EditContentDurationsResult!
+  contentRewardsEdit(input: EditContentRewardsInput!): EditContentRewardsResult!
+  contentRewardsReport(input: ReportContentRewardsInput!): ReportContentRewardsResult!
+  contentSeeMoreRewardsEdit(input: EditContentSeeMoreRewardsInput!): EditContentSeeMoreRewardsResult!
+  customContentWageCalculate(input: CalculateCustomContentWageInput!): CalculateCustomContentWageResult!
+  goldExchangeRateEdit(input: EditGoldExchangeRateInput!): EditGoldExchangeRateResult!
+  userItemPriceEdit(input: EditUserItemPriceInput!): EditUserItemPriceResult!
 }
 
 input OrderByArg {
@@ -364,6 +498,24 @@ type Query {
   userList: [User!]!
 }
 
+input ReportContentRewardInput {
+  """평균 획득 수량"""
+  averageQuantity: Float!
+
+  """컨텐츠 보상 ID"""
+  id: Int!
+}
+
+input ReportContentRewardsInput {
+  """제보할 컨텐츠 보상 목록"""
+  contentRewards: [ReportContentRewardInput!]!
+}
+
+type ReportContentRewardsResult {
+  """성공 여부"""
+  ok: Boolean!
+}
+
 type User {
   createdAt: DateTime!
   displayName: String!
@@ -383,15 +535,6 @@ type UserItem {
   price: Float!
   updatedAt: DateTime!
   userId: Int!
-}
-
-input UserItemPriceEditInput {
-  id: Int!
-  price: Float!
-}
-
-type UserItemPriceEditResult {
-  ok: Boolean!
 }
 
 enum UserRole {

@@ -9,7 +9,7 @@ import {
   ContentRewardEditDialogQuery,
   ContentRewardEditDialogQueryVariables,
   ContentRewardsEditDocument,
-  ContentRewardsEditInput,
+  EditContentRewardsInput,
   ContentRewardsEditMutation,
 } from "~/core/graphql/generated";
 
@@ -39,7 +39,7 @@ export const ContentRewardEditDialog = ({
 }: ContentRewardEditDialogProps & DialogProps) => {
   return (
     <Dialog<
-      ContentRewardsEditInput,
+      EditContentRewardsInput,
       ContentRewardsEditMutation,
       ContentRewardEditDialogQuery,
       ContentRewardEditDialogQueryVariables

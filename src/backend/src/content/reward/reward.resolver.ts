@@ -7,10 +7,10 @@ import { DataLoaderService } from "src/dataloader/data-loader.service";
 import { UserContentService } from "src/user/service/user-content.service";
 import { Item } from "../item/item.object";
 import {
-  ContentRewardsEditInput,
-  ContentRewardsEditResult,
-  ContentRewardsReportInput,
-  ContentRewardsReportResult,
+  EditContentRewardsInput,
+  EditContentRewardsResult,
+  ReportContentRewardsInput,
+  ReportContentRewardsResult,
 } from "./reward.dto";
 import { RewardService } from "./reward.service";
 import { ContentReward } from "./reward.object";
@@ -24,18 +24,18 @@ export class RewardResolver {
   ) {}
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentRewardsEditResult)
+  @Mutation(() => EditContentRewardsResult)
   async contentRewardsEdit(
-    @Args("input") input: ContentRewardsEditInput,
+    @Args("input") input: EditContentRewardsInput,
     @CurrentUser() user: User
   ) {
     return await this.rewardService.editContentRewards(input, user.id, user.role);
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => ContentRewardsReportResult)
+  @Mutation(() => ReportContentRewardsResult)
   async contentRewardsReport(
-    @Args("input") input: ContentRewardsReportInput,
+    @Args("input") input: ReportContentRewardsInput,
     @CurrentUser() user: User
   ) {
     return await this.rewardService.reportContentRewards(input, user.id);

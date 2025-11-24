@@ -200,8 +200,8 @@ const ContentWageSection = ({
   contentId: number;
   items: { id: number; name: string }[];
 }) => {
-  const [includeIsSeeMore, setIncludeIsSeeMore] = useState(false);
-  const [includeIsBound, setIncludeIsBound] = useState(false);
+  const [includeSeeMore, setIncludeSeeMore] = useState(false);
+  const [includeBound, setIncludeBound] = useState(false);
   const [includeItemIds, setIncludeItemIds] = useState<number[]>(items.map(({ id }) => id));
 
   return (
@@ -229,14 +229,14 @@ const ContentWageSection = ({
                   </Field>
                   <Field label="더보기 포함 여부" w="auto">
                     <ContentSeeMoreFilter
-                      includeIsSeeMore={includeIsSeeMore}
-                      setIncludeIsSeeMore={setIncludeIsSeeMore}
+                      includeSeeMore={includeSeeMore}
+                      setIncludeSeeMore={setIncludeSeeMore}
                     />
                   </Field>
                   <Field label="귀속 재료 포함 여부" w="auto">
                     <ContentIsBoundFilter
-                      includeIsBound={includeIsBound}
-                      setIncludeIsBound={setIncludeIsBound}
+                      includeBound={includeBound}
+                      setIncludeBound={setIncludeBound}
                     />
                   </Field>
                 </Flex>
@@ -249,9 +249,9 @@ const ContentWageSection = ({
       <Suspense fallback={<TableSkeleton line={1} />}>
         <ContentWageSectionDataGrid
           contentId={contentId}
-          includeIsBound={includeIsBound}
-          includeIsSeeMore={includeIsSeeMore}
+          includeBound={includeBound}
           includeItemIds={includeItemIds}
+          includeSeeMore={includeSeeMore}
         />
       </Suspense>
     </Section>
@@ -260,23 +260,23 @@ const ContentWageSection = ({
 
 const ContentWageSectionDataGrid = ({
   contentId,
-  includeIsBound,
-  includeIsSeeMore,
+  includeBound,
   includeItemIds,
+  includeSeeMore,
 }: {
   contentId: number;
-  includeIsBound: boolean;
-  includeIsSeeMore: boolean;
+  includeBound: boolean;
   includeItemIds: number[];
+  includeSeeMore: boolean;
 }) => {
   const { isAuthenticated } = useAuth();
   const { data, refetch } = useSafeQuery(ContentDetailsDialogWageSectionDocument, {
     variables: {
       contentId,
       filter: {
-        includeIsBound,
-        includeIsSeeMore,
+        includeBound,
         includeItemIds,
+        includeSeeMore,
       },
     },
   });
@@ -320,11 +320,11 @@ const ContentWageSectionDataGrid = ({
 };
 
 const ContentSeeMoreFilter = ({
-  includeIsSeeMore,
-  setIncludeIsSeeMore,
+  includeSeeMore,
+  setIncludeSeeMore,
 }: {
-  includeIsSeeMore: boolean;
-  setIncludeIsSeeMore: (value: boolean) => void;
+  includeSeeMore: boolean;
+  setIncludeSeeMore: (value: boolean) => void;
 }) => {
   return (
     <SegmentedControl
@@ -332,18 +332,18 @@ const ContentSeeMoreFilter = ({
         { label: "미포함", value: "false" },
         { label: "포함", value: "true" },
       ]}
-      onValueChange={(e) => setIncludeIsSeeMore(e.value === "true")}
-      value={includeIsSeeMore ? "true" : "false"}
+      onValueChange={(e) => setIncludeSeeMore(e.value === "true")}
+      value={includeSeeMore ? "true" : "false"}
     />
   );
 };
 
 const ContentIsBoundFilter = ({
-  includeIsBound,
-  setIncludeIsBound,
+  includeBound,
+  setIncludeBound,
 }: {
-  includeIsBound: boolean;
-  setIncludeIsBound: (value: boolean) => void;
+  includeBound: boolean;
+  setIncludeBound: (value: boolean) => void;
 }) => {
   return (
     <SegmentedControl
@@ -351,8 +351,8 @@ const ContentIsBoundFilter = ({
         { label: "미포함", value: "false" },
         { label: "포함", value: "true" },
       ]}
-      onValueChange={(e) => setIncludeIsBound(e.value === "true")}
-      value={includeIsBound ? "true" : "false"}
+      onValueChange={(e) => setIncludeBound(e.value === "true")}
+      value={includeBound ? "true" : "false"}
     />
   );
 };
