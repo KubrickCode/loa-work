@@ -1,20 +1,11 @@
-import { Inject, Injectable, UseGuards } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma";
-import { CONTEXT } from "@nestjs/graphql";
-import { ContextType } from "./types";
-import { AuthGuard } from "src/auth/auth.guard";
 
-@UseGuards(AuthGuard)
 @Injectable()
 export class UserGoldExchangeRateService {
-  constructor(
-    private readonly prisma: PrismaService,
-    @Inject(CONTEXT) private context: ContextType
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async getGoldExchangeRate() {
-    const userId = this.getUserId();
-
+  async getGoldExchangeRate(userId?: number) {
     const goldExchangeRate = await this.prisma.goldExchangeRate.findFirstOrThrow();
 
     if (userId) {
@@ -28,9 +19,5 @@ export class UserGoldExchangeRateService {
     }
 
     return goldExchangeRate;
-  }
-
-  private getUserId() {
-    return this.context.req?.user?.id;
   }
 }

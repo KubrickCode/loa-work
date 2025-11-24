@@ -1,6 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { PrismaService } from "src/prisma";
-import { CONTEXT } from "@nestjs/graphql";
 import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
 import { UserFactory } from "src/test/factory/user.factory";
 import { User } from "@prisma/client";
@@ -13,15 +12,7 @@ describe("UserGoldExchangeRateService", () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [
-        PrismaService,
-        UserGoldExchangeRateService,
-        UserFactory,
-        {
-          provide: CONTEXT,
-          useValue: { req: { user: { id: undefined } } },
-        },
-      ],
+      providers: [PrismaService, UserGoldExchangeRateService, UserFactory],
     }).compile();
 
     service = module.get(UserGoldExchangeRateService);
@@ -40,7 +31,6 @@ describe("UserGoldExchangeRateService", () => {
 
     beforeAll(async () => {
       user = await userFactory.create();
-      service["context"].req.user = { id: user.id };
 
       await prisma.goldExchangeRate.create({
         data: {
@@ -60,7 +50,7 @@ describe("UserGoldExchangeRateService", () => {
 
     describe("getGoldExchangeRate", () => {
       it("basic", async () => {
-        const result = await service.getGoldExchangeRate();
+        const result = await service.getGoldExchangeRate(user.id);
 
         expect(result.goldAmount).toEqual(userGoldAmount);
         expect(result.krwAmount).toEqual(userKrwAmount);
@@ -71,10 +61,6 @@ describe("UserGoldExchangeRateService", () => {
   describe("not logged in", () => {
     const goldAmount = 100;
     const krwAmount = 25;
-
-    beforeAll(async () => {
-      service["context"].req.user = { id: undefined };
-    });
 
     describe("getGoldExchangeRate", () => {
       beforeAll(async () => {

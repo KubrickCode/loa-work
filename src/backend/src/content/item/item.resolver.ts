@@ -1,5 +1,6 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Float, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { User as PrismaUser } from "@prisma/client";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
@@ -29,13 +30,16 @@ export class ItemResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => EditUserItemPriceResult)
-  async userItemPriceEdit(@Args("input") input: EditUserItemPriceInput) {
-    return await this.itemService.editUserItemPrice(input);
+  async userItemPriceEdit(
+    @Args("input") input: EditUserItemPriceInput,
+    @CurrentUser() user: PrismaUser
+  ) {
+    return await this.itemService.editUserItemPrice(input, user.id);
   }
 
   @ResolveField(() => Float)
-  async price(@Parent() item: Item) {
-    return await this.userContentService.getItemPrice(item.id);
+  async price(@Parent() item: Item, @CurrentUser() user?: PrismaUser) {
+    return await this.userContentService.getItemPrice(item.id, user?.id);
   }
 
   @UseGuards(AuthGuard)

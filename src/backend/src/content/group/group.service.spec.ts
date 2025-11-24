@@ -380,7 +380,7 @@ describe("GroupService", () => {
         includeSeeMore: true,
       });
 
-      expect(contentWageService.getContentGroupWage).toHaveBeenCalledWith([1], {
+      expect(contentWageService.getContentGroupWage).toHaveBeenCalledWith([1], undefined, {
         includeBound: false,
         includeItemIds: [1, 2, 3],
         includeSeeMore: true,

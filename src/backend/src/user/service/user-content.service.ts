@@ -1,20 +1,11 @@
-import { Inject, Injectable, UseGuards } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma";
-import { CONTEXT } from "@nestjs/graphql";
-import { ContextType } from "./types";
-import { AuthGuard } from "src/auth/auth.guard";
 
-@UseGuards(AuthGuard)
 @Injectable()
 export class UserContentService {
-  constructor(
-    private readonly prisma: PrismaService,
-    @Inject(CONTEXT) private context: ContextType
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async getContentDuration(contentId: number) {
-    const userId = this.getUserId();
-
+  async getContentDuration(contentId: number, userId?: number) {
     const contentDuration = await this.prisma.contentDuration.findUniqueOrThrow({
       where: {
         contentId,
@@ -37,9 +28,7 @@ export class UserContentService {
     return contentDuration.value;
   }
 
-  async getContentRewardAverageQuantity(contentRewardId: number) {
-    const userId = this.getUserId();
-
+  async getContentRewardAverageQuantity(contentRewardId: number, userId?: number) {
     const contentReward = await this.prisma.contentReward.findUniqueOrThrow({
       where: {
         id: contentRewardId,
@@ -63,9 +52,7 @@ export class UserContentService {
     return contentReward.averageQuantity;
   }
 
-  async getContentRewardIsSellable(contentRewardId: number) {
-    const userId = this.getUserId();
-
+  async getContentRewardIsSellable(contentRewardId: number, userId?: number) {
     const contentReward = await this.prisma.contentReward.findUniqueOrThrow({
       where: { id: contentRewardId },
     });
@@ -89,13 +76,12 @@ export class UserContentService {
 
   async getContentRewards(
     contentId: number,
+    userId?: number,
     filter?: {
       includeBound?: boolean;
       includeItemIds?: number[];
     }
   ) {
-    const userId = this.getUserId();
-
     const where = {
       contentId,
       ...(filter?.includeItemIds && {
@@ -159,9 +145,7 @@ export class UserContentService {
     });
   }
 
-  async getContentSeeMoreRewardQuantity(contentSeeMoreRewardId: number) {
-    const userId = this.getUserId();
-
+  async getContentSeeMoreRewardQuantity(contentSeeMoreRewardId: number, userId?: number) {
     const contentSeeMoreReward = await this.prisma.contentSeeMoreReward.findUniqueOrThrow({
       where: { id: contentSeeMoreRewardId },
     });
@@ -187,12 +171,11 @@ export class UserContentService {
 
   async getContentSeeMoreRewards(
     contentId: number,
+    userId?: number,
     filter?: {
       includeItemIds?: number[];
     }
   ) {
-    const userId = this.getUserId();
-
     const where = {
       contentId,
       ...(filter?.includeItemIds && {
@@ -233,9 +216,7 @@ export class UserContentService {
   }
 
   //  Test 작성
-  async getItemPrice(itemId: number) {
-    const userId = this.getUserId();
-
+  async getItemPrice(itemId: number, userId?: number) {
     const { price: defaultPrice } = await this.prisma.item.findUniqueOrThrow({
       where: {
         id: itemId,
@@ -265,13 +246,7 @@ export class UserContentService {
     return price.toNumber();
   }
 
-  getUserId() {
-    return this.context.req?.user?.id;
-  }
-
-  async validateUserItem(itemId: number) {
-    const userId = this.getUserId();
-
+  async validateUserItem(itemId: number, userId: number) {
     const userItem = await this.prisma.userItem.findUnique({
       where: { id: itemId, userId },
     });

@@ -1,5 +1,6 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Float, Mutation, Parent, ResolveField, Resolver } from "@nestjs/graphql";
+import { User as PrismaUser } from "@prisma/client";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { User } from "src/common/object/user.object";
@@ -36,7 +37,13 @@ export class SeeMoreRewardResolver {
   }
 
   @ResolveField(() => Float)
-  async quantity(@Parent() contentSeeMoreReward: ContentSeeMoreReward) {
-    return await this.userContentService.getContentSeeMoreRewardQuantity(contentSeeMoreReward.id);
+  async quantity(
+    @Parent() contentSeeMoreReward: ContentSeeMoreReward,
+    @CurrentUser() user?: PrismaUser
+  ) {
+    return await this.userContentService.getContentSeeMoreRewardQuantity(
+      contentSeeMoreReward.id,
+      user?.id
+    );
   }
 }

@@ -2,7 +2,6 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { PrismaService } from "src/prisma";
 import { ContentWageService } from "./wage.service";
 import { UserContentService } from "../../user/service/user-content.service";
-import { CONTEXT } from "@nestjs/graphql";
 import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
 import { UserFactory } from "src/test/factory/user.factory";
 import { faker } from "@faker-js/faker/.";
@@ -15,8 +14,6 @@ describe("ContentWageService", () => {
   let prisma: PrismaService;
   let service: ContentWageService;
   let userFactory: UserFactory;
-  let userGoldExchangeRateService: UserGoldExchangeRateService;
-  let userContentService: UserContentService;
   let itemFactory: ItemFactory;
 
   beforeAll(async () => {
@@ -28,18 +25,12 @@ describe("ContentWageService", () => {
         UserGoldExchangeRateService,
         UserFactory,
         ItemFactory,
-        {
-          provide: CONTEXT,
-          useValue: { req: { user: { id: undefined } } },
-        },
       ],
     }).compile();
 
     prisma = module.get(PrismaService);
     service = module.get(ContentWageService);
     userFactory = module.get(UserFactory);
-    userGoldExchangeRateService = module.get(UserGoldExchangeRateService);
-    userContentService = module.get(UserContentService);
     itemFactory = module.get(ItemFactory);
   });
 
@@ -61,7 +52,7 @@ describe("ContentWageService", () => {
     });
 
     it("기본 계산(실제 환율 사용)", async () => {
-      const result = await service.calculateWage({ duration, gold });
+      const result = await service.calculateWage({ duration, gold }, undefined);
 
       expect(result).toEqual({
         goldAmountPerHour: 6000,
@@ -79,10 +70,7 @@ describe("ContentWageService", () => {
           userId: user.id,
         },
       });
-
-      userGoldExchangeRateService["context"].req.user = { id: user.id };
-
-      const result = await service.calculateWage({ duration, gold });
+      const result = await service.calculateWage({ duration, gold }, user.id);
 
       expect(result).toEqual({
         goldAmountPerHour: 6000,
@@ -92,11 +80,6 @@ describe("ContentWageService", () => {
   });
 
   describe("calculateGold", () => {
-    beforeEach(() => {
-      userContentService["context"].req.user = { id: undefined };
-      userGoldExchangeRateService["context"].req.user = { id: undefined };
-    });
-
     it("기본 계산", async () => {
       const items = await Promise.all([
         itemFactory.create({
@@ -118,14 +101,12 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateGold(rewards);
+      const result = await service.calculateGold(rewards, undefined);
       expect(result).toBe(800);
     });
 
     it("사용자 정의 가격 사용", async () => {
       const user = await userFactory.create();
-      userContentService["context"].req.user = { id: user.id };
-
       const items = await Promise.all([
         itemFactory.create({
           data: {
@@ -170,14 +151,12 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateGold(rewards);
+      const result = await service.calculateGold(rewards, user.id);
       expect(result).toBe(2500);
     });
 
     it("일부 아이템만 사용자 정의 가격 사용", async () => {
       const user = await userFactory.create();
-      userContentService["context"].req.user = { id: user.id };
-
       const items = await Promise.all([
         itemFactory.create({
           data: {
@@ -213,14 +192,12 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateGold(rewards);
+      const result = await service.calculateGold(rewards, user.id);
       expect(result).toBe(1600);
     });
 
     it("존재하지 않는 사용자 정의 가격은 기본 가격 사용", async () => {
       const user = await userFactory.create();
-      userContentService["context"].req.user = { id: user.id };
-
       const items = await Promise.all([
         itemFactory.create({
           data: {
@@ -257,7 +234,7 @@ describe("ContentWageService", () => {
       ];
 
       try {
-        const result = await service.calculateGold(rewards);
+        const result = await service.calculateGold(rewards, undefined);
         expect(result).toBe(1600);
       } catch (error) {
         expect(error).toBeDefined();
@@ -266,7 +243,7 @@ describe("ContentWageService", () => {
 
     it("빈 배열이 입력된 경우", async () => {
       const rewards = [];
-      const result = await service.calculateGold(rewards);
+      const result = await service.calculateGold(rewards, undefined);
       expect(result).toBe(0);
     });
 
@@ -298,9 +275,6 @@ describe("ContentWageService", () => {
           userId: user2.id,
         },
       });
-
-      userContentService["context"].req.user = { id: user1.id };
-
       const rewards = [
         {
           averageQuantity: 2, // 500 * 2 = 1000 (user1의 가격 사용)
@@ -308,13 +282,11 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result1 = await service.calculateGold(rewards);
+      const result1 = await service.calculateGold(rewards, user1.id);
       expect(result1).toBe(1000); // user1의 가격 적용
 
       // 두 번째 사용자로 로그인 변경
-      userContentService["context"].req.user = { id: user2.id };
-
-      const result2 = await service.calculateGold(rewards);
+      const result2 = await service.calculateGold(rewards, user2.id);
       expect(result2).toBe(1600); // user2의 가격 적용
     });
   });
@@ -324,9 +296,6 @@ describe("ContentWageService", () => {
     const prices: number[] = [];
 
     beforeAll(async () => {
-      userGoldExchangeRateService["context"].req.user = { id: undefined };
-      userContentService["context"].req.user = { id: undefined };
-
       for (let i = 0; i < 3; i++) {
         const price = (i + 1) * 100;
         prices.push(price);
@@ -360,7 +329,7 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards);
+      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards, undefined);
       expect(result).toBe(1100);
     });
 
@@ -380,7 +349,7 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards, [
+      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards, undefined, [
         itemIds[0],
         itemIds[1],
       ]);
@@ -389,15 +358,12 @@ describe("ContentWageService", () => {
 
     it("빈 배열이 입력된 경우", async () => {
       const contentSeeMoreRewards = [];
-      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards);
+      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards, undefined);
       expect(result).toBe(0);
     });
 
     it("사용자 정의 가격 사용", async () => {
       const user = await userFactory.create();
-      userContentService["context"].req.user = { id: user.id };
-      userGoldExchangeRateService["context"].req.user = { id: user.id };
-
       const items = await Promise.all([
         itemFactory.create({
           data: {
@@ -440,7 +406,7 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards);
+      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards, user.id);
       expect(result).toBe(2500);
     });
 
@@ -456,7 +422,7 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards);
+      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards, undefined);
       expect(result).toBe(0);
     });
 
@@ -496,7 +462,7 @@ describe("ContentWageService", () => {
         },
       ];
 
-      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards);
+      const result = await service.calculateSeeMoreRewardsGold(contentSeeMoreRewards, undefined);
 
       // 현재 구현에서는 중복 제거 없이 모든 보상을 합산함
       // itemIds[0]: 100 * 2 + 100 * 3 = 500
@@ -513,9 +479,6 @@ describe("ContentWageService", () => {
     let testCategory: any;
 
     beforeAll(async () => {
-      userContentService["context"].req.user = { id: undefined };
-      userGoldExchangeRateService["context"].req.user = { id: undefined };
-
       // 기본 환율 데이터 생성 (다른 테스트와 중복 방지)
       const existingExchangeRate = await prisma.goldExchangeRate.findFirst();
       if (!existingExchangeRate) {
@@ -598,7 +561,7 @@ describe("ContentWageService", () => {
       const contentIds = [testContents[0].id, testContents[1].id];
       const filter = { includeBound: false };
 
-      const result = await service.getContentGroupWage(contentIds, filter);
+      const result = await service.getContentGroupWage(contentIds, undefined, filter);
 
       // 예상 계산:
       // 컨텐츠1: 100 * 2 = 200 골드, 10분 = 600초
@@ -635,34 +598,19 @@ describe("ContentWageService", () => {
           },
         }),
       ]);
-
-      userContentService["context"].req.user = { id: exchangeRateUser.id };
-      userGoldExchangeRateService["context"].req.user = {
-        id: exchangeRateUser.id,
-      };
-
       const contentIds = [testContents[0].id];
       const filter = { includeBound: false };
 
-      const result = await service.getContentGroupWage(contentIds, filter);
+      const result = await service.getContentGroupWage(contentIds, exchangeRateUser.id, filter);
 
       // 사용자 환율 적용: 30KRW/100Gold
       // 200골드 / (600초/3600) = 1200골드/시간
       // 1200골드/시간 * 30KRW/100골드 = 360KRW/시간
       expect(result.krwAmountPerHour).toBe(360);
       expect(result.goldAmountPerHour).toBe(1200);
-
-      // 테스트 후 컨텍스트 리셋
-      userContentService["context"].req.user = { id: undefined };
-      userGoldExchangeRateService["context"].req.user = { id: undefined };
     });
 
     it("사용자별 커스텀 설정 적용 검증", async () => {
-      // 사용자 컨텍스트 설정
-      userContentService["context"].req.user = { id: testUser.id };
-      userGoldExchangeRateService["context"].req.user = { id: testUser.id };
-
-      // 사용자별 아이템 가격 설정
       await prisma.userItem.create({
         data: {
           itemId: testItems[0].id,
@@ -674,21 +622,17 @@ describe("ContentWageService", () => {
       const contentIds = [testContents[0].id];
       const filter = { includeBound: false };
 
-      const result = await service.getContentGroupWage(contentIds, filter);
+      const result = await service.getContentGroupWage(contentIds, testUser.id, filter);
 
       // 사용자 가격 적용: 500 * 2 = 1000골드
       expect(result.goldAmountPerClear).toBe(1000);
-
-      // 테스트 후 컨텍스트 리셋
-      userContentService["context"].req.user = { id: undefined };
-      userGoldExchangeRateService["context"].req.user = { id: undefined };
     });
 
     it("빈 배열 입력 시 처리", async () => {
       const contentIds = [];
       const filter = { includeBound: false };
 
-      const result = await service.getContentGroupWage(contentIds, filter);
+      const result = await service.getContentGroupWage(contentIds, undefined, filter);
 
       expect(result.goldAmountPerClear).toBe(0);
       expect(result.goldAmountPerHour).toBeNaN(); // 0/0 = NaN
@@ -735,7 +679,7 @@ describe("ContentWageService", () => {
       const contentIds = [mixedContent.id];
       const filter = { includeBound: false };
 
-      const result = await service.getContentGroupWage(contentIds, filter);
+      const result = await service.getContentGroupWage(contentIds, undefined, filter);
 
       // 100 * 1 + 300 * 2 = 700골드
       expect(result.goldAmountPerClear).toBe(700);
@@ -744,15 +688,11 @@ describe("ContentWageService", () => {
     it("환율 데이터 없을 때 fallback 처리", async () => {
       // 기본 환율 데이터 삭제
       await prisma.goldExchangeRate.deleteMany({});
-
-      userContentService["context"].req.user = { id: undefined };
-      userGoldExchangeRateService["context"].req.user = { id: undefined };
-
       const contentIds = [testContents[0].id];
       const filter = { includeBound: false };
 
       // 환율 데이터가 없으면 에러가 발생해야 함
-      await expect(service.getContentGroupWage(contentIds, filter)).rejects.toThrow();
+      await expect(service.getContentGroupWage(contentIds, undefined, filter)).rejects.toThrow();
 
       // 환율 데이터 복구
       await prisma.goldExchangeRate.create({
@@ -769,10 +709,12 @@ describe("ContentWageService", () => {
       const filter = { includeBound: false };
 
       // null/undefined가 포함된 배열은 에러를 발생시켜야 함
-      await expect(service.getContentGroupWage(invalidContentIds as any, filter)).rejects.toThrow();
+      await expect(
+        service.getContentGroupWage(invalidContentIds as any, undefined, filter)
+      ).rejects.toThrow();
 
       // 유효한 contentId만 포함된 배열은 정상 작동해야 함
-      const result = await service.getContentGroupWage([validContentId], filter);
+      const result = await service.getContentGroupWage([validContentId], undefined, filter);
       expect(result.goldAmountPerClear).toBe(200);
     });
   });

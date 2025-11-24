@@ -1,4 +1,6 @@
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { User } from "@prisma/client";
+import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { DataLoaderService } from "src/dataloader/data-loader.service";
 import { ContentCategory } from "../category/category.object";
@@ -26,9 +28,10 @@ export class GroupResolver {
       nullable: true,
       type: () => [OrderByArg],
     })
-    orderBy?: OrderByArg[]
+    orderBy?: OrderByArg[],
+    @CurrentUser() user?: User
   ) {
-    return await this.groupService.findContentGroupWageList(filter, orderBy);
+    return await this.groupService.findContentGroupWageList(filter, orderBy, user?.id);
   }
 
   @ResolveField(() => ContentCategory)
