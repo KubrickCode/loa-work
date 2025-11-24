@@ -1,0 +1,2 @@
+export const CONTENT_LEVEL_MAX = 1700;
+export const CONTENT_NAME_MAX_LENGTH = 100;
