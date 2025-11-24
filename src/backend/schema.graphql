@@ -475,7 +475,10 @@ type Mutation {
 }
 
 input OrderByArg {
+  """정렬 필드명"""
   field: String!
+
+  """정렬 방향 (asc 또는 desc)"""
   order: String!
 }
 
@@ -487,7 +490,7 @@ type Query {
   contentDuration(id: Int!): ContentDuration!
   contentGroup(filter: ContentGroupFilter): ContentGroup!
   contentGroupWageList(filter: ContentGroupWageListFilter, orderBy: [OrderByArg!]): [ContentGroupWage!]!
-  contentList(filter: ContentListFilter): [Content!]!
+  contentList(filter: ContentListFilter, orderBy: [OrderByArg!]): [Content!]!
   contentWageList(filter: ContentWageListFilter, orderBy: [OrderByArg!]): [ContentWage!]!
   contents(filter: ContentsFilter): [Content!]!
   goldExchangeRate: GoldExchangeRate!
