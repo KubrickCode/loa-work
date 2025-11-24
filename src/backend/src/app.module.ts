@@ -54,9 +54,13 @@ import { NODE_ENV } from "./common/constants/env.constants";
     AuthModule,
     ExchangeRateModule,
     UserModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "frontend"),
-    }),
+    ...(process.env.NODE_ENV === NODE_ENV.PRODUCTION
+      ? [
+          ServeStaticModule.forRoot({
+            rootPath: join(__dirname, "..", "frontend"),
+          }),
+        ]
+      : []),
     MonitoringModule,
   ],
   providers: [

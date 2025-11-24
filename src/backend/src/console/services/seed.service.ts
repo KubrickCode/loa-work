@@ -415,7 +415,7 @@ export class SeedService {
         displayName: "Owner",
         email: "owner@lostark.com",
         provider: "GOOGLE",
-        refId: process.env.OWNER_USER_REF_ID,
+        refId: process.env.OWNER_USER_REF_ID ?? "test-owner-ref-id",
         role: "OWNER",
       },
     });

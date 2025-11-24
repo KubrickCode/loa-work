@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [react(), viteTsconfigPaths()],
   server: {
     host: true,
-    open: true,
+    open: !process.env.PLAYWRIGHT,
     port: 3000,
     proxy: {
       "^/(auth/.*|graphql|api/.*)": {

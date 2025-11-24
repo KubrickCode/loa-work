@@ -2,7 +2,7 @@ FROM node:22.11.0-alpine AS build
 WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 RUN pnpm install --frozen-lockfile
 COPY . .
@@ -12,7 +12,7 @@ FROM node:22.11.0-alpine
 WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 RUN pnpm install --prod --frozen-lockfile
 
