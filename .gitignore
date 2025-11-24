@@ -5,3 +5,9 @@ node_modules/
 .pnpm-store/
 
 docs/work/
+
+# Playwright
+docs/e2e-ui/
+playwright-report/
+test-results/
+.playwright-mcp/

@@ -9,11 +9,15 @@ on:
       - unlocked
     paths:
       - "src/go/**"
+      - ".github/workflows/go-tests.yml"
+      - "justfile"
   push:
     branches:
       - main
     paths:
       - "src/go/**"
+      - ".github/workflows/go-tests.yml"
+      - "justfile"
   workflow_dispatch:
 
 jobs:

@@ -9,11 +9,15 @@ on:
       - unlocked
     paths:
       - "src/backend/**"
+      - ".github/workflows/backend-tests.yml"
+      - "justfile"
   push:
     branches:
       - main
     paths:
       - "src/backend/**"
+      - ".github/workflows/backend-tests.yml"
+      - "justfile"
   workflow_dispatch:
 
 jobs:
