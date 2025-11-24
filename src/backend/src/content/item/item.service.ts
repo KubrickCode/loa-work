@@ -29,10 +29,13 @@ export class ItemService {
     return where;
   }
 
-  async editUserItemPrice(input: EditUserItemPriceInput): Promise<EditUserItemPriceResult> {
+  async editUserItemPrice(
+    input: EditUserItemPriceInput,
+    userId: number
+  ): Promise<EditUserItemPriceResult> {
     const { id, price } = input;
 
-    await this.userContentService.validateUserItem(id);
+    await this.userContentService.validateUserItem(id, userId);
 
     await this.prisma.userItem.update({
       data: { price },

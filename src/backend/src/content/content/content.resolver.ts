@@ -1,6 +1,8 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { User } from "@prisma/client";
 import { AuthGuard } from "src/auth/auth.guard";
+import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { DataLoaderService } from "src/dataloader/data-loader.service";
 import { UserContentService } from "src/user/service/user-content.service";
@@ -76,8 +78,8 @@ export class ContentResolver {
   }
 
   @ResolveField(() => Number)
-  async duration(@Parent() content: Content) {
-    return await this.userContentService.getContentDuration(content.id);
+  async duration(@Parent() content: Content, @CurrentUser() user?: User) {
+    return await this.userContentService.getContentDuration(content.id, user?.id);
   }
 
   @ResolveField(() => String)
@@ -92,8 +94,9 @@ export class ContentResolver {
   @ResolveField(() => ContentWage)
   async wage(
     @Parent() content: Content,
-    @Args("filter", { nullable: true }) filter?: ContentWageFilter
+    @Args("filter", { nullable: true }) filter?: ContentWageFilter,
+    @CurrentUser() user?: User
   ) {
-    return await this.contentWageService.getContentWage(content.id, filter);
+    return await this.contentWageService.getContentWage(content.id, user?.id, filter);
   }
 }
