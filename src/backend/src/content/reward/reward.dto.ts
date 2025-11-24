@@ -1,6 +1,7 @@
 import { Field, Float, InputType, ObjectType } from "@nestjs/graphql";
 import { ArrayMinSize, IsArray, IsBoolean, IsNumber, Min, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
+import { MutationResult } from "src/common/dto/mutation-result.dto";
 
 @InputType()
 export class EditContentRewardInput {
@@ -41,10 +42,7 @@ export class EditContentRewardsInput {
 }
 
 @ObjectType()
-export class EditContentRewardsResult {
-  @Field(() => Boolean, { description: "성공 여부" })
-  ok: boolean;
-}
+export class EditContentRewardsResult extends MutationResult {}
 
 @InputType()
 export class ReportContentRewardInput {
@@ -72,7 +70,4 @@ export class ReportContentRewardsInput {
 }
 
 @ObjectType()
-export class ReportContentRewardsResult {
-  @Field(() => Boolean, { description: "성공 여부" })
-  ok: boolean;
-}
+export class ReportContentRewardsResult extends MutationResult {}
