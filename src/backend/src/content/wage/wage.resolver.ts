@@ -1,7 +1,6 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { User } from "@prisma/client";
-import { Prisma } from "@prisma/client";
-import _ from "lodash";
+import { Prisma, User } from "@prisma/client";
+import { orderBy } from "es-toolkit/compat";
 import { CurrentUser } from "src/common/decorator/current-user.decorator";
 import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { PrismaService } from "src/prisma";
@@ -30,7 +29,7 @@ export class WageResolver {
       nullable: true,
       type: () => [OrderByArg],
     })
-    orderBy?: OrderByArg[],
+    orderByArgs?: OrderByArg[],
     @CurrentUser() user?: User
   ) {
     const contents = await this.prisma.content.findMany({
@@ -65,15 +64,15 @@ export class WageResolver {
       });
     });
 
-    const result = orderBy
-      ? _.orderBy(
-          await Promise.all(promises),
-          orderBy.map((order) => order.field),
-          orderBy.map((order) => order.order)
-        )
-      : await Promise.all(promises);
+    const results = await Promise.all(promises);
 
-    return result;
+    return orderByArgs
+      ? orderBy(
+          results,
+          orderByArgs.map((o) => o.field),
+          orderByArgs.map((o) => o.order)
+        )
+      : results;
   }
 
   @Mutation(() => CalculateCustomContentWageResult)
