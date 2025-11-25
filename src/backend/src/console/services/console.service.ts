@@ -12,11 +12,8 @@ export class ConsoleService {
     description: "Seed 데이터 추가",
   })
   async seed() {
-    try {
-      console.log("Seeding database...");
-      await this.seedService.all();
-    } catch (error) {
-      console.error(error);
-    }
+    console.log("Seeding database...");
+    await this.seedService.all();
+    console.log("Seeding completed successfully.");
   }
 }
