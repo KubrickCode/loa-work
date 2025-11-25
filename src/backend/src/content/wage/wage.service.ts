@@ -8,8 +8,21 @@ type Reward = {
   itemId: number;
 };
 
+type WageFilter = {
+  includeBound?: boolean;
+  includeItemIds?: number[];
+  includeSeeMore?: boolean;
+};
+
+type ContentWageData = {
+  duration: number;
+  gold: number;
+};
+
 @Injectable()
 export class ContentWageService {
+  private static readonly SECONDS_PER_HOUR = 3600;
+
   constructor(
     private userContentService: UserContentService,
     private userGoldExchangeRateService: UserGoldExchangeRateService,
@@ -57,7 +70,7 @@ export class ContentWageService {
 
     const totalKRW = (gold * goldExchangeRate.krwAmount) / goldExchangeRate.goldAmount;
 
-    const hours = duration / 3600;
+    const hours = duration / ContentWageService.SECONDS_PER_HOUR;
     const hourlyWage = totalKRW / hours;
     const hourlyGold = gold / hours;
 
@@ -67,57 +80,16 @@ export class ContentWageService {
     };
   }
 
-  async getContentGroupWage(
-    contentIds: number[],
-    userId: number | undefined,
-    filter: {
-      includeBound?: boolean;
-      includeItemIds?: number[];
-      includeSeeMore?: boolean;
-    }
-  ) {
-    let totalGold = 0;
-    let totalDuration = 0;
+  async getContentGroupWage(contentIds: number[], userId: number | undefined, filter: WageFilter) {
+    const dataList = await Promise.all(
+      contentIds.map((id) => this.calculateContentWageData(id, userId, filter))
+    );
 
-    for (const contentId of contentIds) {
-      const content = await this.prisma.content.findUniqueOrThrow({
-        where: { id: contentId },
-      });
-
-      const rewards = await this.userContentService.getContentRewards(content.id, userId, {
-        includeBound: filter?.includeBound,
-        includeItemIds: filter?.includeItemIds,
-      });
-
-      const seeMoreRewards = await this.userContentService.getContentSeeMoreRewards(
-        content.id,
-        userId,
-        {
-          includeItemIds: filter?.includeItemIds,
-        }
-      );
-
-      const rewardsGold = await this.calculateGold(rewards, userId);
-
-      const shouldIncludeSeeMoreRewards =
-        filter?.includeSeeMore && filter?.includeBound !== false && seeMoreRewards.length > 0;
-
-      const seeMoreGold = shouldIncludeSeeMoreRewards
-        ? await this.calculateSeeMoreRewardsGold(seeMoreRewards, userId, filter.includeItemIds)
-        : 0;
-
-      const gold = rewardsGold + seeMoreGold;
-      totalGold += gold;
-
-      const duration = await this.userContentService.getContentDuration(content.id, userId);
-      totalDuration += duration;
-    }
+    const totalGold = dataList.reduce((sum, data) => sum + data.gold, 0);
+    const totalDuration = dataList.reduce((sum, data) => sum + data.duration, 0);
 
     const { goldAmountPerHour, krwAmountPerHour } = await this.calculateWage(
-      {
-        duration: totalDuration,
-        gold: totalGold,
-      },
+      { duration: totalDuration, gold: totalGold },
       userId
     );
 
@@ -128,16 +100,27 @@ export class ContentWageService {
     };
   }
 
-  // TODO: test
-  async getContentWage(
+  async getContentWage(contentId: number, userId: number | undefined, filter: WageFilter) {
+    const { duration, gold } = await this.calculateContentWageData(contentId, userId, filter);
+
+    const { goldAmountPerHour, krwAmountPerHour } = await this.calculateWage(
+      { duration, gold },
+      userId
+    );
+
+    return {
+      contentId,
+      goldAmountPerClear: Math.round(gold),
+      goldAmountPerHour,
+      krwAmountPerHour,
+    };
+  }
+
+  private async calculateContentWageData(
     contentId: number,
     userId: number | undefined,
-    filter: {
-      includeBound?: boolean;
-      includeItemIds?: number[];
-      includeSeeMore?: boolean;
-    }
-  ) {
+    filter: WageFilter
+  ): Promise<ContentWageData> {
     const content = await this.prisma.content.findUniqueOrThrow({
       where: { id: contentId },
     });
@@ -157,30 +140,24 @@ export class ContentWageService {
 
     const rewardsGold = await this.calculateGold(rewards, userId);
 
-    const shouldIncludeSeeMoreRewards =
-      filter?.includeSeeMore && filter?.includeBound !== false && seeMoreRewards.length > 0;
+    const shouldIncludeSeeMoreRewards = this.shouldIncludeSeeMore(filter, seeMoreRewards);
 
     const seeMoreGold = shouldIncludeSeeMoreRewards
       ? await this.calculateSeeMoreRewardsGold(seeMoreRewards, userId, filter.includeItemIds)
       : 0;
 
     const gold = rewardsGold + seeMoreGold;
-
     const duration = await this.userContentService.getContentDuration(content.id, userId);
 
-    const { goldAmountPerHour, krwAmountPerHour } = await this.calculateWage(
-      {
-        duration,
-        gold,
-      },
-      userId
-    );
+    return { duration, gold };
+  }
 
-    return {
-      contentId: content.id,
-      goldAmountPerClear: Math.round(gold),
-      goldAmountPerHour,
-      krwAmountPerHour,
-    };
+  private shouldIncludeSeeMore(
+    filter: WageFilter,
+    seeMoreRewards: { itemId: number; quantity: number }[]
+  ): boolean {
+    return (
+      filter?.includeSeeMore === true && filter?.includeBound !== false && seeMoreRewards.length > 0
+    );
   }
 }

@@ -5,6 +5,7 @@ import { ValidationException } from "src/common/exception";
 import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { PrismaService } from "src/prisma";
 import { UserContentService } from "src/user/service/user-content.service";
+import { DEFAULT_CONTENT_ORDER_BY } from "../shared/constants";
 import { ContentWageService } from "../wage/wage.service";
 import { ContentGroupFilter, ContentGroupWageListFilter } from "./group.dto";
 import { ContentGroup, ContentGroupWage } from "./group.object";
@@ -171,19 +172,7 @@ export class GroupService {
   }
 
   private getContentOrderBy(): Prisma.ContentOrderByWithRelationInput[] {
-    return [
-      {
-        contentCategory: {
-          id: "asc",
-        },
-      },
-      {
-        level: "asc",
-      },
-      {
-        id: "asc",
-      },
-    ];
+    return DEFAULT_CONTENT_ORDER_BY;
   }
 
   private sortResults(results: ContentGroupWage[], orderBy: OrderByArg[]): ContentGroupWage[] {

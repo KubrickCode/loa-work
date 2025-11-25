@@ -3,6 +3,7 @@ import { Content, Prisma } from "@prisma/client";
 import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { NotFoundException } from "src/common/exception/not-found.exception";
 import { PrismaService } from "src/prisma";
+import { DEFAULT_CONTENT_ORDER_BY } from "../shared/constants";
 import {
   ContentListFilter,
   ContentsFilter,
@@ -66,19 +67,7 @@ export class ContentService {
       return orderBy.map((order) => ({ [order.field]: order.order }));
     }
 
-    return [
-      {
-        contentCategory: {
-          id: "asc",
-        },
-      },
-      {
-        level: "asc",
-      },
-      {
-        id: "asc",
-      },
-    ];
+    return DEFAULT_CONTENT_ORDER_BY;
   }
 
   async createContent(input: CreateContentInput): Promise<CreateContentResult> {
@@ -153,19 +142,7 @@ export class ContentService {
 
   async findContents(filter?: ContentsFilter): Promise<Content[]> {
     return await this.prisma.content.findMany({
-      orderBy: [
-        {
-          contentCategory: {
-            id: "asc",
-          },
-        },
-        {
-          level: "asc",
-        },
-        {
-          id: "asc",
-        },
-      ],
+      orderBy: DEFAULT_CONTENT_ORDER_BY,
       where: this.buildContentsWhere(filter),
     });
   }
