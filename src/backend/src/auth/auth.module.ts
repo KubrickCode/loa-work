@@ -4,7 +4,7 @@ import { PassportModule } from "@nestjs/passport";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import passport from "passport";
 import session from "express-session";
-import { PrismaService } from "src/prisma";
+import { PrismaModule, PrismaService } from "src/prisma";
 import { AuthController } from "./auth.controller";
 import { GoogleStrategy } from "./strategy/google.strategy";
 import { Serializer } from "./serializer";
@@ -15,7 +15,7 @@ import { KakaoStrategy } from "./strategy/kakao.strategy";
 
 @Module({
   controllers: [AuthController],
-  imports: [CommonModule, PassportModule.register({ session: true })],
+  imports: [CommonModule, PassportModule.register({ session: true }), PrismaModule],
   providers: [GoogleStrategy, DiscordStrategy, KakaoStrategy, Serializer, UserSeedService],
 })
 export class AuthModule implements NestModule {
