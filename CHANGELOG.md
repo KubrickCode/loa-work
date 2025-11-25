@@ -1,3 +1,36 @@
+## 🎯 Highlights
+
+### ✨ Features
+
+- **backend:** 전역 에러 처리 인프라 구축 ([d63f1a12469e75e86f704a5df10043a8d3af91bb](/commit/d63f1a12469e75e86f704a5df10043a8d3af91bb))
+
+## 🔧 Maintenance
+
+### 📚 Documentation
+
+- ai-config-toolkit 리포지토리로부터 ai 문서 동기화 ([5d809c1bcb7e7cb0ea7942394de5bda81182059b](/commit/5d809c1bcb7e7cb0ea7942394de5bda81182059b))
+- ai-config-toolkit 리포지토리로부터 문서 동기화 ([94f40dc40df891060afe3f480b19820ea5f5233b](/commit/94f40dc40df891060afe3f480b19820ea5f5233b))
+- ai-config-toolkit 리포지토리로부터 문서 동기화 ([91d6ed7b065a9458fd9b990a94f5a65f95f4355f](/commit/91d6ed7b065a9458fd9b990a94f5a65f95f4355f))
+
+### ♻️ Refactoring
+
+- workflow-toolkit 레포지토리의 reusable workflow 사용으로 전환 ([3ffa57b211716c25959488eb67963805b7be947c](/commit/3ffa57b211716c25959488eb67963805b7be947c))
+
+### ✅ Tests
+
+- Playwright 기반 E2E UI 테스트 인프라 구축 ([1b9249f816fa65cb666b517f1ed83f58785df2c5](/commit/1b9249f816fa65cb666b517f1ed83f58785df2c5))
+
+### 🔨 Chore
+
+- ai-config-toolkit 리포지토리로부터 문서 동기화 ([e8a901ecf63f0510b2fb52c48f23e23f96fb4971](/commit/e8a901ecf63f0510b2fb52c48f23e23f96fb4971))
+- devcontainer node feature에 pnpm setup 추가 ([3e3cf93d9f8ef3bf6188945dce8109c92ac0730b](/commit/3e3cf93d9f8ef3bf6188945dce8109c92ac0730b))
+- docker-in-docker feature 제거 ([d36ceb52f1c00d0741a0834162817b89fcb1db4d](/commit/d36ceb52f1c00d0741a0834162817b89fcb1db4d))
+- gitignore 단순화 ([ea2f1b4e3b50085d327742b5753f4870c37a7200](/commit/ea2f1b4e3b50085d327742b5753f4870c37a7200))
+- just 설치 단순화 ([6627768beae8231fdbd1819fcd5e6fe31b33d28c](/commit/6627768beae8231fdbd1819fcd5e6fe31b33d28c))
+- release 명령어 실행 시 사용자 confirm 받도록 수정 ([ea246a32d077f120cd4d06f323aa854bad078627](/commit/ea246a32d077f120cd4d06f323aa854bad078627))
+- semantic-release 설정을 JS 형식으로 마이그레이션 ([98af2f7e28412d84c266f3263020439e4e1c6622](/commit/98af2f7e28412d84c266f3263020439e4e1c6622))
+- 깃허브 CLI 컨테이너 기본 설정에 추가 ([a2b6dc51e776d3c0740e8e7011914596e9e691c2](/commit/a2b6dc51e776d3c0740e8e7011914596e9e691c2))
+
 ## [0.4.2](https://github.com/KubrickCode/loa-work/compare/v0.4.1...v0.4.2) (2025-11-16)
 
 ### 📚 Documentation
