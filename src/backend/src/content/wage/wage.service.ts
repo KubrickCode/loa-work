@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { UserContentService } from "../../user/service/user-content.service";
-import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
+import { sum, sumBy } from "es-toolkit";
 import { PrismaService } from "src/prisma";
+import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
+import { UserContentService } from "../../user/service/user-content.service";
 
 type Reward = {
   averageQuantity: number;
@@ -30,16 +31,14 @@ export class ContentWageService {
   ) {}
 
   async calculateGold(rewards: Reward[], userId?: number) {
-    let gold = 0;
+    const goldValues = await Promise.all(
+      rewards.map(async (reward) => {
+        const price = await this.userContentService.getItemPrice(reward.itemId, userId);
+        return price * reward.averageQuantity;
+      })
+    );
 
-    for (const reward of rewards) {
-      const price = await this.userContentService.getItemPrice(reward.itemId, userId);
-
-      const averageQuantity = reward.averageQuantity;
-      gold += price * averageQuantity;
-    }
-
-    return gold;
+    return sum(goldValues);
   }
 
   async calculateSeeMoreRewardsGold(
@@ -51,12 +50,7 @@ export class ContentWageService {
     includeItemIds?: number[]
   ) {
     const seeMoreRewards = contentSeeMoreRewards
-      .filter((reward) => {
-        if (includeItemIds && !includeItemIds.includes(reward.itemId)) {
-          return false;
-        }
-        return true;
-      })
+      .filter((reward) => !includeItemIds || includeItemIds.includes(reward.itemId))
       .map((reward) => ({
         averageQuantity: reward.quantity,
         itemId: reward.itemId,
@@ -85,8 +79,8 @@ export class ContentWageService {
       contentIds.map((id) => this.calculateContentWageData(id, userId, filter))
     );
 
-    const totalGold = dataList.reduce((sum, data) => sum + data.gold, 0);
-    const totalDuration = dataList.reduce((sum, data) => sum + data.duration, 0);
+    const totalGold = sumBy(dataList, (data) => data.gold);
+    const totalDuration = sumBy(dataList, (data) => data.duration);
 
     const { goldAmountPerHour, krwAmountPerHour } = await this.calculateWage(
       { duration: totalDuration, gold: totalGold },
