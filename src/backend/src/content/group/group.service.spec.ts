@@ -185,9 +185,9 @@ describe("GroupService", () => {
 
       const result = service.groupContentsByNameAndCategory(contents);
 
-      expect(result.size).toBe(2);
-      expect(result.get("아브렐슈드_1")).toHaveLength(2);
-      expect(result.get("쿠크세이튼_1")).toHaveLength(1);
+      expect(Object.keys(result)).toHaveLength(2);
+      expect(result["아브렐슈드_1"]).toHaveLength(2);
+      expect(result["쿠크세이튼_1"]).toHaveLength(1);
     });
 
     it("should separate same name but different categories", () => {
@@ -198,9 +198,9 @@ describe("GroupService", () => {
 
       const result = service.groupContentsByNameAndCategory(contents);
 
-      expect(result.size).toBe(2);
-      expect(result.get("컨텐츠_1")).toHaveLength(1);
-      expect(result.get("컨텐츠_2")).toHaveLength(1);
+      expect(Object.keys(result)).toHaveLength(2);
+      expect(result["컨텐츠_1"]).toHaveLength(1);
+      expect(result["컨텐츠_2"]).toHaveLength(1);
     });
   });
 

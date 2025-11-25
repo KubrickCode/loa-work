@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
-import _ from "lodash";
+import { groupBy, sum } from "es-toolkit";
+import { orderBy } from "es-toolkit/compat";
 import { ValidationException } from "src/common/exception";
 import { OrderByArg } from "src/common/object/order-by-arg.object";
 import { PrismaService } from "src/prisma";
@@ -9,6 +10,13 @@ import { DEFAULT_CONTENT_ORDER_BY } from "../shared/constants";
 import { ContentWageService } from "../wage/wage.service";
 import { ContentGroupFilter, ContentGroupWageListFilter } from "./group.dto";
 import { ContentGroup, ContentGroupWage } from "./group.object";
+
+type ContentGroupable = {
+  contentCategoryId: number;
+  id: number;
+  level: number;
+  name: string;
+};
 
 @Injectable()
 export class GroupService {
@@ -64,14 +72,11 @@ export class GroupService {
   }
 
   async calculateGroupDuration(contentIds: number[]): Promise<number> {
-    let duration = 0;
+    const durations = await Promise.all(
+      contentIds.map((contentId) => this.userContentService.getContentDuration(contentId))
+    );
 
-    for (const contentId of contentIds) {
-      const contentDuration = await this.userContentService.getContentDuration(contentId);
-      duration += contentDuration;
-    }
-
-    return duration;
+    return sum(durations);
   }
 
   async findContentGroup(filter?: ContentGroupFilter): Promise<ContentGroup> {
@@ -92,7 +97,7 @@ export class GroupService {
 
   async findContentGroupWageList(
     filter?: ContentGroupWageListFilter,
-    orderBy?: OrderByArg[],
+    orderByArgs?: OrderByArg[],
     userId?: number
   ): Promise<ContentGroupWage[]> {
     const contents = await this.prisma.content.findMany({
@@ -110,7 +115,7 @@ export class GroupService {
 
     const contentGroups = this.groupContentsByNameAndCategory(contents);
 
-    const promises = Array.from(contentGroups.entries()).map(async ([_, groupContents]) => {
+    const promises = Object.values(contentGroups).map(async (groupContents) => {
       const contentIds = groupContents.map((content) => content.id);
       const representative = groupContents[0];
 
@@ -133,7 +138,7 @@ export class GroupService {
 
     const result = await Promise.all(promises);
 
-    return orderBy ? this.sortResults(result, orderBy) : result;
+    return orderByArgs ? this.sortResults(result, orderByArgs) : result;
   }
 
   async findContentsByIds(contentIds: number[]) {
@@ -144,16 +149,11 @@ export class GroupService {
     });
   }
 
-  groupContentsByNameAndCategory(contents: any[]): Map<string, any[]> {
-    const grouped = _.groupBy(
-      contents,
-      (content) => `${content.name}_${content.contentCategoryId}`
-    );
-
-    return new Map(Object.entries(grouped));
+  groupContentsByNameAndCategory<T extends ContentGroupable>(contents: T[]): Record<string, T[]> {
+    return groupBy(contents, (content) => `${content.name}_${content.contentCategoryId}`);
   }
 
-  validateContentGroup(contents: any[]): void {
+  validateContentGroup(contents: ContentGroupable[]): void {
     if (contents.length === 0) {
       return;
     }
@@ -175,11 +175,11 @@ export class GroupService {
     return DEFAULT_CONTENT_ORDER_BY;
   }
 
-  private sortResults(results: ContentGroupWage[], orderBy: OrderByArg[]): ContentGroupWage[] {
-    return _.orderBy(
+  private sortResults(results: ContentGroupWage[], orderByArgs: OrderByArg[]): ContentGroupWage[] {
+    return orderBy(
       results,
-      orderBy.map((order) => order.field),
-      orderBy.map((order) => order.order)
+      orderByArgs.map((o) => o.field),
+      orderByArgs.map((o) => o.order)
     );
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { keyBy } from "es-toolkit";
 import { PrismaService } from "../../prisma";
 
 @Injectable()
@@ -102,24 +103,15 @@ export class UserContentService {
         },
       });
 
-      const userRewardMap = new Map(userRewards.map((reward) => [reward.itemId, reward]));
+      const userRewardByItemId = keyBy(userRewards, (r) => r.itemId);
 
       result = defaultRewards.map(({ averageQuantity, isSellable, itemId }) => {
-        const userReward = userRewardMap.get(itemId);
-
-        if (userReward) {
-          return {
-            averageQuantity: userReward.averageQuantity.toNumber(),
-            isSellable: userReward.isSellable,
-            itemId,
-          };
-        } else {
-          return {
-            averageQuantity: averageQuantity.toNumber(),
-            isSellable,
-            itemId,
-          };
-        }
+        const userReward = userRewardByItemId[itemId];
+        return {
+          averageQuantity: (userReward?.averageQuantity ?? averageQuantity).toNumber(),
+          isSellable: userReward?.isSellable ?? isSellable,
+          itemId,
+        };
       });
     } else {
       result = defaultRewards.map(({ averageQuantity, isSellable, itemId }) => ({
@@ -188,15 +180,12 @@ export class UserContentService {
         },
       });
 
-      const userRewardMap = new Map(userRewards.map((reward) => [reward.itemId, reward]));
+      const userRewardByItemId = keyBy(userRewards, (r) => r.itemId);
 
-      return defaultRewards.map(({ itemId, quantity }) => {
-        const userReward = userRewardMap.get(itemId);
-        return {
-          itemId,
-          quantity: userReward ? userReward.quantity.toNumber() : quantity.toNumber(),
-        };
-      });
+      return defaultRewards.map(({ itemId, quantity }) => ({
+        itemId,
+        quantity: (userRewardByItemId[itemId]?.quantity ?? quantity).toNumber(),
+      }));
     }
 
     return defaultRewards.map(({ itemId, quantity }) => ({
