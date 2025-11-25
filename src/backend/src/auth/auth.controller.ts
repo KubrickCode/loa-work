@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { AuthGuard } from "@nestjs/passport";
 import { Request, Response } from "express";
@@ -61,11 +70,17 @@ export class AuthController {
   }
 
   @Post("logout")
-  async logout(@Req() req: Request) {
-    return req.logout((error) => {
-      if (error) {
-        console.error(error);
-      }
+  async logout(@Req() req: Request): Promise<{
+    ok: boolean;
+  }> {
+    return new Promise((resolve, reject) => {
+      req.logout((error) => {
+        if (error) {
+          reject(new HttpException("Logout failed", HttpStatus.INTERNAL_SERVER_ERROR));
+        } else {
+          resolve({ ok: true });
+        }
+      });
     });
   }
 }
