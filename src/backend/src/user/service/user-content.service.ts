@@ -6,50 +6,40 @@ export class UserContentService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getContentDuration(contentId: number, userId?: number) {
-    const contentDuration = await this.prisma.contentDuration.findUniqueOrThrow({
-      where: {
-        contentId,
-      },
-    });
-
-    if (userId) {
-      const userContentDuration = await this.prisma.userContentDuration.findUnique({
-        where: {
-          contentId_userId: {
-            contentId,
-            userId,
-          },
-        },
-      });
-
-      return userContentDuration ? userContentDuration.value : contentDuration.value;
-    }
-
-    return contentDuration.value;
+    return this.getUserOverride(
+      userId,
+      () =>
+        this.prisma.contentDuration.findUniqueOrThrow({
+          where: { contentId },
+        }),
+      (userId) =>
+        this.prisma.userContentDuration.findUnique({
+          where: { contentId_userId: { contentId, userId } },
+        }),
+      (entity) => entity.value
+    );
   }
 
   async getContentRewardAverageQuantity(contentRewardId: number, userId?: number) {
     const contentReward = await this.prisma.contentReward.findUniqueOrThrow({
-      where: {
-        id: contentRewardId,
-      },
+      where: { id: contentRewardId },
     });
 
-    if (userId) {
-      const userContentReward = await this.prisma.userContentReward.findUnique({
-        where: {
-          userId_contentId_itemId: {
-            contentId: contentReward.contentId,
-            itemId: contentReward.itemId,
-            userId,
+    return this.getUserOverride(
+      userId,
+      () => Promise.resolve(contentReward),
+      (userId) =>
+        this.prisma.userContentReward.findUnique({
+          where: {
+            userId_contentId_itemId: {
+              contentId: contentReward.contentId,
+              itemId: contentReward.itemId,
+              userId,
+            },
           },
-        },
-      });
-
-      return userContentReward ? userContentReward.averageQuantity : contentReward.averageQuantity;
-    }
-
-    return contentReward.averageQuantity;
+        }),
+      (entity) => entity.averageQuantity
+    );
   }
 
   async getContentRewardIsSellable(contentRewardId: number, userId?: number) {
@@ -57,21 +47,21 @@ export class UserContentService {
       where: { id: contentRewardId },
     });
 
-    if (userId) {
-      const userContentReward = await this.prisma.userContentReward.findUnique({
-        where: {
-          userId_contentId_itemId: {
-            contentId: contentReward.contentId,
-            itemId: contentReward.itemId,
-            userId,
+    return this.getUserOverride(
+      userId,
+      () => Promise.resolve(contentReward),
+      (userId) =>
+        this.prisma.userContentReward.findUnique({
+          where: {
+            userId_contentId_itemId: {
+              contentId: contentReward.contentId,
+              itemId: contentReward.itemId,
+              userId,
+            },
           },
-        },
-      });
-
-      return userContentReward ? userContentReward.isSellable : contentReward.isSellable;
-    }
-
-    return contentReward.isSellable;
+        }),
+      (entity) => entity.isSellable
+    );
   }
 
   async getContentRewards(
@@ -93,11 +83,13 @@ export class UserContentService {
       where,
     });
 
-    let result: {
+    type RewardResult = {
       averageQuantity: number;
       isSellable: boolean;
       itemId: number;
-    }[];
+    };
+
+    let result: RewardResult[];
 
     if (userId) {
       const userRewards = await this.prisma.userContentReward.findMany({
@@ -150,23 +142,21 @@ export class UserContentService {
       where: { id: contentSeeMoreRewardId },
     });
 
-    if (userId) {
-      const userContentSeeMoreReward = await this.prisma.userContentSeeMoreReward.findUnique({
-        where: {
-          userId_contentId_itemId: {
-            contentId: contentSeeMoreReward.contentId,
-            itemId: contentSeeMoreReward.itemId,
-            userId,
+    return this.getUserOverride(
+      userId,
+      () => Promise.resolve(contentSeeMoreReward),
+      (userId) =>
+        this.prisma.userContentSeeMoreReward.findUnique({
+          where: {
+            userId_contentId_itemId: {
+              contentId: contentSeeMoreReward.contentId,
+              itemId: contentSeeMoreReward.itemId,
+              userId,
+            },
           },
-        },
-      });
-
-      return userContentSeeMoreReward
-        ? userContentSeeMoreReward.quantity
-        : contentSeeMoreReward.quantity;
-    }
-
-    return contentSeeMoreReward.quantity;
+        }),
+      (entity) => entity.quantity
+    );
   }
 
   async getContentSeeMoreRewards(
@@ -215,35 +205,20 @@ export class UserContentService {
     }));
   }
 
-  //  Test 작성
   async getItemPrice(itemId: number, userId?: number) {
-    const { price: defaultPrice } = await this.prisma.item.findUniqueOrThrow({
-      where: {
-        id: itemId,
-      },
+    const item = await this.prisma.item.findUniqueOrThrow({
+      where: { id: itemId },
     });
 
-    const { isEditable } = await this.prisma.item.findUniqueOrThrow({
-      where: {
-        id: itemId,
-      },
+    if (!userId || !item.isEditable) {
+      return item.price.toNumber();
+    }
+
+    const userItem = await this.prisma.userItem.findUniqueOrThrow({
+      where: { userId_itemId: { itemId, userId } },
     });
 
-    const price =
-      userId && isEditable
-        ? (
-            await this.prisma.userItem.findUniqueOrThrow({
-              where: {
-                userId_itemId: {
-                  itemId,
-                  userId,
-                },
-              },
-            })
-          ).price
-        : defaultPrice;
-
-    return price.toNumber();
+    return userItem.price.toNumber();
   }
 
   async validateUserItem(itemId: number, userId: number) {
@@ -256,5 +231,21 @@ export class UserContentService {
     }
 
     return true;
+  }
+
+  private async getUserOverride<TDefault, TUser, TValue>(
+    userId: number | undefined,
+    fetchDefault: () => Promise<TDefault>,
+    fetchUserOverride: (userId: number) => Promise<TUser | null>,
+    extractValue: (source: TDefault | TUser) => TValue
+  ): Promise<TValue> {
+    const defaultEntity = await fetchDefault();
+
+    if (!userId) {
+      return extractValue(defaultEntity);
+    }
+
+    const userEntity = await fetchUserOverride(userId);
+    return userEntity ? extractValue(userEntity) : extractValue(defaultEntity);
   }
 }
