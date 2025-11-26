@@ -31,9 +31,6 @@ codegen:
     cd "{{ frontend_dir }}"
     pnpm codegen
 
-degit source_dir target_dir:
-    degit https://github.com/KubrickCode/general/{{ source_dir }} {{ target_dir }}
-
 deps: deps-root deps-frontend deps-backend deps-playwright
 
 deps-compact: deps-root deps-frontend deps-backend
