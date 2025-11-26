@@ -272,10 +272,15 @@ setup-testdb:
     cd "{{ backend_dir }}"
     DATABASE_URL="{{ testdb_url }}" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm prisma migrate dev
 
-test target *args:
+test target="all" *args:
     #!/usr/bin/env bash
     set -euox pipefail
     case "{{ target }}" in
+      all)
+        just test backend
+        just test e2e
+        just test e2e-ui
+        ;;
       backend)
         echo "NodeJS:" $(node -v)
         echo "Prisma Engine:" {{ prisma_engine }}
@@ -284,38 +289,40 @@ test target *args:
         cd "{{ backend_dir }}"
         DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec jest --runInBand --logHeapUsage --no-compilation-cache --silent=false {{ args }}
         ;;
-    esac
+      e2e)
+        echo "NodeJS:" $(node -v)
+        echo "Prisma Engine:" {{ prisma_engine }}
 
-test-e2e *args:
-    #!/usr/bin/env bash
-    set -euox pipefail
-    echo "NodeJS:" $(node -v)
-    echo "Prisma Engine:" {{ prisma_engine }}
+        just setup-testdb
+        cd "{{ backend_dir }}"
+        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec jest --config ./jest-e2e.json --runInBand --no-compilation-cache --forceExit {{ args }}
+        ;;
+      e2e-ui)
+        set +x
+        if [ "{{ args }}" = "report" ]; then
+          if [ ! -f "playwright-report/index.html" ]; then
+            echo "No report found. Run tests first: just test e2e-ui"
+            exit 1
+          fi
+          pnpm test:e2e-ui:report
+        else
+          set -x
+          # Kill any existing backend processes and wait for termination
+          pkill -f "nest start" || true
+          while pgrep -f "nest start" > /dev/null; do sleep 0.5; done
 
-    just setup-testdb
-    cd "{{ backend_dir }}"
-    DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec jest --config ./jest-e2e.json --runInBand --no-compilation-cache --forceExit {{ args }}
-
-test-e2e-ui mode="":
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ "{{ mode }}" = "report" ]; then
-      if [ ! -f "playwright-report/index.html" ]; then
-        echo "No report found. Run tests first: just test-e2e-ui"
+          just setup-testdb
+          cd "{{ backend_dir }}"
+          DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm prisma db seed
+          cd "{{ root_dir }}"
+          pnpm test:e2e-ui
+        fi
+        ;;
+      *)
+        echo "Unknown target: {{ target }}"
         exit 1
-      fi
-      pnpm test:e2e-ui:report
-    else
-      # Kill any existing backend processes and wait for termination
-      pkill -f "nest start" || true
-      while pgrep -f "nest start" > /dev/null; do sleep 0.5; done
-
-      just setup-testdb
-      cd "{{ backend_dir }}"
-      DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm prisma db seed
-      cd "{{ root_dir }}"
-      pnpm test:e2e-ui
-    fi
+        ;;
+    esac
 
 run-backend-prod:
     ./scripts/run-backend-prod.sh

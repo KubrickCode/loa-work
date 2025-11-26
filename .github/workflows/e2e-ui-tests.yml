@@ -72,7 +72,7 @@ jobs:
         run: just deps-playwright
 
       - name: Run E2E UI tests
-        run: just test-e2e-ui
+        run: just test e2e-ui
 
       - name: Upload test report
         if: always()
