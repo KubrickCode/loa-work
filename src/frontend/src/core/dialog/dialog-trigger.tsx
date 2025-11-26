@@ -23,7 +23,7 @@ export const DialogTrigger = <T extends ElementType>({
       <Flex
         onClick={(e) => {
           e.stopPropagation();
-          onOpen();
+          onOpen(dialogProps);
         }}
         {...otherProps}
       >
