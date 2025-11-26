@@ -15,6 +15,49 @@
   },
   "quickCommandButtons.buttons": [
     {
+      "name": "$(git-branch) Git",
+      "shortcut": "g",
+      "color": "green",
+      "group": [
+        {
+          "name": "Push",
+          "command": "git add . && git commit --amend --no-edit && git push -f",
+          "terminalName": "Forced Push",
+          "shortcut": "p"
+        },
+        {
+          "name": "Pull",
+          "command": "git pull",
+          "terminalName": "Pull",
+          "shortcut": "l"
+        },
+        {
+          "name": "Commit",
+          "command": "git add . && git commit --amend --no-edit",
+          "terminalName": "Add and Commit Amend",
+          "shortcut": "c"
+        },
+        {
+          "name": "Reset Soft",
+          "command": "git reset --soft HEAD~1",
+          "terminalName": "Reset Soft",
+          "shortcut": "r"
+        },
+        {
+          "name": "Rebase 5",
+          "command": "git rebase -i HEAD~5",
+          "terminalName": "Rebase Interactive 5",
+          "shortcut": "b"
+        },
+        {
+          "name": "Checkout main",
+          "command": "git checkout main",
+          "terminalName": "Checkout main",
+          "shortcut": "m"
+        }
+      ]
+    },
+    {
       "name": "Web App",
       "color": "skyblue",
       "shortcut": "w",
@@ -99,43 +142,6 @@
       ]
     },
     {
-      "name": "$(git-branch) Git",
-      "shortcut": "g",
-      "color": "green",
-      "group": [
-        {
-          "name": "Push",
-          "command": "git add . && git commit --amend --no-edit && git push -f",
-          "terminalName": "Forced Push",
-          "shortcut": "p"
-        },
-        {
-          "name": "Commit",
-          "command": "git add . && git commit --amend --no-edit",
-          "terminalName": "Add and Commit Amend",
-          "shortcut": "c"
-        },
-        {
-          "name": "Reset Soft",
-          "command": "git reset --soft HEAD~1",
-          "terminalName": "Reset Soft",
-          "shortcut": "r"
-        },
-        {
-          "name": "Rebase 5",
-          "command": "git rebase -i HEAD~5",
-          "terminalName": "Rebase Interactive 5",
-          "shortcut": "b"
-        },
-        {
-          "name": "Checkout main",
-          "command": "git checkout main",
-          "terminalName": "Checkout main",
-          "shortcut": "m"
-        }
-      ]
-    },
-    {
       "name": "Utils",
       "shortcut": "u",
       "color": "purple",
@@ -151,8 +157,34 @@
           "command": "just codegen",
           "terminalName": "Codegen",
           "shortcut": "c"
+        },
+        {
+          "name": "Deps",
+          "command": "just deps",
+          "terminalName": "Deps",
+          "shortcut": "d"
+        },
+        {
+          "name": "Lint",
+          "command": "just lint",
+          "terminalName": "Lint",
+          "shortcut": "l"
         }
       ]
+    },
+    {
+      "name": "Release",
+      "color": "orange",
+      "shortcut": "r",
+      "command": "just release",
+      "terminalName": "Release"
+    },
+    {
+      "name": "Test",
+      "color": "tomato",
+      "command": "just test",
+      "terminalName": "Test",
+      "shortcut": "t"
     },
     {
       "name": "Claude",
@@ -161,13 +193,6 @@
       "command": "export IS_SANDBOX=1 && claude --dangerously-skip-permissions",
       "terminalName": "Claude Yolo",
       "useVsCodeApi": false
-    },
-    {
-      "name": "Release",
-      "color": "orange",
-      "shortcut": "r",
-      "command": "just release",
-      "terminalName": "Release"
     }
   ],
   "quickCommandButtons.refreshButton": {
