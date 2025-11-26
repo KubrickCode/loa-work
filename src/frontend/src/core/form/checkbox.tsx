@@ -11,7 +11,7 @@ export const Checkbox = (props: CheckboxProps) => {
     <Controller
       name={name}
       render={({ field: { onChange, value } }) => (
-        <ChakraCheckbox checked={value} onChange={onChange} {...props} />
+        <ChakraCheckbox checked={value} onCheckedChange={(e) => onChange(e.checked)} {...props} />
       )}
     />
   );
