@@ -2,6 +2,39 @@
 
 ### ✨ Features
 
+- **backend:** GraphQL InputType 자동 검증 인프라 구축 ([f6414e787f6066d3b850d1fc6a9c55e3b94e6b21](/commit/f6414e787f6066d3b850d1fc6a9c55e3b94e6b21))
+
+### 🐛 Bug Fixes
+
+- **frontend:** Form.Checkbox 클릭해도 상태가 변경되지 않는 문제 수정 ([cb1f4b98c925e8c440819b3ac4c983e276068df2](/commit/cb1f4b98c925e8c440819b3ac4c983e276068df2))
+- **frontend:** 모달에서 드래그 후 테이블 행 클릭이 발생하는 문제 수정 ([2c23a88361ffbba9f01a78371f3f300c73584cf0](/commit/2c23a88361ffbba9f01a78371f3f300c73584cf0))
+- **frontend:** 카테고리 필터링 후 소요시간 수정 모달이 이전 컨텐츠로 열리는 문제 수정 ([6e1eff5736b63323592666215048b9a0e73fad3b](/commit/6e1eff5736b63323592666215048b9a0e73fad3b))
+
+## 🔧 Maintenance
+
+### ♻️ Refactoring
+
+- **backend:** CommonModule에서 PrismaService 분리 ([f3efa1e4f9d190c7453aaf0929f1b86166041836](/commit/f3efa1e4f9d190c7453aaf0929f1b86166041836))
+- **backend:** contentList query에 정렬 기능 추가 ([92d6a6f5621c40c51e8693bc07e35036ffeab1d5](/commit/92d6a6f5621c40c51e8693bc07e35036ffeab1d5))
+- **backend:** DataLoader 타입 안전성 개선 및 구조 분리 ([fab33a463bc9bbbd14dfe40ba2c9be7706342af6](/commit/fab33a463bc9bbbd14dfe40ba2c9be7706342af6))
+- **backend:** es-toolkit 기반으로 유틸성 함수 개선 ([35c88c73fcce2b0f7b8b687141ca01caf010f51d](/commit/35c88c73fcce2b0f7b8b687141ca01caf010f51d))
+- **backend:** Mutation 응답 타입 표준화 ([1de97cd837b3135613ee06596f823d08f16f59c7](/commit/1de97cd837b3135613ee06596f823d08f16f59c7))
+- **backend:** Service 계층의 GraphQL Context 의존성 제거 ([ae25261b2ec4085560afb8c2481170c6fbd5aae0](/commit/ae25261b2ec4085560afb8c2481170c6fbd5aae0))
+- **backend:** 모듈 구조 개선 및 Service Layer 분리 ([7bfc621eb5526e70593ee24c7bda593b91480ee1](/commit/7bfc621eb5526e70593ee24c7bda593b91480ee1))
+- **backend:** 서비스 계층 코드 중복 제거 및 구조 개선 ([fad9324743cd58203fcb6435e15314e042d1020e](/commit/fad9324743cd58203fcb6435e15314e042d1020e))
+- **backend:** 에러를 삼키는 핸들링 패턴 수정 ([53b0d6a675514b82eb265a807c68f9199c69c253](/commit/53b0d6a675514b82eb265a807c68f9199c69c253))
+- **graphql:** InputType 네이밍 규칙 표준화 및 Boolean 필드명 개선 ([181f3eef529896eb134e9ecd684ee9867aa5c5b7](/commit/181f3eef529896eb134e9ecd684ee9867aa5c5b7))
+
+### 🔨 Chore
+
+- test 명령어 통합 ([4e9e73abc7ec569d1c8e069d5b46b6a6ada72d99](/commit/4e9e73abc7ec569d1c8e069d5b46b6a6ada72d99))
+- 불필요한 명령어 제거 ([77924531eb13d61614f54b5cbe276de5e1def386](/commit/77924531eb13d61614f54b5cbe276de5e1def386))
+- 유용한 액션 버튼 커맨드 추가 ([eb83e426b8b8c39fc50ffe370d34985a926992e0](/commit/eb83e426b8b8c39fc50ffe370d34985a926992e0))
+
+## 🎯 Highlights
+
+### ✨ Features
+
 - **backend:** 전역 에러 처리 인프라 구축 ([d63f1a12469e75e86f704a5df10043a8d3af91bb](/commit/d63f1a12469e75e86f704a5df10043a8d3af91bb))
 
 ## 🔧 Maintenance
