@@ -176,7 +176,7 @@ function Dialog(props: DialogImplementationProps): JSX.Element {
   return (
     <DialogRoot
       lazyMount
-      modal={false}
+      modal
       onOpenChange={onClose}
       open={open}
       scrollBehavior="inside"
