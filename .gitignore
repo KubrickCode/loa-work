@@ -11,3 +11,5 @@ docs/e2e-ui/
 playwright-report/
 test-results/
 .playwright-mcp/
+
+tmp/
