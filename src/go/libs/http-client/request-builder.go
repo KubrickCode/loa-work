@@ -27,26 +27,41 @@ func NewRequestBuilder(baseURL string) *RequestBuilder {
 }
 
 func (rb *RequestBuilder) Method(method string) *RequestBuilder {
+	if len(rb.errors) > 0 {
+		return rb
+	}
 	rb.method = method
 	return rb
 }
 
 func (rb *RequestBuilder) Path(path string) *RequestBuilder {
+	if len(rb.errors) > 0 {
+		return rb
+	}
 	rb.path = path
 	return rb
 }
 
 func (rb *RequestBuilder) AddHeader(key, value string) *RequestBuilder {
+	if len(rb.errors) > 0 {
+		return rb
+	}
 	rb.headers[key] = value
 	return rb
 }
 
 func (rb *RequestBuilder) AddQueryParam(key string, value interface{}) *RequestBuilder {
+	if len(rb.errors) > 0 {
+		return rb
+	}
 	rb.queryParams.Add(key, fmt.Sprintf("%v", value))
 	return rb
 }
 
 func (rb *RequestBuilder) JSON(data interface{}) *RequestBuilder {
+	if len(rb.errors) > 0 {
+		return rb
+	}
 	body, err := json.Marshal(data)
 	if err != nil {
 		rb.errors = append(rb.errors, err)
@@ -58,6 +73,10 @@ func (rb *RequestBuilder) JSON(data interface{}) *RequestBuilder {
 }
 
 func (rb *RequestBuilder) Build() (*http.Request, error) {
+	if len(rb.errors) > 0 {
+		return nil, fmt.Errorf("request builder has accumulated errors: %w", rb.errors[0])
+	}
+
 	u, err := url.Parse(rb.baseURL + rb.path)
 	if err != nil {
 		return nil, err
