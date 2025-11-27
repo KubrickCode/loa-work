@@ -1,11 +1,20 @@
 package scraper
 
 import (
+	"context"
 	"errors"
 	"testing"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
+	"github.com/KubrickCode/loa-work/src/go/libs/ratelimit"
 )
+
+// noopLimiter implements ratelimit.Limiter with no delay
+type noopLimiter struct{}
+
+func (l *noopLimiter) Wait(ctx context.Context) error {
+	return nil
+}
 
 type mockAPIClient struct {
 	getAuctionItemListFunc func(params *loaApi.GetAuctionItemListParams) (*loaApi.GetAuctionItemListResponse, error)
@@ -65,8 +74,9 @@ func TestGetCategories_Success(t *testing.T) {
 	}
 
 	scraper := &Scraper{
-		client: mockClient,
-		db:     nil,
+		client:      mockClient,
+		db:          nil,
+		rateLimiter: &noopLimiter{},
 	}
 
 	categories, err := scraper.getCategories()
@@ -95,17 +105,14 @@ func TestGetCategories_APIError(t *testing.T) {
 	}
 
 	scraper := &Scraper{
-		client: mockClient,
-		db:     nil,
+		client:      mockClient,
+		db:          nil,
+		rateLimiter: &noopLimiter{},
 	}
 
 	_, err := scraper.getCategories()
-	if err == nil {
-		t.Fatal("Expected error, got nil")
-	}
-
-	if err != expectedErr {
-		t.Errorf("Expected error %v, got %v", expectedErr, err)
+	if !errors.Is(err, expectedErr) {
+		t.Fatalf("Expected error %v, got %v", expectedErr, err)
 	}
 }
 
@@ -119,8 +126,9 @@ func TestGetCategories_EmptyResponse(t *testing.T) {
 	}
 
 	scraper := &Scraper{
-		client: mockClient,
-		db:     nil,
+		client:      mockClient,
+		db:          nil,
+		rateLimiter: &noopLimiter{},
 	}
 
 	_, err := scraper.getCategories()
@@ -193,5 +201,42 @@ func TestGetFlattenCategories_EmptySubCategories(t *testing.T) {
 
 	if flattened[0].Name != "Category without subs" {
 		t.Errorf("Expected name 'Category without subs', got %s", flattened[0].Name)
+	}
+}
+
+func TestNewScraper_RateLimiterInitialization(t *testing.T) {
+	mockClient := &mockAPIClient{}
+	scraper := NewScraper(mockClient, nil)
+
+	if scraper.rateLimiter == nil {
+		t.Fatal("Expected rateLimiter to be initialized, got nil")
+	}
+}
+
+func TestRateLimiter_InterfaceCompliance(t *testing.T) {
+	mockClient := &mockAPIClient{
+		getCategoryListFunc: func() (*loaApi.GetCategoryListResponse, error) {
+			return &loaApi.GetCategoryListResponse{
+				Categories: []loaApi.Category{
+					{Code: 10000, CodeName: "Test"},
+				},
+			}, nil
+		},
+	}
+
+	// Test with real limiter
+	scraper := &Scraper{
+		client:      mockClient,
+		db:          nil,
+		rateLimiter: ratelimit.NewLimiterPerDuration(0, 1), // instant for test
+	}
+
+	categories, err := scraper.getCategories()
+	if err != nil {
+		t.Fatalf("Expected no error, got %v", err)
+	}
+
+	if len(categories) != 1 {
+		t.Errorf("Expected 1 category, got %d", len(categories))
 	}
 }
