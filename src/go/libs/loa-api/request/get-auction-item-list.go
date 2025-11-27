@@ -1,10 +1,10 @@
 package request
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
-	"github.com/pkg/errors"
 )
 
 func (c *Client) GetAuctionItemList(params *loaApi.GetAuctionItemListParams) (*loaApi.GetAuctionItemListResponse, error) {
@@ -14,12 +14,12 @@ func (c *Client) GetAuctionItemList(params *loaApi.GetAuctionItemListParams) (*l
 		JSON(params).
 		Build()
 	if err != nil {
-		return nil, errors.Wrap(err, "RequestBuilder")
+		return nil, fmt.Errorf("loa-api: build request: %w", err)
 	}
 
 	var resp loaApi.GetAuctionItemListResponse
 	if err = c.api.Do(req, &resp); err != nil {
-		return nil, errors.Wrap(err, "GetAuctionItemList")
+		return nil, fmt.Errorf("loa-api: get auction item list: %w", err)
 	}
 
 	return &resp, nil

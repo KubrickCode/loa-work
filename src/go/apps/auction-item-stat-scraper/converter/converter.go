@@ -2,7 +2,7 @@ package converter
 
 import (
 	"fmt"
-	"log"
+	"log/slog"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
@@ -42,7 +42,7 @@ func (s *Converter) Start() error {
 			}
 		}
 
-		log.Println("Auction Item Stats Converted To Content Reward Item Price Done")
+		slog.Info("auction item stats converted to content reward item price")
 
 		return nil
 	})
@@ -91,6 +91,6 @@ func (s *Converter) updateAuctionItems(tx loadb.DB) error {
 		}
 	}
 
-	log.Println("Auction Items Updated With Recent Stats")
+	slog.Info("auction items updated with recent stats")
 	return nil
 }

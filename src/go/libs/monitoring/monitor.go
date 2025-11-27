@@ -2,7 +2,7 @@ package monitoring
 
 import (
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"sync"
 	"time"
@@ -60,9 +60,9 @@ func (m *Monitor) Start() {
 		m.serviceUp.WithLabelValues(m.jobName).Set(1)
 		go func() {
 			http.Handle("/metrics", promhttp.Handler())
-			log.Printf("Starting metrics server on :%d for job %s", m.metricsPort, m.jobName)
+			slog.Info("starting metrics server", "port", m.metricsPort, "job", m.jobName)
 			if err := http.ListenAndServe(fmt.Sprintf(":%d", m.metricsPort), nil); err != nil {
-				log.Fatalf("Failed to start metrics server: %v", err)
+				slog.Error("failed to start metrics server", "error", err)
 				m.SetServiceUp(false)
 			}
 		}()
@@ -76,11 +76,11 @@ func (m *Monitor) MonitorTask(task Task) error {
 	if err != nil {
 		m.IncrementFailure()
 		m.SetServiceUp(false)
-		log.Printf("Task failed for job %s: %v", m.jobName, err)
+		slog.Error("task failed", "job", m.jobName, "error", err)
 	} else {
 		m.IncrementSuccess()
 		m.SetServiceUp(true)
-		log.Printf("Task completed for job %s in %v", m.jobName, time.Since(startTime))
+		slog.Info("task completed", "job", m.jobName, "duration", time.Since(startTime))
 	}
 	return err
 }

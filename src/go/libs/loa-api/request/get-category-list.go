@@ -1,10 +1,10 @@
 package request
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
-	"github.com/pkg/errors"
 )
 
 func (c *Client) GetCategoryList() (*loaApi.GetCategoryListResponse, error) {
@@ -13,12 +13,12 @@ func (c *Client) GetCategoryList() (*loaApi.GetCategoryListResponse, error) {
 		Path("/markets/options").
 		Build()
 	if err != nil {
-		return nil, errors.Wrap(err, "RequestBuilder")
+		return nil, fmt.Errorf("loa-api: build request: %w", err)
 	}
 
 	var resp loaApi.GetCategoryListResponse
 	if err = c.api.Do(req, &resp); err != nil {
-		return nil, errors.Wrap(err, "GetCategoryList")
+		return nil, fmt.Errorf("loa-api: get category list: %w", err)
 	}
 
 	return &resp, nil

@@ -3,7 +3,7 @@ package scraper
 import (
 	"context"
 	"fmt"
-	"log"
+	"log/slog"
 	"time"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
@@ -91,8 +91,7 @@ func (s *Scraper) getItemsToSave(categories []*models.MarketItemCategory) ([]*mo
 					uniqueKey := fmt.Sprintf("%s-%s", item.Name, item.Grade)
 
 					if seenItems[uniqueKey] {
-						log.Printf("중복 아이템 스킵: 이름=%s, 등급=%s, ID=%d",
-							item.Name, item.Grade, item.ID)
+						slog.Debug("duplicate item skipped", "name", item.Name, "grade", item.Grade, "id", item.ID)
 						continue
 					}
 
@@ -124,7 +123,7 @@ func (s *Scraper) getItemsToSave(categories []*models.MarketItemCategory) ([]*mo
 }
 
 func (s *Scraper) saveItems(items []*models.MarketItem) error {
-	log.Println("Market items saved successfully")
+	slog.Info("market items saved successfully")
 
 	return s.db.MarketItem().UpsertMany(items)
 }
