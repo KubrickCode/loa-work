@@ -7,10 +7,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-func GetCategoryList() (*loaApi.GetCategoryListResponse, error) {
-	client := loaApi.NewClient()
-
-	req, err := client.NewRequest().
+func (c *Client) GetCategoryList() (*loaApi.GetCategoryListResponse, error) {
+	req, err := c.api.NewRequest().
 		Method(http.MethodGet).
 		Path("/markets/options").
 		Build()
@@ -19,9 +17,8 @@ func GetCategoryList() (*loaApi.GetCategoryListResponse, error) {
 	}
 
 	var resp loaApi.GetCategoryListResponse
-	err = client.Do(req, &resp)
-	if err != nil {
-		return nil, errors.Wrap(err, "GetOrderList")
+	if err = c.api.Do(req, &resp); err != nil {
+		return nil, errors.Wrap(err, "GetCategoryList")
 	}
 
 	return &resp, nil

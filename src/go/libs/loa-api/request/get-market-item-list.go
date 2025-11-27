@@ -7,10 +7,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-func GetMarketItemList(params *loaApi.GetMarketItemListParams) (*loaApi.GetMarketItemListResponse, error) {
-	client := loaApi.NewClient()
-
-	req, err := client.NewRequest().
+func (c *Client) GetMarketItemList(params *loaApi.GetMarketItemListParams) (*loaApi.GetMarketItemListResponse, error) {
+	req, err := c.api.NewRequest().
 		Method(http.MethodPost).
 		Path("/markets/items").
 		JSON(params).
@@ -20,8 +18,7 @@ func GetMarketItemList(params *loaApi.GetMarketItemListParams) (*loaApi.GetMarke
 	}
 
 	var resp loaApi.GetMarketItemListResponse
-	err = client.Do(req, &resp)
-	if err != nil {
+	if err = c.api.Do(req, &resp); err != nil {
 		return nil, errors.Wrap(err, "GetMarketItemList")
 	}
 

@@ -1,6 +1,7 @@
 package scraper
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -9,12 +10,18 @@ import (
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
 )
 
+var ErrNoMarketItemCategories = errors.New("no market item categories found")
+
 type Scraper struct {
-	db loadb.DB
+	client request.APIClient
+	db     loadb.DB
 }
 
-func NewScraper(db loadb.DB) *Scraper {
-	return &Scraper{db: db}
+func NewScraper(client request.APIClient, db loadb.DB) *Scraper {
+	return &Scraper{
+		client: client,
+		db:     db,
+	}
 }
 
 func (s *Scraper) Start() error {
@@ -34,7 +41,7 @@ func (s *Scraper) Start() error {
 }
 
 func (s *Scraper) getCategories() ([]*models.MarketItemCategory, error) {
-	resp, err := request.GetCategoryList()
+	resp, err := s.client.GetCategoryList()
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +49,7 @@ func (s *Scraper) getCategories() ([]*models.MarketItemCategory, error) {
 	categories := GetFlattenCategories(resp.Categories)
 
 	if len(categories) == 0 {
-		return nil, fmt.Errorf("no market item categories found")
+		return nil, ErrNoMarketItemCategories
 	}
 
 	return categories, nil

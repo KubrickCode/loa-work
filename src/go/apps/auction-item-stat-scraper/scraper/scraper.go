@@ -14,12 +14,17 @@ import (
 )
 
 type Scraper struct {
+	client      request.APIClient
 	db          loadb.DB
 	rateLimiter *rate.Limiter
 }
 
-func NewScraper(db loadb.DB) *Scraper {
-	return &Scraper{db: db, rateLimiter: rate.NewLimiter(rate.Every(time.Second), 1)}
+func NewScraper(client request.APIClient, db loadb.DB) *Scraper {
+	return &Scraper{
+		client:      client,
+		db:          db,
+		rateLimiter: rate.NewLimiter(rate.Every(time.Second), 1),
+	}
 }
 
 func (s *Scraper) Start() error {
@@ -67,7 +72,7 @@ func (s *Scraper) getItemStatsToCreate(category *models.AuctionItemCategory, ite
 		return nil, fmt.Errorf("rate limiter error: %w", err)
 	}
 
-	auctionItemListResp, err := request.GetAuctionItemList(&loaApi.GetAuctionItemListParams{
+	auctionItemListResp, err := s.client.GetAuctionItemList(&loaApi.GetAuctionItemListParams{
 		CategoryCode:  category.Code,
 		ItemName:      item.Name,
 		PageNo:        1,

@@ -8,6 +8,7 @@ import (
 	"github.com/KubrickCode/loa-work/src/go/apps/auction-item-stat-scraper/converter"
 	"github.com/KubrickCode/loa-work/src/go/apps/auction-item-stat-scraper/scraper"
 	"github.com/KubrickCode/loa-work/src/go/libs/env"
+	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 	"github.com/KubrickCode/loa-work/src/go/libs/monitoring"
 	"github.com/KubrickCode/loa-work/src/go/libs/schedule"
@@ -27,7 +28,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	scraper := scraper.NewScraper(db)
+	client := request.NewClient()
+	scraper := scraper.NewScraper(client, db)
 	converter := converter.NewConverter(db)
 
 	combinedTask := func() error {

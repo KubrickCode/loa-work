@@ -10,10 +10,8 @@ import (
 
 // 특정 거래소 아이템 정보를 조회하는 API.
 // 가격 정보를 포함한 응답을 위해서 복수 items 를 조회하는 API를 활용하고, 어설션 이후 첫 번째 인덱스를 반환함.
-func GetMarketItem(params *loaApi.GetMarketItemParams) (*loaApi.GetMarketItemResponse, error) {
-	client := loaApi.NewClient()
-
-	req, err := client.NewRequest().
+func (c *Client) GetMarketItem(params *loaApi.GetMarketItemParams) (*loaApi.GetMarketItemResponse, error) {
+	req, err := c.api.NewRequest().
 		Method(http.MethodPost).
 		Path("/markets/items").
 		JSON(params).
@@ -23,8 +21,7 @@ func GetMarketItem(params *loaApi.GetMarketItemParams) (*loaApi.GetMarketItemRes
 	}
 
 	var resp loaApi.GetMarketItemListResponse
-	err = client.Do(req, &resp)
-	if err != nil {
+	if err = c.api.Do(req, &resp); err != nil {
 		return nil, errors.Wrap(err, "GetMarketItem")
 	}
 
