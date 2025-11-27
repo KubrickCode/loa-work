@@ -1,64 +1,76 @@
 package schedule
 
 import (
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
-	"github.com/k0kubun/pp"
-	"github.com/pkg/errors"
+	"github.com/go-co-op/gocron/v2"
+	"github.com/google/uuid"
 )
 
 type Scheduler struct {
+	s     gocron.Scheduler
 	tasks []*Task
 }
 
 type Task struct {
-	name   string
-	d      time.Duration
-	fn     func() error
-	ticker *time.Ticker
+	Name     string
+	Duration time.Duration
+	Fn       func() error
 }
 
 func NewScheduler() *Scheduler {
-	return &Scheduler{}
+	return &Scheduler{
+		tasks: make([]*Task, 0),
+	}
+}
+
+func NewTask(name string, d time.Duration, fn func() error) *Task {
+	return &Task{
+		Name:     name,
+		Duration: d,
+		Fn:       fn,
+	}
 }
 
 func (s *Scheduler) AddTask(t *Task) {
-	if s.tasks == nil {
-		s.tasks = []*Task{}
-	}
 	s.tasks = append(s.tasks, t)
 }
 
 func (s *Scheduler) Run() error {
-	errChan := make(chan error)
-
-	for _, task := range s.tasks {
-		go func(t *Task) {
-			pp.Println(t.name + " started.")
-			defer t.ticker.Stop()
-
-			// 스케줄러 실행 시 모든 작업 한 번씩 먼저 실행하고 다음 작업 대기함.
-			err := t.fn()
-			if err != nil {
-				errChan <- errors.Wrapf(err, "error executing task %s", t.name)
-			}
-
-			for range t.ticker.C {
-				if err := t.fn(); err != nil {
-					errChan <- errors.Wrapf(err, "error executing task %s", t.name)
-				}
-			}
-		}(task)
-	}
-
-	if err := <-errChan; err != nil {
+	scheduler, err := gocron.NewScheduler(gocron.WithStopTimeout(30 * time.Second))
+	if err != nil {
 		return err
 	}
+	s.s = scheduler
 
-	return nil
-}
+	for _, task := range s.tasks {
+		_, err := s.s.NewJob(
+			gocron.DurationJob(task.Duration),
+			gocron.NewTask(task.Fn),
+			gocron.WithName(task.Name),
+			gocron.WithStartAt(gocron.WithStartImmediately()),
+			gocron.WithEventListeners(
+				gocron.AfterJobRunsWithError(func(jobID uuid.UUID, jobName string, err error) {
+					log.Printf("job failed: name=%s, error=%v", jobName, err)
+				}),
+			),
+		)
+		if err != nil {
+			return err
+		}
+		log.Printf("%s started.", task.Name)
+	}
 
-func NewTask(name string, d time.Duration, fn func() error) *Task {
-	ticker := time.NewTicker(d)
-	return &Task{name: name, d: d, fn: fn, ticker: ticker}
+	s.s.Start()
+
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
+	<-sigChan
+
+	log.Println("Shutting down scheduler...")
+	return s.s.Shutdown()
 }
