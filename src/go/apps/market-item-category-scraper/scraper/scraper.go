@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
+	"log/slog"
 	"time"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
@@ -45,7 +45,7 @@ func (s *Scraper) Start() error {
 		return fmt.Errorf("failed to create market item categories: %w", err)
 	}
 
-	log.Println("Market item categories created successfully")
+	slog.Info("market item categories created successfully")
 
 	return nil
 }

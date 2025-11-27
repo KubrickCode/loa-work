@@ -1,7 +1,8 @@
 package main
 
 import (
-	"log"
+	"log/slog"
+	"os"
 	"strconv"
 	"time"
 
@@ -15,9 +16,12 @@ import (
 )
 
 func main() {
+	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
+
 	metricsPort, err := strconv.Atoi(env.GetEnvFallback("METRICS_PORT", "3003"))
 	if err != nil {
-		log.Fatal(err)
+		slog.Error("failed to parse METRICS_PORT", "error", err)
+		os.Exit(1)
 	}
 
 	monitor := monitoring.NewMonitor("market-item-stat-scraper", metricsPort)
@@ -25,7 +29,8 @@ func main() {
 
 	db, err := loadb.New()
 	if err != nil {
-		log.Fatal(err)
+		slog.Error("failed to initialize database", "error", err)
+		os.Exit(1)
 	}
 
 	client := request.NewClient()
@@ -47,6 +52,7 @@ func main() {
 	scheduler.AddTask(schedule.NewTask("Market item scraping and converting", 1*time.Hour, scraper.ScrapeItem))
 
 	if err := scheduler.Run(); err != nil {
-		log.Fatal(err)
+		slog.Error("scheduler failed", "error", err)
+		os.Exit(1)
 	}
 }

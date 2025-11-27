@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
-	"github.com/pkg/errors"
 )
 
 // 특정 거래소 아이템 정보를 조회하는 API.
@@ -17,20 +16,20 @@ func (c *Client) GetMarketItem(params *loaApi.GetMarketItemParams) (*loaApi.GetM
 		JSON(params).
 		Build()
 	if err != nil {
-		return nil, errors.Wrap(err, "RequestBuilder")
+		return nil, fmt.Errorf("loa-api: build request: %w", err)
 	}
 
 	var resp loaApi.GetMarketItemListResponse
 	if err = c.api.Do(req, &resp); err != nil {
-		return nil, errors.Wrap(err, "GetMarketItem")
+		return nil, fmt.Errorf("loa-api: get market item: %w", err)
 	}
 
 	if len(resp.Items) == 0 {
-		return nil, fmt.Errorf("no items found for params: %+v", params)
+		return nil, fmt.Errorf("loa-api: no items found for params: %+v", params)
 	}
 
 	if len(resp.Items) > 1 {
-		return nil, fmt.Errorf("multiple items found for params: %+v", params)
+		return nil, fmt.Errorf("loa-api: multiple items found for params: %+v", params)
 	}
 
 	return &resp.Items[0], nil

@@ -7,7 +7,6 @@ import (
 
 	"github.com/KubrickCode/loa-work/src/go/libs/env"
 	"github.com/KubrickCode/loa-work/src/go/libs/httpclient"
-	"github.com/pkg/errors"
 )
 
 const loaApiBaseURL = "https://developer-lostark.game.onstove.com"
@@ -42,7 +41,7 @@ func (c *Client) Do(req *http.Request, out interface{}) error {
 
 	_, err = json.Marshal(out)
 	if err != nil {
-		return errors.Wrapf(err, "failed to marshal output to check ResponseBase")
+		return fmt.Errorf("loa-api: marshal output: %w", err)
 	}
 
 	return nil

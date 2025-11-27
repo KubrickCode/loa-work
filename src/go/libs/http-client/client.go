@@ -5,20 +5,21 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
 	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/hashicorp/go-retryablehttp"
-	"github.com/pkg/errors"
 )
 
 const (
-	maxRetries    = 5
-	retryInterval = time.Minute * 1
-	timeOut       = time.Second * 30
+	maxRetries     = 5
+	retryInterval  = time.Minute * 1
+	timeOut        = time.Second * 30
+	maxBodyInError = 1024
 )
 
 type Client struct {
@@ -34,7 +35,7 @@ func NewClient() *Client {
 	retryClient.Logger = nil
 	retryClient.CheckRetry = func(ctx context.Context, resp *http.Response, err error) (bool, error) {
 		if err != nil {
-			log.Printf("failed to send request: %s, retrying in %v...", err, retryInterval)
+			slog.Warn("request failed, retrying", "error", err, "retryInterval", retryInterval)
 			return true, nil
 		}
 		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
@@ -42,8 +43,8 @@ func NewClient() *Client {
 			resp.Body.Close()
 			resp.Body = io.NopCloser(bytes.NewReader(bodyBytes))
 
-			log.Printf("failed to send request: received non-2xx response status: %v body: %s, retrying in %v...",
-				resp.StatusCode, string(bodyBytes), retryInterval)
+			slog.Warn("received non-2xx response, retrying",
+				"status", resp.StatusCode, "body", truncateBody(bodyBytes), "retryInterval", retryInterval)
 			return true, nil
 		}
 		return false, nil
@@ -57,12 +58,12 @@ func NewClient() *Client {
 func (c *Client) Do(req *http.Request, out interface{}) error {
 	retryReq, err := retryablehttp.FromRequest(req)
 	if err != nil {
-		return errors.Wrapf(err, "failed to convert request")
+		return fmt.Errorf("http-client: convert request: %w", err)
 	}
 
 	resp, err := c.Client.Do(retryReq)
 	if err != nil {
-		return err
+		return fmt.Errorf("http-client: do request: %w", err)
 	}
 	defer resp.Body.Close()
 
@@ -72,7 +73,7 @@ func (c *Client) Do(req *http.Request, out interface{}) error {
 func (c *Client) DoRaw(req *http.Request) (resp *http.Response, err error) {
 	retryReq, err := retryablehttp.FromRequest(req)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to convert request")
+		return nil, fmt.Errorf("http-client: convert request: %w", err)
 	}
 
 	return c.Client.Do(retryReq)
@@ -81,21 +82,28 @@ func (c *Client) DoRaw(req *http.Request) (resp *http.Response, err error) {
 func parseResponse(body io.Reader, out interface{}) error {
 	bodyBytes, err := io.ReadAll(body)
 	if err != nil {
-		return errors.Wrapf(err, "failed to read response body")
+		return fmt.Errorf("http-client: read response body: %w", err)
 	}
 
 	decoder := json.NewDecoder(bufio.NewReader(bytes.NewBuffer(bodyBytes)))
 	decoder.DisallowUnknownFields()
 	err = decoder.Decode(out)
 	if err != nil {
-		return errors.Wrapf(err, "failed to decode JSON response: %s", string(bodyBytes))
+		return fmt.Errorf("http-client: decode JSON response [%s]: %w", truncateBody(bodyBytes), err)
 	}
 
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	err = validate.Struct(out)
 	if err != nil {
-		return errors.Wrapf(err, "validation failed: %s", string(bodyBytes))
+		return fmt.Errorf("http-client: validation failed [%s]: %w", truncateBody(bodyBytes), err)
 	}
 
 	return nil
+}
+
+func truncateBody(body []byte) string {
+	if len(body) > maxBodyInError {
+		return string(body[:maxBodyInError]) + "..."
+	}
+	return string(body)
 }

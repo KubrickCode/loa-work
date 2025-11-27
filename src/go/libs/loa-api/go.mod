@@ -9,7 +9,6 @@ go 1.23
 require (
 	github.com/KubrickCode/loa-work/src/go/libs/env v0.0.0-00010101000000-000000000000
 	github.com/KubrickCode/loa-work/src/go/libs/httpclient v0.0.0-00010101000000-000000000000
-	github.com/pkg/errors v0.9.1
 )
 
 require (

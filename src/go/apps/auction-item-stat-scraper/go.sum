@@ -1,5 +1,8 @@
 github.com/DATA-DOG/go-sqlmock v1.4.1 h1:ThlnYciV1iM/V0OSF/dtkqWb6xo5qITT1TJBG1MRDJM=
 github.com/DATA-DOG/go-sqlmock v1.4.1/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
+github.com/KubrickCode/loa-work v0.6.0/go.mod h1:mPas6BO4aLkSEkMywgPiBTJhmNggG96TD+VY9/sYYuA=
+github.com/KubrickCode/loa-work/src/go/libs/ratelimit v0.0.0-20251127142251-a379535be213 h1:WYpwceot0m65VAGE0/ZjYVP1EIqyM8xcv6sDAbTd1io=
+github.com/KubrickCode/loa-work/src/go/libs/ratelimit v0.0.0-20251127142251-a379535be213/go.mod h1:mCzEqNf/LoxckZqoWCc9LELHqFWwwuYlWmfxmrPMU8s=
 github.com/aarondl/inflect v0.0.2 h1:XvH8K5g1wKS921tMmDOUsZ3zS1Eo8WwK5RHC0IGGT2s=
 github.com/aarondl/inflect v0.0.2/go.mod h1:zjmCfdXHUDQ9jFOV6SeHknpo0Au6rQhV8GchS4Vzv/0=
 github.com/aarondl/null/v8 v8.1.3 h1:ZJcvvj34BkXAguqU7xzDqEmzG86cSBgM8HYxcqeK0+8=

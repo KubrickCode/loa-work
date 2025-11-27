@@ -3,7 +3,7 @@ package scraper
 import (
 	"context"
 	"fmt"
-	"log"
+	"log/slog"
 	"time"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
@@ -136,7 +136,7 @@ func (s *Scraper) saveItemStats(items []*models.AuctionItem) error {
 			}
 		}
 
-		log.Println("Auction item stat saved successfully")
+		slog.Info("auction item stat saved successfully")
 		return nil
 	})
 }

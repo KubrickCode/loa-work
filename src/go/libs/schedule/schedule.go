@@ -1,7 +1,7 @@
 package schedule
 
 import (
-	"log"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -55,14 +55,14 @@ func (s *Scheduler) Run() error {
 			gocron.WithStartAt(gocron.WithStartImmediately()),
 			gocron.WithEventListeners(
 				gocron.AfterJobRunsWithError(func(jobID uuid.UUID, jobName string, err error) {
-					log.Printf("job failed: name=%s, error=%v", jobName, err)
+					slog.Error("job failed", "name", jobName, "error", err)
 				}),
 			),
 		)
 		if err != nil {
 			return err
 		}
-		log.Printf("%s started.", task.Name)
+		slog.Info("job started", "name", task.Name)
 	}
 
 	s.s.Start()
@@ -71,6 +71,6 @@ func (s *Scheduler) Run() error {
 	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
 	<-sigChan
 
-	log.Println("Shutting down scheduler...")
+	slog.Info("shutting down scheduler...")
 	return s.s.Shutdown()
 }

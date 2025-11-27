@@ -1,7 +1,7 @@
 package converter
 
 import (
-	"log"
+	"log/slog"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
@@ -47,7 +47,7 @@ func (s *Converter) Start() error {
 			}
 		}
 
-		log.Println("Market Item Stats Converted To Content Reward Item Price Done")
+		slog.Info("market item stats converted to content reward item price")
 
 		return nil
 	})
@@ -107,7 +107,7 @@ func (s *Converter) updateMarketItems(tx loadb.DB) error {
 		}
 	}
 
-	log.Println("Market Item Stats Converted To Market Item Done")
+	slog.Info("market item stats converted to market item")
 
 	return nil
 }
