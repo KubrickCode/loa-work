@@ -44,8 +44,7 @@ func main() {
 	// TODO: 또한 최초 seed data가 없을 시 단순히 수집에 실패하는 구조로 되어있기에 개선이 필요함.
 	scheduler.AddTask(schedule.NewTask("Market item scraping and converting", 1*time.Hour, scraper.ScrapeItem))
 
-	err = scheduler.Run()
-	if err != nil {
+	if err := scheduler.Run(); err != nil {
 		log.Fatal(err)
 	}
 }
