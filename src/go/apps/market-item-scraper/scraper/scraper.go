@@ -1,24 +1,34 @@
 package scraper
 
 import (
+	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi"
 	"github.com/KubrickCode/loa-work/src/go/libs/loaApi/request"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb"
 	"github.com/KubrickCode/loa-work/src/go/libs/loadb/models"
+	"github.com/KubrickCode/loa-work/src/go/libs/ratelimit"
+)
+
+const (
+	defaultRateLimitInterval = time.Second
+	defaultRateLimitBurst    = 1
 )
 
 type Scraper struct {
-	client request.APIClient
-	db     loadb.DB
+	client      request.APIClient
+	db          loadb.DB
+	rateLimiter ratelimit.Limiter
 }
 
 func NewScraper(client request.APIClient, db loadb.DB) *Scraper {
 	return &Scraper{
-		client: client,
-		db:     db,
+		client:      client,
+		db:          db,
+		rateLimiter: ratelimit.NewLimiterPerDuration(defaultRateLimitInterval, defaultRateLimitBurst),
 	}
 }
 
@@ -62,6 +72,10 @@ func (s *Scraper) getItemsToSave(categories []*models.MarketItemCategory) ([]*mo
 		pageNo := 1
 
 		for {
+			if err := s.rateLimiter.Wait(context.Background()); err != nil {
+				return nil, fmt.Errorf("rate limiter error: %w", err)
+			}
+
 			resp, err := s.client.GetMarketItemList(&loaApi.GetMarketItemListParams{
 				CategoryCode: category.Code,
 				PageNo:       pageNo,

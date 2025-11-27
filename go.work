@@ -12,5 +12,6 @@ use (
 	./src/go/libs/loa-api
 	./src/go/libs/loa-db
 	./src/go/libs/monitoring
+	./src/go/libs/ratelimit
 	./src/go/libs/schedule
 )
