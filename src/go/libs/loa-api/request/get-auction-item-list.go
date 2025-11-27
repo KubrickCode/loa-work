@@ -7,10 +7,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-func GetAuctionItemList(params *loaApi.GetAuctionItemListParams) (*loaApi.GetAuctionItemListResponse, error) {
-	client := loaApi.NewClient()
-
-	req, err := client.NewRequest().
+func (c *Client) GetAuctionItemList(params *loaApi.GetAuctionItemListParams) (*loaApi.GetAuctionItemListResponse, error) {
+	req, err := c.api.NewRequest().
 		Method(http.MethodPost).
 		Path("/auctions/items").
 		JSON(params).
@@ -20,8 +18,7 @@ func GetAuctionItemList(params *loaApi.GetAuctionItemListParams) (*loaApi.GetAuc
 	}
 
 	var resp loaApi.GetAuctionItemListResponse
-	err = client.Do(req, &resp)
-	if err != nil {
+	if err = c.api.Do(req, &resp); err != nil {
 		return nil, errors.Wrap(err, "GetAuctionItemList")
 	}
 

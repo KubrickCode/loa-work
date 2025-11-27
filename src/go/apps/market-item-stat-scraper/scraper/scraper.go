@@ -15,12 +15,17 @@ import (
 )
 
 type Scraper struct {
+	client      request.APIClient
 	db          loadb.DB
 	rateLimiter *rate.Limiter
 }
 
-func NewScraper(db loadb.DB) *Scraper {
-	return &Scraper{db: db, rateLimiter: rate.NewLimiter(rate.Every(time.Second), 1)}
+func NewScraper(client request.APIClient, db loadb.DB) *Scraper {
+	return &Scraper{
+		client:      client,
+		db:          db,
+		rateLimiter: rate.NewLimiter(rate.Every(time.Second), 1),
+	}
 }
 
 func (s *Scraper) ScrapeItem() error {
@@ -116,7 +121,7 @@ func (s *Scraper) getItemStatToCreate(category *models.MarketItemCategory, item 
 		return nil, fmt.Errorf("rate limiter error: %w", err)
 	}
 
-	marketItem, err := request.GetMarketItem(&loaApi.GetMarketItemParams{
+	marketItem, err := s.client.GetMarketItem(&loaApi.GetMarketItemParams{
 		CategoryCode: category.Code,
 		ItemName:     item.Name,
 		ItemGrade:    item.Grade,
@@ -159,7 +164,7 @@ func (s *Scraper) getItemsToSave(categories []*models.MarketItemCategory) ([]*mo
 		pageNo := 1
 
 		for {
-			resp, err := request.GetMarketItemList(&loaApi.GetMarketItemListParams{
+			resp, err := s.client.GetMarketItemList(&loaApi.GetMarketItemListParams{
 				CategoryCode: category.Code,
 				PageNo:       pageNo,
 			})

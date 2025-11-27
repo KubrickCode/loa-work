@@ -11,11 +11,15 @@ import (
 )
 
 type Scraper struct {
-	db loadb.DB
+	client request.APIClient
+	db     loadb.DB
 }
 
-func NewScraper(db loadb.DB) *Scraper {
-	return &Scraper{db: db}
+func NewScraper(client request.APIClient, db loadb.DB) *Scraper {
+	return &Scraper{
+		client: client,
+		db:     db,
+	}
 }
 
 func (s *Scraper) Start() error {
@@ -58,7 +62,7 @@ func (s *Scraper) getItemsToSave(categories []*models.MarketItemCategory) ([]*mo
 		pageNo := 1
 
 		for {
-			resp, err := request.GetMarketItemList(&loaApi.GetMarketItemListParams{
+			resp, err := s.client.GetMarketItemList(&loaApi.GetMarketItemListParams{
 				CategoryCode: category.Code,
 				PageNo:       pageNo,
 			})
