@@ -1,8 +1,6 @@
 module github.com/KubrickCode/loa-work/src/go/apps/market-item-scraper
 
-go 1.23.0
-
-toolchain go1.23.12
+go 1.24.0
 
 require (
 	github.com/KubrickCode/loa-work/src/go/libs/loaApi v0.0.0
@@ -29,13 +27,12 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	go.uber.org/mock v0.5.0 // indirect
-	golang.org/x/crypto v0.38.0 // indirect
-	golang.org/x/net v0.31.0 // indirect
-	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	golang.org/x/time v0.9.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 )
