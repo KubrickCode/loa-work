@@ -2,20 +2,20 @@ import { Flex, FormatNumber, IconButton } from "@chakra-ui/react";
 import { FaLock } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 
-import { useAuth } from "~/core/auth";
-import { Tooltip } from "~/core/chakra-components/ui/tooltip";
-import { Dialog, useDialog } from "~/core/dialog";
-import { FormatGold } from "~/core/format";
-import { useSafeQuery } from "~/core/graphql";
-import { ContentRewardListTableDocument, ContentStatus } from "~/core/graphql/generated";
-import { Column, DataTable } from "~/core/table";
-import { LoginTooltip } from "~/core/tooltip";
+import { Tooltip } from "~/components/chakra/ui/tooltip";
+import { Dialog, useDialog } from "~/components/dialog";
+import { Column, DataTable } from "~/components/table";
+import { LoginTooltip } from "~/components/tooltip";
 import {
   ContentDetailsDialog,
   ContentRewardEditDialog,
   ContentSeeMoreRewardEditDialog,
-} from "~/shared/content";
-import { ItemNameWithImage } from "~/shared/item";
+} from "~/domains/content";
+import { ItemNameWithImage } from "~/domains/item";
+import { useAuth } from "~/libs/auth";
+import { useSafeQuery } from "~/libs/graphql";
+import { ContentRewardListTableDocument, ContentStatus } from "~/libs/graphql/generated";
+import { FormatGold } from "~/shared/format";
 
 import { useContentRewardListPage } from "../content-reward-list-page-context";
 

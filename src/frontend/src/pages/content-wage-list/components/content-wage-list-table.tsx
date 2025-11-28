@@ -2,21 +2,21 @@ import { Flex, FormatNumber, IconButton, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosSettings } from "react-icons/io";
 
-import { useAuth } from "~/core/auth";
-import { Dialog, useDialog } from "~/core/dialog";
-import { FormatGold } from "~/core/format";
-import { useSafeQuery } from "~/core/graphql";
-import { ContentStatus, ContentWageListTableDocument } from "~/core/graphql/generated";
-import { DataTable } from "~/core/table";
+import { Dialog, useDialog } from "~/components/dialog";
+import { DataTable } from "~/components/table";
 import {
   FavoriteIcon,
   FavoriteValue,
   getFavoritesFromStorage,
-} from "~/core/table/favorite-control";
-import { LoginTooltip } from "~/core/tooltip";
+} from "~/components/table/favorite-control";
+import { LoginTooltip } from "~/components/tooltip";
+import { ContentDetailsDialog, ContentDurationEditDialog } from "~/domains/content";
+import { ItemNameWithImage } from "~/domains/item";
+import { useAuth } from "~/libs/auth";
+import { useSafeQuery } from "~/libs/graphql";
+import { ContentStatus, ContentWageListTableDocument } from "~/libs/graphql/generated";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
-import { ContentDetailsDialog, ContentDurationEditDialog } from "~/shared/content";
-import { ItemNameWithImage } from "~/shared/item";
+import { FormatGold } from "~/shared/format";
 
 const FAVORITE_STORAGE_KEY = "content-wage-list-favorites";
 

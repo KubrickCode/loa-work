@@ -1,4 +1,4 @@
-import { Page } from "~/core/page";
+import { Page } from "~/layouts/page";
 
 import { ContentWageList } from "./content-wage-list";
 

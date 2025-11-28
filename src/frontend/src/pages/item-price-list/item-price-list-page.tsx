@@ -1,5 +1,5 @@
-import { Page } from "~/core/page";
-import { Tabs } from "~/core/tabs";
+import { Tabs } from "~/components/tabs";
+import { Page } from "~/layouts/page";
 
 import { AuctionItemTab, ExtraItemTab, MarketItemTab } from "./tabs";
 

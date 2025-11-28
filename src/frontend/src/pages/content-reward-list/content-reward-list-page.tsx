@@ -1,4 +1,4 @@
-import { Page } from "~/core/page";
+import { Page } from "~/layouts/page";
 
 import { ContentRewardList } from "./content-reward-list";
 

@@ -1,0 +1,90 @@
+import { Flex } from "@chakra-ui/react";
+
+import { toaster } from "~/components/chakra/ui/toaster";
+import { Dialog, DialogProps } from "~/components/dialog";
+import { Form, z } from "~/components/form";
+import {
+  ContentDurationEditDialogDocument,
+  ContentDurationEditDocument,
+  EditContentDurationInput,
+  ContentDurationEditMutation,
+  ContentDurationEditDialogQuery,
+  ContentDurationEditDialogQueryVariables,
+} from "~/libs/graphql/generated";
+
+const schema = z.object({
+  contentId: z.number(),
+  minutes: z.number().int32().min(0),
+  seconds: z.number().int32().min(0).max(59),
+});
+
+type ContentDurationEditDialogProps = {
+  contentId: number;
+  onComplete: () => void;
+};
+
+export const ContentDurationEditDialog = ({
+  contentId,
+  onComplete,
+  ...dialogProps
+}: ContentDurationEditDialogProps & DialogProps) => {
+  return (
+    <Dialog<
+      EditContentDurationInput,
+      ContentDurationEditMutation,
+      ContentDurationEditDialogQuery,
+      ContentDurationEditDialogQueryVariables
+    >
+      defaultValues={(data) => {
+        const totalSeconds = data.content.duration;
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+
+        return {
+          contentId,
+          minutes,
+          seconds,
+        };
+      }}
+      form={{
+        mutation: ContentDurationEditDocument,
+        onComplete: () => {
+          dialogProps.onClose();
+          onComplete();
+          toaster.create({
+            title: "컨텐츠 소요시간이 수정되었습니다.",
+            type: "success",
+          });
+        },
+        schema,
+      }}
+      query={ContentDurationEditDialogDocument}
+      queryVariables={{ id: contentId }}
+      {...dialogProps}
+    >
+      {({ queryData }) => (
+        <>
+          <Dialog.Header>{queryData.content.displayName} - 소요시간 수정</Dialog.Header>
+          <Dialog.Body>
+            <Form.Body>
+              <Flex gap={4}>
+                <Form.Field label="분" name="minutes">
+                  <Form.NumberInput min={0} />
+                </Form.Field>
+                <Form.Field label="초" name="seconds">
+                  <Form.NumberInput max={59} min={0} />
+                </Form.Field>
+              </Flex>
+            </Form.Body>
+          </Dialog.Body>
+          <Dialog.Footer>
+            <Form.Footer>
+              <Dialog.CloseButton />
+              <Form.SubmitButton />
+            </Form.Footer>
+          </Dialog.Footer>
+        </>
+      )}
+    </Dialog>
+  );
+};

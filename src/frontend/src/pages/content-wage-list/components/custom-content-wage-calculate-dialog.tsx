@@ -1,11 +1,10 @@
 import { Flex, FormatNumber, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { Alert } from "~/core/chakra-components/alert";
-import { toaster } from "~/core/chakra-components/ui/toaster";
-import { Dialog, DialogProps } from "~/core/dialog";
-import { Form, z } from "~/core/form";
-import { FormatGold } from "~/core/format";
+import { Alert } from "~/components/chakra/alert";
+import { toaster } from "~/components/chakra/ui/toaster";
+import { Dialog, DialogProps } from "~/components/dialog";
+import { Form, z } from "~/components/form";
 import {
   CustomContentWageCalculateDialogMutationDocument,
   CustomContentWageCalculateDialogMutationMutation,
@@ -13,7 +12,8 @@ import {
   CalculateCustomContentWageInput,
   CalculateCustomContentWageResult,
   CustomContentWageCalculateDialogQueryQuery,
-} from "~/core/graphql/generated";
+} from "~/libs/graphql/generated";
+import { FormatGold } from "~/shared/format";
 
 const schema = z.object({
   items: z.array(

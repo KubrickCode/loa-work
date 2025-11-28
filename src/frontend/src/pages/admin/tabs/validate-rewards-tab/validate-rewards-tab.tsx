@@ -1,7 +1,7 @@
 import { createListCollection, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { Button } from "~/core/chakra-components/ui/button";
+import { Button } from "~/components/chakra/ui/button";
 import {
   SelectContent,
   SelectItem,
@@ -9,10 +9,10 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "~/core/chakra-components/ui/select";
-import { useSafeQuery } from "~/core/graphql";
-import { ValidateRewardsTabDocument } from "~/core/graphql/generated";
-import { Section } from "~/core/section";
+} from "~/components/chakra/ui/select";
+import { Section } from "~/components/section";
+import { useSafeQuery } from "~/libs/graphql";
+import { ValidateRewardsTabDocument } from "~/libs/graphql/generated";
 
 type ValidateRewardsResult = {
   categoryName: string;

@@ -7,8 +7,8 @@ import {
   useState,
 } from "react";
 
-import { useSafeQuery } from "~/core/graphql";
-import { ItemsFilterDocument, ItemsFilterQuery } from "~/core/graphql/generated";
+import { useSafeQuery } from "~/libs/graphql";
+import { ItemsFilterDocument, ItemsFilterQuery } from "~/libs/graphql/generated";
 
 type ContentWageListPageContextType = {
   contentCategoryId: number | null;

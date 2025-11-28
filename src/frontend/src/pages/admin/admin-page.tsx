@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth, UserRole } from "~/core/auth";
-import { PageLoader } from "~/core/loader";
-import { Page } from "~/core/page";
-import { Tabs } from "~/core/tabs";
+import { PageLoader } from "~/components/loader";
+import { Tabs } from "~/components/tabs";
+import { Page } from "~/layouts/page";
+import { useAuth, UserRole } from "~/libs/auth";
 
 import { ContentCreateTab } from "./tabs/content-create-tab";
 import { PredictRewardsTab } from "./tabs/predict-rewards-tab";

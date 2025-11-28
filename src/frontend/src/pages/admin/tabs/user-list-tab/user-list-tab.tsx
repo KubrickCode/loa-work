@@ -1,10 +1,10 @@
 import { Image } from "@chakra-ui/react";
 
-import { formatDateTime } from "~/core/format";
-import { useSafeQuery } from "~/core/graphql";
-import { UserListTabQueryDocument } from "~/core/graphql/generated";
-import { Section } from "~/core/section";
-import { DataTable } from "~/core/table";
+import { Section } from "~/components/section";
+import { DataTable } from "~/components/table";
+import { useSafeQuery } from "~/libs/graphql";
+import { UserListTabQueryDocument } from "~/libs/graphql/generated";
+import { formatDateTime } from "~/shared/format";
 
 export const UserListTab = () => {
   const { data } = useSafeQuery(UserListTabQueryDocument);
