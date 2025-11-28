@@ -1,6 +1,6 @@
-import { toaster } from "~/core/chakra-components/ui/toaster";
-import { Dialog, DialogProps } from "~/core/dialog";
-import { Form, z } from "~/core/form";
+import { toaster } from "~/components/chakra/ui/toaster";
+import { Dialog, DialogProps } from "~/components/dialog";
+import { Form, z } from "~/components/form";
 import {
   UserExtraItemPriceEditDialogDocument,
   UserItemPriceEditDocument,
@@ -8,7 +8,7 @@ import {
   UserItemPriceEditMutation,
   UserExtraItemPriceEditDialogQuery,
   UserExtraItemPriceEditDialogQueryVariables,
-} from "~/core/graphql/generated";
+} from "~/libs/graphql/generated";
 
 const schema = z.object({
   id: z.number(),

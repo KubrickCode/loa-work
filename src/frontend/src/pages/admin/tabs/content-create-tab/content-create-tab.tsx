@@ -1,16 +1,16 @@
 import { Flex, Text } from "@chakra-ui/react";
 
-import { Checkbox as ChakraCheckbox } from "~/core/chakra-components/ui/checkbox";
-import { toaster } from "~/core/chakra-components/ui/toaster";
-import { Form, z } from "~/core/form";
-import { useSafeQuery } from "~/core/graphql";
+import { Checkbox as ChakraCheckbox } from "~/components/chakra/ui/checkbox";
+import { toaster } from "~/components/chakra/ui/toaster";
+import { Form, z } from "~/components/form";
+import { Section } from "~/components/section";
+import { useSafeQuery } from "~/libs/graphql";
 import {
   CreateContentInput,
   ContentCreateTabDataDocument,
   ContentCreateTabDocument,
   ContentCreateTabMutation,
-} from "~/core/graphql/generated";
-import { Section } from "~/core/section";
+} from "~/libs/graphql/generated";
 
 const schema = z.object({
   categoryId: z.number(),

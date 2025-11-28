@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 
-import { AccordionCard } from "~/core/accordion";
-import { SplitLayout } from "~/core/layout";
-import { TableSkeleton } from "~/core/loader";
+import { AccordionCard } from "~/components/accordion";
+import { TableSkeleton } from "~/components/loader";
+import { SplitLayout } from "~/layouts/layout";
 
 import { MarketItemListTable } from "./components/market-item-list-table";
 

@@ -2,20 +2,20 @@ import { Flex, IconButton } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { IoIosSettings } from "react-icons/io";
 
-import { useAuth } from "~/core/auth";
-import { InfoTip } from "~/core/chakra-components/ui/toggle-tip";
-import { Dialog } from "~/core/dialog";
-import { FormatGold } from "~/core/format";
-import { useSafeQuery } from "~/core/graphql";
+import { InfoTip } from "~/components/chakra/ui/toggle-tip";
+import { Dialog } from "~/components/dialog";
+import { EnhancedTableSkeleton } from "~/components/loader";
+import { DataTable } from "~/components/table";
+import { LoginTooltip } from "~/components/tooltip";
+import { ItemNameWithImage } from "~/domains/item";
+import { useAuth } from "~/libs/auth";
+import { useSafeQuery } from "~/libs/graphql";
 import {
   ItemKind,
   ExtraItemListTableDocument,
   ExtraItemListTableQuery,
-} from "~/core/graphql/generated";
-import { EnhancedTableSkeleton } from "~/core/loader";
-import { DataTable } from "~/core/table";
-import { LoginTooltip } from "~/core/tooltip";
-import { ItemNameWithImage } from "~/shared/item";
+} from "~/libs/graphql/generated";
+import { FormatGold } from "~/shared/format";
 
 import { UserExtraItemPriceEditDialog } from "./user-extra-item-price-edit-dialog";
 

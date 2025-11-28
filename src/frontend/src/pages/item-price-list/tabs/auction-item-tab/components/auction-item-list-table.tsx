@@ -1,13 +1,13 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Suspense } from "react";
 
-import { InfoTip } from "~/core/chakra-components/ui/toggle-tip";
-import { formatDateTime, FormatGold } from "~/core/format";
-import { useSafeQuery } from "~/core/graphql";
-import { AuctionItemListTableDocument } from "~/core/graphql/generated";
-import { EnhancedTableSkeleton } from "~/core/loader";
-import { DataTable } from "~/core/table";
-import { ItemNameWithImage } from "~/shared/item";
+import { InfoTip } from "~/components/chakra/ui/toggle-tip";
+import { EnhancedTableSkeleton } from "~/components/loader";
+import { DataTable } from "~/components/table";
+import { ItemNameWithImage } from "~/domains/item";
+import { useSafeQuery } from "~/libs/graphql";
+import { AuctionItemListTableDocument } from "~/libs/graphql/generated";
+import { formatDateTime, FormatGold } from "~/shared/format";
 
 type AuctionItemListTableProps = {
   nameKeyword: string;

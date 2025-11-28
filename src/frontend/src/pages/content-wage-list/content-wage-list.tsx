@@ -2,17 +2,17 @@ import { Flex, Text } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
-import { useAuth } from "~/core/auth";
-import { Button } from "~/core/chakra-components/ui/button";
-import { Dialog } from "~/core/dialog";
-import { client, useSafeQuery } from "~/core/graphql";
+import { Button } from "~/components/chakra/ui/button";
+import { Dialog } from "~/components/dialog";
+import { EnhancedTableSkeleton } from "~/components/loader";
+import { LoginTooltip } from "~/components/tooltip";
+import { useAuth } from "~/libs/auth";
+import { client, useSafeQuery } from "~/libs/graphql";
 import {
   ContentGroupWageListTableDocument,
   ContentWageListDocument,
   ContentWageListTableDocument,
-} from "~/core/graphql/generated";
-import { EnhancedTableSkeleton } from "~/core/loader";
-import { LoginTooltip } from "~/core/tooltip";
+} from "~/libs/graphql/generated";
 
 import {
   ContentGroupWageListTable,

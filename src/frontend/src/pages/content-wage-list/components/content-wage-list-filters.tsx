@@ -1,8 +1,8 @@
 import { Flex } from "@chakra-ui/react";
 import { IoFilter } from "react-icons/io5";
 
-import { Button } from "~/core/chakra-components/ui/button";
-import { Field } from "~/core/chakra-components/ui/field";
+import { Button } from "~/components/chakra/ui/button";
+import { Field } from "~/components/chakra/ui/field";
 import {
   PopoverArrow,
   PopoverBody,
@@ -10,12 +10,12 @@ import {
   PopoverContent,
   PopoverRoot,
   PopoverTrigger,
-} from "~/core/chakra-components/ui/popover";
-import { SegmentedControl } from "~/core/chakra-components/ui/segmented-control";
-import { Form } from "~/core/form";
-import { MultiSelect } from "~/core/select";
+} from "~/components/chakra/ui/popover";
+import { SegmentedControl } from "~/components/chakra/ui/segmented-control";
+import { Form } from "~/components/form";
+import { MultiSelect } from "~/components/select";
+import { ContentCategoryFilter } from "~/domains/content";
 import { useContentWageListPage } from "~/pages/content-wage-list/content-wage-list-page-context";
-import { ContentCategoryFilter } from "~/shared/content";
 
 export const ContentWageListFilters = () => {
   const {

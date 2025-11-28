@@ -1,0 +1,18 @@
+import { Controller } from "react-hook-form";
+
+import { Checkbox as ChakraCheckbox, CheckboxProps } from "~/components/chakra/ui/checkbox";
+
+import { useFieldContext } from "./field";
+
+export const Checkbox = (props: CheckboxProps) => {
+  const { name } = useFieldContext();
+
+  return (
+    <Controller
+      name={name}
+      render={({ field: { onChange, value } }) => (
+        <ChakraCheckbox checked={value} onCheckedChange={(e) => onChange(e.checked)} {...props} />
+      )}
+    />
+  );
+};

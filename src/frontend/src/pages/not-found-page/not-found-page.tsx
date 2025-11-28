@@ -1,6 +1,6 @@
 import { Center } from "@chakra-ui/react";
 
-import { Page } from "~/core/page";
+import { Page } from "~/layouts/page";
 
 export const NotFoundPage = () => {
   return (

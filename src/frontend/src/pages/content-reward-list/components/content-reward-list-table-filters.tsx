@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 
-import { Form } from "~/core/form";
-import { ContentCategoryFilter } from "~/shared/content";
+import { Form } from "~/components/form";
+import { ContentCategoryFilter } from "~/domains/content";
 
 import { useContentRewardListPage } from "../content-reward-list-page-context";
 
