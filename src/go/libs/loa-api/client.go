@@ -27,6 +27,20 @@ func NewClient() *Client {
 	}
 }
 
+func NewClientWithBaseURL(baseURL string) *Client {
+	token := env.MustGetEnv("LOA_API_TOKEN")
+
+	return &Client{
+		baseURL: baseURL,
+		client:  httpclient.NewClient(),
+		token:   token,
+	}
+}
+
+func (c *Client) Client() *httpclient.Client {
+	return c.client
+}
+
 func (c *Client) NewRequest() *httpclient.RequestBuilder {
 	rb := httpclient.NewRequestBuilder(c.baseURL)
 	rb.AddHeader("Authorization", fmt.Sprintf("Bearer %s", c.token))
