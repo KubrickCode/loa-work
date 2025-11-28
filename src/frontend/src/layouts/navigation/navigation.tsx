@@ -1,5 +1,4 @@
 import { Box, Flex, Button } from "@chakra-ui/react";
-import _ from "lodash";
 import { useState } from "react";
 import { IoIosMenu } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";

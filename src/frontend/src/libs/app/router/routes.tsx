@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { createElement } from "react";
 import * as ReactRouter from "react-router-dom";
 
@@ -39,7 +38,7 @@ const routes = [
 export const Routes = () => {
   return (
     <ReactRouter.Routes>
-      {_.map(routes, ({ component, path }) => (
+      {routes.map(({ component, path }) => (
         <ReactRouter.Route element={createElement(component)} key={path} path={path} />
       ))}
     </ReactRouter.Routes>
