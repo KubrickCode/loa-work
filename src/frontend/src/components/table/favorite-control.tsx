@@ -1,4 +1,5 @@
 import { IconButton, useToken } from "@chakra-ui/react";
+import { partition } from "es-toolkit/array";
 import { motion, useReducedMotion } from "framer-motion";
 import React, { useCallback, useEffect, useState } from "react";
 import { IoIosStarOutline } from "react-icons/io";
@@ -202,8 +203,9 @@ export const sortWithFavoritesAtTop = <T,>(
 ): T[] => {
   if (!items.length || !favorites.length) return items;
 
-  const favoriteItems = items.filter((item) => favorites.includes(getFavoriteId(item)));
-  const regularItems = items.filter((item) => !favorites.includes(getFavoriteId(item)));
+  const [favoriteItems, regularItems] = partition(items, (item) =>
+    favorites.includes(getFavoriteId(item))
+  );
 
   return [...favoriteItems, ...regularItems];
 };

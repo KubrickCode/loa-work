@@ -1,5 +1,6 @@
 import { Box, EmptyState, HStack, Table } from "@chakra-ui/react";
-import _ from "lodash";
+import { orderBy, partition } from "es-toolkit/array";
+import { get } from "es-toolkit/compat";
 import { ReactNode, TableHTMLAttributes, useCallback, useMemo, useState } from "react";
 
 import {
@@ -63,18 +64,11 @@ export const DataTable = <T,>({
     let normalRows: typeof rows = [];
 
     if (hasFavoriteFeature) {
-      favoriteRows = rows.filter((row) => {
-        const value = favoriteKeyPath
-          .split(".")
-          .reduce((obj, key) => obj && obj[key as keyof typeof obj], row.data as any);
-        return value !== undefined && favorites.includes(value);
-      });
-
-      normalRows = rows.filter((row) => {
-        const value = favoriteKeyPath
-          .split(".")
-          .reduce((obj, key) => obj && obj[key as keyof typeof obj], row.data as any);
-        return value === undefined || !favorites.includes(value);
+      [favoriteRows, normalRows] = partition(rows, (row) => {
+        const value = get(row.data, favoriteKeyPath);
+        return (
+          (typeof value === "string" || typeof value === "number") && favorites.includes(value)
+        );
       });
     } else {
       normalRows = [...rows];
@@ -83,7 +77,7 @@ export const DataTable = <T,>({
     const sortRows = (rowsToSort: typeof rows) => {
       if (!currentSortKey || !sortOrder) return rowsToSort;
 
-      return _.orderBy(
+      return orderBy(
         rowsToSort,
         [
           (row) => {
@@ -91,7 +85,7 @@ export const DataTable = <T,>({
             if (column?.sortValue) {
               return column.sortValue(row.data);
             }
-            return _.get(row.data, currentSortKey);
+            return get(row.data, currentSortKey);
           },
         ],
         [sortOrder]
