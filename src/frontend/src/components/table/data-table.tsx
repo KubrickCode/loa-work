@@ -1,7 +1,13 @@
 import { Box, EmptyState, HStack, Table } from "@chakra-ui/react";
-import { orderBy, partition } from "es-toolkit/array";
 import { get } from "es-toolkit/compat";
-import { ReactNode, TableHTMLAttributes, useCallback, useMemo, useState } from "react";
+import {
+  ComponentPropsWithoutRef,
+  ReactNode,
+  TableHTMLAttributes,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 import {
   PaginationItems,
@@ -11,6 +17,8 @@ import {
 } from "~/components/chakra/pagination";
 
 import { FavoriteValue, getFavoriteRowStyles, isFavoriteValue } from "./favorite-control";
+import { useFavoriteRows } from "./hooks/use-favorite-rows";
+import { useTableSort } from "./hooks/use-table-sort";
 import { SortControl } from "./sort-control";
 
 export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
@@ -21,7 +29,7 @@ export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
   };
   favoriteKeyPath?: string;
   favorites?: FavoriteValue[];
-  getRowProps?: (row: { data: T; index: number }) => { [key: string]: any };
+  getRowProps?: (row: { data: T; index: number }) => ComponentPropsWithoutRef<typeof Table.Row>;
   pagination?: boolean;
   rows: {
     data: T;
@@ -50,74 +58,24 @@ export const DataTable = <T,>({
   rows,
   ...rest
 }: DataTableProps<T>) => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(defaultSorting?.value || null);
-  const [currentSortKey, setCurrentSortKey] = useState<string | null>(
-    defaultSorting?.sortKey || null
-  );
+  const { currentSortKey, handleSort, sortOrder, sortRows } = useTableSort({
+    columns,
+    defaultSorting,
+  });
+
+  const { favoriteRows, hasFavoriteFeature, normalRows } = useFavoriteRows({
+    favoriteKeyPath,
+    favorites,
+    rows,
+  });
 
   const displayRows = useMemo(() => {
-    if (!rows.length) return [];
-
-    const hasFavoriteFeature = !!favoriteKeyPath && favorites.length > 0;
-
-    let favoriteRows: typeof rows = [];
-    let normalRows: typeof rows = [];
-
     if (hasFavoriteFeature) {
-      [favoriteRows, normalRows] = partition(rows, (row) => {
-        const value = get(row.data, favoriteKeyPath);
-        return (
-          (typeof value === "string" || typeof value === "number") && favorites.includes(value)
-        );
-      });
-    } else {
-      normalRows = [...rows];
+      return [...sortRows(favoriteRows), ...sortRows(normalRows)];
     }
 
-    const sortRows = (rowsToSort: typeof rows) => {
-      if (!currentSortKey || !sortOrder) return rowsToSort;
-
-      return orderBy(
-        rowsToSort,
-        [
-          (row) => {
-            const column = columns.find((col) => col.sortKey === currentSortKey);
-            if (column?.sortValue) {
-              return column.sortValue(row.data);
-            }
-            return get(row.data, currentSortKey);
-          },
-        ],
-        [sortOrder]
-      );
-    };
-
-    if (hasFavoriteFeature) {
-      const sortedFavoriteRows = sortRows(favoriteRows);
-      const sortedNormalRows = sortRows(normalRows);
-      return [...sortedFavoriteRows, ...sortedNormalRows];
-    }
-
-    return sortRows(rows);
-  }, [rows, currentSortKey, sortOrder, columns, favoriteKeyPath, favorites]);
-
-  const handleSort = (column: Column<T>) => {
-    if (!column.sortKey) return;
-
-    let newOrder: "asc" | "desc" | null;
-    if (currentSortKey !== column.sortKey) {
-      newOrder = "asc";
-    } else if (sortOrder === "asc") {
-      newOrder = "desc";
-    } else if (sortOrder === "desc") {
-      newOrder = null;
-    } else {
-      newOrder = "asc";
-    }
-
-    setSortOrder(newOrder);
-    setCurrentSortKey(newOrder ? column.sortKey : null);
-  };
+    return sortRows(normalRows);
+  }, [favoriteRows, hasFavoriteFeature, normalRows, sortRows]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
