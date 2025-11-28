@@ -1,7 +1,7 @@
 import { IconButton, useToken } from "@chakra-ui/react";
 import { partition } from "es-toolkit/array";
 import { motion, useReducedMotion } from "framer-motion";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { IoIosStarOutline } from "react-icons/io";
 import { IoStar } from "react-icons/io5";
 
@@ -70,12 +70,6 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
   const [gold500] = useToken("colors", "gold.500");
 
   const favorites = externalFavorites !== undefined ? externalFavorites : internalFavorites;
-
-  useEffect(() => {
-    if (onChange && externalFavorites === undefined) {
-      onChange(internalFavorites);
-    }
-  }, [internalFavorites, onChange, externalFavorites]);
 
   const handleToggle = useCallback(
     (e: React.MouseEvent) => {

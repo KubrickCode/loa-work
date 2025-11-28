@@ -1,5 +1,5 @@
 import { IconButton, Input, InputProps } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuSearch } from "react-icons/lu";
 
@@ -37,10 +37,6 @@ export const SearchInput = ({
     [onSubmit, value]
   );
 
-  useEffect(() => {
-    setInput(value);
-  }, [value]);
-
   return (
     <InputGroup
       endElement={
@@ -60,6 +56,7 @@ export const SearchInput = ({
         </IconButton>
       }
       endOffset="-2px"
+      key={value}
       maxWidth={maxWidth}
       startElement={<LuSearch />}
       startOffset="0px"

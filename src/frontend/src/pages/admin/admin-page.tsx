@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { PageLoader } from "~/components/loader";
 import { Tabs } from "~/components/tabs";
@@ -13,15 +12,12 @@ import { ValidateRewardsTab } from "./tabs/validate-rewards-tab";
 
 export const AdminPage = () => {
   const { isLoading, user } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!isLoading && (!user || ![UserRole.OWNER, UserRole.ADMIN].includes(user.role))) {
-      navigate("/");
-    }
-  }, [user, isLoading, navigate]);
 
   if (isLoading) return <PageLoader />;
+
+  if (!user || ![UserRole.OWNER, UserRole.ADMIN].includes(user.role)) {
+    return <Navigate replace to="/" />;
+  }
 
   const tabPanels = [
     {
