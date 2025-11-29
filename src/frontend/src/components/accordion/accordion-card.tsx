@@ -28,7 +28,7 @@ export const AccordionCard = ({ children, title }: AccordionProps) => {
       transition="all 0.2s ease-in-out"
       variant="enclosed"
     >
-      <AccordionItem value="all-contents">
+      <AccordionItem bg="bg.surface" value="all-contents">
         <AccordionItemTrigger>{title}</AccordionItemTrigger>
         <AccordionItemContent>{children}</AccordionItemContent>
       </AccordionItem>

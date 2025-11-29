@@ -78,7 +78,7 @@ export const ContentCreateTab = () => {
               <Flex gap={4}>
                 <Flex
                   border="1px solid"
-                  borderColor="gray.800"
+                  borderColor="border.default"
                   direction="column"
                   gap={2}
                   p={4}
@@ -113,7 +113,7 @@ export const ContentCreateTab = () => {
                 </Flex>
                 <Flex
                   border="1px solid"
-                  borderColor="gray.800"
+                  borderColor="border.default"
                   direction="column"
                   gap={2}
                   p={4}
@@ -124,7 +124,7 @@ export const ContentCreateTab = () => {
                   {data.items.map((reward, index) => (
                     <Flex
                       border="1px solid"
-                      borderColor="gray.700"
+                      borderColor="border.subtle"
                       direction="column"
                       gap={2}
                       key={`content-reward-${reward.id}`}
@@ -149,7 +149,7 @@ export const ContentCreateTab = () => {
                 {isRaid && (
                   <Flex
                     border="1px solid"
-                    borderColor="gray.800"
+                    borderColor="border.default"
                     direction="column"
                     gap={2}
                     p={4}
@@ -160,7 +160,7 @@ export const ContentCreateTab = () => {
                     {data.items.map((item, index) => (
                       <Flex
                         border="1px solid"
-                        borderColor="gray.700"
+                        borderColor="border.subtle"
                         direction="column"
                         gap={2}
                         key={`content-see-more-reward-${item.id}`}

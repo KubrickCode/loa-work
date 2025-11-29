@@ -27,7 +27,7 @@ export const Page = ({ children, description, title, ...otherProps }: PageProps)
         position="relative"
         shadow={{
           _dark: "0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)",
-          _light: "md",
+          _light: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
         }}
         transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
         {...otherProps}

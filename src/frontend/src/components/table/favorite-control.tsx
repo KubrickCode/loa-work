@@ -183,7 +183,7 @@ export const FavoriteIcon: React.FC<FavoriteIconProps> = ({
           }}
           whileHover={!shouldReduceMotion ? { scale: 1.1 } : undefined}
         >
-          <IoIosStarOutline color="gray" size={20} />
+          <IoIosStarOutline size={20} style={{ color: "#A1A1AA" }} />
         </motion.div>
       )}
     </MotionIconButton>
@@ -203,3 +203,20 @@ export const sortWithFavoritesAtTop = <T,>(
 
   return [...favoriteItems, ...regularItems];
 };
+
+export const isFavoriteValue = (value: unknown, favorites: FavoriteValue[]): boolean => {
+  return (typeof value === "string" || typeof value === "number") && favorites.includes(value);
+};
+
+export const getFavoriteRowStyles = (isFavorite: boolean, isInteractive: boolean) => ({
+  bg: isFavorite ? "bg.favorite" : undefined,
+  css: isInteractive
+    ? {
+        "&:hover": {
+          background: isFavorite
+            ? "var(--chakra-colors-bg-favorite-hover) !important"
+            : "var(--chakra-colors-bg-hover) !important",
+        },
+      }
+    : undefined,
+});

@@ -10,10 +10,7 @@ export const Header = () => {
     <Box
       as="header"
       backdropFilter="blur(12px)"
-      bg={{
-        _dark: "neutral.850",
-        _light: "bg.surface",
-      }}
+      bg="bg.surface"
       borderBottomWidth="1px"
       borderColor="border.default"
       position="sticky"

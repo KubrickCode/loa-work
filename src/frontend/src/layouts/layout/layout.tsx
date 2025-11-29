@@ -19,8 +19,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
         bg: {
           _dark:
             "linear-gradient(180deg, var(--chakra-colors-neutral-950) 0%, rgba(26, 26, 28, 0.8) 100%)",
-          _light:
-            "linear-gradient(180deg, var(--chakra-colors-bg-canvas) 0%, var(--chakra-colors-bg-surface) 100%)",
+          _light: "#FFFFFF",
         },
         content: '""',
         height: "40vh",

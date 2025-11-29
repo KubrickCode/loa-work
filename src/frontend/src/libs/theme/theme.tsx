@@ -21,41 +21,47 @@ const config = defineConfig({
 
           canvas: {
             value: {
-              _dark: "{colors.neutral.950}",
-              _light: "{colors.neutral.25}",
+              _dark: "#09090B",
+              _light: "#FFFFFF",
             },
           },
 
           container: {
             value: {
               _dark: "{colors.neutral.900}",
-              _light: "{colors.neutral.50}",
+              _light: "#FFFFFF",
             },
           },
 
           elevated: {
             value: {
-              _dark: "{colors.neutral.700}",
-              _light: "{colors.neutral.50}",
+              _dark: "#27272A",
+              _light: "#FFFFFF",
             },
           },
 
           favorite: {
             value: {
-              _dark: "rgba(255, 215, 0, 0.08)",
-              _light: "rgba(255, 215, 0, 0.075)",
+              _dark: "rgba(255, 215, 0, 0.04)",
+              _light: "rgba(255, 215, 0, 0.04)",
+            },
+          },
+          favoriteHover: {
+            value: {
+              _dark: "rgba(255, 215, 0, 0.12)",
+              _light: "rgba(255, 215, 0, 0.12)",
             },
           },
           hover: {
             value: {
-              _dark: "rgba(255, 255, 255, 0.1)",
-              _light: "rgba(148, 137, 137, 0.13)",
+              _dark: "rgba(255, 215, 0, 0.07)",
+              _light: "rgba(255, 215, 0, 0.07)",
             },
           },
           muted: {
             value: {
-              _dark: "{colors.neutral.600}",
-              _light: "{colors.neutral.100}",
+              _dark: "#3F3F46",
+              _light: "#FFFFFF",
             },
           },
           overlay: {
@@ -66,40 +72,40 @@ const config = defineConfig({
           },
 
           surface: {
-            value: { _dark: "{colors.neutral.850}", _light: "white" },
+            value: { _dark: "#18181B", _light: "white" },
           },
         },
 
         border: {
           default: {
             value: {
-              _dark: "rgba(255, 255, 255, 0.08)",
-              _light: "{colors.neutral.200}",
+              _dark: "rgba(255, 255, 255, 0.10)",
+              _light: "rgba(0, 0, 0, 0.08)",
             },
           },
           emphasis: {
             value: {
-              _dark: "rgba(255, 255, 255, 0.12)",
-              _light: "{colors.neutral.300}",
+              _dark: "rgba(255, 255, 255, 0.15)",
+              _light: "rgba(0, 0, 0, 0.12)",
             },
           },
           subtle: {
             value: {
-              _dark: "rgba(255, 255, 255, 0.05)",
-              _light: "{colors.neutral.100}",
+              _dark: "rgba(255, 255, 255, 0.06)",
+              _light: "rgba(0, 0, 0, 0.04)",
             },
           },
         },
 
         text: {
           muted: {
-            value: { _dark: "#A8ABAF", _light: "{colors.neutral.400}" },
+            value: { _dark: "#71717A", _light: "#71717A" },
           },
           primary: {
-            value: { _dark: "#F8F9FA", _light: "{colors.neutral.700}" },
+            value: { _dark: "#F8F9FA", _light: "#09090B" },
           },
           secondary: {
-            value: { _dark: "#E1E3E7", _light: "{colors.neutral.500}" },
+            value: { _dark: "#A1A1AA", _light: "#3F3F46" },
           },
         },
       },
@@ -113,19 +119,19 @@ const config = defineConfig({
         },
 
         neutral: {
-          100: { value: "#F5F5F5" },
-          200: { value: "#E5E5E5" },
-          25: { value: "#FEFEFE" },
-          300: { value: "#D4D4D4" },
-          400: { value: "#A3A3A3" },
+          100: { value: "#F4F4F5" },
+          200: { value: "#E4E4E7" },
+          25: { value: "#FFFFFF" },
+          300: { value: "#D4D4D8" },
+          400: { value: "#A1A1AA" },
           50: { value: "#FAFAFA" },
-          500: { value: "#737373" },
-          600: { value: "#525252" },
-          700: { value: "#404040" },
-          800: { value: "#262626" },
-          850: { value: "#1A1A1A" },
-          900: { value: "#1A1A1C" },
-          950: { value: "#050505" },
+          500: { value: "#71717A" },
+          600: { value: "#52525B" },
+          700: { value: "#3F3F46" },
+          800: { value: "#27272A" },
+          850: { value: "#18181B" },
+          900: { value: "#09090B" },
+          950: { value: "#030304" },
         },
         success: { 500: { value: "#10B981" } },
       },

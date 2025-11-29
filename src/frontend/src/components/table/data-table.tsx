@@ -10,7 +10,7 @@ import {
   PaginationRoot,
 } from "~/components/chakra/pagination";
 
-import { FavoriteValue } from "./favorite-control";
+import { FavoriteValue, getFavoriteRowStyles, isFavoriteValue } from "./favorite-control";
 import { SortControl } from "./sort-control";
 
 export type DataTableProps<T> = TableHTMLAttributes<HTMLTableElement> & {
@@ -167,8 +167,14 @@ export const DataTable = <T,>({
 
   const renderRow = useCallback(
     (row: DataTableProps<T>["rows"][number], rowIndex: number) => {
+      const isFavorite =
+        !!favoriteKeyPath &&
+        favorites.length > 0 &&
+        isFavoriteValue(get(row.data, favoriteKeyPath), favorites);
+
       return (
         <Table.Row
+          {...getFavoriteRowStyles(isFavorite, isInteractive)}
           cursor={isInteractive ? "pointer" : "default"}
           key={rowIndex}
           transition="all 0.3s ease-in-out"
@@ -178,7 +184,7 @@ export const DataTable = <T,>({
         </Table.Row>
       );
     },
-    [columns, renderColumn, getRowProps, isInteractive]
+    [columns, renderColumn, getRowProps, isInteractive, favoriteKeyPath, favorites]
   );
 
   return (
@@ -187,7 +193,10 @@ export const DataTable = <T,>({
         border="1px solid"
         borderColor="border.default"
         borderRadius="xl"
-        boxShadow="lg"
+        boxShadow={{
+          _dark: "lg",
+          _light: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
+        }}
         overflow="hidden"
         overflowX="auto"
         width="100%"
@@ -195,7 +204,7 @@ export const DataTable = <T,>({
         <Table.ScrollArea maxHeight="4xl">
           <Table.Root
             bg="bg.elevated"
-            interactive={isInteractive}
+            interactive={false}
             minWidth="100%"
             showColumnBorder={false}
             stickyHeader

@@ -41,15 +41,31 @@ export const Navigation = () => {
     <Box as="nav">
       {/* 데스크톱 네비게이션 */}
       <Flex display={{ base: "none", md: "flex" }} gap={2}>
-        {[...navigationData, ...adminNavigationData].map(({ label, url }) => (
-          <Button
-            key={label + url}
-            onClick={() => navigate(url)}
-            variant={location.pathname === url ? "surface" : "ghost"}
-          >
-            {label}
-          </Button>
-        ))}
+        {[...navigationData, ...adminNavigationData].map(({ label, url }) => {
+          const isActive = location.pathname === url;
+          return (
+            <Button
+              _hover={{
+                bg: "bg.hover",
+                borderBottomColor: isActive ? "gold.500" : "border.emphasis",
+                color: "text.primary",
+              }}
+              bg="transparent"
+              borderBottom="2px solid"
+              borderBottomColor={isActive ? "gold.500" : "transparent"}
+              borderRadius="none"
+              color={isActive ? "text.primary" : "text.secondary"}
+              fontWeight={isActive ? "semibold" : "normal"}
+              key={label + url}
+              onClick={() => navigate(url)}
+              px={3}
+              transition="all 0.2s ease-in-out"
+              variant="ghost"
+            >
+              {label}
+            </Button>
+          );
+        })}
         <Manual />
       </Flex>
       {/* 모바일 네비게이션 */}
@@ -69,17 +85,33 @@ export const Navigation = () => {
           <DrawerContent>
             <DrawerBody py={10}>
               <Flex direction="column" gap={2} pt={4}>
-                {navigationData.map(({ label, url }) => (
-                  <Button
-                    justifyContent="flex-start"
-                    key={label + url}
-                    onClick={() => handleNavigate(url)}
-                    size="lg"
-                    variant={location.pathname === url ? "surface" : "ghost"}
-                  >
-                    {label}
-                  </Button>
-                ))}
+                {navigationData.map(({ label, url }) => {
+                  const isActive = location.pathname === url;
+                  return (
+                    <Button
+                      _hover={{
+                        bg: "bg.hover",
+                        borderLeftColor: isActive ? "gold.500" : "border.emphasis",
+                        color: "text.primary",
+                      }}
+                      bg="transparent"
+                      borderLeft="3px solid"
+                      borderLeftColor={isActive ? "gold.500" : "transparent"}
+                      borderRadius="none"
+                      color={isActive ? "text.primary" : "text.secondary"}
+                      fontWeight={isActive ? "semibold" : "normal"}
+                      justifyContent="flex-start"
+                      key={label + url}
+                      onClick={() => handleNavigate(url)}
+                      pl={4}
+                      size="lg"
+                      transition="all 0.2s ease-in-out"
+                      variant="ghost"
+                    >
+                      {label}
+                    </Button>
+                  );
+                })}
                 <Manual />
               </Flex>
             </DrawerBody>

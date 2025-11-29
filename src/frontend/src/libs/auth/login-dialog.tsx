@@ -13,11 +13,11 @@ export const LoginDialog = (dialogProps: DialogProps) => {
       <Dialog.Body>
         <Flex direction="column" gap={3}>
           <Button
-            _hover={{ bg: "gray.50" }}
-            bg="white"
-            borderColor="gray.200"
+            _hover={{ bg: "bg.elevated" }}
+            bg="bg.surface"
+            borderColor="border.default"
             borderWidth={1}
-            color="gray.700"
+            color="text.primary"
             onClick={() => {
               window.location.href = "/auth/google";
             }}
