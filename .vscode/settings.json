@@ -58,7 +58,7 @@
       ]
     },
     {
-      "name": "Web App",
+      "name": "$(run-with-deps) Web App",
       "color": "skyblue",
       "shortcut": "w",
       "group": [
@@ -94,7 +94,7 @@
       ]
     },
     {
-      "name": "Scraper",
+      "name": "$(cloud-download) Scraper",
       "color": "hotpink",
       "shortcut": "s",
       "group": [
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "name": "Utils",
+      "name": "$(symbol-property) Utils",
       "shortcut": "u",
       "color": "purple",
       "group": [
@@ -173,21 +173,21 @@
       ]
     },
     {
-      "name": "Release",
+      "name": "$(cloud-upload) Release",
       "color": "orange",
       "shortcut": "r",
       "command": "just release",
       "terminalName": "Release"
     },
     {
-      "name": "Test",
+      "name": "$(debug-all) Test",
       "color": "tomato",
       "command": "just test",
       "terminalName": "Test",
       "shortcut": "t"
     },
     {
-      "name": "Claude",
+      "name": "$(vr) Claude",
       "color": "blue",
       "shortcut": "c",
       "command": "export IS_SANDBOX=1 && claude --dangerously-skip-permissions",
