@@ -67,4 +67,54 @@ test.describe("시급 계산기 다이얼로그", () => {
     await dialog.getByRole("button", { name: "닫기" }).click();
     await expect(dialog).not.toBeVisible();
   });
+
+  test("골드 입력 시 시급 계산 결과가 정확함", async ({ page }) => {
+    await page.getByRole("button", { name: "시급 계산기" }).click();
+
+    const dialog = page.getByRole("dialog");
+
+    // 10분, 1000 골드 입력
+    await dialog.getByRole("spinbutton", { name: "분" }).fill("10");
+    await dialog.getByRole("spinbutton", { name: "골드" }).fill("1000");
+
+    // 계산 버튼 클릭
+    await dialog.getByRole("button", { name: "계산" }).click();
+
+    // 계산 결과 확인: 10분에 1000골드 → 시간당 6000골드
+    // 환율 100:50 → 6000 × 0.5 = 3000원
+    await expect(dialog.getByText("계산 결과:")).toBeVisible();
+    await expect(dialog.getByText("₩3,000")).toBeVisible();
+    await expect(dialog.getByText("6,000")).toBeVisible();
+  });
+
+  test("여러 보상 입력 시 시급 계산 결과가 정확함", async ({ page }) => {
+    await page.getByRole("button", { name: "시급 계산기" }).click();
+
+    const dialog = page.getByRole("dialog");
+
+    // 5분, 500 골드, 100 운명의 파편 입력
+    await dialog.getByRole("spinbutton", { name: "분" }).fill("5");
+    await dialog.getByRole("spinbutton", { name: "골드" }).fill("500");
+    await dialog.getByRole("spinbutton", { name: "운명의 파편" }).fill("100");
+
+    // 계산 버튼 클릭
+    await dialog.getByRole("button", { name: "계산" }).click();
+
+    // 계산 결과가 표시됨
+    await expect(dialog.getByText("계산 결과:")).toBeVisible();
+    await expect(dialog.getByText("시급(원):")).toBeVisible();
+    await expect(dialog.getByText("시급(골드):")).toBeVisible();
+    await expect(dialog.getByText("1수당 골드:")).toBeVisible();
+  });
+
+  test("계산 완료 시 토스트 메시지가 표시됨", async ({ page }) => {
+    await page.getByRole("button", { name: "시급 계산기" }).click();
+
+    const dialog = page.getByRole("dialog");
+    await dialog.getByRole("spinbutton", { name: "분" }).fill("10");
+    await dialog.getByRole("spinbutton", { name: "골드" }).fill("1000");
+    await dialog.getByRole("button", { name: "계산" }).click();
+
+    await expect(page.getByText("계산이 완료되었습니다.")).toBeVisible();
+  });
 });

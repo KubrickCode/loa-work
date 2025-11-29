@@ -29,4 +29,22 @@ test.describe("푸터 팝업", () => {
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
   });
+
+  test("후원 안내 팝업에 후원 정보가 표시됨", async ({ page }) => {
+    await page.getByText("후원 안내").click();
+
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+
+    // 후원 계좌 정보 확인
+    await expect(dialog.getByText(/후원 계좌.*농협/)).toBeVisible();
+
+    // 후원 안내 문구 확인
+    await expect(
+      dialog.getByText("개발자의 개인 시간과 사비로 운영되고 있습니다.")
+    ).toBeVisible();
+    await expect(
+      dialog.getByText("위와 같은 이유로 후원을 받고자 합니다. 감사합니다.")
+    ).toBeVisible();
+  });
 });

@@ -75,4 +75,65 @@ test.describe("필터 다이얼로그", () => {
     await dialog.getByRole("button", { name: "close" }).click();
     await expect(dialog).not.toBeVisible();
   });
+
+  test("컨텐츠 종류 필터 선택 시 테이블이 해당 종류만 표시됨", async ({ page }) => {
+    await page.getByRole("button", { name: "필터" }).click();
+
+    const dialog = page.getByRole("dialog");
+    await dialog.getByRole("combobox", { name: "컨텐츠 종류" }).click();
+    await page.getByRole("option", { name: "카제로스 레이드" }).click();
+
+    // 옵션 선택 후 안정화 대기
+    await page.waitForTimeout(300);
+
+    // 다이얼로그가 아직 열려있으면 닫기
+    if (await dialog.isVisible()) {
+      await dialog.getByRole("button", { name: "close" }).click();
+    }
+
+    // 필터 적용 대기
+    await page.waitForTimeout(500);
+
+    // 테이블의 모든 행이 선택한 종류만 표시되는지 확인
+    const rows = page.locator("table tbody tr");
+    const rowCount = await rows.count();
+    expect(rowCount).toBeGreaterThan(0);
+
+    for (let i = 0; i < rowCount; i++) {
+      const categoryCell = rows.nth(i).locator("td").nth(1);
+      await expect(categoryCell).toContainText("카제로스 레이드");
+    }
+  });
+
+  test("컨텐츠 종류 필터를 전체로 변경하면 모든 종류가 표시됨", async ({ page }) => {
+    // 초기 행 수 저장
+    const initialRowCount = await page.locator("table tbody tr").count();
+
+    // 먼저 특정 종류로 필터링
+    await page.getByRole("button", { name: "필터" }).click();
+    const dialog = page.getByRole("dialog");
+    await dialog.getByRole("combobox", { name: "컨텐츠 종류" }).click();
+    await page.getByRole("option", { name: "카제로스 레이드" }).click();
+    await page.waitForTimeout(300);
+    if (await dialog.isVisible()) {
+      await dialog.getByRole("button", { name: "close" }).click();
+    }
+    await page.waitForTimeout(500);
+
+    const filteredRowCount = await page.locator("table tbody tr").count();
+    expect(filteredRowCount).toBeLessThan(initialRowCount);
+
+    // 다시 전체로 변경
+    await page.getByRole("button", { name: "필터" }).click();
+    await dialog.getByRole("combobox", { name: "컨텐츠 종류" }).click();
+    await page.getByRole("option", { name: "전체" }).click();
+    await page.waitForTimeout(300);
+    if (await dialog.isVisible()) {
+      await dialog.getByRole("button", { name: "close" }).click();
+    }
+    await page.waitForTimeout(500);
+
+    const allRowCount = await page.locator("table tbody tr").count();
+    expect(allRowCount).toBeGreaterThan(filteredRowCount);
+  });
 });

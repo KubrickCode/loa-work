@@ -50,4 +50,55 @@ test.describe("테이블 정렬 기능", () => {
     expect(levelBefore).toBeDefined();
     expect(levelAfter).toBeDefined();
   });
+
+  test("레벨 오름차순 정렬 시 낮은 값이 먼저 표시됨", async ({ page }) => {
+    const levelHeader = page.locator("th").filter({ hasText: /^레벨/ });
+    const sortButton = levelHeader.locator('[role="button"]');
+
+    // 정렬 버튼 클릭 (오름차순)
+    await sortButton.click();
+
+    // 테이블의 레벨 값들을 수집
+    const rows = page.locator("table tbody tr");
+    const rowCount = await rows.count();
+    const levels: number[] = [];
+
+    for (let i = 0; i < Math.min(rowCount, 5); i++) {
+      const levelText = await rows.nth(i).locator("td").nth(2).textContent();
+      if (levelText) {
+        levels.push(parseInt(levelText.replace(/,/g, ""), 10));
+      }
+    }
+
+    // 레벨이 오름차순인지 확인
+    for (let i = 0; i < levels.length - 1; i++) {
+      expect(levels[i]).toBeLessThanOrEqual(levels[i + 1]);
+    }
+  });
+
+  test("레벨 내림차순 정렬 시 높은 값이 먼저 표시됨", async ({ page }) => {
+    const levelHeader = page.locator("th").filter({ hasText: /^레벨/ });
+    const sortButton = levelHeader.locator('[role="button"]');
+
+    // 두 번 클릭해서 내림차순으로 변경
+    await sortButton.click();
+    await sortButton.click();
+
+    // 테이블의 레벨 값들을 수집
+    const rows = page.locator("table tbody tr");
+    const rowCount = await rows.count();
+    const levels: number[] = [];
+
+    for (let i = 0; i < Math.min(rowCount, 5); i++) {
+      const levelText = await rows.nth(i).locator("td").nth(2).textContent();
+      if (levelText) {
+        levels.push(parseInt(levelText.replace(/,/g, ""), 10));
+      }
+    }
+
+    // 레벨이 내림차순인지 확인
+    for (let i = 0; i < levels.length - 1; i++) {
+      expect(levels[i]).toBeGreaterThanOrEqual(levels[i + 1]);
+    }
+  });
 });

@@ -69,4 +69,25 @@ test.describe("컨텐츠 상세 다이얼로그", () => {
     await dialog.getByRole("button", { name: "닫기" }).click();
     await expect(dialog).not.toBeVisible();
   });
+
+  test("시급 정보 섹션 필터 버튼 클릭 시 필터 팝오버 표시", async ({ page }) => {
+    await page.locator("table tbody tr").first().click();
+
+    const dialog = page
+      .getByRole("dialog")
+      .filter({ has: page.getByRole("heading", { name: "컨텐츠 상세 정보" }) });
+    await expect(dialog).toBeVisible();
+
+    // 시급 정보 섹션의 필터 버튼 클릭
+    await dialog.getByRole("button", { name: "필터" }).first().click();
+
+    // 필터 팝오버 확인
+    const filterDialog = dialog.getByRole("dialog");
+    await expect(filterDialog).toBeVisible();
+
+    // 필터 옵션 확인
+    await expect(filterDialog.getByText("컨텐츠 보상 종류")).toBeVisible();
+    await expect(filterDialog.getByText("더보기 포함 여부")).toBeVisible();
+    await expect(filterDialog.getByText("귀속 재료 포함 여부")).toBeVisible();
+  });
 });

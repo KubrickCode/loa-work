@@ -51,4 +51,152 @@ test.describe("아이템 시세 페이지", () => {
     tableRows = page.locator("table tbody tr");
     await expect(tableRows).not.toHaveCount(0);
   });
+
+  test("재련 재료 섹션에서 검색 시 테이블이 필터링됨", async ({ page }) => {
+    const refiningRegion = page.getByRole("region", { name: "재련 재료" });
+    const searchInput = refiningRegion.getByPlaceholder("검색");
+    const table = refiningRegion.locator("table");
+
+    // 데이터 로딩 대기
+    await table.locator("tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 검색 전 아이템 수 확인
+    const rowsBefore = await table.locator("tbody tr").count();
+    expect(rowsBefore).toBeGreaterThan(1);
+
+    // "파편" 검색
+    await searchInput.fill("파편");
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(300);
+
+    // 필터링된 결과 확인
+    const rowsAfter = await table.locator("tbody tr").count();
+    expect(rowsAfter).toBeLessThan(rowsBefore);
+
+    // 검색 결과가 "파편"을 포함하는지 확인
+    const firstItemName = await table
+      .locator("tbody tr")
+      .first()
+      .locator("td")
+      .first()
+      .textContent();
+    expect(firstItemName).toContain("파편");
+  });
+
+  test("검색어 삭제 시 전체 목록이 복원됨", async ({ page }) => {
+    const refiningRegion = page.getByRole("region", { name: "재련 재료" });
+    const searchInput = refiningRegion.getByPlaceholder("검색");
+    const table = refiningRegion.locator("table");
+
+    // 데이터 로딩 대기
+    await table.locator("tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 전체 아이템 수 확인
+    const rowsAll = await table.locator("tbody tr").count();
+
+    // 검색 후 필터링
+    await searchInput.fill("파편");
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(300);
+    const rowsFiltered = await table.locator("tbody tr").count();
+    expect(rowsFiltered).toBeLessThan(rowsAll);
+
+    // 검색어 삭제
+    await searchInput.clear();
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(300);
+
+    // 전체 목록 복원 확인
+    const rowsRestored = await table.locator("tbody tr").count();
+    expect(rowsRestored).toBe(rowsAll);
+  });
+
+  test("전일 평균 거래가 정렬 버튼 클릭 시 테이블이 정렬됨", async ({
+    page,
+  }) => {
+    const relicRegion = page.getByRole("region", { name: "유물 각인서" });
+    const table = relicRegion.locator("table");
+
+    // 데이터 로딩 대기
+    await table.locator("tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 정렬 전 첫 번째 아이템의 가격 확인
+    const firstPriceBefore = await table
+      .locator("tbody tr")
+      .first()
+      .locator("td")
+      .nth(2)
+      .textContent();
+
+    // 전일 평균 거래가 정렬 컨트롤 클릭 (role="button"인 정렬 컨트롤)
+    const sortControl = table
+      .locator("th")
+      .filter({ hasText: "전일 평균 거래가" })
+      .getByRole("button");
+    await sortControl.click();
+    await page.waitForTimeout(300);
+
+    // 정렬 후 첫 번째 아이템의 가격 확인
+    const firstPriceAfter = await table
+      .locator("tbody tr")
+      .first()
+      .locator("td")
+      .nth(2)
+      .textContent();
+
+    // 가격이 변경됨 (정렬 적용됨)
+    expect(firstPriceBefore).not.toBe(firstPriceAfter);
+  });
+
+  test("전일 평균 거래가 오름차순 정렬 시 낮은 가격이 먼저 표시됨", async ({
+    page,
+  }) => {
+    const relicRegion = page.getByRole("region", { name: "유물 각인서" });
+    const table = relicRegion.locator("table");
+
+    // 데이터 로딩 대기
+    await table.locator("tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 정렬 컨트롤 클릭 (오름차순)
+    const sortControl = table
+      .locator("th")
+      .filter({ hasText: "전일 평균 거래가" })
+      .getByRole("button");
+    await sortControl.click();
+    await page.waitForTimeout(300);
+
+    // 테이블의 가격 값들을 수집
+    const rows = table.locator("tbody tr");
+    const rowCount = await rows.count();
+    const prices: number[] = [];
+
+    for (let i = 0; i < Math.min(rowCount, 5); i++) {
+      const priceText = await rows.nth(i).locator("td").nth(2).textContent();
+      if (priceText) {
+        prices.push(parseInt(priceText.replace(/[,G\s]/g, ""), 10));
+      }
+    }
+
+    // 가격이 오름차순인지 확인
+    for (let i = 0; i < prices.length - 1; i++) {
+      expect(prices[i]).toBeLessThanOrEqual(prices[i + 1]);
+    }
+  });
+
+  test("경매장 아이템 탭 평균 즉시 구매가 info 버튼 클릭 시 툴팁 표시", async ({
+    page,
+  }) => {
+    // 경매장 아이템 탭으로 이동
+    await page.getByRole("tab", { name: "경매장 아이템" }).click();
+    await expect(page).toHaveURL(/tab=auction-item/);
+
+    // 겁화의 보석 섹션의 info 버튼 클릭
+    const gemRegion = page.getByRole("region", { name: "겁화의 보석" });
+    await gemRegion.getByLabel("info").click();
+
+    // 툴팁 다이얼로그 확인
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText("즉시 구매가 최저가순 첫 페이지 10개 항목 평균입니다");
+  });
 });
