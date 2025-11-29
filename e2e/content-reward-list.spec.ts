@@ -44,6 +44,7 @@ test.describe("컨텐츠별 보상 페이지", () => {
 
   test("테이블 데이터가 로드됨", async ({ page }) => {
     await page.goto("/content-reward-list");
+    await page.locator("table tbody tr").first().waitFor({ timeout: 15000 });
 
     const tableRows = page.locator("table tbody tr");
     await expect(tableRows).not.toHaveCount(0);

@@ -7,10 +7,10 @@ const WEBSERVER_TIMEOUT_MS = 3 * 60 * 1000;
 export default defineConfig({
   testDir: "./e2e",
   outputDir: "./test-results",
-  fullyParallel: false,
+  fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: 1,
+  workers: 4,
   reporter: [["html", { open: "never", outputFolder: "playwright-report" }]],
   use: {
     baseURL: FRONTEND_URL,

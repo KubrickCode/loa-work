@@ -118,7 +118,9 @@ test.describe("필터 다이얼로그", () => {
     if (await dialog.isVisible()) {
       await dialog.getByRole("button", { name: "close" }).click();
     }
-    await page.waitForTimeout(500);
+
+    // 필터 적용 대기 (행 수가 줄어들 때까지)
+    await expect(page.locator("table tbody tr")).not.toHaveCount(initialRowCount);
 
     const filteredRowCount = await page.locator("table tbody tr").count();
     expect(filteredRowCount).toBeLessThan(initialRowCount);
@@ -131,7 +133,9 @@ test.describe("필터 다이얼로그", () => {
     if (await dialog.isVisible()) {
       await dialog.getByRole("button", { name: "close" }).click();
     }
-    await page.waitForTimeout(500);
+
+    // 전체 필터 적용 대기 (행 수가 늘어날 때까지)
+    await expect(page.locator("table tbody tr")).not.toHaveCount(filteredRowCount);
 
     const allRowCount = await page.locator("table tbody tr").count();
     expect(allRowCount).toBeGreaterThan(filteredRowCount);

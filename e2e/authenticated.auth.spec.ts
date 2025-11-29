@@ -23,6 +23,7 @@ test.describe("로그인 상태 테스트", () => {
 
   test("로그인 후 즐겨찾기 버튼 토글이 작동함", async ({ page }) => {
     await page.goto("/");
+    await page.locator("table tbody tr").first().waitFor();
 
     const firstRow = page.locator("table tbody tr").first();
     const favoriteButton = firstRow.getByRole("button", { name: /즐겨찾기/ });
