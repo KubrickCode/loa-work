@@ -11,7 +11,7 @@ const config: CodegenConfig = {
   },
   documents: "src/**/*.graphql",
   generates: {
-    "src/core/graphql/generated.tsx": {
+    "src/libs/graphql/generated.tsx": {
       plugins: ["typescript", "typescript-operations", "typed-document-node"],
     },
   },
