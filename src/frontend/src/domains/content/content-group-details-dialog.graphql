@@ -1,9 +1,34 @@
 query ContentGroupDetailsDialog($contentIds: [Int!]!) {
   contentGroup(filter: { contentIds: $contentIds }) {
     contents {
+      contentCategory {
+        imageUrl
+        name
+      }
+      contentRewards {
+        averageQuantity
+        item {
+          imageUrl
+          name
+        }
+        isSellable
+      }
+      contentSeeMoreRewards {
+        item {
+          imageUrl
+          name
+        }
+        quantity
+      }
+      displayName
       gate
       id
+      level
     }
+    name
+  }
+  items {
+    id
     name
   }
 }
