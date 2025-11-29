@@ -1,7 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma";
-import { ItemKind, Prisma } from "@prisma/client";
+import { ItemKind } from "@prisma/client";
+import { auctionItemData } from "./data/auction-item-data";
+import { auctionItemStatData } from "./data/auction-item-stat-data";
 import { getContentsWithRewards } from "./data/content-reward-data";
+import { getMarketItemCategoryCode, marketItemData } from "./data/market-item-data";
+import { marketItemStatData } from "./data/market-item-stat-data";
 
 @Injectable()
 export class SeedService {
@@ -11,8 +15,10 @@ export class SeedService {
     await this.users();
     await this.marketItemCategories();
     await this.marketItems();
+    await this.marketItemStats();
     await this.auctionItemCategories();
     await this.auctionItems();
+    await this.auctionItemStats();
     await this.contentCategories();
     await this.items();
     await this.contents();
@@ -26,35 +32,24 @@ export class SeedService {
   }
 
   async auctionItems() {
-    type Option = Pick<
-      Prisma.AuctionItemUncheckedCreateInput,
-      "auctionItemCategoryId" | "name" | "imageUrl" | "isStatScraperEnabled"
-    >;
-    const damageGems: Option[] = [];
-    const coolDownGems: Option[] = [];
-
     const auctionItemCategory = await this.prisma.auctionItemCategory.findFirstOrThrow({
       where: { name: "보석" },
     });
 
-    for (let i = 1; i < 11; i++) {
-      damageGems.push({
-        auctionItemCategoryId: auctionItemCategory.id,
-        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${95 + i}.png`,
-        isStatScraperEnabled: true,
-        name: `${i}레벨 겁화의 보석`,
-      });
-
-      coolDownGems.push({
-        auctionItemCategoryId: auctionItemCategory.id,
-        imageUrl: `https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_${105 + i}.png`,
-        isStatScraperEnabled: true,
-        name: `${i}레벨 작열의 보석`,
-      });
-    }
-
     await this.prisma.auctionItem.createMany({
-      data: [...damageGems, ...coolDownGems],
+      data: auctionItemData.map((item) => ({
+        ...item,
+        auctionItemCategoryId: auctionItemCategory.id,
+      })),
+    });
+  }
+
+  async auctionItemStats() {
+    await this.prisma.auctionItemStat.createMany({
+      data: auctionItemStatData.map((stat) => ({
+        ...stat,
+        endDate: new Date(stat.endDate),
+      })),
     });
   }
 
@@ -250,88 +245,60 @@ export class SeedService {
       },
     });
 
-    const today = new Date();
-
     const items = [
       {
-        basePrice: 0.17,
         imageUrl:
           "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428078/xug2bon7qtiflcqbezza.png",
         kind: ItemKind.MARKET,
         name: "운명의 파편",
+        price: 0.17,
       },
       {
-        basePrice: 25,
         imageUrl:
           "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/qn5msm2gc0qtmtc0irlh.png",
         kind: ItemKind.MARKET,
         name: "운명의 돌파석",
+        price: 7,
       },
       {
-        basePrice: 4,
         imageUrl:
           "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xy9a4qf2on63drftnkub.png",
         kind: ItemKind.MARKET,
         name: "운명의 파괴석",
+        price: 0.82,
       },
       {
-        basePrice: 0.5,
         imageUrl:
           "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/azkviadmag8inzq65ajf.png",
         kind: ItemKind.MARKET,
         name: "운명의 수호석",
+        price: 0.03,
       },
       {
-        basePrice: 160,
         imageUrl:
           "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428077/dpqtjeqsuqmvfwzapjj8.png",
         kind: ItemKind.AUCTION,
         name: "1레벨 보석",
+        price: 154,
       },
       {
-        basePrice: 580,
         imageUrl:
           "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/xpnlsgxaatshujnzpett.png",
         kind: ItemKind.MARKET,
         name: "용암의 숨결",
+        price: 388,
       },
       {
-        basePrice: 160,
         imageUrl:
           "https://res.cloudinary.com/dn74c0eep/image/upload/v1734428435/k8xcldjkq33qf9l69uim.png",
         kind: ItemKind.MARKET,
         name: "빙하의 숨결",
+        price: 193,
       },
     ];
 
     for (const item of items) {
-      const priceData = [];
-
-      const minPrice = item.basePrice * 0.9;
-      const maxPrice = item.basePrice * 1.1;
-
-      for (let i = 1; i <= 6; i++) {
-        const currentDate = new Date(today);
-        currentDate.setDate(today.getDate() - i);
-
-        [0, 8, 16].forEach((hour) => {
-          currentDate.setHours(hour, 0, 0, 0);
-          const randomPrice = minPrice + Math.random() * (maxPrice - minPrice);
-
-          priceData.push({
-            createdAt: new Date(currentDate),
-            value: Math.round(randomPrice * 100) / 100,
-          });
-        });
-      }
-
-      const { basePrice: _basePrice, ...itemWithoutBasePrice } = item;
-      await this.prisma.item.create({
-        data: {
-          ...itemWithoutBasePrice,
-          price: priceData[0].value,
-        },
-      });
+      await this.prisma.item.create({ data: item });
     }
   }
 
@@ -348,64 +315,32 @@ export class SeedService {
   }
 
   async marketItems() {
-    // 재련 재료 카테고리
-    const materialsCategory = await this.prisma.marketItemCategory.findUniqueOrThrow({
-      where: { code: 50010 },
-    });
+    const categoryMap = new Map<number, number>();
 
-    // 재련 추가 재료 카테고리
-    const materialsExtraCategory = await this.prisma.marketItemCategory.findUniqueOrThrow({
-      where: { code: 50020 },
-    });
+    for (const code of [40000, 50010, 50020]) {
+      const category = await this.prisma.marketItemCategory.findUniqueOrThrow({
+        where: { code },
+      });
+      categoryMap.set(code, category.id);
+    }
 
-    // 각인서 카테고리
-    const engravingRecipeCategory = await this.prisma.marketItemCategory.findUniqueOrThrow({
-      where: { code: 40000 },
-    });
+    for (let i = 0; i < marketItemData.length; i++) {
+      const item = marketItemData[i];
+      const categoryCode = getMarketItemCategoryCode(i);
+      const marketItemCategoryId = categoryMap.get(categoryCode)!;
 
-    // 운명의 파편 주머니(소), 운명의 돌파석, 운명의 파괴석, 운명의 수호석
-    const materialsRefIds = [66130141, 66110225, 66102006, 66102106];
-    // 용암의 숨결, 빙하의 숨결
-    const materialsExtraRefIds = [66111131, 66111132];
-    // 유물 각인서
-    const relicEngravingRecipesRefIds = [
-      65202305, 65201405, 65202005, 65200905, 65200705, 65201705, 65201605, 65202405, 65202605,
-      65202705, 65200105, 65204205, 65201805, 65202905, 65203805, 65203605, 65202205, 65202505,
-      65200205, 65201205, 65201905, 65200305, 65201105, 65204305, 65202105, 65203205, 65200405,
-      65203405, 65204005, 65201305, 65200805, 65204105, 65200605, 65201505, 65203105, 65203505,
-      65203705, 65203005, 65202805, 65203305, 65201005, 65200505, 65203905,
-    ];
+      await this.prisma.marketItem.create({
+        data: {
+          ...item,
+          marketItemCategoryId,
+        },
+      });
+    }
+  }
 
-    await this.prisma.marketItem.createMany({
-      data: [
-        ...materialsRefIds.map((refId) => ({
-          bundleCount: 0,
-          grade: "",
-          imageUrl: "",
-          isStatScraperEnabled: true,
-          marketItemCategoryId: materialsCategory.id,
-          name: refId.toString(),
-          refId,
-        })),
-        ...materialsExtraRefIds.map((refId) => ({
-          bundleCount: 0,
-          grade: "",
-          imageUrl: "",
-          isStatScraperEnabled: true,
-          marketItemCategoryId: materialsExtraCategory.id,
-          name: refId.toString(),
-          refId,
-        })),
-        ...relicEngravingRecipesRefIds.map((refId) => ({
-          bundleCount: 0,
-          grade: "",
-          imageUrl: "",
-          isStatScraperEnabled: true,
-          marketItemCategoryId: engravingRecipeCategory.id,
-          name: refId.toString(),
-          refId,
-        })),
-      ],
+  async marketItemStats() {
+    await this.prisma.marketItemStat.createMany({
+      data: marketItemStatData,
     });
   }
 
