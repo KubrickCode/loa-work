@@ -73,6 +73,8 @@ jobs:
 
       - name: Run E2E UI tests
         run: just test e2e-ui
+        env:
+          VITE_DISCORD_SERVER_LINK: https://discord.gg/kZApcdSEJ4
 
       - name: Upload test report
         if: always()

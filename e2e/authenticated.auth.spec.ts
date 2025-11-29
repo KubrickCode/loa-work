@@ -20,4 +20,19 @@ test.describe("로그인 상태 테스트", () => {
     await expect(settingsButton).toBeVisible();
     await expect(settingsButton).toBeEnabled();
   });
+
+  test("로그인 후 즐겨찾기 버튼 토글이 작동함", async ({ page }) => {
+    await page.goto("/");
+
+    const firstRow = page.locator("table tbody tr").first();
+    const favoriteButton = firstRow.getByRole("button", { name: /즐겨찾기/ });
+    await expect(favoriteButton).toBeVisible();
+
+    const isPressedBefore = await favoriteButton.getAttribute("aria-pressed");
+
+    await favoriteButton.click();
+
+    const isPressedAfter = await favoriteButton.getAttribute("aria-pressed");
+    expect(isPressedBefore).not.toBe(isPressedAfter);
+  });
 });
