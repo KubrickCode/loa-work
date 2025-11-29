@@ -1,5 +1,6 @@
 import {
   Controller,
+  ForbiddenException,
   Get,
   HttpException,
   HttpStatus,
@@ -10,11 +11,23 @@ import {
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { AuthGuard } from "@nestjs/passport";
+import { AuthProvider } from "@prisma/client";
 import { Request, Response } from "express";
+import { PrismaService } from "src/prisma";
+
+const E2E_TEST_USER = {
+  displayName: "E2E Test User",
+  email: "e2e-test@example.com",
+  provider: AuthProvider.GOOGLE,
+  refId: "e2e-test-user-ref-id",
+};
 
 @Controller("auth")
 export class AuthController {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private prisma: PrismaService
+  ) {}
 
   @Get("check")
   async check(@Req() req: Request) {
@@ -35,6 +48,23 @@ export class AuthController {
   @UseGuards(AuthGuard("discord"))
   async discordLogin(@Req() req: Request) {
     return req.user;
+  }
+
+  @Post("e2e-login")
+  async e2eLogin(@Req() req: Request) {
+    if (process.env.NODE_ENV === "production") {
+      throw new ForbiddenException("E2E login is disabled in production");
+    }
+
+    const user = await this.prisma.user.upsert({
+      create: E2E_TEST_USER,
+      update: {},
+      where: { refId: E2E_TEST_USER.refId },
+    });
+
+    req.session["passport"] = { user };
+
+    return user;
   }
 
   @Get("google/callback")

@@ -38,6 +38,7 @@ export const ContentRewardSection = ({
 
   return (
     <Section
+      testId="content-reward-section"
       title={
         <Flex alignItems="center" gap={2}>
           <Text>보상 정보</Text>

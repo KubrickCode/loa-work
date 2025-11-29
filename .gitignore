@@ -8,6 +8,7 @@ docs/work/
 
 # Playwright
 docs/e2e-ui/
+e2e/.auth/*.json
 playwright-report/
 test-results/
 .playwright-mcp/

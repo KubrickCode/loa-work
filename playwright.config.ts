@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const FRONTEND_URL = "http://localhost:3000";
-const BACKEND_URL = "http://localhost:3001";
+import { AUTH_FILE, BACKEND_URL, FRONTEND_URL } from "./e2e/constants";
+
 const WEBSERVER_TIMEOUT_MS = 3 * 60 * 1000;
 
 export default defineConfig({
@@ -20,7 +20,21 @@ export default defineConfig({
   },
   projects: [
     {
+      name: "setup",
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
       name: "chromium",
+      dependencies: ["setup"],
+      testMatch: /.*\.auth\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: AUTH_FILE,
+      },
+    },
+    {
+      name: "chromium-no-auth",
+      testIgnore: /.*\.auth\.spec\.ts/,
       use: { ...devices["Desktop Chrome"] },
     },
   ],

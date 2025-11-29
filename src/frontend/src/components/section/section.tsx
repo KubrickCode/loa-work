@@ -4,10 +4,11 @@ import { ReactNode } from "react";
 import { ErrorBoundary } from "~/components/error";
 
 export type SectionProps = Omit<BoxProps, "title"> & {
+  testId?: string;
   title?: ReactNode;
 };
 
-export const Section = ({ children, title, ...props }: SectionProps) => {
+export const Section = ({ children, testId, title, ...props }: SectionProps) => {
   return (
     <Box
       bg="bg.container"
@@ -15,6 +16,7 @@ export const Section = ({ children, title, ...props }: SectionProps) => {
       borderColor="border.subtle"
       borderRadius="md"
       boxShadow="md"
+      data-testid={testId}
       p={{ base: 2, md: 4 }}
       w="100%"
       {...props}
