@@ -4,7 +4,7 @@ import { IoIosCalculator, IoIosSettings } from "react-icons/io";
 
 import { Button } from "~/components/chakra/ui/button";
 import { Dialog } from "~/components/dialog";
-import { EnhancedTableSkeleton } from "~/components/loader";
+import { TextLoader } from "~/components/loader";
 import { LoginTooltip } from "~/components/tooltip";
 import { useAuth } from "~/libs/auth";
 import { client, useSafeQuery } from "~/libs/graphql";
@@ -60,14 +60,8 @@ export const ContentWageList = () => {
           </Button>
         </Dialog.Trigger>
       </Flex>
-      <Suspense
-        fallback={<EnhancedTableSkeleton columnCount={{ base: 3, lg: 8, md: 6 }} rowCount={8} />}
-      >
+      <Suspense fallback={<TextLoader />}>
         <ContentWageListTable />
-      </Suspense>
-      <Suspense
-        fallback={<EnhancedTableSkeleton columnCount={{ base: 3, lg: 8, md: 6 }} rowCount={8} />}
-      >
         <ContentGroupWageListTable />
       </Suspense>
     </ContentWageListPageProvider>

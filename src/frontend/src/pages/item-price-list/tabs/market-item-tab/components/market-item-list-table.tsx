@@ -2,7 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 
 import { Form } from "~/components/form";
-import { EnhancedTableSkeleton } from "~/components/loader";
+import { TextLoader } from "~/components/loader";
 import { DataTable, DataTableProps } from "~/components/table";
 import { ItemNameWithImage } from "~/domains/item";
 import { useSafeQuery } from "~/libs/graphql";
@@ -101,9 +101,7 @@ const MarketItemListTableContent = ({
 
 export const MarketItemListTable = (props: MarketItemListTableProps) => {
   return (
-    <Suspense
-      fallback={<EnhancedTableSkeleton columnCount={{ base: 2, lg: 5, md: 3 }} rowCount={8} />}
-    >
+    <Suspense fallback={<TextLoader />}>
       <MarketItemListTableContent {...props} />
     </Suspense>
   );

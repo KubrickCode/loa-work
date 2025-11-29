@@ -17,7 +17,7 @@ import { SegmentedControl } from "~/components/chakra/ui/segmented-control";
 import { DataGrid } from "~/components/data-grid";
 import { Dialog, DialogProps } from "~/components/dialog";
 import { DialogCloseButton } from "~/components/dialog/dialog-close-button";
-import { TableSkeleton } from "~/components/loader";
+import { TextLoader } from "~/components/loader";
 import { Section } from "~/components/section";
 import { MultiSelect } from "~/components/select";
 import { LoginTooltip } from "~/components/tooltip";
@@ -220,7 +220,7 @@ const ContentWageSection = ({
         </Flex>
       }
     >
-      <Suspense fallback={<TableSkeleton line={1} />}>
+      <Suspense fallback={<TextLoader />}>
         <ContentWageSectionDataGrid
           contentId={contentId}
           includeBound={includeBound}

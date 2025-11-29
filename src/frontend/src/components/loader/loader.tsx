@@ -1,184 +1,7 @@
-import {
-  Box,
-  createListCollection,
-  Flex,
-  Spinner,
-  Table,
-  useBreakpointValue,
-  VStack,
-} from "@chakra-ui/react";
-import { keyframes } from "@emotion/react";
+import { Box, createListCollection, Flex, Spinner, VStack } from "@chakra-ui/react";
 import React from "react";
 
 import { SelectRoot, SelectTrigger, SelectValueText } from "~/components/chakra/ui/select";
-import { Skeleton, SkeletonText } from "~/components/chakra/ui/skeleton";
-
-const modernShimmer = keyframes`
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-`;
-
-export const EnhancedTableSkeleton = ({
-  columnCount = 4,
-  enableStaggered = true,
-  rowCount = 5,
-}: {
-  columnCount?: number | { base?: number; lg?: number; md?: number };
-  enableStaggered?: boolean;
-  rowCount?: number;
-}) => {
-  const resolvedColumnCount = useBreakpointValue(
-    typeof columnCount === "number"
-      ? { base: columnCount, lg: columnCount, md: columnCount }
-      : { base: columnCount.base ?? 3, lg: columnCount.lg ?? 8, md: columnCount.md ?? 6 }
-  );
-
-  const finalColumnCount = resolvedColumnCount ?? 4;
-
-  return (
-    <Table.Root
-      bg="bg.surface"
-      borderColor="border.default"
-      borderRadius="md"
-      overflow="hidden"
-      showColumnBorder
-      width="100%"
-    >
-      <Table.Header>
-        <Table.Row bg="bg.muted">
-          {Array.from({ length: finalColumnCount }).map((_, index) => (
-            <Table.ColumnHeader key={index} px={{ base: 2, md: 3 }} py={3}>
-              <Skeleton
-                borderRadius="sm"
-                css={{
-                  animation: `${modernShimmer} 2s infinite linear`,
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent)",
-                  backgroundSize: "1000px 100%",
-                }}
-                height="20px"
-              />
-            </Table.ColumnHeader>
-          ))}
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {Array.from({ length: rowCount }).map((_, rowIndex) => (
-          <Table.Row
-            css={
-              enableStaggered
-                ? {
-                    "@keyframes fadeInUp": {
-                      "0%": {
-                        opacity: 0,
-                        transform: "translateY(10px)",
-                      },
-                      "100%": {
-                        opacity: 1,
-                        transform: "translateY(0)",
-                      },
-                    },
-                    animation: `fadeInUp 0.6s ease-out ${rowIndex * 0.05}s both`,
-                  }
-                : undefined
-            }
-            key={rowIndex}
-            minH={{ base: "52px", md: "auto" }}
-          >
-            {Array.from({ length: finalColumnCount }).map((_, colIndex) => (
-              <Table.Cell
-                key={colIndex}
-                minH={{ base: "44px", md: "auto" }}
-                px={{ base: 2, md: 3 }}
-                py={{ base: 3, md: 2 }}
-              >
-                <Skeleton
-                  borderRadius="sm"
-                  css={{
-                    animation: `${modernShimmer} 2.5s infinite linear ${colIndex * 0.1}s`,
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.15), transparent)",
-                    backgroundSize: "1000px 100%",
-                  }}
-                  height="16px"
-                  width={colIndex === 0 ? "60%" : colIndex === finalColumnCount - 1 ? "80%" : "90%"}
-                />
-              </Table.Cell>
-            ))}
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table.Root>
-  );
-};
-
-export const TableSkeleton = ({
-  columnCount = 4,
-  line,
-  rowCount = 5,
-}: {
-  columnCount?: number;
-  line?: number;
-  rowCount?: number;
-}) => {
-  if (line !== undefined) {
-    return <SkeletonText gap="4" noOfLines={line} p={4} />;
-  }
-
-  return (
-    <Table.Root
-      bg="bg.surface"
-      borderColor="border.default"
-      borderRadius="md"
-      overflow="hidden"
-      showColumnBorder
-      width="100%"
-    >
-      <Table.Header>
-        <Table.Row bg="bg.muted">
-          {Array.from({ length: columnCount }).map((_, index) => (
-            <Table.ColumnHeader key={index} px={{ base: 2, md: 3 }} py={3}>
-              <Skeleton
-                borderRadius="sm"
-                css={{
-                  animation: `${modernShimmer} 2s infinite linear`,
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent)",
-                  backgroundSize: "1000px 100%",
-                }}
-                height="20px"
-              />
-            </Table.ColumnHeader>
-          ))}
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {Array.from({ length: rowCount }).map((_, rowIndex) => (
-          <Table.Row key={rowIndex} minH={{ base: "52px", md: "auto" }}>
-            {Array.from({ length: columnCount }).map((_, colIndex) => (
-              <Table.Cell
-                key={colIndex}
-                minH={{ base: "44px", md: "auto" }}
-                px={{ base: 2, md: 3 }}
-                py={{ base: 3, md: 2 }}
-              >
-                <Skeleton
-                  borderRadius="sm"
-                  height="16px"
-                  width={colIndex === 0 ? "60%" : colIndex === columnCount - 1 ? "80%" : "90%"}
-                />
-              </Table.Cell>
-            ))}
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table.Root>
-  );
-};
 
 export const PageLoader = () => {
   return (
@@ -285,5 +108,22 @@ export const BlockLoader = () => {
     <VStack justifyContent="center" minHeight="sm">
       <Spinner />
     </VStack>
+  );
+};
+
+export const TextLoader = ({ message = "데이터를 불러오는 중..." }: { message?: string }) => {
+  return (
+    <Flex
+      alignItems="center"
+      color="fg.muted"
+      gap={3}
+      justifyContent="center"
+      minHeight="200px"
+      py={8}
+      width="100%"
+    >
+      <Spinner size="sm" />
+      <Box fontSize="sm">{message}</Box>
+    </Flex>
   );
 };

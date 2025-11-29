@@ -2,7 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { Suspense } from "react";
 
 import { InfoTip } from "~/components/chakra/ui/toggle-tip";
-import { EnhancedTableSkeleton } from "~/components/loader";
+import { TextLoader } from "~/components/loader";
 import { DataTable } from "~/components/table";
 import { ItemNameWithImage } from "~/domains/item";
 import { useSafeQuery } from "~/libs/graphql";
@@ -67,7 +67,7 @@ const AuctionItemListTableContent = ({ nameKeyword }: AuctionItemListTableProps)
 
 export const AuctionItemListTable = (props: AuctionItemListTableProps) => {
   return (
-    <Suspense fallback={<EnhancedTableSkeleton columnCount={2} rowCount={8} />}>
+    <Suspense fallback={<TextLoader />}>
       <AuctionItemListTableContent {...props} />
     </Suspense>
   );

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import { AccordionCard } from "~/components/accordion";
-import { TableSkeleton } from "~/components/loader";
+import { TextLoader } from "~/components/loader";
 import { SplitLayout } from "~/layouts/layout";
 
 import { MarketItemListTable } from "./components/market-item-list-table";
@@ -12,12 +12,12 @@ export const MarketItemTab = () => {
       firstGroup={
         <>
           <AccordionCard title="재련 재료">
-            <Suspense fallback={<TableSkeleton line={4} />}>
+            <Suspense fallback={<TextLoader />}>
               <MarketItemListTable categoryName="재련 재료" />
             </Suspense>
           </AccordionCard>
           <AccordionCard title="재련 추가 재료">
-            <Suspense fallback={<TableSkeleton line={2} />}>
+            <Suspense fallback={<TextLoader />}>
               <MarketItemListTable categoryName="재련 추가 재료" />
             </Suspense>
           </AccordionCard>
@@ -25,7 +25,7 @@ export const MarketItemTab = () => {
       }
       secondGroup={
         <AccordionCard title="유물 각인서">
-          <Suspense fallback={<TableSkeleton line={10} />}>
+          <Suspense fallback={<TextLoader />}>
             <MarketItemListTable
               categoryName="각인서"
               defaultSorting={{

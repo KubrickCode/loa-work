@@ -4,7 +4,7 @@ import { IoIosSettings } from "react-icons/io";
 
 import { InfoTip } from "~/components/chakra/ui/toggle-tip";
 import { Dialog } from "~/components/dialog";
-import { EnhancedTableSkeleton } from "~/components/loader";
+import { TextLoader } from "~/components/loader";
 import { DataTable } from "~/components/table";
 import { LoginTooltip } from "~/components/tooltip";
 import { ItemNameWithImage } from "~/domains/item";
@@ -89,7 +89,7 @@ const ExtraItemListTableContent = () => {
 
 export const ExtraItemListTable = () => {
   return (
-    <Suspense fallback={<EnhancedTableSkeleton columnCount={3} rowCount={6} />}>
+    <Suspense fallback={<TextLoader />}>
       <ExtraItemListTableContent />
     </Suspense>
   );

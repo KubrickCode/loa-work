@@ -17,7 +17,7 @@ import { SegmentedControl } from "~/components/chakra/ui/segmented-control";
 import { DataGrid } from "~/components/data-grid";
 import { Dialog, DialogProps } from "~/components/dialog";
 import { DialogCloseButton } from "~/components/dialog/dialog-close-button";
-import { TableSkeleton } from "~/components/loader";
+import { TextLoader } from "~/components/loader";
 import { Section } from "~/components/section";
 import { MultiSelect } from "~/components/select";
 import { LoginTooltip } from "~/components/tooltip";
@@ -63,15 +63,7 @@ export const ContentGroupDetailsDialog = ({
           <Dialog.Header>컨텐츠 상세 정보</Dialog.Header>
           <Dialog.Body>
             <Flex direction="column" gap={4}>
-              <Suspense
-                fallback={
-                  <Flex direction="column" gap={4}>
-                    <TableSkeleton line={3} />
-                    <TableSkeleton line={3} />
-                    <TableSkeleton line={3} />
-                  </Flex>
-                }
-              >
+              <Suspense fallback={<TextLoader />}>
                 {data.contentGroup.contents.length > 1 ? (
                   data.contentGroup.contents.map((content) => (
                     <Section key={content.id} title={`${content.gate}관문`}>
@@ -246,7 +238,7 @@ const ContentWageSection = ({
         </Flex>
       }
     >
-      <Suspense fallback={<TableSkeleton line={1} />}>
+      <Suspense fallback={<TextLoader />}>
         <ContentWageSectionDataGrid
           contentId={contentId}
           includeBound={includeBound}
