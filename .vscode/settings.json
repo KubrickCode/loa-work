@@ -15,7 +15,7 @@
   },
   "quickCommandButtons.buttons": [
     {
-      "name": "$(git-branch) Git",
+      "name": "$(git-merge) Git",
       "shortcut": "g",
       "color": "green",
       "group": [
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "name": "$(run-with-deps) Web App",
+      "name": "$(browser) Web App",
       "color": "skyblue",
       "shortcut": "w",
       "group": [
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "name": "$(symbol-property) Utils",
+      "name": "$(tools) Utils",
       "shortcut": "u",
       "color": "purple",
       "group": [
@@ -173,21 +173,21 @@
       ]
     },
     {
-      "name": "$(cloud-upload) Release",
+      "name": "$(rocket) Release",
       "color": "orange",
       "shortcut": "r",
       "command": "just release",
       "terminalName": "Release"
     },
     {
-      "name": "$(debug-all) Test",
+      "name": "$(beaker) Test",
       "color": "tomato",
       "command": "just test",
       "terminalName": "Test",
       "shortcut": "t"
     },
     {
-      "name": "$(vr) Claude",
+      "name": "$(hubot) Claude",
       "color": "blue",
       "shortcut": "c",
       "command": "export IS_SANDBOX=1 && claude --dangerously-skip-permissions",
