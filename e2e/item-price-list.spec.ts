@@ -199,4 +199,58 @@ test.describe("아이템 시세 페이지", () => {
     await expect(dialog).toBeVisible();
     await expect(dialog).toContainText("즉시 구매가 최저가순 첫 페이지 10개 항목 평균입니다");
   });
+
+  test("기타 아이템 탭 아코디언 expand/collapse 동작", async ({ page }) => {
+    // 기타 아이템 탭으로 이동
+    await page.getByRole("tab", { name: "기타 아이템" }).click();
+    await expect(page).toHaveURL(/tab=extra-item/);
+
+    const accordionButton = page.getByRole("button", { name: "기타 아이템" });
+    const accordionRegion = page.getByRole("region", { name: "기타 아이템" });
+
+    // 초기 상태: expanded
+    await expect(accordionButton).toHaveAttribute("aria-expanded", "true");
+    await expect(accordionRegion).toBeVisible();
+
+    // collapse
+    await accordionButton.click();
+    await expect(accordionButton).toHaveAttribute("aria-expanded", "false");
+    await expect(accordionRegion).not.toBeVisible();
+
+    // expand
+    await accordionButton.click();
+    await expect(accordionButton).toHaveAttribute("aria-expanded", "true");
+    await expect(accordionRegion).toBeVisible();
+  });
+
+  test("기타 아이템 탭 테이블에 데이터 표시됨", async ({ page }) => {
+    // 기타 아이템 탭으로 이동
+    await page.getByRole("tab", { name: "기타 아이템" }).click();
+
+    const extraRegion = page.getByRole("region", { name: "기타 아이템" });
+    const table = extraRegion.locator("table");
+
+    // 테이블 로드 대기
+    await table.locator("tbody tr").first().waitFor();
+
+    // 테이블 헤더 확인
+    await expect(table.locator("th")).toContainText(["아이템", "개당 골드 가치"]);
+
+    // 데이터 행이 존재하는지 확인
+    const rowCount = await table.locator("tbody tr").count();
+    expect(rowCount).toBeGreaterThan(0);
+  });
+
+  test("기타 아이템 탭 info 버튼 클릭 시 툴팁 표시", async ({ page }) => {
+    // 기타 아이템 탭으로 이동
+    await page.getByRole("tab", { name: "기타 아이템" }).click();
+
+    const extraRegion = page.getByRole("region", { name: "기타 아이템" });
+    await extraRegion.getByRole("button", { name: "info" }).click();
+
+    // 툴팁 다이얼로그 확인
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText("로그인 후 수정 가능합니다");
+  });
 });

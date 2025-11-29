@@ -130,4 +130,55 @@ test.describe("컨텐츠별 보상 페이지", () => {
     // 보상 정보 섹션 확인
     await expect(dialog.getByText("보상 정보")).toBeVisible();
   });
+
+  test("검색어 입력 시 테이블이 필터링됨", async ({ page }) => {
+    await page.goto("/content-reward-list");
+    await page.locator("table tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 전체 행 수 저장
+    const initialRowCount = await page.locator("table tbody tr").count();
+    expect(initialRowCount).toBeGreaterThan(4);
+
+    // 검색어 입력
+    const searchInput = page.getByRole("textbox", { name: "검색" });
+    await searchInput.fill("베히모스");
+    await searchInput.press("Enter");
+
+    // 필터링 결과 대기
+    await expect(page.locator("table tbody tr")).not.toHaveCount(initialRowCount);
+
+    // 필터링된 결과 확인
+    const filteredRowCount = await page.locator("table tbody tr").count();
+    expect(filteredRowCount).toBeLessThan(initialRowCount);
+    expect(filteredRowCount).toBeGreaterThan(0);
+
+    // 모든 결과가 검색어를 포함하는지 확인
+    const rows = page.locator("table tbody tr");
+    for (let i = 0; i < filteredRowCount; i++) {
+      await expect(rows.nth(i)).toContainText("베히모스");
+    }
+  });
+
+  test("검색어 삭제 시 전체 목록이 복원됨", async ({ page }) => {
+    await page.goto("/content-reward-list");
+    await page.locator("table tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 전체 행 수 저장
+    const initialRowCount = await page.locator("table tbody tr").count();
+
+    // 검색어 입력
+    const searchInput = page.getByRole("textbox", { name: "검색" });
+    await searchInput.fill("베히모스");
+    await searchInput.press("Enter");
+
+    // 필터링 결과 대기
+    await expect(page.locator("table tbody tr")).not.toHaveCount(initialRowCount);
+
+    // 검색어 삭제 (input 비우고 Enter)
+    await searchInput.clear();
+    await searchInput.press("Enter");
+
+    // 전체 목록 복원 대기
+    await expect(page.locator("table tbody tr")).toHaveCount(initialRowCount);
+  });
 });

@@ -90,4 +90,88 @@ test.describe("컨텐츠 상세 다이얼로그", () => {
     await expect(filterDialog.getByText("더보기 포함 여부")).toBeVisible();
     await expect(filterDialog.getByText("귀속 재료 포함 여부")).toBeVisible();
   });
+
+  test("시급 정보 필터 팝오버에서 더보기 포함 여부 라디오 버튼 변경이 동작함", async ({
+    page,
+  }) => {
+    await page.locator("table tbody tr").first().click();
+
+    const dialog = page
+      .getByRole("dialog")
+      .filter({ has: page.getByRole("heading", { name: "컨텐츠 상세 정보" }) });
+
+    // 시급 정보 섹션의 필터 버튼 클릭
+    await dialog.getByRole("button", { name: "필터" }).first().click();
+
+    const filterDialog = dialog.getByRole("dialog");
+    await expect(filterDialog).toBeVisible();
+
+    const seeMoreGroup = filterDialog
+      .getByRole("group")
+      .filter({ hasText: "더보기 포함 여부" });
+    const excludeRadio = seeMoreGroup.getByRole("radio", {
+      name: "미포함",
+      exact: true,
+    });
+    const includeRadio = seeMoreGroup.getByRole("radio", {
+      name: "포함",
+      exact: true,
+    });
+
+    // 기본값: 미포함 선택됨
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+
+    // 포함으로 변경 (라벨 클릭)
+    await seeMoreGroup.locator("label").filter({ hasText: /^포함$/ }).click();
+    await expect(includeRadio).toBeChecked();
+    await expect(excludeRadio).not.toBeChecked();
+
+    // 다시 미포함으로 변경
+    await seeMoreGroup.locator("label").filter({ hasText: "미포함" }).click();
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+  });
+
+  test("시급 정보 필터 팝오버에서 귀속 재료 포함 여부 라디오 버튼 변경이 동작함", async ({
+    page,
+  }) => {
+    await page.locator("table tbody tr").first().click();
+
+    const dialog = page
+      .getByRole("dialog")
+      .filter({ has: page.getByRole("heading", { name: "컨텐츠 상세 정보" }) });
+
+    // 시급 정보 섹션의 필터 버튼 클릭
+    await dialog.getByRole("button", { name: "필터" }).first().click();
+
+    const filterDialog = dialog.getByRole("dialog");
+    await expect(filterDialog).toBeVisible();
+
+    const boundGroup = filterDialog
+      .getByRole("group")
+      .filter({ hasText: "귀속 재료 포함 여부" });
+    const excludeRadio = boundGroup.getByRole("radio", {
+      name: "미포함",
+      exact: true,
+    });
+    const includeRadio = boundGroup.getByRole("radio", {
+      name: "포함",
+      exact: true,
+    });
+
+    // 기본값: 미포함 선택됨
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+
+    // 포함으로 변경 (라벨 클릭)
+    await boundGroup.locator("label").filter({ hasText: /^포함$/ }).click();
+    await expect(includeRadio).toBeChecked();
+    await expect(excludeRadio).not.toBeChecked();
+
+    // 다시 미포함으로 변경
+    await boundGroup.locator("label").filter({ hasText: "미포함" }).click();
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+  });
 });

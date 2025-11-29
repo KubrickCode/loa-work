@@ -101,4 +101,34 @@ test.describe("테이블 정렬 기능", () => {
       expect(levels[i]).toBeGreaterThanOrEqual(levels[i + 1]);
     }
   });
+
+  test("다른 컬럼 클릭 시 기존 정렬이 단일 정렬로 대체됨", async ({ page }) => {
+    const levelHeader = page.locator("th").filter({ hasText: /^레벨/ });
+    const wageHeader = page.locator("th").filter({ hasText: "시급(원)" });
+    const levelSortButton = levelHeader.locator('[role="button"]');
+    const wageSortButton = wageHeader.locator('[role="button"]');
+
+    // 레벨 정렬
+    await levelSortButton.click();
+
+    // 시급(원) 정렬 (Shift+클릭 없이)
+    await wageSortButton.click();
+
+    // 테이블의 시급 값들을 수집
+    const rows = page.locator("table tbody tr");
+    const rowCount = await rows.count();
+    const wages: number[] = [];
+
+    for (let i = 0; i < Math.min(rowCount, 5); i++) {
+      const wageText = await rows.nth(i).locator("td").nth(5).textContent();
+      if (wageText) {
+        wages.push(parseInt(wageText.replace(/[₩,]/g, ""), 10));
+      }
+    }
+
+    // 시급이 오름차순인지 확인 (기존 레벨 정렬이 대체됨)
+    for (let i = 0; i < wages.length - 1; i++) {
+      expect(wages[i]).toBeLessThanOrEqual(wages[i + 1]);
+    }
+  });
 });

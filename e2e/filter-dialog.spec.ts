@@ -136,4 +136,118 @@ test.describe("필터 다이얼로그", () => {
     const allRowCount = await page.locator("table tbody tr").count();
     expect(allRowCount).toBeGreaterThan(filteredRowCount);
   });
+
+  test("관문 분리하기 선택 시 레이드가 관문별로 분리됨", async ({ page }) => {
+    // 합쳐보기 상태에서 베히모스 행 확인
+    const mergedRow = page
+      .locator("table tbody tr")
+      .filter({ hasText: "[노말]폭풍의 지휘관, 베히모스" });
+    await expect(mergedRow).toHaveCount(1);
+    await expect(mergedRow).not.toContainText("관문");
+
+    // 필터 다이얼로그 열기 및 분리하기 선택 (라벨 클릭)
+    await page.getByRole("button", { name: "필터" }).click();
+    const dialog = page.getByRole("dialog");
+    await dialog.locator("label").filter({ hasText: "분리하기" }).click();
+    await dialog.getByRole("button", { name: "close" }).click();
+
+    // 분리된 관문별 행 확인
+    const gate1Row = page
+      .locator("table tbody tr")
+      .filter({ hasText: "[노말]폭풍의 지휘관, 베히모스 1관문" });
+    const gate2Row = page
+      .locator("table tbody tr")
+      .filter({ hasText: "[노말]폭풍의 지휘관, 베히모스 2관문" });
+
+    await expect(gate1Row).toHaveCount(1);
+    await expect(gate2Row).toHaveCount(1);
+  });
+
+  test("관문 합쳐보기 선택 시 레이드가 합쳐서 표시됨", async ({ page }) => {
+    // 먼저 분리하기로 변경 (라벨 클릭)
+    await page.getByRole("button", { name: "필터" }).click();
+    const dialog = page.getByRole("dialog");
+    await dialog.locator("label").filter({ hasText: "분리하기" }).click();
+    await dialog.getByRole("button", { name: "close" }).click();
+
+    // 분리된 상태 확인
+    const gate1Row = page
+      .locator("table tbody tr")
+      .filter({ hasText: "[노말]폭풍의 지휘관, 베히모스 1관문" });
+    await expect(gate1Row).toHaveCount(1);
+
+    // 다시 합쳐보기로 변경 (라벨 클릭)
+    await page.getByRole("button", { name: "필터" }).click();
+    await dialog.locator("label").filter({ hasText: /^합쳐보기$/ }).click();
+    await dialog.getByRole("button", { name: "close" }).click();
+
+    // 합쳐진 상태 확인
+    const mergedRow = page
+      .locator("table tbody tr")
+      .filter({ hasText: "[노말]폭풍의 지휘관, 베히모스" });
+    await expect(mergedRow).toHaveCount(1);
+    await expect(mergedRow).not.toContainText("관문");
+  });
+
+  test("더보기 포함 여부 라디오 버튼 변경이 동작함", async ({ page }) => {
+    await page.getByRole("button", { name: "필터" }).click();
+    const dialog = page.getByRole("dialog");
+
+    // 기본값 확인: 미포함 선택됨
+    const seeMoreGroup = dialog
+      .getByRole("group")
+      .filter({ hasText: "더보기 포함 여부" });
+    const excludeRadio = seeMoreGroup.getByRole("radio", {
+      name: "미포함",
+      exact: true,
+    });
+    const includeRadio = seeMoreGroup.getByRole("radio", {
+      name: "포함",
+      exact: true,
+    });
+
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+
+    // 포함으로 변경 (라벨 클릭)
+    await seeMoreGroup.locator("label").filter({ hasText: /^포함$/ }).click();
+    await expect(includeRadio).toBeChecked();
+    await expect(excludeRadio).not.toBeChecked();
+
+    // 다시 미포함으로 변경
+    await seeMoreGroup.locator("label").filter({ hasText: "미포함" }).click();
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+  });
+
+  test("귀속 재료 포함 여부 라디오 버튼 변경이 동작함", async ({ page }) => {
+    await page.getByRole("button", { name: "필터" }).click();
+    const dialog = page.getByRole("dialog");
+
+    // 기본값 확인: 미포함 선택됨
+    const boundGroup = dialog
+      .getByRole("group")
+      .filter({ hasText: "귀속 재료 포함 여부" });
+    const excludeRadio = boundGroup.getByRole("radio", {
+      name: "미포함",
+      exact: true,
+    });
+    const includeRadio = boundGroup.getByRole("radio", {
+      name: "포함",
+      exact: true,
+    });
+
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+
+    // 포함으로 변경 (라벨 클릭)
+    await boundGroup.locator("label").filter({ hasText: /^포함$/ }).click();
+    await expect(includeRadio).toBeChecked();
+    await expect(excludeRadio).not.toBeChecked();
+
+    // 다시 미포함으로 변경
+    await boundGroup.locator("label").filter({ hasText: "미포함" }).click();
+    await expect(excludeRadio).toBeChecked();
+    await expect(includeRadio).not.toBeChecked();
+  });
 });
