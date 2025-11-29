@@ -2,7 +2,7 @@ import { partition } from "es-toolkit/array";
 import { get } from "es-toolkit/compat";
 import { useMemo } from "react";
 
-import { FavoriteValue } from "../favorite-control";
+import { FavoriteValue } from "./use-favorite-icon";
 
 const isFavoriteValue = (value: unknown): value is FavoriteValue => {
   return typeof value === "string" || typeof value === "number";
