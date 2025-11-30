@@ -2,6 +2,66 @@
 
 ### ✨ Features
 
+- **go:** libs/ratelimit 모듈 추가 및 전체 scraper에 rate limiting 적용 ([a379535be21368f01ca015b5a10383ac7f60110b](/commit/a379535be21368f01ca015b5a10383ac7f60110b))
+- **ui:** 스켈레톤 로딩을 텍스트 로딩으로 교체 ([136291488acaa7d8640a38960c13455bb548972a](/commit/136291488acaa7d8640a38960c13455bb548972a))
+- **ui:** 프리미엄 모노크롬 테마 적용 및 라이트모드 gray 제거 ([d73039ef0c6c7f8054b135fda74637a18728640c](/commit/d73039ef0c6c7f8054b135fda74637a18728640c))
+
+### 🐛 Bug Fixes
+
+- **release:** breaking change 커밋이 major 버전으로 처리되지 않는 문제 수정 ([5d22d9f57a01087b694689315bae9df3fd0f29cf](/commit/5d22d9f57a01087b694689315bae9df3fd0f29cf))
+
+### ⚡ Performance
+
+- **e2e:** E2E 테스트 병렬 실행 활성화 ([9f3e61661842e17b049debc83e38a6a5c2a58115](/commit/9f3e61661842e17b049debc83e38a6a5c2a58115))
+
+## 🔧 Maintenance
+
+### 🔧 Internal Fixes
+
+- generated 파일 생성 경로 수정 ([4fd7b2094707bd56cd4476267abe545dda6f32ef](/commit/4fd7b2094707bd56cd4476267abe545dda6f32ef))
+- **go:** RequestBuilder의 JSON 마샬링 에러가 무시되는 문제 수정 ([5744d577d9b87e3c9e2223dbc6f00cf6f688c638](/commit/5744d577d9b87e3c9e2223dbc6f00cf6f688c638))
+
+### 📚 Documentation
+
+- ai-config-toolkit 리포지토리로부터 문서 동기화 ([2a5c48543eee24a1f8f25aef9de3279d1afd8263](/commit/2a5c48543eee24a1f8f25aef9de3279d1afd8263))
+- 서브에이전트 지정 모델 제거 ([23e2ab2a4a0549bb93821bd1f5d0c9a07ae22005](/commit/23e2ab2a4a0549bb93821bd1f5d0c9a07ae22005))
+
+### ♻️ Refactoring
+
+- **frontend:** Content Dialog 섹션 컴포넌트 분리 및 N+1 쿼리 해결 ([2fcd4ff4bd3a558704097a639384ca02e21a3311](/commit/2fcd4ff4bd3a558704097a639384ca02e21a3311))
+- **frontend:** Content 필터 컴포넌트 중복 제거 및 공통화 ([5ee574b3adaffff892746a7f7a026a8ebb8217e1](/commit/5ee574b3adaffff892746a7f7a026a8ebb8217e1))
+- **frontend:** DataTable 컴포넌트에서 테이블 로직을 커스텀 훅으로 분리 ([ef5bb5662a6a41282ba75fa6a7b9991f162492c4](/commit/ef5bb5662a6a41282ba75fa6a7b9991f162492c4))
+- **frontend:** FavoriteIcon 컴포넌트에서 로직을 커스텀 훅으로 분리 ([be3fc219c034bbdcd9a97aacf996025e70365275](/commit/be3fc219c034bbdcd9a97aacf996025e70365275))
+- **frontend:** lodash를 es-toolkit으로 교체 ([2b3f51ab13a6d67ac452a8a9f661f0b8932d05b2](/commit/2b3f51ab13a6d67ac452a8a9f661f0b8932d05b2))
+- **frontend:** 불필요한 useEffect 제거 ([9944fe618dc1949c6a454c802ca4843861f9f879](/commit/9944fe618dc1949c6a454c802ca4843861f9f879))
+- **frontend:** 프로젝트 스킬 가이드라인에 맞는 디렉토리 구조로 전면 재구성 ([17f58168a659b734d557013dcb95820b61d0717f](/commit/17f58168a659b734d557013dcb95820b61d0717f))
+- **go:** API 클라이언트 DI 패턴 적용 ([087f44b3435082aab0a4d16e0a7360b42efc6c69](/commit/087f44b3435082aab0a4d16e0a7360b42efc6c69))
+- **go:** schedule 모듈 내부를 gocron v2로 마이그레이션 ([1a5ed80d5ad5a39996e9dc7c7147da23a0a9fd31](/commit/1a5ed80d5ad5a39996e9dc7c7147da23a0a9fd31))
+- **go:** slog 구조화 로깅 및 fmt.Errorf %w 에러 체인 적용 ([3d5531d71d603b4e145a9733e63bb0c77f893921](/commit/3d5531d71d603b4e145a9733e63bb0c77f893921))
+- 실제 데이터 기반 시드데이터 생성되도록 수정 ([28901da10eacf9ae08b214f78ad4534d2c51941f](/commit/28901da10eacf9ae08b214f78ad4534d2c51941f))
+
+### ✅ Tests
+
+- **e2e:** Playwright 인증 테스트 환경 구축 ([51aa9d974dbbd7260c81ced754f8afb9a7416e70](/commit/51aa9d974dbbd7260c81ced754f8afb9a7416e70))
+- **e2e:** UI E2E 테스트 추가 ([aeeb289dedc166259d85dc89e1882fc7eca7d3b0](/commit/aeeb289dedc166259d85dc89e1882fc7eca7d3b0))
+- **e2e:** UI E2E 테스트 추가 ([eeff15082ad435e8c1c0501a046a7356b0515ebe](/commit/eeff15082ad435e8c1c0501a046a7356b0515ebe))
+- **e2e:** UI E2E 테스트 추가 ([43860955da8d745175f242d7cc62ecef28990f39](/commit/43860955da8d745175f242d7cc62ecef28990f39))
+- **go:** libs 테스트 커버리지 80% 이상 달성 ([73532665915307313c666957084b5f7ac6791776](/commit/73532665915307313c666957084b5f7ac6791776))
+
+### 🔨 Chore
+
+- lock 파일은 lint 명령에서 제외 ([831cba796995f6c96ec6b12b4b43c535979b986e](/commit/831cba796995f6c96ec6b12b4b43c535979b986e))
+- playwright mcp 브라우저 설정 ([83a32fa0e945e5e232ca122de66614566ab73ca3](/commit/83a32fa0e945e5e232ca122de66614566ab73ca3))
+- temp 파일 gitignore ([cbd6977a571b3d6d9ddfc02592748d13b502b926](/commit/cbd6977a571b3d6d9ddfc02592748d13b502b926))
+- 빌드 아티팩트 gitignore에 추가 ([a19b680b5e6e3b2d1d7f09a116c8171c23611403](/commit/a19b680b5e6e3b2d1d7f09a116c8171c23611403))
+- 액션 버튼 아이콘 수정 및 추가 ([7f8d2f2f908e04b71d8b0c06f05ad49e3a6b8818](/commit/7f8d2f2f908e04b71d8b0c06f05ad49e3a6b8818))
+- 액션 버튼 아이콘 추가 ([1cc995df60205b3a26ed3a69b9e51793e35c3cd9](/commit/1cc995df60205b3a26ed3a69b9e51793e35c3cd9))
+- 웹 서버 실행 단축키 변경 ([45e65e57bd8755af7bbf4d90b35da6bbecb769f2](/commit/45e65e57bd8755af7bbf4d90b35da6bbecb769f2))
+
+## 🎯 Highlights
+
+### ✨ Features
+
 - **backend:** GraphQL InputType 자동 검증 인프라 구축 ([f6414e787f6066d3b850d1fc6a9c55e3b94e6b21](/commit/f6414e787f6066d3b850d1fc6a9c55e3b94e6b21))
 
 ### 🐛 Bug Fixes
