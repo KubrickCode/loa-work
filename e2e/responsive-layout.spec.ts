@@ -54,6 +54,42 @@ test.describe("반응형 레이아웃 (모바일)", () => {
     await expect(tableRows).not.toHaveCount(0);
   });
 
+  test("모바일 뷰포트에서 테이블 가로 스크롤이 가능함", async ({ page }) => {
+    await page.goto("/");
+
+    // 테이블 데이터 로딩 대기
+    await page.locator("table tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 테이블 컨테이너에서 가로 스크롤 가능 여부 확인
+    const scrollInfo = await page.evaluate(() => {
+      const table = document.querySelector("table");
+      const container = table?.parentElement;
+      if (container) {
+        return {
+          scrollWidth: container.scrollWidth,
+          clientWidth: container.clientWidth,
+          hasHorizontalScroll: container.scrollWidth > container.clientWidth,
+        };
+      }
+      return null;
+    });
+
+    expect(scrollInfo).not.toBeNull();
+    expect(scrollInfo?.hasHorizontalScroll).toBe(true);
+
+    // 테이블 헤더 텍스트가 DOM에 존재하는지 확인 (th 요소 내부)
+    const headerTexts = await page.evaluate(() => {
+      const headers = document.querySelectorAll("table thead th");
+      return Array.from(headers).map((th) => th.textContent?.trim());
+    });
+
+    expect(headerTexts).toContain("즐겨찾기");
+    expect(headerTexts).toContain("종류");
+    expect(headerTexts).toContain("이름");
+    expect(headerTexts).toContain("시급(원)");
+    expect(headerTexts).toContain("1수당 골드");
+  });
+
   test("모바일 뷰포트에서 필터 다이얼로그가 정상 동작함", async ({ page }) => {
     await page.goto("/");
     await page.locator("table tbody tr").first().waitFor({ timeout: 15000 });

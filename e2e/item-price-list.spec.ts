@@ -83,6 +83,48 @@ test.describe("아이템 시세 페이지", () => {
     expect(firstItemName).toContain("파편");
   });
 
+  test("섹션별 검색이 독립적으로 동작함", async ({ page }) => {
+    const refiningRegion = page.getByRole("region", { name: "재련 재료" });
+    const additionalRegion = page.getByRole("region", { name: "재련 추가 재료" });
+
+    const refiningTable = refiningRegion.locator("table");
+    const additionalTable = additionalRegion.locator("table");
+
+    // 데이터 로딩 대기
+    await refiningTable.locator("tbody tr").first().waitFor({ timeout: 15000 });
+    await additionalTable.locator("tbody tr").first().waitFor({ timeout: 15000 });
+
+    // 검색 전 각 섹션의 아이템 수 확인
+    const refiningRowsBefore = await refiningTable.locator("tbody tr").count();
+    const additionalRowsBefore = await additionalTable.locator("tbody tr").count();
+
+    // 재련 재료 섹션에서 "파편" 검색
+    await refiningRegion.getByPlaceholder("검색").fill("파편");
+    await refiningRegion.getByPlaceholder("검색").press("Enter");
+    await page.waitForTimeout(500);
+
+    // 재련 재료 섹션만 필터링됨
+    const refiningRowsAfter = await refiningTable.locator("tbody tr").count();
+    expect(refiningRowsAfter).toBeLessThan(refiningRowsBefore);
+
+    // 재련 추가 재료 섹션은 영향받지 않음
+    const additionalRowsUnchanged = await additionalTable.locator("tbody tr").count();
+    expect(additionalRowsUnchanged).toBe(additionalRowsBefore);
+
+    // 재련 추가 재료 섹션에서 "용암" 검색 (용암의 숨결만 매칭)
+    await additionalRegion.getByPlaceholder("검색").fill("용암");
+    await additionalRegion.getByPlaceholder("검색").press("Enter");
+    await page.waitForTimeout(500);
+
+    // 재련 추가 재료 섹션이 필터링됨
+    const additionalRowsAfter = await additionalTable.locator("tbody tr").count();
+    expect(additionalRowsAfter).toBeLessThan(additionalRowsBefore);
+
+    // 재련 재료 섹션의 필터링 결과가 유지됨
+    const refiningRowsFinal = await refiningTable.locator("tbody tr").count();
+    expect(refiningRowsFinal).toBe(refiningRowsAfter);
+  });
+
   test("검색어 삭제 시 전체 목록이 복원됨", async ({ page }) => {
     const refiningRegion = page.getByRole("region", { name: "재련 재료" });
     const searchInput = refiningRegion.getByPlaceholder("검색");

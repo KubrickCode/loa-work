@@ -254,4 +254,88 @@ test.describe("필터 다이얼로그", () => {
     await expect(excludeRadio).toBeChecked();
     await expect(includeRadio).not.toBeChecked();
   });
+
+  test("컨텐츠 보상 종류 멀티셀렉트 필터가 테이블 시급 계산에 반영됨", async ({
+    page,
+  }) => {
+    // 필터 다이얼로그 열기
+    await page.getByRole("button", { name: "필터" }).click();
+    const dialog = page.getByRole("dialog");
+
+    // 기본값: 10개 선택됨
+    const rewardTypeCombobox = dialog.getByRole("combobox", {
+      name: "컨텐츠 보상 종류",
+    });
+    await expect(rewardTypeCombobox).toContainText("10 selected");
+
+    // 드롭다운 열기
+    await rewardTypeCombobox.click();
+
+    // 모든 옵션이 선택되어 있는지 확인
+    const options = page.getByRole("listbox", { name: "컨텐츠 보상 종류" });
+    await expect(options.getByRole("option", { name: "골드" })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
+
+    // 골드 선택 해제
+    await options.getByRole("option", { name: "골드" }).click();
+
+    // 9개 선택됨으로 변경 확인
+    await expect(rewardTypeCombobox).toContainText("9 selected");
+
+    // 드롭다운 닫기
+    await page.keyboard.press("Escape");
+
+    // 골드만 보상인 컨텐츠의 시급이 0원으로 표시되는지 확인
+    const eponaRow = page
+      .locator("table tbody tr")
+      .filter({ hasText: "에포나 의뢰" });
+    await expect(eponaRow.locator("td").nth(5)).toContainText("₩0");
+
+    // 다이얼로그 닫기
+    await dialog.getByRole("button", { name: "close" }).click();
+
+    // 다시 필터 열고 골드 다시 선택
+    await page.getByRole("button", { name: "필터" }).click();
+    await rewardTypeCombobox.click();
+    await options.getByRole("option", { name: "골드" }).click();
+
+    // 10개 선택됨으로 복구 확인
+    await expect(rewardTypeCombobox).toContainText("10 selected");
+
+    // 드롭다운 닫기
+    await page.keyboard.press("Escape");
+
+    // 에포나 의뢰 시급이 0이 아닌 값으로 복구되는지 확인
+    await expect(eponaRow.locator("td").nth(5)).not.toContainText("₩0");
+  });
+
+  test("컨텐츠 보상 종류 여러 옵션 선택/해제가 독립적으로 동작함", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "필터" }).click();
+    const dialog = page.getByRole("dialog");
+
+    const rewardTypeCombobox = dialog.getByRole("combobox", {
+      name: "컨텐츠 보상 종류",
+    });
+    await rewardTypeCombobox.click();
+
+    const options = page.getByRole("listbox", { name: "컨텐츠 보상 종류" });
+
+    // 여러 옵션 선택 해제
+    await options.getByRole("option", { name: "골드" }).click();
+    await expect(rewardTypeCombobox).toContainText("9 selected");
+
+    await options.getByRole("option", { name: "실링" }).click();
+    await expect(rewardTypeCombobox).toContainText("8 selected");
+
+    await options.getByRole("option", { name: "카드 경험치" }).click();
+    await expect(rewardTypeCombobox).toContainText("7 selected");
+
+    // 다시 선택
+    await options.getByRole("option", { name: "골드" }).click();
+    await expect(rewardTypeCombobox).toContainText("8 selected");
+  });
 });

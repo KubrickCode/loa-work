@@ -23,6 +23,24 @@ test.describe("푸터 팝업", () => {
     await expect(dialog.getByText(/경매장 아이템/)).toBeVisible();
   });
 
+  test("수집 현황 팝업에 거래소/경매장 아이템 수집 시간이 모두 표시됨", async ({
+    page,
+  }) => {
+    await page.getByText("수집 현황").click();
+
+    const dialog = page.getByRole("dialog");
+
+    // 거래소 아이템 수집 시간 확인 (YYYY-MM-DD HH:mm 형식)
+    await expect(
+      dialog.getByText(/거래소 아이템: \d{4}-\d{2}-\d{2} \d{2}:\d{2}/)
+    ).toBeVisible();
+
+    // 경매장 아이템 수집 시간 확인 (YYYY-MM-DD HH:mm 형식)
+    await expect(
+      dialog.getByText(/경매장 아이템: \d{4}-\d{2}-\d{2} \d{2}:\d{2}/)
+    ).toBeVisible();
+  });
+
   test("후원 안내 클릭 시 팝업이 표시됨", async ({ page }) => {
     await page.getByText("후원 안내").click();
 
