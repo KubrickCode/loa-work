@@ -14,6 +14,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { AuthProvider } from "@prisma/client";
 import { Request, Response } from "express";
 import { PrismaService } from "src/prisma";
+import { UserSeedService } from "src/user/service/user-seed.service";
 
 const E2E_TEST_USER = {
   displayName: "E2E Test User",
@@ -26,7 +27,8 @@ const E2E_TEST_USER = {
 export class AuthController {
   constructor(
     private configService: ConfigService,
-    private prisma: PrismaService
+    private prisma: PrismaService,
+    private userSeedService: UserSeedService
   ) {}
 
   @Get("check")
@@ -56,10 +58,16 @@ export class AuthController {
       throw new ForbiddenException("E2E login is disabled in production");
     }
 
-    const user = await this.prisma.user.upsert({
-      create: E2E_TEST_USER,
-      update: {},
-      where: { refId: E2E_TEST_USER.refId },
+    const user = await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.upsert({
+        create: E2E_TEST_USER,
+        update: {},
+        where: { refId: E2E_TEST_USER.refId },
+      });
+
+      await this.userSeedService.makeAllSeedData(user.id, tx);
+
+      return user;
     });
 
     req.session["passport"] = { user };
