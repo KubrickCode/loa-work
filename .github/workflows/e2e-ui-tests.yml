@@ -28,8 +28,13 @@ on:
 
 jobs:
   e2e-ui-tests:
-    name: Run E2E UI tests
+    name: E2E UI Tests (Shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
 
     services:
       postgres:
@@ -72,12 +77,51 @@ jobs:
         run: just deps-playwright
 
       - name: Run E2E UI tests
-        run: just test e2e-ui
+        run: just test e2e-ui --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           VITE_DISCORD_SERVER_LINK: https://discord.gg/kZApcdSEJ4
 
-      - name: Upload test report
+      - name: Upload blob report
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report/
+          retention-days: 1
+
+  e2e-report-merge:
+    name: Merge E2E Reports
+    needs: e2e-ui-tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22.18.0"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Download blob reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: blob-report-*
+          path: all-blob-reports
+          merge-multiple: true
+
+      - name: Merge reports
+        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload merged report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report

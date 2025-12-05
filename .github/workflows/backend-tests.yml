@@ -22,8 +22,13 @@ on:
 
 jobs:
   backend-tests:
-    name: Run Backend tests
+    name: Backend Tests (Shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -64,10 +69,10 @@ jobs:
           wait-on tcp:5432
 
       - name: Run tests
-        run: just test backend
+        run: just test backend --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Run e2e tests
-        run: just test e2e
+        run: just test e2e --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
