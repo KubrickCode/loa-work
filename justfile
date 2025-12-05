@@ -315,7 +315,7 @@ test target="all" *args:
           cd "{{ backend_dir }}"
           DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm prisma db seed
           cd "{{ root_dir }}"
-          pnpm test:e2e-ui
+          pnpm test:e2e-ui {{ args }}
         fi
         ;;
       *)
