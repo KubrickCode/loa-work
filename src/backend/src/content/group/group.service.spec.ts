@@ -3,29 +3,30 @@ import { ContentStatus } from "@prisma/client";
 import { ValidationException } from "src/common/exception";
 import { PrismaService } from "src/prisma";
 import { UserContentService } from "src/user/service/user-content.service";
+import { Mock, vi } from "vitest";
 import { ContentWageService } from "../wage/wage.service";
 import { GroupService } from "./group.service";
 
 describe("GroupService", () => {
   let module: TestingModule;
   let service: GroupService;
-  let prisma: PrismaService;
-  let userContentService: UserContentService;
-  let contentWageService: ContentWageService;
+  let mockPrismaService: { content: { findMany: Mock } };
+  let mockUserContentService: { getContentDuration: Mock };
+  let mockContentWageService: { getContentGroupWage: Mock };
 
-  beforeAll(async () => {
-    const mockPrismaService = {
+  beforeEach(async () => {
+    mockPrismaService = {
       content: {
-        findMany: jest.fn(),
+        findMany: vi.fn(),
       },
     };
 
-    const mockUserContentService = {
-      getContentDuration: jest.fn(),
+    mockUserContentService = {
+      getContentDuration: vi.fn(),
     };
 
-    const mockContentWageService = {
-      getContentGroupWage: jest.fn(),
+    mockContentWageService = {
+      getContentGroupWage: vi.fn(),
     };
 
     module = await Test.createTestingModule({
@@ -47,17 +48,10 @@ describe("GroupService", () => {
     }).compile();
 
     service = module.get(GroupService);
-    prisma = module.get(PrismaService);
-    userContentService = module.get(UserContentService);
-    contentWageService = module.get(ContentWageService);
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await module.close();
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
   });
 
   describe("buildContentGroupWageListWhere", () => {
@@ -127,11 +121,11 @@ describe("GroupService", () => {
         { id: 2, name: "Content 2" },
       ];
 
-      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+      mockPrismaService.content.findMany.mockResolvedValue(mockContents as any);
 
       const result = await service.findContentsByIds([1, 2]);
 
-      expect(prisma.content.findMany).toHaveBeenCalledWith({
+      expect(mockPrismaService.content.findMany).toHaveBeenCalledWith({
         where: { id: { in: [1, 2] } },
       });
       expect(result).toEqual(mockContents);
@@ -145,8 +139,8 @@ describe("GroupService", () => {
 
     it("should not throw error for valid content group", () => {
       const contents = [
-        { contentCategoryId: 1, level: 1490 },
-        { contentCategoryId: 1, level: 1490 },
+        { contentCategoryId: 1, id: 1, level: 1490, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 2, level: 1490, name: "아브렐슈드" },
       ];
 
       expect(() => service.validateContentGroup(contents)).not.toThrow();
@@ -154,8 +148,8 @@ describe("GroupService", () => {
 
     it("should throw ValidationException when levels differ", () => {
       const contents = [
-        { contentCategoryId: 1, level: 1490 },
-        { contentCategoryId: 1, level: 1500 },
+        { contentCategoryId: 1, id: 1, level: 1490, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 2, level: 1500, name: "아브렐슈드" },
       ];
 
       expect(() => service.validateContentGroup(contents)).toThrow(ValidationException);
@@ -164,8 +158,8 @@ describe("GroupService", () => {
 
     it("should throw ValidationException when categories differ", () => {
       const contents = [
-        { contentCategoryId: 1, level: 1490 },
-        { contentCategoryId: 2, level: 1490 },
+        { contentCategoryId: 1, id: 1, level: 1490, name: "아브렐슈드" },
+        { contentCategoryId: 2, id: 2, level: 1490, name: "아브렐슈드" },
       ];
 
       expect(() => service.validateContentGroup(contents)).toThrow(ValidationException);
@@ -178,9 +172,9 @@ describe("GroupService", () => {
   describe("groupContentsByNameAndCategory", () => {
     it("should group contents by name and category", () => {
       const contents = [
-        { contentCategoryId: 1, id: 1, name: "아브렐슈드" },
-        { contentCategoryId: 1, id: 2, name: "아브렐슈드" },
-        { contentCategoryId: 1, id: 3, name: "쿠크세이튼" },
+        { contentCategoryId: 1, id: 1, level: 1490, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 2, level: 1490, name: "아브렐슈드" },
+        { contentCategoryId: 1, id: 3, level: 1415, name: "쿠크세이튼" },
       ];
 
       const result = service.groupContentsByNameAndCategory(contents);
@@ -192,8 +186,8 @@ describe("GroupService", () => {
 
     it("should separate same name but different categories", () => {
       const contents = [
-        { contentCategoryId: 1, id: 1, name: "컨텐츠" },
-        { contentCategoryId: 2, id: 2, name: "컨텐츠" },
+        { contentCategoryId: 1, id: 1, level: 1490, name: "컨텐츠" },
+        { contentCategoryId: 2, id: 2, level: 1490, name: "컨텐츠" },
       ];
 
       const result = service.groupContentsByNameAndCategory(contents);
@@ -206,21 +200,22 @@ describe("GroupService", () => {
 
   describe("calculateGroupDuration", () => {
     it("should calculate total duration for content group", async () => {
-      jest.spyOn(userContentService, "getContentDuration").mockResolvedValueOnce(300);
-      jest.spyOn(userContentService, "getContentDuration").mockResolvedValueOnce(600);
+      mockUserContentService.getContentDuration
+        .mockResolvedValueOnce(300)
+        .mockResolvedValueOnce(600);
 
       const result = await service.calculateGroupDuration([1, 2]);
 
-      expect(userContentService.getContentDuration).toHaveBeenCalledTimes(2);
-      expect(userContentService.getContentDuration).toHaveBeenCalledWith(1);
-      expect(userContentService.getContentDuration).toHaveBeenCalledWith(2);
+      expect(mockUserContentService.getContentDuration).toHaveBeenCalledTimes(2);
+      expect(mockUserContentService.getContentDuration).toHaveBeenCalledWith(1);
+      expect(mockUserContentService.getContentDuration).toHaveBeenCalledWith(2);
       expect(result).toBe(900);
     });
 
     it("should return 0 for empty content IDs", async () => {
       const result = await service.calculateGroupDuration([]);
       expect(result).toBe(0);
-      expect(userContentService.getContentDuration).not.toHaveBeenCalled();
+      expect(mockUserContentService.getContentDuration).not.toHaveBeenCalled();
     });
   });
 
@@ -231,7 +226,7 @@ describe("GroupService", () => {
         { contentCategoryId: 1, id: 2, level: 1490, name: "아브렐슈드" },
       ];
 
-      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+      mockPrismaService.content.findMany.mockResolvedValue(mockContents as any);
 
       const result = await service.findContentGroup({ contentIds: [1, 2] });
 
@@ -249,7 +244,7 @@ describe("GroupService", () => {
         { contentCategoryId: 1, id: 2, level: 1500, name: "아브렐슈드" },
       ];
 
-      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+      mockPrismaService.content.findMany.mockResolvedValue(mockContents as any);
 
       await expect(service.findContentGroup({ contentIds: [1, 2] })).rejects.toThrow(
         ValidationException
@@ -284,8 +279,8 @@ describe("GroupService", () => {
         krwAmountPerHour: 15000,
       };
 
-      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
-      jest.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue(mockWage);
+      mockPrismaService.content.findMany.mockResolvedValue(mockContents as any);
+      mockContentWageService.getContentGroupWage.mockResolvedValue(mockWage);
 
       const result = await service.findContentGroupWageList();
 
@@ -323,9 +318,8 @@ describe("GroupService", () => {
         },
       ];
 
-      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
-      jest
-        .spyOn(contentWageService, "getContentGroupWage")
+      mockPrismaService.content.findMany.mockResolvedValue(mockContents as any);
+      mockContentWageService.getContentGroupWage
         .mockResolvedValueOnce({
           goldAmountPerClear: 3000,
           goldAmountPerHour: 6000,
@@ -347,12 +341,12 @@ describe("GroupService", () => {
     });
 
     it("should return empty array when no contents found", async () => {
-      jest.spyOn(prisma.content, "findMany").mockResolvedValue([]);
+      mockPrismaService.content.findMany.mockResolvedValue([]);
 
       const result = await service.findContentGroupWageList();
 
       expect(result).toEqual([]);
-      expect(contentWageService.getContentGroupWage).not.toHaveBeenCalled();
+      expect(mockContentWageService.getContentGroupWage).not.toHaveBeenCalled();
     });
 
     it("should pass filter options to getContentGroupWage", async () => {
@@ -367,8 +361,8 @@ describe("GroupService", () => {
         },
       ];
 
-      jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
-      jest.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue({
+      mockPrismaService.content.findMany.mockResolvedValue(mockContents as any);
+      mockContentWageService.getContentGroupWage.mockResolvedValue({
         goldAmountPerClear: 5000,
         goldAmountPerHour: 10000,
         krwAmountPerHour: 15000,
@@ -380,7 +374,7 @@ describe("GroupService", () => {
         includeSeeMore: true,
       });
 
-      expect(contentWageService.getContentGroupWage).toHaveBeenCalledWith([1], undefined, {
+      expect(mockContentWageService.getContentGroupWage).toHaveBeenCalledWith([1], undefined, {
         includeBound: false,
         includeItemIds: [1, 2, 3],
         includeSeeMore: true,

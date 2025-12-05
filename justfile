@@ -287,7 +287,7 @@ test target="all" *args:
 
         just setup-testdb
         cd "{{ backend_dir }}"
-        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec jest --runInBand --logHeapUsage --no-compilation-cache --silent=false --passWithNoTests {{ args }}
+        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec vitest run {{ args }}
         ;;
       e2e)
         echo "NodeJS:" $(node -v)
@@ -295,7 +295,7 @@ test target="all" *args:
 
         just setup-testdb
         cd "{{ backend_dir }}"
-        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec jest --config ./jest-e2e.json --runInBand --no-compilation-cache --forceExit --passWithNoTests {{ args }}
+        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec vitest run --config ./vitest-e2e.config.ts {{ args }}
         ;;
       e2e-ui)
         set +x

@@ -6,7 +6,7 @@ import { PrismaService } from "src/prisma";
 import { ContentFactory } from "src/test/factory/content.factory";
 import { ContentCategoryFactory } from "src/test/factory/content-category.factory";
 import "src/enums";
-import { faker } from "@faker-js/faker/.";
+import { faker } from "@faker-js/faker";
 
 describe("ContentListQuery (e2e)", () => {
   let app: INestApplication;

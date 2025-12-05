@@ -7,7 +7,7 @@ import { ContentWageService } from "src/content/wage/wage.service";
 import { UserFactory } from "src/test/factory/user.factory";
 import { ItemFactory } from "src/test/factory/item.factory";
 import { ContentFactory } from "src/test/factory/content.factory";
-import { faker } from "@faker-js/faker/.";
+import { faker } from "@faker-js/faker";
 import { ContentDurationFactory } from "src/test/factory/content-duration.factory";
 import { ContentRewardFactory } from "src/test/factory/content-reward.factory";
 

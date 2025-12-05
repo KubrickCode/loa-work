@@ -1,15 +1,16 @@
 import { ArgumentsHost, HttpStatus, NotFoundException } from "@nestjs/common";
 import { ClsService } from "nestjs-cls";
+import { Mock, vi } from "vitest";
 
 import { NotFoundException as CustomNotFoundException } from "../exception";
 import { AllExceptionsFilter } from "./all-exceptions.filter";
 
 describe("AllExceptionsFilter", () => {
   let filter: AllExceptionsFilter;
-  let mockClsService: jest.Mocked<ClsService>;
+  let mockClsService: { getId: Mock };
   let mockResponse: {
-    json: jest.Mock;
-    status: jest.Mock;
+    json: Mock;
+    status: Mock;
   };
   let mockRequest: {
     method: string;
@@ -19,20 +20,20 @@ describe("AllExceptionsFilter", () => {
 
   beforeEach(() => {
     mockClsService = {
-      getId: jest.fn().mockReturnValue("test-correlation-id"),
-    } as unknown as jest.Mocked<ClsService>;
-    filter = new AllExceptionsFilter(mockClsService);
+      getId: vi.fn().mockReturnValue("test-correlation-id"),
+    };
+    filter = new AllExceptionsFilter(mockClsService as unknown as ClsService);
     mockResponse = {
-      json: jest.fn(),
-      status: jest.fn().mockReturnThis(),
+      json: vi.fn(),
+      status: vi.fn().mockReturnThis(),
     };
     mockRequest = {
       method: "GET",
       url: "/api/test",
     };
     mockHost = {
-      getType: jest.fn().mockReturnValue("http"),
-      switchToHttp: jest.fn().mockReturnValue({
+      getType: vi.fn().mockReturnValue("http"),
+      switchToHttp: vi.fn().mockReturnValue({
         getRequest: () => mockRequest,
         getResponse: () => mockResponse,
       }),
@@ -41,7 +42,7 @@ describe("AllExceptionsFilter", () => {
 
   it("GraphQL 요청은 re-throw", () => {
     const graphqlHost = {
-      getType: jest.fn().mockReturnValue("graphql"),
+      getType: vi.fn().mockReturnValue("graphql"),
     } as unknown as ArgumentsHost;
     const exception = new Error("Test error");
 

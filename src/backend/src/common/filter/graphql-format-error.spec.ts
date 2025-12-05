@@ -1,23 +1,24 @@
 import { GraphQLFormattedError } from "graphql";
 import { ClsServiceManager } from "nestjs-cls";
+import { Mock, vi } from "vitest";
 
 import { ERROR_CODES } from "../exception";
 import { formatGraphQLError } from "./graphql-format-error";
 
-jest.mock("nestjs-cls", () => ({
+vi.mock("nestjs-cls", () => ({
   ClsServiceManager: {
-    getClsService: jest.fn(),
+    getClsService: vi.fn(),
   },
 }));
 
 describe("formatGraphQLError", () => {
   const mockClsService = {
-    getId: jest.fn().mockReturnValue("test-correlation-id"),
+    getId: vi.fn().mockReturnValue("test-correlation-id"),
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    (ClsServiceManager.getClsService as jest.Mock).mockReturnValue(mockClsService);
+    vi.clearAllMocks();
+    (ClsServiceManager.getClsService as Mock).mockReturnValue(mockClsService);
     delete process.env.NODE_ENV;
   });
 
@@ -69,7 +70,7 @@ describe("formatGraphQLError", () => {
   });
 
   it("CLS 서비스 없을 때 correlationId는 undefined", () => {
-    (ClsServiceManager.getClsService as jest.Mock).mockReturnValue(undefined);
+    (ClsServiceManager.getClsService as Mock).mockReturnValue(undefined);
     const formattedError: GraphQLFormattedError = {
       extensions: { code: "SOME_ERROR" },
       message: "Error",

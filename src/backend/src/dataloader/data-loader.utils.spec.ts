@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { createManyLoader, createUniqueLoader } from "./data-loader.utils";
 
 describe("createUniqueLoader", () => {
@@ -6,7 +7,7 @@ describe("createUniqueLoader", () => {
       { id: 1, name: "Item1" },
       { id: 2, name: "Item2" },
     ];
-    const batchFn = jest.fn().mockResolvedValue(mockData);
+    const batchFn = vi.fn().mockResolvedValue(mockData);
 
     const loader = createUniqueLoader(batchFn, "Item");
     const result = await loader.findUniqueOrThrowById(1);
@@ -15,7 +16,7 @@ describe("createUniqueLoader", () => {
   });
 
   it("존재하지 않는 ID 로드 시 에러 throw", async () => {
-    const batchFn = jest.fn().mockResolvedValue([]);
+    const batchFn = vi.fn().mockResolvedValue([]);
 
     const loader = createUniqueLoader(batchFn, "Item");
 
@@ -28,7 +29,7 @@ describe("createUniqueLoader", () => {
       { id: 2, name: "Item2" },
       { id: 3, name: "Item3" },
     ];
-    const batchFn = jest.fn().mockResolvedValue(mockData);
+    const batchFn = vi.fn().mockResolvedValue(mockData);
 
     const loader = createUniqueLoader(batchFn, "Item");
 
@@ -52,7 +53,7 @@ describe("createManyLoader", () => {
       { contentId: 1, item: { name: "골드" } },
       { contentId: 1, item: { name: "실링" } },
     ];
-    const batchFn = jest.fn().mockResolvedValue(mockData);
+    const batchFn = vi.fn().mockResolvedValue(mockData);
 
     const loader = createManyLoader(batchFn);
     const result = await loader.findManyByContentId(1);
@@ -66,7 +67,7 @@ describe("createManyLoader", () => {
       { contentId: 1, item: { name: "골드" } }, // order: 1
       { contentId: 1, item: { name: "운명의 파편" } }, // order: 3
     ];
-    const batchFn = jest.fn().mockResolvedValue(mockData);
+    const batchFn = vi.fn().mockResolvedValue(mockData);
 
     const loader = createManyLoader(batchFn);
     const result = await loader.findManyByContentId(1);
@@ -77,7 +78,7 @@ describe("createManyLoader", () => {
   });
 
   it("존재하지 않는 contentId에 대해 빈 배열 반환", async () => {
-    const batchFn = jest.fn().mockResolvedValue([]);
+    const batchFn = vi.fn().mockResolvedValue([]);
 
     const loader = createManyLoader(batchFn);
     const result = await loader.findManyByContentId(999);
@@ -90,7 +91,7 @@ describe("createManyLoader", () => {
       { contentId: 1, item: { name: "골드" } },
       { contentId: 2, item: { name: "실링" } },
     ];
-    const batchFn = jest.fn().mockResolvedValue(mockData);
+    const batchFn = vi.fn().mockResolvedValue(mockData);
 
     const loader = createManyLoader(batchFn);
 
@@ -110,7 +111,7 @@ describe("createManyLoader", () => {
       { contentId: 1, item: { name: "알 수 없는 아이템" } }, // order: 999
       { contentId: 1, item: { name: "골드" } }, // order: 1
     ];
-    const batchFn = jest.fn().mockResolvedValue(mockData);
+    const batchFn = vi.fn().mockResolvedValue(mockData);
 
     const loader = createManyLoader(batchFn);
     const result = await loader.findManyByContentId(1);

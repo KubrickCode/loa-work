@@ -1,13 +1,14 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { PrismaService } from "src/prisma";
-import { GroupResolver } from "./group.resolver";
-import { GroupService } from "./group.service";
-import { ContentWageService } from "../wage/wage.service";
-import { UserContentService } from "../../user/service/user-content.service";
 import { CONTEXT } from "@nestjs/graphql";
-import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
+import { Test, TestingModule } from "@nestjs/testing";
 import { ContentStatus } from "@prisma/client";
 import { DataLoaderService } from "src/dataloader/data-loader.service";
+import { PrismaService } from "src/prisma";
+import { UserContentService } from "src/user/service/user-content.service";
+import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
+import { vi } from "vitest";
+import { ContentWageService } from "../wage/wage.service";
+import { GroupResolver } from "./group.resolver";
+import { GroupService } from "./group.service";
 
 type MockContent = {
   contentCategory: {
@@ -40,23 +41,23 @@ describe("GroupResolver", () => {
   beforeAll(async () => {
     const mockPrismaService = {
       content: {
-        findMany: jest.fn(),
+        findMany: vi.fn(),
       },
     };
 
     const mockContentWageService = {
-      getContentGroupWage: jest.fn(),
+      getContentGroupWage: vi.fn(),
     };
 
     const mockUserContentService = {
-      getContentDuration: jest.fn(),
+      getContentDuration: vi.fn(),
     };
 
     const mockUserGoldExchangeRateService = {};
 
     const mockDataLoaderService = {
       contentCategory: {
-        findUniqueOrThrowById: jest.fn(),
+        findUniqueOrThrowById: vi.fn(),
       },
     };
 
@@ -102,7 +103,7 @@ describe("GroupResolver", () => {
   });
 
   beforeEach(() => {
-    jest.restoreAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("contentGroupWageList", () => {
@@ -154,8 +155,8 @@ describe("GroupResolver", () => {
           krwAmountPerHour: 10000,
         };
 
-        jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
-        jest.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue(mockWage);
+        vi.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+        vi.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue(mockWage);
 
         // When
         const result = await resolver.contentGroupWageList();
@@ -174,7 +175,7 @@ describe("GroupResolver", () => {
     describe("빈 데이터 입력 시 처리", () => {
       it("컨텐츠가 없을 때 빈 배열을 반환해야 한다", async () => {
         // Given
-        jest.spyOn(prisma.content, "findMany").mockResolvedValue([]);
+        vi.spyOn(prisma.content, "findMany").mockResolvedValue([]);
 
         // When
         const result = await resolver.contentGroupWageList();
@@ -278,8 +279,8 @@ describe("GroupResolver", () => {
           krwAmountPerHour: 10000,
         };
 
-        jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
-        jest.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue(mockWage);
+        vi.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+        vi.spyOn(contentWageService, "getContentGroupWage").mockResolvedValue(mockWage);
 
         // When
         const result = await resolver.contentGroupWageList();
@@ -319,9 +320,8 @@ describe("GroupResolver", () => {
           },
         ];
 
-        jest.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
-        jest
-          .spyOn(contentWageService, "getContentGroupWage")
+        vi.spyOn(prisma.content, "findMany").mockResolvedValue(mockContents as any);
+        vi.spyOn(contentWageService, "getContentGroupWage")
           .mockResolvedValueOnce({
             goldAmountPerClear: 25,
             goldAmountPerHour: 50,

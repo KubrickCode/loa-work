@@ -4,7 +4,7 @@ import { ContentWageService } from "./wage.service";
 import { UserContentService } from "../../user/service/user-content.service";
 import { UserGoldExchangeRateService } from "src/user/service/user-gold-exchange-rate.service";
 import { UserFactory } from "src/test/factory/user.factory";
-import { faker } from "@faker-js/faker/.";
+import { faker } from "@faker-js/faker";
 import { ItemKind } from "@prisma/client";
 import { ItemFactory } from "src/test/factory/item.factory";
 
