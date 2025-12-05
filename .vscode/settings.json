@@ -15,182 +15,182 @@
   },
   "quickCommandButtons.buttons": [
     {
+      "color": "green",
       "name": "$(git-merge) Git",
       "shortcut": "g",
-      "color": "green",
       "group": [
         {
-          "name": "Push",
           "command": "git add . && git commit --amend --no-edit && git push -f",
-          "terminalName": "Forced Push",
-          "shortcut": "p"
+          "name": "Push",
+          "shortcut": "p",
+          "terminalName": "Forced Push"
         },
         {
-          "name": "Pull",
           "command": "git pull",
-          "terminalName": "Pull",
-          "shortcut": "l"
+          "name": "Pull",
+          "shortcut": "l",
+          "terminalName": "Pull"
         },
         {
-          "name": "Commit",
           "command": "git add . && git commit --amend --no-edit",
-          "terminalName": "Add and Commit Amend",
-          "shortcut": "c"
+          "name": "Commit",
+          "shortcut": "c",
+          "terminalName": "Add and Commit Amend"
         },
         {
-          "name": "Reset Soft",
           "command": "git reset --soft HEAD~1",
-          "terminalName": "Reset Soft",
-          "shortcut": "r"
+          "name": "Reset Soft",
+          "shortcut": "r",
+          "terminalName": "Reset Soft"
         },
         {
-          "name": "Rebase 5",
           "command": "git rebase -i HEAD~5",
-          "terminalName": "Rebase Interactive 5",
-          "shortcut": "b"
+          "name": "Rebase 5",
+          "shortcut": "b",
+          "terminalName": "Rebase Interactive 5"
         },
         {
-          "name": "Checkout main",
           "command": "git checkout main",
-          "terminalName": "Checkout main",
-          "shortcut": "m"
+          "name": "Checkout main",
+          "shortcut": "m",
+          "terminalName": "Checkout main"
         }
       ]
     },
     {
-      "name": "$(browser) Web App",
       "color": "skyblue",
+      "name": "$(browser) Web App",
       "shortcut": "w",
       "group": [
         {
-          "name": "Run App",
           "executeAll": true,
+          "name": "Run App",
+          "shortcut": "a",
           "group": [
             {
-              "name": "Backend",
               "command": "just run backend",
+              "name": "Backend",
               "terminalName": "Backend"
             },
             {
-              "name": "Frontend",
               "command": "just run frontend",
+              "name": "Frontend",
               "terminalName": "Frontend"
             }
-          ],
-          "shortcut": "a"
+          ]
         },
         {
-          "name": "Backend",
           "command": "just run backend",
-          "terminalName": "Backend",
-          "shortcut": "b"
+          "name": "Backend",
+          "shortcut": "b",
+          "terminalName": "Backend"
         },
         {
-          "name": "Frontend",
           "command": "just run frontend",
-          "terminalName": "Frontend",
-          "shortcut": "f"
+          "name": "Frontend",
+          "shortcut": "f",
+          "terminalName": "Frontend"
         }
       ]
     },
     {
-      "name": "$(cloud-download) Scraper",
       "color": "hotpink",
+      "name": "$(cloud-download) Scraper",
       "shortcut": "s",
       "group": [
         {
-          "name": "Stat Scraper",
           "executeAll": true,
+          "name": "Stat Scraper",
+          "shortcut": "q",
           "group": [
             {
-              "name": "Market Item Stat Scraper",
               "command": "just run market-item-stat-scraper",
+              "name": "Market Item Stat Scraper",
               "terminalName": "Market Item Stat Scraper"
             },
             {
-              "name": "Auction Item Stat Scraper",
               "command": "just run auction-item-stat-scraper",
+              "name": "Auction Item Stat Scraper",
               "terminalName": "Auction Item Stat Scraper"
             }
-          ],
-          "shortcut": "q"
+          ]
         },
         {
-          "name": "Market Item Category Scraper",
           "command": "just run market-item-category-scraper",
-          "terminalName": "Market Item Category Scraper",
-          "shortcut": "w"
+          "name": "Market Item Category Scraper",
+          "shortcut": "w",
+          "terminalName": "Market Item Category Scraper"
         },
         {
-          "name": "Market Item Scraper",
           "command": "just run market-item-scraper",
-          "terminalName": "Market Item Scraper",
-          "shortcut": "e"
+          "name": "Market Item Scraper",
+          "shortcut": "e",
+          "terminalName": "Market Item Scraper"
         },
         {
-          "name": "Market Item Stat Scraper",
           "command": "just run market-item-stat-scraper",
-          "terminalName": "Market Item Stat Scraper",
-          "shortcut": "r"
+          "name": "Market Item Stat Scraper",
+          "shortcut": "r",
+          "terminalName": "Market Item Stat Scraper"
         },
         {
-          "name": "Auction Item Stat Scraper",
           "command": "just run auction-item-stat-scraper",
-          "terminalName": "Auction Item Stat Scraper",
-          "shortcut": "a"
+          "name": "Auction Item Stat Scraper",
+          "shortcut": "a",
+          "terminalName": "Auction Item Stat Scraper"
         }
       ]
     },
     {
+      "color": "purple",
       "name": "$(tools) Utils",
       "shortcut": "u",
-      "color": "purple",
       "group": [
         {
-          "name": "Prisma Studio",
           "command": "just prisma studio",
-          "terminalName": "Prisma Studio",
-          "shortcut": "p"
+          "name": "Prisma Studio",
+          "shortcut": "p",
+          "terminalName": "Prisma Studio"
         },
         {
-          "name": "Codegen",
           "command": "just codegen",
-          "terminalName": "Codegen",
-          "shortcut": "c"
+          "name": "Codegen",
+          "shortcut": "c",
+          "terminalName": "Codegen"
         },
         {
-          "name": "Deps",
           "command": "just deps",
-          "terminalName": "Deps",
-          "shortcut": "d"
+          "name": "Deps",
+          "shortcut": "d",
+          "terminalName": "Deps"
         },
         {
-          "name": "Lint",
           "command": "just lint",
-          "terminalName": "Lint",
-          "shortcut": "l"
+          "name": "Lint",
+          "shortcut": "l",
+          "terminalName": "Lint"
         }
       ]
     },
     {
-      "name": "$(rocket) Release",
       "color": "orange",
-      "shortcut": "r",
       "command": "just release",
+      "name": "$(rocket) Release",
+      "shortcut": "r",
       "terminalName": "Release"
     },
     {
-      "name": "$(beaker) Test",
       "color": "tomato",
       "command": "just test",
-      "terminalName": "Test",
-      "shortcut": "t"
+      "name": "$(beaker) Test",
+      "shortcut": "t",
+      "terminalName": "Test"
     },
     {
-      "name": "$(hubot) Claude",
       "color": "blue",
-      "shortcut": "c",
       "command": "export IS_SANDBOX=1 && claude --dangerously-skip-permissions",
+      "name": "$(hubot) Claude",
+      "shortcut": "c",
       "terminalName": "Claude Yolo",
       "useVsCodeApi": false
     }
