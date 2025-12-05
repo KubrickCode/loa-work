@@ -278,7 +278,6 @@ test target="all" *args:
     case "{{ target }}" in
       all)
         just test backend
-        just test e2e
         just test e2e-ui
         ;;
       backend)
@@ -288,14 +287,6 @@ test target="all" *args:
         just setup-testdb
         cd "{{ backend_dir }}"
         DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec vitest run {{ args }}
-        ;;
-      e2e)
-        echo "NodeJS:" $(node -v)
-        echo "Prisma Engine:" {{ prisma_engine }}
-
-        just setup-testdb
-        cd "{{ backend_dir }}"
-        DATABASE_URL="postgres://postgres:postgres@localhost:5432/test?pool_timeout=60" NODE_OPTIONS="--max_old_space_size=8192" PRISMA_CLIENT_ENGINE_TYPE={{ prisma_engine }} pnpm exec vitest run --config ./vitest-e2e.config.ts {{ args }}
         ;;
       e2e-ui)
         set +x

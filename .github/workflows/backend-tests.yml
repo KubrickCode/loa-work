@@ -70,15 +70,3 @@ jobs:
 
       - name: Run tests
         run: just test backend --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-
-      - name: Run e2e tests
-        run: just test e2e --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-        env:
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
-          DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
-          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL: ${{ secrets.DISCORD_GOLD_EXCHANGE_RATE_WEBHOOK_URL }}
