@@ -131,4 +131,28 @@ test.describe("시급 계산기 다이얼로그", () => {
       dialog.getByText("총 소요 시간은 0분 0초보다 커야 합니다.")
     ).toBeVisible();
   });
+
+  test("복합 보상 입력 시 시급 계산 결과가 정확함", async ({ page }) => {
+    await page.getByRole("button", { name: "시급 계산기" }).click();
+
+    const dialog = page.getByRole("dialog");
+
+    // 10분, 골드 1000, 운명의 파편 500, 운명의 돌파석 20 입력
+    await dialog.getByRole("spinbutton", { name: "분" }).fill("10");
+    await dialog.getByRole("spinbutton", { name: "골드" }).fill("1000");
+    await dialog.getByRole("spinbutton", { name: "운명의 파편" }).fill("500");
+    await dialog.getByRole("spinbutton", { name: "운명의 돌파석" }).fill("20");
+
+    // 계산 버튼 클릭
+    await dialog.getByRole("button", { name: "계산" }).click();
+
+    // 계산 결과 확인
+    await expect(dialog.getByText("계산 결과:")).toBeVisible();
+    await expect(dialog.getByText("시급(원):")).toBeVisible();
+    await expect(dialog.getByText("시급(골드):")).toBeVisible();
+    await expect(dialog.getByText("1수당 골드:")).toBeVisible();
+
+    // 토스트 메시지 확인
+    await expect(page.getByText("계산이 완료되었습니다.")).toBeVisible();
+  });
 });

@@ -25,4 +25,5 @@ test.describe("기타 아이템 탭 (로그인)", () => {
     await page.getByRole("tab", { name: "경매장 아이템" }).click();
     await expect(page.getByRole("button", { name: "겁화의 보석" })).toBeVisible();
   });
+
 });
