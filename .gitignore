@@ -2,6 +2,7 @@
 .doppler.env
 node_modules/
 .claude/settings.local.json
+.claude-sessions/
 .pnpm-store/
 
 docs/work/
