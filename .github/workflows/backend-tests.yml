@@ -43,7 +43,7 @@ jobs:
         with:
           version: 9.15.0
 
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
 
       - name: Install dependencies
         run: just deps
